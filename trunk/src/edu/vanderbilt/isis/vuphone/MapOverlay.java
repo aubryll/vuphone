@@ -12,9 +12,7 @@ public class MapOverlay extends ItemizedOverlay {
 	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
 	
 	public MapOverlay(Drawable defaultMarker) {
-		sadfasdfasdfadfasdf
-		asdfassupeasdf
-		asdfr(boundCenterBottom(defaultMarker));
+		super(boundCenterBottom(defaultMarker));
 	}
 
 	public void addOverlay(OverlayItem overlay) {
