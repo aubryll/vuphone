@@ -23,7 +23,7 @@ public class Map extends MapActivity {
         setContentView(R.layout.main);
         
         mapView = (MapView) findViewById(R.id.mapview);
-        //mapView = new MapView(this,"0zz3AmUYDBIjlLBRuJlLd74N-jLfx2mDwJG4cDQ");
+        mapView = new MapView(this,"0zz3AmUYDBIjlLBRuJlLd74N-jLfx2mDwJG4cDQ");
         mapView.setBuiltInZoomControls(true);
         
         GeoPoint point = new GeoPoint(19240000,-99120000);
