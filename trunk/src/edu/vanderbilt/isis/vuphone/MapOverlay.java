@@ -29,5 +29,4 @@ public class MapOverlay extends ItemizedOverlay {
 	public int size() {
 		return mOverlays.size();
 	}
-
 }
