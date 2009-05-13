@@ -18,8 +18,8 @@ public class ZoneMapView extends MapView {
         setBuiltInZoomControls(true);
         setClickable(true);
         
-        zone_ = new Zone(getProjection());
-        zoneOverlay_ = new ZoneOverlay(zone_);
+        // zone_ = new Zone(getProjection());
+        // zoneOverlay_ = new ZoneOverlay(zone_);
        
 	}
 		
@@ -39,6 +39,11 @@ public class ZoneMapView extends MapView {
 	}
 	
 	private void addPin(GeoPoint pt){
+		if (zone_ == null){
+			zone_ = new Zone(getProjection());
+			zoneOverlay_ = new ZoneOverlay(zone_);
+		}
+		
 		zone_.addPoint(pt);
 		
 		// Overlay should always be at index 0.
