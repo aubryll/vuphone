@@ -1,5 +1,6 @@
 package edu.vanderbilt.isis.vuphone;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,10 +10,6 @@ import android.widget.TextView;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.Projection;
-
-class DebugTable{
-	public TextView mode, screenPos, geoPos, pins;
-}
 
 public class Map extends MapActivity {
 
@@ -25,7 +22,6 @@ public class Map extends MapActivity {
 	private int MODE = MODE_NAVIGATE;
 	
 	private ZoneMapView mapView;
-	private DebugTable debug;
 	
 	/** Called when the activity is first created. */
     @Override
@@ -34,17 +30,7 @@ public class Map extends MapActivity {
         setContentView(R.layout.main);
 
         mapView = (ZoneMapView) findViewById(R.id.mapview);
-        
-        debug = new DebugTable();
-        
-        debug.mode = (TextView) findViewById(R.id.mode);
-        debug.screenPos = (TextView) findViewById(R.id.screen_pos);
-        debug.geoPos = (TextView) findViewById(R.id.geo_pos);
-        debug.pins = (TextView) findViewById(R.id.pins);
-        
-        debug.mode.setText("Mode: " + MODE);
-        
-        debug.mode.setText("" + mapView.getTop());
+       
     }
     
     public boolean dispatchTouchEvent(MotionEvent event){
@@ -59,12 +45,6 @@ public class Map extends MapActivity {
     	    	
     	Projection proj = mapView.getProjection();
     	GeoPoint pt = proj.fromPixels((int) x, (int) y);
-    	
-    	String scr = "Screen: " + x + ", " + y;
-    	String geo = "Geo: " + pt.toString();
-    	
-    	debug.screenPos.setText(scr);
-    	debug.geoPos.setText(geo);
     	
     	if (MODE == MODE_PIN){
     		mapView.addPinEvent(event);
@@ -82,6 +62,7 @@ public class Map extends MapActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         menu.add(0, MENU_ADD_POINT, 0, "Add Point");
         menu.add(0, MENU_QUIT, 0, "Quit");
+        menu.add(0, 10101, 0, "Test getCenter");
     	return true;
     }
     
@@ -89,7 +70,9 @@ public class Map extends MapActivity {
     	switch(item.getItemId()){
     	case MENU_ADD_POINT:
     		MODE = MODE_PIN;
-    		debug.mode.setText("Mode: " + MODE);
+    		return true;
+    	case 10101:
+    		testGetCenter();
     		return true;
     	case MENU_QUIT:
     		return true;
@@ -97,4 +80,10 @@ public class Map extends MapActivity {
     	
     	return true;
     }
+    
+	private void testGetCenter(){
+		Point pt = mapView.zone_.getCenter();
+		TextView debug = (TextView) findViewById(R.id.debug);
+		debug.setText("Center: " + pt.x + ", " + pt.y);
+	}
 }
