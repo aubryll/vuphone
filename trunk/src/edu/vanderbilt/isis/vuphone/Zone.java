@@ -22,7 +22,7 @@ import com.google.android.maps.Projection;
 /*************************************************************************
  * Compilation: javac Polygon.java Execution: java Polygon
  * 
- * An immutable datat type for polygons, possibly intersecting.
+ * An data type for polygons, possibly intersecting.
  * 
  * Centroid calculation assumes polygon is nonempty (o/w area = 0)
  * 
@@ -46,6 +46,7 @@ public class Zone {
 	 * Adds a point to this zone, checking first if the point is contained
 	 * 
 	 * @param point
+	 * @return true if the point was added, false otherwise.
 	 */
 	public boolean addPoint(GeoPoint point) {
 		return this.addPoint(point, true);
@@ -61,14 +62,31 @@ public class Zone {
 	 *            already contain this point. If a developer has already ensured
 	 *            that the point is not contained in this zone, this is a helper
 	 *            method to save a redundant check
+	 * 
+	 * @return True if the point was added, false otherwise.
 	 */
 	public boolean addPoint(GeoPoint point, boolean checkIfContained) {
 		if (checkIfContained)
 			if (this.contains(point))
 				return false;
 
-		
 		return points.add(point);
+	}
+
+	/**
+	 * Helper function for getCenter that finds the area of the zone.
+	 * 
+	 * @return
+	 */
+	private double area() {
+		double sum = 0.0;
+		for (int i = 0; i < points.size(); i++) {
+			Point next = projection_.toPixels(points.get(i + 1), null);
+			Point current = projection_.toPixels(points.get(i), null);
+
+			sum = sum + (current.x * next.y) - (current.y * next.x);
+		}
+		return Math.abs(0.5 * sum);
 	}
 
 	/**
@@ -108,6 +126,27 @@ public class Zone {
 				crossings++;
 		}
 		return (crossings % 2 != 0);
+	}
+
+	/**
+	 * Gets the center of the polygon using the current projection.
+	 * 
+	 * @return A point which represents the screen location of the center of the
+	 *         zone.
+	 */
+	public Point getCenter() {
+		Double cx = 0.0, cy = 0.0;
+		for (int i = 0; i < points.size(); i++) {
+			Point next = projection_.toPixels(points.get(i + 1), null);
+			Point current = projection_.toPixels(points.get(i), null);
+			cx = cx + (current.x + next.x)
+					* (current.y * next.x - current.x * next.y);
+			cy = cy + (current.y + next.y)
+					* (current.y * next.x - current.x * next.y);
+		}
+		cx /= (6 * area());
+		cy /= (6 * area());
+		return new Point(cx.intValue(), cy.intValue());
 	}
 
 	/**
@@ -176,6 +215,16 @@ public class Zone {
 	}
 
 	/**
+	 * Allows the name of the zone to be changed.
+	 * 
+	 * @param name
+	 *            the new name
+	 */
+	public void setName(String name) {
+		name_ = name;
+	}
+
+	/**
 	 * Sets the current projection
 	 * 
 	 * @param p
@@ -183,11 +232,11 @@ public class Zone {
 	public void setProjection(Projection p) {
 		projection_ = p;
 	}
-	
+
 	/**
-	 * Allows this class to be printed as a String. 
+	 * Allows this class to be printed as a String.
 	 */
-	public String toString(){
+	public String toString() {
 		return "Zone: " + name_ + ", " + points.size();
 	}
 
