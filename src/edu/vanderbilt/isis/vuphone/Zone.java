@@ -1,5 +1,8 @@
 package edu.vanderbilt.isis.vuphone;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Path;
 import android.graphics.Point;
 
@@ -26,29 +29,47 @@ import com.google.android.maps.Projection;
  *************************************************************************/
 
 public class Zone {
-	private final int N; // number of points in the polygon
-	private final GeoPoint[] points; // the points, setting p[0] = p[N]
+	private ArrayList<GeoPoint> points; // the points, setting p[0] != p[N]
 	private Projection projection_ = null;
-	private final String name_;
+	private String name_;
 
-	public Zone(GeoPoint[] points, String name) {
-		this(points, name, true);
+	public Zone() {
+		points = new ArrayList<GeoPoint>();
 	}
 
-	public Zone(GeoPoint[] points, String name, boolean includesEndPoint) {
-		name_ = name;
-		projection_ = null;
+	public Zone(Projection p) {
+		points = new ArrayList<GeoPoint>();
+		projection_ = p;
+	}
 
-		if (includesEndPoint)
-			N = points.length - 1;
+	/**
+	 * Adds a point to this zone, checking first if the point is contained
+	 * 
+	 * @param point
+	 */
+	public void addPoint(GeoPoint point) {
+		this.addPoint(point, true);
+	}
+
+	/**
+	 * Adds a point to this zone.
+	 * 
+	 * @param point
+	 *            The point to add
+	 * @param checkIfContained
+	 *            Determines whether or not the zone makes sure that it does not
+	 *            already contain this point. If a developer has already ensured
+	 *            that the point is not contained in this zone, this is a helper
+	 *            method to save a redundant check
+	 */
+	public void addPoint(GeoPoint point, boolean checkIfContained) {
+		if (checkIfContained)
+			checkIfContained = this.contains(point);
 		else
-			N = points.length;
+			checkIfContained = true;
 
-		// defensive copy
-		this.points = new GeoPoint[N + 1];
-		for (int i = 0; i < N; i++)
-			this.points[i] = points[i];
-		this.points[N] = points[0];
+		if (checkIfContained)
+			points.add(point);
 	}
 
 	/**
@@ -73,9 +94,9 @@ public class Zone {
 		int crossings = 0;
 		Point next;
 		Point current;
-		for (int i = 0; i < N; i++) {
-			next = projection_.toPixels(points[i + 1], null);
-			current = projection_.toPixels(points[i], null);
+		for (int i = 0; i < points.size(); i++) {
+			next = projection_.toPixels(points.get(i + 1), null);
+			current = projection_.toPixels(points.get(i), null);
 
 			double slope = (next.x - current.x) / (next.y - current.y);
 
@@ -89,15 +110,25 @@ public class Zone {
 		}
 		return (crossings % 2 != 0);
 	}
-	
+
 	/**
 	 * Gets the name of this zone
+	 * 
 	 * @return
 	 */
 	public String getName() {
 		return name_;
 	}
-	
+
+	/**
+	 * Gets all of the points currently in this zone
+	 * 
+	 * @return
+	 */
+	public List<GeoPoint> getPoints() {
+		return points;
+	}
+
 	/**
 	 * Generates a Path which can then be used to draw the zone, based on the
 	 * current projection.
@@ -107,17 +138,17 @@ public class Zone {
 	public Path getPath() {
 
 		Path path = new Path();
-		path.incReserve(N + 1);
+		path.incReserve(points.size() + 1);
 
 		validateProjection();
 
 		// We will use p for all our points
-		Point p = projection_.toPixels(points[0], null);
+		Point p = projection_.toPixels(points.get(0), null);
 
 		path.moveTo(p.x, p.y);
 
-		for (int i = 1; i < N; i++) {
-			projection_.toPixels(points[i], p);
+		for (int i = 1; i < points.size(); i++) {
+			projection_.toPixels(points.get(i), p);
 			path.lineTo(p.x, p.y);
 		}
 
@@ -126,21 +157,48 @@ public class Zone {
 
 		return path;
 	}
-	
+
+	/**
+	 * Helper method to remove the last point added to this zone.
+	 */
+	public void removeLastPoint() {
+		if (points.size() > 0)
+			points.remove(points.size() - 1);
+	}
+
+	/**
+	 * Removes the given point from this zone.
+	 * 
+	 * @param p
+	 */
+	public void removePoint(GeoPoint p) {
+		if (points.contains(p))
+			points.remove(p);
+	}
+
 	/**
 	 * Sets the current projection
+	 * 
 	 * @param p
 	 */
 	public void setProjection(Projection p) {
 		projection_ = p;
 	}
+	
+	/**
+	 * Allows this class to be printed as a String. 
+	 */
+	public String toString(){
+		return "Zone: " + name_ + ", " + points.size();
+	}
 
 	/**
-	 * Ensures the projection is at least usable. 
+	 * Ensures the projection is at least usable.
 	 */
 	private void validateProjection() {
 		if (projection_ == null)
 			throw new RuntimeException(
-					"Someone forgot to set the projection for Zone " + name_ + "!");
+					"Someone forgot to set the projection for Zone " + name_
+							+ "!");
 	}
 }
