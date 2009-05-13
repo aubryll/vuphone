@@ -14,7 +14,7 @@ import edu.vanderbilt.isis.vuphone.tools.PrecisionPoint;
 
 /**
  * Used to represent a routing zone. Has helper methods for drawing, and 
- * determining if a GeoPoint falls within this zone. 
+ * determining if a GeoPoint falls within this zone..
  * 
  * @author hamiltont
  * 
