@@ -19,7 +19,6 @@ public class ZoneOverlay extends Overlay{
 	}
 	
 	public void draw(Canvas canvas, MapView mapView, boolean shadow){
-		zone_.setProjection(mapView.getProjection());
 		Path path = zone_.getPath();
 		Paint paint = new Paint();
 		canvas.drawPath(path, paint);

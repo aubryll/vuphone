@@ -5,29 +5,24 @@ import java.util.List;
 
 import android.graphics.Path;
 import android.graphics.Point;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
 
+import edu.vanderbilt.isis.vuphone.tools.PrecisionPoint;
+
 /**
- * Copied and modified from http://www.cs.princeton.edu/introcs/35purple/Polygon.java.html 
- * 
  * Used to represent a routing zone. Has helper methods for drawing, and 
  * determining if a GeoPoint falls within this zone. 
  * 
  * @author hamiltont
  * 
+ * 
+ * Parts of this class derive from
+ * 		http://www.cs.princeton.edu/introcs/35purple/Polygon.java.html
+ *       http://alienryderflex.com/polygon/
  */
-
-/*************************************************************************
- * Compilation: javac Polygon.java Execution: java Polygon
- * 
- * An data type for polygons, possibly intersecting.
- * 
- * Centroid calculation assumes polygon is nonempty (o/w area = 0)
- * 
- *************************************************************************/
-
 public class Zone {
 	private ArrayList<GeoPoint> points; // the points, always ensuring p[0] ==
 	// p[N]
@@ -76,7 +71,11 @@ public class Zone {
 		// points.get(points.size() - 1) will always be identical
 
 		// Handle the edge case
+
+		Log.v("VUPHONE", "Entered addPoint with point " + point.toString()
+				+ " and bool " + checkIfContained);
 		if (this.getSize() == 0) {
+			Log.v("VUPHONE", "Detected size of 0, adding twice");
 			points.add(point);
 			return points.add(point);
 		}
@@ -86,6 +85,7 @@ public class Zone {
 			if (this.contains(point))
 				return false;
 
+		Log.v("VUPHONE", "addPoint: Does not contain, continuing");
 		// If we are here, we know there are at least 2 elements in points
 
 		// Remove the end point, add the current one, add back the end
@@ -116,7 +116,7 @@ public class Zone {
 	 * according to the current projection. Unreliable if point is on boundary
 	 * of zone.
 	 * 
-	 * Reference: http://exaflop.org/docs/cgafaq/cga2.html
+	 * Reference: http://alienryderflex.com/polygon/
 	 * 
 	 * @param search
 	 * @return
@@ -130,19 +130,19 @@ public class Zone {
 		if (this.getSize() < 3)
 			return false;
 
-
 		int left;
-		int right = this.getSize();
+		int right = this.getSize() - 1;
 		boolean oddNodes = false;
 
-
 		for (left = 0; left < this.getSize(); left++) {
-			Point currentLeft = projection_.toPixels(points.get(left), null);
-			Point currentRight = projection_.toPixels(points.get(right), null);
 
+			PrecisionPoint currentLeft = new PrecisionPoint(projection_.toPixels(points.get(left), null));
+			PrecisionPoint currentRight = new PrecisionPoint(projection_.toPixels(points.get(right), null));
+			
 			if (currentLeft.y < search.y && currentRight.y >= search.y
 					|| currentRight.y < search.y && currentLeft.y >= search.y) {
-				if (currentLeft.x + (search.y - currentLeft.y) / (currentRight.y - currentLeft.y)
+				if (currentLeft.x + (search.y - currentLeft.y)
+						/ (currentRight.y - currentLeft.y)
 						* (currentRight.x - currentLeft.x) < search.x) {
 					oddNodes = !oddNodes;
 				}
