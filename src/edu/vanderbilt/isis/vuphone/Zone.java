@@ -154,8 +154,13 @@ public class Zone {
 	 *         zone.
 	 */
 	public Point getCenter() {
+		if (points.size() == 2) {
+			Point only = projection_.toPixels(points.get(0), null);
+			return only;
+		}
+			 
 		Double cx = 0.0, cy = 0.0;
-		for (int i = 0; i < points.size(); i++) {
+		for (int i = 0; i < points.size() - 1; i++) {
 			Point next = projection_.toPixels(points.get(i + 1), null);
 			Point current = projection_.toPixels(points.get(i), null);
 			cx = cx + (current.x + next.x)
