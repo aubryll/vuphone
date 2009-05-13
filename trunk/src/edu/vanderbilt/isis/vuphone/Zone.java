@@ -96,7 +96,7 @@ public class Zone {
 	 */
 	private double area() {
 		double sum = 0.0;
-		for (int i = 0; i < points.size(); i++) {
+		for (int i = 0; i < points.size() - 1; i++) {
 			Point next = projection_.toPixels(points.get(i + 1), null);
 			Point current = projection_.toPixels(points.get(i), null);
 
@@ -130,7 +130,7 @@ public class Zone {
 		int crossings = 0;
 		Point next;
 		Point current;
-		for (int i = 0; i < points.size(); i++) {
+		for (int i = 0; i < points.size() - 1; i++) {
 			next = projection_.toPixels(points.get(i + 1), null);
 			current = projection_.toPixels(points.get(i), null);
 
@@ -168,8 +168,8 @@ public class Zone {
 			cy = cy + (current.y + next.y)
 					* (current.y * next.x - current.x * next.y);
 		}
-		cx /= (6 * area());
-		cy /= (6 * area());
+		cx /= (6 * this.area());
+		cy /= (6 * this.area());
 		return new Point(cx.intValue(), cy.intValue());
 	}
 
