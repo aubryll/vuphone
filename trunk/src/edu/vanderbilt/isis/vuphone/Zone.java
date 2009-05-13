@@ -41,7 +41,7 @@ public class Zone {
 	public Zone(Projection p) {
 		points = new ArrayList<GeoPoint>();
 
-		if (projection_ == null)
+		if (p == null)
 			throw new RuntimeException(
 					"VUPHONE - Someone passed null for Zone projection!");
 
