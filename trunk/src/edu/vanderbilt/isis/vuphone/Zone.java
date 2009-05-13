@@ -122,6 +122,9 @@ public class Zone {
 	}
 
 	public boolean contains(Point search) {
+		if (points.size() < 3)
+			return false;
+		
 		validateProjection();
 
 		int crossings = 0;
