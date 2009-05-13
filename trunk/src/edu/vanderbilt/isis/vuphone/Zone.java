@@ -47,8 +47,8 @@ public class Zone {
 	 * 
 	 * @param point
 	 */
-	public void addPoint(GeoPoint point) {
-		this.addPoint(point, true);
+	public boolean addPoint(GeoPoint point) {
+		return this.addPoint(point, true);
 	}
 
 	/**
@@ -62,14 +62,13 @@ public class Zone {
 	 *            that the point is not contained in this zone, this is a helper
 	 *            method to save a redundant check
 	 */
-	public void addPoint(GeoPoint point, boolean checkIfContained) {
+	public boolean addPoint(GeoPoint point, boolean checkIfContained) {
 		if (checkIfContained)
-			checkIfContained = this.contains(point);
-		else
-			checkIfContained = true;
+			if (this.contains(point))
+				return false;
 
-		if (checkIfContained)
-			points.add(point);
+		
+		return points.add(point);
 	}
 
 	/**
