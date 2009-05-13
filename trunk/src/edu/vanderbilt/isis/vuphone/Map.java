@@ -1,7 +1,6 @@
 package edu.vanderbilt.isis.vuphone;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -9,8 +8,6 @@ import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
 import com.google.android.maps.Projection;
 
 class DebugTable{
@@ -27,7 +24,7 @@ public class Map extends MapActivity {
 	
 	private int MODE = MODE_NAVIGATE;
 	
-	private MapView mapView;
+	private ZoneMapView mapView;
 	private DebugTable debug;
 	
 	/** Called when the activity is first created. */
@@ -35,10 +32,8 @@ public class Map extends MapActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        mapView = (MapView) findViewById(R.id.mapview);
-        
-        mapView.setBuiltInZoomControls(true);
+
+        mapView = (ZoneMapView) findViewById(R.id.mapview);
         
         debug = new DebugTable();
         
@@ -52,8 +47,6 @@ public class Map extends MapActivity {
         debug.mode.setText("" + mapView.getTop());
     }
     
-    // THE CALCULATED GEO POINTS ARE ALWAYS OFF BY THE SAME AMOUNT.
-    // SCREEN POS NEEDS TO BE ADJUSTED TO MAPVIEW
     public boolean dispatchTouchEvent(MotionEvent event){
     
     	float x = event.getX();// - mapView.getLeft();
@@ -74,24 +67,12 @@ public class Map extends MapActivity {
     	debug.geoPos.setText(geo);
     	
     	if (MODE == MODE_PIN){
-    		addPoint(pt);
-    		MODE = 10;
+    		mapView.addPinEvent(event);
+    		MODE = MODE_NAVIGATE;
     		return true;
     	}else{    	
     		return super.dispatchTouchEvent(event);
     	}
-    }
-    
-    public void addPoint(GeoPoint point){
-    	OverlayItem item = new OverlayItem(point, "", "");
-		MapOverlay overlay = new MapOverlay(getResources().getDrawable(R.drawable.mapmarker));
-		overlay.addOverlay(item);
-		
-		mapView.getOverlays().add(overlay);
-		
-		String pinsNum = "" + mapView.getOverlays().size();
-		debug.pins.setText(pinsNum);
-		mapView.postInvalidate();
     }
     
     protected boolean isRouteDisplayed() {
@@ -101,7 +82,6 @@ public class Map extends MapActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         menu.add(0, MENU_ADD_POINT, 0, "Add Point");
         menu.add(0, MENU_QUIT, 0, "Quit");
-    	
     	return true;
     }
     
