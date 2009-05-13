@@ -8,16 +8,16 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
-public class PinOverlay extends Overlay{
+public class OverlayPin extends Overlay{
 	private GeoPoint point_;
 	private String name_;
 	
-	public PinOverlay(GeoPoint pt, String nm){
+	public OverlayPin(GeoPoint pt, String nm){
 		point_ = pt;
 		name_ = nm;
 	}
 	
-	public PinOverlay(GeoPoint pt){
+	public OverlayPin(GeoPoint pt){
 		this(pt, "Point");
 	}
 	

@@ -3,18 +3,16 @@ package edu.vanderbilt.isis.vuphone;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.util.Log;
-import android.view.MotionEvent;
 
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 
-public class ZoneOverlay extends Overlay{
+public class OverlayZone extends Overlay{
 
 	private Zone zone_;	// Reference to the zone handled by ZoneMapView
 	
-	ZoneOverlay(Zone zone){
+	OverlayZone(Zone zone){
 		zone_ = zone;
 	}
 	
