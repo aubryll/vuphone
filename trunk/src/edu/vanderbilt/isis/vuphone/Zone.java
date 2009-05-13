@@ -40,6 +40,11 @@ public class Zone {
 
 	public Zone(Projection p) {
 		points = new ArrayList<GeoPoint>();
+
+		if (projection_ == null)
+			throw new RuntimeException(
+					"VUPHONE - Someone passed null for Zone projection!");
+
 		projection_ = p;
 	}
 
@@ -71,7 +76,7 @@ public class Zone {
 		// points.get(points.size() - 1) will always be identical
 
 		// Handle the edge case
-		if (points.size() == 0) {
+		if (this.getSize() == 0) {
 			points.add(point);
 			return points.add(point);
 		}
@@ -96,7 +101,8 @@ public class Zone {
 	 */
 	private double area() {
 		double sum = 0.0;
-		for (int i = 0; i < points.size() - 1; i++) {
+
+		for (int i = 0; i < this.getSize(); i++) {
 			Point next = projection_.toPixels(points.get(i + 1), null);
 			Point current = projection_.toPixels(points.get(i), null);
 
@@ -116,35 +122,35 @@ public class Zone {
 	 * @return
 	 */
 	public boolean contains(GeoPoint search) {
-		validateProjection();
 		Point p = projection_.toPixels(search, null);
 		return this.contains(p);
 	}
 
 	public boolean contains(Point search) {
-		if (points.size() < 3)
+		if (this.getSize() < 3)
 			return false;
-		
-		validateProjection();
 
-		int crossings = 0;
-		Point next;
-		Point current;
-		for (int i = 0; i < points.size() - 1; i++) {
-			next = projection_.toPixels(points.get(i + 1), null);
-			current = projection_.toPixels(points.get(i), null);
 
-			double slope = (next.x - current.x) / (next.y - current.y);
+		int left;
+		int right = this.getSize();
+		boolean oddNodes = false;
 
-			boolean cond1 = (current.y <= search.y) && (search.y < next.y);
-			boolean cond2 = (next.y <= search.y) && (search.y < current.y);
-			boolean cond3 = search.x < slope * (search.y - current.y)
-					+ current.x;
 
-			if ((cond1 || cond2) && cond3)
-				crossings++;
+		for (left = 0; left < this.getSize(); left++) {
+			Point currentLeft = projection_.toPixels(points.get(left), null);
+			Point currentRight = projection_.toPixels(points.get(right), null);
+
+			if (currentLeft.y < search.y && currentRight.y >= search.y
+					|| currentRight.y < search.y && currentLeft.y >= search.y) {
+				if (currentLeft.x + (search.y - currentLeft.y) / (currentRight.y - currentLeft.y)
+						* (currentRight.x - currentLeft.x) < search.x) {
+					oddNodes = !oddNodes;
+				}
+			}
+			right = left;
 		}
-		return (crossings % 2 != 0);
+
+		return oddNodes;
 	}
 
 	/**
@@ -154,13 +160,13 @@ public class Zone {
 	 *         zone.
 	 */
 	public Point getCenter() {
-		if (points.size() == 2) {
+		if (this.getSize() == 1) {
 			Point only = projection_.toPixels(points.get(0), null);
 			return only;
 		}
-			 
+
 		Double cx = 0.0, cy = 0.0;
-		for (int i = 0; i < points.size() - 1; i++) {
+		for (int i = 0; i < this.getSize(); i++) {
 			Point next = projection_.toPixels(points.get(i + 1), null);
 			Point current = projection_.toPixels(points.get(i), null);
 			cx = cx + (current.x + next.x)
@@ -192,6 +198,19 @@ public class Zone {
 	}
 
 	/**
+	 * Returns the number of points that currently define this zone.
+	 * 
+	 * @return
+	 */
+	public int getSize() {
+		if (points.size() == 0)
+			return 0;
+
+		// Subtract the end point
+		return points.size() - 1;
+	}
+
+	/**
 	 * Generates a Path which can then be used to draw the zone, based on the
 	 * current projection.
 	 * 
@@ -200,16 +219,14 @@ public class Zone {
 	public Path getPath() {
 
 		Path path = new Path();
-		path.incReserve(points.size() + 1);
-
-		validateProjection();
+		path.incReserve(this.getSize() + 1);
 
 		// We will use p for all our points
 		Point p = projection_.toPixels(points.get(0), null);
 
 		path.moveTo(p.x, p.y);
 
-		for (int i = 1; i < points.size(); i++) {
+		for (int i = 1; i < this.getSize(); i++) {
 			projection_.toPixels(points.get(i), p);
 			path.lineTo(p.x, p.y);
 		}
@@ -225,8 +242,8 @@ public class Zone {
 	 */
 	public void removeLastPoint() {
 		// Minus two, because 1 is typical, and there is one end point
-		if (points.size() > 0)
-			this.removePoint(points.get(points.size()-2));
+		if (this.getSize() > 0)
+			this.removePoint(points.get(this.getSize() - 1));
 	}
 
 	/**
@@ -250,28 +267,9 @@ public class Zone {
 	}
 
 	/**
-	 * Sets the current projection
-	 * 
-	 * @param p
-	 */
-	public void setProjection(Projection p) {
-		projection_ = p;
-	}
-
-	/**
 	 * Allows this class to be printed as a String.
 	 */
 	public String toString() {
-		return "Zone: " + name_ + ", " + points.size();
-	}
-
-	/**
-	 * Ensures the projection is at least usable.
-	 */
-	private void validateProjection() {
-		if (projection_ == null)
-			throw new RuntimeException(
-					"Someone forgot to set the projection for Zone " + name_
-							+ "!");
+		return "Zone: " + name_ + ", " + this.getSize();
 	}
 }
