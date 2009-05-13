@@ -29,7 +29,8 @@ import com.google.android.maps.Projection;
  *************************************************************************/
 
 public class Zone {
-	private ArrayList<GeoPoint> points; // the points, setting p[0] != p[N]
+	private ArrayList<GeoPoint> points; // the points, always ensuring p[0] ==
+	// p[N]
 	private Projection projection_ = null;
 	private String name_;
 
@@ -66,11 +67,26 @@ public class Zone {
 	 * @return True if the point was added, false otherwise.
 	 */
 	public boolean addPoint(GeoPoint point, boolean checkIfContained) {
+		// This function ensures that internally the values at points.get(0) and
+		// points.get(points.size() - 1) will always be identical
+
+		// Handle the edge case
+		if (points.size() == 0) {
+			points.add(point);
+			return points.add(point);
+		}
+
+		// Check if requested
 		if (checkIfContained)
 			if (this.contains(point))
 				return false;
 
-		return points.add(point);
+		// If we are here, we know there are at least 2 elements in points
+
+		// Remove the end point, add the current one, add back the end
+		points.remove(points.size() - 1);
+		points.add(point);
+		return points.add(points.get(0));
 	}
 
 	/**
@@ -200,8 +216,9 @@ public class Zone {
 	 * Helper method to remove the last point added to this zone.
 	 */
 	public void removeLastPoint() {
+		// Minus two, because 1 is typical, and there is one end point
 		if (points.size() > 0)
-			points.remove(points.size() - 1);
+			this.removePoint(points.get(points.size()-2));
 	}
 
 	/**
@@ -210,7 +227,7 @@ public class Zone {
 	 * @param p
 	 */
 	public void removePoint(GeoPoint p) {
-		if (points.contains(p))
+		while (points.contains(p))
 			points.remove(p);
 	}
 
