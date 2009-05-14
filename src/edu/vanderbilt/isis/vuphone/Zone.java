@@ -35,12 +35,11 @@ public class Zone {
 	public Zone(Projection p) {
 		this();
 		projection_ = p;
-		
+
 		if (projection_ == null)
 			throw new RuntimeException(
 					"VUPHONE - Someone passed null for Zone projection!");
 
-		
 	}
 
 	/**
@@ -150,6 +149,96 @@ public class Zone {
 	}
 
 	/**
+	 * Called before a point is added to our internal list.
+	 * 
+	 * @param pointToAdd
+	 * @return true if the two lines formed by adding this point will intersect
+	 *         any of the existing lines, and false otherwise.
+	 */
+	private boolean intersects(Point pointToAdd) {
+		
+
+		if (this.getSize() == 1)
+			return pointToAdd.equals(projection_.toPixels(points.get(0), null));
+		// TODO - make this work for the case of adding the 3rd point, currently
+		// this will not work if they place the 3rd directly between the first
+		// two
+		if (this.getSize() == 2)
+			return false;
+
+		// First check that the line from start to pointToAdd is ok
+		PrecisionPoint firstPoint = new PrecisionPoint(projection_.toPixels(points.get(0), null));
+		PrecisionPoint lastPoint = new PrecisionPoint(projection_.toPixels(points.get(getSize() - 1), null));
+		PrecisionPoint addPoint = new PrecisionPoint(pointToAdd);
+		
+		PrecisionPoint start = new PrecisionPoint(), end = new PrecisionPoint();
+		for (int i = 0; i < this.getSize() - 1; i++) {
+			start.set(projection_.toPixels(points.get(i), null));
+			end.set(projection_.toPixels(points.get(i+1), null));
+			
+			// Does the line from the first point to the add point 
+			//if (intersectsHelper(firstPoint, addPoint, start, end))
+			//	return true;
+			// Does the line from the current point to the added point
+			// intersect any current lines?
+			if (intersectsHelper(lastPoint, addPoint, start, end))
+				return true;
+		}
+		
+		return false;
+	}
+
+	private boolean intersectsHelper(PrecisionPoint start1,
+			PrecisionPoint end1, PrecisionPoint start2, PrecisionPoint end2) {
+		
+		double Ax = start1.x;
+		double Ay = start2.y;
+		double Bx = end1.x;
+		double By = end1.y;
+		double Cx = start2.x;
+		double Cy = start2.y;
+		double Dx = end2.x;
+		double Dy = end2.y;
+
+		double distAB, theCos, theSin, newX, ABpos;
+
+		// Fail if either line is undefined.
+		if (Ax == Bx && Ay == By || Cx == Dx && Cy == Dy)
+			return false;
+
+		// (1) Translate the system so that point A is on the origin.
+		Bx -= Ax;
+		By -= Ay;
+		Cx -= Ax;
+		Cy -= Ay;
+		Dx -= Ax;
+		Dy -= Ay;
+
+		// Discover the length of segment A-B.
+		distAB = Math.sqrt(Bx * Bx + By * By);
+
+		// (2) Rotate the system so that point B is on the positive X axis.
+		theCos = Bx / distAB;
+		theSin = By / distAB;
+		newX = Cx * theCos + Cy * theSin;
+		Cy = Cy * theCos - Cx * theSin;
+		Cx = newX;
+		newX = Dx * theCos + Dy * theSin;
+		Dy = Dy * theCos - Dx * theSin;
+		Dx = newX;
+
+		// Fail if the lines are parallel.
+		if (Cy == Dy)
+			return false;
+
+		// (3) Discover the position of the intersection point along line A-B.
+		ABpos = Dx + (Cx - Dx) * Dy / (Dy - Cy);
+
+		// Success.
+		return true;
+	}
+
+	/**
 	 * Gets the center of the polygon using the current projection. ONLY WORKS
 	 * RELIABLY ON SIMPLE POLYGONS.
 	 * 
@@ -158,7 +247,7 @@ public class Zone {
 	 */
 	public Point getCenter() {
 		if (this.getSize() == 0)
-			return new Point(0,0);
+			return new Point(0, 0);
 		if (this.getSize() < 3) {
 			Point only = projection_.toPixels(points.get(0), null);
 			return only;
@@ -175,7 +264,7 @@ public class Zone {
 		}
 		cx /= (6 * this.area());
 		cy /= (6 * this.area());
-		Point center = new Point(-1 * cx.intValue(), -1 * cy.intValue()); 
+		Point center = new Point(-1 * cx.intValue(), -1 * cy.intValue());
 		if (center.equals(0, 0))
 			center = projection_.toPixels(points.get(0), null);
 		return center;
@@ -249,11 +338,15 @@ public class Zone {
 	}
 
 	/**
-	 * Removes the given point from this zone.
+	 * Removes the given point from this zone. This is purposefully a private
+	 * function, ensuring that arbitrary removals cannot take place. If they
+	 * could, we would have to validate the polygon formed after every removal.
+	 * This way, we validate as we construct the polygon, and removing them in
+	 * reverse order does not invalidate anything
 	 * 
 	 * @param p
 	 */
-	public void removePoint(GeoPoint p) {
+	private void removePoint(GeoPoint p) {
 		while (points.contains(p))
 			points.remove(p);
 	}
