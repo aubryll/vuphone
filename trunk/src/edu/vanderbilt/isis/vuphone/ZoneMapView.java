@@ -2,7 +2,6 @@ package edu.vanderbilt.isis.vuphone;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.google.android.maps.GeoPoint;
@@ -18,6 +17,7 @@ public class ZoneMapView extends MapView {
 		super(context, attrs);
 		setBuiltInZoomControls(true);
 		setClickable(true);
+
 	}
 
 	public void addPinEvent(MotionEvent event) {
@@ -39,6 +39,7 @@ public class ZoneMapView extends MapView {
 		if (zone_ == null) {
 			Projection proj = getProjection();
 			zone_ = new Zone(proj);
+			zone_.addFinalizedObserver(this);
 			zoneOverlay_ = new OverlayZone(zone_);
 		}
 
@@ -59,5 +60,14 @@ public class ZoneMapView extends MapView {
 		postInvalidate();
 
 	}
-	
+
+	public void zoneFinalizedEvent() {
+		// Do Something here
+		for (int i = 0; i < 10; i++)
+			getOverlays().add(
+					new OverlayPin(getProjection().fromPixels(50, 50),
+							"Start Found!"));
+		postInvalidate();
+	}
+
 }

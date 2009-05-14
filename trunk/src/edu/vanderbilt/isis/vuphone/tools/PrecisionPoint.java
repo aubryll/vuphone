@@ -18,5 +18,9 @@ public class PrecisionPoint extends Point {
 		x = p.x;
 		y = p.y;
 	}
+	
+	public String toString() {
+		return "X: " + x + "; Y: " + y;
+	}
 
 }
