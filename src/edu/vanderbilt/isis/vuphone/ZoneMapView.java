@@ -38,9 +38,7 @@ public class ZoneMapView extends MapView {
 	private void addPin(GeoPoint pt) {
 		if (zone_ == null) {
 			Projection proj = getProjection();
-			Log.v("VUPHONE", "getProjection returned " + proj.toString());
 			zone_ = new Zone(proj);
-			Log.v("VUPHONE", "Created Zone");
 			zoneOverlay_ = new OverlayZone(zone_);
 		}
 
