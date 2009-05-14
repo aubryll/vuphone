@@ -11,7 +11,7 @@ import com.google.android.maps.Projection;
 
 public class ZoneMapView extends MapView {
 
-	private ZoneOverlay zoneOverlay_ = null;
+	private OverlayZone zoneOverlay_ = null;
 	public Zone zone_ = null;
 
 	public ZoneMapView(Context context, AttributeSet attrs) {
@@ -37,8 +37,11 @@ public class ZoneMapView extends MapView {
 
 	private void addPin(GeoPoint pt) {
 		if (zone_ == null) {
-			zone_ = new Zone(getProjection());
-			zoneOverlay_ = new ZoneOverlay(zone_);
+			Projection proj = getProjection();
+			Log.v("VUPHONE", "getProjection returned " + proj.toString());
+			zone_ = new Zone(proj);
+			Log.v("VUPHONE", "Created Zone");
+			zoneOverlay_ = new OverlayZone(zone_);
 		}
 
 		// TODO - show error message here
@@ -52,10 +55,11 @@ public class ZoneMapView extends MapView {
 			getOverlays().set(0, zoneOverlay_);
 
 		String name = "Point " + getOverlays().size();
-		PinOverlay pin = new PinOverlay(pt, name);
+		OverlayPin pin = new OverlayPin(pt, name);
 		getOverlays().add(pin);
 
 		postInvalidate();
 
 	}
+	
 }
