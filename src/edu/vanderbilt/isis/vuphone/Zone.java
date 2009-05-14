@@ -31,16 +31,18 @@ public class Zone {
 
 	public Zone() {
 		points = new ArrayList<GeoPoint>();
+		name_ = "Default Zone Name";
 	}
 
 	public Zone(Projection p) {
-		points = new ArrayList<GeoPoint>();
-
-		if (p == null)
+		this();
+		projection_ = p;
+		
+		if (projection_ == null)
 			throw new RuntimeException(
 					"VUPHONE - Someone passed null for Zone projection!");
 
-		projection_ = p;
+		
 	}
 
 	/**

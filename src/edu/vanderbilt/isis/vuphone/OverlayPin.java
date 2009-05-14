@@ -1,6 +1,9 @@
 package edu.vanderbilt.isis.vuphone;
 
+import java.util.List;
+
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
@@ -28,6 +31,11 @@ public class OverlayPin extends Overlay{
 		float r = 5;
 		
 		Paint paint = new Paint();
+		
+		List<Overlay> list = mapView.getOverlays();
+		if (list.indexOf(this) == 1 || list.indexOf(this) == list.size() - 1){
+			paint.setColor(Color.RED);
+		}
 		
 		canvas.drawCircle(x, y, r, paint);
 		canvas.drawText(name_, x, y - r, paint);
