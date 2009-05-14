@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.graphics.Path;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
@@ -13,21 +12,20 @@ import com.google.android.maps.Projection;
 import edu.vanderbilt.isis.vuphone.tools.PrecisionPoint;
 
 /**
- * Used to represent a routing zone. Has helper methods for drawing, and 
+ * Used to represent a routing zone. Has helper methods for drawing, and
  * determining if a GeoPoint falls within this zone..
  * 
  * @author hamiltont
  * 
  * 
- * Parts of this class derive from
- * 		http://www.cs.princeton.edu/introcs/35purple/Polygon.java.html
- *       http://alienryderflex.com/polygon/
+ *         Important parts of this class derive from
+ *         http://www.cs.princeton.edu/introcs/35purple/Polygon.java.html
+ *         http://alienryderflex.com/polygon/
  */
 public class Zone {
-	private ArrayList<GeoPoint> points; // the points, always ensuring p[0] ==
-	// p[N]
+	private ArrayList<GeoPoint> points; // should always ensure p[0] == p[N]
 	private Projection projection_ = null;
-	private String name_;
+	private String name_ = "Default";
 
 	public Zone() {
 		points = new ArrayList<GeoPoint>();
@@ -73,11 +71,7 @@ public class Zone {
 		// points.get(points.size() - 1) will always be identical
 
 		// Handle the edge case
-
-		Log.v("VUPHONE", "Entered addPoint with point " + point.toString()
-				+ " and bool " + checkIfContained);
 		if (this.getSize() == 0) {
-			Log.v("VUPHONE", "Detected size of 0, adding twice");
 			points.add(point);
 			return points.add(point);
 		}
@@ -87,9 +81,7 @@ public class Zone {
 			if (this.contains(point))
 				return false;
 
-		Log.v("VUPHONE", "addPoint: Does not contain, continuing");
 		// If we are here, we know there are at least 2 elements in points
-
 		// Remove the end point, add the current one, add back the end
 		points.remove(points.size() - 1);
 		points.add(point);
@@ -138,9 +130,11 @@ public class Zone {
 
 		for (left = 0; left < this.getSize(); left++) {
 
-			PrecisionPoint currentLeft = new PrecisionPoint(projection_.toPixels(points.get(left), null));
-			PrecisionPoint currentRight = new PrecisionPoint(projection_.toPixels(points.get(right), null));
-			
+			PrecisionPoint currentLeft = new PrecisionPoint(projection_
+					.toPixels(points.get(left), null));
+			PrecisionPoint currentRight = new PrecisionPoint(projection_
+					.toPixels(points.get(right), null));
+
 			if (currentLeft.y < search.y && currentRight.y >= search.y
 					|| currentRight.y < search.y && currentLeft.y >= search.y) {
 				if (currentLeft.x + (search.y - currentLeft.y)
@@ -156,13 +150,16 @@ public class Zone {
 	}
 
 	/**
-	 * Gets the center of the polygon using the current projection.
+	 * Gets the center of the polygon using the current projection. ONLY WORKS
+	 * RELIABLY ON SIMPLE POLYGONS.
 	 * 
 	 * @return A point which represents the screen location of the center of the
 	 *         zone.
 	 */
 	public Point getCenter() {
-		if (this.getSize() == 1) {
+		if (this.getSize() == 0)
+			return new Point(0,0);
+		if (this.getSize() < 3) {
 			Point only = projection_.toPixels(points.get(0), null);
 			return only;
 		}
@@ -178,7 +175,10 @@ public class Zone {
 		}
 		cx /= (6 * this.area());
 		cy /= (6 * this.area());
-		return new Point(cx.intValue(), cy.intValue());
+		Point center = new Point(-1 * cx.intValue(), -1 * cy.intValue()); 
+		if (center.equals(0, 0))
+			center = projection_.toPixels(points.get(0), null);
+		return center;
 	}
 
 	/**
