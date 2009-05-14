@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Path;
 import android.graphics.Point;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
@@ -26,6 +27,7 @@ public class Zone {
 	private ArrayList<GeoPoint> points; // should always ensure p[0] == p[N]
 	private Projection projection_ = null;
 	private String name_ = "Default";
+	public static final String TAG = "ZONE";
 
 	public Zone() {
 		points = new ArrayList<GeoPoint>();
@@ -42,6 +44,14 @@ public class Zone {
 
 	}
 
+	// TODO - description - this is a terribly implemented observer pattern, but
+	// it works for now
+	private ZoneMapView zmv_;
+
+	public void addFinalizedObserver(ZoneMapView zmv) {
+		zmv_ = zmv;
+	}
+
 	/**
 	 * Adds a point to this zone, checking first if the point is contained
 	 * 
@@ -49,23 +59,6 @@ public class Zone {
 	 * @return true if the point was added, false otherwise.
 	 */
 	public boolean addPoint(GeoPoint point) {
-		return this.addPoint(point, true);
-	}
-
-	/**
-	 * Adds a point to this zone.
-	 * 
-	 * @param point
-	 *            The point to add
-	 * @param checkIfContained
-	 *            Determines whether or not the zone makes sure that it does not
-	 *            already contain this point. If a developer has already ensured
-	 *            that the point is not contained in this zone, this is a helper
-	 *            method to save a redundant check
-	 * 
-	 * @return True if the point was added, false otherwise.
-	 */
-	public boolean addPoint(GeoPoint point, boolean checkIfContained) {
 		// This function ensures that internally the values at points.get(0) and
 		// points.get(points.size() - 1) will always be identical
 
@@ -75,10 +68,25 @@ public class Zone {
 			return points.add(point);
 		}
 
-		// Check if requested
-		if (checkIfContained)
-			if (this.contains(point))
-				return false;
+		Point p = projection_.toPixels(point, null);
+		Point start = projection_.toPixels(points.get(0), null);
+		Log.v(TAG, "Trying to add " + p.toString());
+
+		// Check if they are trying to touch the start pin
+		double distanceFromStart = Math.pow(start.x - p.x, 2)
+				+ Math.pow(start.y - p.y, 2);
+		distanceFromStart = Math.sqrt(distanceFromStart);
+		// TODO - this is crap code, only works for one zone, refactor
+		if (distanceFromStart < 10)
+		{
+			zmv_.zoneFinalizedEvent();
+			return true;
+		}
+
+		if (intersects(p))
+			return false;
+
+		Log.v(TAG, "Adding point");
 
 		// If we are here, we know there are at least 2 elements in points
 		// Remove the end point, add the current one, add back the end
@@ -156,8 +164,10 @@ public class Zone {
 	 *         any of the existing lines, and false otherwise.
 	 */
 	private boolean intersects(Point pointToAdd) {
-		
+		Log.v(TAG, "Entering intersects");
 
+		if (this.getSize() == 0)
+			return false;
 		if (this.getSize() == 1)
 			return pointToAdd.equals(projection_.toPixels(points.get(0), null));
 		// TODO - make this work for the case of adding the 3rd point, currently
@@ -167,75 +177,107 @@ public class Zone {
 			return false;
 
 		// First check that the line from start to pointToAdd is ok
-		PrecisionPoint firstPoint = new PrecisionPoint(projection_.toPixels(points.get(0), null));
-		PrecisionPoint lastPoint = new PrecisionPoint(projection_.toPixels(points.get(getSize() - 1), null));
+		PrecisionPoint firstPoint = new PrecisionPoint(projection_.toPixels(
+				points.get(0), null));
+		PrecisionPoint lastPoint = new PrecisionPoint(projection_.toPixels(
+				points.get(getSize() - 1), null));
 		PrecisionPoint addPoint = new PrecisionPoint(pointToAdd);
-		
+
 		PrecisionPoint start = new PrecisionPoint(), end = new PrecisionPoint();
 		for (int i = 0; i < this.getSize() - 1; i++) {
+			Log.v(TAG, "Check " + i);
 			start.set(projection_.toPixels(points.get(i), null));
-			end.set(projection_.toPixels(points.get(i+1), null));
-			
-			// Does the line from the first point to the add point 
-			//if (intersectsHelper(firstPoint, addPoint, start, end))
-			//	return true;
+			end.set(projection_.toPixels(points.get(i + 1), null));
+
+			// Does the line from the first point to the add point
+			// if (intersectsHelper(firstPoint, addPoint, start, end))
+			// return true;
 			// Does the line from the current point to the added point
 			// intersect any current lines?
-			if (intersectsHelper(lastPoint, addPoint, start, end))
+			if (intersectsHelper(lastPoint, addPoint, start, end)) {
+				Log.v(TAG, "returning true");
 				return true;
+			}
 		}
-		
+
+		Log.v(TAG, "Returning false");
 		return false;
 	}
 
 	private boolean intersectsHelper(PrecisionPoint start1,
 			PrecisionPoint end1, PrecisionPoint start2, PrecisionPoint end2) {
-		
-		double Ax = start1.x;
-		double Ay = start2.y;
-		double Bx = end1.x;
-		double By = end1.y;
-		double Cx = start2.x;
-		double Cy = start2.y;
-		double Dx = end2.x;
-		double Dy = end2.y;
 
-		double distAB, theCos, theSin, newX, ABpos;
+		// First find Ax+By=C values for the two lines
+		double A1 = end1.y - start1.y;
+		double B1 = start1.x - end1.x;
+		double C1 = A1 * start1.x + B1 * start1.y;
 
-		// Fail if either line is undefined.
-		if (Ax == Bx && Ay == By || Cx == Dx && Cy == Dy)
+		double A2 = end2.y - start2.y;
+		double B2 = start2.x - end2.x;
+		double C2 = A2 * start2.x + B2 * start2.y;
+
+		double det = (A1 * B2) - (A2 * B1);
+
+		if (det == 0) {
+			// Lines are either parallel, are collinear (the exact same
+			// segment), or are overlapping partially, but not fully
+			// To see what the case is, check if the endpoints of one line
+			// correctly satisfy the equation of the other (meaning the two
+			// lines have the same y-intercept).
+			// If no endpoints on 2nd line can be found on 1st, they are
+			// parallel.
+			// If any can be found, they are either the same segment,
+			// overlapping, or two segments of the same line, separated by some
+			// distance.
+			// Remember that we know they share a slope, so there are no other
+			// possibilities
+
+			// Check if the segments lie on the same line
+			// (No need to check both points)
+			if ((A1 * start2.x) + (B1 * start2.y) == C1) {
+				// They are on the same line, check if they are in the same
+				// space
+				// We only need to check one axis - the other will follow
+				if ((Math.min(start1.x, end1.x) < start2.x)
+						&& (Math.max(start1.x, end1.x) > start2.x))
+					return true;
+
+				// One end point is ok, now check the other
+				if ((Math.min(start1.x, end1.x) < end2.x)
+						&& (Math.max(start1.x, end1.x) > end2.x))
+					return true;
+
+				// They are on the same line, but there is distance between them
+				return false;
+			}
+
+			// They are simply parallel
 			return false;
+		} else {
+			// Lines DO intersect somewhere, but do the line segments intersect?
+			double x = (B2 * C1 - B1 * C2) / det;
+			double y = (A1 * C2 - A2 * C1) / det;
 
-		// (1) Translate the system so that point A is on the origin.
-		Bx -= Ax;
-		By -= Ay;
-		Cx -= Ax;
-		Cy -= Ay;
-		Dx -= Ax;
-		Dy -= Ay;
+			// Make sure that the intersection is within the bounding box of
+			// both segments
+			if ((x > Math.min(start1.x, end1.x) && x < Math.max(start1.x,
+					end1.x))
+					&& (y > Math.min(start1.y, end1.y) && y < Math.max(
+							start1.y, end1.y))) {
+				// We are within the bounding box of the first line segment,
+				// so now check second line segment
+				if ((x > Math.min(start2.x, end2.x) && x < Math.max(start2.x,
+						end2.x))
+						&& (y > Math.min(start2.y, end2.y) && y < Math.max(
+								start2.y, end2.y))) {
+					// The line segments do intersect
+					return true;
+				}
+			}
 
-		// Discover the length of segment A-B.
-		distAB = Math.sqrt(Bx * Bx + By * By);
-
-		// (2) Rotate the system so that point B is on the positive X axis.
-		theCos = Bx / distAB;
-		theSin = By / distAB;
-		newX = Cx * theCos + Cy * theSin;
-		Cy = Cy * theCos - Cx * theSin;
-		Cx = newX;
-		newX = Dx * theCos + Dy * theSin;
-		Dy = Dy * theCos - Dx * theSin;
-		Dx = newX;
-
-		// Fail if the lines are parallel.
-		if (Cy == Dy)
+			// The lines do intersect, but the line segments do not
 			return false;
-
-		// (3) Discover the position of the intersection point along line A-B.
-		ABpos = Dx + (Cx - Dx) * Dy / (Dy - Cy);
-
-		// Success.
-		return true;
+		}
 	}
 
 	/**
@@ -322,9 +364,6 @@ public class Zone {
 			path.lineTo(p.x, p.y);
 		}
 
-		// Adds one more line back to the start
-		path.close();
-
 		return path;
 	}
 
@@ -332,7 +371,6 @@ public class Zone {
 	 * Helper method to remove the last point added to this zone.
 	 */
 	public void removeLastPoint() {
-		// Minus two, because 1 is typical, and there is one end point
 		if (this.getSize() > 0)
 			this.removePoint(points.get(this.getSize() - 1));
 	}

@@ -38,11 +38,13 @@ public class OverlayZone extends Overlay{
 		float x = event.getX();
 		float y = event.getY();
 
-		if (zone_.contains(new Point((int)x, (int)y))){
-			((Map) mapView.getContext()).debug("ZoneOverlay received a touch event");
+		//if (zone_.contains(new Point((int)x, (int)y))){
+			//((Map) mapView.getContext()).debug("ZoneOverlay received a touch event");
 			
-			return true;
-		}		
-		return false;
+			// TODO - Update this. it should not receive touch events for a zone that is currently being created
+			//return true;
+			return false;
+		//}		
+		//return false;
 	}
 }
