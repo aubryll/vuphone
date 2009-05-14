@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.google.android.maps.MapActivity;
 
+import edu.vanderbilt.isis.R;
+
 
 public class Map extends MapActivity {
 

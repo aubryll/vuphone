@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import edu.vanderbilt.isis.R;
 
 /**
  * A dialog class that displays widgets capable of collecting routing information. 
