@@ -19,10 +19,6 @@ public class ZoneMapView extends MapView {
 	public UntouchableZone editZone_ = null;
 	public PinGroup pinGroup_ = null;
 	public MyLocationOverlay myLocation_ = null;
-	
-	private GeoPoint lastPoint_ = null;
-	
-	private boolean editingZone_ = false;
 
 	public ZoneMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -33,7 +29,7 @@ public class ZoneMapView extends MapView {
 		editZone_ = new UntouchableZone();
 		pinGroup_ = new PinGroup();
 		myLocation_ = new MyLocationOverlay(context);
-		
+
 		List<Overlay> list = super.getOverlays();
 		list.add(zoneGroup_);
 		list.add(editZone_);
@@ -41,102 +37,101 @@ public class ZoneMapView extends MapView {
 		list.add(myLocation_);
 	}
 
-	public void addPinEvent(MotionEvent event){
-		float x = event.getX();
-		float y = event.getY();
+	private void addPinEvent(MotionEvent event) {
+		if (ZoneMapController.getAddingPin() == false)
+			return;
 
+		ZoneMapController.setAddingPin(false);
+
+		// TODO - What are we doing with the offset here? Are we ever using it?
 		int offset[] = new int[2];
 		getLocationOnScreen(offset);
 
-		Projection proj = getProjection();
-		GeoPoint pt = proj.fromPixels((int) x, (int) y);
-		
-		// Guard against multiple event firing for the same point
-		if (pt.equals(lastPoint_))
-			return;
-		
-		lastPoint_ = pt;
-				
-		addPin(pt);
-	}
+		int x = (int) event.getX();
+		int y = (int) event.getY();
 
-	private void addPin(GeoPoint pt) {
-		Zone currentZone = editZone_.getZone();
-		if (currentZone.contains(pt)){
-			//Toast.makeText(getContext(), "This point is invalid", Toast.LENGTH_SHORT).show();
-		}else{
-			//Log.v("VUPHONE", "Adding point to current zone");
-			currentZone.addPoint(pt);
-			// TODO - RESOLVE EDITING ZONE PROBLEM
-			String name = "Point " + pinGroup_.size();
-			OverlayPin pin = new OverlayPin(pt, name);
-			//Log.v("VUPHONE", "Adding pin to pinGroup");
-			pinGroup_.addOverlayPin(pin);
-		}
-		
+		Projection proj = getProjection();
+		GeoPoint pt = proj.fromPixels(x, y);
+
+		editZone_.getZone().addPoint(pt);
+
+		// TODO - RESOLVE EDITING ZONE PROBLEM
+		String name = "Point " + pinGroup_.size();
+		OverlayPin pin = new OverlayPin(pt, name);
+		pinGroup_.addOverlayPin(pin);
+
 		postInvalidate();
 	}
 
-	public Zone checkCollision(GeoPoint point){
+	public Zone checkCollision(GeoPoint point) {
 		ArrayList<OverlayZone> list = zoneGroup_.getZoneList();
-		for (OverlayZone oZone : list){
+		for (OverlayZone oZone : list) {
 			Zone zone = oZone.getZone();
 			if (zone.contains(point))
 				return zone;
 		}
-		
+
 		return null;
 	}
-	
-	public boolean onTouchEvent(MotionEvent ev){
-		// If we're editing, stop normal dispatch (ie, no navigation)
-		// and handle all touches as adding pins.
-		if (this.isEditing()){
-			
+
+	public boolean onTouchEvent(MotionEvent ev) {
+		// If we are editing, they can move around. If we are adding a pin, they
+		// cannot
+		if (ZoneMapController.getAddingPin()) {
+			Log.v("VUPHONE", "In onTouchEvent, adding pin");
 			this.addPinEvent(ev);
 			return true;
 		}
+
 		
-		// passes ev to all overlays and if nothing handles it, navigates 
+		// passes ev to all overlays and if nothing handles it, navigates
 		return super.onTouchEvent(ev);
 	}
-	
-	public void validateOverlayList(){
+
+	public void validateOverlayList() {
 		List<Overlay> list = super.getOverlays();
-		if (list.size() != 4 || list.get(0) != zoneGroup_ ||
-			list.get(1) != editZone_ || list.get(2) != pinGroup_ ||
-			list.get(3) != myLocation_)
+		if (list.size() != 4 || list.get(0) != zoneGroup_
+				|| list.get(1) != editZone_ || list.get(2) != pinGroup_
+				|| list.get(3) != myLocation_)
 			throw new RuntimeException("OverlayList has been corrupted!");
 	}
 	
-	public boolean isEditing(){
-		return editingZone_;
-	}
-	
-	public void startEdit(){
-		if (!editingZone_){
-			editingZone_ = true;
+
+	public void startEdit() {
+		if (ZoneMapController.getEditingZone() == false) {
+			ZoneMapController.setEditingZone(true);
 			((Map) super.getContext()).setMessage("Editing a zone");
-			
+
 			Zone zone = new Zone(super.getProjection());
 			OverlayZone overlay = new OverlayZone(zone);
 			editZone_.set(overlay);
 		}
 	}
-	
-	public void stopEdit(){
-		if (editingZone_){
-			editingZone_ = false;
-			editZone_.getZone().finalize();
-			
+
+	/**
+	 * Attempts to stop editing, and save the zone currently being edited.
+	 * 
+	 * @return true if the zone is valid, and was saved. False otherwise
+	 */
+	public boolean stopEdit() {
+		if (ZoneMapController.getEditingZone()) {
+			ZoneMapController.setEditingZone(false);
+			boolean couldFinalize = editZone_.getZone().finalizePath();
+
+			if (couldFinalize == false)
+				return false;
+
 			OverlayZone finishedZone = editZone_.remove();
 			String name = "Zone " + (zoneGroup_.size() + 1);
 			finishedZone.getZone().setName(name);
-			zoneGroup_.addOverlayZone(finishedZone);			
-			
+			zoneGroup_.addOverlayZone(finishedZone);
+
 			((Map) super.getContext()).setMessage(name + " submitted");
+
+			return true;
 		}
+
+		// If we are not editing, just tell them we are stopping
+		return true;
 	}
 }
-
-

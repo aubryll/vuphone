@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
 
-    <TextView
-    	android:id="@+id/debug"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:lines="2"
-    	android:background="#999"
-    	android:textColor="#000"
-   	/>
-	<TextView
-    	android:id="@+id/message"
-    	android:layout_below="@id/debug"
-    	android:layout_width="fill_parent"
-    	android:layout_height="wrap_content"
-    	android:text="Welcome to VuPhone"
-   	/>
-    <edu.vanderbilt.isis.vuphone.ZoneMapView
-        android:id="@+id/mapview"
-        android:layout_below="@id/message"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:apiKey="0zz3AmUYDBIjlLBRuJlLd74N-jLfx2mDwJG4cDQ"
-    />
-
+	<TextView android:id="@+id/debug" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:lines="2"
+		android:background="#999" android:textColor="#000" />
+	<TextView android:id="@+id/message" android:layout_below="@id/debug"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:text="Welcome to VuPhone" />
+	<edu.vanderbilt.isis.vuphone.ZoneMapView
+		android:id="@+id/mapview" android:layout_below="@id/message"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:clickable="true" android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />
+	<!--
+		Hamy: 0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw Krzysztof:
+		0zz3AmUYDBIjlLBRuJlLd74N-jLfx2mDwJG4cDQ
+	-->
+	<Button android:id="@+id/addPin" android:text="@string/add_pin"
+		android:layout_alignBottom="@id/mapview" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:visibility="invisible" />
 </RelativeLayout>

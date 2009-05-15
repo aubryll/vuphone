@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * A singleton that manages some aspect of Zone configurations. This class handles
  * mapping between RoutingSettings and zone names as well holds a reference to the
- * zone whose settings are currently being editted (needed for proper dialog
+ * zone whose settings are currently being edited (needed for proper dialog
  * behavior). 
  * 
  * @author Krzysztof Zienkiewicz
