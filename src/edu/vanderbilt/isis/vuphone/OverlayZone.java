@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import edu.vanderbilt.isis.R;
+
 /**
  * A class that draws a zone onto the map. Zone information comes from the Zone reference that is
  * passed into the constructor. This class also intercepts and processes touch events. If such an
@@ -70,16 +72,25 @@ public class OverlayZone extends Overlay{
 	 */
 	public boolean onTouchEvent(MotionEvent event, MapView mapView){
 		Point pt = new Point((int) event.getX(), (int) event.getY());
-
+		
+		// If we are not selecting a zone, ignore the event
+		if (ZoneMapController.getSelectingZone() == false)
+			return false;
+		
 		if (zone_.contains(pt)){
+			
+			ZoneMapController.setSelectingZone(false);
+			
 			((Map) mapView.getContext()).setMessage(zone_.getName() + " was touched");
 			
 			// Get ready for the dialog
 			ZoneManager.getInstance().setEditing(zone_);
 			((Map) mapView.getContext()).showDialog(DialogConstants.ROUTING);
-						
+					
+			Log.v("VUPHONE", "OverlayZone received a touch event, eating");
 			return true;
 		}		
+		Log.v("VUPHONE", "OverlayZone received a touch event, propagating");
 		return false;
 	}
 }

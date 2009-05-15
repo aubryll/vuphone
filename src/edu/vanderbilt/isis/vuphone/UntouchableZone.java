@@ -1,6 +1,7 @@
 package edu.vanderbilt.isis.vuphone;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.google.android.maps.MapView;
@@ -58,6 +59,7 @@ public class UntouchableZone extends Overlay{
 	 */
 	public boolean onTouchEvent(MotionEvent event, MapView mapView){
 		// We don't care about the event so propagate it.
+		Log.v("VUPHONE", "UntouchableZone received a touch event, propogating");
 		return false;
 	}
 	
