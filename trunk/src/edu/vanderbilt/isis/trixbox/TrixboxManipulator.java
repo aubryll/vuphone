@@ -10,6 +10,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Log;
+
 public class TrixboxManipulator {
 
     public static void doPost(String newExtension) {
@@ -44,11 +46,11 @@ public class TrixboxManipulator {
                 String responsetext2 = new String(bao2.toByteArray());     
         } 
         catch (IOException ioe) {
-                System.out.println("IOException error:"+ioe.getMessage());
+                Log.v("VUPHONE", "IOException error:"+ioe.getMessage());
         }
         catch (Exception e) {
-        	 	System.out.println("Other Exception of type:"+e.getClass());
-        	 	System.out.println("The message is: "+e.getMessage());
+        		Log.v("VUPHONE", "Other Exception of type:"+e.getClass());
+        		Log.v("VUPHONE", "The message is: "+e.getMessage());
         }
 
     }

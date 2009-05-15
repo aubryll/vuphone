@@ -1,35 +1,29 @@
 package edu.vanderbilt.isis.vuphone;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.google.android.maps.MapActivity;
 
 import edu.vanderbilt.isis.R;
+import edu.vanderbilt.isis.trixbox.TrixboxManipulator;
 
+class MenuConstants{
+	static final int QUIT		= 1;
+	static final int EDIT_ZONE	= 2;
+}
+
+class DialogConstants{
+	static final int QUIT		= 3;
+	static final int ROUTING	= 4;
+}
 
 public class Map extends MapActivity {
 
-	private final int MENU_ADD_POINT = 0;
-	private final int MENU_QUIT = 1;
-	private final int MENU_ROUTING = 2;
-	
-	private int MODE_NAVIGATE = 0;
-	private int MODE_PIN = 1;
-	
-	private int mode_ = MODE_NAVIGATE;
-	
-	private final int QUIT_DIALOG = 0;
-	private final int ROUTING_DIALOG = 1;
-	
 	private ZoneMapView mapView_ = null;
-	private RoutingSettings setting_ = null; // Temp object to test the dialog
 	
 	/** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
@@ -37,18 +31,6 @@ public class Map extends MapActivity {
         setContentView(R.layout.main);
 
         mapView_ = (ZoneMapView) findViewById(R.id.mapview);
-        
-        setting_ = new RoutingSettings();
-    }
-    
-    public boolean dispatchTouchEvent(MotionEvent event){
-    	if (mode_ == MODE_PIN){
-    		mapView_.addPinEvent(event);
-    		mode_ = MODE_NAVIGATE;
-    		return true;
-    	}else{    	
-    		return super.dispatchTouchEvent(event);
-    	}
     }
     
     protected boolean isRouteDisplayed() {
@@ -56,22 +38,38 @@ public class Map extends MapActivity {
     }
     
     public boolean onCreateOptionsMenu(Menu menu){
-        menu.add(0, MENU_ADD_POINT, 0, "Add Point");
-        menu.add(0, MENU_QUIT, 0, "Quit");
-        menu.add(0, MENU_ROUTING, 0, "Routing");
+        menu.add(0, MenuConstants.QUIT, 0, "Quit");
+        menu.add(0, MenuConstants.EDIT_ZONE, 0, "Edit Zone");
+        menu.add(0, 10101, 0, "Fire Trixbox event");
+    	return true;
+    }
+
+    public boolean onPrepareOptionsMenu(Menu menu){
+    	MenuItem editItem = menu.getItem(1);
+    	
+    	if (mapView_.isEditing())
+    		editItem.setTitle("Submit Zone");
+    	else
+    		editItem.setTitle("Edit Zone");
     	return true;
     }
     
     public boolean onOptionsItemSelected(MenuItem item){
+    	
     	switch(item.getItemId()){
-    	case MENU_ADD_POINT:
-    		mode_ = MODE_PIN;
+    	case MenuConstants.QUIT:
+    		showDialog(DialogConstants.QUIT);
     		return true;
-    	case MENU_QUIT:
-    		showDialog(QUIT_DIALOG);
+    	case MenuConstants.EDIT_ZONE:
+    		if (mapView_.isEditing())
+    			mapView_.stopEdit();
+    		else
+    			mapView_.startEdit();
     		return true;
-    	case MENU_ROUTING:
-    		showDialog(ROUTING_DIALOG);
+    	case 10101:
+    		String name = "Zone 1";
+    		String config = ZoneManager.getInstance().getSettings(name).getStringA();
+    		TrixboxManipulator.doPost(config);
     		return true;
     	}
     	
@@ -81,39 +79,30 @@ public class Map extends MapActivity {
 	public Dialog onCreateDialog(int id){
 		Dialog dialog = null;
 		switch (id){
-		case QUIT_DIALOG:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("Are you sure you want to exit?")
-			       .setCancelable(false)
-			       .setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-			           public void onClick(DialogInterface dialog, int id){
-			                Map.this.finish();
-			           }
-			       })
-			       .setNegativeButton("No", null);
-							/*new DialogInterface.OnClickListener() {
-			           public void onClick(DialogInterface dialog, int id) {
-			                dialog.cancel();
-			           }
-			       });*/
-			dialog = builder.create();
-
+		case DialogConstants.QUIT:
+			dialog = DialogFactory.createQuitDialog(this);
 			break;
-		case ROUTING_DIALOG:
-			dialog = new RoutingDialog(this, setting_);
-			dialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
-				public void onDismiss(DialogInterface dialog){
-					debug(setting_.toString());
-				}
-			});
-			
+		case DialogConstants.ROUTING:
+			dialog = DialogFactory.createRoutingDialog(this);			
 			break;
 		}
 		
 		return dialog;
 	}
+
+	public void onPrepareDialog(int id, Dialog dialog){
+		if (id != DialogConstants.ROUTING)
+			return;
+		
+		// Update the routing dialog
+		DialogFactory.updateRoutingDialog(dialog);
+	}
 	
 	public void debug(String str){
 		((TextView) Map.this.findViewById(R.id.debug)).setText(str);
+	}
+	
+	public void setMessage(String str){
+		((TextView) findViewById(R.id.message)).setText(str);
 	}
 }

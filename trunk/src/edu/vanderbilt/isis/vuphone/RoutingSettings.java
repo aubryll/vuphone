@@ -19,6 +19,14 @@ public class RoutingSettings{
 	public RoutingSettings(){
 		
 	}
+	
+	public int getIntA(){
+		return intA_;
+	}
+	
+	public String getStringA(){
+		return strA_;
+	}
 
 	/**
 	 * Sets the A string setting.
