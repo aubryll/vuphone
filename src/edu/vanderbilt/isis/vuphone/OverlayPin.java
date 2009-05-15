@@ -1,17 +1,14 @@
 package edu.vanderbilt.isis.vuphone;
 
-import java.util.List;
-
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 
-public class OverlayPin extends Overlay{
+public class OverlayPin{
 	private GeoPoint point_;
 	private String name_;
 	
@@ -24,7 +21,9 @@ public class OverlayPin extends Overlay{
 		this(pt, "Point");
 	}
 	
-	public void draw(Canvas canvas, MapView mapView, boolean shadow){
+	// Called from PinGroup.draw()
+	
+	public void draw(Canvas canvas, MapView mapView){
 		Point scrPt = mapView.getProjection().toPixels(point_, null);
 		float x = scrPt.x; 
 		float y = scrPt.y;
@@ -32,12 +31,16 @@ public class OverlayPin extends Overlay{
 		
 		Paint paint = new Paint();
 		
-		List<Overlay> list = mapView.getOverlays();
-		if (list.indexOf(this) == 1 || list.indexOf(this) == list.size() - 1){
-			paint.setColor(Color.RED);
-		}
-		
 		canvas.drawCircle(x, y, r, paint);
 		canvas.drawText(name_, x, y - r, paint);
+	}
+	
+	public void setPoint(GeoPoint pt){
+		Log.v("VUPHONE", "OverlayPin.setpoint");
+		point_ = pt;
+	}
+	
+	public String toString(){
+		return "OverlayPin: " + name_;
 	}
 }
