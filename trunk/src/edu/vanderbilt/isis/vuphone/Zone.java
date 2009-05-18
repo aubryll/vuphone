@@ -144,8 +144,7 @@ public class Zone {
 		if (this.getSize() < 3)
 			return false;
 		// TODO - small edge case here, need to fix
-		if (this.getSize() == 3)
-		{
+		if (this.getSize() == 3) {
 			isFinalized_ = true;
 			return true;
 		}
@@ -169,7 +168,7 @@ public class Zone {
 		}
 
 		isFinalized_ = true;
-		return true;		
+		return true;
 	}
 
 	/**
@@ -221,7 +220,7 @@ public class Zone {
 	public String getName() {
 		return name_;
 	}
-	
+
 	/**
 	 * Generates a Path which can then be used to draw the zone, based on the
 	 * current projection.
@@ -229,7 +228,7 @@ public class Zone {
 	 * @return the path
 	 */
 	public Path getPath() {
-		
+
 		if (points.isEmpty())
 			return null;
 
@@ -251,7 +250,7 @@ public class Zone {
 
 		return path;
 	}
-	
+
 	/**
 	 * Gets all of the points currently in this zone
 	 * 
@@ -273,7 +272,7 @@ public class Zone {
 		// Subtract the end point
 		return points.size() - 1;
 	}
-	
+
 	/**
 	 * Called before a point is added to our internal list.
 	 * 
@@ -395,15 +394,13 @@ public class Zone {
 	/**
 	 * Helper method to remove the last point added to this zone.
 	 * 
-	 * Krzysztof: Changes this to return true if point was removed and false otherwise
-	 * TODO - Hamilton, please check if this will actually work. I didn't follow the 
-	 * method calls but just assumed that it works.
+	 * @return true if a point was removed. False otherwise
 	 */
 	public boolean removeLastPoint() {
 		if (this.getSize() == 0)
 			return false;
-		else
-			this.removePoint(points.get(this.getSize() - 1));
+
+		this.removePoint(points.get(this.getSize() - 1));
 		return true;
 	}
 
