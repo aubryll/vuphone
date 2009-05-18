@@ -77,6 +77,7 @@ public class Map extends MapActivity {
 			if (ZoneMapController.getEditingZone()) {
 				boolean isValid = mapView_.stopEdit();
 				if (isValid) {
+					ZoneMapController.setAddingPin(false);
 					Button b = (Button) findViewById(R.id.addPin);
 					b.setVisibility(Button.INVISIBLE);
 				}

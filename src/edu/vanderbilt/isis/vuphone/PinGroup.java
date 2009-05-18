@@ -48,7 +48,7 @@ public class PinGroup extends Overlay{
 	// TODO - handle pin touches.
 	public boolean onTouchEvent(MotionEvent event, MapView view){
 		// For now don't do anything.
-		return false;	// propagete event. CHANGE THIS!!!!!!
+		return false;	// propagate event. CHANGE THIS!!!!!!
 	}
 	
 	/**

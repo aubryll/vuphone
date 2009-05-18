@@ -160,7 +160,10 @@ public class Zone {
 			return false;
 		// TODO - small edge case here, need to fix
 		if (this.getSize() == 3)
+		{
+			isFinalized_ = true;
 			return true;
+		}
 
 		// To understand this more, look at the intersects function. This is a
 		// small modification
@@ -184,6 +187,108 @@ public class Zone {
 		return true;		
 	}
 
+	/**
+	 * Gets the center of the polygon using the current projection. ONLY WORKS
+	 * RELIABLY ON SIMPLE POLYGONS.
+	 * 
+	 * @return A point which represents the screen location of the center of the
+	 *         zone.
+	 */
+	public Point getCenter() {
+		if (this.getSize() == 0)
+			return new Point(0, 0);
+		if (this.getSize() < 3) {
+			Point only = projection_.toPixels(points.get(0), null);
+			return only;
+		}
+
+		Double cx = 0.0, cy = 0.0;
+		for (int i = 0; i < this.getSize(); i++) {
+			Point next = projection_.toPixels(points.get(i + 1), null);
+			Point current = projection_.toPixels(points.get(i), null);
+			cx = cx + (current.x + next.x)
+					* (current.y * next.x - current.x * next.y);
+			cy = cy + (current.y + next.y)
+					* (current.y * next.x - current.x * next.y);
+		}
+		cx /= (6 * this.area());
+		cy /= (6 * this.area());
+		Point center = new Point(-1 * cx.intValue(), -1 * cy.intValue());
+		if (this.contains(center) == false)
+			center = projection_.toPixels(points.get(0), null);
+		return center;
+	}
+
+	/**
+	 * Gets whether or not this zone is finalized.
+	 * 
+	 * @return
+	 */
+	public boolean getFinalized() {
+		return isFinalized_;
+	}
+
+	/**
+	 * Gets the name of this zone
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return name_;
+	}
+	
+	/**
+	 * Generates a Path which can then be used to draw the zone, based on the
+	 * current projection.
+	 * 
+	 * @return the path
+	 */
+	public Path getPath() {
+		
+		if (points.isEmpty())
+			return null;
+
+		Path path = new Path();
+		path.incReserve(this.getSize() + 1);
+
+		// We will use p for all our points
+		Point p = projection_.toPixels(points.get(0), null);
+
+		path.moveTo(p.x, p.y);
+
+		for (int i = 1; i < this.getSize(); i++) {
+			projection_.toPixels(points.get(i), p);
+			path.lineTo(p.x, p.y);
+		}
+
+		if (isFinalized_)
+			path.close();
+
+		return path;
+	}
+	
+	/**
+	 * Gets all of the points currently in this zone
+	 * 
+	 * @return
+	 */
+	public List<GeoPoint> getPoints() {
+		return points;
+	}
+
+	/**
+	 * Returns the number of points that currently define this zone.
+	 * 
+	 * @return
+	 */
+	public int getSize() {
+		if (points.size() == 0)
+			return 0;
+
+		// Subtract the end point
+		return points.size() - 1;
+	}
+	
 	/**
 	 * Called before a point is added to our internal list.
 	 * 
@@ -300,108 +405,6 @@ public class Zone {
 			// The lines do intersect, but the line segments do not
 			return false;
 		}
-	}
-
-	/**
-	 * Gets the center of the polygon using the current projection. ONLY WORKS
-	 * RELIABLY ON SIMPLE POLYGONS.
-	 * 
-	 * @return A point which represents the screen location of the center of the
-	 *         zone.
-	 */
-	public Point getCenter() {
-		if (this.getSize() == 0)
-			return new Point(0, 0);
-		if (this.getSize() < 3) {
-			Point only = projection_.toPixels(points.get(0), null);
-			return only;
-		}
-
-		Double cx = 0.0, cy = 0.0;
-		for (int i = 0; i < this.getSize(); i++) {
-			Point next = projection_.toPixels(points.get(i + 1), null);
-			Point current = projection_.toPixels(points.get(i), null);
-			cx = cx + (current.x + next.x)
-					* (current.y * next.x - current.x * next.y);
-			cy = cy + (current.y + next.y)
-					* (current.y * next.x - current.x * next.y);
-		}
-		cx /= (6 * this.area());
-		cy /= (6 * this.area());
-		Point center = new Point(-1 * cx.intValue(), -1 * cy.intValue());
-		if (center.equals(0, 0))
-			center = projection_.toPixels(points.get(0), null);
-		return center;
-	}
-
-	/**
-	 * Gets whether or not this zone is finalized.
-	 * 
-	 * @return
-	 */
-	public boolean getFinalized() {
-		return isFinalized_;
-	}
-
-	/**
-	 * Gets the name of this zone
-	 * 
-	 * @return
-	 */
-	public String getName() {
-		return name_;
-	}
-
-	/**
-	 * Gets all of the points currently in this zone
-	 * 
-	 * @return
-	 */
-	public List<GeoPoint> getPoints() {
-		return points;
-	}
-
-	/**
-	 * Returns the number of points that currently define this zone.
-	 * 
-	 * @return
-	 */
-	public int getSize() {
-		if (points.size() == 0)
-			return 0;
-
-		// Subtract the end point
-		return points.size() - 1;
-	}
-
-	/**
-	 * Generates a Path which can then be used to draw the zone, based on the
-	 * current projection.
-	 * 
-	 * @return the path
-	 */
-	public Path getPath() {
-
-		if (points.isEmpty())
-			return null;
-
-		Path path = new Path();
-		path.incReserve(this.getSize() + 1);
-
-		// We will use p for all our points
-		Point p = projection_.toPixels(points.get(0), null);
-
-		path.moveTo(p.x, p.y);
-
-		for (int i = 1; i < this.getSize(); i++) {
-			projection_.toPixels(points.get(i), p);
-			path.lineTo(p.x, p.y);
-		}
-
-		if (isFinalized_)
-			path.close();
-
-		return path;
 	}
 
 	/**

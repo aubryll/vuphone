@@ -32,7 +32,7 @@ public class OverlayPin {
 		Point scrPt = mapView.getProjection().toPixels(point_, null);
 		float x = scrPt.x;
 		float y = scrPt.y;
-		float r = 5;
+		float r = 3;
 
 		Paint paint = new Paint();
 
