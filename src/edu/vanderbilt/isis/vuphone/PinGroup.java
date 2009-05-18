@@ -3,52 +3,89 @@ package edu.vanderbilt.isis.vuphone;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.Projection;
 
 /**
- * A wrapper class responsible for holding all the OverlayPin objects and displaying them.
+ * A wrapper class responsible for holding all the GeoPoint objects and displaying them.
  * @author Krzysztof Zienkiewicz
  *
  */
 public class PinGroup extends Overlay{
 	
-	private ArrayList<OverlayPin> list_ = null;
+	// TODO - Think about implementing this as a list of pairs...
+	private ArrayList<GeoPoint> points_ = null;
+	private ArrayList<String> names_ = null;
 	
 	/**
 	 * Default constructor.
 	 */
 	public PinGroup(){
-		list_ = new ArrayList<OverlayPin>();
+		points_ = new ArrayList<GeoPoint>();
+		names_ = new ArrayList<String>();
 	}
 	
 	/**
-	 * Adds the OverlayPin to a list of pins to be drawn.
-	 * @param pin
+	 * Adds the GeoPoint to a list of pins to be drawn.
+	 * @param point
+	 * @param name
 	 */
-	public void addOverlayPin(OverlayPin pin){
-		list_.add(pin);
+	public void addPin(GeoPoint point, String name){
+		points_.add(point);
+		names_.add(name);
 	}
 	
     /**
-     * Draws all the pins by calling draw() on each object stored in this wrapper.
+     * Draws all the pins
      *  
      * @param	canvas	The Canvas on which to draw
      * @param	mapView	The MapView that requested the draw
      * @param	shadow	Ignored in this implementation 
      */
 	public void draw(Canvas canvas, MapView mapView, boolean shadow){
-		for (OverlayPin pin : list_){
-			pin.draw(canvas, mapView);
+		Projection projection = mapView.getProjection();
+		Paint paint = new Paint();
+		paint.setColor(Color.RED);
+		paint.setTextSize(15);
+		paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+		
+		int index = 0;
+		
+		for (GeoPoint point : points_){
+			Point scrPt = projection.toPixels(point, null);
+			float x = scrPt.x; 
+			float y = scrPt.y;
+			float r = 5;
+			
+			canvas.drawCircle(x, y, r, new Paint());
+			canvas.drawText(names_.get(index), x, y - r, paint);
+			
+			++index;
 		}
 	}
 	
-	// TODO - handle pin touches.
 	public boolean onTouchEvent(MotionEvent event, MapView view){
-		// For now don't do anything.
-		return false;	// propagate event. CHANGE THIS!!!!!!
+		// For now don't do anything but propagate.
+		return false;
+	}
+	
+	/**
+	 * Removes the last added point.
+	 */
+	public void removeLastPoint(){
+		int size = points_.size();
+		if (size > 0){
+			points_.remove(size - 1);
+			names_.remove(size - 1);
+		}
 	}
 	
 	/**
@@ -56,7 +93,7 @@ public class PinGroup extends Overlay{
 	 * @return	size of this group.
 	 */
 	public int size(){
-		return list_.size();
+		return points_.size();
 	}
 	
 	/**
@@ -65,6 +102,12 @@ public class PinGroup extends Overlay{
 	 * @return
 	 */
 	public String toString(){
-		return "PinGroup: " + list_.toString();
+		int index = 0;
+		String str = "PinGroup: ";
+		for (GeoPoint point : points_){
+			str += "[" + point.toString() + ", " + names_.get(index) + "] "; 
+			++index;
+		}
+		return str;
 	}
 }

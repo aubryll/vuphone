@@ -1,22 +1,23 @@
 package edu.vanderbilt.isis.vuphone;
 
 import android.graphics.Canvas;
-import android.util.Log;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.view.MotionEvent;
 
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 /**
- * A class that wraps around an OverlayZone. An object of this class is considered to be
- * a zone which is currently being built. Thus, this zone does not respond to touch events.
+ * A class that wraps around a Zone. An object of this class is considered to be a zone 
+ * which is currently being built. Thus, this zone does not respond to touch events.
  * 
  * @author Krzysztof Zienkiewcz
  *
  */
 public class UntouchableZone extends Overlay{
 
-	OverlayZone zone_ = null;
+	Zone zone_ = null;
 	
 	/**
 	 * Default constructor;
@@ -28,7 +29,7 @@ public class UntouchableZone extends Overlay{
 	/**
 	 * Sets the zone contained by this object.
 	 */
-	public UntouchableZone(OverlayZone zone){
+	public UntouchableZone(Zone zone){
 		zone_ = zone;
 	}
 	
@@ -40,8 +41,13 @@ public class UntouchableZone extends Overlay{
      * @param	shadow	Ignored in this implementation 
      */
 	public void draw(Canvas canvas, MapView mapView, boolean shadow){
-		if (zone_ != null)
-			zone_.draw(canvas, mapView, shadow);
+		if (zone_ != null){
+			Paint paint = new Paint();
+			paint.setStyle(Paint.Style.STROKE);
+			Path path = zone_.getPath();
+			if (path != null)
+				canvas.drawPath(path, paint);
+		}
 	}
 	
 	/**
@@ -49,7 +55,7 @@ public class UntouchableZone extends Overlay{
 	 * @return
 	 */
 	public Zone getZone(){
-		return zone_.getZone();
+		return zone_;
 	}
 	
 	/**
@@ -59,18 +65,17 @@ public class UntouchableZone extends Overlay{
 	 */
 	public boolean onTouchEvent(MotionEvent event, MapView mapView){
 		// We don't care about the event so propagate it.
-		Log.v("VUPHONE", "UntouchableZone received a touch event, propogating");
 		return false;
 	}
 	
 	/**
-	 * Returns the OverlayZone held by this object and removes it from this object.
+	 * Returns the Zone held by this object and removes it from this object.
 	 * Should be used once this zone's construction is finished.
 	 * 
 	 * @return
 	 */
-	public OverlayZone remove(){
-		OverlayZone copy = zone_;
+	public Zone remove(){
+		Zone copy = zone_;
 		zone_ = null;
 		return copy;
 	}
@@ -83,7 +88,7 @@ public class UntouchableZone extends Overlay{
 	 * @param zone	zone to be set.
 	 * @return		the success of this operation.	
 	 */
-	public boolean set(OverlayZone zone){
+	public boolean set(Zone zone){
 		if (zone_ != null)
 			return false;
 		

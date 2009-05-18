@@ -3,6 +3,9 @@ package edu.vanderbilt.isis.vuphone;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
 import android.view.MotionEvent;
 
 import com.google.android.maps.MapView;
@@ -18,59 +21,77 @@ import com.google.android.maps.Overlay;
  */
 public class TouchableZoneGroup extends Overlay{
 
-	private ArrayList<OverlayZone> list_ = null;
+	private ArrayList<Zone> list_ = null;
 	
 	/**
 	 * Default constructor.
 	 */
 	public TouchableZoneGroup(){
-		list_ = new ArrayList<OverlayZone>();
+		list_ = new ArrayList<Zone>();
 	}
 	
 	/**
-	 * Adds an OverlayZone object to this group. 
-	 * @param zone	An overlay which is to be drawn and to be responsive to touch events.
+	 * Adds a Zone object to this group. 
+	 * @param zone	A zone which is to be drawn and to be responsive to touch events.
 	 */
-	public void addOverlayZone(OverlayZone zone){
+	public void addZone(Zone zone){
 		list_.add(zone);
 	}
 	
     /**
-     * Draws each OverlayZone object in this group.
+     * Draws each Zone object in this group.
      *  
      * @param	canvas	The Canvas on which to draw
      * @param	mapView	The MapView that requested the draw
      * @param	shadow	Ignored in this implementation 
      */
 	public void draw(Canvas canvas, MapView mapView, boolean shadow){
-		for (OverlayZone zone : list_){
-			zone.draw(canvas, mapView, shadow);
+		Paint paint = new Paint();
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeWidth(4);
+		
+		for (Zone zone : list_){
+			Path path = zone.getPath();
+			canvas.drawPath(path, paint);
 		}
 	}
 	
 	/**
-	 * Returns an ArrayList of the OverlayZone objects stored in this class.
+	 * Returns an ArrayList of the Zone objects stored in this class.
 	 * @return
 	 */
-	public ArrayList<OverlayZone> getZoneList(){
+	public ArrayList<Zone> getZoneList(){
 		return list_;
 	}
 	
 	/**
-	 * Handles a touch event by dispatching it to the underlaying OverlayZone objects.
+	 * Handles a touch event based on the current state.
 	 * 
 	 * @param event
 	 * @param mapView
 	 */
-	public boolean onTouchEvent(MotionEvent event, MapView mapView){		
-		for (OverlayZone zoneOverlay : list_){
-			// Pass the event down to each zone until one handles it
-			if (zoneOverlay.onTouchEvent(event, mapView)){
+	public boolean onTouchEvent(MotionEvent event, MapView mapView){
+		// Only handle the event if we're trying to Pick a Zone
+		if (!LogicController.isPickingZone() || event.getAction() != MotionEvent.ACTION_UP)
+			return false;
+
+		// Walk the list and see which zone was touched
+		for (Zone zone : list_){
+			Point pt = new Point((int) event.getX(), (int) event.getY());
+			
+			if (zone.contains(pt)){
+				
+				// Get ready for the dialog
+				ZoneManager.getInstance().setEditing(zone);
+				((Map) mapView.getContext()).showDialog(ProgramConstants.DIALOG_ROUTING);
+				LogicController.setPickingZone(false);
+				
+				// The event was handled
 				return true;
 			}
 		}
-		
-		// No zone handled the even so propagate it.
+
+		// No zone handled the event so propagate it.
 		return false;
 	}
 	

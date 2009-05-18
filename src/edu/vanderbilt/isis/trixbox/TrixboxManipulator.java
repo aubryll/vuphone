@@ -37,7 +37,9 @@ public class TrixboxManipulator {
                 HttpResponse resp = c.execute(post);
                 ByteArrayOutputStream bao = new ByteArrayOutputStream();
                 resp.getEntity().writeTo(bao);
-                String responsetext = new String(bao.toByteArray());
+                
+                // TODO - Is this used anywhere?
+                // String responsetext = new String(bao.toByteArray());
                 
                 
                 // Do the final POST to finalize the changes.
@@ -50,7 +52,9 @@ public class TrixboxManipulator {
                 HttpResponse resp2 = c.execute(post2);
                 ByteArrayOutputStream bao2 = new ByteArrayOutputStream();
                 resp2.getEntity().writeTo(bao2);
-                String responsetext2 = new String(bao2.toByteArray());     
+                
+                // TODO - Is this used anywhere?
+                // String responsetext2 = new String(bao2.toByteArray());     
         } 
         catch (IOException ioe) {
                 Log.v("VUPHONE", "IOException error:"+ioe.getMessage());

@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.graphics.Path;
 import android.graphics.Point;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.Projection;
@@ -46,12 +45,6 @@ public class Zone {
 
 	}
 
-	/*
-	 * // TODO - description - this is a terribly implemented observer pattern,
-	 * but // it works for now private ZoneMapView zmv_;
-	 * 
-	 * public void addFinalizedObserver(ZoneMapView zmv) { zmv_ = zmv; }
-	 */
 	/**
 	 * Adds a point to this zone, checking first if the point is contained
 	 * 
@@ -70,14 +63,6 @@ public class Zone {
 
 		Point p = projection_.toPixels(point, null);
 		Point start = projection_.toPixels(points.get(0), null);
-
-		/*
-		 * // Check if they are trying to touch the start pin double
-		 * distanceFromStart = Math.pow(start.x - p.x, 2) + Math.pow(start.y -
-		 * p.y, 2); distanceFromStart = Math.sqrt(distanceFromStart); // TODO -
-		 * this is crap code, only works for one zone, refactor if
-		 * (distanceFromStart < 10) { zmv_.zoneFinalizedEvent(); return true; }
-		 */
 
 		if (intersects(p))
 			return false;
@@ -409,10 +394,17 @@ public class Zone {
 
 	/**
 	 * Helper method to remove the last point added to this zone.
+	 * 
+	 * Krzysztof: Changes this to return true if point was removed and false otherwise
+	 * TODO - Hamilton, please check if this will actually work. I didn't follow the 
+	 * method calls but just assumed that it works.
 	 */
-	public void removeLastPoint() {
-		if (this.getSize() > 0)
+	public boolean removeLastPoint() {
+		if (this.getSize() == 0)
+			return false;
+		else
 			this.removePoint(points.get(this.getSize() - 1));
+		return true;
 	}
 
 	/**
