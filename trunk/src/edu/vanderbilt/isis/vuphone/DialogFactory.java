@@ -15,9 +15,15 @@ import edu.vanderbilt.isis.R;
  * @author Krzysztof Zienkiewcz
  *
  */
+// TODO - Refactor this class to make it more efficient and readable
 
 public class DialogFactory{
 
+	/**
+	 * Private constructor to disable instantiation.
+	 */
+	private DialogFactory(){}
+	
 	public static Dialog createQuitDialog(final Activity context){
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setMessage("Are you sure you want to exit?")
