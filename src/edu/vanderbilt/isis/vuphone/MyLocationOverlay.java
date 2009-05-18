@@ -50,6 +50,8 @@ public class MyLocationOverlay extends Overlay{
 			map_ = (ZoneMapView) mapView;
 		
 		if (lastLoc_ != null){
+			if (point_ == null)
+				return;
 			Point scrPt = mapView.getProjection().toPixels(point_, null);
 			float x = scrPt.x; 
 			float y = scrPt.y;
@@ -73,6 +75,8 @@ public class MyLocationOverlay extends Overlay{
 		// Don't do anything unless we release the touch
 		if (ev.getAction() == MotionEvent.ACTION_UP){
 			// If we click here, zoom in and center.
+			if (point_ == null)
+				return false;
 			Point scrPt = view.getProjection().toPixels(point_, null);
 			float px = scrPt.x; 
 			float py = scrPt.y;

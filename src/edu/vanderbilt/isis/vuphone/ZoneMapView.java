@@ -119,7 +119,6 @@ public class ZoneMapView extends MapView {
 	public void stopEdit(){
 		LogicController.setAddingZone(false);
 		
-		// TODO - Hamilton got rid of finalize(). Will simply calling finalizePath() work?
 		editZone_.getZone().finalizePath();
 		
 		Zone finishedZone = editZone_.remove();
