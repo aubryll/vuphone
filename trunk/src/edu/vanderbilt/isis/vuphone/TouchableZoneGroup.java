@@ -52,7 +52,11 @@ public class TouchableZoneGroup extends Overlay{
 		
 		for (Zone zone : list_){
 			Path path = zone.getPath();
+			int x = zone.getCenter().x;
+			int y = zone.getCenter().y;
+			
 			canvas.drawPath(path, paint);
+			canvas.drawText(zone.getName(), x, y, new Paint());
 		}
 	}
 	
