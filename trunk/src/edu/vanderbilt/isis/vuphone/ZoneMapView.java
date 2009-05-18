@@ -53,10 +53,12 @@ public class ZoneMapView extends MapView {
 		Projection proj = getProjection();
 		GeoPoint pt = proj.fromPixels(x, y);
 
-		editZone_.getZone().addPoint(pt);
+		boolean added = editZone_.getZone().addPoint(pt);
 
-		// TODO - RESOLVE EDITING ZONE PROBLEM
-		String name = "Point " + pinGroup_.size();
+		if (added == false)
+			return;
+		
+		String name = Integer.toString(pinGroup_.size());
 		OverlayPin pin = new OverlayPin(pt, name);
 		pinGroup_.addOverlayPin(pin);
 
