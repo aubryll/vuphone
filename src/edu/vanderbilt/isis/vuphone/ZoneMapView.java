@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -30,6 +31,14 @@ public class ZoneMapView extends MapView {
 		super.setClickable(true);
 		super.setSatellite(false);
 		
+		// Must create the DB before the mapView tries to access it!
+		ZoneDB db = new ZoneDB(getContext());
+		db.open();
+		db.useProjection(getProjection());
+		
+        Log.v("VUPHONE", "created DB");
+        
+		
 		zoneGroup_ = new TouchableZoneGroup();
 		editZone_ = new UntouchableZone();
 		pinGroup_ = new PinGroup();
@@ -40,6 +49,9 @@ public class ZoneMapView extends MapView {
 		list.add(editZone_);
 		list.add(pinGroup_);
 		list.add(myLocation_);
+		
+		// We just added all the initial zones, so redraw
+		invalidate();
 	}
 
 	public int numberTouchableZones(){
@@ -59,11 +71,10 @@ public class ZoneMapView extends MapView {
 	private void addPin(GeoPoint pt){
 		Zone currentZone = editZone_.getZone();
 		if (currentZone.addPoint(pt)){
-			String name = "Point " + pinGroup_.size();
-			pinGroup_.addPin(pt, name);
+			pinGroup_.addPin(pt);
 			this.postInvalidate();
 		}else{
-			Toast.makeText(getContext(), "This point is invalid", Toast.LENGTH_SHORT).show();			
+			Toast.makeText(getContext(), "This point is invalid", Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -116,20 +127,30 @@ public class ZoneMapView extends MapView {
 	/**
 	 * This should only be called if LogicController.isAddingZone() returns true
 	 */
-	public void stopEdit(){
-		LogicController.setAddingZone(false);
+	public boolean stopEdit(){
 		
-		editZone_.getZone().finalizePath();
+		boolean wasFinalized = editZone_.getZone().finalizePath();
+		if (wasFinalized == false)
+			return false;
 		
 		Zone finishedZone = editZone_.remove();
 		if (finishedZone.getSize() == 0){
-			return;
+			return false;
 		}
+		
+		LogicController.setAddingZone(false);
+		
 		String name = "Zone " + (zoneGroup_.size() + 1);
 		finishedZone.setName(name);
-		zoneGroup_.addZone(finishedZone);			
+		zoneGroup_.addZone(finishedZone);
+		
+		ZoneDB.getInstance().createZone(name, finishedZone.getPoints());
 		
 		((Map) super.getContext()).message(name + " submitted", false);
+		
+		// The path has been updated
+		invalidate();
+		return true;
 	}
 	
 	public class ButtonBarListener implements View.OnClickListener{
@@ -156,10 +177,13 @@ public class ZoneMapView extends MapView {
 					if (zone.removeLastPoint())
 						ZoneMapView.this.pinGroup_.removeLastPoint();
 				}
+				
+				invalidate();
 			}else if (v == removeLast_){
 				// Zone will handle cases where it is empty.
 				if (ZoneMapView.this.editZone_.getZone().removeLastPoint())
 					ZoneMapView.this.pinGroup_.removeLastPoint();
+				invalidate();
 			}else if (v == addPin_){
 				LogicController.setAddingPin(true);
 			}

@@ -1,11 +1,13 @@
 package edu.vanderbilt.isis.vuphone;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.google.android.maps.MapView;
@@ -28,6 +30,11 @@ public class TouchableZoneGroup extends Overlay{
 	 */
 	public TouchableZoneGroup(){
 		list_ = new ArrayList<Zone>();
+		
+		Log.v("VUPHONE", "accessing DB");
+		
+		List<Zone> zones = ZoneDB.getInstance().getAllZones();
+		list_.addAll(zones);
 	}
 	
 	/**

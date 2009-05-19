@@ -23,14 +23,12 @@ public class PinGroup extends Overlay{
 	
 	// TODO - Think about implementing this as a list of pairs...
 	private ArrayList<GeoPoint> points_ = null;
-	private ArrayList<String> names_ = null;
 	
 	/**
 	 * Default constructor.
 	 */
 	public PinGroup(){
 		points_ = new ArrayList<GeoPoint>();
-		names_ = new ArrayList<String>();
 	}
 	
 	/**
@@ -38,9 +36,8 @@ public class PinGroup extends Overlay{
 	 * @param point
 	 * @param name
 	 */
-	public void addPin(GeoPoint point, String name){
+	public void addPin(GeoPoint point){
 		points_.add(point);
-		names_.add(name);
 	}
 	
     /**
@@ -66,7 +63,6 @@ public class PinGroup extends Overlay{
 			float r = 5;
 			
 			canvas.drawCircle(x, y, r, new Paint());
-			canvas.drawText(names_.get(index), x, y - r, paint);
 			
 			++index;
 		}
@@ -84,7 +80,6 @@ public class PinGroup extends Overlay{
 		int size = points_.size();
 		if (size > 0){
 			points_.remove(size - 1);
-			names_.remove(size - 1);
 		}
 	}
 	
@@ -105,7 +100,7 @@ public class PinGroup extends Overlay{
 		int index = 0;
 		String str = "PinGroup: ";
 		for (GeoPoint point : points_){
-			str += "[" + point.toString() + ", " + names_.get(index) + "] "; 
+			str += "[" + point.toString() + "] "; 
 			++index;
 		}
 		return str;

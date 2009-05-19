@@ -26,13 +26,12 @@ public class Zone {
 	private ArrayList<GeoPoint> points; // should always ensure p[0] == p[N]
 	private Projection projection_ = null;
 	private String name_ = "Default";
-	// public static final String TAG = "ZONE";
+	private long id_;
 
 	private boolean isFinalized_ = false;
 
 	public Zone() {
 		points = new ArrayList<GeoPoint>();
-		// name_ = "Default Zone Name";
 	}
 
 	public Zone(Projection p) {
@@ -52,6 +51,10 @@ public class Zone {
 	 * @return true if the point was added, false otherwise.
 	 */
 	public boolean addPoint(GeoPoint point) {
+		return this.addPoint(point, true);
+	}
+
+	public boolean addPoint(GeoPoint point, boolean checkIntersect) {
 		// This function ensures that internally the values at points.get(0) and
 		// points.get(points.size() - 1) will always be identical
 
@@ -61,17 +64,18 @@ public class Zone {
 			return points.add(point);
 		}
 
-		Point p = projection_.toPixels(point, null);
-		Point start = projection_.toPixels(points.get(0), null);
-
-		if (intersects(p))
-			return false;
+		if (checkIntersect) {
+			Point p = projection_.toPixels(point, null);
+			if (intersects(p))
+				return false;
+		}
 
 		// If we are here, we know there are at least 2 elements in points
 		// Remove the end point, add the current one, add back the end
 		points.remove(points.size() - 1);
 		points.add(point);
 		return points.add(points.get(0));
+
 	}
 
 	/**
@@ -210,6 +214,14 @@ public class Zone {
 	 */
 	public boolean getFinalized() {
 		return isFinalized_;
+	}
+	
+	/**
+	 * Returns the database ID of this zone, if it has been set
+	 * @return
+	 */
+	public long getID() {
+		return id_;
 	}
 
 	/**
@@ -418,6 +430,14 @@ public class Zone {
 			points.remove(p);
 	}
 
+	/**
+	 * Sets the database ID of this zone, allowing it to be deleted
+	 * @param id
+	 */
+	public void setID(long id) {
+		id_ = id;
+	}
+	
 	/**
 	 * Allows the name of the zone to be changed.
 	 * 
