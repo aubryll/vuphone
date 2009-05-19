@@ -77,6 +77,7 @@ public class MyLocationOverlay extends Overlay{
 			// If we click here, zoom in and center.
 			if (point_ == null)
 				return false;
+			
 			Point scrPt = view.getProjection().toPixels(point_, null);
 			float px = scrPt.x; 
 			float py = scrPt.y;
