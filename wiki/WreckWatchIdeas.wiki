@@ -1,0 +1,9 @@
+#summary Brainstorm for WreckWatch
+
+= Introduction =
+
+WreckWatch: A smartphone application for automatically detecting wrecks on roads.
+
+= Details =
+
+Use this wiki to brainstorm all the cool ideas that could be integrated into WreckWatch.
