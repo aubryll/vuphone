@@ -1,9 +1,11 @@
 package edu.vanderbilt.isis.wreckwatch;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,12 +20,24 @@ public class ServiceTest extends Service implements LocationListener{
 	public void onCreate(){
 		super.onCreate();
 		message("Service.onCreate()");
+		
 		LocationManager lMan = (LocationManager) super.getSystemService(Context.LOCATION_SERVICE);
 		lMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		
+		(new Timer()).schedule(new TimerTask(){
+			public void run(){
+				ServiceTest.this.stopSelf();
+			}
+		}, 5000);
+		
+		
+		/*
 		// Check if accelerometer is available
 		
+		// The next call crashes the app without throwing an exception
 		SensorManager sMan = (SensorManager) super.getSystemService(Context.SENSOR_SERVICE);
+
+		
 		if (sMan == null){
 			message("Null manager", true);
 			return;
@@ -31,11 +45,12 @@ public class ServiceTest extends Service implements LocationListener{
 			message("Good manager", true);
 		
 		this.stopSelf();
+		*/
 	}
 	
 	public void onDestroy(){
-		super.onDestroy();
 		message("Service.onDestroy()");
+		super.onDestroy();
 	}
 	
 	public IBinder onBind(Intent intent){
