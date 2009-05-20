@@ -3,22 +3,29 @@
       package="edu.vanderbilt.isis"      
       android:versionCode="1"
       android:versionName="1.0">
-    
+ <!--
     <uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+ -->
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
-    	<uses-library android:name="com.google.android.maps" />
-        <activity android:name=".vuphone.Map"
+    	<!-- <uses-library android:name="com.google.android.maps" />-->
+        <activity android:name=".wreckwatch.Starter"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+	<service android:name=".wreckwatch.ServiceTest"
+		android:enabled="true"
+	
+	/>
+
     </application>
     <uses-sdk android:minSdkVersion="3" />
 </manifest> 
