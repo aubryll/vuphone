@@ -1,0 +1,26 @@
+/******************************************************************************
+ * Copyright (c) 2007 Jules White. All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Jules White - initial API and implementation
+ ****************************************************************************/
+package org.vuphone.wwatch.notification;
+
+import javax.servlet.http.HttpServletRequest;
+
+
+public class NotificationParser {
+
+	public Notification parse(HttpServletRequest req)
+			throws NotificationFormatException {
+		String type = req.getParameter("type");
+		Notification n = null;
+		
+		if (type != null)
+			n = new Notification(type);
+		
+		return n;
+	}
+}

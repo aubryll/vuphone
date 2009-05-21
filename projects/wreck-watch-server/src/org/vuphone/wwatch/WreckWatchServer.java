@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
+import javax.servlet.http.HttpServlet;
 
 import org.cometd.Bayeux;
 import org.mortbay.cometd.continuation.ContinuationCometdServlet;
@@ -40,8 +41,10 @@ import org.mortbay.jetty.servlet.ServletHolder;
  */
 public class WreckWatchServer {
 
+	private static final String NOTIFICATION_SERVLET = "notificationServlet";
 	public static final String WRECK_WATCH_PATH = "/wreckwatch";
 	public static final String WRECK_WATCH_EVENT_CHANNEL = "/events";
+	public static final String WRECK_WATCH_NOTIFICATIONS_CHANNEL = "/notifications";
 
 	private static final Logger logger_ = Logger
 			.getLogger(WreckWatchServer.class.getName());
@@ -113,11 +116,16 @@ public class WreckWatchServer {
 					EventChannelManager.launch((Bayeux) event.getValue());
 			}
 		});
+		
+		HttpServlet servlet = (HttpServlet)ServerUtils.get().getFactory().getBean(NOTIFICATION_SERVLET);
+		context.addServlet(new ServletHolder(servlet), WRECK_WATCH_PATH
+				+ WRECK_WATCH_NOTIFICATIONS_CHANNEL + "/*");
 
 		ResourceHandler resource_handler = new ResourceHandler();
 		HandlerList handlers = new HandlerList();
 		handlers.setHandlers(new Handler[] { resource_handler, context });
 		server_.setHandler(handlers);
+		
 
 		try {
 			server_.start();
