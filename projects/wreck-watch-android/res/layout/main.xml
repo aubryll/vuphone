@@ -7,6 +7,17 @@
 <TextView  
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-    android:text="@string/hello"
+	android:text="Time dialation:"
     />
+<EditText
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:id="@+id/dialation_edit"
+	/>
+<Button
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:id="@+id/start_button"
+	android:text="Start Service"
+	/>
 </LinearLayout>
