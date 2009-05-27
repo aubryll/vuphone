@@ -16,12 +16,15 @@
 package org.vuphone.wwatch.android.http;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.wwatch.android.Waypoint;
 
 import android.util.Log;
 
@@ -29,28 +32,57 @@ import android.util.Log;
 
 public class HTTPPoster {
 
-	private static final String SERVER = "http://dorm.cmthompson.net";
 
+	//Chris's test server\\
+	private static final String SERVER = "http://dorm.cmthompson.net";
+	private static final String PATH = "/wreckwatch/test.php";
+
+	//Jules's Jetty server\\
+	//Note this is equiv to localhost although the phone has to have an
+	//IP because it's not running it! :)
+	//private static final String SERVER = "http://129.59.129.151:8080";
+	//private static final String PATH = "/wreckwatch/notifications";
+
+	//There might be a better way to do these methods....
 	/**
 	 * This method will be responsible for posting data to the
 	 * WreckWatch server.
 	 * @param message
 	 */
-	public String doPost(String message){
+	public String doAccidentPost(double time, double speed, double dec, ArrayList<Waypoint> route){
+
 
 		try{
-			// Do the first POST to set the FollowMe List
+
 			HttpClient c = new DefaultHttpClient();
-			//TODO Figure out what the syntax of the server will be
-			HttpPost post = new HttpPost(SERVER + "/wreckwatch/test.php");
+			HttpPost post = new HttpPost(SERVER + PATH);
 			post.addHeader("Content-Type","application/x-www-form-urlencoded");
-			message = "msg=" + message;
-			post.setEntity(new ByteArrayEntity(message.getBytes()));
+
+			String params;
+			
+			//Create the parameter string
+			if (route != null){
+				params = "time="+time+"&speed="+speed+"&dec="+dec+"&numpoints="+route.size();
+
+				for (int i = 0; i < route.size(); ++i){
+					params = params + "&point"+i+"="+URLEncoder.encode(route.get(i).toString(), "UTF-8");
+				}
+			}else{
+				params = "time="+time+"&speed="+speed+"&dec="+dec;
+			}
+
+			//Add the parameters
+			post.setEntity(new ByteArrayEntity(params.getBytes()));
+
+			//Do it
 			HttpResponse resp = c.execute(post);
+
+			//Return the HTTP response back to the user in the form of 
+			//a String
 			ByteArrayOutputStream bao = new ByteArrayOutputStream();
 			resp.getEntity().writeTo(bao);
 			return new String(bao.toByteArray());
-			
+
 		} 
 		catch (Exception e) {
 			Log.v("VUPHONE", "Other Exception of type:"+e.getClass());

@@ -1,5 +1,9 @@
 package org.vuphone.wwatch.android;
 
+import java.util.Calendar;
+
+import org.vuphone.wwatch.android.http.HTTPPoster;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +39,11 @@ public class ServiceStarter extends Activity implements View.OnClickListener{
     	
     	edit_ = (EditText) super.findViewById(R.id.dialation_edit);
     	start_ = (Button) super.findViewById(R.id.start_button);
-    	start_.setOnClickListener(this);    	
+    	start_.setOnClickListener(this);  
+    	
+//    	//Testing for Poster
+//    	HTTPPoster p = new HTTPPoster();
+//    	p.doAccidentPost(Calendar.getInstance().getTimeInMillis(), 500.23, -41.2, null);
     }
 
     protected void onStart() {
