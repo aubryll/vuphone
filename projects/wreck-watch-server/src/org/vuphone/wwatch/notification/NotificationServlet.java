@@ -49,7 +49,8 @@ public class NotificationServlet extends HttpServlet {
 						resp.getWriter().write(rnote.toString());
 					}
 				} else {
-					// to do..
+					//This will just be temporary to make it do something
+					resp.getWriter().write(note.getType());
 				}
 			}
 			else {
