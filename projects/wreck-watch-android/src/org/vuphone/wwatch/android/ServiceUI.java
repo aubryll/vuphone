@@ -161,6 +161,11 @@ public class ServiceUI extends Activity implements View.OnClickListener{
         	dialog.startCountdown();
         	break;
     	}
+
+    	
+//    	//Testing for Poster
+//    	HTTPPoster p = new HTTPPoster();
+//    	p.doAccidentPost(Calendar.getInstance().getTimeInMillis(), 500.23, -41.2, null);
     }
 
     protected void onStart() {
