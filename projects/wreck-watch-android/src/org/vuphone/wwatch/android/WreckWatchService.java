@@ -19,7 +19,7 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	private final long FREQUENCY = 500; // How often (ms) to run accident
 	// checking routine
-	final static double HIGH_SPEED = 22.353; // 50 mph
+	final static double HIGH_SPEED = 22.353; // 50 mph = 22.353 meters/second
 	final static double HIGH_ACCEL = 0; // TODO - Look up reasonable values
 
 	private WaypointTracker tracker_ = null;
