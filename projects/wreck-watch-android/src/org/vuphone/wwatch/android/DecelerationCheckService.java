@@ -24,11 +24,11 @@ public class DecelerationCheckService extends Service {
 	private SensorManager sensorManager_;
 	private Sensor accelerometer_;
 	private final RegisterTask task_ = new RegisterTask();
-	private boolean started_ = false;
+	private boolean startedTimer_ = false;
+	private final Context context_ = this;
 
 	public void onCreate() {
 		super.onCreate();
-		Toast.makeText(this, "Service.onCreate", Toast.LENGTH_SHORT).show();
 
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer_ = sensorManager_
@@ -37,19 +37,21 @@ public class DecelerationCheckService extends Service {
 
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		Toast.makeText(this, "Service.onStart: ", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Deceleration Service Started", Toast.LENGTH_SHORT).show();
 
 		// Ensure that the timer is not scheduled with multiple calls to onStart
-		if (started_ == false)
+		if (startedTimer_ == false)
 			t.schedule(task_, 0, TIME_BETWEEN_MEASUREMENTS);
-		started_ = true;
+		startedTimer_ = true;
 	}
 
 	public void onDestroy() {
 		super.onDestroy();
-		Toast.makeText(this, "Service.onDestroy", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Deceleration Service Stopped", Toast.LENGTH_SHORT).show();
 
-		t.cancel();
+		if (startedTimer_)
+			t.cancel();
+		
 		unregisterAccelerometer();
 	}
 
@@ -80,11 +82,23 @@ public class DecelerationCheckService extends Service {
 			called_ = true;
 
 			// Do stuff with data
-			if (e.values[0] > MAX_ALLOWED_DECELERATION
-					|| e.values[1] > MAX_ALLOWED_DECELERATION
-					|| e.values[2] > MAX_ALLOWED_DECELERATION)
+			if (Math.abs(e.values[0]) > MAX_ALLOWED_DECELERATION
+					|| Math.abs(e.values[1]) > MAX_ALLOWED_DECELERATION
+					|| Math.abs(e.values[2]) > MAX_ALLOWED_DECELERATION) {
 				makeToast("Firing intent, detected X:" + e.values[0] + ", Y:"
 						+ e.values[1] + ", Z:" + e.values[2]);
+				Intent intent = new Intent(context_,
+						org.vuphone.wwatch.android.ServiceUI.class);
+
+				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context_.startActivity(intent);
+
+				// We detected wreck, turn ourself off to conserve power and to
+				// clean up nicely
+				unregisterAccelerometer();
+				stopSelf();
+			}
 
 			// Unregister ourself
 			unregisterAccelerometer();
@@ -95,6 +109,7 @@ public class DecelerationCheckService extends Service {
 
 		@Override
 		public void run() {
+			// I would use sensor display normal, but I am not convinced it works
 			sensorManager_.registerListener(listener_, accelerometer_,
 					SensorManager.SENSOR_DELAY_UI);
 		}
