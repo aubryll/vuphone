@@ -36,5 +36,10 @@
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry kind="lib" path="lib/asterisk-java-0.3.1.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/wreck-watch-server/lib/asterisk-java-0.3.1-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
