@@ -16,10 +16,35 @@ import android.widget.Toast;
 public class WreckWatchService extends Service implements LocationListener{
 
 	private final long FREQUENCY = 500;	// How often (ms) to run accident checking routine
-	WaypointTracker tracker_ = null;
+	final static double HIGH_SPEED = 22.353; // 50 mph
+	final static double HIGH_ACCEL = 0; // TODO - Look up reasonable values
+	
+	private WaypointTracker tracker_ = null;
 	
 	public void checkAccident() {
-		
+		if (tracker_.getLatestSpeed() >= WreckWatchService.HIGH_SPEED &&
+			tracker_.getLatestAcceleration() >= WreckWatchService.HIGH_ACCEL){
+			
+			this.getUserConfirmation();
+		}
+	}
+	
+	/**
+	 * Invokes a GUI window to ask the user whether an accident occurred.
+	 * To avoid binding to this service, the following hack will be used.
+	 * This service's onStart() method will be called from the dialog. 
+	 * The calling intent will contain a boolean response.
+	 */
+	public void getUserConfirmation() {
+		Intent intent = new Intent(this, org.vuphone.wwatch.android.ServiceUI.class);
+
+		intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		this.startActivity(intent);
+	}
+	
+	public void reportAccident() {
+		Toast.makeText(this, "reportAccident hook", Toast.LENGTH_SHORT).show();
 	}
 	
 	public IBinder onBind(Intent intent) {
@@ -50,6 +75,14 @@ public class WreckWatchService extends Service implements LocationListener{
 		double d = intent.getExtras().getDouble("TimeDialation");
 		Toast.makeText(this, "Service.onStart: " + d, Toast.LENGTH_SHORT).show();
 		
+		if (intent.hasExtra("DidAccidentOccur")) {
+			if (intent.getExtras().getBoolean("DidAccidentOccur")) {
+				this.reportAccident();
+			}else {
+				Toast.makeText(this, "No accident", Toast.LENGTH_SHORT).show();
+			}
+		}
+		
 	}
 	
 	public void onDestroy() {
@@ -60,9 +93,14 @@ public class WreckWatchService extends Service implements LocationListener{
 	// LocationListener
 	
 	public void onLocationChanged(Location location) {
-		// TODO - REMOVE THIS CHECK
-		if (location.getLatitude() == 12 && location.getLongitude() == 34)
+		// TODO - REMOVE THESE CHECKS
+		if (location.getLongitude() == 12 && location.getLatitude() == 34)
 			this.stopSelf();
+		
+		// Test the dialog
+		if (location.getLongitude() == 56 && location.getLatitude() == 78) {
+			this.getUserConfirmation();
+		}
 		
 		tracker_.addWaypoint(location);
 		Toast.makeText(this, "New location added. Latest Speed: " + tracker_.getLatestSpeed(), Toast.LENGTH_SHORT).show();

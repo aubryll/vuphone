@@ -55,12 +55,73 @@ public class WaypointTracker {
 		pointList_.add(current);
 	}
 	
-	public double getLatestSpeed() {
-		if (pointList_.size() <= 1)
-			return 0.0;
-		
-		double spd = deltaList_.get(deltaList_.size() - 1).getSpeed(); 
-		
-		return spd * timeDialation_;
+	/**
+	 * Compute and return the total distance between the start
+	 * and end waypoints. 
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public double getDistanceBetween(int start, int end) {
+		double distance = 0;
+		for (int index = start; index < end; ++index)
+			distance += deltaList_.get(index).getDistance();
+		return distance;
 	}
+	
+	/**
+	 * Computes and returns the dialted acceleration based on the most recent
+	 * waypoints.
+	 * @return
+	 */
+	public double getLatestAcceleration() {
+		// TODO - Bound check
+		int size = pointList_.size();
+		double deltaSpeed = this.getSpeedBetween(size - 2, size - 1) - this.getSpeedBetween(size - 3, size - 2);
+		double deltaTime = this.getTimeBetween(size - 3, size - 1);
+		double accel = deltaSpeed / deltaTime;
+		
+		return accel;
+	}
+	
+	/**
+	 * Computes and returns the dialated speed based on the two
+	 * most recent waypoints.
+	 * @return
+	 */
+	public double getLatestSpeed() {
+		int size = pointList_.size();
+		if (size <= 1)
+			return 0.0;
+		return this.getSpeedBetween(size - 2, size - 1);
+	}
+	
+	/**
+	 * Compute and return the average dialated speed between the start
+	 * and end waypoints
+	 *   
+	 * @param origin		Index of the starting 
+	 * @param destination
+	 * @return
+	 */
+	public double getSpeedBetween(int start, int end) {
+		double distance = this.getDistanceBetween(start, end);
+		double time = this.getTimeBetween(start, end);
+		
+		return distance / time;
+	}
+	
+	/**
+	 * Compute and return the total dialated time between the start
+	 * and end waypoints.
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public double getTimeBetween(int start, int end) {
+		long time = pointList_.get(end).getTime() - pointList_.get(start).getTime();
+		return (double) time / timeDialation_;
+	}
+	
+
 }
