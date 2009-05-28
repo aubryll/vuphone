@@ -9,7 +9,7 @@
 	android:id="@+id/label"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
-	android:text="Time dialation:"
+	android:text="Speed Scale Factor (ex 2 means twice as fast):"
     />
 <EditText
 	android:layout_width="fill_parent"
