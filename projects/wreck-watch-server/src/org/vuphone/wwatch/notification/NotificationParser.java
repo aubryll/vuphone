@@ -26,6 +26,15 @@ public class NotificationParser {
 				an.setSpeed(Double.parseDouble(req.getParameter("speed")));
 				an.setDeceleration(Double.parseDouble(req.getParameter("dec")));
 				an.setTime(Long.parseLong(req.getParameter("time")));
+				
+				Integer numPoints = Integer.parseInt(req.getParameter("numpoints"));
+				
+				if (numPoints != null){
+					for (int i = 0; i < numPoints; ++i){
+						an.addWaypoint(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")), 
+								Long.parseLong(req.getParameter("time")));
+					}
+				}
 			}else {
 				n = new Notification(type);
 			}

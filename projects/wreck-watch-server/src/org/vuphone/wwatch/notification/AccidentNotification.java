@@ -15,6 +15,11 @@
  **************************************************************************/
 package org.vuphone.wwatch.notification;
 
+import java.text.DateFormat;
+import java.util.Date;
+
+import org.vuphone.wwatch.routing.Route;
+
 
 /**
  * This class represents a container for information
@@ -27,6 +32,7 @@ public class AccidentNotification extends Notification {
 	private double speed_;
 	private double dec_;
 	private long time_;
+	private Route route_ = new Route();
 	
 	
 	public AccidentNotification() {
@@ -62,6 +68,25 @@ public class AccidentNotification extends Notification {
 
 	public void setTime(long time) {
 		time_ = time;
+	}
+	
+	public void addWaypoint(double lat, double lon, long time){
+		route_.addWaypoint(lat, lon, time);
+	}
+	
+	
+	public String toString(){
+		StringBuffer sb = new StringBuffer();
+		sb.append("Speed: " + speed_ + "\n Deceleration: " + dec_ + "\n Time: ");
+		Date d = new Date(time_);
+		DateFormat df = DateFormat.getDateTimeInstance();
+		sb.append(df.format(d) + "\n Route Info:\n");
+		while (route_.peek() != null){
+			sb.append(route_.getNextPoint().toString() + "\n");
+		}
+		
+		return sb.toString();
+		
 	}
 	
 	

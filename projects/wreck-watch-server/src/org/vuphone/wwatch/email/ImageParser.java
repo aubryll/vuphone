@@ -13,50 +13,50 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.tests;
+package org.vuphone.wwatch.email;
 
-import java.io.IOException;
+import java.awt.Image;
 
-import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Part;
 
-import junit.framework.TestCase;
 
-import org.vuphone.wwatch.email.EmailReceiver;
+/**
+ * This class is responsible for processing email
+ * messages for image content.
+ * @author Chris Thompson
+ *
+ */
+public class ImageParser {
 
-public class TestEmailReceiver extends TestCase {
+	public Image[] parseMessages(Message[] msgs){
+		try {
+			for (int i = 0; i < msgs.length; i++) {
+				System.out.println(msgs[i].getSize() + " bytes long.");
+				System.out.println(msgs[i].getLineCount() + " lines.");
+				String disposition = msgs[i].getDisposition();
+				if (disposition == null){
+					; // do nothing
+				}else if (disposition.equals(Part.INLINE)) {
+					System.out.println("This part should be displayed inline");
+				} else if (disposition.equals(Part.ATTACHMENT)) {
+					System.out.println("This part is an attachment");
+					String fileName;
 
-	public void testEmailReceive() throws IOException, MessagingException{
-		EmailReceiver er = new EmailReceiver("vuphone.1@gmail.com", "isisvuphone.1");
-		Message[] msgs = er.checkMail("INBOX");
+					fileName = msgs[i].getFileName();
 
-		for (int i = 0; i < msgs.length; i++) {
-			System.out.println("--------------------------");
-			System.out.println("MESSAGE #" + (i + 1) + ":");
-			Folder temp = msgs[i].getFolder();
-			if (temp != null){
-				if (!temp.isOpen()){
-					msgs[i].getFolder().open(Folder.READ_ONLY);
+					System.out.println("The file name of this attachment is " + fileName);
+				}
+				String description = msgs[i].getDescription();
+				if (description != null) {
+					System.out.println("The description of this message is " + description);
 				}
 			}
-
-			msgs[i].writeTo(System.out);
-
-			if (temp != null){
-				if (temp.isOpen()){
-					msgs[i].getFolder().close(false);
-				}
-			}
-
-
-			er.disconnect();
+		} catch (MessagingException e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
-	
-	public void testEmailParser(){
-		
-	}
+
 }
-
-

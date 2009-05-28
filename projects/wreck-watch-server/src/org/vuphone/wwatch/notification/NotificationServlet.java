@@ -45,12 +45,13 @@ public class NotificationServlet extends HttpServlet {
 				NotificationHandler handler = handlers_.get(note.getType());
 				if (handler != null) {
 					Notification rnote = handler.handle(note);
+					resp.getWriter().write(note.toString());
 					if (rnote != null) {
 						resp.getWriter().write(rnote.toString());
 					}
 				} else {
 					//This will just be temporary to make it do something
-					resp.getWriter().write(note.getType());
+					resp.getWriter().write(note.toString());
 				}
 			}
 			else {
