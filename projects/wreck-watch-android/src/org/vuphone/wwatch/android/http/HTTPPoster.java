@@ -51,7 +51,7 @@ public class HTTPPoster {
 	 * WreckWatch server.
 	 * @param message
 	 */
-	public String doAccidentPost(Long time, Double speed, Double dec, ArrayList<Waypoint> route){
+	public static String doAccidentPost(Long time, Double speed, Double dec, ArrayList<Waypoint> route){
 
 		try{
 			String timeStr = URLEncoder.encode(time.toString(), "UTF-8");
