@@ -24,6 +24,8 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 	
 	private EditText edit_ = null;
 	private Button start_ = null;
+	private Button stop_ = null;
+	private Button test_ = null;
 	
 	
 	private ConfirmationDialog dialog = null;
@@ -31,11 +33,25 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 	public void onClick(View v) {
 		Intent intent = new Intent(this, org.vuphone.wwatch.android.WreckWatchService.class);
 		
-		double dialation = Double.parseDouble(edit_.getText().toString());
+		if (v.equals(start_)) {
+			double dialation = 1.0;
+			
+			// Swallow any exception here.
+			try{
+				dialation = Double.parseDouble(edit_.getText().toString());
+			}catch(Exception e) {}
+			
 		
-		intent.putExtra("TimeDialation", dialation);
-		super.startService(intent);
-		super.finish();
+			intent.putExtra("TimeDialation", dialation);
+			super.startService(intent);
+			super.finish();
+		}else if (v.equals(stop_)){
+			super.stopService(intent);
+		}else if (v.equals(test_)){
+			intent.putExtra("TestTheDialog", true);
+			super.startService(intent);
+			super.finish();
+		}
 	}
 	
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +77,13 @@ public class ServiceUI extends Activity implements View.OnClickListener{
         	edit_ = (EditText) super.findViewById(R.id.dialation_edit);
         	start_ = (Button) super.findViewById(R.id.start_button);
         	start_.setOnClickListener(this);
+        	
+        	stop_ = (Button) super.findViewById(R.id.stop_button);
+        	stop_.setOnClickListener(this);
+        	
+        	test_ = (Button) super.findViewById(R.id.test_button);
+        	test_.setOnClickListener(this);
+        	
         	break;
         
     	case ServiceUI.CONFIRM:

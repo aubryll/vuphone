@@ -84,6 +84,11 @@ public class WreckWatchService extends Service implements LocationListener {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
+		// Check if this was triggered from the TestDialog button
+		if (intent.hasExtra("TestTheDialog")) {
+			this.getUserConfirmation();
+		}
+		
 		// If we return from the 'Are you OK?' dialog, we need to skip this
 		if (intent.hasExtra("TimeDialation")) {
 			double d = intent.getExtras().getDouble("TimeDialation");
@@ -105,6 +110,7 @@ public class WreckWatchService extends Service implements LocationListener {
 	}
 
 	public void onDestroy() {
+		
 		super.onDestroy();
 		Toast.makeText(this, "GPS Service destroyed", Toast.LENGTH_SHORT)
 				.show();

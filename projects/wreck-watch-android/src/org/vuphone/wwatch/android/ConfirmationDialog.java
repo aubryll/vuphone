@@ -76,7 +76,7 @@ class ConfirmationDialog extends ProgressDialog implements
 		Intent intent = new Intent(activity_, org.vuphone.wwatch.android.WreckWatchService.class);
 		intent.putExtra("DidAccidentOccur", accidentOccurred);
 		activity_.startService(intent);
-		super.dismiss();			
+		super.dismiss();
 	}
 	
 	/**
