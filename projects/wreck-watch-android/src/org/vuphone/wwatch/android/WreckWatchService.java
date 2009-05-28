@@ -86,16 +86,18 @@ public class WreckWatchService extends Service implements LocationListener{
 	}
 	
 	public void onDestroy() {
-		super.onDestroy();
 		Toast.makeText(this, "Service.onDestroy", Toast.LENGTH_SHORT).show();
+		super.onDestroy();
 	}
 	
 	// LocationListener
 	
 	public void onLocationChanged(Location location) {
 		// TODO - REMOVE THESE CHECKS
-		if (location.getLongitude() == 12 && location.getLatitude() == 34)
+		Toast.makeText(this, "New location added", Toast.LENGTH_SHORT).show();
+		if (location.getLongitude() == 12 && location.getLatitude() == 34) {
 			this.stopSelf();
+		}
 		
 		// Test the dialog
 		if (location.getLongitude() == 56 && location.getLatitude() == 78) {
@@ -103,7 +105,6 @@ public class WreckWatchService extends Service implements LocationListener{
 		}
 		
 		tracker_.addWaypoint(location);
-		Toast.makeText(this, "New location added. Latest Speed: " + tracker_.getLatestSpeed(), Toast.LENGTH_SHORT).show();
 	}
 	
 	public void onProviderDisabled(String provider) {
