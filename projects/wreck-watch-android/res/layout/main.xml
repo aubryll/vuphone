@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="10px"
     >
 <TextView  
+	android:id="@+id/label"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content" 
 	android:text="Time dialation:"
@@ -13,11 +15,30 @@
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:id="@+id/dialation_edit"
+	android:layout_below="@id/label"
 	/>
 <Button
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:id="@+id/start_button"
 	android:text="Start Service"
+	android:layout_below="@id/dialation_edit"
+	android:layout_alignLeft="@id/dialation_edit"
 	/>
-</LinearLayout>
+<Button
+	android:id="@+id/stop_button"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:text="Stop Service"
+	android:layout_toRightOf="@id/start_button"
+	android:layout_alignTop="@id/start_button"
+	/>
+<Button
+	android:id="@+id/test_button"
+	android:layout_height="wrap_content"
+	android:layout_width="wrap_content"
+	android:text="Test Dialog"
+	android:layout_toRightOf="@id/stop_button"
+	android:layout_alignTop="@id/start_button"
+	/>	
+</RelativeLayout>

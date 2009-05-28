@@ -1,6 +1,7 @@
 package org.vuphone.wwatch.android;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.location.Location;
 
@@ -121,6 +122,10 @@ public class WaypointTracker {
 	public double getTimeBetween(int start, int end) {
 		long time = pointList_.get(end).getTime() - pointList_.get(start).getTime();
 		return (double) time / timeDialation_;
+	}
+	
+	public List<Waypoint> getList() {
+		return pointList_;
 	}
 	
 

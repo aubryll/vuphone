@@ -17,7 +17,7 @@ package org.vuphone.wwatch.android.http;
 
 import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -51,7 +51,7 @@ public class HTTPPoster {
 	 * WreckWatch server.
 	 * @param message
 	 */
-	public static String doAccidentPost(Long time, Double speed, Double dec, ArrayList<Waypoint> route){
+	public static String doAccidentPost(Long time, Double speed, Double dec, List<Waypoint> route){
 
 		try{
 			String timeStr = URLEncoder.encode(time.toString(), "UTF-8");
