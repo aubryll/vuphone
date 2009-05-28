@@ -25,6 +25,7 @@ public class DecelerationCheckService extends Service {
 	private SensorManager sensorManager_;
 	private Sensor accelerometer_;
 	private final RegisterTask task_ = new RegisterTask();
+	private boolean started_ = false;
 
 	public void onCreate() {
 		super.onCreate();
@@ -39,10 +40,10 @@ public class DecelerationCheckService extends Service {
 		super.onStart(intent, startId);
 		Toast.makeText(this, "Service.onStart: ", Toast.LENGTH_SHORT).show();
 
-		if (intent.hasExtra("SHOULD_DIE"))
-			stopSelf();
-
-		t.schedule(task_, 0, TIME_BETWEEN_MEASUREMENTS);
+		// Ensure that the timer is not scheduled with multiple calls to onStart
+		if (started_ == false)
+			t.schedule(task_, 0, TIME_BETWEEN_MEASUREMENTS);
+		started_ = true;
 	}
 
 	public void onDestroy() {
@@ -83,7 +84,7 @@ public class DecelerationCheckService extends Service {
 			if (e.values[0] > MAX_ALLOWED_DECELERATION
 					|| e.values[1] > MAX_ALLOWED_DECELERATION
 					|| e.values[2] > MAX_ALLOWED_DECELERATION)
-				makeToast("Firing intent, detedted X:" + e.values[0] + ", Y:"
+				makeToast("Firing intent, detected X:" + e.values[0] + ", Y:"
 						+ e.values[1] + ", Z:" + e.values[2]);
 
 			// Unregister ourself
