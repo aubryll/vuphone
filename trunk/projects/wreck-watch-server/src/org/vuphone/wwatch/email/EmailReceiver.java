@@ -41,6 +41,7 @@ public class EmailReceiver {
 	private Store store_;
 	private String username_;
 	private String pw_;
+	private Folder curFolder_;
 	/**
 	 * Default constructor 
 	 */
@@ -60,26 +61,34 @@ public class EmailReceiver {
 	public Message[] checkMail(String folderName) throws MessagingException{
 		
 		connect();
-		Folder folder = store_.getDefaultFolder();
-		folder = folder.getFolder(folderName);
+		curFolder_ = store_.getDefaultFolder();
+		curFolder_ = curFolder_.getFolder(folderName);
         
 		try {            
-            folder.open(Folder.READ_WRITE);            
+			curFolder_.open(Folder.READ_WRITE);            
         } catch (MessagingException ex) {            
-            folder.open(Folder.READ_ONLY);
+        	curFolder_.open(Folder.READ_ONLY);
         }
         
-        Message[] msgs = folder.getMessages();	
+        Message[] msgs = curFolder_.getMessages();	
         FetchProfile fp = new FetchProfile();
         fp.add(FetchProfile.Item.ENVELOPE);        
-        folder.fetch(msgs, fp);
+        curFolder_.fetch(msgs, fp);
         
-        folder.close(false);
-        store_.close();
+        
+        //store_.close();
         
 		return msgs;
 	}
-
+	
+	
+	public void closeFolder() throws MessagingException{
+		curFolder_.close(false);
+	}
+	
+	public void disconnect() throws MessagingException{
+		store_.close();
+	}
 
 
 	/**

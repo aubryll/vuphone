@@ -13,50 +13,65 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.tests;
+package org.vuphone.wwatch.routing;
 
-import java.io.IOException;
+/**
+ * A wrapper class that encapsulates vital information about a point along
+ * a route. 
+ * @author Krzysztof Zienkiewicz
+ *
+ */
 
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
+public class Waypoint {
+	private double longitude_ 	= 0;
+	private double latitude_	= 0;
+	private long timeStamp_		= 0;
 
-import junit.framework.TestCase;
-
-import org.vuphone.wwatch.email.EmailReceiver;
-
-public class TestEmailReceiver extends TestCase {
-
-	public void testEmailReceive() throws IOException, MessagingException{
-		EmailReceiver er = new EmailReceiver("vuphone.1@gmail.com", "isisvuphone.1");
-		Message[] msgs = er.checkMail("INBOX");
-
-		for (int i = 0; i < msgs.length; i++) {
-			System.out.println("--------------------------");
-			System.out.println("MESSAGE #" + (i + 1) + ":");
-			Folder temp = msgs[i].getFolder();
-			if (temp != null){
-				if (!temp.isOpen()){
-					msgs[i].getFolder().open(Folder.READ_ONLY);
-				}
-			}
-
-			msgs[i].writeTo(System.out);
-
-			if (temp != null){
-				if (temp.isOpen()){
-					msgs[i].getFolder().close(false);
-				}
-			}
-
-
-			er.disconnect();
-		}
+	/**
+	 * Construct a Waypoint from longitude, latitude, and time data.
+	 * 
+	 * @param lon	Longitude in degrees
+	 * @param lat	Latitude in degrees
+	 * @param time	UTC time in milliseconds since January 1, 1970. 
+	 */
+	public Waypoint(double lon, double lat, long time) {
+		longitude_ = lon;
+		latitude_ = lat;
+		timeStamp_ = time;
 	}
-	
-	public void testEmailParser(){
-		
+
+	/**
+	 * Returns the latitude in degrees.
+	 * @return
+	 */
+	public double getLatitude() {
+		return latitude_;
 	}
+
+	/**
+	 * Returns the longitude in degrees.
+	 * @return
+	 */
+	public double getLongitude() {
+		return longitude_;
+	}
+
+	/**
+	 * Returns UTC time in milliseconds since January 1, 1970.
+	 * @return
+	 */
+	public long getTime() {
+		return timeStamp_;
+	}
+
+	/**
+	 * Returns a human readable version of this Waypoint
+	 * @return
+	 */
+	public String toString() {
+		return "[" + longitude_ + ", " + latitude_ + ", " + timeStamp_ + "]";
+	}
+
 }
 
 
