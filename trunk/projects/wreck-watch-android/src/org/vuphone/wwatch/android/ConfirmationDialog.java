@@ -45,6 +45,8 @@ class ConfirmationDialog extends ProgressDialog implements
 		
 		super.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", this);
 		super.setButton(DialogInterface.BUTTON_NEGATIVE, "No", this);
+		
+		super.setOnDismissListener(this);
 	}
 	
 	public void startCountdown() {
