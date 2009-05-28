@@ -51,10 +51,8 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 			Intent intent2 = new Intent(this,
 					org.vuphone.wwatch.android.ServiceUI.class);
 
-			intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-			finish();
+			intent2.putExtra("ActivityMode", ServiceUI.CONFIRM);
+			startActivity(intent2);
 		}
 	}
 	
