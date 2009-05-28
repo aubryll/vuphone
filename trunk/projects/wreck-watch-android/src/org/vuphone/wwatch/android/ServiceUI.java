@@ -48,9 +48,13 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 		}else if (v.equals(stop_)){
 			super.stopService(intent);
 		}else if (v.equals(test_)){
-			intent.putExtra("TestTheDialog", true);
-			super.startService(intent);
-			super.finish();
+			Intent intent2 = new Intent(this,
+					org.vuphone.wwatch.android.ServiceUI.class);
+
+			intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+			finish();
 		}
 	}
 	

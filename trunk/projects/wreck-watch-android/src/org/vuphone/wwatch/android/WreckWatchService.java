@@ -23,32 +23,26 @@ public class WreckWatchService extends Service implements LocationListener {
 	final static double HIGH_ACCEL = 0; // TODO - Look up reasonable values
 
 	private WaypointTracker tracker_ = null;
+	private boolean startedDecelerationService_ = false;
 
 	public void checkSpeed() {
-		if (tracker_.getLatestSpeed() >= WreckWatchService.HIGH_SPEED
-				&& tracker_.getLatestAcceleration() >= WreckWatchService.HIGH_ACCEL) {
-
-			this.getUserConfirmation();
+		// If we are going fast, start the Deceleration detection service
+		// If we are going slow, stop it
+		// Use a bool flag to prevent generating garbage intents
+		if ((tracker_.getLatestSpeed() >= HIGH_SPEED)
+				&& (startedDecelerationService_ == false)) {
+			startService(new Intent(this,
+					org.vuphone.wwatch.android.DecelerationCheckService.class));
+			startedDecelerationService_ = true;
+		} else if ((tracker_.getLatestSpeed() < HIGH_SPEED)
+				&& (startedDecelerationService_)) {
+			stopService(new Intent(this,
+					org.vuphone.wwatch.android.DecelerationCheckService.class));
 		}
 	}
 
-	/**
-	 * Invokes a GUI window to ask the user whether an accident occurred. To
-	 * avoid binding to this service, the following hack will be used. This
-	 * service's onStart() method will be called from the dialog. The calling
-	 * intent will contain a boolean response.
-	 */
-	public void getUserConfirmation() {
-		Intent intent = new Intent(this,
-				org.vuphone.wwatch.android.ServiceUI.class);
-
-		intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		this.startActivity(intent);
-	}
-
 	public void reportAccident() {
-		Toast.makeText(this, "reportAccident hook", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG).show();
 
 		// TODO - should be updated to get the actual acceleration
 		HTTPPoster.doAccidentPost(System.currentTimeMillis(), tracker_
@@ -83,11 +77,6 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-
-		// Check if this was triggered from the TestDialog button
-		if (intent.hasExtra("TestTheDialog")) {
-			this.getUserConfirmation();
-		}
 		
 		// If we return from the 'Are you OK?' dialog, we need to skip this
 		if (intent.hasExtra("TimeDialation")) {
