@@ -18,7 +18,7 @@ public class WaypointTracker {
 	private ArrayList<Waypoint> pointList_ 		= null;
 	private ArrayList<ChangeData> deltaList_	= null;
 	
-	private double timeDialation_ = 1.0;	// 1 simulated second equals timeDialation_ real seconds
+	private double timeDialation_ = 1.0;	// timeDialation_  * actual time = simulated time
 											// ie, 2.0 makes everything twice as fast
 
 	/**
