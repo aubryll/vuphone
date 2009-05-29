@@ -59,9 +59,6 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 			intent.putExtra("AccelerationScaleFactor", accelScale);
 			
 			super.startService(intent);
-			
-			Intent decIntent = new Intent(this, org.vuphone.wwatch.android.WreckWatchService.class);
-			decIntent.putExtra("AccelerationScaleFactor", accelScale);
 			super.finish();
 		}else if (v.equals(stop_)){
 			super.stopService(intent);
