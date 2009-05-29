@@ -44,15 +44,23 @@ public class ServiceUI extends Activity {
 		public void onClick(View v) {
 			Intent intent = new Intent(ServiceUI.this, WreckWatchService.class);
 			double dialation = 1.0;
-			double accelScale = 1.0;
-
-			// Swallow any exception here.
-			try {
-				dialation = Double.parseDouble(edit_.getText().toString());
-				accelScale = Float.parseFloat(accelScaleEdit_.getText()
-						.toString());
-			} catch (Exception e) {
+			float accelScale = (float)1.0;
+			
+			if (!edit_.getText().toString().equals("")){
+				try {
+					dialation = Double.parseDouble(edit_.getText().toString());
+				} catch (Exception e) {
+				}
 			}
+
+			if (!accelScaleEdit_.getText().toString().equals("")){
+				try {
+					accelScale = Float.parseFloat(accelScaleEdit_.getText()
+							.toString());
+				} catch (Exception e) {
+				}
+			}
+			
 
 			intent.putExtra("TimeDialation", dialation);
 			intent.putExtra("AccelerationScaleFactor", accelScale);
@@ -67,6 +75,10 @@ public class ServiceUI extends Activity {
 			Intent intent = new Intent(ServiceUI.this, WreckWatchService.class);
 			stopService(intent);
 			unbindService(connection_);
+			
+			intent = new Intent(ServiceUI.this, DecelerationCheckService.class);
+			stopService(intent);
+
 		}
 	};
 
