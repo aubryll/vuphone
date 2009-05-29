@@ -1,5 +1,9 @@
 package org.vuphone.wwatch.android;
 
+import java.util.Calendar;
+
+import org.vuphone.wwatch.android.http.HTTPPoster;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +27,7 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 	private int mode_ = 0;
 	
 	private EditText edit_ = null;
+	private EditText accelScaleEdit_ = null;
 	private Button start_ = null;
 	private Button stop_ = null;
 	private Button test_ = null;
@@ -35,15 +40,22 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 		
 		if (v.equals(start_)) {
 			double dialation = 1.0;
+			double accelScale = 1.0;
 			
 			// Swallow any exception here.
 			try{
 				dialation = Double.parseDouble(edit_.getText().toString());
+				accelScale = Double.parseDouble(accelScaleEdit_.getText().toString());
 			}catch(Exception e) {}
 			
 		
 			intent.putExtra("TimeDialation", dialation);
+			intent.putExtra("AccelerationScaleFactor", accelScale);
+			
 			super.startService(intent);
+			
+			Intent decIntent = new Intent(this, org.vuphone.wwatch.android.WreckWatchService.class);
+			decIntent.putExtra("AccelerationScaleFactor", accelScale);
 			super.finish();
 		}else if (v.equals(stop_)){
 			super.stopService(intent);
@@ -51,8 +63,10 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 			Intent intent2 = new Intent(this,
 					org.vuphone.wwatch.android.ServiceUI.class);
 
+
 			intent2.putExtra("ActivityMode", ServiceUI.CONFIRM);
 			startActivity(intent2);
+
 		}
 	}
 	
@@ -77,6 +91,7 @@ public class ServiceUI extends Activity implements View.OnClickListener{
         	super.setContentView(config);
         	
         	edit_ = (EditText) super.findViewById(R.id.dialation_edit);
+        	accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);
         	start_ = (Button) super.findViewById(R.id.start_button);
         	start_.setOnClickListener(this);
         	
@@ -98,8 +113,8 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 
     	
 //    	//Testing for Poster
-//    	HTTPPoster p = new HTTPPoster();
-//    	p.doAccidentPost(Calendar.getInstance().getTimeInMillis(), 500.23, -41.2, null);
+    	
+    	//HTTPPoster.doAccidentPost(Calendar.getInstance().getTimeInMillis(), 500.23, -41.2, null);
     }
 
     protected void onStart() {
