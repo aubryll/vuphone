@@ -13,27 +13,26 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import android.util.Log;
 import android.widget.Toast;
 
 public class DecelerationCheckService extends Service {
 	private RemoteCallbackList<ISettingsViewCallback> callbacks_ = new RemoteCallbackList<ISettingsViewCallback>();
-	
+
 	private static final String LOG_TAG = "VUPHONE";
 	private static final String LOG_MSG_PREFIX = "DecelerationCheckService: ";
 
 	private final static long TIME_BETWEEN_MEASUREMENTS = 50; // in ms
-	private final static int MAX_ALLOWED_DECELERATION = 10; // in (m/s^2)
+	private final static int MAX_ALLOWED_DECELERATION = 30; // in (m/s^2)
 
 	private final Timer t = new Timer(
-			"Wreck Watch - accelerometer crash check service");
+	"Wreck Watch - accelerometer crash check service");
 	private final DecelerationListener listener_ = new DecelerationListener();
 	private SensorManager sensorManager_;
 	private Sensor accelerometer_;
 	private final RegisterTask task_ = new RegisterTask();
 	private boolean startedTimer_ = false;
 	private final Context context_ = this;
-	
+
 	/**
 	 * Same as timeDialation_ except for accelerometer
 	 * @see WreckWatchService
@@ -45,18 +44,18 @@ public class DecelerationCheckService extends Service {
 
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer_ = sensorManager_
-				.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
+		.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
 	}
 
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		
-		
+
+
 		if (intent.hasExtra("AccelerationScaleFactor"))
 			accelerationScale_ = intent.getExtras().getFloat("AccelerationScaleFactor");
-		
+
 		Toast.makeText(this, "Deceleration Service Started, scale " + accelerationScale_, Toast.LENGTH_SHORT).show();
-		
+
 		// Ensure that the timer is not scheduled with multiple calls to onStart
 		if (startedTimer_ == false)
 			t.schedule(task_, 0, TIME_BETWEEN_MEASUREMENTS);
@@ -69,9 +68,11 @@ public class DecelerationCheckService extends Service {
 
 		if (startedTimer_)
 			t.cancel();
-		
+
 		unregisterAccelerometer();
 	}
+	
+
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -104,7 +105,7 @@ public class DecelerationCheckService extends Service {
 			if (called_)
 				return;
 			called_ = true;
-			
+
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -116,7 +117,7 @@ public class DecelerationCheckService extends Service {
 				}
 			}
 			callbacks_.finishBroadcast();
-			
+
 			float valx = e.values[0] * accelerationScale_;
 			float valy = e.values[1] * accelerationScale_;
 			float valz = e.values[2] * accelerationScale_;
@@ -125,40 +126,44 @@ public class DecelerationCheckService extends Service {
 			if (Math.abs(valx) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valy) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
-				
+
 				Intent intent = new Intent(context_,
 						org.vuphone.wwatch.android.ServiceUI.class);
 
 				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
-				context_.startActivity(intent);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 
 				// We detected wreck, turn ourself off to conserve power and to
 				// clean up nicely
 				unregisterAccelerometer();
 				stopSelf();
-			}
+				t.cancel();
+				called_ = true;
+			}else{
 
-			// Unregister ourself
-			unregisterAccelerometer();
+				// Unregister ourself
+				unregisterAccelerometer();
+			}
 		}
-		
-		
+
+
 	}
-	
+
 	private final IRegister.Stub binder_ = new IRegister.Stub() {
 
 		public void registerCallback(ISettingsViewCallback callback)
-				throws RemoteException {
+		throws RemoteException {
 			if (callback != null) 
 				callbacks_.register(callback);
 		}
 
 		public void unregisterCallback(ISettingsViewCallback callback)
-				throws RemoteException {
+		throws RemoteException {
 			if (callback != null) 
 				callbacks_.unregister(callback);
 		}
-		
+
 	};
 
 	private class RegisterTask extends TimerTask {

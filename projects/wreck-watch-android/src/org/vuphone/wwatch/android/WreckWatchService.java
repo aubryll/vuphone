@@ -127,8 +127,9 @@ public class WreckWatchService extends Service implements LocationListener {
 				this.reportAccident();
 				Toast.makeText(this, "Accident Reported", Toast.LENGTH_LONG);
 			} else {
-				Toast.makeText(this, "No accident, glad you're ok!",
+				Toast.makeText(this, "Here's to your health",
 						Toast.LENGTH_SHORT).show();
+				
 			}
 		}
 
@@ -139,6 +140,9 @@ public class WreckWatchService extends Service implements LocationListener {
 		super.onDestroy();
 		Toast.makeText(this, "GPS Service destroyed", Toast.LENGTH_SHORT)
 				.show();
+		Intent intent = new Intent(this, org.vuphone.wwatch.android.DecelerationCheckService.class);
+		stopService(intent);
+		unbindService(connection_);
 	}
 
 	// LocationListener
