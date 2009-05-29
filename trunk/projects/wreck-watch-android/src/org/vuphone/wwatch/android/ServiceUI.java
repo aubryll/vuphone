@@ -3,10 +3,12 @@ package org.vuphone.wwatch.android;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * The entry point into the application. This activity is responsible for
@@ -27,6 +29,14 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 	private Button start_ = null;
 	private Button stop_ = null;
 	private Button test_ = null;
+	
+	private TextView scaleSpeed_ = null;
+	private TextView realSpeed_ = null;
+	private TextView realAccel_ = null;
+	private TextView scaleAccel_ = null;
+	private TextView lastGps_ = null;
+	private TextView numWaypoints_ = null;
+	
 	
 	
 	private ConfirmationDialog dialog = null;
@@ -69,6 +79,13 @@ public class ServiceUI extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
 
+    	scaleSpeed_ = (TextView) findViewById(R.id.scale_speed);
+    	realSpeed_ = (TextView) findViewById(R.id.real_speed);
+    	realAccel_ = (TextView) findViewById(R.id.real_accel);
+    	scaleAccel_ = (TextView) findViewById(R.id.scale_accel);
+    	lastGps_ = (TextView) findViewById(R.id.last_gps);
+    	numWaypoints_ = (TextView) findViewById(R.id.num_gps);
+    	
     	Intent startIntent = super.getIntent();
     	
     	Bundle data = startIntent.getExtras();
@@ -131,5 +148,39 @@ public class ServiceUI extends Activity implements View.OnClickListener{
     protected void onDestroy() {
     	super.onDestroy();
     }
+    
+    private ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
+    	private int m_ = 0;
+    	private int numGPS = 0;
+		public void accelerometerChanged(float x, float y, float z)
+				throws RemoteException {
+			realAccel_.setText("X: " + x + ", Y:" + y + ", Z:" + z);
+			if (m_ != 0)
+				scaleAccel_.setTag("X: " + (x*m_) + ", Y:" + (y*m_) + ", Z:" + (z*m_));
+		}
+
+		public void addedWaypoint() throws RemoteException {
+			numGPS++;
+			numWaypoints_.setText("GPS: " + numGPS);
+		}
+
+		public void gpsChanged(double lat, double lng) throws RemoteException {
+			lastGps_.setText("Lat: " + lat + ", Lng: " + lng);
+		}
+
+		public void setAccelerometerMultiplier(int multip)
+				throws RemoteException {
+			m_ = multip;
+		}
+
+		public void setRealSpeed(int speed) throws RemoteException {
+			realSpeed_.setTag("Real: " + speed);
+		}
+
+		public void setScaleSpeed(int speed) throws RemoteException {
+			scaleSpeed_.setTag("Scale: " + speed);
+		}
+    	
+    };
 
 }
