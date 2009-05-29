@@ -114,7 +114,7 @@ public class ServiceUI extends Activity implements View.OnClickListener{
     	
 //    	//Testing for Poster
     	
-    	//HTTPPoster.doAccidentPost(Calendar.getInstance().getTimeInMillis(), 500.23, -41.2, null);
+//    	HTTPPoster.doAccidentPost(Calendar.getInstance().getTimeInMillis(), 500.23, -41.2, null);
     }
 
     protected void onStart() {
