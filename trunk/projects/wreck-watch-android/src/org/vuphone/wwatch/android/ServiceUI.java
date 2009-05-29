@@ -51,7 +51,7 @@ public class ServiceUI extends Activity implements View.OnClickListener{
 			// Swallow any exception here.
 			try{
 				dialation = Double.parseDouble(edit_.getText().toString());
-				accelScale = Double.parseDouble(accelScaleEdit_.getText().toString());
+				accelScale = Float.parseFloat(accelScaleEdit_.getText().toString());
 			}catch(Exception e) {}
 			
 		
