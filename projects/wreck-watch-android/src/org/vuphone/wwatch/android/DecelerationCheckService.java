@@ -120,7 +120,6 @@ public class DecelerationCheckService extends Service {
 
 				Log.i(LOG_TAG, LOG_MSG_PREFIX + "Potential wreck detected");
 				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				context_.startActivity(intent);
 
 				// We detected wreck, turn ourself off to conserve power and to
