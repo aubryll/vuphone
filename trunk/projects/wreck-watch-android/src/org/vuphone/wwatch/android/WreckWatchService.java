@@ -34,8 +34,10 @@ public class WreckWatchService extends Service implements LocationListener {
 		// Use a bool flag to prevent generating garbage intents
 		if ((tracker_.getLatestSpeed() >= HIGH_SPEED)
 				&& (startedDecelerationService_ == false)) {
-			startService(new Intent(this,
-					org.vuphone.wwatch.android.DecelerationCheckService.class));
+			Intent dec = new Intent(this,
+					org.vuphone.wwatch.android.DecelerationCheckService.class);
+			dec.putExtra("AccelerationScaleFactor", accelerationScale_);
+			startService(dec);
 			startedDecelerationService_ = true;
 		} else if ((tracker_.getLatestSpeed() < HIGH_SPEED)
 				&& (startedDecelerationService_)) {
