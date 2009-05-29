@@ -56,10 +56,8 @@ public class ServiceUI extends Activity {
 
 			intent.putExtra("TimeDialation", dialation);
 			intent.putExtra("AccelerationScaleFactor", accelScale);
-
 			
 			startService(intent);
-
 			bindService(intent, connection_, BIND_AUTO_CREATE);
 		}
 	};

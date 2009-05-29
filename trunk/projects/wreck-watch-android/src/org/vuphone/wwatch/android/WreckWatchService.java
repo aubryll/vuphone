@@ -6,8 +6,10 @@ import java.util.TimerTask;
 import org.vuphone.wwatch.android.http.HTTPPoster;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,10 +22,10 @@ import android.widget.Toast;
 public class WreckWatchService extends Service implements LocationListener {
 	private RemoteCallbackList<ISettingsViewCallback> callbacks_ = new RemoteCallbackList<ISettingsViewCallback>();
 
-	private final long FREQUENCY = 500; // How often (ms) to run accident
-	// checking routine
 	final static double HIGH_SPEED = 22.353; // 50 mph = 22.353 meters/second
 	final static double HIGH_ACCEL = 0; // TODO - Look up reasonable values
+
+	final static boolean BOOTSTRAP_ACCEL_SERVICE = true;
 
 	private WaypointTracker tracker_ = null;
 	private boolean startedDecelerationService_ = false;
@@ -37,21 +39,26 @@ public class WreckWatchService extends Service implements LocationListener {
 		if ((tracker_.getLatestSpeed() >= HIGH_SPEED)
 				&& (startedDecelerationService_ == false)) {
 			Intent dec = new Intent(this,
-					org.vuphone.wwatch.android.DecelerationCheckService.class);
+					DecelerationCheckService.class);
 			dec.putExtra("AccelerationScaleFactor", accelerationScale_);
 			startService(dec);
+			bindService(dec, connection_, Context.BIND_AUTO_CREATE);
 			startedDecelerationService_ = true;
 		} else if ((tracker_.getLatestSpeed() < HIGH_SPEED)
 				&& (startedDecelerationService_)) {
 			stopService(new Intent(this,
-					org.vuphone.wwatch.android.DecelerationCheckService.class));
+					DecelerationCheckService.class));
+			unbindService(connection_);
 		}
-		
+
 		final int N = callbacks_.beginBroadcast();
 		for (int i = 0; i < N; i++) {
 			try {
-				callbacks_.getBroadcastItem(i).setRealSpeed((int)tracker_.getLatestSpeed());
-				callbacks_.getBroadcastItem(i).setScaleSpeed((int)(tracker_.getLatestSpeed() / tracker_.getDilation()));
+				callbacks_.getBroadcastItem(i).setRealSpeed(
+						(int) tracker_.getLatestSpeed());
+				callbacks_.getBroadcastItem(i).setScaleSpeed(
+						(int) (tracker_.getLatestSpeed() / tracker_
+								.getDilation()));
 			} catch (RemoteException ex) {
 				// The RemoteCallbackList will take care of removing
 				// the dead object for us.
@@ -76,13 +83,27 @@ public class WreckWatchService extends Service implements LocationListener {
 	// Service lifecycle
 	public void onCreate() {
 		super.onCreate();
-		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_SHORT).show();
 		tracker_ = new WaypointTracker();
 
 		// TODO - possibly change this to coarse location, and definitely
 		// increase the min time between GPS updates to conserve battery power
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+		if (BOOTSTRAP_ACCEL_SERVICE)
+			(new Timer()).schedule(new TimerTask() {
+
+				@Override
+				public void run() {
+					Intent dec = new Intent(WreckWatchService.this,
+							DecelerationCheckService.class);
+					dec.putExtra("AccelerationScaleFactor", accelerationScale_);
+					startService(dec);
+					bindService(dec, connection_, Context.BIND_AUTO_CREATE);
+					startedDecelerationService_ = true;
+				}
+			}, 2000);
 	}
 
 	public void onStart(Intent intent, int startId) {
@@ -136,7 +157,7 @@ public class WreckWatchService extends Service implements LocationListener {
 			}
 		}
 		callbacks_.finishBroadcast();
-		
+
 		checkSpeed();
 	}
 
@@ -164,4 +185,128 @@ public class WreckWatchService extends Service implements LocationListener {
 				callbacks_.unregister(cb);
 		}
 	};
+
+	/**
+	 * Class for interacting with the main interface of the Deceleration Check
+	 * Service
+	 */
+	private ServiceConnection connection_ = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			// This is called when the connection with the service has been
+			// established, giving us the service object we can use to
+			// interact with the service. We are communicating with our
+			// service through an IDL interface, so get a client-side
+			// representation of that from the raw service object.
+			IRegister mService = IRegister.Stub.asInterface(service);
+
+			// We want to monitor the service for as long as we are
+			// connected to it.
+			try {
+				mService.registerCallback(callback_);
+			} catch (RemoteException e) {
+				// In this case the service has crashed before we could even
+				// do anything with it; we can count on soon being
+				// disconnected (and then reconnected if it can be restarted)
+				// so there is no need to do anything here.
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			// This is called when the connection with the service has been
+			// unexpectedly disconnected -- that is, its process crashed.
+		}
+	};
+
+	/**
+	 * Defined as our callback implementation, allowing DecelerationCheckService
+	 * to call on us
+	 */
+	private ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
+		public void accelerometerChanged(float x, float y, float z)
+				throws RemoteException {
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i)
+							.accelerometerChanged(x, y, z);
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+		}
+
+		public void addedWaypoint() throws RemoteException {
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i).addedWaypoint();
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+		}
+
+		public void gpsChanged(double lat, double lng) throws RemoteException {
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i).gpsChanged(lat, lng);
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+
+		}
+
+		public void setAccelerometerMultiplier(int multip)
+				throws RemoteException {
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i).setAccelerometerMultiplier(
+							multip);
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+
+		}
+
+		public void setRealSpeed(int speed) throws RemoteException {
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i).setRealSpeed(speed);
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+
+		}
+
+		public void setScaleSpeed(int speed) throws RemoteException {
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i).setScaleSpeed(speed);
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+		}
+
+	};
+
 }
