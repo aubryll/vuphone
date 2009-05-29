@@ -56,6 +56,10 @@ public class WaypointTracker {
 		pointList_.add(current);
 	}
 	
+	public double getDilation() {
+		return timeDilation_;
+	}
+	
 	/**
 	 * Compute and return the total distance between the start
 	 * and end waypoints. 
