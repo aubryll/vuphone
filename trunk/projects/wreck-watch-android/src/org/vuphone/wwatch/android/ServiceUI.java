@@ -1,9 +1,5 @@
 package org.vuphone.wwatch.android;
 
-import java.util.Calendar;
-
-import org.vuphone.wwatch.android.http.HTTPPoster;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -107,7 +103,6 @@ public class ServiceUI extends Activity implements View.OnClickListener{
     		// Put up a confirm dialog and return an intent
     		dialog = new ConfirmationDialog(this);
         	dialog.show();
-        	dialog.startCountdown();
         	break;
     	}
 
