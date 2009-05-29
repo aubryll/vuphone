@@ -59,7 +59,7 @@ public class HTTPPoster {
 			String decStr = URLEncoder.encode(dec.toString(), "UTF-8");
 			
 			
-			Log.v(LOG_LABEL, "Entering HTTPPoster.doPost");
+			Log.v(LOG_LABEL, "Entering HTTPPoster.doAccidentPost");
 			HttpClient c = new DefaultHttpClient();
 			HttpPost post = new HttpPost(SERVER + PATH);
 			post.addHeader("Content-Type","application/x-www-form-urlencoded");

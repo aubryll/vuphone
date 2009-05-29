@@ -24,6 +24,9 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	private WaypointTracker tracker_ = null;
 	private boolean startedDecelerationService_ = false;
+	
+	
+	private float accelerationScale_ = (float) 1.0;
 
 	public void checkSpeed() {
 		// If we are going fast, start the Deceleration detection service
@@ -57,7 +60,6 @@ public class WreckWatchService extends Service implements LocationListener {
 	// Service lifecycle
 	public void onCreate() {
 		super.onCreate();
-
 		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_LONG).show();
 		tracker_ = new WaypointTracker();
 
@@ -84,6 +86,9 @@ public class WreckWatchService extends Service implements LocationListener {
 			tracker_.setDilation(d);
 			Toast.makeText(this, "GPS Service Started, dialation is " + d,
 					Toast.LENGTH_LONG).show();
+		}
+		if (intent.hasExtra("AccelerationScaleFactor")){
+			accelerationScale_ = intent.getExtras().getFloat("AccelerationScaleFactor");
 		}
 
 		// Returned from the 'Are you OK?' dialog
