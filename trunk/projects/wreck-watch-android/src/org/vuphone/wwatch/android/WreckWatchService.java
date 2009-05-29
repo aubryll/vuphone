@@ -81,6 +81,7 @@ public class WreckWatchService extends Service implements LocationListener {
 		// If we return from the 'Are you OK?' dialog, we need to skip this
 		if (intent.hasExtra("TimeDialation")) {
 			double d = intent.getExtras().getDouble("TimeDialation");
+			tracker_.setDilation(d);
 			Toast.makeText(this, "GPS Service Started, dialation is " + d,
 					Toast.LENGTH_LONG).show();
 		}
