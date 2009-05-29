@@ -11,7 +11,7 @@
 		android:layout_height="wrap_content" android:layout_width="fill_parent"
 		android:layout_below="@id/dialation_edit" android:text="Accelerometer Scale Factor"
 		android:layout_alignLeft="@id/dialation_edit" />
-	<EditText android:layout_below="@+id/accel_scale_lbl"
+	<EditText android:layout_below="@id/accel_scale_lbl"
 		android:id="@+id/accel_scale" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="" />
 
@@ -49,7 +49,7 @@
 	android:layout_height="wrap_content"
 	android:layout_width="wrap_content"
 	android:layout_below="@id/latest_speed"
-	android:layout_alignLeft="@id/real_speed"
+	android:layout_toRightOf="@id/real_speed"
 	android:paddingLeft="9px"
 	/>
 
