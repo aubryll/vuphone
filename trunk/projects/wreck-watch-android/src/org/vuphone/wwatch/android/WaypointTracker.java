@@ -18,7 +18,7 @@ public class WaypointTracker {
 	private ArrayList<Waypoint> pointList_ 		= null;
 	private ArrayList<ChangeData> deltaList_	= null;
 	
-	private double timeDialation_ = 1.0;	// timeDialation_  * actual time = simulated time
+	private double timeDilation_ = 1.0;	// timeDialation_  * actual time = simulated time
 											// ie, 2.0 makes everything twice as fast
 
 	/**
@@ -30,7 +30,7 @@ public class WaypointTracker {
 	public WaypointTracker(double dialation) {
 		pointList_ = new ArrayList<Waypoint>();
 		deltaList_ = new ArrayList<ChangeData>();
-		timeDialation_ = dialation;
+		timeDilation_ = dialation;
 	}
 
 	public WaypointTracker() {
@@ -63,7 +63,9 @@ public class WaypointTracker {
 	 * @param end
 	 * @return
 	 */
-	public double getDistanceBetween(int start, int end) {
+	public double getDistanceBetween(int start, int end) throws RuntimeException{
+		if (start >= end)
+			throw new RuntimeException("Invalid start and end indeces");
 		double distance = 0;
 		for (int index = start; index < end; ++index)
 			distance += deltaList_.get(index).getDistance();
@@ -78,11 +80,21 @@ public class WaypointTracker {
 	public double getLatestAcceleration() {
 		// TODO - Bound check
 		int size = pointList_.size();
-		double deltaSpeed = this.getSpeedBetween(size - 2, size - 1) - this.getSpeedBetween(size - 3, size - 2);
-		double deltaTime = this.getTimeBetween(size - 3, size - 1);
-		double accel = deltaSpeed / deltaTime;
 		
-		return accel;
+		switch (size) {
+		case 0:
+		case 1:
+			return 0;
+		case 2:
+			// Assumes the starting speed is 0.
+			return this.getSpeedBetween(0, 1) / this.getTimeBetween(0, 1);
+		default: // 3 and more
+			double deltaSpeed = this.getSpeedBetween(size - 2, size - 1) - this.getSpeedBetween(size - 3, size - 2);
+			double deltaTime = this.getTimeBetween(size - 3, size - 1);
+			double accel = deltaSpeed / deltaTime;
+		
+			return accel;
+		}
 	}
 	
 	/**
@@ -105,7 +117,9 @@ public class WaypointTracker {
 	 * @param destination
 	 * @return
 	 */
-	public double getSpeedBetween(int start, int end) {
+	public double getSpeedBetween(int start, int end) throws RuntimeException {
+		if (start >= end)
+			throw new RuntimeException("Invalid start and end indeces");
 		double distance = this.getDistanceBetween(start, end);
 		double time = this.getTimeBetween(start, end);
 		
@@ -119,9 +133,11 @@ public class WaypointTracker {
 	 * @param end
 	 * @return
 	 */
-	public double getTimeBetween(int start, int end) {
+	public double getTimeBetween(int start, int end) throws RuntimeException {
+		if (start >= end)
+			throw new RuntimeException("Invalid start and end indeces");
 		long time = pointList_.get(end).getTime() - pointList_.get(start).getTime();
-		return (double) time / timeDialation_;
+		return (double) time / timeDilation_;
 	}
 	
 	public List<Waypoint> getList() {
