@@ -13,9 +13,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
 import android.widget.Toast;
 
 public class WreckWatchService extends Service implements LocationListener {
+	private RemoteCallbackList<ISettingsViewCallback> callbacks_ = new RemoteCallbackList<ISettingsViewCallback>();
 
 	private final long FREQUENCY = 500; // How often (ms) to run accident
 	// checking routine
@@ -24,8 +27,7 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	private WaypointTracker tracker_ = null;
 	private boolean startedDecelerationService_ = false;
-	
-	
+
 	private float accelerationScale_ = (float) 1.0;
 
 	public void checkSpeed() {
@@ -44,6 +46,18 @@ public class WreckWatchService extends Service implements LocationListener {
 			stopService(new Intent(this,
 					org.vuphone.wwatch.android.DecelerationCheckService.class));
 		}
+		
+		final int N = callbacks_.beginBroadcast();
+		for (int i = 0; i < N; i++) {
+			try {
+				callbacks_.getBroadcastItem(i).setRealSpeed((int)tracker_.getLatestSpeed());
+				callbacks_.getBroadcastItem(i).setScaleSpeed((int)(tracker_.getLatestSpeed() / tracker_.getDilation()));
+			} catch (RemoteException ex) {
+				// The RemoteCallbackList will take care of removing
+				// the dead object for us.
+			}
+		}
+		callbacks_.finishBroadcast();
 	}
 
 	public void reportAccident() {
@@ -56,7 +70,7 @@ public class WreckWatchService extends Service implements LocationListener {
 	}
 
 	public IBinder onBind(Intent intent) {
-		return null;
+		return binder_;
 	}
 
 	// Service lifecycle
@@ -64,14 +78,6 @@ public class WreckWatchService extends Service implements LocationListener {
 		super.onCreate();
 		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_LONG).show();
 		tracker_ = new WaypointTracker();
-
-		// Schedule an speed check every FREQUENCY milliseconds
-		// If we are going quickly enough, it will start the accelerometer
-		new Timer("GPS speed checker").scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				checkSpeed();
-			}
-		}, 0, FREQUENCY);
 
 		// TODO - possibly change this to coarse location, and definitely
 		// increase the min time between GPS updates to conserve battery power
@@ -81,7 +87,7 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		
+
 		// If we return from the 'Are you OK?' dialog, we need to skip this
 		if (intent.hasExtra("TimeDialation")) {
 			double d = intent.getExtras().getDouble("TimeDialation");
@@ -89,8 +95,9 @@ public class WreckWatchService extends Service implements LocationListener {
 			Toast.makeText(this, "GPS Service Started, dialation is " + d,
 					Toast.LENGTH_LONG).show();
 		}
-		if (intent.hasExtra("AccelerationScaleFactor")){
-			accelerationScale_ = intent.getExtras().getFloat("AccelerationScaleFactor");
+		if (intent.hasExtra("AccelerationScaleFactor")) {
+			accelerationScale_ = intent.getExtras().getFloat(
+					"AccelerationScaleFactor");
 		}
 
 		// Returned from the 'Are you OK?' dialog
@@ -107,7 +114,7 @@ public class WreckWatchService extends Service implements LocationListener {
 	}
 
 	public void onDestroy() {
-		
+
 		super.onDestroy();
 		Toast.makeText(this, "GPS Service destroyed", Toast.LENGTH_SHORT)
 				.show();
@@ -117,6 +124,20 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	public void onLocationChanged(Location location) {
 		tracker_.addWaypoint(location);
+
+		final int N = callbacks_.beginBroadcast();
+		for (int i = 0; i < N; i++) {
+			try {
+				callbacks_.getBroadcastItem(i).gpsChanged(
+						location.getLatitude(), location.getLongitude());
+			} catch (RemoteException ex) {
+				// The RemoteCallbackList will take care of removing
+				// the dead object for us.
+			}
+		}
+		callbacks_.finishBroadcast();
+		
+		checkSpeed();
 	}
 
 	public void onProviderDisabled(String provider) {
@@ -127,4 +148,20 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
+
+	/**
+	 * The IRemoteInterface is defined through IDL
+	 */
+	private final IRegister.Stub binder_ = new IRegister.Stub() {
+
+		public void registerCallback(ISettingsViewCallback cb) {
+			if (cb != null)
+				callbacks_.register(cb);
+		}
+
+		public void unregisterCallback(ISettingsViewCallback cb) {
+			if (cb != null)
+				callbacks_.unregister(cb);
+		}
+	};
 }

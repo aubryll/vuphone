@@ -92,7 +92,7 @@ public class HTTPPoster {
 			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
 			new Thread(new Runnable(){
 
-				@Override
+				
 				public void run() {
 					HttpResponse resp;
 					try {
