@@ -11,10 +11,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
+import android.os.RemoteCallbackList;
+import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
 public class DecelerationCheckService extends Service {
+	private RemoteCallbackList<ISettingsViewCallback> callbacks_ = new RemoteCallbackList<ISettingsViewCallback>();
 	
 	private static final String LOG_TAG = "VUPHONE";
 	private static final String LOG_MSG_PREFIX = "DecelerationCheckService: ";
@@ -39,7 +42,6 @@ public class DecelerationCheckService extends Service {
 
 	public void onCreate() {
 		super.onCreate();
-		Log.v(LOG_TAG, LOG_MSG_PREFIX + "Creating DecelerationCheckService");
 
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer_ = sensorManager_
@@ -48,16 +50,13 @@ public class DecelerationCheckService extends Service {
 
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		Log.v(LOG_TAG, LOG_MSG_PREFIX + "Starting DecelerationCheckService");
-		Toast.makeText(this, "Deceleration Service Started", Toast.LENGTH_SHORT).show();
 		
-		if (intent.hasExtra("AccelerationScaleFactor")){
+		
+		if (intent.hasExtra("AccelerationScaleFactor"))
 			accelerationScale_ = intent.getExtras().getFloat("AccelerationScaleFactor");
-			Log.d(LOG_TAG, LOG_MSG_PREFIX + "Acceleration Scale set to " + accelerationScale_);
-		}else{
-			Log.e(LOG_TAG, LOG_MSG_PREFIX + "No scale factor provided, using 1.0");
-		}
-
+		
+		Toast.makeText(this, "Deceleration Service Started, scale " + accelerationScale_, Toast.LENGTH_SHORT).show();
+		
 		// Ensure that the timer is not scheduled with multiple calls to onStart
 		if (startedTimer_ == false)
 			t.schedule(task_, 0, TIME_BETWEEN_MEASUREMENTS);
@@ -66,7 +65,6 @@ public class DecelerationCheckService extends Service {
 
 	public void onDestroy() {
 		super.onDestroy();
-		Log.v(LOG_TAG, LOG_MSG_PREFIX + "Destroying DecelerationCheckService");
 		Toast.makeText(this, "Deceleration Service Stopped", Toast.LENGTH_SHORT).show();
 
 		if (startedTimer_)
@@ -77,11 +75,17 @@ public class DecelerationCheckService extends Service {
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		return null;
-	}
-
-	private void makeToast(String txt) {
-		Toast.makeText(this, txt, Toast.LENGTH_LONG).show();
+		final int N = callbacks_.beginBroadcast();
+		for (int i = 0; i < N; i++) {
+			try {
+				callbacks_.getBroadcastItem(i).setAccelerometerMultiplier((int)accelerationScale_);
+			} catch (RemoteException ex) {
+				// The RemoteCallbackList will take care of removing
+				// the dead object for us.
+			}
+		}
+		callbacks_.finishBroadcast();
+		return binder_;
 	}
 
 	private void unregisterAccelerometer() {
@@ -97,28 +101,34 @@ public class DecelerationCheckService extends Service {
 
 		public void onSensorChanged(SensorEvent e) {
 			// Only allow one sensor event in
-			Log.d(LOG_TAG, LOG_MSG_PREFIX + "Sensor event received");
-			Log.d(LOG_TAG, LOG_MSG_PREFIX + "X: " + e.values[0] + " \nY: " + e.values[1] + "\nX: " + e.values[2]);
-			
 			if (called_)
 				return;
 			called_ = true;
 			
+			final int N = callbacks_.beginBroadcast();
+			for (int i = 0; i < N; i++) {
+				try {
+					callbacks_.getBroadcastItem(i).accelerometerChanged(
+							e.values[0], e.values[1], e.values[2]);
+				} catch (RemoteException ex) {
+					// The RemoteCallbackList will take care of removing
+					// the dead object for us.
+				}
+			}
+			callbacks_.finishBroadcast();
+			
 			float valx = e.values[0] * accelerationScale_;
 			float valy = e.values[1] * accelerationScale_;
 			float valz = e.values[2] * accelerationScale_;
-			Log.d(LOG_TAG, LOG_MSG_PREFIX + "Scaled X: " + valx + "\nScaled Y: " + valy + "\nScaled Z: " + valz);
 
 			// Do stuff with data
 			if (Math.abs(valx) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valy) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
-				makeToast("Firing intent, detected X:" + valx + ", Y:"
-						+ valy + ", Z:" + valz);
+				
 				Intent intent = new Intent(context_,
 						org.vuphone.wwatch.android.ServiceUI.class);
 
-				Log.i(LOG_TAG, LOG_MSG_PREFIX + "Potential wreck detected");
 				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
 				context_.startActivity(intent);
 
@@ -131,7 +141,25 @@ public class DecelerationCheckService extends Service {
 			// Unregister ourself
 			unregisterAccelerometer();
 		}
+		
+		
 	}
+	
+	private final IRegister.Stub binder_ = new IRegister.Stub() {
+
+		public void registerCallback(ISettingsViewCallback callback)
+				throws RemoteException {
+			if (callback != null) 
+				callbacks_.register(callback);
+		}
+
+		public void unregisterCallback(ISettingsViewCallback callback)
+				throws RemoteException {
+			if (callback != null) 
+				callbacks_.unregister(callback);
+		}
+		
+	};
 
 	private class RegisterTask extends TimerTask {
 
