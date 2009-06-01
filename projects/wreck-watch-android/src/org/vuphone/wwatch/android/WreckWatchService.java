@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
+import android.util.Log;
 import android.widget.Toast;
 
 public class WreckWatchService extends Service implements LocationListener {
@@ -24,6 +25,8 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	final static double HIGH_SPEED = 22.353; // 50 mph = 22.353 meters/second
 	final static double HIGH_ACCEL = 0; // TODO - Look up reasonable values
+	
+	final static String tag = "VUPHONE";
 
 	final static boolean BOOTSTRAP_ACCEL_SERVICE = true;
 
@@ -46,11 +49,13 @@ public class WreckWatchService extends Service implements LocationListener {
 			startedDecelerationService_ = true;
 		} else if ((tracker_.getLatestSpeed() < HIGH_SPEED)
 				&& (startedDecelerationService_)) {
+			startedDecelerationService_ = false;
 			stopService(new Intent(this,
 					DecelerationCheckService.class));
 			unbindService(connection_);
 		}
 
+		Log.v(tag, "WWS informing SUI of real and scale speed");
 		final int N = callbacks_.beginBroadcast();
 		for (int i = 0; i < N; i++) {
 			try {
@@ -77,6 +82,7 @@ public class WreckWatchService extends Service implements LocationListener {
 	}
 
 	public IBinder onBind(Intent intent) {
+		Log.v(tag, "WWS returning IBinder");
 		return binder_;
 	}
 
@@ -108,7 +114,8 @@ public class WreckWatchService extends Service implements LocationListener {
 
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-
+		
+		
 		// If we return from the 'Are you OK?' dialog, we need to skip this
 		if (intent.hasExtra("TimeDialation")) {
 			double d = intent.getExtras().getDouble("TimeDialation");
@@ -143,6 +150,10 @@ public class WreckWatchService extends Service implements LocationListener {
 		Intent intent = new Intent(this, org.vuphone.wwatch.android.DecelerationCheckService.class);
 		stopService(intent);
 		unbindService(connection_);
+		
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		lm.removeUpdates(this);
+		
 	}
 
 	// LocationListener
@@ -150,6 +161,7 @@ public class WreckWatchService extends Service implements LocationListener {
 	public void onLocationChanged(Location location) {
 		tracker_.addWaypoint(location);
 
+		Log.v(tag, "WWS sending location changed");
 		final int N = callbacks_.beginBroadcast();
 		for (int i = 0; i < N; i++) {
 			try {
@@ -166,9 +178,11 @@ public class WreckWatchService extends Service implements LocationListener {
 	}
 
 	public void onProviderDisabled(String provider) {
+		Toast.makeText(this, "GPS disabled", Toast.LENGTH_SHORT);
 	}
 
 	public void onProviderEnabled(String provider) {
+		Toast.makeText(this, "GPS enabled", Toast.LENGTH_SHORT);
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -180,11 +194,13 @@ public class WreckWatchService extends Service implements LocationListener {
 	private final IRegister.Stub binder_ = new IRegister.Stub() {
 
 		public void registerCallback(ISettingsViewCallback cb) {
+			Log.v(tag, "WWS registering listener");
 			if (cb != null)
 				callbacks_.register(cb);
 		}
 
 		public void unregisterCallback(ISettingsViewCallback cb) {
+			Log.v(tag, "WWS unregistering listener");
 			if (cb != null)
 				callbacks_.unregister(cb);
 		}
@@ -228,6 +244,7 @@ public class WreckWatchService extends Service implements LocationListener {
 	private ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
 		public void accelerometerChanged(float x, float y, float z)
 				throws RemoteException {
+			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -242,6 +259,7 @@ public class WreckWatchService extends Service implements LocationListener {
 		}
 
 		public void addedWaypoint() throws RemoteException {
+			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -255,6 +273,7 @@ public class WreckWatchService extends Service implements LocationListener {
 		}
 
 		public void gpsChanged(double lat, double lng) throws RemoteException {
+			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -270,6 +289,7 @@ public class WreckWatchService extends Service implements LocationListener {
 
 		public void setAccelerometerMultiplier(int multip)
 				throws RemoteException {
+			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -285,6 +305,7 @@ public class WreckWatchService extends Service implements LocationListener {
 		}
 
 		public void setRealSpeed(int speed) throws RemoteException {
+			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -299,6 +320,7 @@ public class WreckWatchService extends Service implements LocationListener {
 		}
 
 		public void setScaleSpeed(int speed) throws RemoteException {
+			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
