@@ -71,6 +71,7 @@ public class ServiceUI extends Activity {
 			startService(intent);
 			Log.v(tag, "SUI started WWS, now binding");
 			bindService(intent, connection_, BIND_AUTO_CREATE);
+			
 		}
 	};
 
@@ -136,7 +137,7 @@ public class ServiceUI extends Activity {
 
 			edit_ = (EditText) super.findViewById(R.id.dialation_edit);
 			accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);
-
+			
 			break;
 
 		case ServiceUI.CONFIRM:
@@ -198,6 +199,7 @@ public class ServiceUI extends Activity {
 			// representation of that from the raw service object.
 			Log.v(tag, "SUI onConnected activated, adding to WWS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
+			
 
 			// We want to monitor the service for as long as we are
 			// connected to it.
@@ -215,6 +217,7 @@ public class ServiceUI extends Activity {
 			Log.v(ServiceUI.tag, "SUI - WWS was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
+			
 		}
 	};
 
@@ -229,6 +232,11 @@ public class ServiceUI extends Activity {
 			if (m_ != 0)
 				scaleAccel_.setTag("X: " + (x * m_) + ", Y:" + (y * m_)
 						+ ", Z:" + (z * m_));
+		}
+		
+		public void showConfirmDialog(){
+			dialog = new ConfirmationDialog(ServiceUI.this);
+			dialog.show();
 		}
 
 		public void addedWaypoint() throws RemoteException {
