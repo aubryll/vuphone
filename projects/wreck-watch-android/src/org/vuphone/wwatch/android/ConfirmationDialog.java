@@ -30,9 +30,11 @@ class ConfirmationDialog extends ProgressDialog implements
 		switch (button){
 		case DialogInterface.BUTTON_POSITIVE:
 			this.fireAccidentIntent(true);
+			vibrator_.cancel();
 			break;
 		case DialogInterface.BUTTON_NEGATIVE:
 			this.fireAccidentIntent(false);
+			vibrator_.cancel();
 			break;			
 		}
 	}
