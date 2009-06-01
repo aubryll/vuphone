@@ -136,6 +136,13 @@ public class WreckWatchService extends Service implements LocationListener {
 			} else {
 				Toast.makeText(this, "Here's to your health",
 						Toast.LENGTH_SHORT).show();
+				//Restart the DecelerationCheckService
+//				Intent dec = new Intent(WreckWatchService.this,
+//						DecelerationCheckService.class);
+//				dec.putExtra("AccelerationScaleFactor", accelerationScale_);
+//				startService(dec);
+//				bindService(dec, connection_, Context.BIND_AUTO_CREATE);
+//				startedDecelerationService_ = true;
 				
 			}
 		}
@@ -331,6 +338,20 @@ public class WreckWatchService extends Service implements LocationListener {
 				}
 			}
 			callbacks_.finishBroadcast();
+		}
+
+		@Override
+		public void showConfirmDialog() throws RemoteException {
+			int num = callbacks_.beginBroadcast();
+			for (int i = 0; i < num; ++i){
+				try{
+					callbacks_.getBroadcastItem(i).showConfirmDialog();
+				}catch (RemoteException re) {
+
+				}
+				
+			}
+			
 		}
 
 	};

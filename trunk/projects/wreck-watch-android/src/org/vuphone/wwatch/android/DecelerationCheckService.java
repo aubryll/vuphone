@@ -127,18 +127,30 @@ public class DecelerationCheckService extends Service {
 					|| Math.abs(valy) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
 
-				Intent intent = new Intent(context_,
-						org.vuphone.wwatch.android.ServiceUI.class);
+//				Intent intent = new Intent(context_,
+//						org.vuphone.wwatch.android.ServiceUI.class);
+//
+//				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+//				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				startActivity(intent);
+				
+				final int num = callbacks_.beginBroadcast();
+				for (int i = 0; i < num; ++i){
+					try{
+						callbacks_.getBroadcastItem(i).showConfirmDialog();
+					}catch (RemoteException re) {
 
-				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				startActivity(intent);
+					}
+					
+				}
+				callbacks_.finishBroadcast();
 
 				// We detected wreck, turn ourself off to conserve power and to
 				// clean up nicely
 				unregisterAccelerometer();
 				stopSelf();
 				t.cancel();
+				startedTimer_ = false;
 				called_ = true;
 			}else{
 
