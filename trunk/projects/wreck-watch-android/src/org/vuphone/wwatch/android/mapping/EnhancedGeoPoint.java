@@ -17,6 +17,7 @@ package org.vuphone.wwatch.android.mapping;
 
 import com.google.android.maps.GeoPoint;
 
+
 public class EnhancedGeoPoint {
 	
 	

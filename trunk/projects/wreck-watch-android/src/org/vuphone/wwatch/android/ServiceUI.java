@@ -7,6 +7,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,6 +31,8 @@ public class ServiceUI extends Activity {
 
 	private EditText edit_ = null;
 	private EditText accelScaleEdit_ = null;
+	
+	private final static String tag = "VUPHONE"; 
 
 	private TextView scaleSpeed_ = null;
 	private TextView realSpeed_ = null;
@@ -66,6 +69,7 @@ public class ServiceUI extends Activity {
 			intent.putExtra("AccelerationScaleFactor", accelScale);
 			
 			startService(intent);
+			Log.v(tag, "SUI started WWS, now binding");
 			bindService(intent, connection_, BIND_AUTO_CREATE);
 		}
 	};
@@ -74,7 +78,13 @@ public class ServiceUI extends Activity {
 		public void onClick(View v) {
 			Intent intent = new Intent(ServiceUI.this, WreckWatchService.class);
 			stopService(intent);
-			unbindService(connection_);
+			Log.v(tag, "SUI stopped WWS, now unbinding");
+			try {
+				unbindService(connection_);
+				Log.v(tag, "SUI successfully unbound from WWS");
+			} catch (Exception e) {
+				Log.v(tag, "SUI was not bound to WWS");
+			}
 			
 			intent = new Intent(ServiceUI.this, DecelerationCheckService.class);
 			stopService(intent);
@@ -160,10 +170,20 @@ public class ServiceUI extends Activity {
 
 	protected void onStop() {
 		super.onStop();
+		Log.v(tag, "SUI onStop entered");
+		
+		try {
+			unbindService(connection_);
+			Log.v(tag, "SUI unbound from WWS successfully");
+		} catch (Exception e) {
+			Log.w(tag, "SUI was not bound to WWS!");
+		}
 	}
 
 	protected void onDestroy() {
 		super.onDestroy();
+		
+
 	}
 
 	/**
@@ -176,6 +196,7 @@ public class ServiceUI extends Activity {
 			// interact with the service. We are communicating with our
 			// service through an IDL interface, so get a client-side
 			// representation of that from the raw service object.
+			Log.v(tag, "SUI onConnected activated, adding to WWS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
 			// We want to monitor the service for as long as we are
@@ -191,6 +212,7 @@ public class ServiceUI extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
+			Log.v(ServiceUI.tag, "SUI - WWS was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
 		}
@@ -202,6 +224,7 @@ public class ServiceUI extends Activity {
 
 		public void accelerometerChanged(float x, float y, float z)
 				throws RemoteException {
+			Log.v(tag, "SUI callback activated");
 			realAccel_.setText("X: " + x + ", Y:" + y + ", Z:" + z);
 			if (m_ != 0)
 				scaleAccel_.setTag("X: " + (x * m_) + ", Y:" + (y * m_)
@@ -209,24 +232,29 @@ public class ServiceUI extends Activity {
 		}
 
 		public void addedWaypoint() throws RemoteException {
+			Log.v(tag, "SUI callback activated");
 			numGPS++;
 			numWaypoints_.setText("GPS: " + numGPS);
 		}
 
 		public void gpsChanged(double lat, double lng) throws RemoteException {
+			Log.v(tag, "SUI callback activated");
 			lastGps_.setText("Lat: " + lat + ", Lng: " + lng);
 		}
 
 		public void setAccelerometerMultiplier(int multip)
 				throws RemoteException {
+			Log.v(tag, "SUI callback activated");
 			m_ = multip;
 		}
 
 		public void setRealSpeed(int speed) throws RemoteException {
+			Log.v(tag, "SUI callback activated");
 			realSpeed_.setText("Real: " + speed);
 		}
 
 		public void setScaleSpeed(int speed) throws RemoteException {
+			Log.v(tag, "SUI callback activated");
 			scaleSpeed_.setText("Scale: " + speed);
 		}
 
