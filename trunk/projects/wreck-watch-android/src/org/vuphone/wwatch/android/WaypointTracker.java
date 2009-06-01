@@ -48,7 +48,7 @@ public class WaypointTracker {
 		
 		Waypoint current = new Waypoint(loc);
 		
-		if (pointList_.size() >= 1) {
+		if (pointList_.size() > 1) {
 			Waypoint last = pointList_.get(pointList_.size() - 1);
 			deltaList_.add(new ChangeData(last, current));
 		}
@@ -108,9 +108,9 @@ public class WaypointTracker {
 	 */
 	public double getLatestSpeed() {
 		int size = pointList_.size();
-		if (size <= 1)
+		if (size < 2)
 			return 0.0;
-		return this.getSpeedBetween(size - 2, size - 1);
+		return getSpeedBetween(size - 2, size - 1);
 	}
 	
 	/**

@@ -11,9 +11,9 @@ interface ISettingsViewCallback {
     
     void gpsChanged(in double lat, in double lng);
     
-    void setRealSpeed(in int speed);
+    void setRealSpeed(in double speed);
     
-    void setScaleSpeed(in int speed);
+    void setScaleSpeed(in double speed);
     
     void setAccelerometerMultiplier(in int multip);
    

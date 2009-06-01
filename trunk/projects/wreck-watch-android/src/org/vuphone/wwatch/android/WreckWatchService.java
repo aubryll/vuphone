@@ -60,9 +60,9 @@ public class WreckWatchService extends Service implements LocationListener {
 		for (int i = 0; i < N; i++) {
 			try {
 				callbacks_.getBroadcastItem(i).setRealSpeed(
-						(int) tracker_.getLatestSpeed());
+						tracker_.getLatestSpeed());
 				callbacks_.getBroadcastItem(i).setScaleSpeed(
-						(int) (tracker_.getLatestSpeed() / tracker_
+						(tracker_.getLatestSpeed() / tracker_
 								.getDilation()));
 			} catch (RemoteException ex) {
 				// The RemoteCallbackList will take care of removing
@@ -311,7 +311,7 @@ public class WreckWatchService extends Service implements LocationListener {
 
 		}
 
-		public void setRealSpeed(int speed) throws RemoteException {
+		public void setRealSpeed(double speed) throws RemoteException {
 			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
@@ -326,7 +326,7 @@ public class WreckWatchService extends Service implements LocationListener {
 
 		}
 
-		public void setScaleSpeed(int speed) throws RemoteException {
+		public void setScaleSpeed(double speed) throws RemoteException {
 			
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
@@ -340,7 +340,6 @@ public class WreckWatchService extends Service implements LocationListener {
 			callbacks_.finishBroadcast();
 		}
 
-		@Override
 		public void showConfirmDialog() throws RemoteException {
 			int num = callbacks_.beginBroadcast();
 			for (int i = 0; i < num; ++i){

@@ -9,7 +9,7 @@ import android.location.Location;
  *
  */
 public class ChangeData {
-	private double distance_	= 0;	// meters
+	private float distance_	= 0;	// meters
 	private double speed_		= 0;	// Real speed in meters/second
 	private long time_			= 0;	// Real time in milliseconds.
 	
@@ -22,11 +22,10 @@ public class ChangeData {
 		float[] result = new float[1];
 		Location.distanceBetween(origin.getLatitude(), origin.getLongitude(), 
 				destination.getLatitude(), destination.getLongitude(), result);
-		distance_ = (double) result[0];
+		distance_ = result[0];
 		
-		time_ = destination.getTime() - origin.getTime();
-		
-		speed_ = distance_ * 1000.0 / time_;
+		time_ = (destination.getTime() - origin.getTime()) / 1000; // seconds
+		speed_ = distance_ / time_;
 	}
 	
 	public double getDistance() {
