@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <org.vuphone.wwatch.android.mapping.AccidentMapView
+    	android:id="@+id/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:apiKey="0jkNEKZdvnMwQ2yB7GDUqrWqjgAEsPhREB9YyPQ" />
+        <!-- Krzysztof="0zz3AmUYDBIjlLBRuJlLd74N-jLfx2mDwJG4cDQ" -->
+        <!-- Hamilton="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" -->
+        <!-- Chris="0jkNEKZdvnMwQ2yB7GDUqrWqjgAEsPhREB9YyPQ" -->
+    
+</RelativeLayout>   
