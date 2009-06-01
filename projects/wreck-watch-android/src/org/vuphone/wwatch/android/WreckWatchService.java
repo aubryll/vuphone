@@ -39,18 +39,21 @@ public class WreckWatchService extends Service implements LocationListener {
 		// If we are going fast, start the Deceleration detection service
 		// If we are going slow, stop it
 		// Use a bool flag to prevent generating garbage intents
-		if ((tracker_.getLatestSpeed() >= HIGH_SPEED)
-				&& (startedDecelerationService_ == false)) {
-			Intent dec = new Intent(this, DecelerationCheckService.class);
-			dec.putExtra("AccelerationScaleFactor", accelerationScale_);
-			startService(dec);
-			bindService(dec, connection_, Context.BIND_AUTO_CREATE);
-			startedDecelerationService_ = true;
-		} else if ((tracker_.getLatestSpeed() < HIGH_SPEED)
-				&& (startedDecelerationService_)) {
-			startedDecelerationService_ = false;
-			stopService(new Intent(this, DecelerationCheckService.class));
-			unbindService(connection_);
+		// Use the bootstrap to avoid this check alltogether
+		if (BOOTSTRAP_ACCEL_SERVICE == false) {
+			if ((tracker_.getLatestSpeed() >= HIGH_SPEED)
+					&& (startedDecelerationService_ == false)) {
+				Intent dec = new Intent(this, DecelerationCheckService.class);
+				dec.putExtra("AccelerationScaleFactor", accelerationScale_);
+				startService(dec);
+				bindService(dec, connection_, Context.BIND_AUTO_CREATE);
+				startedDecelerationService_ = true;
+			} else if ((tracker_.getLatestSpeed() < HIGH_SPEED)
+					&& (startedDecelerationService_)) {
+				startedDecelerationService_ = false;
+				stopService(new Intent(this, DecelerationCheckService.class));
+				unbindService(connection_);
+			}
 		}
 
 		Log.v(tag, "WWS informing SUI of real and scale speed");
@@ -153,10 +156,17 @@ public class WreckWatchService extends Service implements LocationListener {
 		Intent intent = new Intent(this,
 				org.vuphone.wwatch.android.DecelerationCheckService.class);
 		stopService(intent);
-		unbindService(connection_);
-
+		
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.removeUpdates(this);
+		
+		try {
+			unbindService(connection_);
+		} catch (Exception e) {
+
+		}
+
+		
 
 	}
 
@@ -262,20 +272,6 @@ public class WreckWatchService extends Service implements LocationListener {
 			callbacks_.finishBroadcast();
 		}
 
-		public void addedWaypoint() throws RemoteException {
-
-			final int N = callbacks_.beginBroadcast();
-			for (int i = 0; i < N; i++) {
-				try {
-					callbacks_.getBroadcastItem(i).addedWaypoint();
-				} catch (RemoteException ex) {
-					// The RemoteCallbackList will take care of removing
-					// the dead object for us.
-				}
-			}
-			callbacks_.finishBroadcast();
-		}
-
 		public void gpsChanged(double lat, double lng) throws RemoteException {
 
 			final int N = callbacks_.beginBroadcast();
@@ -345,9 +341,7 @@ public class WreckWatchService extends Service implements LocationListener {
 				} catch (RemoteException re) {
 
 				}
-
 			}
-
 		}
 
 	};

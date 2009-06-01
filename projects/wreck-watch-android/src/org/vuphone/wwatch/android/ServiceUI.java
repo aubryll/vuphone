@@ -239,15 +239,11 @@ public class ServiceUI extends Activity {
 			dialog.show();
 		}
 
-		public void addedWaypoint() throws RemoteException {
-			Log.v(tag, "SUI callback activated");
-			numGPS++;
-			numWaypoints_.setText("GPS: " + numGPS);
-		}
-
 		public void gpsChanged(double lat, double lng) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
 			lastGps_.setText("Lat: " + lat + ", Lng: " + lng);
+			numGPS++;
+			numWaypoints_.setText("GPS: " + numGPS);
 		}
 
 		public void setAccelerometerMultiplier(int multip)
@@ -258,13 +254,13 @@ public class ServiceUI extends Activity {
 
 		public void setRealSpeed(double speed) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
-			
+			speed = Math.round(speed * 100.0)/100.0;
 			realSpeed_.setText("Real: " + speed);
 		}
 
 		public void setScaleSpeed(double speed) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
-			
+			speed = Math.round(speed * 100.0)/100.0;
 			scaleSpeed_.setText("Scale: " + speed);
 		}
 
