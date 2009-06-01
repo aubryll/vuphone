@@ -256,12 +256,12 @@ public class ServiceUI extends Activity {
 			m_ = multip;
 		}
 
-		public void setRealSpeed(int speed) throws RemoteException {
+		public void setRealSpeed(double speed) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
 			realSpeed_.setText("Real: " + speed);
 		}
 
-		public void setScaleSpeed(int speed) throws RemoteException {
+		public void setScaleSpeed(double speed) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
 			scaleSpeed_.setText("Scale: " + speed);
 		}
