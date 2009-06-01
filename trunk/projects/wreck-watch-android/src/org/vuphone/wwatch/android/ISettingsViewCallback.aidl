@@ -19,4 +19,6 @@ interface ISettingsViewCallback {
    
     void addedWaypoint();
     
+    void showConfirmDialog();
+    
 }
