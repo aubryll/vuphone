@@ -18,9 +18,9 @@
 			</intent-filter>
 		</activity>
 		
-		<service android:name=".WreckWatchService"/>
+		<service android:name=".GPService"/>
 		
-		<service android:name=".DecelerationCheckService" />
+		<service android:name=".DecelerationService" />
 		
 		
 	</application>

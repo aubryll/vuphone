@@ -24,16 +24,16 @@ import android.widget.TextView;
  * 
  */
 public class ServiceUI extends Activity {
-
+	private final static String tag = "VUPHONE";
 	final static int LAUNCH = 0;
 	final static int CONFIRM = 1;
 	private int mode_ = 0;
 
+	// All the EditText UI elements we will be interacting with
 	private EditText edit_ = null;
 	private EditText accelScaleEdit_ = null;
-	
-	private final static String tag = "VUPHONE"; 
 
+	// All the textView UI elements we will be interacting with
 	private TextView scaleSpeed_ = null;
 	private TextView realSpeed_ = null;
 	private TextView realAccel_ = null;
@@ -43,70 +43,86 @@ public class ServiceUI extends Activity {
 
 	private ConfirmationDialog dialog = null;
 
+	/**
+	 * OnCLickListener for the start services button
+	 */
 	private OnClickListener startListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(ServiceUI.this, WreckWatchService.class);
+			// Start GPS Service
+			Intent gpsIntent = new Intent(ServiceUI.this, GPService.class);
 			double dialation = 1.0;
-			float accelScale = (float)1.0;
-			
-			if (!edit_.getText().toString().equals("")){
-				try {
-					dialation = Double.parseDouble(edit_.getText().toString());
-				} catch (Exception e) {
-				}
+			try {
+				dialation = Double.parseDouble(edit_.getText().toString());
+			} catch (Exception e) {
 			}
+			gpsIntent.putExtra("TimeDialation", dialation);
 
-			if (!accelScaleEdit_.getText().toString().equals("")){
-				try {
-					accelScale = Float.parseFloat(accelScaleEdit_.getText()
-							.toString());
-				} catch (Exception e) {
-				}
+			startService(gpsIntent);
+			Log.v(tag, "Testing started GPS, now binding");
+			bindService(gpsIntent, gpsConnection_, BIND_AUTO_CREATE);
+
+			// Start Accelerometer service
+			Intent accelIntent = new Intent(ServiceUI.this,
+					DecelerationService.class);
+			float accelScale = (float) 1.0;
+			try {
+				accelScale = Float.parseFloat(accelScaleEdit_.getText()
+						.toString());
+			} catch (Exception e) {
 			}
-			
-
-			intent.putExtra("TimeDialation", dialation);
-			intent.putExtra("AccelerationScaleFactor", accelScale);
-			
-			startService(intent);
-			Log.v(tag, "SUI started WWS, now binding");
-			bindService(intent, connection_, BIND_AUTO_CREATE);
-			
+			gpsIntent.putExtra("AccelerationScaleFactor", accelScale);
+			startService(accelIntent);
+			Log.v(tag, "Testing started Accel, now binding");
+			bindService(accelIntent, accelConnection_, BIND_AUTO_CREATE);
 		}
 	};
 
+	/**
+	 * OnCLickListener for the stop services button
+	 */
 	private OnClickListener stopListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(ServiceUI.this, WreckWatchService.class);
-			stopService(intent);
-			Log.v(tag, "SUI stopped WWS, now unbinding");
+			// Stop GPS
+			Intent gpsIntent = new Intent(ServiceUI.this, GPService.class);
+			stopService(gpsIntent);
+			Log.v(tag, "Testing stopped GPS, now unbinding");
 			try {
-				unbindService(connection_);
-				Log.v(tag, "SUI successfully unbound from WWS");
+				unbindService(gpsConnection_);
+				Log.v(tag, "Testing successfully unbound from GPS");
 			} catch (Exception e) {
-				Log.v(tag, "SUI was not bound to WWS");
+				Log.v(tag, "Testing was not bound to GPS");
 			}
-			
-			intent = new Intent(ServiceUI.this, DecelerationCheckService.class);
-			stopService(intent);
 
+			// Stop accel
+			Intent decIntent = new Intent(ServiceUI.this,
+					DecelerationService.class);
+			stopService(decIntent);
+			Log.v(tag, "Testing stopped Accel, now unbinding");
+			try {
+				unbindService(accelConnection_);
+				Log.v(tag, "Testing successfully unbound from Accel");
+			} catch (Exception e) {
+				Log.v(tag, "Testing was not bound to Accel");
+			}
 		}
 	};
 
+	/**
+	 * OnCLickListener for the test dialog button
+	 */
 	private OnClickListener testListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent2 = new Intent(ServiceUI.this,
+			Intent testDialogIntent = new Intent(ServiceUI.this,
 					org.vuphone.wwatch.android.ServiceUI.class);
 
-			intent2.putExtra("ActivityMode", ServiceUI.CONFIRM);
-			startActivity(intent2);
-
+			testDialogIntent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+			startActivity(testDialogIntent);
 		}
 	};
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		Intent startIntent = super.getIntent();
 		Bundle data = startIntent.getExtras();
 		if (data == null)
@@ -126,7 +142,7 @@ public class ServiceUI extends Activity {
 			scaleAccel_ = (TextView) findViewById(R.id.scale_accel);
 			lastGps_ = (TextView) findViewById(R.id.last_gps);
 			numWaypoints_ = (TextView) findViewById(R.id.num_gps);
-			
+
 			// Assign click listeners
 			Button button = (Button) findViewById(R.id.start_button);
 			button.setOnClickListener(startListener);
@@ -137,7 +153,7 @@ public class ServiceUI extends Activity {
 
 			edit_ = (EditText) super.findViewById(R.id.dialation_edit);
 			accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);
-			
+
 			break;
 
 		case ServiceUI.CONFIRM:
@@ -146,60 +162,75 @@ public class ServiceUI extends Activity {
 			dialog.show();
 			break;
 		}
-
-		// //Testing for Poster
-
-		// HTTPPoster.doAccidentPost(Calendar.getInstance().getTimeInMillis(),
-		// 500.23, -41.2, null);
 	}
 
+	/**
+	 * Called when the activity is started
+	 */
 	protected void onStart() {
 		super.onStart();
 	}
 
+	/**
+	 * Called when the activity was stopped, and is about to be started again
+	 */
 	protected void onRestart() {
 		super.onRestart();
 	}
 
+	/**
+	 * Called to take and activity out of onPause, and back into a focused state
+	 */
 	protected void onResume() {
 		super.onResume();
 	}
 
+	/**
+	 * Activity is still slightly visible, but is not the focus for the user
+	 */
 	protected void onPause() {
 		super.onPause();
 	}
 
+	/**
+	 * Called when an activity is no longer visible
+	 */
 	protected void onStop() {
 		super.onStop();
 		Log.v(tag, "SUI onStop entered");
-		
+
 		try {
-			unbindService(connection_);
+			unbindService(gpsConnection_);
 			Log.v(tag, "SUI unbound from WWS successfully");
 		} catch (Exception e) {
 			Log.w(tag, "SUI was not bound to WWS!");
 		}
+		
+		try {
+			unbindService(accelConnection_);
+			Log.v(tag, "Testing unbound from Accel successfully");
+		} catch (Exception e) {
+			Log.v(tag, "Testing was not bound to Accel");
+		}
 	}
 
+	/**
+	 * Comparable to a destructor, this is called when an activity is no longer
+	 * needed
+	 */
 	protected void onDestroy() {
 		super.onDestroy();
-		
 
 	}
 
 	/**
-	 * Class for interacting with the main interface of the service.
+	 * Used to interact with the main interface (IRegister) of the services we
+	 * are interested in.
 	 */
-	private ServiceConnection connection_ = new ServiceConnection() {
+	private ServiceConnection gpsConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			// This is called when the connection with the service has been
-			// established, giving us the service object we can use to
-			// interact with the service. We are communicating with our
-			// service through an IDL interface, so get a client-side
-			// representation of that from the raw service object.
-			Log.v(tag, "SUI onConnected activated, adding to WWS callbacks");
+			Log.v(tag, "SUI onConnected activated, adding to GPS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
-			
 
 			// We want to monitor the service for as long as we are
 			// connected to it.
@@ -214,33 +245,67 @@ public class ServiceUI extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			Log.v(ServiceUI.tag, "SUI - WWS was disconnected");
+			Log.v(ServiceUI.tag, "SUI - GPS was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
-			
+
 		}
 	};
 
+	/**
+	 * Used to interact with the main interface (IRegister) of the services we
+	 * are interested in.
+	 */
+	private ServiceConnection accelConnection_ = new ServiceConnection() {
+		public void onServiceConnected(ComponentName className, IBinder service) {
+			Log.v(tag, "SUI onConnected activated, adding to Accel callbacks");
+			IRegister mService = IRegister.Stub.asInterface(service);
+
+			// We want to monitor the service for as long as we are
+			// connected to it.
+			try {
+				mService.registerCallback(callback_);
+			} catch (RemoteException e) {
+				// In this case the service has crashed before we could even
+				// do anything with it; we can count on soon being
+				// disconnected (and then reconnected if it can be restarted)
+				// so there is no need to do anything here.
+			}
+		}
+
+		public void onServiceDisconnected(ComponentName className) {
+			Log.v(ServiceUI.tag, "SUI - Accel was disconnected");
+			// This is called when the connection with the service has been
+			// unexpectedly disconnected -- that is, its process crashed.
+
+		}
+	};
+
+	/**
+	 * Contains the implementations of the methods defined in the
+	 * ISettingsViewCallback interface, which is defined to allow the GPS and
+	 * accelerometer services to pass updates to this activity
+	 */
 	private ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
 		private int m_ = 0;
 		private int numGPS = 0;
 
 		public void accelerometerChanged(float x, float y, float z)
 				throws RemoteException {
-			Log.v(tag, "SUI callback activated");
-			realAccel_.setText("X: " + x + ", Y:" + y + ", Z:" + z);
+			
+			realAccel_.setText("X: " + Math.round(x * 10.0)/10.0 + ", Y:" + Math.round(y*10.0)/10.0 + ", Z:" + Math.round(z*10.0)/10.0);
 			if (m_ != 0)
-				scaleAccel_.setTag("X: " + (x * m_) + ", Y:" + (y * m_)
+				scaleAccel_.setText("X: " + (x * m_) + ", Y:" + (y * m_)
 						+ ", Z:" + (z * m_));
+			realAccel_.invalidate();
 		}
-		
-		public void showConfirmDialog(){
+
+		public void showConfirmDialog() {
 			dialog = new ConfirmationDialog(ServiceUI.this);
 			dialog.show();
 		}
 
 		public void gpsChanged(double lat, double lng) throws RemoteException {
-			Log.v(tag, "SUI callback activated");
 			lastGps_.setText("Lat: " + lat + ", Lng: " + lng);
 			numGPS++;
 			numWaypoints_.setText("GPS: " + numGPS);
@@ -248,19 +313,16 @@ public class ServiceUI extends Activity {
 
 		public void setAccelerometerMultiplier(int multip)
 				throws RemoteException {
-			Log.v(tag, "SUI callback activated");
 			m_ = multip;
 		}
 
 		public void setRealSpeed(double speed) throws RemoteException {
-			Log.v(tag, "SUI callback activated");
-			speed = Math.round(speed * 100.0)/100.0;
+			speed = Math.round(speed * 100.0) / 100.0;
 			realSpeed_.setText("Real: " + speed);
 		}
 
 		public void setScaleSpeed(double speed) throws RemoteException {
-			Log.v(tag, "SUI callback activated");
-			speed = Math.round(speed * 100.0)/100.0;
+			speed = Math.round(speed * 100.0) / 100.0;
 			scaleSpeed_.setText("Scale: " + speed);
 		}
 

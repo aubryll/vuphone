@@ -106,7 +106,7 @@ class ConfirmationDialog extends ProgressDialog implements
 		timer_ = null;	// Bad practice but its the easiest way to turn off
 						// the current countdown
 		
-		Intent intent = new Intent(activity_, org.vuphone.wwatch.android.WreckWatchService.class);
+		Intent intent = new Intent(activity_, org.vuphone.wwatch.android.GPService.class);
 		intent.putExtra("DidAccidentOccur", accidentOccurred);
 		activity_.startService(intent);
 		super.dismiss();
