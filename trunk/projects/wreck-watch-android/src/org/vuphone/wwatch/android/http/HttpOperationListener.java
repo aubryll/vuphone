@@ -13,30 +13,12 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.android.mapping;
+package org.vuphone.wwatch.android.http;
 
-import android.content.Context;
-import android.util.AttributeSet;
+import org.apache.http.HttpResponse;
 
-import com.google.android.maps.MapView;
-
-public class AccidentMapView extends MapView {
+public interface HttpOperationListener {
 	
-	PinGroup pinGroup_ = new PinGroup();
-
-	public AccidentMapView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		super.setBuiltInZoomControls(true);
-		getOverlays().add(pinGroup_);
-		
-	}
-	
-	public void addPin(EnhancedGeoPoint point){
-		pinGroup_.addPin(point);
-		postInvalidate();
-
-	}
-	
-
+	public void operationComplete(HttpResponse resp);
 
 }

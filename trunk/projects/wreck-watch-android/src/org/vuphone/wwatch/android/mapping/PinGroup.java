@@ -36,8 +36,8 @@ public class PinGroup extends Overlay{
 	 * @param point
 	 * @param name
 	 */
-	public void addPin(GeoPoint point){
-		points_.add(point);
+	public void addPin(EnhancedGeoPoint point){
+		points_.add(point.getPoint());
 	}
 	
     /**

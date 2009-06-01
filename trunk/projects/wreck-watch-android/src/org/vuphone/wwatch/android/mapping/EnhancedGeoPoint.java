@@ -102,6 +102,11 @@ public class EnhancedGeoPoint {
 		return notes_;
 	}
 	
+	@Override
+	public String toString(){
+		return (point_.getLatitudeE6()/1E6) + ", " + (point_.getLongitudeE6()/1E6);
+	}
+	
 	
 
 }

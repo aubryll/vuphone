@@ -48,7 +48,7 @@ public class HTTPGetter {
 	 * WreckWatch server.
 	 * @param message
 	 */
-	public static void doAccidentGet(GeoPoint location){
+	public static void doAccidentGet(final GeoPoint bl, final GeoPoint br, final GeoPoint tl, final GeoPoint tr, final HttpOperationListener listener){
 
 		try{
 			
@@ -58,7 +58,9 @@ public class HTTPGetter {
 			
 			final HttpGet get = new HttpGet(SERVER + PATH);
 			
-			String params = "?type=info&lat="+location.getLatitudeE6()+"&lon="+location.getLongitudeE6();
+			String params = "?type=info&latbl="+bl.getLatitudeE6()+"&lonbl="+bl.getLongitudeE6()+"&latbr="+br.getLatitudeE6()+
+				"&lonbr=" + br.getLongitudeE6() + "&lattl=" + tl.getLatitudeE6() + "&lontl=" + tl.getLongitudeE6() + "&lattr=" + 
+				tr.getLatitudeE6() + "&lontr=" + tr.getLongitudeE6();
 
 			//Add the parameters
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
@@ -71,10 +73,16 @@ public class HTTPGetter {
 				public void run() {
 					HttpResponse resp;
 					try {
+						Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Requesting accident information for coordinates: TopLeft: " +
+								tl.getLatitudeE6() + ", " + tl.getLongitudeE6() + "\nTopRight: " + 
+								tr.getLatitudeE6() + ", " + tr.getLongitudeE6() + "\nBottomLeft: " +
+								bl.getLatitudeE6() + ", " + bl.getLongitudeE6() + "\nBottomRight: " +
+								br.getLatitudeE6() + ", " + br.getLongitudeE6());
 						resp = c.execute(get);
 						ByteArrayOutputStream bao = new ByteArrayOutputStream();
 						resp.getEntity().writeTo(bao);
 						Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: " + new String(bao.toByteArray()));
+						listener.operationComplete(resp);
 						
 					} catch (ClientProtocolException e) {
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
