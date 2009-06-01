@@ -67,9 +67,15 @@ public class WaypointTracker {
 	 * @param end
 	 * @return
 	 */
-	public double getDistanceBetween(int start, int end) throws RuntimeException{
+	private double getDistanceBetween(int start, int end) {
 		if (start >= end)
-			throw new RuntimeException("Invalid start and end indeces");
+			throw new IllegalArgumentException("Invalid start and end indeces");
+		
+		if (deltaList_.size() < 1)
+			return 0.0;
+		if (end < deltaList_.size() - 1)
+			throw new IllegalArgumentException("Invalid end, it is outside the bounds of the list");
+			
 		double distance = 0;
 		for (int index = start; index < end; ++index)
 			distance += deltaList_.get(index).getDistance();
