@@ -6,8 +6,9 @@ import java.util.List;
 import android.location.Location;
 
 /**
- * A class responsible for handling recent points along a route and performing
- * fundamental operations on the data.
+ * A class responsible for handling waypoints along the route, and for allowing
+ * basic queries on those waypoints, particularly queries pertaining to the last
+ * two points added
  * 
  * @author Krzysztof Zienkiewicz
  * 
@@ -17,11 +18,10 @@ public class WaypointTracker {
 
 	private ArrayList<Waypoint> pointList_ = null;
 
-	private double timeDilation_ = 1.0; // timeDilation_ * actual time =
-
-	// simulated time
-
-	// ie, 2.0 makes everything twice as fast
+	// timeDilation_ * actual time = simulated time
+	// ie, 2.0 makes everything twice as fast. In terms of speed, this makes the
+	// speed also twice as quick
+	private double timeDilation_ = 1.0;
 
 	/**
 	 * Creates a WaypointTracker using the provided time dialation factor or 1.0
@@ -39,27 +39,32 @@ public class WaypointTracker {
 	}
 
 	/**
-	 * Adds a new Waypoint based on the Location
+	 * Adds a new Waypoint
 	 * 
 	 * @param loc
+	 *            The location where the waypoint should be placed
 	 * @throws NullPointerException
 	 */
-	public void addWaypoint(Location loc) throws NullPointerException {
+	public void addWaypoint(Location loc) {
 		if (loc == null)
-			throw new NullPointerException(
+			throw new IllegalArgumentException(
 					"Null Location in WaypointTracker.addWaypoint()");
 
-		Waypoint current = new Waypoint(loc);
-
-		pointList_.add(current);
+		pointList_.add(new Waypoint(loc));
 	}
 
+	/**
+	 * Get the dilation scale factor. A factor of 2.0 will make both speed and
+	 * time twice as fast.
+	 * 
+	 * @return
+	 */
 	public double getDilation() {
 		return timeDilation_;
 	}
 
 	/**
-	 * Computes and returns the dialted acceleration based on the most recent
+	 * Computes and returns the dilated acceleration based on the most recent
 	 * waypoints.
 	 * 
 	 * @return
@@ -74,10 +79,10 @@ public class WaypointTracker {
 			return 0;
 		case 2:
 			// Assumes the starting speed is 0.
-			return this.getSpeedBetween(0) / this.getTimeBetween(0, 1);
+			return this.getSpeedAt(0) / this.getTimeBetween(0, 1);
 		default: // 3 and more
-			double deltaSpeed = this.getSpeedBetween(size - 2)
-					- this.getSpeedBetween(size - 3);
+			double deltaSpeed = this.getSpeedAt(size - 2)
+					- this.getSpeedAt(size - 3);
 			double deltaTime = this.getTimeBetween(size - 3, size - 1);
 			double accel = deltaSpeed / deltaTime;
 
@@ -86,28 +91,35 @@ public class WaypointTracker {
 	}
 
 	/**
-	 * Computes and returns the dialated speed based on the two most recent
+	 * Computes and returns the dilated speed based on the two most recent
 	 * waypoints.
 	 * 
-	 * @return
+	 * @return speed in meters / second
 	 */
 	public double getLatestSpeed() {
 		int size = pointList_.size();
 		if (size < 2)
 			return 0.0;
-		return getSpeedBetween(size - 2);
+		return getSpeedAt(size - 2);
+	}
+	
+	/**
+	 * Get a handle to the internal list of waypoints. 
+	 * @return
+	 */
+	public List<Waypoint> getList() {
+		return pointList_;
 	}
 
 	/**
-	 * Compute and return the average dialated speed between two start and end
-	 * waypoints
+	 * Compute and return the dilated speed between the point passed in, and the
+	 * point immediately after it.
 	 * 
-	 * @param origin
-	 *            Index of the starting
-	 * @param destination
-	 * @return
+	 * @param start
+	 *            Index of the first point
+	 * @return dilated speed in meters / second.
 	 */
-	public double getSpeedBetween(int start) throws RuntimeException {
+	private double getSpeedAt(int start) {
 		int end = start + 1;
 		if (start < 0 || start > pointList_.size() - 1 || end < 0
 				|| end > pointList_.size() - 1 || end < start)
@@ -116,9 +128,11 @@ public class WaypointTracker {
 							+ ", end:" + end + ", size:" + pointList_.size());
 
 		float[] result = new float[1];
-		Location.distanceBetween(pointList_.get(start).getLatitude(), pointList_.get(start).getLongitude(),
-				pointList_.get(end).getLatitude(), pointList_.get(end).getLongitude(), result);
-		
+		Location.distanceBetween(pointList_.get(start).getLatitude(),
+				pointList_.get(start).getLongitude(), pointList_.get(end)
+						.getLatitude(), pointList_.get(end).getLongitude(),
+				result);
+
 		double distance = result[0];
 		double time = getTimeBetween(start, end);
 
@@ -126,26 +140,30 @@ public class WaypointTracker {
 	}
 
 	/**
-	 * Compute and return the total dialated time between the start and end
+	 * Compute and return the total dilated time between the start and end
 	 * waypoints.
 	 * 
 	 * @param start
+	 *            index of the start waypoint
 	 * @param end
-	 * @return
+	 *            index of the end waypoint
+	 * @return dilated time in seconds
 	 */
-	public double getTimeBetween(int start, int end) throws RuntimeException {
-		if (start >= end)
-			throw new RuntimeException("Invalid start and end indices");
+	private double getTimeBetween(int start, int end) {
 		long time = pointList_.get(end).getTime()
 				- pointList_.get(start).getTime();
-		time = time / 1000;   // convert ms to seconds
+
+		if (time < 0)
+			throw new IllegalArgumentException("Start must be before end");
+
+		time = time / 1000; // convert ms to seconds
 		return (double) time / timeDilation_;
 	}
 
-	public List<Waypoint> getList() {
-		return pointList_;
-	}
-
+	/**
+	 * Set the dilation factor. 
+	 * @param d
+	 */
 	public void setDilation(double d) {
 		timeDilation_ = d;
 	}

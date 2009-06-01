@@ -16,8 +16,6 @@ interface ISettingsViewCallback {
     void setScaleSpeed(in double speed);
     
     void setAccelerometerMultiplier(in int multip);
-   
-    void addedWaypoint();
     
     void showConfirmDialog();
     

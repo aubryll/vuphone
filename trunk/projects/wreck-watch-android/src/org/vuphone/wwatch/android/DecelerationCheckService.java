@@ -31,7 +31,6 @@ public class DecelerationCheckService extends Service {
 	private Sensor accelerometer_;
 	private final RegisterTask task_ = new RegisterTask();
 	private boolean startedTimer_ = false;
-	private final Context context_ = this;
 
 	/**
 	 * Same as timeDialation_ except for accelerometer
@@ -66,10 +65,12 @@ public class DecelerationCheckService extends Service {
 		super.onDestroy();
 		Toast.makeText(this, "Deceleration Service Stopped", Toast.LENGTH_SHORT).show();
 
+		unregisterAccelerometer();
+		
 		if (startedTimer_)
 			t.cancel();
 
-		unregisterAccelerometer();
+		
 	}
 	
 
@@ -127,12 +128,12 @@ public class DecelerationCheckService extends Service {
 					|| Math.abs(valy) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
 
-//				Intent intent = new Intent(context_,
-//						org.vuphone.wwatch.android.ServiceUI.class);
-//
-//				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
-//				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//				startActivity(intent);
+				Intent intent = new Intent(DecelerationCheckService.this,
+						org.vuphone.wwatch.android.ServiceUI.class);
+
+				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intent);
 				
 				final int num = callbacks_.beginBroadcast();
 				for (int i = 0; i < num; ++i){
