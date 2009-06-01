@@ -17,21 +17,19 @@ package org.vuphone.wwatch.asterisk;
 
 import java.io.IOException;
 
-import org.asteriskjava.fastagi.AgiException;
-import org.asteriskjava.fastagi.AgiOperations;
 import org.asteriskjava.manager.AuthenticationFailedException;
 import org.asteriskjava.manager.ManagerConnection;
 import org.asteriskjava.manager.ManagerConnectionFactory;
 import org.asteriskjava.manager.TimeoutException;
-import org.asteriskjava.manager.action.ZapDialOffhookAction;
+import org.asteriskjava.manager.action.OriginateAction;
 import org.asteriskjava.manager.response.ManagerResponse;
 
 
 public class AsteriskConnector {
 	
-	private static final String SERVER = "129.59.129.103";
-	private static final String USERNAME = "maint";
-	private static final String PASSWORD = "password";
+	private static final String SERVER = "129.59.177.177";
+	private static final String USERNAME = "admin";
+	private static final String PASSWORD = "amp111";
 	
 	private ManagerConnection mc_;
 	
@@ -41,25 +39,39 @@ public class AsteriskConnector {
 		
 	}
 	
+	// Right now, this makes the call, but it does not play the recording.
+	// When this is run, it will:
+	//		1) Make the sourceExtension (extension 210) ring
+	//		2) When sourceExtension is answered, OriginateAction will return success
+	//		3) When sourceExtension is answered, it will immediately call
+	//				destinationExtension (204)
+	//		4) Things will then proceed as if extension 210 had dialed 204.
 	public void makeCallPlayRecording(String file){
-		ZapDialOffhookAction da = new ZapDialOffhookAction();
-		ManagerResponse response = new ManagerResponse();
+		String sourceExtension = "210";
+		String destinationExtension = "204";
 		
-		
-		da.setZapChannel(1);
-		da.setNumber("7274812833");
-		da.setActionId("10101010");
-		
-		try {
-			mc_.login();
-			response = mc_.sendAction(da);
-			System.out.println(response.toString());
-			AgiOperations ops = new AgiOperations();
-			ops.streamFile(file);
-			ops.hangup();
-			mc_.logoff();
-			
-		} catch (IllegalArgumentException e) {
+		OriginateAction originateAction;
+        ManagerResponse originateResponse;
+
+        originateAction = new OriginateAction();
+        originateAction.setChannel("SIP/"+sourceExtension);
+        originateAction.setContext("default");
+        originateAction.setExten(destinationExtension);
+        originateAction.setPriority(new Integer(1));
+
+        try {
+        	mc_.login();
+        	
+        	// send the originate action and wait for a maximum of 30 seconds for 
+        	// Asterisk to send a reply
+        	originateResponse = mc_.sendAction(originateAction, 30000);
+
+        	System.out.println(originateResponse.getResponse());
+        	System.out.println(originateResponse.getMessage());
+        	System.out.println(originateResponse.toString());
+        	mc_.logoff();
+        	
+        } catch (IllegalArgumentException e) {
 
 			e.printStackTrace();
 		} catch (IllegalStateException e) {
@@ -74,11 +86,7 @@ public class AsteriskConnector {
 		} catch (AuthenticationFailedException e) {
 			
 			e.printStackTrace();
-		} catch (AgiException e) {
-			
-			e.printStackTrace();
 		}
-		
 		
 	}
 	
