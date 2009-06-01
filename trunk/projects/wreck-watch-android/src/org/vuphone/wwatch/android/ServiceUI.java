@@ -258,12 +258,14 @@ public class ServiceUI extends Activity {
 
 		public void setRealSpeed(double speed) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
+			speed = Math.round(speed * 1000.0) / 1000;
 			realSpeed_.setText("Real: " + speed);
 		}
 
 		public void setScaleSpeed(double speed) throws RemoteException {
 			Log.v(tag, "SUI callback activated");
-			scaleSpeed_.setText("Scale: " + speed);
+			speed = Math.round(speed * 1000.0) / 1000;
+			//scaleSpeed_.setText("Scale: " + speed);
 		}
 
 	};
