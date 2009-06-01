@@ -59,29 +59,6 @@ public class WaypointTracker {
 	}
 
 	/**
-	 * Compute and return the total distance between two waypoints. The start
-	 * will be the index of the first waypoint in the internal array, and the
-	 * second waypoint will be found by adding one
-	 * 
-	 * @param start
-	 * @return
-	 */
-	private double getDistanceBetween(int start) {
-		int end = start + 1;
-		if (start < 0 || start > pointList_.size() - 1 || end < 0
-				|| end > pointList_.size() - 1 || end < start)
-			throw new IllegalArgumentException(
-					"The index bounds used are not valid: start:" + start
-							+ ", end:" + end + ", size:" + pointList_.size());
-
-		float[] result = new float[1];
-		Location.distanceBetween(pointList_.get(start).getLatitude(), pointList_.get(start).getLongitude(),
-				pointList_.get(end).getLatitude(), pointList_.get(end).getLongitude(), result);
-
-		return result[0];
-	}
-
-	/**
 	 * Computes and returns the dialted acceleration based on the most recent
 	 * waypoints.
 	 * 
@@ -97,10 +74,10 @@ public class WaypointTracker {
 			return 0;
 		case 2:
 			// Assumes the starting speed is 0.
-			return this.getSpeedBetween(0, 1) / this.getTimeBetween(0, 1);
+			return this.getSpeedBetween(0) / this.getTimeBetween(0, 1);
 		default: // 3 and more
-			double deltaSpeed = this.getSpeedBetween(size - 2, size - 1)
-					- this.getSpeedBetween(size - 3, size - 2);
+			double deltaSpeed = this.getSpeedBetween(size - 2)
+					- this.getSpeedBetween(size - 3);
 			double deltaTime = this.getTimeBetween(size - 3, size - 1);
 			double accel = deltaSpeed / deltaTime;
 
@@ -118,7 +95,7 @@ public class WaypointTracker {
 		int size = pointList_.size();
 		if (size < 2)
 			return 0.0;
-		return getSpeedBetween(size - 2, size - 1);
+		return getSpeedBetween(size - 2);
 	}
 
 	/**
@@ -130,10 +107,19 @@ public class WaypointTracker {
 	 * @param destination
 	 * @return
 	 */
-	public double getSpeedBetween(int start, int end) throws RuntimeException {
-		if (start >= end)
-			throw new RuntimeException("Invalid start and end indeces");
-		double distance = getDistanceBetween(start);
+	public double getSpeedBetween(int start) throws RuntimeException {
+		int end = start + 1;
+		if (start < 0 || start > pointList_.size() - 1 || end < 0
+				|| end > pointList_.size() - 1 || end < start)
+			throw new IllegalArgumentException(
+					"The index bounds used are not valid: start:" + start
+							+ ", end:" + end + ", size:" + pointList_.size());
+
+		float[] result = new float[1];
+		Location.distanceBetween(pointList_.get(start).getLatitude(), pointList_.get(start).getLongitude(),
+				pointList_.get(end).getLatitude(), pointList_.get(end).getLongitude(), result);
+		
+		double distance = result[0];
 		double time = getTimeBetween(start, end);
 
 		return distance / time;
@@ -149,9 +135,10 @@ public class WaypointTracker {
 	 */
 	public double getTimeBetween(int start, int end) throws RuntimeException {
 		if (start >= end)
-			throw new RuntimeException("Invalid start and end indeces");
+			throw new RuntimeException("Invalid start and end indices");
 		long time = pointList_.get(end).getTime()
 				- pointList_.get(start).getTime();
+		time = time / 1000;   // convert ms to seconds
 		return (double) time / timeDilation_;
 	}
 
