@@ -121,12 +121,23 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 	public void onPause(){
 		super.onPause();
 		mlo_.disableMyLocation();
+		((LocationManager) getSystemService(Context.LOCATION_SERVICE)).removeUpdates(this);
 	}
 
 	@Override
 	public void onResume(){
 		super.onResume();
 		mlo_.enableMyLocation();
+		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
+		.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		((LocationManager) getSystemService(Context.LOCATION_SERVICE)).removeUpdates(this);
+		t.cancel();
+		mlo_.disableMyLocation();
 	}
 
 	private void getAccidentXML(GeoPoint bl, GeoPoint br, GeoPoint tl, GeoPoint tr){
