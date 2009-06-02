@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.notification;
+package org.vuphone.wwatch.accident;
 
 import java.text.DateFormat;
 import java.util.Date;
 
+import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.routing.Route;
 
 

@@ -9,6 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.vuphone.wwatch.inforeq.InfoHandledNotification;
+import org.vuphone.wwatch.routing.Waypoint;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /******************************************************************************
  * Copyright (c) 2007 Jules White. All rights reserved. This program and the
@@ -21,22 +28,22 @@ import javax.servlet.http.HttpServletResponse;
 public class NotificationServlet extends HttpServlet {
 
 	private static final Logger logger_ = Logger
-			.getLogger(NotificationServlet.class.getName());
+	.getLogger(NotificationServlet.class.getName());
 
 	private Map<String, NotificationHandler> handlers_;
 	private NotificationParser parser_;
 
-	
-	
+
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		doPost(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 
 		try {
 			Notification note = parser_.parse(req);
@@ -45,9 +52,49 @@ public class NotificationServlet extends HttpServlet {
 				NotificationHandler handler = handlers_.get(note.getType());
 				if (handler != null) {
 					Notification rnote = handler.handle(note);
-					resp.getWriter().write(note.toString());
+					if (rnote.getType().equalsIgnoreCase("infohandled")){
+						
+						InfoHandledNotification info = (InfoHandledNotification)rnote;
+						//There's probably a better way to do this, Jules,
+						//any fancy XML ideas?
+						
+						//Build the xml response
+						Document d = null;
+						try {
+							d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+						} catch (ParserConfigurationException e) {
+							
+							logger_
+							.log(
+									Level.SEVERE,
+									"Parser configuration exception creating document for xml response",
+									e);
+						}
+						
+						Node root = d.createElement("Points");
+						for (Waypoint w:info.getAccidents()){
+							Node pointR = d.createElement("Point");
+							Node lat = d.createElement("Latitude");
+							
+							lat.appendChild(d.createTextNode(Double.toString(w.getLatitude())));
+							
+							pointR.appendChild(lat);
+							
+							Node lon = d.createElement("Longitude");
+							lon.appendChild(d.createTextNode(Double.toString(w.getLongitude())));
+							
+							pointR.appendChild(lon);
+							
+							root.appendChild(pointR);
+							
+						}
+						
+					}else{
+						resp.getWriter().write(note.toString());
+					}
+
 					if (rnote != null) {
-						resp.getWriter().write(rnote.toString());
+
 					}
 				} else {
 					//This will just be temporary to make it do something
@@ -59,10 +106,10 @@ public class NotificationServlet extends HttpServlet {
 			}
 		} catch (NotificationFormatException e) {
 			logger_
-					.log(
-							Level.SEVERE,
-							"Error in notification parameters provided with the request",
-							e);
+			.log(
+					Level.SEVERE,
+					"Error in notification parameters provided with the request",
+					e);
 		}
 	}
 

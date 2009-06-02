@@ -26,6 +26,12 @@
             </key>
             <ref bean="accidentHandler" />
         </entry>
+        <entry>
+        	<key>
+        		<value>info</value>
+        	</key>
+        	<ref bean="infoHandler" />
+        </entry>
       </map>
     </property>
   </bean>
@@ -35,6 +41,8 @@
   <bean name="accidentHandler" class="org.vuphone.wwatch.accident.AccidentHandler">
     <property name="parser" ref="accidentParser"/>
   </bean>
+  
+  <bean name="infoHandler" class="org.vuphone.wwatch.inforeq.InfoHandler" />
   
   <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser"/>
   

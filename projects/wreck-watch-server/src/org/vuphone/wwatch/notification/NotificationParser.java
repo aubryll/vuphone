@@ -13,15 +13,18 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.vuphone.wwatch.accident.AccidentNotification;
+import org.vuphone.wwatch.inforeq.InfoNotification;
+
 
 public class NotificationParser {
-	
+
 	private Logger log_ = Logger.getLogger(NotificationParser.class.getName());
 
 	public Notification parse(HttpServletRequest req)
-			throws NotificationFormatException {
+	throws NotificationFormatException {
 		String type = req.getParameter("type");
-		
+
 		Notification n = null;
 
 		if (type != null){
@@ -35,9 +38,9 @@ public class NotificationParser {
 				log_.log(Level.FINER, "Acceleration: " + an.getDeceleration());
 				an.setTime(Long.parseLong(req.getParameter("time")));
 				log_.log(Level.FINER, "Time: " + an.getTime());
-				
+
 				Integer numPoints = Integer.parseInt(req.getParameter("numpoints"));
-				
+
 				if (numPoints != null){
 					for (int i = 0; i < numPoints; ++i){
 						an.addWaypoint(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")), 
@@ -45,14 +48,51 @@ public class NotificationParser {
 					}
 				}
 			}else if (type.equalsIgnoreCase("info")){
-				int latE6 = Integer.parseInt(req.getParameter("lat"));
-				double lat = (double)latE6;
-				int lonE6 = Integer.parseInt(req.getParameter("lon"));
-				double lon = (double)lonE6;
+
+				n = new InfoNotification();
+				InfoNotification info = (InfoNotification)n;
 				
+				int latE6;
+				double lat;
 				
+				int lonE6;
+				double lon;
+				
+				latE6 = Integer.parseInt(req.getParameter("lattl"));
+				lat = (double)latE6;
+				lat = lat /1E6;
+				lonE6 = Integer.parseInt(req.getParameter("lontl"));
+				lon = (double)lonE6;
+				lon = lon / 1E6;
+				info.setTopLeftCorner(lat, lon);
+
+				latE6 = Integer.parseInt(req.getParameter("lattr"));
+				lat = (double)latE6;
+				lat = lat /1E6;
+				lonE6 = Integer.parseInt(req.getParameter("lontr"));
+				lon = (double)lonE6;
+				lon = lon / 1E6;
+				info.setTopRightCorner(lat, lon);
+
+				latE6 = Integer.parseInt(req.getParameter("latbl"));
+				lat = (double)latE6;
+				lat = lat /1E6;
+				lonE6 = Integer.parseInt(req.getParameter("lonbl"));
+				lon = (double)lonE6;
+				lon = lon / 1E6;
+				info.setBottomLeftCorner(lat, lon);
+				
+				latE6 = Integer.parseInt(req.getParameter("latbr"));
+				lat = (double)latE6;
+				lat = lat /1E6;
+				lonE6 = Integer.parseInt(req.getParameter("lonbr"));
+				lon = (double)lonE6;
+				lon = lon / 1E6;
+				info.setBottomRightCorner(lat, lon);
+
+
 			}else{
-			
+
 				n = new Notification(type);
 			}
 		}
