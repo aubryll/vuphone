@@ -22,6 +22,11 @@ import org.vuphone.wwatch.notification.Notification;
 public class AccidentParser {
 
 	public AccidentReport getAccident(Notification notification) throws AccidentFormatException{
-		return null;
+		if (notification.getType().equalsIgnoreCase("accident")){
+			AccidentNotification n = (AccidentNotification)notification;
+			return AccidentReport.generateAccidentReport(n);
+		}else{
+			throw new AccidentFormatException();
+		}
 	}
 }

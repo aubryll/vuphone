@@ -64,6 +64,7 @@ public class SqlConstructor {
 
 		prep.execute();
 		db.commit();
+		db.close();
 
 	}
 

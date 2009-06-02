@@ -34,13 +34,43 @@ public class AccidentNotification extends Notification {
 	private double dec_;
 	private long time_;
 	private Route route_ = new Route();
+	private double lat_;
+	private double lon_;
+	private String person_;
 	
 	
 	public AccidentNotification() {
 		super("accident");
 		
 	}
-
+	
+	public void setParty(String person){
+		person_ = person;
+	}
+	
+	public String getPerson(){
+		return person_;
+	}
+	
+	public Route getRoute(){
+		return route_;
+	}
+	
+	public void setLatitude(double lat){
+		lat_ = lat;
+	}
+	
+	public void setLongitude(double lon){
+		lon_ = lon;
+	}
+	
+	public double getLatitude(){
+		return lat_;
+	}
+	
+	public double getLongitude(){
+		return lon_;
+	}
 	
 	public double getSpeed() {
 		return speed_;
