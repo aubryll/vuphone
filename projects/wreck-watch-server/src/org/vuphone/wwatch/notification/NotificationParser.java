@@ -8,10 +8,15 @@
  ****************************************************************************/
 package org.vuphone.wwatch.notification;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 
 
 public class NotificationParser {
+	
+	private Logger log_ = Logger.getLogger(NotificationParser.class.getName());
 
 	public Notification parse(HttpServletRequest req)
 			throws NotificationFormatException {
@@ -21,11 +26,15 @@ public class NotificationParser {
 
 		if (type != null){
 			if (type.equals("accident")){
+				log_.log(Level.FINE, "Processing accident notification");
 				n = new AccidentNotification();
 				AccidentNotification an = (AccidentNotification)n;
 				an.setSpeed(Double.parseDouble(req.getParameter("speed")));
+				log_.log(Level.FINER, "Speed: " + an.getSpeed());
 				an.setDeceleration(Double.parseDouble(req.getParameter("dec")));
+				log_.log(Level.FINER, "Acceleration: " + an.getDeceleration());
 				an.setTime(Long.parseLong(req.getParameter("time")));
+				log_.log(Level.FINER, "Time: " + an.getTime());
 				
 				Integer numPoints = Integer.parseInt(req.getParameter("numpoints"));
 				
@@ -35,7 +44,15 @@ public class NotificationParser {
 								Long.parseLong(req.getParameter("time")));
 					}
 				}
-			}else {
+			}else if (type.equalsIgnoreCase("info")){
+				int latE6 = Integer.parseInt(req.getParameter("lat"));
+				double lat = (double)latE6;
+				int lonE6 = Integer.parseInt(req.getParameter("lon"));
+				double lon = (double)lonE6;
+				
+				
+			}else{
+			
 				n = new Notification(type);
 			}
 		}
