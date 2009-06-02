@@ -12,18 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.xml.serialize.SerializerFactory;
-import org.apache.xml.serialize.XML11Serializer;
-import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xml.serializer.dom3.LSSerializerImpl;
 import org.vuphone.wwatch.inforeq.InfoHandledNotification;
 import org.vuphone.wwatch.routing.Waypoint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
-
-import com.sun.org.apache.xml.internal.serialize.Method;
 
 /******************************************************************************
  * Copyright (c) 2007 Jules White. All rights reserved. This program and the

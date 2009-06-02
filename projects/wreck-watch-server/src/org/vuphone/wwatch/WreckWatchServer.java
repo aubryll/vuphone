@@ -31,6 +31,7 @@ import org.mortbay.jetty.handler.HandlerList;
 import org.mortbay.jetty.handler.ResourceHandler;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
+import org.vuphone.wwatch.sql.SqlConstructor;
 
 /**
  * This class is the entry point for the WreckWatch server. The class spawns an
@@ -129,6 +130,7 @@ public class WreckWatchServer {
 
 		try {
 			server_.start();
+			SqlConstructor.prepareDatabase();
 		} catch (Exception e) {
 			logger_
 					.log(
