@@ -115,7 +115,6 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 		}
 		curCenter_ = map_.getMapCenter();
 
-
 	}
 
 	@Override
@@ -143,8 +142,6 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 			Log.d(LOG_LABEL, LOG_PREFIX + "Adding accident point: " + p.toString());
 			map_.addPin(p);
 		}
-
-
 	}
 
 
@@ -162,9 +159,6 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 				getAccidentXML(lowerLeft, lowerRight, upperLeft, upperRight);
 			}
 		}
-
-
-
 	}
 
 	public void onProviderDisabled(String provider) {

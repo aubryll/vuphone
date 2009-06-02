@@ -2,28 +2,49 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 	<TextView android:text="Timeout" android:id="@+id/timeout_label"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:textSize="24sp" android:padding="8px"></TextView>
+
+	<ImageView android:layout_height="wrap_content"
+		android:maxHeight='20dip' android:adjustViewBounds='true'
+		android:scaleType="fitXY" android:layout_width="wrap_content"
+		android:id="@+id/timeout_help_icon" android:layout_alignParentRight="true"
+		android:layout_alignParentTop='true' android:layout_marginTop='10px'
+		android:layout_marginRight='5px' android:src="@+drawable/help_icon" />
+
 	<EditText android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_toRightOf="@id/timeout_label"
-		android:id="@+id/timeout"></EditText>
+		android:layout_height="wrap_content" android:layout_below="@id/timeout_label"
+		android:layout_marginLeft="35px" android:layout_alignParentRight='true'
+		android:layout_alignParentLeft='true' android:id="@+id/timeout"></EditText>
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_below="@id/timeout"
 		android:layout_alignLeft="@id/timeout_label" android:id="@+id/battery_label"
-		android:text="Choose a battery usage level. More battery = faster/better wreck detection, less battery = less reliable detection"></TextView>
+		android:text="Battery Usage" android:padding="8px" android:textSize="24sp"></TextView>
+
+	<ImageView android:scaleType="fitXY" android:maxHeight="20dip"
+		android:layout_height='wrap_content' android:adjustViewBounds='true'
+		android:layout_marginBottom='10px' android:layout_width="wrap_content"
+		android:id="@+id/battery_help_icon" android:layout_alignParentRight="true"
+		android:layout_alignBottom="@id/battery_label"
+		android:layout_marginRight='5px' android:src="@drawable/help_icon" />
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_below="@id/battery_label"
-		android:id="@+id/minus" android:text="-" android:paddingTop="6px" android:paddingLeft="4px"></TextView>
+		android:id="@+id/minus" android:text="--" android:paddingLeft="25px"
+		android:paddingTop="8px" android:paddingRight="8px" android:textSize="24sp"></TextView>
 
 	<TextView android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_below="@id/battery_label"
-		android:layout_alignRight="@id/battery_label" android:id="@+id/plus"
-		android:paddingTop="6px" android:max="3" android:paddingRight="3px" android:text="+"></TextView>
+		android:layout_alignParentRight='true' android:id="@+id/plus"
+		android:padding="8px" android:max="3" android:textSize="24sp"
+		android:text="+"></TextView>
 
-	<SeekBar android:id="@+id/battery_level" android:paddingLeft="10px" android:paddingRight="20px"
-		android:layout_height="wrap_content" android:layout_below="@id/battery_label"
-		android:layout_toRightOf="@id/minus" android:layout_width="fill_parent"></SeekBar>
+	<SeekBar android:id="@+id/battery_level" android:layout_height="wrap_content"
+		android:layout_below="@id/battery_label" android:layout_toRightOf="@id/minus"
+		android:padding="8px" android:layout_toLeftOf="@id/plus"
+		android:layout_width="wrap_content"></SeekBar>
 
-	
+
+
 </RelativeLayout>

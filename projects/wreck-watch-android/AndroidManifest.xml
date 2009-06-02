@@ -10,7 +10,7 @@
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 		<uses-library android:name="com.google.android.maps" />
-		
+
 		<activity android:name=".ContactPicker" android:label="ContactPicker">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -30,12 +30,20 @@
 		<service android:name=".DecelerationService" />
 
 
-		<activity android:name="AccidentViewer">
+		<activity android:name="AccidentViewer" android:label="WWViewer">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
+
+		<activity android:name=".SettingsUI" android:label='WWSettings'>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+
 	</application>
 	<uses-sdk android:minSdkVersion="3" />
 
