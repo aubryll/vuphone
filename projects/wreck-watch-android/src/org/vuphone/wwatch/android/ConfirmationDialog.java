@@ -24,7 +24,7 @@ class ConfirmationDialog extends ProgressDialog implements
 	private Timer timer_ = null;
 	private Vibrator vibrator_ = null;
 	
-	private final ServiceUI activity_;
+	private final TestingUI activity_;
 	
 	public void onClick(DialogInterface dialog, int button) {
 		switch (button){
@@ -43,7 +43,7 @@ class ConfirmationDialog extends ProgressDialog implements
 		activity_.finish();
 	}
 	
-	public ConfirmationDialog(ServiceUI context) {
+	public ConfirmationDialog(TestingUI context) {
 		super(context);
 		activity_ = context;
 		timer_ = new Timer();

@@ -23,7 +23,7 @@ import android.widget.TextView;
  * @author Krzysztof Zienkiewicz
  * 
  */
-public class ServiceUI extends Activity {
+public class TestingUI extends Activity {
 	private final static String tag = "VUPHONE";
 	final static int LAUNCH = 0;
 	final static int CONFIRM = 1;
@@ -49,7 +49,7 @@ public class ServiceUI extends Activity {
 	private OnClickListener startListener = new OnClickListener() {
 		public void onClick(View v) {
 			// Start GPS Service
-			Intent gpsIntent = new Intent(ServiceUI.this, GPService.class);
+			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
 			double dialation = 1.0;
 			try {
 				dialation = Double.parseDouble(edit_.getText().toString());
@@ -62,7 +62,7 @@ public class ServiceUI extends Activity {
 			bindService(gpsIntent, gpsConnection_, BIND_AUTO_CREATE);
 
 			// Start Accelerometer service
-			Intent accelIntent = new Intent(ServiceUI.this,
+			Intent accelIntent = new Intent(TestingUI.this,
 					DecelerationService.class);
 			float accelScale = (float) 1.0;
 			try {
@@ -83,7 +83,7 @@ public class ServiceUI extends Activity {
 	private OnClickListener stopListener = new OnClickListener() {
 		public void onClick(View v) {
 			// Stop GPS
-			Intent gpsIntent = new Intent(ServiceUI.this, GPService.class);
+			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
 			stopService(gpsIntent);
 			Log.v(tag, "Testing stopped GPS, now unbinding");
 			try {
@@ -94,7 +94,7 @@ public class ServiceUI extends Activity {
 			}
 
 			// Stop accel
-			Intent decIntent = new Intent(ServiceUI.this,
+			Intent decIntent = new Intent(TestingUI.this,
 					DecelerationService.class);
 			stopService(decIntent);
 			Log.v(tag, "Testing stopped Accel, now unbinding");
@@ -112,10 +112,10 @@ public class ServiceUI extends Activity {
 	 */
 	private OnClickListener testListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent testDialogIntent = new Intent(ServiceUI.this,
-					org.vuphone.wwatch.android.ServiceUI.class);
+			Intent testDialogIntent = new Intent(TestingUI.this,
+					org.vuphone.wwatch.android.TestingUI.class);
 
-			testDialogIntent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+			testDialogIntent.putExtra("ActivityMode", TestingUI.CONFIRM);
 			startActivity(testDialogIntent);
 		}
 	};
@@ -126,12 +126,12 @@ public class ServiceUI extends Activity {
 		Intent startIntent = super.getIntent();
 		Bundle data = startIntent.getExtras();
 		if (data == null)
-			mode_ = ServiceUI.LAUNCH;
+			mode_ = TestingUI.LAUNCH;
 		else
 			mode_ = data.getInt("ActivityMode");
 
 		switch (mode_) {
-		case ServiceUI.LAUNCH:
+		case TestingUI.LAUNCH:
 			// Started by the launcher
 			setContentView(R.layout.main);
 
@@ -156,7 +156,7 @@ public class ServiceUI extends Activity {
 
 			break;
 
-		case ServiceUI.CONFIRM:
+		case TestingUI.CONFIRM:
 			// Put up a confirm dialog and return an intent
 			dialog = new ConfirmationDialog(this);
 			dialog.show();
@@ -201,9 +201,9 @@ public class ServiceUI extends Activity {
 
 		try {
 			unbindService(gpsConnection_);
-			Log.v(tag, "SUI unbound from WWS successfully");
+			Log.v(tag, "Testing unbound from GPS successfully");
 		} catch (Exception e) {
-			Log.w(tag, "SUI was not bound to WWS!");
+			Log.w(tag, "Testing was not bound to GPS!");
 		}
 		
 		try {
@@ -229,7 +229,7 @@ public class ServiceUI extends Activity {
 	 */
 	private ServiceConnection gpsConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.v(tag, "SUI onConnected activated, adding to GPS callbacks");
+			Log.v(tag, "Testing onConnected activated, adding to GPS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
 			// We want to monitor the service for as long as we are
@@ -245,7 +245,7 @@ public class ServiceUI extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			Log.v(ServiceUI.tag, "SUI - GPS was disconnected");
+			Log.v(TestingUI.tag, "Testing - GPS was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
 
@@ -258,7 +258,7 @@ public class ServiceUI extends Activity {
 	 */
 	private ServiceConnection accelConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.v(tag, "SUI onConnected activated, adding to Accel callbacks");
+			Log.v(tag, "Testing onConnected activated, adding to Accel callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
 			// We want to monitor the service for as long as we are
@@ -274,7 +274,7 @@ public class ServiceUI extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			Log.v(ServiceUI.tag, "SUI - Accel was disconnected");
+			Log.v(TestingUI.tag, "Testing - Accel was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
 
@@ -297,11 +297,10 @@ public class ServiceUI extends Activity {
 			if (m_ != 0)
 				scaleAccel_.setText("X: " + (x * m_) + ", Y:" + (y * m_)
 						+ ", Z:" + (z * m_));
-			realAccel_.invalidate();
 		}
 
 		public void showConfirmDialog() {
-			dialog = new ConfirmationDialog(ServiceUI.this);
+			dialog = new ConfirmationDialog(TestingUI.this);
 			dialog.show();
 		}
 

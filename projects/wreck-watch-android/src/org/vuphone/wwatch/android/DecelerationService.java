@@ -33,7 +33,7 @@ public class DecelerationService extends Service {
 	/**
 	 * Used to wake up the accelerometer once every TIME_BETWEEN_MEASUREMENTS
 	 */
-	private final Timer t = new Timer("accelerometer polling service");
+	private Timer t = new Timer("accelerometer polling service");
 
 	/**
 	 * Magnifies the readings from the accelerometer for testing purposes
@@ -112,9 +112,9 @@ public class DecelerationService extends Service {
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
 
 				Intent intent = new Intent(DecelerationService.this,
-						org.vuphone.wwatch.android.ServiceUI.class);
+						org.vuphone.wwatch.android.TestingUI.class);
 
-				intent.putExtra("ActivityMode", ServiceUI.CONFIRM);
+				intent.putExtra("ActivityMode", TestingUI.CONFIRM);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 
@@ -208,6 +208,7 @@ public class DecelerationService extends Service {
 						Toast.LENGTH_SHORT).show();
 		unregisterAccelerometer();
 		t.cancel();
+		t = null;
 
 	}
 
