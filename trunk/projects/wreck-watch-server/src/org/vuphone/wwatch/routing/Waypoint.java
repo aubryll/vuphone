@@ -34,7 +34,7 @@ public class Waypoint {
 	 * @param lat	Latitude in degrees
 	 * @param time	UTC time in milliseconds since January 1, 1970. 
 	 */
-	public Waypoint(double lon, double lat, long time) {
+	public Waypoint(double lat, double lon, long time) {
 		longitude_ = lon;
 		latitude_ = lat;
 		timeStamp_ = time;
