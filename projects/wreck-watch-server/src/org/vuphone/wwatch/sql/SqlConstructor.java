@@ -51,19 +51,31 @@ public class SqlConstructor {
 		String sql = 
 
 			"create table if not exists People(id integer primary key asc autoincrement, PhoneNumber varchar(10) not null, " +
-			"FirstName varchar(50), LastName varchar(50), Email varchar(100) not null);" +
+			"FirstName varchar(50), LastName varchar(50), Email varchar(100) not null);";
 
-			"create table if not exists Wreck(WreckID integer primary key asc autoincrement, Person integer references People(id), Lat double not null," +
-			" Lon double not null, Time date not null, LargestAccel double not null);" +
 
-			"create table if not exists EmergencyContacts(PersonId integer referecnes People(id), ContactId integer references People(id);" +
-
-			"create table if not exists Route(CoordID int primary key asc autoincrement, WreckID integer references Wreck(WreckID), Lat double not null," +
-			"Lon double not null, Time date not null);";
 		PreparedStatement prep = db.prepareStatement(sql);
 
 		prep.execute();
 		db.commit();
+
+		prep = db.prepareStatement("create table if not exists Wreck(WreckID integer primary key asc autoincrement, Person integer references " +
+		"People(id), Lat double not null, Lon double not null, Time date not null, LargestAccel double not null);");
+
+		prep.execute();
+		db.commit();
+
+		prep = db.prepareStatement("create table if not exists EmergencyContacts(PersonId integer references People(id), " +
+		"ContactId integer references People(id));");
+		prep.execute();
+		db.commit();
+
+		prep = db.prepareStatement("create table if not exists Route(CoordID integer primary key asc autoincrement, WreckID integer references Wreck(WreckID), " +
+		"Lat double not null, Lon double not null, Time date not null);");
+
+		prep.execute();
+		db.commit();
+
 		db.close();
 
 	}
