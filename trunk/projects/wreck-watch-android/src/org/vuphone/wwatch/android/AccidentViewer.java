@@ -135,7 +135,6 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 	}
 
 
-	@Override
 	public void operationComplete(HttpResponse resp) {
 
 		Log.i(LOG_LABEL, LOG_PREFIX + "HTTP operation complete.  Processing response.");
@@ -149,7 +148,6 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 	}
 
 
-	@Override
 	public void onLocationChanged(Location location) {
 		if (map_.getZoomLevel() < 8){
 			DisplayMetrics dm = new DisplayMetrics();
@@ -169,25 +167,15 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 
 	}
 
-
-	@Override
 	public void onProviderDisabled(String provider) {
-
-
 	}
 
 
-	@Override
 	public void onProviderEnabled(String provider) {
-
-
 	}
 
 
-	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-
-
 	}
 
 

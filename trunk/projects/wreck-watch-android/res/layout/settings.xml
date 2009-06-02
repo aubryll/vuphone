@@ -1,0 +1,29 @@
+<RelativeLayout android:id="@+id/RelativeLayout01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<TextView android:text="Timeout" android:id="@+id/timeout_label"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<EditText android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_toRightOf="@id/timeout_label"
+		android:id="@+id/timeout"></EditText>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@id/timeout"
+		android:layout_alignLeft="@id/timeout_label" android:id="@+id/battery_label"
+		android:text="Choose a battery usage level. More battery = faster/better wreck detection, less battery = less reliable detection"></TextView>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@id/battery_label"
+		android:id="@+id/minus" android:text="-" android:paddingTop="6px" android:paddingLeft="4px"></TextView>
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@id/battery_label"
+		android:layout_alignRight="@id/battery_label" android:id="@+id/plus"
+		android:paddingTop="6px" android:max="3" android:paddingRight="3px" android:text="+"></TextView>
+
+	<SeekBar android:id="@+id/battery_level" android:paddingLeft="10px" android:paddingRight="20px"
+		android:layout_height="wrap_content" android:layout_below="@id/battery_label"
+		android:layout_toRightOf="@id/minus" android:layout_width="fill_parent"></SeekBar>
+
+	
+</RelativeLayout>

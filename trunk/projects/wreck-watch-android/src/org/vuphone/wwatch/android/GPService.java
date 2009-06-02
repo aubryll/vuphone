@@ -33,7 +33,6 @@ public class GPService extends Service {
 		public void onLocationChanged(Location location) {
 			tracker_.addWaypoint(location);
 
-			Log.v(tag, "WWS sending location changed");
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -69,13 +68,13 @@ public class GPService extends Service {
 	private final IRegister.Stub binder_ = new IRegister.Stub() {
 
 		public void registerCallback(ISettingsViewCallback cb) {
-			Log.v(tag, "WWS registering listener");
+			Log.v(tag, "GPS registering listener");
 			if (cb != null)
 				callbacks_.register(cb);
 		}
 
 		public void unregisterCallback(ISettingsViewCallback cb) {
-			Log.v(tag, "WWS unregistering listener");
+			Log.v(tag, "GPS unregistering listener");
 			if (cb != null)
 				callbacks_.unregister(cb);
 		}
@@ -87,7 +86,7 @@ public class GPService extends Service {
 	 * declared in the binder_ variable (For this case, the IRegister interface)
 	 */
 	public IBinder onBind(Intent intent) {
-		Log.v(tag, "WWS returning IBinder");
+		Log.v(tag, "GPS returning IBinder");
 		return binder_;
 	}
 
