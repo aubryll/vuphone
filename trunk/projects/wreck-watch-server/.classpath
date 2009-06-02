@@ -41,5 +41,9 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/wreck-watch-server/lib/asterisk-java-0.3.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/serializer.jar"/>
+	<classpathentry kind="lib" path="lib/xalan.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/xsltc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
