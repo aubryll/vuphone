@@ -160,6 +160,7 @@ public class TestingUI extends Activity {
 			// Put up a confirm dialog and return an intent
 			dialog = new ConfirmationDialog(this);
 			dialog.show();
+
 			break;
 		}
 	}
@@ -205,7 +206,7 @@ public class TestingUI extends Activity {
 		} catch (Exception e) {
 			Log.w(tag, "Testing was not bound to GPS!");
 		}
-		
+
 		try {
 			unbindService(accelConnection_);
 			Log.v(tag, "Testing unbound from Accel successfully");
@@ -229,7 +230,9 @@ public class TestingUI extends Activity {
 	 */
 	private ServiceConnection gpsConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.v(tag, "Testing onConnected activated, adding to GPS callbacks");
+			Log
+					.v(tag,
+							"Testing onConnected activated, adding to GPS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
 			// We want to monitor the service for as long as we are
@@ -258,7 +261,8 @@ public class TestingUI extends Activity {
 	 */
 	private ServiceConnection accelConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.v(tag, "Testing onConnected activated, adding to Accel callbacks");
+			Log.v(tag,
+					"Testing onConnected activated, adding to Accel callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
 			// We want to monitor the service for as long as we are
@@ -292,8 +296,10 @@ public class TestingUI extends Activity {
 
 		public void accelerometerChanged(float x, float y, float z)
 				throws RemoteException {
-			
-			realAccel_.setText("X: " + Math.round(x * 10.0)/10.0 + ", Y:" + Math.round(y*10.0)/10.0 + ", Z:" + Math.round(z*10.0)/10.0);
+
+			realAccel_.setText("X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
+					+ Math.round(y * 10.0) / 10.0 + ", Z:"
+					+ Math.round(z * 10.0) / 10.0);
 			if (m_ != 0)
 				scaleAccel_.setText("X: " + (x * m_) + ", Y:" + (y * m_)
 						+ ", Z:" + (z * m_));
