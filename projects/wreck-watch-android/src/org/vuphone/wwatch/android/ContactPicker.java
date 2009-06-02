@@ -1,10 +1,14 @@
 package org.vuphone.wwatch.android;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.provider.Contacts;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -13,92 +17,165 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+/**
+ * An activity that loads a list of all contacts with non-null numbers and allows
+ * the user to check the ones he would like to call in case of an emergency. The
+ * list of contact IDs is saved in a preference file.
+ * @author Krzysztof Zienkiewicz
+ *
+ */
 public class ContactPicker extends Activity implements View.OnClickListener {
-    
-    private String[] contactNames_;		// All names with non null numbers
-    private String[] contactNumbers_;	// All non null numbers
-    
-    // List to hold the selected numbers
-    private final ArrayList<String> numberList_ = new ArrayList<String>();
+
+	// Name of the preference file
+	public static final String SAVE_FILE = "ContactPickerPreferences";
+	// Used in the preference file to specify the size of the ID list
+	public static final String LIST_SIZE_TAG = "ListSize";
+	// Used in the preference file to mark an ID item
+	public static final String LIST_ITEM_PREFIX_TAG = "ListItem";
 	
-    private ListView listView_;
-    private Button submitButton_;
-    private Button clearButton_;
-    private Button cancelButton_;
-    
-    public void onClick(View v) {
-    	if (v.equals(submitButton_)) {
-    		// fill numberList_ with checked contacts
-    		SparseBooleanArray choices = listView_.getCheckedItemPositions();
-    		for (int i = 0; i < choices.size(); ++i) {
-    			int realIndex = choices.keyAt(i);
-    			if (choices.get(realIndex))
-    				numberList_.add(contactNumbers_[realIndex]);    		
-    		}
-    		
-    	}else if (v.equals(clearButton_)) {
-    		for (int i = 0; i < contactNames_.length; ++i)
-    			listView_.setItemChecked(i, false);
-    		return;
-    	}else if (v.equals(cancelButton_)) {
-    		
-    	}
-    	
-    	Toast.makeText(this, "numberList_: " + numberList_.toString(), 
-    			Toast.LENGTH_LONG).show();
-    	super.finish();
-    }
-    
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        super.setContentView(R.layout.pickerview);
-        
-        listView_ = (ListView) super.findViewById(R.id.list_view);
-        submitButton_ = (Button) super.findViewById(R.id.submit_button);
-        submitButton_.setOnClickListener(this);
-        
-        clearButton_ = (Button) super.findViewById(R.id.clear_button);
-        clearButton_.setOnClickListener(this);
-        
-        cancelButton_ = (Button) super.findViewById(R.id.cancel_button);
-        cancelButton_.setOnClickListener(this);
-        
-        this.loadNamesAndNumbers();
-        
-        listView_.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_multiple_choice, contactNames_));
+	// List to hold all contact strings with non-null numbers (Name - Number)
+	private final List<String> contactInfoList_ = new ArrayList<String>();
+	// List to hold the IDs for contacts in contactList_
+	private final List<Integer> contactIdList_ = new ArrayList<Integer>();
+	// List to hold the IDs of selected contacts
+	private final List<Integer> selectionList_ = new ArrayList<Integer>();
 
-        listView_.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        listView_.setItemsCanFocus(true);
-        listView_.setTextFilterEnabled(true);
-    }
+	private ListView listView_;
+	private Button submitButton_;
+	private Button clearButton_;
+	private Button cancelButton_;
 
-    private void loadNamesAndNumbers() {
-    	Cursor c = super.getContentResolver().query(
-    		Contacts.People.CONTENT_URI, null, null, null, Contacts.PeopleColumns.NAME);
-    	
-    	int totalSize = c.getCount();	// May include null numbers
-    	int nameCol = c.getColumnIndex(Contacts.PeopleColumns.NAME);
-    	int numberCol = c.getColumnIndex(Contacts.Phones.NUMBER);
+	/**
+	 * Populate the selectionList_ with checked IDs, save to a 
+	 * preference file, and exit.
+	 */
+	private void onSubmitClicked() {
+		// Fill selectionList_ with checked contact IDs
+		SparseBooleanArray choices = listView_.getCheckedItemPositions();
+		for (int i = 0; i < choices.size(); ++i) {
+			int realIndex = choices.keyAt(i);
+			if (choices.get(realIndex) == true)	// If selected
+				selectionList_.add(contactIdList_.get(realIndex));
+		}
 
-    	ArrayList<String> tempNameList = new ArrayList<String>();
-    	ArrayList<String> tempNumList = new ArrayList<String>();
-    	
-    	c.moveToFirst();    	
-    	for (int index = 0; index < totalSize; ++index) {
-    		String num = c.getString(numberCol);
-    		if (num != null) {
-    			tempNameList.add(c.getString(nameCol));
-    			tempNumList.add(c.getString(numberCol));
-    		}
-    		c.moveToNext();
-    	}
-    	c.deactivate();
-    	
-    	contactNames_ = new String[tempNameList.size()];
-    	contactNumbers_ = new String[tempNumList.size()];
-    	
-    	tempNameList.toArray(contactNames_);
-    	tempNumList.toArray(contactNumbers_);
-    }
+		this.savePreferenceFile();
+		this.finish();
+	}
+	
+	/**
+	 * Saved the IDs of the selected contacts to a private preference file.
+	 * This file will only be readable by members of this application. The
+	 * file name is ContactPicker.SAVE_FILE and it contains a set of integers
+	 * with the following format:
+	 * LIST_SIZE_TAG maps to an integer with the size of the ID list
+	 * LIST_ITEM_PREFIX_TAG appended with an int between 0 and (LIST_SIZE_TAG-1)
+	 * maps to an ID.
+	 */
+	public void savePreferenceFile() {
+		// Save the IDs to a preference file.
+		SharedPreferences prefs = super.getSharedPreferences(ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		
+		editor.putInt(ContactPicker.LIST_SIZE_TAG, selectionList_.size());
+		for (int i = 0; i < selectionList_.size(); ++i) {
+			editor.putInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, selectionList_.get(i));
+		}
+		editor.commit();
+	}
+
+	/**
+	 * Uncheck all of the contacts.
+	 * TODO - This makes the SparseBooleanArray as big the the contact list; work on making this more efficient
+	 */
+	private void onClearClicked() {
+		for (int i = 0; i < contactInfoList_.size(); ++i)
+			listView_.setItemChecked(i, false);
+	}
+
+	/**
+	 * Simply exit the activity without saving any information.
+	 */
+	private void onCancelClicked() {
+		this.finish();
+	}
+
+	/**
+	 * Overrides super.finish() to display a Toast with the selectionList_'s contents.
+	 * TODO - Remove this
+	 */
+	public void finish() {
+		Toast.makeText(this, "selectionList_: " + selectionList_.toString(),
+				Toast.LENGTH_LONG).show();
+		super.finish();
+	}
+
+	/**
+	 * Called when one of the buttons was clicked. Dispatches the appropriate
+	 * calls.
+	 */
+	public void onClick(View v) {
+		if (v.equals(submitButton_)) {
+			this.onSubmitClicked();
+		} else if (v.equals(clearButton_)) {
+			this.onClearClicked();
+		} else if (v.equals(cancelButton_)) {
+			this.onCancelClicked();
+		}
+	}
+
+	/**
+	 * Set up the UI.
+	 */
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		super.setContentView(R.layout.pickerview);
+		
+		// Populate the lists.
+		this.loadContactInformation();
+		
+		// Fetch and setup the ListView
+		listView_ = (ListView) super.findViewById(R.id.list_view);
+		listView_.setAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_multiple_choice,
+				contactInfoList_));
+		listView_.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		listView_.setItemsCanFocus(true);
+		listView_.setTextFilterEnabled(true);
+		
+		// Fetch the buttons and setup the click listeners
+		submitButton_ = (Button) super.findViewById(R.id.submit_button);
+		clearButton_ = (Button) super.findViewById(R.id.clear_button);
+		cancelButton_ = (Button) super.findViewById(R.id.cancel_button);
+
+		submitButton_.setOnClickListener(this);
+		clearButton_.setOnClickListener(this);
+		cancelButton_.setOnClickListener(this);
+
+	}
+
+	/**
+	 * Populated this object's lists with contact information based on contacts
+	 * with non-null phone numbers.
+	 * TODO - Add code to load the preference file and check the emergency contacts 
+	 */
+	private void loadContactInformation() {
+		// Get a cursor to the contact information sorted alphabetically by name
+		Cursor c = super.getContentResolver().query(
+				Contacts.People.CONTENT_URI, null, null, null,
+				Contacts.PeopleColumns.NAME);
+
+		// Set up contact database constants
+		final int nameCol = c.getColumnIndex(Contacts.PeopleColumns.NAME);
+		final int numberCol = c.getColumnIndex(Contacts.Phones.NUMBER);
+		final int idCol = c.getColumnIndex(BaseColumns._ID);
+
+		// Initialize the cursor and populate the lists.
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			if (c.getString(numberCol) != null) {
+				contactInfoList_.add(c.getString(nameCol));
+				contactIdList_.add(c.getInt(idCol));
+			}
+		}
+		c.deactivate();
+	}
 }
