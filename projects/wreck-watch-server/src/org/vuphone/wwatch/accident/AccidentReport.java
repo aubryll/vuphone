@@ -51,6 +51,7 @@ public class AccidentReport {
 		r.lon_ = n.getLongitude();
 		r.route_ = n.getRoute();
 		r.time_ = n.getTime();
+		r.person_ = n.getPerson();
 		
 		return r;
 	}

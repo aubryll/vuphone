@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,7 @@ public class AccidentHandler implements NotificationHandler {
 	private static final Logger logger_ = Logger
 			.getLogger(AccidentHandler.class.getName());
 
-	private AccidentParser parser_;
+	private AccidentParser parser_ = new AccidentParser();;
 
 	/**
 	 * This method receives a notification of an accident,
@@ -41,15 +42,24 @@ public class AccidentHandler implements NotificationHandler {
 	 * and then determines the proper way to respond to the
 	 * accident.
 	 */
+	/* (non-Javadoc)
+	 * @see org.vuphone.wwatch.notification.NotificationHandler#handle(org.vuphone.wwatch.notification.Notification)
+	 */
 	public Notification handle(Notification n) {
 		Notification response = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+
+			e.printStackTrace();
+		}
 		try {
 			AccidentReport report = parser_.getAccident(n);
 			Connection db = null;
 			
 			try {
 				db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
-				db.setAutoCommit(false);
+				db.setAutoCommit(true);
 			} catch (SQLException e) {
 				
 				logger_.log(Level.SEVERE,
@@ -57,29 +67,55 @@ public class AccidentHandler implements NotificationHandler {
 			}
 			
 			if (db != null){
-				String sql="define @user integer;" +
-						"select @user = id from People where Email like (?);" +
-						"insert into Wreck (Person, Lat, Lon, Time, LargestAccel) values(@user, ?, ?, ?,?);" +
-						"define @wid integer;";
+				String sql;
 						
 				try {
-					PreparedStatement prep = db.prepareStatement(sql);
+					PreparedStatement prep = db.prepareStatement("select id from People where Email like ?;");
 					prep.setString(1, report.getParty());
 					
-					prep.setDouble(2, report.getLatitude());
-					prep.setDouble(3, report.getLongitude());
-					prep.setDate(4, new Date(report.getTime()));
-					prep.setDouble(5, report.getAcceleration());
+					ResultSet rs  = prep.executeQuery();
 					
+					
+					rs.next();
+					int id = rs.getInt("id");
+					try{
+						rs.close();
+					}catch (SQLException e) {
+						//This catch block sponsored by:
+							//The Do-Nothing Party\\
+					}
+					
+					
+					db.setAutoCommit(false);
+					
+					prep = db.prepareStatement("insert into Wreck (Person, Lat, Lon, Time, LargestAccel) values("+id+", ?, ?, ?,?);");
+					prep.setDouble(1, report.getLatitude());
+					prep.setDouble(2, report.getLongitude());
+					prep.setDate(3, new Date(report.getTime()));
+					prep.setDouble(4, 10);
 					prep.addBatch();
+					prep.executeBatch();
 					
-					prep.execute();
 					db.commit();
 					
-					sql = "define @wid integer;" +
-							"select @wid = max(wreckid) from Wreck;" +
-							"insert into Route(wreckid, lat, lon, time) values(" +
-							"@wid, ?, ?, ?);";
+					sql = "select max(wreckid) as wreckid from Wreck;";
+					
+					db.setAutoCommit(true);
+					prep = db.prepareStatement(sql);
+					rs = prep.executeQuery();
+					rs.next();
+					id = rs.getInt("wreckid");
+					
+					try{
+						rs.close();
+					}catch (SQLException e) {
+						//This catch block sponsored by:
+							//The Do-Nothing Party\\
+					}
+					
+					db.setAutoCommit(false);
+					
+					sql = "insert into route(wreckid, lat, lon, time) values (" + id + ", ?, ?, ?);";
 					prep = db.prepareStatement(sql);
 					Route route = report.getRoute();
 					while (route.peek() != null){
@@ -90,12 +126,13 @@ public class AccidentHandler implements NotificationHandler {
 						prep.addBatch();
 					}
 					
-					prep.execute();
+					prep.executeBatch();
 					db.commit();
 					db.close();
 					
 				} catch (SQLException e) {
-					
+					logger_.log(Level.SEVERE,
+							"SQLException: ", e);
 				}
 				
 			}
@@ -117,6 +154,18 @@ public class AccidentHandler implements NotificationHandler {
 
 	public void setParser(AccidentParser parser) {
 		parser_ = parser;
+	}
+	
+	public static void main(String args[]){
+		AccidentNotification n = new AccidentNotification();
+		n.setDeceleration(200);
+		n.setLatitude(35.222222);
+		n.setLongitude(-87.205);
+		n.setParty("thompchr@gmail.com");
+		n.setSpeed(50);
+		n.setTime(System.currentTimeMillis());
+		AccidentHandler h = new AccidentHandler();
+		h.handle(n);
 	}
 
 }
