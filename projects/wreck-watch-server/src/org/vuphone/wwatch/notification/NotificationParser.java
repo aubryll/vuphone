@@ -51,45 +51,50 @@ public class NotificationParser {
 
 				n = new InfoNotification();
 				InfoNotification info = (InfoNotification)n;
-				
+
 				int latE6;
 				double lat;
-				
+
 				int lonE6;
 				double lon;
-				
-				latE6 = Integer.parseInt(req.getParameter("lattl"));
-				lat = (double)latE6;
-				lat = lat /1E6;
-				lonE6 = Integer.parseInt(req.getParameter("lontl"));
-				lon = (double)lonE6;
-				lon = lon / 1E6;
-				info.setTopLeftCorner(lat, lon);
+				try{
 
-				latE6 = Integer.parseInt(req.getParameter("lattr"));
-				lat = (double)latE6;
-				lat = lat /1E6;
-				lonE6 = Integer.parseInt(req.getParameter("lontr"));
-				lon = (double)lonE6;
-				lon = lon / 1E6;
-				info.setTopRightCorner(lat, lon);
+					latE6 = Integer.parseInt(req.getParameter("lattl"));
+					lat = (double)latE6;
+					lat = lat /1E6;
+					lonE6 = Integer.parseInt(req.getParameter("lontl"));
+					lon = (double)lonE6;
+					lon = lon / 1E6;
+					info.setTopLeftCorner(lat, lon);
 
-				latE6 = Integer.parseInt(req.getParameter("latbl"));
-				lat = (double)latE6;
-				lat = lat /1E6;
-				lonE6 = Integer.parseInt(req.getParameter("lonbl"));
-				lon = (double)lonE6;
-				lon = lon / 1E6;
-				info.setBottomLeftCorner(lat, lon);
-				
-				latE6 = Integer.parseInt(req.getParameter("latbr"));
-				lat = (double)latE6;
-				lat = lat /1E6;
-				lonE6 = Integer.parseInt(req.getParameter("lonbr"));
-				lon = (double)lonE6;
-				lon = lon / 1E6;
-				info.setBottomRightCorner(lat, lon);
+					latE6 = Integer.parseInt(req.getParameter("lattr"));
+					lat = (double)latE6;
+					lat = lat /1E6;
+					lonE6 = Integer.parseInt(req.getParameter("lontr"));
+					lon = (double)lonE6;
+					lon = lon / 1E6;
+					info.setTopRightCorner(lat, lon);
 
+					latE6 = Integer.parseInt(req.getParameter("latbl"));
+					lat = (double)latE6;
+					lat = lat /1E6;
+					lonE6 = Integer.parseInt(req.getParameter("lonbl"));
+					lon = (double)lonE6;
+					lon = lon / 1E6;
+					info.setBottomLeftCorner(lat, lon);
+
+					latE6 = Integer.parseInt(req.getParameter("latbr"));
+					lat = (double)latE6;
+					lat = lat /1E6;
+					lonE6 = Integer.parseInt(req.getParameter("lonbr"));
+					lon = (double)lonE6;
+					lon = lon / 1E6;
+					info.setBottomRightCorner(lat, lon);
+					
+				}catch (Exception e) {
+					//If we get here, likely the parameters were wrong
+					n = null;
+				}
 
 			}else{
 

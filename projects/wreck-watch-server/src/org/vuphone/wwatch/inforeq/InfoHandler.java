@@ -31,7 +31,18 @@ public class InfoHandler implements NotificationHandler {
 			" and " + info.getTopRightCorner().getLongitude();
 		
 		//Number used for now, will fill with number of rows
-		InfoHandledNotification note = new InfoHandledNotification(10);
+		
+		/*
+		 * For testing purposes, we'll hard-code this
+		 */
+		InfoHandledNotification note = new InfoHandledNotification(2);
+		/*
+		 * for each row:
+		 * 		call note.addWaypoint (lat, lon)
+		 */
+		
+		note.addWaypoint(37.413532, -122.072855);
+		note.addWaypoint(37.421975, -122.084054);
 		return note;
 	}
 
