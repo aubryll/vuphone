@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Contacts.People;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -40,6 +43,14 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	// List to hold the IDs of selected contacts
 	private final List<Integer> selectionList_ = new ArrayList<Integer>();
 
+	//private final Context CONTEXT = (new Context()).getApplicationContext();
+	
+	// Intent used to start the updating service
+	private Intent serviceIntent_;
+	
+	// PendingIntent used to trigger the service
+	private PendingIntent serviceTrigger_;
+	
 	private ListView listView_;
 	private Button submitButton_;
 	private Button clearButton_;
@@ -112,12 +123,28 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		Toast.makeText(this, "selectionList_: " + selectionList_.toString(),
 				Toast.LENGTH_LONG).show();
 		
-		super.startService(new Intent(this, 
-				org.vuphone.wwatch.android.UpdateContactsService.class));
+		this.scheduleService();
 		
 		super.finish();
 	}
 
+	/**
+	 * Schedules the update service to run repeatedly
+	 */
+	private void scheduleService() {
+		AlarmManager man = (AlarmManager) super.getSystemService(
+			Context.ALARM_SERVICE);
+
+		// Trigger the first call in 10 seconds.
+		final long trigger = SystemClock.elapsedRealtime() + (10 * 1000);
+
+		// Call the service every TIME_INTERVAL milliseconds, waking up the
+		// device if necessary.
+		man.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				trigger, UpdateContactsService.TIME_INTERVAL,
+				this.serviceTrigger_);
+	}
+	
 	/**
 	 * Called when one of the buttons was clicked. Dispatches the appropriate
 	 * calls.
@@ -138,6 +165,12 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.pickerview);
+		
+		serviceIntent_ = new Intent(this,
+				org.vuphone.wwatch.android.UpdateContactsService.class);
+
+		serviceTrigger_ = PendingIntent.getService(
+				this, 0, serviceIntent_, PendingIntent.FLAG_CANCEL_CURRENT);
 		
 		// Populate the lists.
 		this.loadContactInformation();

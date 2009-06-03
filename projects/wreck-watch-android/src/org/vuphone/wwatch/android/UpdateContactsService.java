@@ -1,7 +1,8 @@
 package org.vuphone.wwatch.android;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import org.vuphone.wwatch.android.http.HTTPPoster;
 
 import android.app.Service;
 import android.content.Context;
@@ -9,10 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.IBinder;
-import android.provider.Contacts;
 import android.provider.Contacts.People;
-import android.provider.Contacts.PeopleColumns;
-import android.provider.Contacts.Phones;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,82 +19,173 @@ import android.widget.Toast;
 /**
  * A service used to update the emergency contact information to the server.
  * This service is triggered at specific intervals using the system's 
- * AlarmManager. The initial schedule call is made by ContactPicker. Each 
- * subsequent call is made by this service.  
+ * AlarmManager. The initial schedule call is made by ContactPicker.
  * @author Krzysztof Zienkiewicz
  *
  */
-public class UpdateContactsService extends Service {
 
-	private final List<String> numberList_ = new ArrayList<String>();
+public class UpdateContactsService extends Service {
+	// How often to run this service (in milliseconds)
+	public static final long TIME_INTERVAL = 10 * 1000;//1 * (24 * 60 * 60 * 1000); // 1 day
 	
-	public IBinder onBind(Intent arg0) {
+	// A list of 10 digit strings containing only digit characters.
+	private final ArrayList<String> numberList_ = new ArrayList<String>();
+	
+	/**
+	 * Returns null since we're not binding to this service
+	 */
+	@Override
+	public IBinder onBind(Intent intent) {
 		return null;
 	}
 	
+	/**
+	 * Called when the service is first created. A no-op.
+	 */
+	@Override
 	public void onCreate() {
 		
 	}
 	
-	public void onStart(Intent intent, int startId) {
-		Toast.makeText(this, "UpdateContactsService started", Toast.LENGTH_SHORT).show();
-		this.scheduleNextRun(intent);
-		this.loadNumbers();
+	/**
+	 * Called right before the service quits.
+	 * TODO - Remove this.
+	 */
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Toast.makeText(this, "onDestroy(). List: " + numberList_.toString(), 
+				Toast.LENGTH_SHORT).show();
 	}
 	
 	/**
-	 * Opens ContactPicker's preference file and populates numberList_ based
-	 * on the IDs stored there.
+	 * Called after Service.onCreate(). Used to set up the service.
+	 * 
+	 * @param intent	Intent that started this service
+	 * @param startId 	Ignored in this implementation
+	 * @see Serive.onStart(Intent, int)
+	 */
+	public void onStart(Intent intent, int startId) {
+		super.onStart(intent, startId);
+		
+		Log.v("VUPHONE", "Service started");
+		// TODO - Remove this after checking how the number is formatted
+		TelephonyManager man = (TelephonyManager) super.getSystemService(Context.TELEPHONY_SERVICE);
+		String myNumber = man.getLine1Number();
+		
+		
+		Toast.makeText(this, "UpdateContactsService started. Your number: " + myNumber,
+				Toast.LENGTH_SHORT).show();
+		this.loadNumbers();
+		this.sendToServer();
+		
+		super.stopSelf();
+	}
+	
+	/**
+	 * Erases the emergency contact information stored on the server and uploads
+	 * the ones specified in the preference file.
+	 */
+	private void sendToServer() {
+		TelephonyManager man = (TelephonyManager) super.getSystemService(Context.TELEPHONY_SERVICE);
+		String deviceId = man.getDeviceId();
+		HTTPPoster.doContactUpdate(deviceId, numberList_);
+	}
+	
+	/**
+	 * Opens ContactPicker's preference file and populates the list of numbers
+	 * based on the IDs stored there.
 	 */
 	private void loadNumbers() {
-		// Open up the preference file and make sure it's OK
+		// Open up the preference file
 		
 		SharedPreferences pref = super.getSharedPreferences(
 				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
 		
+		
 		final int size = pref.getInt(ContactPicker.LIST_SIZE_TAG, -1);
+		
+		// Make sure the file is not corrupted or malformed.
 		if (size == -1) {	// The field doesn't exist so either the preference
 							// file is corrupt or it doesn't exist
-			Toast.makeText(this, "UpdateContact Service can't load" +
-					" preference file", Toast.LENGTH_LONG).show();
+			//Toast.makeText(this, "UpdateContact Service can't load" +
+			//		" preference file", Toast.LENGTH_LONG).show();
 			super.stopSelf();
 		}
 		
-		// Load the IDs into an array
-		final String[] idArray = new String[size];
+		// Build a selection string
+		String selection = "";
 		for (int i = 0; i < size; ++i) {
 			int id = pref.getInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, -1);
-			Log.v("VUPHONE", "ID: " + id);
-			if (id == -1)
-				throw new RuntimeException("UpdateContactsService detected a " +
-						"corrupted preference file");
-			idArray[i] = (new Integer(id)).toString();
+
+			// If id is missing, skip it and Log the error.
+			if (id == -1) {
+				Log.v("VUPHONE", "ID at index " + i + " not found. Total IDs: "  
+						+ size);
+				continue;
+			}
+			selection += "OR people._id='" + id + "' ";
 		}
 		
-
-		// Query a cursor to a table with a name columns, sorted alphabetically
-		// where the ID matches idArray.
-		String[] projection = {PeopleColumns.NAME};
-		String selection = "people._id=?"; //'5' OR people._id='6' OR people._id='7'";
-		String sortOrder = PeopleColumns.NAME;
-
+		// Strip the first "OR " and trim the last " "
+		// TODO - Check edge cases here
+		if (selection.length() > 0)
+			selection = selection.substring(3).trim();
+		else
+			selection = "people._id='-1'"; // This will return an empty Cursor 
+											// which leads to an empty list
 		
+		Log.v("VUPHONE", "Selection string: \"" + selection + "\"");
+		
+
+		// Query a cursor to a table with a number columns where the ID matches 
+		// the list of IDs from the preference file.
+		String[] projection = {People.NUMBER};
+
 		final Cursor c = super.getContentResolver().query(
 				People.CONTENT_URI, projection, selection,
-				idArray, sortOrder);
+				null, null);
 
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			String name = c.getString(0);	// There is only one column so 0.
-			Log.v("VUPHONE", name);
+			try {
+				String number = this.formatNumber(c.getString(0));
+				numberList_.add(number);
+			} catch (IllegalArgumentException e) {
+				Log.d("VUPHONE", "A malformed number passed into " +
+						"UpdateContactsService.formatNumber()");
+			}
 		}
 		
 		c.close();
-
-		
 	}
 		
-	private void scheduleNextRun(Intent intent) {
+	/**
+	 * Returns a phone number string formated to contain only 10 digit 
+	 * characters. If an area code is not provided in str, the user's area code
+	 * will be used. 
+	 * @param str	A phone number to format.
+	 * @return		A formatted number.
+	 */
+	private String formatNumber(String str) {
+		// First, strip all non digit characters.
+		String number = "";
+		for (int i = 0; i < str.length(); ++i) {
+			char c = str.charAt(i);
+			if (Character.isDigit(c))
+				number += c;
+		}
 		
+		if (number.length() == 10)
+			return number;
+		
+		if (number.length() != 7)
+			throw new IllegalArgumentException("Unable to convert the give " +
+					"number to a valid format");
+		
+		// We have a 7 digit number so fetch user's area code and prepend it
+		// TODO - Finish this.
+		number = "615" + number;
+		
+		return number;
 	}
-
 }
