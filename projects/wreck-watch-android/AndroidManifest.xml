@@ -8,7 +8,7 @@
 	<uses-permission android:name="android.permission.VIBRATE" />
 	<uses-permission android:name="android.permission.READ_CONTACTS" />
 
-	<application android:icon="@drawable/icon" android:label="@string/app_name">
+	<application android:label="@string/app_name" android:icon="@drawable/ww_icon2">
 		<uses-library android:name="com.google.android.maps" />
 
 		<!-- The main activity -->
