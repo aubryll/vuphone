@@ -50,8 +50,8 @@ public class SqlConstructor {
 		db.setAutoCommit(false);
 		String sql = 
 
-			"create table if not exists People(id integer primary key asc autoincrement, PhoneNumber varchar(10) not null, " +
-			"FirstName varchar(50), LastName varchar(50), Email varchar(100) not null);";
+			"create table if not exists People(id integer primary key asc autoincrement, AndroidID varchar(10), PhoneNumber varchar(10) not null, " +
+			"FirstName varchar(50), LastName varchar(50), Email varchar(100));";
 
 
 		PreparedStatement prep = db.prepareStatement(sql);
