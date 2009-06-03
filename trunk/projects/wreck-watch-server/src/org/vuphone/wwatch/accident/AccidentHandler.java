@@ -92,7 +92,7 @@ public class AccidentHandler implements NotificationHandler {
 					prep.setDouble(1, report.getLatitude());
 					prep.setDouble(2, report.getLongitude());
 					prep.setDate(3, new Date(report.getTime()));
-					prep.setDouble(4, 10);
+					prep.setDouble(4, report.getAcceleration());
 					prep.addBatch();
 					prep.executeBatch();
 					

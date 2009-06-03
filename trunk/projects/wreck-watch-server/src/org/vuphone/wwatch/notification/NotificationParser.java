@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import org.vuphone.wwatch.accident.AccidentNotification;
+import org.vuphone.wwatch.contacts.ContactUpdateNotification;
 import org.vuphone.wwatch.inforeq.InfoNotification;
 
 
@@ -45,10 +46,11 @@ public class NotificationParser {
 
 				if (numPoints != null){
 					for (int i = 0; i < numPoints; ++i){
-						an.addWaypoint(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")), 
-								Long.parseLong(req.getParameter("time")));
+						an.addWaypoint(Double.parseDouble(req.getParameter("lat" + i)), Double.parseDouble(req.getParameter("lon" + i)), 
+								Long.parseLong(req.getParameter("time" + i)));
 					}
 				}
+				an.setAccidentLocation();
 			}else if (type.equalsIgnoreCase("info")){
 
 				n = new InfoNotification();
@@ -98,9 +100,20 @@ public class NotificationParser {
 					//If we get here, likely the parameters were wrong
 					n = null;
 				}
+				
 
+			}else if (type.equalsIgnoreCase("contact")){
+				String id = req.getParameter("id");
+				n = new ContactUpdateNotification(id);
+				ContactUpdateNotification cn = (ContactUpdateNotification)n;
+				
+				Integer num = Integer.parseInt(req.getParameter("numcontacts"));
+				
+				for (int i = 0; i < num; ++i){
+					cn.addNumber(req.getParameter("number"+i));
+				}
+				
 			}else{
-
 				n = new Notification(type);
 			}
 		}
