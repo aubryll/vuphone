@@ -38,6 +38,8 @@ public class NotificationParser {
 				log_.log(Level.FINER, "Acceleration: " + an.getDeceleration());
 				an.setTime(Long.parseLong(req.getParameter("time")));
 				log_.log(Level.FINER, "Time: " + an.getTime());
+				an.setParty(req.getParameter("user"));
+				log_.log(Level.FINER, "User: " + an.getPerson());
 
 				Integer numPoints = Integer.parseInt(req.getParameter("numpoints"));
 
@@ -90,6 +92,7 @@ public class NotificationParser {
 					lon = (double)lonE6;
 					lon = lon / 1E6;
 					info.setBottomRightCorner(lat, lon);
+					
 					
 				}catch (Exception e) {
 					//If we get here, likely the parameters were wrong

@@ -59,8 +59,8 @@ public class InfoHandler implements NotificationHandler {
 		InfoHandledNotification note;
 		try{
 			PreparedStatement prep = db.prepareStatement(sql);
-			prep.setDouble(1, info.getBottomLeftCorner().getLatitude());
-			prep.setDouble(2, info.getTopLeftCorner().getLatitude());
+			prep.setDouble(1, info.getTopLeftCorner().getLatitude());
+			prep.setDouble(2, info.getBottomLeftCorner().getLatitude());
 			prep.setDouble(3, info.getTopLeftCorner().getLongitude());
 			prep.setDouble(4, info.getTopRightCorner().getLongitude()); 
 			ResultSet rs = prep.executeQuery();
