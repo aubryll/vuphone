@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 public class GPService extends Service {
 	final static String tag = "VUPHONE";
-	private WaypointTracker tracker_ = null;
+	private final WaypointTracker tracker_ = new WaypointTracker();
 
 	/**
 	 * Used to keep track of the classes that have bound to us, and allow us to
@@ -97,14 +97,13 @@ public class GPService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_SHORT).show();
-		tracker_ = new WaypointTracker();
 
 		// TODO - possibly change this to coarse location, and definitely
 		// increase the min time between GPS updates to conserve battery power
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm
-				.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-						listener_);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
+				2, listener_);	// Updates every second or 2 meters.
+
 
 	}
 

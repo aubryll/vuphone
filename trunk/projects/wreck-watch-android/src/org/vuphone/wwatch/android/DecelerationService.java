@@ -241,6 +241,7 @@ public class DecelerationService extends Service {
 		Toast.makeText(this, "Deceleration Service Destroyed",
 				Toast.LENGTH_SHORT).show();
 		unregisterAccelerometer();
+		task_.cancel();
 		t.cancel();
 		t = null;
 
