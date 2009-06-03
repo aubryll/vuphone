@@ -1,6 +1,8 @@
 package org.vuphone.wwatch.android.mapping;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,59 +22,59 @@ import com.google.android.maps.Projection;
  *
  */
 public class PinGroup extends Overlay{
-	
-	// TODO - Think about implementing this as a list of pairs...
-	private ArrayList<GeoPoint> points_ = null;
-	
+
+
+	private List<GeoPoint> points_ = null;
+
 	/**
 	 * Default constructor.
 	 */
 	public PinGroup(){
-		points_ = new ArrayList<GeoPoint>();
+		points_ = Collections.synchronizedList(new ArrayList<GeoPoint>());
 	}
-	
+
 	/**
 	 * Adds the GeoPoint to a list of pins to be drawn.
 	 * @param point
 	 * @param name
 	 */
 	public void addPin(EnhancedGeoPoint point){
-		points_.add(point.getPoint());
+		if (!points_.contains(point)){
+			points_.add(point.getPoint());
+		}
 	}
-	
-    /**
-     * Draws all the pins
-     *  
-     * @param	canvas	The Canvas on which to draw
-     * @param	mapView	The MapView that requested the draw
-     * @param	shadow	Ignored in this implementation 
-     */
+
+	/**
+	 * Draws all the pins
+	 *  
+	 * @param	canvas	The Canvas on which to draw
+	 * @param	mapView	The MapView that requested the draw
+	 * @param	shadow	Ignored in this implementation 
+	 */
 	public void draw(Canvas canvas, MapView mapView, boolean shadow){
 		Projection projection = mapView.getProjection();
 		Paint paint = new Paint();
 		paint.setColor(Color.RED);
 		paint.setTextSize(15);
 		paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-		
-		int index = 0;
-		
-		for (GeoPoint point : points_){
-			Point scrPt = projection.toPixels(point, null);
-			float x = scrPt.x; 
-			float y = scrPt.y;
-			float r = 5;
-			
-			canvas.drawCircle(x, y, r, new Paint());
-			
-			++index;
+
+		//TODO Get Jules to look at this for concurrent modification exception
+		synchronized(points_){
+			for (GeoPoint point : points_){
+				Point scrPt = projection.toPixels(point, null);
+				float x = scrPt.x; 
+				float y = scrPt.y;
+				float r = 5;
+				canvas.drawCircle(x, y, r, new Paint());
+			}
 		}
 	}
-	
+
 	public boolean onTouchEvent(MotionEvent event, MapView view){
 		// For now don't do anything but propagate.
 		return false;
 	}
-	
+
 	/**
 	 * Removes the last added point.
 	 */
@@ -82,7 +84,7 @@ public class PinGroup extends Overlay{
 			points_.remove(size - 1);
 		}
 	}
-	
+
 	/**
 	 * Get the number of OverlPin objects in this group.
 	 * @return	size of this group.
@@ -90,7 +92,7 @@ public class PinGroup extends Overlay{
 	public int size(){
 		return points_.size();
 	}
-	
+
 	/**
 	 * Return a human readable representation of this object
 	 * 
