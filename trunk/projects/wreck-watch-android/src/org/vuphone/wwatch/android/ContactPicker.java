@@ -43,11 +43,8 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	// List to hold the IDs of selected contacts
 	private final List<Integer> selectionList_ = new ArrayList<Integer>();
 
-	//private final Context CONTEXT = (new Context()).getApplicationContext();
-	
 	// Intent used to start the updating service
 	private Intent serviceIntent_;
-	
 	// PendingIntent used to trigger the service
 	private PendingIntent serviceTrigger_;
 	
@@ -99,12 +96,11 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 
 	/**
 	 * Unchecks all of the contacts.
-	 * TODO - This makes the SparseBooleanArray as big the the contact list; 
-	 * work on making this more efficient
 	 */
 	private void onClearClicked() {
-		for (int i = 0; i < contactInfoList_.size(); ++i)
-			listView_.setItemChecked(i, false);
+		listView_.clearChoices();
+		if (contactInfoList_.size() > 0)
+			listView_.setItemChecked(0, false);	//Necessary to force redraw.
 	}
 
 	/**
@@ -117,14 +113,9 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	/**
 	 * Overrides super.finish() to display a Toast with the selectionList_'s 
 	 * contents.
-	 * TODO - Remove this
 	 */
 	public void finish() {
-		Toast.makeText(this, "selectionList_: " + selectionList_.toString(),
-				Toast.LENGTH_LONG).show();
-		
 		this.scheduleService();
-		
 		super.finish();
 	}
 
