@@ -128,7 +128,6 @@ public class UpdateContactsService extends Service {
 		}
 		
 		// Strip the first "OR " and trim the last " "
-		// TODO - Check edge cases here
 		if (selection.length() > 0)
 			selection = selection.substring(3).trim();
 		else
