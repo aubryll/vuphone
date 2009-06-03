@@ -155,8 +155,7 @@ public class GPService extends Service {
 
 		// TODO - should be updated to get the actual acceleration
 		HTTPPoster.doAccidentPost(System.currentTimeMillis(), tracker_
-				.getLatestSpeed(), tracker_.getLatestAcceleration(), tracker_
-				.getList());
+				.getLatestSpeed(), tracker_.getLatestAcceleration(), tracker_.getList());
 	}
 
 }

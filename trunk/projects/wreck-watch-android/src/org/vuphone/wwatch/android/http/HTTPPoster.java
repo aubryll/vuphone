@@ -17,6 +17,7 @@ package org.vuphone.wwatch.android.http;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +127,53 @@ public class HTTPPoster {
 	}
 	
 	public static void doContactUpdate(String deviceID, ArrayList<String> numbers){
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doContactUpdate");
+		final HttpClient c = new DefaultHttpClient();
+		final HttpPost post = new HttpPost(SERVER + PATH);
+		post.addHeader("Content-Type","application/x-www-form-urlencoded");
+
+		StringBuffer params = new StringBuffer();
 		
+		try {
+			params.append("type=contact&id="+URLEncoder.encode(deviceID, "UTF-8")+"&numcontacts=" + numbers.size());
+		} catch (UnsupportedEncodingException e) {
+		}
+		for (int i = 0; i < numbers.size(); ++i){
+			params.append("&number"+i+"="+numbers.get(i));
+		}
+		//Add the parameters
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
+		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
+
+
+		//Do it
+		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + SERVER + PATH);
+		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
+		new Thread(new Runnable(){
+
+			
+			public void run() {
+				HttpResponse resp;
+				try {
+					resp = c.execute(post);
+					ByteArrayOutputStream bao = new ByteArrayOutputStream();
+					resp.getEntity().writeTo(bao);
+					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: " + new String(bao.toByteArray()));
+					
+				} catch (ClientProtocolException e) {
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
+				} catch (IOException e) {
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "IOException writing to ByteArrayOutputStream: " + e.getMessage());
+				} catch (Exception e){
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
+				}
+			}
+
+		}).start();
+		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
+		
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doContactUpdate");
 	}
 
 
