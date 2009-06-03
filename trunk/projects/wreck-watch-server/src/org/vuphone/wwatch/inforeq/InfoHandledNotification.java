@@ -15,6 +15,8 @@
  **************************************************************************/
 package org.vuphone.wwatch.inforeq;
 
+import java.util.ArrayList;
+
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.routing.Waypoint;
 
@@ -25,35 +27,26 @@ public class InfoHandledNotification extends Notification {
 	 * will be known at time of construction thanks to the knowledge 
 	 * of the number of row returned from the SQL query.
 	 */
-	private Waypoint[] accidents_;
-	private int num_;
+	private ArrayList<Waypoint> accidents_;
+	
 	
 
-	public InfoHandledNotification(int numAccidents) {
+	public InfoHandledNotification() {
 		super("infohandled");
-		accidents_ = new Waypoint[numAccidents];
-		num_ = 0;
+		accidents_ = new ArrayList<Waypoint>();
 		
 	}
 	
 	public void addWaypoint(double lat, double lon){
-		if (num_ >= accidents_.length){
-			throw new IndexOutOfBoundsException();
-		}else{
-			accidents_[num_++] = new Waypoint(lat, lon, 0);			
-		}
+		accidents_.add(new Waypoint(lat, lon, 0));
 		
 	}
 	
 	public void addWaypoint(Waypoint w){
-		if (num_ >= accidents_.length){
-			throw new IndexOutOfBoundsException();
-		}else{
-			accidents_[num_++] = w;			
-		}
+		accidents_.add(w);
 	}
 	
-	public Waypoint[] getAccidents(){
+	public ArrayList<Waypoint> getAccidents(){
 		return accidents_;
 	}
 	

@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -15,35 +15,83 @@
  **************************************************************************/
 package org.vuphone.wwatch.inforeq;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.vuphone.wwatch.accident.AccidentHandler;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
 public class InfoHandler implements NotificationHandler {
 
-	
+	private static final Logger logger_ = Logger.getLogger(AccidentHandler.class.getName());
+
 	@Override
 	public Notification handle(Notification n) {
 		InfoNotification info = (InfoNotification)n;
+
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+
+			logger_.log(Level.SEVERE,
+					"SQLException: ", e);
+		}
+		Connection db = null;
+
+		try {
+			db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+			db.setAutoCommit(true);
+		} catch (SQLException e) {
+
+			logger_.log(Level.SEVERE,
+					"SQLException: ", e);
+		}
 		
+
 		//I hate myself for doing this...
-		String sql = "select * from accidents where lat between " + info.getTopLeftCorner().getLatitude() + " and " +
-			info.getBottomLeftCorner().getLatitude() + " and lon between " + info.getTopLeftCorner().getLongitude() + 
-			" and " + info.getTopRightCorner().getLongitude();
+		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;"; 
+		InfoHandledNotification note;
+		try{
+			PreparedStatement prep = db.prepareStatement(sql);
+			prep.setDouble(1, info.getBottomLeftCorner().getLatitude());
+			prep.setDouble(2, info.getTopLeftCorner().getLatitude());
+			prep.setDouble(3, info.getTopLeftCorner().getLongitude());
+			prep.setDouble(4, info.getTopRightCorner().getLongitude()); 
+			ResultSet rs = prep.executeQuery();
+
+			note = new InfoHandledNotification();
+
+			while (rs.next()){
+				note.addWaypoint(rs.getDouble("lat"), rs.getDouble("lon"));
+			}
+			rs.close();
+			db.close();
+			return note;
+		}catch (SQLException e) {
+			logger_.log(Level.SEVERE,
+					"SQLException: ", e);
+		}
 		
-		//Number used for now, will fill with number of rows
+		return null;
+	}
+	
+	public static void main(String[] args){
+		InfoNotification n = new InfoNotification();
+		n.setBottomLeftCorner(34.00, -90);
+		n.setBottomRightCorner(34.00, -70);
+		n.setTopLeftCorner(37.00, -90);
+		n.setTopRightCorner(37.00, -70);
 		
-		/*
-		 * For testing purposes, we'll hard-code this
-		 */
-		InfoHandledNotification note = new InfoHandledNotification(2);
-		/*
-		 * for each row:
-		 * 		call note.addWaypoint (lat, lon)
-		 */
+		InfoHandler h = new InfoHandler();
+		Notification ihn = h.handle(n);
+		ihn = (InfoHandledNotification)ihn;
 		
-		note.addWaypoint(37.413532, -122.072855);
-		note.addWaypoint(37.421975, -122.084054);
-		return note;
 	}
 
 }
