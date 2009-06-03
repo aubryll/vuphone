@@ -59,6 +59,8 @@
 		<service android:name=".GPService" />
 
 		<service android:name=".DecelerationService" />
+		
+		<service android:name=".UpdateContactsService" />
 
 	</application>
 	<uses-sdk android:minSdkVersion="3" />
