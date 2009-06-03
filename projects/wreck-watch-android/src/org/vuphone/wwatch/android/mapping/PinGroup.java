@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.R;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -26,11 +29,13 @@ public class PinGroup extends Overlay{
 
 	private List<GeoPoint> points_ = null;
 
+	private Bitmap pinIcon_;
 	/**
 	 * Default constructor.
 	 */
-	public PinGroup(){
+	public PinGroup(Bitmap icon){
 		points_ = Collections.synchronizedList(new ArrayList<GeoPoint>());
+		pinIcon_ = icon;
 	}
 
 	/**
@@ -62,10 +67,12 @@ public class PinGroup extends Overlay{
 		synchronized(points_){
 			for (GeoPoint point : points_){
 				Point scrPt = projection.toPixels(point, null);
-				float x = scrPt.x; 
-				float y = scrPt.y;
-				float r = 5;
-				canvas.drawCircle(x, y, r, new Paint());
+				float x = scrPt.x - 10; 
+				float y = scrPt.y - 10;
+				
+				
+				
+				canvas.drawBitmap(pinIcon_, x, y, new Paint());
 			}
 		}
 	}

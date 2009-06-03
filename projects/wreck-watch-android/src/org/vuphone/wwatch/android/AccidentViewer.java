@@ -30,11 +30,12 @@ import org.vuphone.wwatch.android.mapping.EnhancedGeoPoint;
 import org.xml.sax.InputSource;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 
@@ -53,7 +54,7 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 
 	private AccidentMapView map_;
 	private MyLocationOverlay mlo_ ;
-
+	
 	private GeoPoint curCenter_;
 
 	private Timer t = new Timer("Accident View Delay");
@@ -117,7 +118,7 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 
 		}
 		curCenter_ = map_.getMapCenter();
-
+		
 	}
 
 	@Override
