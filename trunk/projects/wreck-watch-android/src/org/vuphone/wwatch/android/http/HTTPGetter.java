@@ -15,7 +15,6 @@
  **************************************************************************/
 package org.vuphone.wwatch.android.http;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
@@ -67,8 +66,8 @@ public class HTTPGetter {
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
 
 			//Do it
-			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + SERVER + PATH + params);
-			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
+			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing get to " + SERVER + PATH + params);
+			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP get");
 			new Thread(new Runnable(){
 
 				public void run() {
