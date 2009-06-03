@@ -15,14 +15,46 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.widget.Toast;
 
+/**
+ * Used to detect a deceleration large enough to report a wreck (or ask the user
+ * if there was a wreck). Uses a timer to poll the accelerometer every so often,
+ * therefore saving battery life over having the sensor turned on continually
+ * 
+ * @author Hamilton Turner
+ * 
+ */
 public class DecelerationService extends Service {
-	private static final String LOG_TAG = "VUPHONE";
-	private final static long TIME_BETWEEN_MEASUREMENTS = 50; // in ms
+	private static final String tag = "VUPHONE";
+
+	/**
+	 * The time in ms between accelerometer measurements. Higher = fewer
+	 * measurements, but longer battery life
+	 */
+	private final static long TIME_BETWEEN_MEASUREMENTS = 50;
+
+	/**
+	 * The maximum deceleration in m/s^2 that should be detected before asking
+	 * the user if there was a wreck
+	 */
 	private final static int MAX_ALLOWED_DECELERATION = 30; // in (m/s^2)
+
+	// Variables used to access the accelerometer data
 	private SensorManager sensorManager_;
 	private Sensor accelerometer_;
+
+	/**
+	 * The TimerTask that is used to start the accelerometer every
+	 * TIME_BETWEEN_MEASUREMENTS
+	 */
 	private final RegisterTask task_ = new RegisterTask();
-	
+
+	/**
+	 * Timer used to contain our RegisterTask
+	 * 
+	 * @see DecelerationService.RegisterTask
+	 */
+	private Timer t = new Timer("accelerometer polling service");
+
 	/**
 	 * Used to keep track of the classes that have bound to us, and allow us to
 	 * call on them using the interface declared in the ISettingsViewCallback
@@ -31,20 +63,16 @@ public class DecelerationService extends Service {
 	private RemoteCallbackList<ISettingsViewCallback> callbacks_ = new RemoteCallbackList<ISettingsViewCallback>();
 
 	/**
-	 * Used to wake up the accelerometer once every TIME_BETWEEN_MEASUREMENTS
-	 */
-	private Timer t = new Timer("accelerometer polling service");
-
-	/**
 	 * Magnifies the readings from the accelerometer for testing purposes
-	 * 
 	 */
 	private float accelerationScale_ = (float) 1.0;
 
 	/**
 	 * The IRegister interface is defined through IDL, and this variable
 	 * contains the implementations of the methods described in the IRegister
-	 * interface
+	 * interface (In this case, all those callbacks do is allow someone bound to
+	 * our service to register/unregister themselves for receiving callbacks
+	 * from us)
 	 */
 	private final IRegister.Stub binder_ = new IRegister.Stub() {
 
@@ -63,8 +91,9 @@ public class DecelerationService extends Service {
 	};
 
 	/**
-	 * Used to help the listener. Allows us to conserve battery by only
-	 * receiving one update every time we turn on the accelerometer
+	 * Used to help the accelerometer listener not waste CPU. Allows us to
+	 * conserve battery by only receiving one update every time we turn on the
+	 * accelerometer, and refusing to read more than one.
 	 */
 	private boolean listenerCalled_;
 
@@ -83,6 +112,8 @@ public class DecelerationService extends Service {
 				return;
 			listenerCalled_ = true;
 
+			// Send out changed data to anyone that has registered for
+			// broadcasts
 			final int N = callbacks_.beginBroadcast();
 			for (int i = 0; i < N; i++) {
 				try {
@@ -106,7 +137,8 @@ public class DecelerationService extends Service {
 				valz *= accelerationScale_;
 			}
 
-			// Do stuff with data
+			// Check if we exceeded our max decel
+			// Open dialog if we have
 			if (Math.abs(valx) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valy) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
@@ -136,7 +168,7 @@ public class DecelerationService extends Service {
 				listenerCalled_ = true;
 				stopSelf();
 			} else {
-				// Unregister ourself
+				// Unregister ourself, we only want one update at a time
 				unregisterAccelerometer();
 			}
 		}
@@ -145,7 +177,7 @@ public class DecelerationService extends Service {
 	/**
 	 * Return an IBinder for an activity to bind against, allowing that activity
 	 * to contact this service and communicate with it, using the interface
-	 * declared in the binder_ variable (For this case, the IRegister interface)
+	 * declared in the IBinder (For this case, the IRegister interface)
 	 */
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -171,15 +203,18 @@ public class DecelerationService extends Service {
 	 * Comparable to a constructor, this is the first method called to load the
 	 * service
 	 */
+	@Override
 	public void onCreate() {
 		super.onCreate();
 
+		// Setup vars to talk to accelerometer
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer_ = sensorManager_
 				.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
 
+		// Start our RegisterTask
 		t.scheduleAtFixedRate(task_, 0, TIME_BETWEEN_MEASUREMENTS);
-		
+
 	}
 
 	/**
@@ -203,9 +238,8 @@ public class DecelerationService extends Service {
 	 */
 	public void onDestroy() {
 		super.onDestroy();
-		Toast
-				.makeText(this, "Deceleration Service Destroyed",
-						Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Deceleration Service Destroyed",
+				Toast.LENGTH_SHORT).show();
 		unregisterAccelerometer();
 		t.cancel();
 		t = null;
@@ -221,8 +255,8 @@ public class DecelerationService extends Service {
 	}
 
 	/**
-	 * Used to register the listener for data from the accelerometer.
-	 * 
+	 * Used to register the listener for data from the accelerometer every
+	 * TIME_BETWEEN_MEASUREMENTS ms
 	 */
 	private class RegisterTask extends TimerTask {
 
