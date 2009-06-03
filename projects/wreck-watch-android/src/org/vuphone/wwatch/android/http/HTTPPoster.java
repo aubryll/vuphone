@@ -42,7 +42,7 @@ public class HTTPPoster {
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-	private static final String SERVER = "http://129.59.129.151:8080";
+	private static final String SERVER = "http://129.59.129.151";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -71,7 +71,7 @@ public class HTTPPoster {
 
 			//Create the parameter string
 			if (route != null){
-				params.append("type=accident&time="+timeStr+"&speed="+speedStr+"&dec="+decStr+"&numpoints="+route.size());
+				params.append("type=accident&user=thompchr%40gmail.com&time="+timeStr+"&speed="+speedStr+"&dec="+decStr+"&numpoints="+route.size());
 
 				for (int i = 0; i < route.size(); ++i){
 					params.append("&point"+i+"="+URLEncoder.encode(route.get(i).toString(), "UTF-8"));
