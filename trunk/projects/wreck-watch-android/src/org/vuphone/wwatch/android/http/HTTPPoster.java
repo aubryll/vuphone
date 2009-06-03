@@ -18,6 +18,7 @@ package org.vuphone.wwatch.android.http;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -42,7 +43,7 @@ public class HTTPPoster {
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-	private static final String SERVER = "http://129.59.129.151";
+	private static final String SERVER = "http://129.59.135.149";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -74,10 +75,10 @@ public class HTTPPoster {
 				params.append("type=accident&user=thompchr%40gmail.com&time="+timeStr+"&speed="+speedStr+"&dec="+decStr+"&numpoints="+route.size());
 
 				for (int i = 0; i < route.size(); ++i){
-					params.append("&point"+i+"="+URLEncoder.encode(route.get(i).toString(), "UTF-8"));
+					params.append("&lat"+i+"="+route.get(i).getLatitude()+"&lon"+i+"="+route.get(i).getLongitude()+"&time"+i+"="+route.get(i).getTime());
 				}
 			}else{
-				params.append("type=accident&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&numpoints=0");
+				params.append("type=accident&user=thompchr%40gmail.com&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&numpoints=0");
 			}
 
 
@@ -122,6 +123,10 @@ public class HTTPPoster {
 		}
 
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doAccidentPost");
+	}
+	
+	public static void doContactUpdate(String deviceID, ArrayList<String> numbers){
+		
 	}
 
 
