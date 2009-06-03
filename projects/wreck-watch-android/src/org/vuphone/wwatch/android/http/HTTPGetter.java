@@ -30,14 +30,14 @@ import com.google.android.maps.GeoPoint;
 
 public class HTTPGetter {
 	//Chris's test server\\
-		private static final String SERVER = "http://dorm.cmthompson.net:8081";
-		private static final String PATH = "/wreckwatch/notifications";
+//		private static final String SERVER = "http://dorm.cmthompson.net:8081";
+//		private static final String PATH = "/wreckwatch/notifications";
 
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-//	private static final String SERVER = "http://129.59.129.151:8080";
-//	private static final String PATH = "/wreckwatch/notifications";
+	private static final String SERVER = "http://129.59.129.151";
+	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
 	private static final String LOG_MSG_PREFIX = "HTTPGetter: ";
@@ -56,11 +56,12 @@ public class HTTPGetter {
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPGetter.doAccidentGet");
 			final HttpClient c = new DefaultHttpClient();
 			
-			final HttpGet get = new HttpGet(SERVER + PATH);
+			;
 			
 			String params = "?type=info&latbl="+bl.getLatitudeE6()+"&lonbl="+bl.getLongitudeE6()+"&latbr="+br.getLatitudeE6()+
 				"&lonbr=" + br.getLongitudeE6() + "&lattl=" + tl.getLatitudeE6() + "&lontl=" + tl.getLongitudeE6() + "&lattr=" + 
 				tr.getLatitudeE6() + "&lontr=" + tr.getLongitudeE6();
+			final HttpGet get = new HttpGet(SERVER + PATH + params);
 
 			//Add the parameters
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
@@ -79,9 +80,8 @@ public class HTTPGetter {
 								bl.getLatitudeE6() + ", " + bl.getLongitudeE6() + "\nBottomRight: " +
 								br.getLatitudeE6() + ", " + br.getLongitudeE6());
 						resp = c.execute(get);
-						ByteArrayOutputStream bao = new ByteArrayOutputStream();
-						resp.getEntity().writeTo(bao);
-						Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: " + new String(bao.toByteArray()));
+
+						
 						listener.operationComplete(resp);
 						
 					} catch (ClientProtocolException e) {

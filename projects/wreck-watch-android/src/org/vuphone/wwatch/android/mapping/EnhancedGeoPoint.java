@@ -27,7 +27,7 @@ public class EnhancedGeoPoint {
 	double lon_;
 	
 	/**
-	 * This constructor requires parameters in the form of microdegress or 
+	 * This constructor requires parameters in the form of microdegrees or 
 	 * degrees * 1E6
 	 * @param lat
 	 * @param lon
@@ -37,7 +37,7 @@ public class EnhancedGeoPoint {
 	}
 	
 	/**
-	 * This constructor requires parameters in the form of microdegress or 
+	 * This constructor requires parameters in the form of microdegrees or 
 	 * degrees * 1E6
 	 * @param lat
 	 * @param lon
@@ -105,6 +105,17 @@ public class EnhancedGeoPoint {
 	@Override
 	public String toString(){
 		return (point_.getLatitudeE6()/1E6) + ", " + (point_.getLongitudeE6()/1E6);
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if (o instanceof EnhancedGeoPoint){
+			EnhancedGeoPoint p = (EnhancedGeoPoint)o;
+			GeoPoint temp = p.getPoint();
+			return (temp.getLatitudeE6() == lat_) && (temp.getLongitudeE6() == lon_) && p.getNotes().equalsIgnoreCase(notes_);
+		}else{
+			return false;
+		}
 	}
 	
 	

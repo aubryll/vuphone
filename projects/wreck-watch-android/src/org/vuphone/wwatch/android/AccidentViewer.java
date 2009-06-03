@@ -16,6 +16,8 @@
 package org.vuphone.wwatch.android;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,6 +36,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -57,8 +60,8 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 	private boolean update_ = true;
 
 	//For testing only
-	private static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Points><Point><Latitude>37.413532</Latitude>" +
-	"<Longitude>-122.072855</Longitude></Point><Point><Latitude>37.421975</Latitude><Longitude>-122.084054</Longitude></Point></Points>";
+	//private static final String XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Points><Point><Latitude>37.413532</Latitude>" +
+	//"<Longitude>-122.072855</Longitude></Point><Point><Latitude>37.421975</Latitude><Longitude>-122.084054</Longitude></Point></Points>";
 
 
 
@@ -88,13 +91,13 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 			public void run() {
 				update_ = true;
 
-				if (map_.getZoomLevel() < 8){
+				if (map_.getZoomLevel() > 7){
 					if ((map_.getMapCenter().getLatitudeE6() != curCenter_.getLatitudeE6()) || 
 							(map_.getMapCenter().getLongitudeE6() != curCenter_.getLongitudeE6())){
 						curCenter_ = map_.getMapCenter();
-						DisplayMetrics dm = new DisplayMetrics();
-						int snHeight = dm.heightPixels;
-						int snWidth = dm.widthPixels;
+						Display d = getWindowManager().getDefaultDisplay();
+						int snHeight = d.getHeight();
+						int snWidth = d.getWidth();
 						Projection p = map_.getProjection();
 						GeoPoint upperRight = p.fromPixels(snWidth, snHeight);
 						GeoPoint upperLeft = p.fromPixels(0, snHeight);
@@ -149,18 +152,26 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 
 		Log.i(LOG_LABEL, LOG_PREFIX + "HTTP operation complete.  Processing response.");
 		AccidentDataHandler adh = new AccidentDataHandler();
-		for (EnhancedGeoPoint p:adh.processXML(new InputSource(new ByteArrayInputStream(XML.getBytes())))){
-			Log.d(LOG_LABEL, LOG_PREFIX + "Adding accident point: " + p.toString());
-			map_.addPin(p);
+		ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+		try {
+			resp.getEntity().writeTo(bao);	
+			Log.d(LOG_LABEL, LOG_PREFIX + "Http response: " + bao.toString());
+			for (EnhancedGeoPoint p:adh.processXML(new InputSource(new ByteArrayInputStream(bao.toByteArray())))){
+				Log.d(LOG_LABEL, LOG_PREFIX + "Adding accident point: " + p.toString());
+				map_.addPin(p);
+			}
+		} catch (IOException e) {
+			Log.e(LOG_LABEL, LOG_PREFIX + "IOException processing HttpResponse object: " + e.getMessage());
 		}
 	}
 
 
 	public void onLocationChanged(Location location) {
-		if (map_.getZoomLevel() < 8){
-			DisplayMetrics dm = new DisplayMetrics();
-			int snHeight = dm.heightPixels;
-			int snWidth = dm.widthPixels;
+		if (map_.getZoomLevel() > 7){
+			Display d = getWindowManager().getDefaultDisplay();
+			int snHeight = d.getHeight();
+			int snWidth = d.getWidth();
 			Projection p = map_.getProjection();
 			GeoPoint upperRight = p.fromPixels(snWidth, snHeight);
 			GeoPoint upperLeft = p.fromPixels(0, snHeight);
