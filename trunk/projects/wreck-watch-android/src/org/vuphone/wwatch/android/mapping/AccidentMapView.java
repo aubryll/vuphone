@@ -15,19 +15,23 @@
  **************************************************************************/
 package org.vuphone.wwatch.android.mapping;
 
+import org.vuphone.wwatch.android.R;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
 
 import com.google.android.maps.MapView;
 
 public class AccidentMapView extends MapView {
 	
-	PinGroup pinGroup_ = new PinGroup();
+	private PinGroup pinGroup_;
 
 	public AccidentMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		super.setBuiltInZoomControls(true);
+		pinGroup_ = new PinGroup(BitmapFactory.decodeResource(context.getResources(), R.drawable.unhapppy));
 		getOverlays().add(pinGroup_);
+		
 		
 	}
 	
