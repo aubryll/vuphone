@@ -30,14 +30,14 @@ import com.google.android.maps.GeoPoint;
 
 public class HTTPGetter {
 	//Chris's test server\\
-	//	private static final String SERVER = "http://dorm.cmthompson.net";
-	//	private static final String PATH = "/wreckwatch/test.php";
+		private static final String SERVER = "http://dorm.cmthompson.net:8081";
+		private static final String PATH = "/wreckwatch/notifications";
 
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-	private static final String SERVER = "http://129.59.129.151:8080";
-	private static final String PATH = "/wreckwatch/notifications";
+//	private static final String SERVER = "http://129.59.129.151:8080";
+//	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
 	private static final String LOG_MSG_PREFIX = "HTTPGetter: ";
