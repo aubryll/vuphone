@@ -32,7 +32,7 @@ public class Route  {
 	}
 
 	public void addWaypoint(double lat, double lon, long time){
-		route_.add(new Waypoint(lon, lat, time));
+		route_.add(new Waypoint(lat, lon, time));
 	}
 
 	/**
@@ -43,6 +43,10 @@ public class Route  {
 	 */
 	public Waypoint getPoint(int index){
 		return route_.get(index);
+	}
+	
+	public Waypoint getEndPoint(){
+		return route_.get(route_.size() - 1);
 	}
 
 	/**
