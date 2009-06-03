@@ -5,11 +5,11 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
-import android.provider.Contacts;
+import android.provider.Contacts.People;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -18,9 +18,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 /**
- * An activity that loads a list of all contacts with non-null numbers and allows
- * the user to check the ones he would like to call in case of an emergency. The
- * list of contact IDs is saved in a preference file.
+ * An activity that loads a list of all contacts with non-null numbers and 
+ * allows the user to check the ones he would like to call in case of an 
+ * emergency. The list of contact IDs is saved in a preference file.
  * @author Krzysztof Zienkiewicz
  *
  */
@@ -54,8 +54,9 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		SparseBooleanArray choices = listView_.getCheckedItemPositions();
 		for (int i = 0; i < choices.size(); ++i) {
 			int realIndex = choices.keyAt(i);
-			if (choices.get(realIndex) == true)	// If selected
+			if (choices.get(realIndex) == true) {	// If selected
 				selectionList_.add(contactIdList_.get(realIndex));
+			}
 		}
 
 		this.savePreferenceFile();
@@ -73,19 +74,22 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	 */
 	public void savePreferenceFile() {
 		// Save the IDs to a preference file.
-		SharedPreferences prefs = super.getSharedPreferences(ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
+		SharedPreferences prefs = super.getSharedPreferences(
+				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 		
 		editor.putInt(ContactPicker.LIST_SIZE_TAG, selectionList_.size());
 		for (int i = 0; i < selectionList_.size(); ++i) {
-			editor.putInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, selectionList_.get(i));
+			editor.putInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, 
+					selectionList_.get(i));
 		}
 		editor.commit();
 	}
 
 	/**
-	 * Uncheck all of the contacts.
-	 * TODO - This makes the SparseBooleanArray as big the the contact list; work on making this more efficient
+	 * Unchecks all of the contacts.
+	 * TODO - This makes the SparseBooleanArray as big the the contact list; 
+	 * work on making this more efficient
 	 */
 	private void onClearClicked() {
 		for (int i = 0; i < contactInfoList_.size(); ++i)
@@ -100,12 +104,17 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	}
 
 	/**
-	 * Overrides super.finish() to display a Toast with the selectionList_'s contents.
+	 * Overrides super.finish() to display a Toast with the selectionList_'s 
+	 * contents.
 	 * TODO - Remove this
 	 */
 	public void finish() {
 		Toast.makeText(this, "selectionList_: " + selectionList_.toString(),
 				Toast.LENGTH_LONG).show();
+		
+		super.startService(new Intent(this, 
+				org.vuphone.wwatch.android.UpdateContactsService.class));
+		
 		super.finish();
 	}
 
@@ -156,26 +165,26 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	/**
 	 * Populated this object's lists with contact information based on contacts
 	 * with non-null phone numbers.
-	 * TODO - Add code to load the preference file and check the emergency contacts 
+	 * TODO - Add code to load the preference file and check the emergency 
+	 * contacts 
 	 */
 	private void loadContactInformation() {
 		// Get a cursor to the contact information sorted alphabetically by name
-		Cursor c = super.getContentResolver().query(
-				Contacts.People.CONTENT_URI, null, null, null,
-				Contacts.PeopleColumns.NAME);
+		Cursor c = super.getContentResolver().query(People.CONTENT_URI, null, 
+				null, null, People.NAME);
 
 		// Set up contact database constants
-		final int nameCol = c.getColumnIndex(Contacts.PeopleColumns.NAME);
-		final int numberCol = c.getColumnIndex(Contacts.Phones.NUMBER);
-		final int idCol = c.getColumnIndex(BaseColumns._ID);
+		final int nameCol = c.getColumnIndex(People.NAME);
+		final int numberCol = c.getColumnIndex(People.NUMBER);
+		final int idCol = c.getColumnIndex(People._ID);
 
 		// Initialize the cursor and populate the lists.
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			if (c.getString(numberCol) != null) {
-				contactInfoList_.add(c.getString(nameCol));
+				contactInfoList_.add(c.getString(idCol) + " - " + c.getString(nameCol));
 				contactIdList_.add(c.getInt(idCol));
 			}
 		}
-		c.deactivate();
+		c.close();
 	}
 }
