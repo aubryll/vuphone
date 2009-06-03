@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.routing.Route;
+import org.vuphone.wwatch.routing.Waypoint;
 
 
 /**
@@ -62,6 +63,13 @@ public class AccidentNotification extends Notification {
 	
 	public void setLongitude(double lon){
 		lon_ = lon;
+	}
+	
+	public void setAccidentLocation(){
+		Waypoint temp = route_.getEndPoint();
+		
+		lat_ = temp.getLatitude();
+		lon_ = temp.getLongitude();
 	}
 	
 	public double getLatitude(){
