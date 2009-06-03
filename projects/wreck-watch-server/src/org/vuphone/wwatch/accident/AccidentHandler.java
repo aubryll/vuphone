@@ -130,6 +130,8 @@ public class AccidentHandler implements NotificationHandler {
 					db.commit();
 					db.close();
 					
+					response = new AccidentHandledNotification();
+					
 				} catch (SQLException e) {
 					logger_.log(Level.SEVERE,
 							"SQLException: ", e);
