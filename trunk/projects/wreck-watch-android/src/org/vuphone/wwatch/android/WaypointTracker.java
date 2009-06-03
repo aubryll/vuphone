@@ -24,14 +24,14 @@ public class WaypointTracker {
 	private double timeDilation_ = 1.0;
 
 	/**
-	 * Creates a WaypointTracker using the provided time dialation factor or 1.0
+	 * Creates a WaypointTracker using the provided time dilation factor or 1.0
 	 * by default
 	 * 
-	 * @param dialation
+	 * @param dilation
 	 */
-	public WaypointTracker(double dialation) {
+	public WaypointTracker(double dilation) {
 		pointList_ = new ArrayList<Waypoint>();
-		timeDilation_ = dialation;
+		timeDilation_ = dilation;
 	}
 
 	public WaypointTracker() {
