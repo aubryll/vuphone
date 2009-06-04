@@ -30,7 +30,7 @@ public class DecelerationService extends Service {
 	 * The time in ms between accelerometer measurements. Higher = fewer
 	 * measurements, but longer battery life
 	 */
-	private final static long TIME_BETWEEN_MEASUREMENTS = 50;
+	private final static long TIME_BETWEEN_MEASUREMENTS = 100;
 
 	/**
 	 * The maximum deceleration in m/s^2 that should be detected before asking
@@ -89,13 +89,9 @@ public class DecelerationService extends Service {
 		}
 
 	};
-
-	/**
-	 * Used to help the accelerometer listener not waste CPU. Allows us to
-	 * conserve battery by only receiving one update every time we turn on the
-	 * accelerometer, and refusing to read more than one.
-	 */
-	private boolean listenerCalled_;
+	
+	// set to true as a bootstrapping measure telling
+	private boolean receivedData_ = true;
 
 	/**
 	 * Listener for Accelerometer data. Also handles starting the 'Are you OK?'
@@ -107,10 +103,16 @@ public class DecelerationService extends Service {
 		}
 
 		public void onSensorChanged(SensorEvent e) {
+			Log.v(VUphone.tag, "Accel data received");
 			// Only allow one sensor event in
-			if (listenerCalled_)
+			
+			if (receivedData_)
+			{
+				Log.v(VUphone.tag, "Skipping sensor data");
 				return;
-			listenerCalled_ = true;
+			}
+			
+			receivedData_ = true;
 
 			// Send out changed data to anyone that has registered for
 			// broadcasts
@@ -165,7 +167,6 @@ public class DecelerationService extends Service {
 				// clean up nicely
 				t.cancel();
 				unregisterAccelerometer();
-				listenerCalled_ = true;
 				stopSelf();
 			} else {
 				// Unregister ourself, we only want one update at a time
@@ -263,8 +264,8 @@ public class DecelerationService extends Service {
 	 * Used to unregister the listener from the accelerometer
 	 */
 	private void unregisterAccelerometer() {
+		Log.v(VUphone.tag, "Listener unregistered");
 		sensorManager_.unregisterListener(listener_, accelerometer_);
-		listenerCalled_ = false;
 	}
 
 	/**
@@ -275,8 +276,19 @@ public class DecelerationService extends Service {
 
 		@Override
 		public void run() {
+			
+			if (receivedData_ == false)
+			{
+				//Log.v(VUphone.tag, "Skipping registerTask");
+				return;
+			}
+			receivedData_ = false;
+			
 			sensorManager_.registerListener(listener_, accelerometer_,
-					SensorManager.SENSOR_DELAY_UI);
+					SensorManager.SENSOR_DELAY_FASTEST);
+			
+			
+			Log.v(VUphone.tag, "RegisterTask activated");
 		}
 
 	}
