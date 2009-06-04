@@ -49,7 +49,6 @@ public class Tabs extends TabActivity {
 			Editor editor = prefs.edit();
 			editor.putBoolean(FIRST_LOAD, false);
 			editor.commit();
-			HTTPPoster.doInitialPost();
 		}
 		
 		TabHost th = getTabHost();

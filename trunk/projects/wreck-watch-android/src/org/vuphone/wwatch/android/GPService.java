@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -154,8 +155,7 @@ public class GPService extends Service {
 	public void reportAccident() {
 		Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG).show();
 
-		// TODO - should be updated to get the actual acceleration
-		HTTPPoster.doAccidentPost(System.currentTimeMillis(), tracker_
+		HTTPPoster.doAccidentPost(((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId() ,System.currentTimeMillis(), tracker_
 				.getLatestSpeed(), tracker_.getLatestAcceleration(), tracker_.getList());
 	}
 
