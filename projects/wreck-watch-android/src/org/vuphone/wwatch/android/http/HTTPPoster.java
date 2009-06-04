@@ -47,7 +47,7 @@ public class HTTPPoster {
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-	private static final String SERVER = "http://129.59.135.149";
+	private static final String SERVER = "http://129.59.135.165";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -60,7 +60,7 @@ public class HTTPPoster {
 	 * 
 	 * @param message
 	 */
-	public static void doAccidentPost(Long time, Double speed, Double dec,
+	public static void doAccidentPost(String androidid, Long time, Double speed, Double dec,
 			List<Waypoint> route) {
 
 		String timeStr = Long.toString(time.longValue());
@@ -71,6 +71,7 @@ public class HTTPPoster {
 			timeStr = URLEncoder.encode(time.toString(), "UTF-8");
 			speedStr = URLEncoder.encode(speed.toString(), "UTF-8");
 			decStr = URLEncoder.encode(dec.toString(), "UTF-8");
+			androidid = URLEncoder.encode(androidid, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
 			Log.w(LOG_LABEL,
 					"HTTPPoster unable to encode one of the parameters");
@@ -85,15 +86,14 @@ public class HTTPPoster {
 
 		// Create the parameter string
 		if (route != null) {
-			params.append("type=accident&user="+Settings.Secure.ANDROID_ID+"&time=" + timeStr + "&speed="
-					+ speedStr + "&dec=" + decStr + "&numpoints="
-					+ route.size());
+			params.append("type=accident&user="+androidid+"&time=" + timeStr + "&speed="
+					+ speedStr + "&dec=" + decStr);
 
 			for (int i = 0; i < route.size(); ++i) {
-				params.append("&lat"+i+"="+route.get(i).getLatitude()+"&lon"+i+"="+route.get(i).getLongitude()+"&time"+i+"="+route.get(i).getTime());
+				params.append("&lat="+route.get(i).getLatitude()+"&lon="+route.get(i).getLongitude()+"&timert="+route.get(i).getTime());
 			}
 		}else{
-				params.append("type=accident&user=thompchr%40gmail.com&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&numpoints=0");
+				params.append("type=accident&user="+androidid+"&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&numpoints=0");
 		}
 
 		// Add the parameters
@@ -136,46 +136,6 @@ public class HTTPPoster {
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
 
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doAccidentPost");
-	}
-
-	public static void doInitialPost() {
-		final HttpClient c = new DefaultHttpClient();
-		final HttpPost post = new HttpPost(SERVER + PATH);
-		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
-
-		StringBuffer params = new StringBuffer();
-		String aid = Settings.Secure.ANDROID_ID;
-		params.append("aid=" + aid);
-		
-		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
-
-		new Thread(new Runnable() {
-			public void run() {
-				HttpResponse resp;
-				try {
-					resp = c.execute(post);
-					ByteArrayOutputStream bao = new ByteArrayOutputStream();
-					resp.getEntity().writeTo(bao);
-					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
-							+ new String(bao.toByteArray()));
-
-				} catch (ClientProtocolException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "ClientProtocolException executing post: "
-							+ e.getMessage());
-				} catch (IOException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "IOException writing to ByteArrayOutputStream: "
-							+ e.getMessage());
-				} catch (Exception e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "Other Exception of type:" + e.getClass());
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
-							+ e.getMessage());
-				}
-			}
-
-		}).start();
 	}
 
 	

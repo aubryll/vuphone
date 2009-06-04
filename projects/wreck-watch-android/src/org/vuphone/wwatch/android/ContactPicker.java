@@ -80,6 +80,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		}
 	}
 
+
 	/**
 	 * Overrides super.finish() to schedule the updating service contents.
 	 */
@@ -118,7 +119,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	 * Simply exit the activity without saving any information.
 	 */
 	private void onCancelClicked() {
-		this.finish();
+		this.scheduleService();
 	}
 
 	/**

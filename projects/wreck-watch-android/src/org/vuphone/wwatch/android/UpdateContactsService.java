@@ -25,8 +25,8 @@ import android.util.Log;
 
 public class UpdateContactsService extends Service {
 	// How often to run this service (in milliseconds)
-	public static final long TIME_INTERVAL = 10 * 1000;// 1 * (24 * 60 * 60 *
-														// 1000); // 1 day
+	public static final long TIME_INTERVAL = 1 * (24 * 60 * 60 * 1000); // 1 day
+	
 
 	// A list of 10 digit strings containing only digit characters.
 	private final ArrayList<String> numberList_ = new ArrayList<String>();
