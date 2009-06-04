@@ -297,9 +297,11 @@ public class TestingUI extends Activity {
 		public void accelerometerChanged(float x, float y, float z)
 				throws RemoteException {
 
-			realAccel_.setText("X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
-					+ Math.round(y * 10.0) / 10.0 + ", Z:"
-					+ Math.round(z * 10.0) / 10.0);
+			String realAccel = "X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
+			+ Math.round(y * 10.0) / 10.0 + ", Z:"
+			+ Math.round(z * 10.0) / 10.0;
+			Log.v(tag, "Setting real Acceleration to " +  realAccel);
+			realAccel_.setText(realAccel);
 			if (m_ != 0)
 				scaleAccel_.setText("X: " + (x * m_) + ", Y:" + (y * m_)
 						+ ", Z:" + (z * m_));
@@ -311,24 +313,30 @@ public class TestingUI extends Activity {
 		}
 
 		public void gpsChanged(double lat, double lng) throws RemoteException {
-			lastGps_.setText("Lat: " + lat + ", Lng: " + lng);
+			String gps = "Lat: " + lat + ", Lng: " + lng;
+			lastGps_.setText(gps);
+			Log.v(tag, "Setting GPS to " + gps);
 			numGPS++;
 			numWaypoints_.setText("GPS: " + numGPS);
+			
 		}
 
 		public void setAccelerometerMultiplier(int multip)
 				throws RemoteException {
+			Log.v(tag, "Setting accel multiplier to " + multip);
 			m_ = multip;
 		}
 
 		public void setRealSpeed(double speed) throws RemoteException {
 			speed = Math.round(speed * 100.0) / 100.0;
 			realSpeed_.setText("Real: " + speed);
+			Log.v(tag, "Set real speed to " + speed);
 		}
 
 		public void setScaleSpeed(double speed) throws RemoteException {
 			speed = Math.round(speed * 100.0) / 100.0;
 			scaleSpeed_.setText("Scale: " + speed);
+			Log.v(tag, "Set scale speed to " + speed);
 		}
 
 	};

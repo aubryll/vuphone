@@ -38,11 +38,11 @@
 			android:layout_below="@id/start_button" android:layout_alignLeft="@id/start_button"
 			android:paddingTop="5px" />
 		<TextView android:id="@+id/real_speed" android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:layout_below="@id/latest_speed"
+			android:layout_width="wrap_content" android:layout_below="@id/latest_speed"
 			android:layout_alignLeft="@id/start_button" android:paddingLeft="9px" />
 		<TextView android:id="@+id/scale_speed"
-			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:layout_below="@id/real_speed" android:layout_toRightOf="@id/real_speed"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_below="@id/latest_speed" android:layout_toRightOf="@id/real_speed"
 			android:paddingLeft="9px" />
 
 
