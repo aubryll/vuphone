@@ -41,15 +41,19 @@ public class NotificationParser {
 				log_.log(Level.FINER, "Time: " + an.getTime());
 				an.setParty(req.getParameter("user"));
 				log_.log(Level.FINER, "User: " + an.getPerson());
+				
+				String[] lats = req.getParameterValues("lat");
+				String[] lons = req.getParameterValues("lon");
+				String[] times = req.getParameterValues("time");
+				
+				if (lats != null){
 
-				Integer numPoints = Integer.parseInt(req.getParameter("numpoints"));
-
-				if (numPoints != null){
-					for (int i = 0; i < numPoints; ++i){
-						an.addWaypoint(Double.parseDouble(req.getParameter("lat" + i)), Double.parseDouble(req.getParameter("lon" + i)), 
-								Long.parseLong(req.getParameter("time" + i)));
+					for(int i = 0; i < lats.length; ++i){
+						an.addWaypoint(Double.parseDouble(lats[i]), Double.parseDouble(lons[i]), Long.parseLong(times[i]));
 					}
 				}
+				
+
 				an.setAccidentLocation();
 			}else if (type.equalsIgnoreCase("info")){
 
@@ -107,12 +111,8 @@ public class NotificationParser {
 				n = new ContactUpdateNotification(id);
 				ContactUpdateNotification cn = (ContactUpdateNotification)n;
 				
-				Integer num = Integer.parseInt(req.getParameter("numcontacts"));
-				
-				for (int i = 0; i < num; ++i){
-					cn.addNumber(req.getParameter("number"+i));
-				}
-				
+				cn.setNumbers(req.getParameterValues("number"));
+
 			}else{
 				n = new Notification(type);
 			}

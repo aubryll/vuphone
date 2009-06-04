@@ -61,6 +61,7 @@ public class SMSSender {
 		props_.put("mail.smtps.host", SMTP_HOST_NAME_);
 		props_.put("mail.smtps.auth", "true");
 		props_.put("mail.smtps.quitwait", "false");
+		props_.put("mail.from", "vuphone.1@gmail.com");
 
 		// Send the message
 		try {
@@ -82,5 +83,6 @@ public class SMSSender {
 		System.out.println("SMSSender: Sent message to " + tenDigitNumber);
 
 	}
+
 
 }

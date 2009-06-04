@@ -17,28 +17,14 @@ package org.vuphone.wwatch.contacts;
 
 import org.vuphone.wwatch.notification.Notification;
 
-public class ContactUpdateNotification extends Notification {
+public class ContactUpdateHandledNotification extends Notification {
 	
-	private String[] numbers_;
-	private String androidId_;
 	
-	public ContactUpdateNotification(String androidID){
-		super("contact");
-		androidId_ = androidID;
-	}
-	
-	public void setNumbers(String[] number){
-		numbers_ = number;
-	}
-	
-	public String[] getNumbers(){
-		return numbers_;
-	}
-	
-	public String getAndroidID(){
-		return androidId_;
-	}
+	public ContactUpdateHandledNotification() {
+		super("contactupdatehandled");
 
+	}
+	
 	
 
 }
