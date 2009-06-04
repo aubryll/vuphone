@@ -44,13 +44,15 @@ public class NotificationParser {
 				
 				String[] lats = req.getParameterValues("lat");
 				String[] lons = req.getParameterValues("lon");
-				String[] times = req.getParameterValues("time");
+				String[] times = req.getParameterValues("timert");
 				
 				if (lats != null){
 
 					for(int i = 0; i < lats.length; ++i){
 						an.addWaypoint(Double.parseDouble(lats[i]), Double.parseDouble(lons[i]), Long.parseLong(times[i]));
 					}
+				}else{
+					an.addWaypoint(0, 0, System.currentTimeMillis());
 				}
 				
 
