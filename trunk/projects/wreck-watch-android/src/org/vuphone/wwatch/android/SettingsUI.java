@@ -65,14 +65,21 @@ public class SettingsUI extends Activity {
 		((Button) super.findViewById(R.id.save_button))
 				.setOnClickListener(listener_);
 
+		((EditText) super.findViewById(R.id.timeout)).setText(""
+				+ super.getSharedPreferences(VUphone.PREFERENCES_FILE,
+						Context.MODE_PRIVATE).getInt(VUphone.TIMEOUT_TAG, 10));
+
 	}
 
 	private void savePreferences() {
-		SharedPreferences prefs = super.getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
-		
-		int time = Integer.parseInt(((EditText) super.findViewById(R.id.timeout)).getText().toString());
-		int level = (int) ((RatingBar) super.findViewById(R.id.battery_level)).getRating();
-		
+		SharedPreferences prefs = super.getSharedPreferences(
+				VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+
+		int time = Integer.parseInt(((EditText) super
+				.findViewById(R.id.timeout)).getText().toString());
+		int level = (int) ((RatingBar) super.findViewById(R.id.battery_level))
+				.getRating();
+
 		Editor edit = prefs.edit();
 		edit.putInt(VUphone.TIMEOUT_TAG, time);
 		edit.putInt(VUphone.BATTERY_LEVEL_TAG, level);
