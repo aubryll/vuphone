@@ -13,6 +13,7 @@ import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
+import android.util.Log;
 import android.widget.Toast;
 
 /**
@@ -210,7 +211,7 @@ public class DecelerationService extends Service {
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer_ = sensorManager_
 				.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
-
+		
 		// Start our RegisterTask
 		t.scheduleAtFixedRate(task_, 0, TIME_BETWEEN_MEASUREMENTS);
 
@@ -226,8 +227,19 @@ public class DecelerationService extends Service {
 			accelerationScale_ = intent.getExtras().getFloat(
 					"AccelerationScaleFactor");
 
+		final int num = callbacks_.beginBroadcast();
+		for (int i = 0; i < num; ++i) {
+			try {
+				callbacks_.getBroadcastItem(i).setAccelerometerMultiplier((int)accelerationScale_);
+			} catch (RemoteException re) {
+
+			}
+
+		}
+		callbacks_.finishBroadcast();
+		
 		Toast.makeText(this,
-				"Deceleration Service Started, scale " + accelerationScale_,
+				"Deceleration scale " + accelerationScale_,
 				Toast.LENGTH_SHORT).show();
 	}
 
@@ -239,6 +251,7 @@ public class DecelerationService extends Service {
 		super.onDestroy();
 		Toast.makeText(this, "Deceleration Service Destroyed",
 				Toast.LENGTH_SHORT).show();
+		Log.v(VUphone.tag, "Decel Service onDestroy reached");
 		unregisterAccelerometer();
 		task_.cancel();
 		t.cancel();

@@ -117,8 +117,9 @@ public class GPService extends Service {
 		if (intent.hasExtra("TimeDialation")) {
 			double d = intent.getExtras().getDouble("TimeDialation");
 			tracker_.setDilation(d);
-			Toast.makeText(this, "GPS Service Started, scale: " + d,
-					Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Speed Scale: " + d,
+					Toast.LENGTH_SHORT).show();
+			return;
 		}
 
 		// Returned from the 'Are you OK?' dialog

@@ -29,7 +29,7 @@ public class TestingUI extends Activity {
 	private int mode_ = 0;
 
 	// All the EditText UI elements we will be interacting with
-	private EditText edit_ = null;
+	private EditText speedScaleEdit_ = null;
 	private EditText accelScaleEdit_ = null;
 
 	// All the textView UI elements we will be interacting with
@@ -46,8 +46,31 @@ public class TestingUI extends Activity {
 	/**
 	 * OnCLickListener for the start services button
 	 */
-	private OnClickListener startListener = new OnClickListener() {
+	private OnClickListener updateListener = new OnClickListener() {
 		public void onClick(View v) {
+			double dialation = 1.0;
+			Intent gpsIntent = new Intent(TestingUI.this,
+					GPService.class);
+			try {
+				dialation = Double.parseDouble(speedScaleEdit_.getText()
+						.toString());
+			} catch (Exception e) {
+			}
+			gpsIntent.putExtra("TimeDialation", dialation);
+
+			startService(gpsIntent);
+
+			// Update Accelerometer service
+			Intent accelIntent = new Intent(TestingUI.this,
+					DecelerationService.class);
+			float accelScale = (float) 1.0;
+			try {
+				accelScale = Float.parseFloat(accelScaleEdit_.getText()
+						.toString());
+			} catch (Exception e) {
+			}
+			accelIntent.putExtra("AccelerationScaleFactor", accelScale);
+			startService(accelIntent);
 
 		}
 	};
@@ -57,28 +80,9 @@ public class TestingUI extends Activity {
 	 */
 	private OnClickListener stopListener = new OnClickListener() {
 		public void onClick(View v) {
-			// Stop GPS
-			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
-			stopService(gpsIntent);
-			Log.v(VUphone.tag, "Testing stopped GPS, now unbinding");
-			try {
-				unbindService(gpsConnection_);
-				Log.v(VUphone.tag, "Testing successfully unbound from GPS");
-			} catch (Exception e) {
-				Log.v(VUphone.tag, "Testing was not bound to GPS");
-			}
-
-			// Stop accel
-			Intent decIntent = new Intent(TestingUI.this,
-					DecelerationService.class);
-			stopService(decIntent);
-			Log.v(VUphone.tag, "Testing stopped Accel, now unbinding");
-			try {
-				unbindService(accelConnection_);
-				Log.v(VUphone.tag, "Testing successfully unbound from Accel");
-			} catch (Exception e) {
-				Log.v(VUphone.tag, "Testing was not bound to Accel");
-			}
+			Activity a = TestingUI.this.getParent();
+			Tabs t = (Tabs)a;
+			t.stopServices();
 		}
 	};
 
@@ -99,7 +103,7 @@ public class TestingUI extends Activity {
 		super.onCreate(savedInstanceState);
 
 		instance_ = this;
-		
+
 		Intent startIntent = super.getIntent();
 		Bundle data = startIntent.getExtras();
 		if (data == null)
@@ -113,7 +117,7 @@ public class TestingUI extends Activity {
 			setContentView(R.layout.main);
 
 			// Save these guys for later
-			scaleSpeed_ = (TextView) findViewById(R.id.scale_speed);
+			scaleSpeed_ = (TextView) findViewById(R.id.scaled_speed);
 			realSpeed_ = (TextView) findViewById(R.id.real_speed);
 			realAccel_ = (TextView) findViewById(R.id.real_accel);
 			scaleAccel_ = (TextView) findViewById(R.id.scale_accel);
@@ -121,14 +125,14 @@ public class TestingUI extends Activity {
 			numWaypoints_ = (TextView) findViewById(R.id.num_gps);
 
 			// Assign click listeners
-			Button button = (Button) findViewById(R.id.start_button);
-			button.setOnClickListener(startListener);
+			Button button = (Button) findViewById(R.id.update_button);
+			button.setOnClickListener(updateListener);
 			button = (Button) findViewById(R.id.stop_button);
 			button.setOnClickListener(stopListener);
 			button = (Button) findViewById(R.id.test_button);
 			button.setOnClickListener(testListener);
 
-			edit_ = (EditText) super.findViewById(R.id.dialation_edit);
+			speedScaleEdit_ = (EditText) super.findViewById(R.id.speed_scale);
 			accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);
 
 			break;
@@ -150,6 +154,8 @@ public class TestingUI extends Activity {
 	}
 
 	/**
+<<<<<<< .mine
+=======
 	 * Called when the activity was stopped, and is about to be started again
 	 */
 	protected void onRestart() {
@@ -198,7 +204,7 @@ public class TestingUI extends Activity {
 	 */
 	protected void onDestroy() {
 		super.onDestroy();
-
+		Log.v(VUphone.tag, "Testing onDestroy reached");
 	}
 
 	/**
@@ -268,7 +274,7 @@ public class TestingUI extends Activity {
 	 * accelerometer services to pass updates to this activity
 	 */
 	private static ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
-		private int m_ = 0;
+		private int m_ = 1;
 		private int numGPS = 0;
 
 		public void accelerometerChanged(float x, float y, float z)
@@ -276,15 +282,16 @@ public class TestingUI extends Activity {
 
 			if (instance_ == null)
 				return;
-			
+
 			String realAccel = "X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
-			+ Math.round(y * 10.0) / 10.0 + ", Z:"
-			+ Math.round(z * 10.0) / 10.0;
-			Log.v(VUphone.tag, "Setting real Acceleration to " +  realAccel);
+					+ Math.round(y * 10.0) / 10.0 + ", Z:"
+					+ Math.round(z * 10.0) / 10.0;
+			Log.v(VUphone.tag, "Setting real Acceleration to " + realAccel);
 			realAccel_.setText(realAccel);
-			if (m_ != 0)
-				scaleAccel_.setText("X: " + (x * m_) + ", Y:" + (y * m_)
-						+ ", Z:" + (z * m_));
+
+			scaleAccel_.setText("X: " + Math.round(x * m_ * 10.0) / 10.0
+					+ ", Y:" + Math.round(y * m_ * 10.0) / 10.0 + ", Z:"
+					+ Math.round(z * m_ * 10.0) / 10.0);
 		}
 
 		public void showConfirmDialog() {
@@ -299,12 +306,15 @@ public class TestingUI extends Activity {
 			if (instance_ == null)
 				return;
 
-			String gps = "Lat: " + lat + ", Lng: " + lng;
+			Double slat = new Double(lat);
+			Double slng = new Double(lng);
+			
+			String gps = "Lat: " + slat.toString().substring(0, 6) + ", Lng: " + slng.toString().substring(0,6);
 			lastGps_.setText(gps);
 			Log.v(VUphone.tag, "Setting GPS to " + gps);
 			numGPS++;
 			numWaypoints_.setText("GPS: " + numGPS);
-			
+
 		}
 
 		public void setAccelerometerMultiplier(int multip)

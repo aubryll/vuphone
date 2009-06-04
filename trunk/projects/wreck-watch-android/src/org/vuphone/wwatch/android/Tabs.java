@@ -16,27 +16,30 @@ public class Tabs extends TabActivity {
 	public final static String PREFS = "WreckWatchMainPrefs";
 	public final static String FIRST_LOAD = "FirstTimeLoading";
 	
+	private Intent gpsIntent_;
+	private Intent accelIntent_;
+	
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
 		
 		// Start GPS Service
-		Intent gpsIntent = new Intent(this, GPService.class);
+		gpsIntent_ = new Intent(this, GPService.class);
 		double dialation = 1.0;
-		gpsIntent.putExtra("TimeDialation", dialation);
+		gpsIntent_.putExtra("TimeDialation", dialation);
 
-		startService(gpsIntent);
+		startService(gpsIntent_);
 		Log.v(tag, "Tabs started GPS, now binding");
 		
-		bindService(gpsIntent, TestingUI.gpsConnection_, BIND_AUTO_CREATE);
+		bindService(gpsIntent_, TestingUI.gpsConnection_, BIND_AUTO_CREATE);
 
 		// Start Accelerometer service
-		Intent accelIntent = new Intent(this,
+		accelIntent_ = new Intent(this,
 				DecelerationService.class);
 		float accelScale = (float) 1.0;
-		gpsIntent.putExtra("AccelerationScaleFactor", accelScale);
-		startService(accelIntent);
+		gpsIntent_.putExtra("AccelerationScaleFactor", accelScale);
+		startService(accelIntent_);
 		Log.v(tag, "Tabs started Accel, now binding");
-		bindService(accelIntent, TestingUI.accelConnection_, BIND_AUTO_CREATE);
+		bindService(accelIntent_, TestingUI.accelConnection_, BIND_AUTO_CREATE);
 		
 		
 		SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
@@ -56,5 +59,23 @@ public class Tabs extends TabActivity {
 		th.addTab(th.newTabSpec("Tab4").setIndicator("Contacts").setContent(new Intent(this, ContactPicker.class)));
 		
 		th.setCurrentTab(2);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.v(tag, "Tabs onDestroy reached");
+		
+		unbindService(TestingUI.accelConnection_);
+		unbindService(TestingUI.gpsConnection_);
+	}
+	
+	public void stopServices() {
+		
+		unbindService(TestingUI.accelConnection_);
+		unbindService(TestingUI.gpsConnection_);
+		
+		stopService(accelIntent_);
+		stopService(gpsIntent_);
 	}
 }
