@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * The entry point into the application. This activity is responsible for
@@ -49,8 +50,7 @@ public class TestingUI extends Activity {
 	private OnClickListener updateListener = new OnClickListener() {
 		public void onClick(View v) {
 			double dialation = 1.0;
-			Intent gpsIntent = new Intent(TestingUI.this,
-					GPService.class);
+			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
 			try {
 				dialation = Double.parseDouble(speedScaleEdit_.getText()
 						.toString());
@@ -81,8 +81,16 @@ public class TestingUI extends Activity {
 	private OnClickListener stopListener = new OnClickListener() {
 		public void onClick(View v) {
 			Activity a = TestingUI.this.getParent();
-			Tabs t = (Tabs)a;
+			Tabs t = (Tabs) a;
 			t.stopServices();
+
+			Toast
+					.makeText(
+							TestingUI.this,
+							"You must now re-launch the app to get updates from the sensors.",
+							Toast.LENGTH_LONG).show();
+			Button button = (Button) findViewById(R.id.stop_button);
+			button.setEnabled(false);
 		}
 	};
 
@@ -129,6 +137,7 @@ public class TestingUI extends Activity {
 			button.setOnClickListener(updateListener);
 			button = (Button) findViewById(R.id.stop_button);
 			button.setOnClickListener(stopListener);
+			button.setEnabled(true);
 			button = (Button) findViewById(R.id.test_button);
 			button.setOnClickListener(testListener);
 
@@ -146,7 +155,6 @@ public class TestingUI extends Activity {
 		}
 	}
 
-
 	/**
 	 * Comparable to a destructor, this is called when an activity is no longer
 	 * needed
@@ -163,9 +171,8 @@ public class TestingUI extends Activity {
 	 */
 	public static ServiceConnection gpsConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log
-					.v(VUphone.tag,
-							"Testing onConnected activated, adding to GPS callbacks");
+			Log.v(VUphone.tag,
+					"Testing onConnected activated, adding to GPS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
 			// We want to monitor the service for as long as we are
@@ -207,7 +214,7 @@ public class TestingUI extends Activity {
 				// do anything with it; we can count on soon being
 				// disconnected (and then reconnected if it can be restarted)
 				// so there is no need to do anything here.
-				
+
 			}
 		}
 
@@ -259,8 +266,9 @@ public class TestingUI extends Activity {
 
 			Double slat = new Double(lat);
 			Double slng = new Double(lng);
-			
-			String gps = "Lat: " + slat.toString().substring(0, 6) + ", Lng: " + slng.toString().substring(0,6);
+
+			String gps = "Lat: " + slat.toString().substring(0, 6) + ", Lng: "
+					+ slng.toString().substring(0, 6);
 			lastGps_.setText(gps);
 			Log.v(VUphone.tag, "Setting GPS to " + gps);
 			numGPS++;
