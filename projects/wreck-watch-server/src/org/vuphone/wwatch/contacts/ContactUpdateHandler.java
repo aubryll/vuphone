@@ -111,6 +111,7 @@ public class ContactUpdateHandler implements NotificationHandler {
 			prep.executeBatch();
 
 			db.commit();
+			db.close();
 
 			chn = new ContactUpdateHandledNotification();
 
