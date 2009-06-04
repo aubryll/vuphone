@@ -24,7 +24,6 @@ import android.widget.Toast;
  * 
  */
 public class DecelerationService extends Service {
-	private static final String tag = "VUPHONE";
 
 	/**
 	 * The time in ms between accelerometer measurements. Higher = fewer
