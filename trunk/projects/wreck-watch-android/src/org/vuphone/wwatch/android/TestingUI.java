@@ -34,46 +34,22 @@ public class TestingUI extends Activity {
 	private EditText accelScaleEdit_ = null;
 
 	// All the textView UI elements we will be interacting with
-	private TextView scaleSpeed_ = null;
-	private TextView realSpeed_ = null;
-	private TextView realAccel_ = null;
-	private TextView scaleAccel_ = null;
-	private TextView lastGps_ = null;
-	private TextView numWaypoints_ = null;
+	private static TextView scaleSpeed_ = null;
+	private static TextView realSpeed_ = null;
+	private static TextView realAccel_ = null;
+	private static TextView scaleAccel_ = null;
+	private static TextView lastGps_ = null;
+	private static TextView numWaypoints_ = null;
 
-	private ConfirmationDialog dialog = null;
+	private static ConfirmationDialog dialog = null;
+	private static TestingUI instance_ = null;
 
 	/**
 	 * OnCLickListener for the start services button
 	 */
 	private OnClickListener startListener = new OnClickListener() {
 		public void onClick(View v) {
-			// Start GPS Service
-			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
-			double dialation = 1.0;
-			try {
-				dialation = Double.parseDouble(edit_.getText().toString());
-			} catch (Exception e) {
-			}
-			gpsIntent.putExtra("TimeDialation", dialation);
 
-			startService(gpsIntent);
-			Log.v(tag, "Testing started GPS, now binding");
-			bindService(gpsIntent, gpsConnection_, BIND_AUTO_CREATE);
-
-			// Start Accelerometer service
-			Intent accelIntent = new Intent(TestingUI.this,
-					DecelerationService.class);
-			float accelScale = (float) 1.0;
-			try {
-				accelScale = Float.parseFloat(accelScaleEdit_.getText()
-						.toString());
-			} catch (Exception e) {
-			}
-			gpsIntent.putExtra("AccelerationScaleFactor", accelScale);
-			startService(accelIntent);
-			Log.v(tag, "Testing started Accel, now binding");
-			bindService(accelIntent, accelConnection_, BIND_AUTO_CREATE);
 		}
 	};
 
@@ -123,6 +99,8 @@ public class TestingUI extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		instance_ = this;
+		
 		Intent startIntent = super.getIntent();
 		Bundle data = startIntent.getExtras();
 		if (data == null)
@@ -228,7 +206,7 @@ public class TestingUI extends Activity {
 	 * Used to interact with the main interface (IRegister) of the services we
 	 * are interested in.
 	 */
-	private ServiceConnection gpsConnection_ = new ServiceConnection() {
+	public static ServiceConnection gpsConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			Log
 					.v(tag,
@@ -259,7 +237,7 @@ public class TestingUI extends Activity {
 	 * Used to interact with the main interface (IRegister) of the services we
 	 * are interested in.
 	 */
-	private ServiceConnection accelConnection_ = new ServiceConnection() {
+	public static ServiceConnection accelConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			Log.v(tag,
 					"Testing onConnected activated, adding to Accel callbacks");
@@ -290,13 +268,16 @@ public class TestingUI extends Activity {
 	 * ISettingsViewCallback interface, which is defined to allow the GPS and
 	 * accelerometer services to pass updates to this activity
 	 */
-	private ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
+	private static ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
 		private int m_ = 0;
 		private int numGPS = 0;
 
 		public void accelerometerChanged(float x, float y, float z)
 				throws RemoteException {
 
+			if (instance_ == null)
+				return;
+			
 			String realAccel = "X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
 			+ Math.round(y * 10.0) / 10.0 + ", Z:"
 			+ Math.round(z * 10.0) / 10.0;
@@ -308,11 +289,17 @@ public class TestingUI extends Activity {
 		}
 
 		public void showConfirmDialog() {
-			dialog = new ConfirmationDialog(TestingUI.this);
+			if (instance_ == null)
+				return;
+
+			dialog = new ConfirmationDialog(instance_);
 			dialog.show();
 		}
 
 		public void gpsChanged(double lat, double lng) throws RemoteException {
+			if (instance_ == null)
+				return;
+
 			String gps = "Lat: " + lat + ", Lng: " + lng;
 			lastGps_.setText(gps);
 			Log.v(tag, "Setting GPS to " + gps);
@@ -323,17 +310,26 @@ public class TestingUI extends Activity {
 
 		public void setAccelerometerMultiplier(int multip)
 				throws RemoteException {
+			if (instance_ == null)
+				return;
+
 			Log.v(tag, "Setting accel multiplier to " + multip);
 			m_ = multip;
 		}
 
 		public void setRealSpeed(double speed) throws RemoteException {
+			if (instance_ == null)
+				return;
+
 			speed = Math.round(speed * 100.0) / 100.0;
 			realSpeed_.setText("Real: " + speed);
 			Log.v(tag, "Set real speed to " + speed);
 		}
 
 		public void setScaleSpeed(double speed) throws RemoteException {
+			if (instance_ == null)
+				return;
+
 			speed = Math.round(speed * 100.0) / 100.0;
 			scaleSpeed_.setText("Scale: " + speed);
 			Log.v(tag, "Set scale speed to " + speed);
