@@ -22,13 +22,28 @@
 		
 
 		<!-- The four sub activities. -->
-		<activity android:name=".ContactPicker" />
+		<activity android:name=".ContactPicker" android:label = "WW ContactPicker">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
-		<activity android:name=".TestingUI" />
+		<activity android:name=".TestingUI" android:label="WW Testing">
+					<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 		
-		<activity android:name=".AccidentViewer" />
+		<activity android:name=".AccidentViewer" android:label="WW AccidentViewer">
+					<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
-		<activity android:name=".SettingsUI">
+		<activity android:name=".SettingsUI" android:label="WW Settings">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
