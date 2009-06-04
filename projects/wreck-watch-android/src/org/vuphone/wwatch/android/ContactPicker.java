@@ -30,13 +30,6 @@ import android.widget.Toast;
  */
 public class ContactPicker extends Activity implements View.OnClickListener {
 
-	// Name of the preference file
-	public static final String SAVE_FILE = "ContactPickerPreferences";
-	// Used in the preference file to specify the size of the ID list
-	public static final String LIST_SIZE_TAG = "ListSize";
-	// Used in the preference file to mark an ID item
-	public static final String LIST_ITEM_PREFIX_TAG = "ListItem";
-
 	// List to hold all contact strings with non-null numbers (Name - Number)
 	private final List<String> contactInfoList_ = new ArrayList<String>();
 	// List to hold the IDs for contacts in contactList_
@@ -61,10 +54,10 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	private void checkPreselectedContacts() {
 		// Load in the preference file
 		SharedPreferences prefs = super.getSharedPreferences(
-				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
+				VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
 
 		// Get the size and confirm if the file actually exists.
-		int size = prefs.getInt(ContactPicker.LIST_SIZE_TAG, -1);
+		int size = prefs.getInt(VUphone.LIST_SIZE_TAG, -1);
 		if (size == -1)
 			return;
 
@@ -73,7 +66,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		// valid contacts. In this case, just continue looping
 
 		for (int i = 0; i < size; ++i) {
-			int id = prefs.getInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, -1);
+			int id = prefs.getInt(VUphone.LIST_ITEM_PREFIX_TAG + i, -1);
 			if (id == -1)
 				continue;
 
@@ -81,7 +74,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 			int index = contactIdList_.indexOf(new Integer(id));
 			if (index == -1) // Contact not found.
 				continue;
-			
+
 			// Mark the contact in the list view
 			listView_.setItemChecked(index, true);
 		}
@@ -98,8 +91,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 
 	/**
 	 * Populated this object's lists with contact information based on contacts
-	 * with non-null phone numbers. TODO - Add code to load the preference file
-	 * and check the emergency contacts
+	 * with non-null phone numbers.
 	 */
 	private void loadContactInformation() {
 		// Get a cursor to the contact information sorted alphabetically by name
@@ -222,12 +214,12 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	public void savePreferenceFile() {
 		// Save the IDs to a preference file.
 		SharedPreferences prefs = super.getSharedPreferences(
-				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
+				VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = prefs.edit();
 
-		editor.putInt(ContactPicker.LIST_SIZE_TAG, selectionList_.size());
+		editor.putInt(VUphone.LIST_SIZE_TAG, selectionList_.size());
 		for (int i = 0; i < selectionList_.size(); ++i) {
-			editor.putInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i,
+			editor.putInt(VUphone.LIST_ITEM_PREFIX_TAG + i,
 					selectionList_.get(i));
 		}
 		editor.commit();
