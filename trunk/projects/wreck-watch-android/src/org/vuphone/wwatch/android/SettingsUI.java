@@ -16,10 +16,9 @@ public class SettingsUI extends Activity {
 
 	private OnClickListener listener_ = new OnClickListener() {
 		public void onClick(View v) {
-			ImageView iv = (ImageView)v;
-			if (iv.equals(findViewById(R.id.timeout_help_icon)))
+			if (v.equals(findViewById(R.id.timeout_field)))
 				timeoutExplanation_.show();
-			else if (iv.equals(findViewById(R.id.battery_help_icon)))
+			else if (v.equals(findViewById(R.id.battery_field)))
 				batteryExplanation_.show();
 		}
 	};
@@ -39,9 +38,9 @@ public class SettingsUI extends Activity {
 				});
 		timeoutExplanation_ = b.create();
 
-		ImageView iv = (ImageView) findViewById(R.id.timeout_help_icon);
-		iv.setFocusable(true);
-		iv.setOnClickListener(listener_);
+		View field = findViewById(R.id.timeout_field);
+		field.setFocusable(true);
+		field.setOnClickListener(listener_);
 		
 		b = new AlertDialog.Builder(this);
 		b.setMessage("Higher battery power = faster wreck detection");
@@ -52,9 +51,9 @@ public class SettingsUI extends Activity {
 				});
 		batteryExplanation_ = b.create();
 
-		iv = (ImageView) findViewById(R.id.battery_help_icon);
-		iv.setFocusable(true);
-		iv.setOnClickListener(listener_);
+		field = findViewById(R.id.battery_field);
+		field.setFocusable(true);
+		field.setOnClickListener(listener_);
 		
 		
 	}
