@@ -20,41 +20,14 @@
 		</activity>
 		
 
-		<!-- The four sub activities. This is useful in case you want to debug a single one -->
-		<activity android:name=".ContactPicker" android:label="WWContactPicker">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+		<!-- The four sub activities. -->
+		<activity android:name=".ContactPicker" />
 
-		<activity android:name=".TestingUI" android:label='WWtesting'>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-
-		<activity android:name=".Tabs" android:label='WWTabs'>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+		<activity android:name=".TestingUI" />
 		
-		<activity android:name="AccidentViewer" android:label="WWViewer">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+		<activity android:name=".AccidentViewer" />
 
-		<activity android:name=".SettingsUI" android:label='WWSettings'>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+		<activity android:name=".SettingsUI" />
 
 		<service android:name=".GPService" />
 
