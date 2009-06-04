@@ -85,24 +85,12 @@ public class HTTPPoster {
 
 		// Create the parameter string
 		if (route != null) {
-			params.append("type=accident&user=thompchr%40gmail.com&time=" + timeStr + "&speed="
+			params.append("type=accident&user="+Settings.Secure.ANDROID_ID+"&time=" + timeStr + "&speed="
 					+ speedStr + "&dec=" + decStr + "&numpoints="
 					+ route.size());
 
-
-
-			String encodedRoute;
 			for (int i = 0; i < route.size(); ++i) {
-				encodedRoute = route.get(i).toString();
-				try {
-					encodedRoute = URLEncoder.encode(route.get(i).toString(), "UTF-8");
-				} catch (UnsupportedEncodingException use) {
-					Log.w(LOG_LABEL,
-					"HTTPPoster unable to encode one of the route objets");
-				}
-
 				params.append("&lat"+i+"="+route.get(i).getLatitude()+"&lon"+i+"="+route.get(i).getLongitude()+"&time"+i+"="+route.get(i).getTime());
-		
 			}
 		}else{
 				params.append("type=accident&user=thompchr%40gmail.com&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&numpoints=0");
