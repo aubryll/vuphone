@@ -19,7 +19,8 @@
 		<EditText android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_below="@id/timeout_label"
 			android:layout_marginLeft="35px" android:layout_alignParentRight='true'
-			android:layout_alignParentLeft='true' android:id="@+id/timeout"></EditText>
+			android:layout_alignParentLeft='true' android:id="@+id/timeout" 
+			android:inputType="number" />
 	</RelativeLayout>
 	
 	<RelativeLayout android:id="@+id/battery_field" android:layout_below="@id/timeout_field"
@@ -36,26 +37,19 @@
 			android:id="@+id/battery_help_icon" android:layout_alignParentRight="true"
 			android:layout_alignBottom="@id/battery_label"
 			android:layout_marginRight='5px' android:src="@drawable/help_icon" />
-		
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@id/battery_label"
-			android:id="@+id/minus" android:text="--" android:paddingLeft="25px"
-			android:paddingTop="8px" android:paddingRight="8px" android:textSize="24sp"></TextView>
-		
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@id/battery_label"
-			android:layout_alignParentRight='true' android:id="@+id/plus"
-			android:padding="8px" android:max="3" android:textSize="24sp"
-			android:text="+"></TextView>
-		
+
 		<RatingBar android:id="@+id/battery_level" android:layout_height="wrap_content"
-			android:layout_below="@id/battery_label" android:layout_toRightOf="@id/minus"
-			android:padding="8px" android:layout_toLeftOf="@id/plus"
-			android:layout_width="wrap_content" android:stepSize="1.0"
-			android:isIndicator="false" android:numStars="3" 
-			android:rating="2.0"/>
+			android:layout_below="@id/battery_label" 
+			android:layout_centerHorizontal="true"
+			android:layout_width="wrap_content" 
+			android:numStars="3"
+			android:rating="2.0"
+			android:stepSize="1.0"/>
 			
 	</RelativeLayout>		
-		
+	
+	<Button android:id="@+id/save_button" android:text="Save"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true" android:layout_below="@id/battery_field"/>
 
 </RelativeLayout>

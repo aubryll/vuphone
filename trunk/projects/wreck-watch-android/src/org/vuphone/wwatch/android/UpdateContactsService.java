@@ -95,9 +95,9 @@ public class UpdateContactsService extends Service {
 		// Open up the preference file
 
 		SharedPreferences pref = super.getSharedPreferences(
-				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
+				VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
 
-		final int size = pref.getInt(ContactPicker.LIST_SIZE_TAG, -1);
+		final int size = pref.getInt(VUphone.LIST_SIZE_TAG, -1);
 
 		// Make sure the file is not corrupted or malformed.
 		if (size == -1) { // The field doesn't exist so either the preference
@@ -108,7 +108,7 @@ public class UpdateContactsService extends Service {
 		// Build a selection string
 		String selection = "";
 		for (int i = 0; i < size; ++i) {
-			int id = pref.getInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, -1);
+			int id = pref.getInt(VUphone.LIST_ITEM_PREFIX_TAG + i, -1);
 
 			// If id is missing, skip it and Log the error.
 			if (id == -1) {
