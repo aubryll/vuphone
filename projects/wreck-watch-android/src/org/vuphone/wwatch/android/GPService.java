@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 public class GPService extends Service {
 	
+	private static final float GPS_RADIUS = 0.5f;
+	private static final long GPS_FREQUENCY = 1000;
+	
 	private final WaypointTracker tracker_ = new WaypointTracker();
 
 	/**
@@ -102,8 +105,8 @@ public class GPService extends Service {
 		// TODO - possibly change this to coarse location, and definitely
 		// increase the min time between GPS updates to conserve battery power
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
-				2, listener_);	// Updates every second or 2 meters.
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_FREQUENCY,
+				GPS_RADIUS, listener_);
 
 
 	}
