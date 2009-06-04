@@ -25,7 +25,7 @@ public class SMSSender {
 	// Carrier list
 	private static String[] carriers = { "message.alltel.com", "txt.att.net",
 			"myboostmobile.com", "messaging.nextel.com",
-			"messaging.sprintpcs.com", "tmomail.com", "vtext.com", "vmobl.com" };
+			"messaging.sprintpcs.com", "tmomail.net", "vtext.com", "vmobl.com" };
 
 	// Messaging vars
 	public static final String SUBJECT = "WreckWatch, Possible Wreck Near You";
