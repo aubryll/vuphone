@@ -24,8 +24,7 @@ public class SMSSender {
 
 	// Carrier list
 	private static String[] carriers = { "message.alltel.com", "txt.att.net",
-			"myboostmobile.com", "messaging.nextel.com",
-			"messaging.sprintpcs.com", "tmomail.net", "vtext.com", "vmobl.com" };
+			"myboostmobile.com", "messaging.nextel.com", "tmomail.net", "vtext.com", "vmobl.com" };
 
 	// Messaging vars
 	public static final String SUBJECT = "WreckWatch, Possible Wreck Near You";
@@ -76,7 +75,7 @@ public class SMSSender {
 					.println("SMSSender: Could not find the transport, unable to send SMS!");
 			return;
 		} catch (MessagingException me2) {
-			System.out.println("SMSSender: Unable to send SMS! Bad login?");
+			System.out.println("SMSSender: Unable to send SMS: " + me2.getMessage());
 			return;
 		}
 
