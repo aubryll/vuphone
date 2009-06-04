@@ -188,11 +188,11 @@ public class HTTPPoster {
 		StringBuffer params = new StringBuffer();
 		
 		try {
-			params.append("type=contact&id="+URLEncoder.encode(deviceID, "UTF-8")+"&numcontacts=" + numbers.size());
+			params.append("type=contact&id="+URLEncoder.encode(deviceID, "UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 		}
 		for (int i = 0; i < numbers.size(); ++i){
-			params.append("&number"+i+"="+numbers.get(i));
+			params.append("&number="+numbers.get(i));
 		}
 		//Add the parameters
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
