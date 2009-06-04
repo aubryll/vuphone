@@ -26,11 +26,6 @@ import android.widget.Toast;
  */
 public class DecelerationService extends Service {
 
-	/**
-	 * The time in ms between accelerometer measurements. Higher = fewer
-	 * measurements, but longer battery life
-	 */
-	private final static long TIME_BETWEEN_MEASUREMENTS = 100;
 
 	/**
 	 * The maximum deceleration in m/s^2 that should be detected before asking
@@ -41,19 +36,6 @@ public class DecelerationService extends Service {
 	// Variables used to access the accelerometer data
 	private SensorManager sensorManager_;
 	private Sensor accelerometer_;
-
-	/**
-	 * The TimerTask that is used to start the accelerometer every
-	 * TIME_BETWEEN_MEASUREMENTS
-	 */
-	private final RegisterTask task_ = new RegisterTask();
-
-	/**
-	 * Timer used to contain our RegisterTask
-	 * 
-	 * @see DecelerationService.RegisterTask
-	 */
-	private Timer t = new Timer("accelerometer polling service");
 
 	/**
 	 * Used to keep track of the classes that have bound to us, and allow us to
@@ -89,9 +71,6 @@ public class DecelerationService extends Service {
 		}
 
 	};
-	
-	// set to true as a bootstrapping measure telling
-	private boolean receivedData_ = true;
 
 	/**
 	 * Listener for Accelerometer data. Also handles starting the 'Are you OK?'
@@ -105,14 +84,6 @@ public class DecelerationService extends Service {
 		public void onSensorChanged(SensorEvent e) {
 			Log.v(VUphone.tag, "Accel data received");
 			// Only allow one sensor event in
-			
-			if (receivedData_)
-			{
-				Log.v(VUphone.tag, "Skipping sensor data");
-				return;
-			}
-			
-			receivedData_ = true;
 
 			// Send out changed data to anyone that has registered for
 			// broadcasts
@@ -165,13 +136,13 @@ public class DecelerationService extends Service {
 
 				// We detected wreck, turn ourself off to conserve power and to
 				// clean up nicely
-				t.cancel();
-				unregisterAccelerometer();
 				stopSelf();
-			} else {
-				// Unregister ourself, we only want one update at a time
-				unregisterAccelerometer();
+				Log.v(VUphone.tag,
+						"Detected wreck, decel service auto-killing itself");
+				return;
 			}
+
+
 		}
 	};
 
@@ -212,9 +183,9 @@ public class DecelerationService extends Service {
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		accelerometer_ = sensorManager_
 				.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
-		
-		// Start our RegisterTask
-		t.scheduleAtFixedRate(task_, 0, TIME_BETWEEN_MEASUREMENTS);
+
+		sensorManager_.registerListener(listener_, accelerometer_,
+				SensorManager.SENSOR_DELAY_NORMAL);
 
 	}
 
@@ -231,16 +202,16 @@ public class DecelerationService extends Service {
 		final int num = callbacks_.beginBroadcast();
 		for (int i = 0; i < num; ++i) {
 			try {
-				callbacks_.getBroadcastItem(i).setAccelerometerMultiplier((int)accelerationScale_);
+				callbacks_.getBroadcastItem(i).setAccelerometerMultiplier(
+						(int) accelerationScale_);
 			} catch (RemoteException re) {
 
 			}
 
 		}
 		callbacks_.finishBroadcast();
-		
-		Toast.makeText(this,
-				"Deceleration scale " + accelerationScale_,
+
+		Toast.makeText(this, "Deceleration scale " + accelerationScale_,
 				Toast.LENGTH_SHORT).show();
 	}
 
@@ -253,43 +224,7 @@ public class DecelerationService extends Service {
 		Toast.makeText(this, "Deceleration Service Destroyed",
 				Toast.LENGTH_SHORT).show();
 		Log.v(VUphone.tag, "Decel Service onDestroy reached");
-		unregisterAccelerometer();
-		task_.cancel();
-		t.cancel();
-		t = null;
-
-	}
-
-	/**
-	 * Used to unregister the listener from the accelerometer
-	 */
-	private void unregisterAccelerometer() {
-		Log.v(VUphone.tag, "Listener unregistered");
 		sensorManager_.unregisterListener(listener_, accelerometer_);
-	}
-
-	/**
-	 * Used to register the listener for data from the accelerometer every
-	 * TIME_BETWEEN_MEASUREMENTS ms
-	 */
-	private class RegisterTask extends TimerTask {
-
-		@Override
-		public void run() {
-			
-			if (receivedData_ == false)
-			{
-				//Log.v(VUphone.tag, "Skipping registerTask");
-				return;
-			}
-			receivedData_ = false;
-			
-			sensorManager_.registerListener(listener_, accelerometer_,
-					SensorManager.SENSOR_DELAY_FASTEST);
-			
-			
-			Log.v(VUphone.tag, "RegisterTask activated");
-		}
 
 	}
 }
