@@ -14,11 +14,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
+import org.vuphone.wwatch.notification.SMSSender;
 import org.vuphone.wwatch.routing.Route;
 import org.vuphone.wwatch.routing.Waypoint;
 
@@ -32,7 +34,7 @@ import org.vuphone.wwatch.routing.Waypoint;
 public class AccidentHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger
-			.getLogger(AccidentHandler.class.getName());
+	.getLogger(AccidentHandler.class.getName());
 
 	private AccidentParser parser_ = new AccidentParser();;
 
@@ -56,92 +58,124 @@ public class AccidentHandler implements NotificationHandler {
 		try {
 			AccidentReport report = parser_.getAccident(n);
 			Connection db = null;
-			
+
 			try {
 				db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
 				db.setAutoCommit(true);
 			} catch (SQLException e) {
-				
+
 				logger_.log(Level.SEVERE,
 						"SQLException: ", e);
 			}
-			
+
 			if (db != null){
 				String sql;
-						
+
+				int id = 0;
 				try {
-					PreparedStatement prep = db.prepareStatement("select id from People where Email like ?;");
+					PreparedStatement prep = db.prepareStatement("select id from People where AndroidID like ?;");
 					prep.setString(1, report.getParty());
-					
+
 					ResultSet rs  = prep.executeQuery();
-					
-					
-					rs.next();
-					int id = rs.getInt("id");
+
 					try{
+						rs.next();
+						id = rs.getInt("id");
 						rs.close();
 					}catch (SQLException e) {
-						//This catch block sponsored by:
-							//The Do-Nothing Party\\
+						//No user exists, try to create
+						prep = db.prepareStatement("insert into People (AndroidID) values (?)");
+						prep.setString(1, report.getParty());
+						prep.executeUpdate();
+						try{
+							prep = db.prepareStatement("select id from People where AndroidID like ?;");
+							prep.setString(1, report.getParty());
+
+							rs  = prep.executeQuery();
+							rs.next();
+							id = rs.getInt("id");
+							rs.close();
+						}catch (Exception ex) {
+							//We hosed
+							
+						}
+
 					}
-					
-					
+
+
 					db.setAutoCommit(false);
-					
-					prep = db.prepareStatement("insert into Wreck (Person, Lat, Lon, Time, LargestAccel) values("+id+", ?, ?, ?,?);");
-					prep.setDouble(1, report.getLatitude());
-					prep.setDouble(2, report.getLongitude());
-					prep.setDate(3, new Date(report.getTime()));
-					prep.setDouble(4, report.getAcceleration());
+
+					prep = db.prepareStatement("insert into Wreck (Person, Lat, Lon, Time, LargestAccel) values(?, ?, ?, ?,?);");
+					prep.setInt(1, id);
+					prep.setDouble(2, report.getLatitude());
+					prep.setDouble(3, report.getLongitude());
+					prep.setDate(4, new Date(report.getTime()));
+					prep.setDouble(5, report.getAcceleration());
 					prep.addBatch();
 					prep.executeBatch();
-					
+
 					db.commit();
-					
+
 					sql = "select max(wreckid) as wreckid from Wreck;";
-					
+
 					db.setAutoCommit(true);
 					prep = db.prepareStatement(sql);
 					rs = prep.executeQuery();
 					rs.next();
-					id = rs.getInt("wreckid");
-					
+					int wid = rs.getInt("wreckid");
+
 					try{
 						rs.close();
 					}catch (SQLException e) {
 						//This catch block sponsored by:
-							//The Do-Nothing Party\\
+						//The Do-Nothing Party\\
 					}
-					
+
 					db.setAutoCommit(false);
-					
-					sql = "insert into route(wreckid, lat, lon, time) values (" + id + ", ?, ?, ?);";
+
+					sql = "insert into route(wreckid, lat, lon, time) values (?, ?, ?, ?);";
 					prep = db.prepareStatement(sql);
 					Route route = report.getRoute();
 					while (route.peek() != null){
 						Waypoint temp = route.getNextPoint();
-						prep.setDouble(1, temp.getLatitude());
-						prep.setDouble(2, temp.getLongitude());
-						prep.setLong(3, temp.getTime());
+						prep.setInt(1, wid);
+						prep.setDouble(2, temp.getLatitude());
+						prep.setDouble(3, temp.getLongitude());
+						prep.setLong(4, temp.getTime());
 						prep.addBatch();
 					}
-					
+
 					prep.executeBatch();
 					db.commit();
+					
+					db.setAutoCommit(true);
+					
+					prep = db.prepareStatement("select ContactId from EmergencyContacts where PersonId = ?");
+					prep.setInt(1, id);
+					rs = prep.executeQuery();
+					ArrayList<String> nums = new ArrayList<String>();
+					while(rs.next()){
+						nums.add(rs.getString("ContactId"));
+					}
+					rs.close();
+					
 					db.close();
-					
+
+					for(String s:nums){
+						SMSSender.sendText(s);
+					}
 					response = new AccidentHandledNotification();
-					
+
 				} catch (SQLException e) {
 					logger_.log(Level.SEVERE,
 							"SQLException: ", e);
 				}
-				
+
 			}
-			
-			
-			
-			
+
+
+
+
 			//do something with the report
 		} catch (AccidentFormatException e) {
 			logger_.log(Level.SEVERE,
@@ -157,7 +191,7 @@ public class AccidentHandler implements NotificationHandler {
 	public void setParser(AccidentParser parser) {
 		parser_ = parser;
 	}
-	
+
 	public static void main(String args[]){
 		AccidentNotification n = new AccidentNotification();
 		n.setDeceleration(200);

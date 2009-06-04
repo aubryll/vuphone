@@ -32,6 +32,12 @@
         	</key>
         	<ref bean="infoHandler" />
         </entry>
+        <entry>
+        	<key>
+        		<value>contact</value>
+        	</key>
+        	<ref bean="contactHandler" />
+        </entry>
       </map>
     </property>
   </bean>
@@ -43,6 +49,8 @@
   </bean>
   
   <bean name="infoHandler" class="org.vuphone.wwatch.inforeq.InfoHandler" />
+  
+  <bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactUpdateHandler" />
   
   <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser"/>
   

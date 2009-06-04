@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -15,16 +15,110 @@
  **************************************************************************/
 package org.vuphone.wwatch.contacts;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.vuphone.wwatch.accident.AccidentHandler;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
 public class ContactUpdateHandler implements NotificationHandler {
+	private static final Logger logger_ = Logger
+	.getLogger(AccidentHandler.class.getName());
+
 
 	@Override
 	public Notification handle(Notification n) {
-		
-		
-		return null;
+
+		ContactUpdateNotification cn = (ContactUpdateNotification)n;
+		ContactUpdateHandledNotification chn = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
+			logger_.log(Level.SEVERE, "SQLite library not loaded: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		Connection db = null;
+
+		try{
+			db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+			db.setAutoCommit(true);
+		}catch (SQLException e) {
+			//Couldn't connect to the database
+			logger_.log(Level.SEVERE, "SQLException connecting to database: " + e.getMessage());
+		}
+
+		if (db == null){
+			return null;
+		}
+
+		PreparedStatement prep;
+		int userId = 0;
+		try {
+			prep = db.prepareStatement("select id from People where AndroidId like ?");
+			prep.setString(1, cn.getAndroidID());
+			ResultSet rs = prep.executeQuery();
+			rs.next();
+			userId = rs.getInt("id");
+			rs.close();
+
+
+		} catch (SQLException e) {
+
+			try{
+				prep = db.prepareStatement("insert into People (androidid) values (?)");
+				prep.setString(1, cn.getAndroidID());
+				prep.execute();
+				prep = db.prepareStatement("select id from People where AndroidId like ?");
+				prep.setString(1, cn.getAndroidID());
+				ResultSet rs = prep.executeQuery();
+				rs.next();
+				userId = rs.getInt("id");
+				rs.close();
+
+			}catch (SQLException ex) {
+				logger_.log(Level.SEVERE, "SQLException retrieving userid: " + ex.getMessage());	
+			}
+
+
+
+
+		}
+
+		String[] contacts = cn.getNumbers();
+
+
+		try{
+			db.setAutoCommit(false);
+
+			prep = db.prepareStatement("delete from EmergencyContacts where PersonId = ?");
+			prep.setInt(1, userId);
+			prep.executeUpdate();
+
+			prep = db.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
+			for (String s:contacts){
+				prep.setInt(1, userId);
+				prep.setString(2, s);
+				prep.addBatch();
+			}
+
+			prep.executeBatch();
+
+			db.commit();
+
+			chn = new ContactUpdateHandledNotification();
+
+		}catch (SQLException e) {
+			logger_.log(Level.SEVERE, "SQLException creating emergency contacts: " + e.getMessage());
+		}
+
+		return chn;
 	}
 
 }
