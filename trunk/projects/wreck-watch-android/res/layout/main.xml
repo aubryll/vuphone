@@ -11,14 +11,14 @@
 			android:text="Speed Scale Factor (ex 2 means twice as fast):" />
 		<EditText android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:id="@+id/speed_scale"
-			android:layout_below="@id/label" android:text="1" />
+			android:layout_below="@id/label" android:text="1" android:inputType="numberDecimal" />
 		<TextView android:id="@+id/accel_scale_lbl"
 			android:layout_height="wrap_content" android:layout_width="fill_parent"
 			android:layout_below="@id/speed_scale" android:text="Accelerometer Scale Factor"
 			android:layout_alignLeft="@id/speed_scale" />
 		<EditText android:layout_below="@id/accel_scale_lbl"
 			android:id="@+id/accel_scale" android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:text="1" />
+			android:layout_height="wrap_content" android:text="1" android:inputType="numberDecimal" />
 
 		<Button android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/update_button"
