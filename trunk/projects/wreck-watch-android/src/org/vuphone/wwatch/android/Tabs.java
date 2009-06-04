@@ -36,10 +36,10 @@ public class Tabs extends TabActivity {
 		accelIntent_ = new Intent(this,
 				DecelerationService.class);
 		float accelScale = (float) 1.0;
-		gpsIntent_.putExtra("AccelerationScaleFactor", accelScale);
+		accelIntent_.putExtra("AccelerationScaleFactor", accelScale);
 		startService(accelIntent_);
 		Log.v(tag, "Tabs started Accel, now binding");
-		bindService(accelIntent_, TestingUI.accelConnection_, BIND_AUTO_CREATE);
+		boolean bound = bindService(accelIntent_, TestingUI.accelConnection_, BIND_AUTO_CREATE);
 		
 		
 		SharedPreferences prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);

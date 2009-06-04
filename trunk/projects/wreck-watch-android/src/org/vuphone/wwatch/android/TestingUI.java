@@ -146,57 +146,6 @@ public class TestingUI extends Activity {
 		}
 	}
 
-	/**
-	 * Called when the activity is started
-	 */
-	protected void onStart() {
-		super.onStart();
-	}
-
-	/**
-<<<<<<< .mine
-=======
-	 * Called when the activity was stopped, and is about to be started again
-	 */
-	protected void onRestart() {
-		super.onRestart();
-	}
-
-	/**
-	 * Called to take and activity out of onPause, and back into a focused state
-	 */
-	protected void onResume() {
-		super.onResume();
-	}
-
-	/**
-	 * Activity is still slightly visible, but is not the focus for the user
-	 */
-	protected void onPause() {
-		super.onPause();
-	}
-
-	/**
-	 * Called when an activity is no longer visible
-	 */
-	protected void onStop() {
-		super.onStop();
-		Log.v(VUphone.tag, "SUI onStop entered");
-
-		try {
-			unbindService(gpsConnection_);
-			Log.v(VUphone.tag, "Testing unbound from GPS successfully");
-		} catch (Exception e) {
-			Log.w(VUphone.tag, "Testing was not bound to GPS!");
-		}
-
-		try {
-			unbindService(accelConnection_);
-			Log.v(VUphone.tag, "Testing unbound from Accel successfully");
-		} catch (Exception e) {
-			Log.v(VUphone.tag, "Testing was not bound to Accel");
-		}
-	}
 
 	/**
 	 * Comparable to a destructor, this is called when an activity is no longer
@@ -205,6 +154,7 @@ public class TestingUI extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		Log.v(VUphone.tag, "Testing onDestroy reached");
+		instance_ = null;
 	}
 
 	/**
@@ -257,6 +207,7 @@ public class TestingUI extends Activity {
 				// do anything with it; we can count on soon being
 				// disconnected (and then reconnected if it can be restarted)
 				// so there is no need to do anything here.
+				
 			}
 		}
 
