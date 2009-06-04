@@ -116,7 +116,6 @@ class ConfirmationDialog extends ProgressDialog implements
 	 * Called when the user does not respond. Fires an accident intent
 	 */
 	private void timeout() {
-		Log.v("VUPHONE", "Timeout");
 		this.fireAccidentIntent(true);		
 	}
 }

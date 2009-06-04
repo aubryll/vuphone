@@ -16,7 +16,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class GPService extends Service {
-	final static String tag = "VUPHONE";
+	
 	private final WaypointTracker tracker_ = new WaypointTracker();
 
 	/**
@@ -68,13 +68,13 @@ public class GPService extends Service {
 	private final IRegister.Stub binder_ = new IRegister.Stub() {
 
 		public void registerCallback(ISettingsViewCallback cb) {
-			Log.v(tag, "GPS registering listener");
+			Log.v(VUphone.tag, "GPS registering listener");
 			if (cb != null)
 				callbacks_.register(cb);
 		}
 
 		public void unregisterCallback(ISettingsViewCallback cb) {
-			Log.v(tag, "GPS unregistering listener");
+			Log.v(VUphone.tag, "GPS unregistering listener");
 			if (cb != null)
 				callbacks_.unregister(cb);
 		}
@@ -86,7 +86,7 @@ public class GPService extends Service {
 	 * declared in the binder_ variable (For this case, the IRegister interface)
 	 */
 	public IBinder onBind(Intent intent) {
-		Log.v(tag, "GPS returning IBinder");
+		Log.v(VUphone.tag, "GPS returning IBinder");
 		return binder_;
 	}
 

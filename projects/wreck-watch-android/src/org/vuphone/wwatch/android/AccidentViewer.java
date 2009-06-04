@@ -47,7 +47,6 @@ import com.google.android.maps.Projection;
 
 public class AccidentViewer extends MapActivity implements HttpOperationListener, LocationListener {
 
-	private static final String LOG_LABEL = "VUPHONE";
 	private static final String LOG_PREFIX = "AccidentViewer: ";
 
 	private MapController mc_;
@@ -151,19 +150,19 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 
 	public void operationComplete(HttpResponse resp) {
 
-		Log.i(LOG_LABEL, LOG_PREFIX + "HTTP operation complete.  Processing response.");
+		Log.i(VUphone.tag, LOG_PREFIX + "HTTP operation complete.  Processing response.");
 		AccidentDataHandler adh = new AccidentDataHandler();
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 
 		try {
 			resp.getEntity().writeTo(bao);	
-			Log.d(LOG_LABEL, LOG_PREFIX + "Http response: " + bao.toString());
+			Log.d(VUphone.tag, LOG_PREFIX + "Http response: " + bao.toString());
 			for (EnhancedGeoPoint p:adh.processXML(new InputSource(new ByteArrayInputStream(bao.toByteArray())))){
-				Log.d(LOG_LABEL, LOG_PREFIX + "Adding accident point: " + p.toString());
+				Log.d(VUphone.tag, LOG_PREFIX + "Adding accident point: " + p.toString());
 				map_.addPin(p);
 			}
 		} catch (IOException e) {
-			Log.e(LOG_LABEL, LOG_PREFIX + "IOException processing HttpResponse object: " + e.getMessage());
+			Log.e(VUphone.tag, LOG_PREFIX + "IOException processing HttpResponse object: " + e.getMessage());
 		}
 	}
 

@@ -21,11 +21,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 /**
- * An activity that loads a list of all contacts with non-null numbers and 
- * allows the user to check the ones he would like to call in case of an 
+ * An activity that loads a list of all contacts with non-null numbers and
+ * allows the user to check the ones he would like to call in case of an
  * emergency. The list of contact IDs is saved in a preference file.
+ * 
  * @author Krzysztof Zienkiewicz
- *
+ * 
  */
 public class ContactPicker extends Activity implements View.OnClickListener {
 
@@ -35,7 +36,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	public static final String LIST_SIZE_TAG = "ListSize";
 	// Used in the preference file to mark an ID item
 	public static final String LIST_ITEM_PREFIX_TAG = "ListItem";
-	
+
 	// List to hold all contact strings with non-null numbers (Name - Number)
 	private final List<String> contactInfoList_ = new ArrayList<String>();
 	// List to hold the IDs for contacts in contactList_
@@ -47,60 +48,78 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	private Intent serviceIntent_;
 	// PendingIntent used to trigger the service
 	private PendingIntent serviceTrigger_;
-	
+
 	private ListView listView_;
 	private Button submitButton_;
 	private Button clearButton_;
 	private Button cancelButton_;
 
 	/**
-	 * Populate the selectionList_ with checked IDs, save to a 
-	 * preference file, and exit.
+	 * Loads in the preference file and puts a check mark next to contacts that
+	 * appear in that file
 	 */
-	private void onSubmitClicked() {
-		// Fill selectionList_ with checked contact IDs
-		SparseBooleanArray choices = listView_.getCheckedItemPositions();
-		for (int i = 0; i < choices.size(); ++i) {
-			int realIndex = choices.keyAt(i);
-			if (choices.get(realIndex) == true) {	// If selected
-				selectionList_.add(contactIdList_.get(realIndex));
-			}
-		}
-
-		this.savePreferenceFile();
-		this.finish();
-	}
-	
-	/**
-	 * Saved the IDs of the selected contacts to a private preference file.
-	 * This file will only be readable by members of this application. The
-	 * file name is ContactPicker.SAVE_FILE and it contains a set of integers
-	 * with the following format:
-	 * LIST_SIZE_TAG maps to an integer with the size of the ID list
-	 * LIST_ITEM_PREFIX_TAG appended with an int between 0 and (LIST_SIZE_TAG-1)
-	 * maps to an ID.
-	 */
-	public void savePreferenceFile() {
-		// Save the IDs to a preference file.
+	private void checkPreselectedContacts() {
+		// Load in the preference file
 		SharedPreferences prefs = super.getSharedPreferences(
 				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = prefs.edit();
-		
-		editor.putInt(ContactPicker.LIST_SIZE_TAG, selectionList_.size());
-		for (int i = 0; i < selectionList_.size(); ++i) {
-			editor.putInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, 
-					selectionList_.get(i));
+
+		// Get the size and confirm if the file actually exists.
+		int size = prefs.getInt(ContactPicker.LIST_SIZE_TAG, -1);
+		if (size == -1)
+			return;
+
+		// Iterate the file pulling out IDs. If the file is malformed, quit
+		// gracefully. It's possible that the IDs in the file are no longer
+		// valid contacts. In this case, just continue looping
+
+		for (int i = 0; i < size; ++i) {
+			int id = prefs.getInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i, -1);
+			if (id == -1)
+				continue;
+
+			// Find the index in contactIdList_ of the contact with this id.
+			int index = contactIdList_.indexOf(new Integer(id));
+			if (index == -1) // Contact not found.
+				continue;
+			
+			// Mark the contact in the list view
+			listView_.setItemChecked(index, true);
 		}
-		editor.commit();
 	}
 
 	/**
-	 * Unchecks all of the contacts.
+	 * Overrides super.finish() to schedule the updating service contents.
 	 */
-	private void onClearClicked() {
-		listView_.clearChoices();
-		if (contactInfoList_.size() > 0)
-			listView_.setItemChecked(0, false);	//Necessary to force redraw.
+	@Override
+	public void finish() {
+		this.scheduleService();
+		super.finish();
+	}
+
+	/**
+	 * Populated this object's lists with contact information based on contacts
+	 * with non-null phone numbers. TODO - Add code to load the preference file
+	 * and check the emergency contacts
+	 */
+	private void loadContactInformation() {
+		// Get a cursor to the contact information sorted alphabetically by name
+		Cursor c = super.getContentResolver().query(People.CONTENT_URI, null,
+				null, null, People.NAME);
+
+		// Set up contact database constants
+		final int nameCol = c.getColumnIndex(People.NAME);
+		final int numberCol = c.getColumnIndex(People.NUMBER);
+		final int idCol = c.getColumnIndex(People._ID);
+
+		// Initialize the cursor and populate the lists.
+		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+			if (c.getString(numberCol) != null) {
+				contactInfoList_.add(c.getString(idCol) + " - "
+						+ c.getString(nameCol));
+				contactIdList_.add(c.getInt(idCol));
+			}
+		}
+		c.close();
 	}
 
 	/**
@@ -111,31 +130,14 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	}
 
 	/**
-	 * Overrides super.finish() to display a Toast with the selectionList_'s 
-	 * contents.
+	 * Unchecks all of the contacts.
 	 */
-	public void finish() {
-		this.scheduleService();
-		super.finish();
+	private void onClearClicked() {
+		listView_.clearChoices();
+		if (contactInfoList_.size() > 0)
+			listView_.setItemChecked(0, false); // Necessary to force redraw.
 	}
 
-	/**
-	 * Schedules the update service to run repeatedly
-	 */
-	private void scheduleService() {
-		AlarmManager man = (AlarmManager) super.getSystemService(
-			Context.ALARM_SERVICE);
-
-		// Trigger the first call in 10 seconds.
-		final long trigger = SystemClock.elapsedRealtime() + (10 * 1000);
-
-		// Call the service every TIME_INTERVAL milliseconds, waking up the
-		// device if necessary.
-		man.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-				trigger, UpdateContactsService.TIME_INTERVAL,
-				this.serviceTrigger_);
-	}
-	
 	/**
 	 * Called when one of the buttons was clicked. Dispatches the appropriate
 	 * calls.
@@ -156,16 +158,16 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.pickerview);
-		
+
 		serviceIntent_ = new Intent(this,
 				org.vuphone.wwatch.android.UpdateContactsService.class);
 
-		serviceTrigger_ = PendingIntent.getService(
-				this, 0, serviceIntent_, PendingIntent.FLAG_CANCEL_CURRENT);
-		
+		serviceTrigger_ = PendingIntent.getService(this, 0, serviceIntent_,
+				PendingIntent.FLAG_CANCEL_CURRENT);
+
 		// Populate the lists.
 		this.loadContactInformation();
-		
+
 		// Fetch and setup the ListView
 		listView_ = (ListView) super.findViewById(R.id.list_view);
 		listView_.setAdapter(new ArrayAdapter<String>(this,
@@ -174,7 +176,9 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		listView_.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		listView_.setItemsCanFocus(true);
 		listView_.setTextFilterEnabled(true);
-		
+
+		this.checkPreselectedContacts();
+
 		// Fetch the buttons and setup the click listeners
 		submitButton_ = (Button) super.findViewById(R.id.submit_button);
 		clearButton_ = (Button) super.findViewById(R.id.clear_button);
@@ -184,31 +188,64 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		clearButton_.setOnClickListener(this);
 		cancelButton_.setOnClickListener(this);
 
+		if (contactInfoList_.size() == 0)
+			Toast.makeText(this, "Sorry. You have no contacts to display",
+					Toast.LENGTH_SHORT).show();
 	}
 
 	/**
-	 * Populated this object's lists with contact information based on contacts
-	 * with non-null phone numbers.
-	 * TODO - Add code to load the preference file and check the emergency 
-	 * contacts 
+	 * Populate the selectionList_ with checked IDs, save to a preference file,
+	 * and exit.
 	 */
-	private void loadContactInformation() {
-		// Get a cursor to the contact information sorted alphabetically by name
-		Cursor c = super.getContentResolver().query(People.CONTENT_URI, null, 
-				null, null, People.NAME);
-
-		// Set up contact database constants
-		final int nameCol = c.getColumnIndex(People.NAME);
-		final int numberCol = c.getColumnIndex(People.NUMBER);
-		final int idCol = c.getColumnIndex(People._ID);
-
-		// Initialize the cursor and populate the lists.
-		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-			if (c.getString(numberCol) != null) {
-				contactInfoList_.add(c.getString(idCol) + " - " + c.getString(nameCol));
-				contactIdList_.add(c.getInt(idCol));
+	private void onSubmitClicked() {
+		// Fill selectionList_ with checked contact IDs
+		SparseBooleanArray choices = listView_.getCheckedItemPositions();
+		for (int i = 0; i < choices.size(); ++i) {
+			int realIndex = choices.keyAt(i);
+			if (choices.get(realIndex) == true) { // If selected
+				selectionList_.add(contactIdList_.get(realIndex));
 			}
 		}
-		c.close();
+
+		this.savePreferenceFile();
+		this.finish();
+	}
+
+	/**
+	 * Saved the IDs of the selected contacts to a private preference file. This
+	 * file will only be readable by members of this application. The file name
+	 * is ContactPicker.SAVE_FILE and it contains a set of integers with the
+	 * following format: LIST_SIZE_TAG maps to an integer with the size of the
+	 * ID list LIST_ITEM_PREFIX_TAG appended with an int between 0 and
+	 * (LIST_SIZE_TAG-1) maps to an ID.
+	 */
+	public void savePreferenceFile() {
+		// Save the IDs to a preference file.
+		SharedPreferences prefs = super.getSharedPreferences(
+				ContactPicker.SAVE_FILE, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+
+		editor.putInt(ContactPicker.LIST_SIZE_TAG, selectionList_.size());
+		for (int i = 0; i < selectionList_.size(); ++i) {
+			editor.putInt(ContactPicker.LIST_ITEM_PREFIX_TAG + i,
+					selectionList_.get(i));
+		}
+		editor.commit();
+	}
+
+	/**
+	 * Schedules the update service to run repeatedly
+	 */
+	private void scheduleService() {
+		AlarmManager man = (AlarmManager) super
+				.getSystemService(Context.ALARM_SERVICE);
+
+		// Trigger the first call in 10 seconds.
+		final long trigger = SystemClock.elapsedRealtime() + (10 * 1000);
+
+		// Call the service every TIME_INTERVAL milliseconds, waking up the
+		// device if necessary.
+		man.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, trigger,
+				UpdateContactsService.TIME_INTERVAL, this.serviceTrigger_);
 	}
 }

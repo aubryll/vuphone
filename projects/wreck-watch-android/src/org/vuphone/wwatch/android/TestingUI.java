@@ -24,7 +24,6 @@ import android.widget.TextView;
  * 
  */
 public class TestingUI extends Activity {
-	private final static String tag = "VUPHONE";
 	final static int LAUNCH = 0;
 	final static int CONFIRM = 1;
 	private int mode_ = 0;
@@ -61,24 +60,24 @@ public class TestingUI extends Activity {
 			// Stop GPS
 			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
 			stopService(gpsIntent);
-			Log.v(tag, "Testing stopped GPS, now unbinding");
+			Log.v(VUphone.tag, "Testing stopped GPS, now unbinding");
 			try {
 				unbindService(gpsConnection_);
-				Log.v(tag, "Testing successfully unbound from GPS");
+				Log.v(VUphone.tag, "Testing successfully unbound from GPS");
 			} catch (Exception e) {
-				Log.v(tag, "Testing was not bound to GPS");
+				Log.v(VUphone.tag, "Testing was not bound to GPS");
 			}
 
 			// Stop accel
 			Intent decIntent = new Intent(TestingUI.this,
 					DecelerationService.class);
 			stopService(decIntent);
-			Log.v(tag, "Testing stopped Accel, now unbinding");
+			Log.v(VUphone.tag, "Testing stopped Accel, now unbinding");
 			try {
 				unbindService(accelConnection_);
-				Log.v(tag, "Testing successfully unbound from Accel");
+				Log.v(VUphone.tag, "Testing successfully unbound from Accel");
 			} catch (Exception e) {
-				Log.v(tag, "Testing was not bound to Accel");
+				Log.v(VUphone.tag, "Testing was not bound to Accel");
 			}
 		}
 	};
@@ -176,20 +175,20 @@ public class TestingUI extends Activity {
 	 */
 	protected void onStop() {
 		super.onStop();
-		Log.v(tag, "SUI onStop entered");
+		Log.v(VUphone.tag, "SUI onStop entered");
 
 		try {
 			unbindService(gpsConnection_);
-			Log.v(tag, "Testing unbound from GPS successfully");
+			Log.v(VUphone.tag, "Testing unbound from GPS successfully");
 		} catch (Exception e) {
-			Log.w(tag, "Testing was not bound to GPS!");
+			Log.w(VUphone.tag, "Testing was not bound to GPS!");
 		}
 
 		try {
 			unbindService(accelConnection_);
-			Log.v(tag, "Testing unbound from Accel successfully");
+			Log.v(VUphone.tag, "Testing unbound from Accel successfully");
 		} catch (Exception e) {
-			Log.v(tag, "Testing was not bound to Accel");
+			Log.v(VUphone.tag, "Testing was not bound to Accel");
 		}
 	}
 
@@ -209,7 +208,7 @@ public class TestingUI extends Activity {
 	public static ServiceConnection gpsConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
 			Log
-					.v(tag,
+					.v(VUphone.tag,
 							"Testing onConnected activated, adding to GPS callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
@@ -226,7 +225,7 @@ public class TestingUI extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			Log.v(TestingUI.tag, "Testing - GPS was disconnected");
+			Log.v(VUphone.tag, "Testing - GPS was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
 
@@ -239,7 +238,7 @@ public class TestingUI extends Activity {
 	 */
 	public static ServiceConnection accelConnection_ = new ServiceConnection() {
 		public void onServiceConnected(ComponentName className, IBinder service) {
-			Log.v(tag,
+			Log.v(VUphone.tag,
 					"Testing onConnected activated, adding to Accel callbacks");
 			IRegister mService = IRegister.Stub.asInterface(service);
 
@@ -256,7 +255,7 @@ public class TestingUI extends Activity {
 		}
 
 		public void onServiceDisconnected(ComponentName className) {
-			Log.v(TestingUI.tag, "Testing - Accel was disconnected");
+			Log.v(VUphone.tag, "Testing - Accel was disconnected");
 			// This is called when the connection with the service has been
 			// unexpectedly disconnected -- that is, its process crashed.
 
@@ -281,7 +280,7 @@ public class TestingUI extends Activity {
 			String realAccel = "X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
 			+ Math.round(y * 10.0) / 10.0 + ", Z:"
 			+ Math.round(z * 10.0) / 10.0;
-			Log.v(tag, "Setting real Acceleration to " +  realAccel);
+			Log.v(VUphone.tag, "Setting real Acceleration to " +  realAccel);
 			realAccel_.setText(realAccel);
 			if (m_ != 0)
 				scaleAccel_.setText("X: " + (x * m_) + ", Y:" + (y * m_)
@@ -302,7 +301,7 @@ public class TestingUI extends Activity {
 
 			String gps = "Lat: " + lat + ", Lng: " + lng;
 			lastGps_.setText(gps);
-			Log.v(tag, "Setting GPS to " + gps);
+			Log.v(VUphone.tag, "Setting GPS to " + gps);
 			numGPS++;
 			numWaypoints_.setText("GPS: " + numGPS);
 			
@@ -313,7 +312,7 @@ public class TestingUI extends Activity {
 			if (instance_ == null)
 				return;
 
-			Log.v(tag, "Setting accel multiplier to " + multip);
+			Log.v(VUphone.tag, "Setting accel multiplier to " + multip);
 			m_ = multip;
 		}
 
@@ -323,7 +322,7 @@ public class TestingUI extends Activity {
 
 			speed = Math.round(speed * 100.0) / 100.0;
 			realSpeed_.setText("Real: " + speed);
-			Log.v(tag, "Set real speed to " + speed);
+			Log.v(VUphone.tag, "Set real speed to " + speed);
 		}
 
 		public void setScaleSpeed(double speed) throws RemoteException {
@@ -332,7 +331,7 @@ public class TestingUI extends Activity {
 
 			speed = Math.round(speed * 100.0) / 100.0;
 			scaleSpeed_.setText("Scale: " + speed);
-			Log.v(tag, "Set scale speed to " + speed);
+			Log.v(VUphone.tag, "Set scale speed to " + speed);
 		}
 
 	};
