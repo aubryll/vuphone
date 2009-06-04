@@ -1,7 +1,5 @@
 package org.vuphone.wwatch.android;
 
-import org.vuphone.wwatch.android.http.HTTPPoster;
-
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +8,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 public class Tabs extends TabActivity {
 	public final static String tag = "VUPHONE";
@@ -65,14 +64,23 @@ public class Tabs extends TabActivity {
 		super.onDestroy();
 		Log.v(tag, "Tabs onDestroy reached");
 		
-		unbindService(TestingUI.accelConnection_);
-		unbindService(TestingUI.gpsConnection_);
-	}
-	
-	public void stopServices() {
+		try {
+			
 		
 		unbindService(TestingUI.accelConnection_);
 		unbindService(TestingUI.gpsConnection_);
+		} catch (Exception e) {
+			Log.w(VUphone.tag, "Tabs: onDestroy(): Service was not bound, but unbindService was called");
+		}
+	}
+	
+	public void stopServices() {
+		try {
+		unbindService(TestingUI.accelConnection_);
+		unbindService(TestingUI.gpsConnection_);
+		} catch (Exception e) {
+			Log.w(VUphone.tag, "Tabs: stopServices(): Service was not bound, but unbindService was called");
+		}
 		
 		stopService(accelIntent_);
 		stopService(gpsIntent_);
