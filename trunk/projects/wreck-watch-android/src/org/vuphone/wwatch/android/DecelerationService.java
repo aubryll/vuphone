@@ -117,9 +117,9 @@ public class DecelerationService extends Service {
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
 
 				Intent intent = new Intent(DecelerationService.this,
-						org.vuphone.wwatch.android.TestingUI.class);
+						org.vuphone.wwatch.android.ConfirmerActivity.class);
 
-				intent.putExtra("ActivityMode", TestingUI.CONFIRM);
+				intent.putExtra("ShowDialog", true);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 

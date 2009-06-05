@@ -1,9 +1,8 @@
 package org.vuphone.wwatch.android;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 /**
  * An activity responsible for confirming whether the user was in an accident
@@ -19,31 +18,31 @@ import android.widget.Button;
 public class ConfirmerActivity extends Activity {
 
 	private ConfirmationDialog dialog_ = null;
-	
+
 	private void fireDialog() {
 		if (!dialog_.isShowing())
 			dialog_.show();
 	}
-	
+
 	/**
-	 * The "main" method of this Activity. Note, we're assuming that this
-	 * Activity is triggered only when an accident is detected. Therefore, we
-	 * can go ahead and pull up the dialog, leaving the onStart() method empty.
-	 * To avoid unpleasant side effects, the orientation of the screen will be
-	 * fixed during this activity's lifecycle.
+	 * The "constructor" of this Activity. To avoid unpleasant side effects, the
+	 * orientation of the screen will be fixed during this activity's lifecycle.
 	 */
 	@Override
 	protected void onCreate(Bundle save) {
 		super.onCreate(save);
-		setContentView(R.layout.confirmer);
-		
+		// setContentView(R.layout.confirmer);
+
 		dialog_ = new ConfirmationDialog(this);
-		
-		((Button) findViewById(R.id.test_button)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				fireDialog();
-			}
-		});
+
+		/*
+		((Button) findViewById(R.id.test_button))
+				.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						fireDialog();
+					}
+				});
+		*/
 	}
 
 	/**
@@ -53,9 +52,15 @@ public class ConfirmerActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-	
+
+	/**
+	 * The "main" method. Brings up the dialog if started with the correct intent.
+	 */
 	@Override
 	public void onStart() {
 		super.onStart();
+		Intent intent = this.getIntent();
+		if (intent.getBooleanExtra("ShowDialog", false))
+			dialog_.show();
 	}
 }
