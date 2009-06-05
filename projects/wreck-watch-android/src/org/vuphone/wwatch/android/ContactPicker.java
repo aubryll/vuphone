@@ -107,8 +107,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		// Initialize the cursor and populate the lists.
 		for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 			if (c.getString(numberCol) != null) {
-				contactInfoList_.add(c.getString(idCol) + " - "
-						+ c.getString(nameCol));
+				contactInfoList_.add(c.getString(nameCol));
 				contactIdList_.add(c.getInt(idCol));
 			}
 		}

@@ -41,7 +41,6 @@ public class TestingUI extends Activity {
 	private static TextView lastGps_ = null;
 	private static TextView numWaypoints_ = null;
 
-	private static ConfirmationDialog dialog = null;
 	private static TestingUI instance_ = null;
 
 	/**
@@ -94,19 +93,6 @@ public class TestingUI extends Activity {
 		}
 	};
 
-	/**
-	 * OnCLickListener for the test dialog button
-	 */
-	private OnClickListener testListener = new OnClickListener() {
-		public void onClick(View v) {
-			Intent testDialogIntent = new Intent(TestingUI.this,
-					org.vuphone.wwatch.android.TestingUI.class);
-
-			testDialogIntent.putExtra("ActivityMode", TestingUI.CONFIRM);
-			startActivity(testDialogIntent);
-		}
-	};
-
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -137,9 +123,6 @@ public class TestingUI extends Activity {
 			button.setOnClickListener(updateListener);
 			button = (Button) findViewById(R.id.stop_button);
 			button.setOnClickListener(stopListener);
-			button.setEnabled(true);
-			button = (Button) findViewById(R.id.test_button);
-			button.setOnClickListener(testListener);
 
 			speedScaleEdit_ = (EditText) super.findViewById(R.id.speed_scale);
 			accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);
@@ -148,8 +131,8 @@ public class TestingUI extends Activity {
 
 		case TestingUI.CONFIRM:
 			// Put up a confirm dialog and return an intent
-			dialog = new ConfirmationDialog(this);
-			dialog.show();
+			// dialog = new ConfirmationDialog(this);
+			// dialog.show();
 
 			break;
 		}
@@ -256,8 +239,8 @@ public class TestingUI extends Activity {
 			if (instance_ == null)
 				return;
 
-			dialog = new ConfirmationDialog(instance_);
-			dialog.show();
+			//dialog = new ConfirmationDialog(instance_);
+			//dialog.show();
 		}
 
 		public void gpsChanged(double lat, double lng) throws RemoteException {
