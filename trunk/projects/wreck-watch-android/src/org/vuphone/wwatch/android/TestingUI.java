@@ -237,7 +237,6 @@ public class TestingUI extends Activity {
 			String realAccel = "X: " + Math.round(x * 10.0) / 10.0 + ", Y:"
 					+ Math.round(y * 10.0) / 10.0 + ", Z:"
 					+ Math.round(z * 10.0) / 10.0;
-			Log.v(VUphone.tag, "Setting real Acceleration to " + realAccel);
 			realAccel_.setText(realAccel);
 
 			scaleAccel_.setText("X: " + Math.round(x * m_ * 10.0) / 10.0
@@ -255,7 +254,6 @@ public class TestingUI extends Activity {
 			String gps = "Lat: " + slat.toString().substring(0, 6) + ", Lng: "
 					+ slng.toString().substring(0, 6);
 			lastGps_.setText(gps);
-			Log.v(VUphone.tag, "Setting GPS to " + gps);
 			numGPS++;
 			numWaypoints_.setText("GPS: " + numGPS);
 

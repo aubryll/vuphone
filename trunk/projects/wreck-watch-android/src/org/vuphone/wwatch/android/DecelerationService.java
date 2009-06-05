@@ -83,9 +83,6 @@ public class DecelerationService extends Service {
 		}
 
 		public void onSensorChanged(SensorEvent e) {
-			Log.v(VUphone.tag, "Accel data received");
-			// Only allow one sensor event in
-
 			// Send out changed data to anyone that has registered for
 			// broadcasts
 			final int N = callbacks_.beginBroadcast();
@@ -191,8 +188,14 @@ public class DecelerationService extends Service {
 					"WreckOccurred");
 
 			// If there was a wreck, do not repeatedly fire dialog
-			if (wreckOccurred)
+			if (wreckOccurred) {
+				Toast
+						.makeText(
+								this,
+								"Please 'update scales' to allow another confirmation to fire. In real life, we would not ask for confirmation again",
+								Toast.LENGTH_LONG).show();
 				return;
+			}
 
 			// If there was not a wreck, set ourselves up for a new dialog
 			firedConfirmation_ = false;
@@ -211,7 +214,7 @@ public class DecelerationService extends Service {
 		for (int i = 0; i < num; ++i) {
 			try {
 				callbacks_.getBroadcastItem(i).setAccelerometerMultiplier(
-						(int) accelerationScale_);
+						accelerationScale_);
 			} catch (RemoteException re) {
 
 			}
