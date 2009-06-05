@@ -119,6 +119,12 @@ public class ConfirmationDialog extends ProgressDialog implements
 	 *            True if we want to report an accident
 	 */
 	private void report(boolean occurred) {
+		
+		// Let the deceleration service know if there was a wreck
+		Intent message = new Intent(activity_, DecelerationService.class);
+		message.putExtra("WreckOccurred", occurred);
+		activity_.startService(message);
+		
 		vibrator_.cancel();
 		countdownTask_.reset();
 		// For some reason, if we enter here because of a timeout, calling
