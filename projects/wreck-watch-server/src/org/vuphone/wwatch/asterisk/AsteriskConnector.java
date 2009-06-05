@@ -1,5 +1,5 @@
  /**************************************************************************
- * Copyright 2009 Chris Thompson                                           *
+ * Copyright 2009 Scott Campbell                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
  * you may not use this file except in compliance with the License.        *
@@ -27,49 +27,70 @@ import org.asteriskjava.manager.response.ManagerResponse;
 
 public class AsteriskConnector {
 	
-	private static final String SERVER = "129.59.177.177";
+	private static final String SERVER = "129.59.129.229";
 	private static final String USERNAME = "admin";
-	private static final String PASSWORD = "amp111";
+	private static final String PASSWORD = "__eece261";
 	
-	private ManagerConnection mc_;
-	
-	public AsteriskConnector(){
-		ManagerConnectionFactory f = new ManagerConnectionFactory(SERVER, USERNAME, PASSWORD);
-		mc_ = f.createManagerConnection();
+	/**
+	 * This will call the specified user and play the specified file
+	 * 
+	 * @param user - The user to call.  This must be a sip account.  If it is not
+	 * 				an extension on the connected Asterisk server (trixbox), it
+	 * 	 			must contain the fully qualified host location.  It may or may
+	 * 				not contain the prefix 'SIP/'.
+	 * 				Examples:		juleswhite-1@pbxes.org
+	 * 								SIP/210@129.59.177.177
+	 * 
+	 * @param file - The audio file to play back to the user.  The file type must
+	 * 				NOT be specified.  The file must be located in
+	 * 				/var/lib/asterisk/sounds on the Asterisk server (trixbox),
+	 * 				and it must be of type .gsm
+	 * 
+	 */
+	public static void makeCallPlayRecording(String user, String file){
 		
-	}
-	
-	// Right now, this makes the call, but it does not play the recording.
-	// When this is run, it will:
-	//		1) Make the sourceExtension (extension 210) ring
-	//		2) When sourceExtension is answered, OriginateAction will return success
-	//		3) When sourceExtension is answered, it will immediately call
-	//				destinationExtension (204)
-	//		4) Things will then proceed as if extension 210 had dialed 204.
-	public void makeCallPlayRecording(String file){
-		String sourceExtension = "210";
-		String destinationExtension = "204";
+		ManagerConnectionFactory f = new ManagerConnectionFactory(SERVER, USERNAME, PASSWORD);
+		ManagerConnection mc = f.createManagerConnection();
+		
+		// Make sure that user includes the prefix 'SIP/'
+		if (!user.startsWith("SIP/")) {
+			user = "SIP/"+user;
+		}
 		
 		OriginateAction originateAction;
         ManagerResponse originateResponse;
 
         originateAction = new OriginateAction();
-        originateAction.setChannel("SIP/"+sourceExtension);
-        originateAction.setContext("default");
-        originateAction.setExten(destinationExtension);
-        originateAction.setPriority(new Integer(1));
+        originateAction.setChannel(user);
+        
+        // This will set it to play back a pre-recorded message that is located
+        // in /var/lib/asterisk/sounds on the Asterisk Server (trixbox)
+        // The audio file must be of type .gsm.  The four lines below and these
+        // are mutually exclusive.
+        originateAction.setApplication("Playback");
+        originateAction.setData(file);
+        
+        // This will set it to establish a call between the user above
+        // and the destinationExtension given below.  Note that this extension
+        // must be one that resides on the trixbox you connected to above.
+        // The two lines above and these are mutually exclusive.
+		//String destinationExtension = "200";
+        //originateAction.setContext("default");
+        //originateAction.setExten(destinationExtension);
+        //originateAction.setPriority(new Integer(1));
 
         try {
-        	mc_.login();
+        	mc.login();
         	
         	// send the originate action and wait for a maximum of 30 seconds for 
         	// Asterisk to send a reply
-        	originateResponse = mc_.sendAction(originateAction, 30000);
+        	originateResponse = mc.sendAction(originateAction, 30000);
 
         	System.out.println(originateResponse.getResponse());
         	System.out.println(originateResponse.getMessage());
         	System.out.println(originateResponse.toString());
-        	mc_.logoff();
+        	
+        	mc.logoff();
         	
         } catch (IllegalArgumentException e) {
 
@@ -91,8 +112,8 @@ public class AsteriskConnector {
 	}
 	
 	public static void main(String args[]){
-		AsteriskConnector ac = new AsteriskConnector();
-		ac.makeCallPlayRecording("test.wma");
+
+		AsteriskConnector.makeCallPlayRecording("campbesh-302@pbxes.org","zip-code");
 	}
 
 }
