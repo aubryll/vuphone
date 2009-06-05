@@ -18,13 +18,13 @@ import android.util.Log;
  * @author Krzysztof Zienkiewicz
  * 
  */
-class ConfirmationDialog extends ProgressDialog implements
+public class ConfirmationDialog extends ProgressDialog implements
 		DialogInterface.OnClickListener {
 
 	private static final int DEFAULT_MAX_TIME = 10;
 
 	private final int maxTime_;
-	private final Timer timer_ = new Timer();
+	private final Timer timer_ = new Timer("Countdown Timer");
 	private final Vibrator vibrator_;
 
 	private final ConfirmerActivity activity_;
@@ -130,6 +130,7 @@ class ConfirmationDialog extends ProgressDialog implements
 				org.vuphone.wwatch.android.GPService.class);
 		intent.putExtra("DidAccidentOccur", occurred);
 		activity_.startService(intent);
+		activity_.finish();
 	}
 
 	/**

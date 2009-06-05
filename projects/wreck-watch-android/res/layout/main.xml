@@ -27,11 +27,11 @@
 		<Button android:id="@+id/stop_button" android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:text="Stop Service"
 			android:layout_toRightOf="@id/update_button" android:layout_alignTop="@id/update_button" />
-<!-- 
-		<Button android:id="@+id/test_button" android:layout_height="wrap_content"
+
+		<Button android:id="@+id/test_dialog_button" android:layout_height="wrap_content"
 			android:layout_width="wrap_content" android:text="Test Dialog"
 			android:layout_toRightOf="@id/stop_button" android:layout_alignTop="@id/update_button" />
--->
+
 
 
 		<TextView android:id="@+id/latest_speed" android:text="Latest Speed"

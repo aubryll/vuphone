@@ -92,6 +92,14 @@ public class TestingUI extends Activity {
 			button.setEnabled(false);
 		}
 	};
+	
+	private OnClickListener testListener = new OnClickListener() {
+		public void onClick(View v) {
+			Intent intent = new Intent(TestingUI.this, org.vuphone.wwatch.android.ConfirmerActivity.class);
+			intent.putExtra("ShowDialog", true);
+			startActivity(intent);
+		}
+	};
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,6 +131,8 @@ public class TestingUI extends Activity {
 			button.setOnClickListener(updateListener);
 			button = (Button) findViewById(R.id.stop_button);
 			button.setOnClickListener(stopListener);
+			button = (Button) findViewById(R.id.test_dialog_button);
+			button.setOnClickListener(testListener);
 
 			speedScaleEdit_ = (EditText) super.findViewById(R.id.speed_scale);
 			accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);

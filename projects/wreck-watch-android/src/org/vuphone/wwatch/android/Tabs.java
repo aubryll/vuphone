@@ -55,7 +55,6 @@ public class Tabs extends TabActivity {
 		th.addTab(th.newTabSpec("Tab2").setIndicator("Testing").setContent(new Intent(this, TestingUI.class)));
 		th.addTab(th.newTabSpec("Tab3").setIndicator("Wrecks").setContent(new Intent(this, AccidentViewer.class)));
 		th.addTab(th.newTabSpec("Tab4").setIndicator("Contacts").setContent(new Intent(this, ContactPicker.class)));
-		th.addTab(th.newTabSpec("Tab5").setIndicator("Dialog").setContent(new Intent(this, ConfirmerActivity.class)));
 		
 		th.setCurrentTab(2);
 	}
