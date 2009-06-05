@@ -26,7 +26,6 @@ import android.widget.Toast;
  */
 public class DecelerationService extends Service {
 
-
 	/**
 	 * The maximum deceleration in m/s^2 that should be detected before asking
 	 * the user if there was a wreck
@@ -72,6 +71,8 @@ public class DecelerationService extends Service {
 
 	};
 
+	private boolean firedConfirmation_ = false;
+
 	/**
 	 * Listener for Accelerometer data. Also handles starting the 'Are you OK?'
 	 * dialog
@@ -116,6 +117,11 @@ public class DecelerationService extends Service {
 					|| Math.abs(valy) > MAX_ALLOWED_DECELERATION
 					|| Math.abs(valz) > MAX_ALLOWED_DECELERATION) {
 
+				if (firedConfirmation_)
+					return;
+
+				firedConfirmation_ = true;
+
 				Intent intent = new Intent(DecelerationService.this,
 						org.vuphone.wwatch.android.ConfirmerActivity.class);
 
@@ -123,25 +129,10 @@ public class DecelerationService extends Service {
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 
-				final int num = callbacks_.beginBroadcast();
-				for (int i = 0; i < num; ++i) {
-					try {
-						callbacks_.getBroadcastItem(i).showConfirmDialog();
-					} catch (RemoteException re) {
-
-					}
-
-				}
-				callbacks_.finishBroadcast();
-
 				// We detected wreck, turn ourself off to conserve power and to
 				// clean up nicely
-				stopSelf();
-				Log.v(VUphone.tag,
-						"Detected wreck, decel service auto-killing itself");
 				return;
 			}
-
 
 		}
 	};
@@ -195,9 +186,26 @@ public class DecelerationService extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 
-		if (intent.hasExtra("AccelerationScaleFactor"))
+		if (intent.hasExtra("WreckOccurred")) {
+			boolean wreckOccurred = intent.getExtras().getBoolean(
+					"WreckOccurred");
+
+			// If there was a wreck, do not repeatedly fire dialog
+			if (wreckOccurred)
+				return;
+
+			// If there was not a wreck, set ourselves up for a new dialog
+			firedConfirmation_ = false;
+		}
+
+		if (intent.hasExtra("AccelerationScaleFactor")) {
 			accelerationScale_ = intent.getExtras().getFloat(
 					"AccelerationScaleFactor");
+
+			// For testing. If they update the scales, allow them to start a new
+			// confirmation dialog
+			firedConfirmation_ = false;
+		}
 
 		final int num = callbacks_.beginBroadcast();
 		for (int i = 0; i < num; ++i) {

@@ -225,7 +225,7 @@ public class TestingUI extends Activity {
 	 * accelerometer services to pass updates to this activity
 	 */
 	private static ISettingsViewCallback callback_ = new ISettingsViewCallback.Stub() {
-		private int m_ = 1;
+		private float m_ = 1;
 		private int numGPS = 0;
 
 		public void accelerometerChanged(float x, float y, float z)
@@ -245,14 +245,6 @@ public class TestingUI extends Activity {
 					+ Math.round(z * m_ * 10.0) / 10.0);
 		}
 
-		public void showConfirmDialog() {
-			if (instance_ == null)
-				return;
-
-			//dialog = new ConfirmationDialog(instance_);
-			//dialog.show();
-		}
-
 		public void gpsChanged(double lat, double lng) throws RemoteException {
 			if (instance_ == null)
 				return;
@@ -269,7 +261,7 @@ public class TestingUI extends Activity {
 
 		}
 
-		public void setAccelerometerMultiplier(int multip)
+		public void setAccelerometerMultiplier(float multip)
 				throws RemoteException {
 			if (instance_ == null)
 				return;
