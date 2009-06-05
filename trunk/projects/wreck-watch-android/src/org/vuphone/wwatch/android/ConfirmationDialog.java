@@ -8,126 +8,148 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Vibrator;
+import android.util.Log;
 
 /**
  * A class responsible for asking the user if he's OK or taking default action
- * if the user does not reply.
+ * if the user does not reply. Note, GPService started with a specific intent is
+ * still responsible for pushing the information to the server.
  * 
  * @author Krzysztof Zienkiewicz
  * 
  */
 class ConfirmationDialog extends ProgressDialog implements
-		DialogInterface.OnClickListener, DialogInterface.OnDismissListener {
+		DialogInterface.OnClickListener {
 
 	private static final int DEFAULT_MAX_TIME = 10;
-	
-	private int maxTime_ = 1;
-	private int time_ = 0;
-	private Timer timer_ = null;
-	private Vibrator vibrator_ = null;
 
-	private final TestingUI activity_;
-	
-	private TimerTask countdownTask_ = null;
+	private final int maxTime_;
+	private final Timer timer_ = new Timer();
+	private final Vibrator vibrator_;
+
+	private final ConfirmerActivity activity_;
+	private CountdownTimerTask countdownTask_ = new CountdownTimerTask();
+
+	/**
+	 * A private inner class responsible for counting down the dialog. For
+	 * thread safety, this class is responsible for keeping track of its current
+	 * time
+	 * 
+	 * @author Krzysztof Zienkiewicz
+	 * 
+	 */
+	private class CountdownTimerTask extends TimerTask {
+
+		/**
+		 * Current time. Starts at -1 to correctly adjust for the first call to
+		 * run
+		 */
+		private int time_ = -1;
+
+		/**
+		 * A no-op constructor
+		 */
+		public CountdownTimerTask() {
+			super();
+			Log.v(VUphone.tag, "TimerTask ctor");
+		}
+
+		/**
+		 * Stops the countdown and removes it from the timer's queue. Note, this
+		 * task cannot be scheduled again.
+		 */
+		public void reset() {
+			cancel();
+			timer_.purge();
+			time_ = -1;
+		}
+
+		/**
+		 * Increaments the counter. If this timeouts, this task is canceled,
+		 * removing it from the timer's queue and purges the timer. report(true)
+		 * is then called.
+		 */
+		@Override
+		public void run() {
+			++time_;
+			setProgress(time_);
+
+			if (time_ > maxTime_) {
+				Log.v(VUphone.tag, "TimerTask.run() entering timeout");
+				report(true);
+			}
+		}
+	}
+
+	public ConfirmationDialog(final ConfirmerActivity con) {
+		super(con);
+		activity_ = con;
+		vibrator_ = (Vibrator) con.getSystemService(Context.VIBRATOR_SERVICE);
+		maxTime_ = con.getSharedPreferences(VUphone.PREFERENCES_FILE,
+				Context.MODE_PRIVATE).getInt(VUphone.TIMEOUT_TAG,
+				ConfirmationDialog.DEFAULT_MAX_TIME);
+
+		setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		setMax(maxTime_);
+		setTitle("Alert");
+		setMessage("WreckWatch has detected a crash. Did an accident occur?");
+		setCancelable(false);
+
+		setButton(DialogInterface.BUTTON_POSITIVE, "Yes", this);
+		setButton(DialogInterface.BUTTON_NEGATIVE, "No", this);
+
+	}
 
 	public void onClick(DialogInterface dialog, int button) {
 		switch (button) {
 		case DialogInterface.BUTTON_POSITIVE:
-			this.fireAccidentIntent(true);
+			report(true);
 			break;
 		case DialogInterface.BUTTON_NEGATIVE:
-			this.fireAccidentIntent(false);
+			report(false);
 			break;
 		}
 	}
 
-	public void onDismiss(DialogInterface dialog) {
-		activity_.finish();
-	}
-
-	public ConfirmationDialog(TestingUI context) {
-		super(context);
-		activity_ = context;
-		timer_ = new Timer();
-
-		vibrator_ = (Vibrator) context
-				.getSystemService(Context.VIBRATOR_SERVICE);
-
-		maxTime_ = context.getSharedPreferences(VUphone.PREFERENCES_FILE,
-				Context.MODE_PRIVATE).getInt(VUphone.TIMEOUT_TAG,
-				ConfirmationDialog.DEFAULT_MAX_TIME);
-
-		super.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		super.setMax(maxTime_);
-		super.setTitle("Alert");
-		super.setMessage("WreckWatch has detected a crash. Did an accident occur?");
-		super.setCancelable(false);
-
-		super.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", this);
-		super.setButton(DialogInterface.BUTTON_NEGATIVE, "No", this);
-
-		super.setOnDismissListener(this);
-		
-		countdownTask_ = new TimerTask() {
-			public void run() {
-				// The countdown should be turned off once the user click
-				// a button
-				/*
-				if (timer_ == null) {
-					this.cancel();
-					ConfirmationDialog.this.vibrator_.cancel();
-					return;
-				}*/
-				ConfirmationDialog.this
-						.setProgress(ConfirmationDialog.this.time_);
-				ConfirmationDialog.this.time_++;
-				if (time_ > maxTime_) {
-					timer_.cancel();
-					this.cancel();
-					ConfirmationDialog.this.timeout();
-				}
-			}
-		};
-	}
-
-	public void show() {
-		super.show();
-		this.startCountdown();
-		vibrator_.vibrate(maxTime_ * 1000);
-	}
-
-	private void startCountdown() {
-		timer_.cancel();
-		timer_ = new Timer();
-		time_ = 0;
-
-		timer_.scheduleAtFixedRate(countdownTask_, 0, 1000);
-	}
-
 	/**
-	 * Fires an intent to the service class reporting that an accident occurred.
-	 * Also dismisses this dialog and exits the activity.
+	 * Hides the dialog, stops the vibrator and timer, and reports the accident,
+	 * if necessary.
 	 * 
-	 * @param accidentOccurred
-	 *            Did an accident occur?
+	 * @param occurred
+	 *            True if we want to report an accident
 	 */
-	private void fireAccidentIntent(boolean accidentOccurred) {
-		// Stop the timer so that it doesn't fire again
-		countdownTask_.cancel();
+	private void report(boolean occurred) {
 		vibrator_.cancel();
-		timer_.cancel();
-
+		countdownTask_.reset();
+		// For some reason, if we enter here because of a timeout, calling
+		// Toasts silently hangs. TODO - figure this out
+		cancel();
+		setProgress(0);
+		
 		Intent intent = new Intent(activity_,
 				org.vuphone.wwatch.android.GPService.class);
-		intent.putExtra("DidAccidentOccur", accidentOccurred);
+		intent.putExtra("DidAccidentOccur", occurred);
 		activity_.startService(intent);
-		super.dismiss();
 	}
 
 	/**
-	 * Called when the user does not respond. Fires an accident intent
+	 * Bring up the dialog and start the countdown.
 	 */
-	private void timeout() {
-		this.fireAccidentIntent(true);
+	@Override
+	public void show() {
+		super.show();
+		startCountdown();
+	}
+
+	/**
+	 * Resets the TimerTask and adds it to the Timer queue. Turns on the
+	 * vibrator
+	 */
+	private void startCountdown() {
+		countdownTask_.reset();
+		countdownTask_ = new CountdownTimerTask();
+
+		timer_.scheduleAtFixedRate(countdownTask_, 0, 1000);
+		vibrator_.vibrate(maxTime_ * 1000);
 	}
 }
