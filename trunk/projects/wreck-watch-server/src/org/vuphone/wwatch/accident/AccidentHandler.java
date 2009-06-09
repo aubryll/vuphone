@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.vuphone.wwatch.asterisk.AsteriskConnector;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 import org.vuphone.wwatch.notification.SMSSender;
@@ -129,6 +130,7 @@ public class AccidentHandler implements NotificationHandler {
 
 					for(String s:nums){
 						SMSSender.sendText(s);
+						AsteriskConnector.playRecordingToPSTNNumber(s);
 					}
 					response = new AccidentHandledNotification();
 
