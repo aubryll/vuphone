@@ -22,6 +22,7 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.vuphone.wwatch.android.Waypoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -40,23 +41,32 @@ public class AccidentDataHandler extends DefaultHandler {
 	private boolean inLat = false;
 	private boolean inLon = false;
 	private boolean inNotes = false;
+	private boolean inRoutes = false;
+	private boolean inRoute = false;
+	private boolean inTime = false;
 	
-	private ArrayList<EnhancedGeoPoint> points_ = new ArrayList<EnhancedGeoPoint>();
-	private EnhancedGeoPoint curPoint_;
+	private ArrayList<Route> points_ = new ArrayList<Route>();
+	private Route curRoute_;
+	private Waypoint curPoint_;
 	
 	@Override
 	public void startElement (String uri, String localname, String qName, Attributes atts){
-		if (localname.trim().equalsIgnoreCase("Points")){
+		if (localname.trim().equalsIgnoreCase("Routes")){
+			inRoutes = true;
+		}else if (localname.trim().equalsIgnoreCase("Route")){
+			inRoute = true;
+			curRoute_ = new Route();
+		}else if (localname.trim().equalsIgnoreCase("Points")){
 			inPoints = true;
 		}else if (localname.trim().equalsIgnoreCase("Latitude")){
 			inLat = true;
 		}else if (localname.trim().equalsIgnoreCase("Longitude")){
 			inLon = true;
-		}else if (localname.trim().equalsIgnoreCase("Notes")){
-			inNotes = true;
 		}else if (localname.trim().equalsIgnoreCase("Point")){
 			inPoint = true;
-			curPoint_ = new EnhancedGeoPoint();
+			curPoint_ = new Waypoint();
+		}else if (localname.trim().equalsIgnoreCase("Time")){
+			inTime = true;
 		}
 	}
 	
@@ -65,33 +75,36 @@ public class AccidentDataHandler extends DefaultHandler {
 		if (localname.trim().equalsIgnoreCase("Points")){
 			inPoints = false;
 			
-			//We're done processing
-			throw new SAXException("Done processing");
 		}else if (localname.trim().equalsIgnoreCase("Latitude")){
 			inLat = false;
 		}else if (localname.trim().equalsIgnoreCase("Longitude")){
 			inLon = false;
-		}else if (localname.trim().equalsIgnoreCase("Notes")){
-			inNotes = false;
 		}else if (localname.trim().equalsIgnoreCase("Point")){
-			curPoint_.createGeoPoint();
-			points_.add(curPoint_);
+			curRoute_.addWaypoint(curPoint_);
 			inPoint = false;
+		}else if(localname.trim().equalsIgnoreCase("Route")){
+			inRoute = false;
+			points_.add(curRoute_);
+		}else if(localname.trim().equalsIgnoreCase("Routes")){
+			inRoutes = false;
+			throw new SAXException("Done processing");
+		}else if (localname.trim().equalsIgnoreCase("Time")){
+			inTime = false;
 		}
 	}
 	
 	@Override
 	public void characters (char ch[], int start, int length){
 		if (inLat == true){
-			curPoint_.setLat(Double.parseDouble(new String(ch)));
+			curPoint_.setLatitude((Double.parseDouble(new String(ch))));
 		}else if (inLon == true){
-			curPoint_.setLon(Double.parseDouble(new String(ch)));
-		}else if (inNotes == true){
-			curPoint_.setNotes(new String(ch));
+			curPoint_.setLongitude((Double.parseDouble(new String(ch))));
+		}else if(inTime == true){
+			curPoint_.setTime(Long.parseLong(new String(ch)));
 		}
 	}
 	
-	public ArrayList<EnhancedGeoPoint> processXML(InputSource src){
+	public ArrayList<Route> processXML(InputSource src){
 		XMLReader xr = null;
 		try {
 			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();

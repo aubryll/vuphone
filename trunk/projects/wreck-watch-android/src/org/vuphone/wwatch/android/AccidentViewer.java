@@ -26,12 +26,10 @@ import org.vuphone.wwatch.android.http.HTTPGetter;
 import org.vuphone.wwatch.android.http.HttpOperationListener;
 import org.vuphone.wwatch.android.mapping.AccidentDataHandler;
 import org.vuphone.wwatch.android.mapping.AccidentMapView;
-import org.vuphone.wwatch.android.mapping.EnhancedGeoPoint;
+import org.vuphone.wwatch.android.mapping.Route;
 import org.xml.sax.InputSource;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -157,9 +155,12 @@ public class AccidentViewer extends MapActivity implements HttpOperationListener
 		try {
 			resp.getEntity().writeTo(bao);	
 			Log.d(VUphone.tag, LOG_PREFIX + "Http response: " + bao.toString());
-			for (EnhancedGeoPoint p:adh.processXML(new InputSource(new ByteArrayInputStream(bao.toByteArray())))){
-				Log.d(VUphone.tag, LOG_PREFIX + "Adding accident point: " + p.toString());
-				map_.addPin(p);
+			for (Route r:adh.processXML(new InputSource(new ByteArrayInputStream(bao.toByteArray())))){
+				for (Waypoint w:r.getRoute()){
+					Log.d(VUphone.tag, LOG_PREFIX + "Adding accident point: " + w.toString());
+					map_.addPin(w);
+				}
+				
 			}
 		} catch (IOException e) {
 			Log.e(VUphone.tag, LOG_PREFIX + "IOException processing HttpResponse object: " + e.getMessage());

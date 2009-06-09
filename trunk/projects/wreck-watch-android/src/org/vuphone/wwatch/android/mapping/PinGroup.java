@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.R;
+import org.vuphone.wwatch.android.Waypoint;
+
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -43,9 +43,11 @@ public class PinGroup extends Overlay{
 	 * @param point
 	 * @param name
 	 */
-	public void addPin(EnhancedGeoPoint point){
+	public void addPin(Waypoint point){
 		if (!points_.contains(point)){
-			points_.add(point.getPoint());
+			int lat = (int)(point.getLatitude() * 1E6);
+			int lon = (int) (point.getLongitude() * 1E6);
+			points_.add(new GeoPoint(lat, lon));
 		}
 	}
 
@@ -63,16 +65,17 @@ public class PinGroup extends Overlay{
 		paint.setTextSize(15);
 		paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
-		//TODO Get Jules to look at this for concurrent modification exception
+		
 		synchronized(points_){
 			for (GeoPoint point : points_){
 				Point scrPt = projection.toPixels(point, null);
-				float x = scrPt.x - 10; 
-				float y = scrPt.y - 10;
+				float x = scrPt.x; 
+				float y = scrPt.y;
+				int radius = 5;
 				
 				
 				
-				canvas.drawBitmap(pinIcon_, x, y, new Paint());
+				canvas.drawCircle(x, y, radius, new Paint());
 			}
 		}
 	}

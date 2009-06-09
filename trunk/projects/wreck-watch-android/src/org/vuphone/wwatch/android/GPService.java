@@ -164,6 +164,12 @@ public class GPService extends Service {
 			String aid = ((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
 			HTTPPoster.doAccidentPost(aid,System.currentTimeMillis(), tracker_
 					.getLatestSpeed(), tracker_.getLatestAcceleration(), temp.getLatitude(), temp.getLongitude());
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
 			HTTPPoster.doRoutePost(aid, tracker_.getList());
 		} else
 			Toast.makeText(this, "No valid GPS data to report.", Toast.LENGTH_SHORT).show();
