@@ -24,6 +24,7 @@ import org.cometd.Channel;
 import org.cometd.Client;
 import org.cometd.Message;
 import org.mortbay.cometd.BayeuxService;
+import java.util.ArrayList;
 
 /**
  * This class manages the bidirectional HTTP event channel used by
