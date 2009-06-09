@@ -16,6 +16,8 @@
 package org.vuphone.wwatch.android.mapping;
 
 import org.vuphone.wwatch.android.R;
+import org.vuphone.wwatch.android.Waypoint;
+
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.util.AttributeSet;
@@ -35,7 +37,7 @@ public class AccidentMapView extends MapView {
 		
 	}
 	
-	public void addPin(EnhancedGeoPoint point){
+	public void addPin(Waypoint point){
 		pinGroup_.addPin(point);
 		postInvalidate();
 

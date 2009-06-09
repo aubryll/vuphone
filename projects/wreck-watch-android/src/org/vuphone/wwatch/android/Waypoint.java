@@ -47,6 +47,10 @@ public class Waypoint {
 		latitude_ = loc.getLatitude();
 		timeStamp_ = loc.getTime();
 	}
+	
+	public Waypoint(){
+		
+	}
 
 	/**
 	 * Returns the latitude in degrees.
@@ -83,5 +87,18 @@ public class Waypoint {
 	public String toString() {
 		return "[" + longitude_ + ", " + latitude_ + ", " + timeStamp_ + "]";
 	}
+	
+	public void setLatitude(double lat){
+		latitude_ = lat;
+	}
+	
+	public void setLongitude(double lon){
+		longitude_ = lon;
+	}
+	
+	public void setTime(long time){
+		timeStamp_ = time;
+	}
+
 
 }
