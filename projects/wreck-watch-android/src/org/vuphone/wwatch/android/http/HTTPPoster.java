@@ -48,6 +48,7 @@ public class HTTPPoster {
 	//IP because it's not running it! :)
 	//private static final String SERVER = "http://129.59.135.165";
 	private static final String SERVER = "http://129.59.135.156:80";
+
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
