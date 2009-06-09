@@ -1,5 +1,4 @@
-// TODO - REFACTOR THE HELL OUT OF THIS!!!
-
+// TODO - WORK TO DISABLE THE BACK BUTTON
 package org.vuphone.wwatch.android;
 
 import java.util.Timer;
@@ -57,7 +56,7 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 
 	/** The maximum time alloted to make a decision (in seconds) */
 	private int maxTime_;
-	/** The time the activity started. 0 means unset*/
+	/** The time the activity started. 0 means unset */
 	private long startTime_ = 0;
 
 	/** A reference to the vibrator. Used to catch user's attention */
@@ -75,7 +74,7 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 	 * timeout event. This has to be canceled in onDestroy() so that it won't
 	 * run after the activity dies
 	 */
-	private final CountdownTimerTask countdownTask_ = new CountdownTimerTask();
+	private CountdownTimerTask countdownTask_;
 
 	/** Handler for requesting the main thread to do something */
 	private final Handler handler_ = new Handler();
@@ -92,14 +91,25 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 
 		/** Current time (in seconds) determined via startTime */
 		private int time_;
-		
+
 		/**
 		 * A no-op constructor
 		 */
 		public CountdownTimerTask() {
 			super();
 			time_ = (int) (System.currentTimeMillis() - startTime_) / 1000;
+			updateUI();
 			Log.v(VUphone.tag, "TimerTask ctor");
+		}
+
+		/**
+		 * Returns the remaining time in milliseconds.
+		 * 
+		 * @return
+		 */
+		public long getRemainingTime() {
+			return (maxTime_ * 1000L)
+					- (System.currentTimeMillis() - startTime_);
 		}
 
 		/**
@@ -131,6 +141,10 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 					bar_.setProgress(time_);
 					String remTimeStr = "" + (maxTime_ - time_);
 					timeRemaining_.setText(REM_STRING.replace("?", remTimeStr));
+
+					((TextView) findViewById(R.id.debug)).setText(""
+							+ getRemainingTime());
+
 				}
 			});
 		}
@@ -161,9 +175,7 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle save) {
 		super.onCreate(save);
-		Log.v(VUphone.tag, "\tonCreate()");
 		setContentView(R.layout.confirmer);
-		
 
 		yesButton_ = (Button) findViewById(R.id.accident_true);
 		yesButton_.setOnClickListener(this);
@@ -185,13 +197,12 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * The "destructor" cleanUp() should have already been called so this is a
-	 * no-op.
+	 * The "destructor". Calls cleanUp()
 	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		Log.v(VUphone.tag, "\tonDestroy()");
+		cleanUp();
 	}
 
 	/**
@@ -211,19 +222,24 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.v(VUphone.tag, "\tonStart()");
-		
+
 		// If startTime_ hasn't been set from the save Bundle
 		if (startTime_ == 0)
 			startTime_ = System.currentTimeMillis();
 
-		// Intent intent = this.getIntent();
-		// if (intent.getBooleanExtra("ShowDialog", false)) {
-		// Schedule the timer task
-		timer_.scheduleAtFixedRate(countdownTask_, 1000, 1000);
-		// } else {
-		// finish();
-		// }
+		// Instatiate here so that startTime_ is always valid
+		countdownTask_ = new CountdownTimerTask();
+
+		Intent intent = this.getIntent();
+		if (intent.getBooleanExtra("ShowDialog", false)) {
+			// Schedule the timer task
+			timer_.scheduleAtFixedRate(countdownTask_, 1000, 1000);
+			long[] pattern = {100, 200};
+			int repeat = 0;
+			vibrator_.vibrate(pattern, repeat);
+		} else {
+			finish();
+		}
 	}
 
 	/**
@@ -239,12 +255,12 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 		// Let the deceleration service know if there was a wreck
 		Intent message = new Intent(this, DecelerationService.class);
 		message.putExtra("WreckOccurred", occurred);
-		// startService(message);
+		startService(message);
 
 		Intent intent = new Intent(this,
 				org.vuphone.wwatch.android.GPService.class);
 		intent.putExtra("DidAccidentOccur", occurred);
-		// startService(intent);
+		startService(intent);
 
 		finish();
 	}
