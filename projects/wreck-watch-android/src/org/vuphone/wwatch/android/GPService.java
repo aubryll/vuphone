@@ -157,9 +157,12 @@ public class GPService extends Service {
 	 */
 	public void reportAccident() {
 		Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG).show();
-
-		HTTPPoster.doAccidentPost(((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId() ,System.currentTimeMillis(), tracker_
-				.getLatestSpeed(), tracker_.getLatestAcceleration(), tracker_.getList());
+		
+		Waypoint temp = tracker_.getList().get(tracker_.getList().size() - 1);
+		String aid = ((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
+		HTTPPoster.doAccidentPost(aid,System.currentTimeMillis(), tracker_
+				.getLatestSpeed(), tracker_.getLatestAcceleration(), temp.getLatitude(), temp.getLongitude());
+		HTTPPoster.doRoutePost(aid, tracker_.getList());
 	}
 
 }
