@@ -30,7 +30,6 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.wwatch.android.Waypoint;
 
-import android.provider.Settings;
 import android.util.Log;
 
 public class HTTPPoster {
@@ -48,7 +47,7 @@ public class HTTPPoster {
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
 	//private static final String SERVER = "http://129.59.135.165";
-	private static final String SERVER = "http://129.59.135.178:8081";
+	private static final String SERVER = "http://129.59.135.156:80";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -62,7 +61,7 @@ public class HTTPPoster {
 	 * @param message
 	 */
 	public static void doAccidentPost(String androidid, Long time, Double speed, Double dec,
-			List<Waypoint> route) {
+			double lat, double lon) {
 
 		String timeStr = Long.toString(time.longValue());
 		String speedStr = Double.toString(speed.doubleValue());
@@ -84,19 +83,12 @@ public class HTTPPoster {
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
 		StringBuffer params = new StringBuffer();
-
+		
 		// Create the parameter string
-		if (route != null) {
-			params.append("type=accident&user="+androidid+"&time=" + timeStr + "&speed="
-					+ speedStr + "&dec=" + decStr);
+		params.append("type=accident&user="+androidid+"&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&lat="
+				+ lat + "&lon="+lon);
 
-			for (int i = 0; i < route.size(); ++i) {
-				params.append("&lat="+route.get(i).getLatitude()+"&lon="+route.get(i).getLongitude()+"&timert="+route.get(i).getTime());
-			}
-		}else{
-				params.append("type=accident&user="+androidid+"&time="+ timeStr +"&speed="+speedStr+"&dec="+decStr+"&numpoints=0");
-		}
-
+		
 		// Add the parameters
 		Log
 				.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: "
@@ -137,6 +129,61 @@ public class HTTPPoster {
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
 
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doAccidentPost");
+	}
+	
+	public static void doRoutePost(String androidID, List<Waypoint> route){
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doRoutePost");
+		final HttpClient c = new DefaultHttpClient();
+		final HttpPost post = new HttpPost(SERVER + PATH);
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		StringBuffer params = new StringBuffer();
+		
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Constructing parameter string");
+		params.append("type=route&id="+androidID);
+		
+		for (Waypoint w:route){
+			params.append("&lat="+w.getLatitude()+"&lon="+w.getLongitude()+"&time="+w.getTime());
+		}
+		
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params.toString());
+		
+		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
+		
+		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + SERVER + PATH);
+		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
+		new Thread(new Runnable(){
+
+			public void run() {
+				HttpResponse resp;
+				try {
+					resp = c.execute(post);
+					ByteArrayOutputStream bao = new ByteArrayOutputStream();
+					resp.getEntity().writeTo(bao);
+					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
+							+ new String(bao.toByteArray()));
+
+				} catch (ClientProtocolException e) {
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX
+							+ "ClientProtocolException executing post: "
+							+ e.getMessage());
+				} catch (IOException e) {
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX
+							+ "IOException writing to ByteArrayOutputStream: "
+							+ e.getMessage());
+				} catch (Exception e) {
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX
+							+ "Other Exception of type:" + e.getClass());
+					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
+							+ e.getMessage());
+				}
+			}
+			
+		}).start();
+		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
+
+		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doRoutePost");
+		
 	}
 
 	
