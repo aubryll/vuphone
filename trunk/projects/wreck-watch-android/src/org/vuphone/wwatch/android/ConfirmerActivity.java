@@ -263,7 +263,6 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 	 */
 	private void report(boolean occurred) {
 		cleanUp();
-		Toast.makeText(this, "Report: " + occurred, Toast.LENGTH_SHORT).show();
 
 		// Let the deceleration service know if there was a wreck
 		Intent message = new Intent(this, DecelerationService.class);

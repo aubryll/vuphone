@@ -156,13 +156,17 @@ public class GPService extends Service {
 	 * communicates with the server for now
 	 */
 	public void reportAccident() {
-		Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG).show();
 		
-		Waypoint temp = tracker_.getList().get(tracker_.getList().size() - 1);
-		String aid = ((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
-		HTTPPoster.doAccidentPost(aid,System.currentTimeMillis(), tracker_
-				.getLatestSpeed(), tracker_.getLatestAcceleration(), temp.getLatitude(), temp.getLongitude());
-		HTTPPoster.doRoutePost(aid, tracker_.getList());
+		
+		if (tracker_.getList().size() > 0) {
+			Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG).show();
+			Waypoint temp = tracker_.getList().get(tracker_.getList().size() - 1);
+			String aid = ((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
+			HTTPPoster.doAccidentPost(aid,System.currentTimeMillis(), tracker_
+					.getLatestSpeed(), tracker_.getLatestAcceleration(), temp.getLatitude(), temp.getLongitude());
+			HTTPPoster.doRoutePost(aid, tracker_.getList());
+		} else
+			Toast.makeText(this, "No valid GPS data to report.", Toast.LENGTH_SHORT).show();
 	}
 
 }
