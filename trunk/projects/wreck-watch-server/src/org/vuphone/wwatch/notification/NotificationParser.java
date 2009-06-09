@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.vuphone.wwatch.accident.AccidentNotification;
 import org.vuphone.wwatch.contacts.ContactUpdateNotification;
 import org.vuphone.wwatch.inforeq.InfoNotification;
+import org.vuphone.wwatch.routing.RouteNotification;
 
 
 public class NotificationParser {
@@ -41,22 +42,14 @@ public class NotificationParser {
 				log_.log(Level.FINER, "Time: " + an.getTime());
 				an.setParty(req.getParameter("user"));
 				log_.log(Level.FINER, "User: " + an.getPerson());
-				
-				String[] lats = req.getParameterValues("lat");
-				String[] lons = req.getParameterValues("lon");
-				String[] times = req.getParameterValues("timert");
-				
-				if (lats != null){
+				an.setLatitude(Double.parseDouble(req.getParameter("lat")));
+				log_.log(Level.FINER, "Latitude: " + an.getLatitude());
+				an.setLongitude(Double.parseDouble(req.getParameter("lon")));
+				log_.log(Level.FINER, "Longitude: " + an.getLongitude());
 
-					for(int i = 0; i < lats.length; ++i){
-						an.addWaypoint(Double.parseDouble(lats[i]), Double.parseDouble(lons[i]), Long.parseLong(times[i]));
-					}
-				}else{
-					an.addWaypoint(0, 0, System.currentTimeMillis());
-				}
-				
 
-				an.setAccidentLocation();
+
+
 			}else if (type.equalsIgnoreCase("info")){
 
 				n = new InfoNotification();
@@ -100,21 +93,43 @@ public class NotificationParser {
 					lon = (double)lonE6;
 					lon = lon / 1E6;
 					info.setBottomRightCorner(lat, lon);
-					
-					
+
+
 				}catch (Exception e) {
 					//If we get here, likely the parameters were wrong
 					n = null;
 				}
-				
+
 
 			}else if (type.equalsIgnoreCase("contact")){
 				String id = req.getParameter("id");
 				n = new ContactUpdateNotification(id);
 				ContactUpdateNotification cn = (ContactUpdateNotification)n;
-				
+
 				cn.setNumbers(req.getParameterValues("number"));
 
+			}else if (type.equalsIgnoreCase("route")){
+
+				n = new RouteNotification();
+				RouteNotification rn = (RouteNotification)n;
+
+				rn.setPerson(req.getParameter("id"));
+
+				String[] lats = req.getParameterValues("lat");
+				String[] lons = req.getParameterValues("lon");
+				String[] times = req.getParameterValues("timert");
+
+				if (lats != null){
+
+
+					for(int i = 0; i < lats.length; ++i){
+						if (lats[i] != null && lons[i] != null && times[i] != null){
+							rn.addWaypoint(Double.parseDouble(lats[i]), Double.parseDouble(lons[i]), Long.parseLong(times[i]));
+						}
+					}
+				}else{
+					rn.addWaypoint(0, 0, System.currentTimeMillis());
+				}
 			}else{
 				n = new Notification(type);
 			}

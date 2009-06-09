@@ -116,44 +116,10 @@ public class AccidentHandler implements NotificationHandler {
 
 					db.commit();
 
-					sql = "select max(wreckid) as wreckid from Wreck;";
-
-					db.setAutoCommit(true);
-					prep = db.prepareStatement(sql);
-					rs = prep.executeQuery();
-					rs.next();
-					int wid = rs.getInt("wreckid");
-
-					try{
-						rs.close();
-					}catch (SQLException e) {
-						//This catch block sponsored by:
-						//The Do-Nothing Party\\
-					}
-
-					db.setAutoCommit(false);
-
-					sql = "insert into route(wreckid, lat, lon, time) values (?, ?, ?, ?);";
-					prep = db.prepareStatement(sql);
-					Route route = report.getRoute();
-					while (route.peek() != null){
-						Waypoint temp = route.getNextPoint();
-						prep.setInt(1, wid);
-						prep.setDouble(2, temp.getLatitude());
-						prep.setDouble(3, temp.getLongitude());
-						prep.setLong(4, temp.getTime());
-						prep.addBatch();
-					}
-
-					prep.executeBatch();
-					db.commit();
-					
-					db.setAutoCommit(true);
-					
 					prep = db.prepareStatement("select ContactId from EmergencyContacts where PersonId = ?");
 					prep.setInt(1, id);
-					rs = prep.executeQuery();
 					ArrayList<String> nums = new ArrayList<String>();
+					rs = prep.executeQuery();
 					while(rs.next()){
 						nums.add(rs.getString("ContactId"));
 					}
@@ -169,6 +135,14 @@ public class AccidentHandler implements NotificationHandler {
 				} catch (SQLException e) {
 					logger_.log(Level.SEVERE,
 							"SQLException: ", e);
+					if (db != null){
+						try {
+							db.close();
+						} catch (SQLException e1) {
+							
+							e1.printStackTrace();
+						}
+					}
 				}
 
 			}
@@ -192,16 +166,5 @@ public class AccidentHandler implements NotificationHandler {
 		parser_ = parser;
 	}
 
-	public static void main(String args[]){
-		AccidentNotification n = new AccidentNotification();
-		n.setDeceleration(200);
-		n.setLatitude(35.222222);
-		n.setLongitude(-87.205);
-		n.setParty("thompchr@gmail.com");
-		n.setSpeed(50);
-		n.setTime(System.currentTimeMillis());
-		AccidentHandler h = new AccidentHandler();
-		h.handle(n);
-	}
 
 }

@@ -38,6 +38,12 @@
         	</key>
         	<ref bean="contactHandler" />
         </entry>
+        <entry>
+        	<key>
+        		<value>route</value>
+        	</key>
+        	<ref bean="routeHandler" />
+        </entry>
       </map>
     </property>
   </bean>
@@ -53,6 +59,8 @@
   <bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactUpdateHandler" />
   
   <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser"/>
+  
+  <bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteNotificationHandler"/>
   
   
 </beans>

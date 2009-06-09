@@ -29,7 +29,6 @@ public class AccidentReport {
 	private double acc_;
 	private String person_;
 	
-	private Route route_;
 	
 	/**
 	 * Default Ctor
@@ -49,7 +48,6 @@ public class AccidentReport {
 		r.acc_ = n.getDeceleration();
 		r.lat_ = n.getLatitude();
 		r.lon_ = n.getLongitude();
-		r.route_ = n.getRoute();
 		r.time_ = n.getTime();
 		r.person_ = n.getPerson();
 		
@@ -82,14 +80,6 @@ public class AccidentReport {
 	
 	public String getParty(){
 		return person_;
-	}
-	
-	public void setRoute(Route route){
-		route_ = route;
-	}
-	
-	public Route getRoute(){
-		return route_;
 	}
 	
 	public void setLatitude(double lat){
