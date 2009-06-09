@@ -1,4 +1,3 @@
-// TODO - WORK TO DISABLE THE BACK BUTTON
 package org.vuphone.wwatch.android;
 
 import java.util.Timer;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -206,6 +206,19 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 	}
 
 	/**
+	 * Used to intercept the back key. If the back key is pressed, report an
+	 * accident and quit.
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			report(true);
+			return true;
+		} else
+			return super.onKeyDown(keyCode, event);
+	}
+
+	/**
 	 * Called before the Activity is killed (due to keyboard flip). Saves the
 	 * current time so that we can recreate object state later.
 	 */
@@ -227,14 +240,14 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 		if (startTime_ == 0)
 			startTime_ = System.currentTimeMillis();
 
-		// Instatiate here so that startTime_ is always valid
+		// Instantiate here so that startTime_ is always valid
 		countdownTask_ = new CountdownTimerTask();
 
 		Intent intent = this.getIntent();
 		if (intent.getBooleanExtra("ShowDialog", false)) {
 			// Schedule the timer task
 			timer_.scheduleAtFixedRate(countdownTask_, 1000, 1000);
-			long[] pattern = {100, 200};
+			long[] pattern = { 100, 200 };
 			int repeat = 0;
 			vibrator_.vibrate(pattern, repeat);
 		} else {
