@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xml.serializer.dom3.LSSerializerImpl;
 import org.vuphone.wwatch.inforeq.InfoHandledNotification;
+import org.vuphone.wwatch.routing.Route;
 import org.vuphone.wwatch.routing.Waypoint;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -54,50 +55,66 @@ public class NotificationServlet extends HttpServlet {
 				NotificationHandler handler = handlers_.get(note.getType());
 				if (handler != null) {
 					Notification rnote = handler.handle(note);
+					if (rnote == null){
+						System.out.println("Rnote was null, something went wrong");
+						return;
+					}
 					if (rnote.getType().equalsIgnoreCase("infohandled")){
-						
+
 						InfoHandledNotification info = (InfoHandledNotification)rnote;
 						//There's probably a better way to do this. Jules,
 						//any fancy XML ideas?
-						
+
 						//Build the xml response
 						Document d = null;
 						try {
 							d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 						} catch (ParserConfigurationException e) {
-							
+
 							logger_
 							.log(
 									Level.SEVERE,
 									"Parser configuration exception creating document for xml response",
 									e);
 						}
-						
-						Node root = d.createElement("Points");
-						for (Waypoint w:info.getAccidents()){
-							Node pointR = d.createElement("Point");
-							Node lat = d.createElement("Latitude");
-							
-							lat.appendChild(d.createTextNode(Double.toString(w.getLatitude())));
-							
-							pointR.appendChild(lat);
-							
-							Node lon = d.createElement("Longitude");
-							lon.appendChild(d.createTextNode(Double.toString(w.getLongitude())));
-							
-							pointR.appendChild(lon);
-							
-							root.appendChild(pointR);
-							
+						Node rootRt = d.createElement("Routes");
+
+						for (Route r:info.getAccidents()){
+							Node route = d.createElement("Route");
+							Node rootPt = d.createElement("Points");
+
+							for (Waypoint w:r.getRoute()){
+								Node pointR = d.createElement("Point");
+								Node lat = d.createElement("Latitude");
+
+								lat.appendChild(d.createTextNode(Double.toString(w.getLatitude())));
+
+								pointR.appendChild(lat);
+
+								Node lon = d.createElement("Longitude");
+								lon.appendChild(d.createTextNode(Double.toString(w.getLongitude())));
+								
+								pointR.appendChild(lon);
+								
+								Node time = d.createElement("Time");
+								time.appendChild(d.createTextNode(Long.toString(w.getTime())));
+
+								pointR.appendChild(time);
+
+								rootPt.appendChild(pointR);
+							}
+							route.appendChild(rootPt);
+							rootRt.appendChild(route);
+
 						}
-						d.appendChild(root);
+						d.appendChild(rootRt);
 						LSSerializer ls = new LSSerializerImpl();
 						String xml = ls.writeToString(d);
-						
+
 						resp.getWriter().write(xml);						
-						
-						
-						
+
+
+
 					}else{
 						resp.getWriter().write(note.toString());
 					}

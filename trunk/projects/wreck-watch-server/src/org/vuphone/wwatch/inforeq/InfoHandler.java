@@ -20,12 +20,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.vuphone.wwatch.accident.AccidentHandler;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
+import org.vuphone.wwatch.routing.Waypoint;
 
 public class InfoHandler implements NotificationHandler {
 
@@ -52,7 +54,7 @@ public class InfoHandler implements NotificationHandler {
 			logger_.log(Level.SEVERE,
 					"SQLException: ", e);
 		}
-		
+
 
 		//I hate myself for doing this...
 		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;"; 
@@ -66,32 +68,51 @@ public class InfoHandler implements NotificationHandler {
 			ResultSet rs = prep.executeQuery();
 
 			note = new InfoHandledNotification();
+			note.newRoute();
 
+			//Get the wreck id
+			ArrayList<Integer> ids = new ArrayList<Integer>();
+			
 			while (rs.next()){
-				note.addWaypoint(rs.getDouble("lat"), rs.getDouble("lon"));
+				ids.add(rs.getInt("WreckID"));
 			}
 			rs.close();
+
+			sql = "select * from Route where WreckID = ?";
+			for (Integer i:ids){
+				prep = db.prepareStatement(sql);
+				prep.setInt(1, i);
+				
+				rs = prep.executeQuery();
+				
+				while(rs.next()){
+					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs.getDouble("Lon"), rs.getLong("Time")));
+				}
+				note.newRoute();
+				
+			}
+			
 			db.close();
 			return note;
 		}catch (SQLException e) {
 			logger_.log(Level.SEVERE,
 					"SQLException: ", e);
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void main(String[] args){
 		InfoNotification n = new InfoNotification();
 		n.setBottomLeftCorner(34.00, -90);
 		n.setBottomRightCorner(34.00, -70);
 		n.setTopLeftCorner(37.00, -90);
 		n.setTopRightCorner(37.00, -70);
-		
+
 		InfoHandler h = new InfoHandler();
 		Notification ihn = h.handle(n);
 		ihn = (InfoHandledNotification)ihn;
-		
+
 	}
 
 }

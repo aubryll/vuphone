@@ -66,10 +66,22 @@ public class RouteNotificationHandler implements NotificationHandler {
 						id = rs.getInt("id");
 						rs.close();
 					}catch (SQLException e) {
-						//No user exists, we can disregard because there's no accident that's been
-						//reported anyway!
-						db.close();
-						return null;
+						//Wait for a few to see if the notification comes in
+						Thread.sleep(5000);
+						prep = db.prepareStatement("select id from People where AndroidID like ?;");
+						prep.setString(1, rn.getPerson());
+
+						rs  = prep.executeQuery();
+
+						try{
+							rs.next();
+							id = rs.getInt("id");
+							rs.close();
+						}catch(SQLException sqle){
+							db.close();
+							return null;
+						}
+						
 
 					}
 
