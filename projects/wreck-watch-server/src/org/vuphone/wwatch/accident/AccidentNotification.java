@@ -19,8 +19,6 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import org.vuphone.wwatch.notification.Notification;
-import org.vuphone.wwatch.routing.Route;
-import org.vuphone.wwatch.routing.Waypoint;
 
 
 /**
@@ -34,7 +32,7 @@ public class AccidentNotification extends Notification {
 	private double speed_;
 	private double dec_;
 	private long time_;
-	private Route route_ = new Route();
+
 	private double lat_;
 	private double lon_;
 	private String person_;
@@ -53,23 +51,12 @@ public class AccidentNotification extends Notification {
 		return person_;
 	}
 	
-	public Route getRoute(){
-		return route_;
-	}
-	
 	public void setLatitude(double lat){
 		lat_ = lat;
 	}
 	
 	public void setLongitude(double lon){
 		lon_ = lon;
-	}
-	
-	public void setAccidentLocation(){
-		Waypoint temp = route_.getEndPoint();
-		
-		lat_ = temp.getLatitude();
-		lon_ = temp.getLongitude();
 	}
 	
 	public double getLatitude(){
@@ -109,9 +96,6 @@ public class AccidentNotification extends Notification {
 		time_ = time;
 	}
 	
-	public void addWaypoint(double lat, double lon, long time){
-		route_.addWaypoint(lat, lon, time);
-	}
 	
 	
 	public String toString(){
@@ -119,10 +103,8 @@ public class AccidentNotification extends Notification {
 		sb.append("Speed: " + speed_ + "\n Deceleration: " + dec_ + "\n Time: ");
 		Date d = new Date(time_);
 		DateFormat df = DateFormat.getDateTimeInstance();
-		sb.append(df.format(d) + "\n Route Info:\n");
-		while (route_.peek() != null){
-			sb.append(route_.getNextPoint().toString() + "\n");
-		}
+		sb.append(df.format(d));
+		
 		
 		return sb.toString();
 		
