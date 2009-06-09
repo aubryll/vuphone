@@ -144,7 +144,7 @@ public class HTTPPoster {
 		params.append("type=route&id="+androidID);
 		
 		for (Waypoint w:route){
-			params.append("&lat="+w.getLatitude()+"&lon="+w.getLongitude()+"&time="+w.getTime());
+			params.append("&lat="+w.getLatitude()+"&lon="+w.getLongitude()+"&timert="+w.getTime());
 		}
 		
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params.toString());
