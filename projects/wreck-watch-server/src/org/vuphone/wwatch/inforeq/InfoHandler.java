@@ -33,7 +33,6 @@ public class InfoHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger.getLogger(AccidentHandler.class.getName());
 
-	@Override
 	public Notification handle(Notification n) {
 		InfoNotification info = (InfoNotification)n;
 
