@@ -31,7 +31,6 @@ public class RouteNotificationHandler implements NotificationHandler {
 	private static final Logger logger_ = Logger
 	.getLogger(RouteNotificationHandler.class.getName());
 
-	@Override
 	public Notification handle(Notification n) {
 		try {
 			Class.forName("org.sqlite.JDBC");
