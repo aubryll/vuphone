@@ -17,10 +17,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class GPService extends Service {
-	
+
 	private static final float GPS_RADIUS = 0.5f;
 	private static final long GPS_FREQUENCY = 1000;
-	
+
 	private final WaypointTracker tracker_ = new WaypointTracker();
 
 	/**
@@ -102,12 +102,9 @@ public class GPService extends Service {
 		super.onCreate();
 		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_SHORT).show();
 
-		// TODO - possibly change this to coarse location, and definitely
-		// increase the min time between GPS updates to conserve battery power
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_FREQUENCY,
 				GPS_RADIUS, listener_);
-
 
 	}
 
@@ -121,8 +118,8 @@ public class GPService extends Service {
 		if (intent.hasExtra("TimeDialation")) {
 			double d = intent.getExtras().getDouble("TimeDialation");
 			tracker_.setDilation(d);
-			Toast.makeText(this, "Speed Scale: " + d,
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Speed Scale: " + d, Toast.LENGTH_SHORT)
+					.show();
 			return;
 		}
 
@@ -156,23 +153,25 @@ public class GPService extends Service {
 	 * communicates with the server for now
 	 */
 	public void reportAccident() {
-		
-		
+
 		if (tracker_.getList().size() > 0) {
-			Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG).show();
-			Waypoint temp = tracker_.getList().get(tracker_.getList().size() - 1);
-			String aid = ((TelephonyManager)super.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
-			HTTPPoster.doAccidentPost(aid,System.currentTimeMillis(), tracker_
-					.getLatestSpeed(), tracker_.getLatestAcceleration(), temp.getLatitude(), temp.getLongitude());
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				
-				e.printStackTrace();
-			}
-			HTTPPoster.doRoutePost(aid, tracker_.getList());
+			Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG)
+					.show();
+			Waypoint temp = tracker_.getList().get(
+					tracker_.getList().size() - 1);
+			final String aid = ((TelephonyManager) super
+					.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
+
+			HTTPPoster.doAccidentPost(aid, System.currentTimeMillis(), tracker_
+					.getLatestSpeed(), tracker_.getLatestAcceleration(), temp
+					.getLatitude(), temp.getLongitude(), new Runnable() {
+						public void run() {
+							HTTPPoster.doRoutePost(aid, tracker_.getList());
+						}
+					});
 		} else
-			Toast.makeText(this, "No valid GPS data to report.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "No valid GPS data to report.",
+					Toast.LENGTH_SHORT).show();
 	}
 
 }

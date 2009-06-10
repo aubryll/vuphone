@@ -57,12 +57,13 @@ public class HTTPPoster {
 	// There might be a better way to do these methods....
 	/**
 	 * This method will be responsible for posting data to the WreckWatch
-	 * server.
+	 * server and executing a Runnable if the post is successful.
 	 * 
 	 * @param message
+	 * @param okRun		A Runnable to execute if the response comes back with a 200 OK status
 	 */
 	public static void doAccidentPost(String androidid, Long time, Double speed, Double dec,
-			double lat, double lon) {
+			double lat, double lon, final Runnable okRun) {
 
 		String timeStr = Long.toString(time.longValue());
 		String speedStr = Double.toString(speed.doubleValue());
@@ -102,14 +103,13 @@ public class HTTPPoster {
 		new Thread(new Runnable() {
 
 			public void run() {
-				HttpResponse resp;
+				HttpResponse resp = null;
 				try {
 					resp = c.execute(post);
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					resp.getEntity().writeTo(bao);
 					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
-							+ new String(bao.toByteArray()));
-
+							+ new String(bao.toByteArray()));					
 				} catch (ClientProtocolException e) {
 					Log.e(LOG_LABEL, LOG_MSG_PREFIX
 							+ "ClientProtocolException executing post: "
@@ -123,6 +123,10 @@ public class HTTPPoster {
 							+ "Other Exception of type:" + e.getClass());
 					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
 							+ e.getMessage());
+				}
+				
+				if (resp != null && resp.getStatusLine().getStatusCode() == 200) {
+					okRun.run();
 				}
 			}
 

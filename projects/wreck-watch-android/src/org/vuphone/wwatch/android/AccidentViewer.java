@@ -15,6 +15,8 @@
  **************************************************************************/
 package org.vuphone.wwatch.android;
 
+// TODO - Work on animated zooming
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
