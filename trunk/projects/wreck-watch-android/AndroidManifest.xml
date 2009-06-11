@@ -13,13 +13,27 @@
 		<uses-library android:name="com.google.android.maps" />
 
 		<!-- The main activity -->
+ 
 		<activity android:name=".Tabs" android:label="Wreck Watch">
+<!--
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>		 
+			</intent-filter>
+-->		 
 		</activity>
-		
+
+		<activity android:name=".MediaUploadActivity" android:label="UploadMedia">
+			<intent-filter android:label="My Activity">
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="image/*" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
 		<!-- The four sub activities. -->
 		<activity android:name=".ContactPicker" android:label = "WW ContactPicker">
@@ -46,15 +60,6 @@
 		
 		<service android:name=".UpdateContactsService" />
 		
-		<service android:name=".MediaUploadService">
-			<intent-filter android:label="My Activity">
-				<action android:name="android.intent.action.SEND" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<data android:mimeType="image/*" />
-			</intent-filter>
-		</service>
-
-	
 </application>
 	<uses-sdk android:minSdkVersion="3" />
 
