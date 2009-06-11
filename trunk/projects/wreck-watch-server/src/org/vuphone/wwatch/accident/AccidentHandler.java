@@ -98,6 +98,10 @@ public class AccidentHandler implements NotificationHandler {
 							rs.close();
 						}catch (Exception ex) {
 							//We hosed
+							if (!rs.isClosed()){
+								rs.close();
+							}
+							db.close();
 							
 						}
 
