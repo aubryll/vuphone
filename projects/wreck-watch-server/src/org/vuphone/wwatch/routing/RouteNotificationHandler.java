@@ -33,6 +33,12 @@ public class RouteNotificationHandler implements NotificationHandler {
 
 	public Notification handle(Notification n) {
 		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			
+			e1.printStackTrace();
+		}
+		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
 
@@ -90,11 +96,12 @@ public class RouteNotificationHandler implements NotificationHandler {
 					int wid;
 					try{
 						rs.next();
-						wid = rs.getInt("WreckID");
+						wid = rs.getInt("max(wreckid)");
 						rs.close();
 					}catch (SQLException e) {
 						//No wreck exists, we can disregard because there's no accident that's been
 						//reported anyway!
+						e.printStackTrace();
 						db.close();
 						return null;
 
