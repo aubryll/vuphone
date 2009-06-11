@@ -117,25 +117,21 @@ public class MediaUploadActivity extends Activity {
 				array.append(b);
 			}
 			
-			Log.v(VUphone.tag, "Read stream. Size: " + size);
+//			Log.v(VUphone.tag, "Read stream. Size: " + size);
+//			byte[] encoded = Base64.base64Encode(array.toByteArray());
+//			Log.v(VUphone.tag, "Encoded byte array");
+			
 			ByteArrayEntity ent = new ByteArrayEntity(array.toByteArray());
 			
-			//String param = new String(array.toByteArray());;
-			//Log.v(VUphone.tag, "Created param string: " + param.length());
-			
-			//String encoded = Base64.base64Encode(param);
-			//Log.v(VUphone.tag, "Encoded param string");
-			
-			//ByteArrayEntity ent = new ByteArrayEntity(encoded.getBytes());
-			
-			String address = "";
+			String address = "http://129.59.135.177:8080";
 			
 			HttpClient client = new DefaultHttpClient();
 			HttpPost post = new HttpPost(address);
+			
 			post.addHeader("Content-Type", resolver.getType(uri));
 			post.setEntity(ent);
 			
-			//client.execute(post);
+			client.execute(post);
 			
 			
 		} catch (FileNotFoundException e) {
