@@ -27,4 +27,7 @@ public class VUphone {
 	 * Used in the preference file to mark an ID item
 	 */
 	public static final String LIST_ITEM_PREFIX_TAG = "ListItem";
+	
+	public static final String SPEED_SCALE = "SpeedScale";
+	public static final String ACCEL_SCALE = "AccelScale";
 }

@@ -23,9 +23,6 @@ public class Tabs extends TabActivity {
 		
 		// Start GPS Service
 		gpsIntent_ = new Intent(this, GPService.class);
-		double dialation = 1.0;
-		gpsIntent_.putExtra("TimeDialation", dialation);
-
 		startService(gpsIntent_);
 		Log.v(tag, "Tabs started GPS, now binding");
 		

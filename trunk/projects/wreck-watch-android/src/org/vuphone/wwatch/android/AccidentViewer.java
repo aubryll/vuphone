@@ -186,7 +186,7 @@ public class AccidentViewer extends MapActivity implements
 
 		mc_.animateTo(center, new Runnable() {
 			public void run() {
-				mc_.setZoom(16);
+				mc_.setZoom(15);
 			}
 		});
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE)).removeUpdates(this);

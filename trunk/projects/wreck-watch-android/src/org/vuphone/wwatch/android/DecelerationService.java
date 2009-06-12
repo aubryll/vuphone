@@ -3,6 +3,7 @@ package org.vuphone.wwatch.android;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -198,9 +199,10 @@ public class DecelerationService extends Service {
 			firedConfirmation_ = false;
 		}
 
+		SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+		// Left the extra because I don't know what to do with the firedConfirmation_ flag
 		if (intent.hasExtra("AccelerationScaleFactor")) {
-			accelerationScale_ = intent.getExtras().getFloat(
-					"AccelerationScaleFactor");
+			accelerationScale_ = prefs.getFloat(VUphone.ACCEL_SCALE, 1.0f);
 
 			// For testing. If they update the scales, allow them to start a new
 			// confirmation dialog
