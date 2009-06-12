@@ -96,7 +96,7 @@ public class NotificationParser {
 
 
 				}catch (Exception e) {
-					//If we get here, likely the parameters were wrong
+					log_.log(Level.FINER, "Got exception handling InfoNotication: " + e.getMessage());
 					n = null;
 				}
 
