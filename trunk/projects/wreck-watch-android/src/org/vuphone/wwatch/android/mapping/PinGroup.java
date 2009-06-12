@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.google.android.maps.GeoPoint;
@@ -28,6 +30,12 @@ public class PinGroup extends Overlay{
 
 
 	private List<GeoPoint> points_ = null;
+	
+	private long lastTime_ = 0;
+	
+	private GeoPoint lastPoint_ = null;
+	
+	private static final String LOG_PREFIX = "PinGroup: ";
 
 	private Bitmap pinIcon_;
 	/**
@@ -47,7 +55,12 @@ public class PinGroup extends Overlay{
 		if (!points_.contains(point)){
 			int lat = (int)(point.getLatitude() * 1E6);
 			int lon = (int) (point.getLongitude() * 1E6);
-			points_.add(new GeoPoint(lat, lon));
+			GeoPoint p = new GeoPoint(lat, lon);
+			points_.add(p);
+			if (point.getTime() > lastTime_) {
+				lastTime_ = point.getTime();
+				lastPoint_ = p;
+			}
 		}
 	}
 
@@ -74,14 +87,35 @@ public class PinGroup extends Overlay{
 				int radius = 5;
 				
 				
-				
-				canvas.drawCircle(x, y, radius, new Paint());
+				if (point.equals(lastPoint_)) {
+					canvas.drawCircle(x, y, radius, paint);
+				}
+				else {
+					canvas.drawCircle(x, y, radius, new Paint());
+				}
 			}
 		}
 	}
 
 	public boolean onTouchEvent(MotionEvent event, MapView view){
-		// For now don't do anything but propagate.
+
+		if (event.getAction() == MotionEvent.ACTION_DOWN && lastPoint_ != null) {
+			Log.d(VUphone.tag, LOG_PREFIX + "Touch detected at ("+event.getX()+", "+event.getY()+").");
+			Projection projection = view.getProjection();
+			Point scrPt = projection.toPixels(lastPoint_, null);
+			float x = scrPt.x; 
+			float y = scrPt.y;
+			int radius = 20;
+			if (event.getX() > x-radius && event.getX() < x+radius &&
+					event.getY() > y-radius && event.getY() < y+radius) {
+				Log.d(VUphone.tag, LOG_PREFIX + "Found the point "+lastPoint_.toString());
+
+				// Add code here to call up whatever we want to display when
+				// the pin for the wreck is clicked on.
+				
+				return true;
+			}
+		}
 		return false;
 	}
 
