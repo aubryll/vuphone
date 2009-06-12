@@ -18,122 +18,133 @@ import org.vuphone.wwatch.contacts.ContactUpdateNotification;
 import org.vuphone.wwatch.inforeq.InfoNotification;
 import org.vuphone.wwatch.routing.RouteNotification;
 
-
 public class NotificationParser {
 
 	private Logger log_ = Logger.getLogger(NotificationParser.class.getName());
+	private HttpServletRequest request_;
 
-	public Notification parse(HttpServletRequest req)
-	throws NotificationFormatException {
+	public Notification parse(HttpServletRequest req) {
+		request_ = req;
 		String type = req.getParameter("type");
+		
+		if (type == null)
+			return null;
 
-		Notification n = null;
+		if (type.equalsIgnoreCase("accident"))
+			return handleAccident();
+		else if (type.equalsIgnoreCase("info"))
+			return handleInfo();
+		else if (type.equalsIgnoreCase("contact"))
+			return handleContact();
+		else if (type.equalsIgnoreCase("route"))
+			return handleRoute();
+		else
+			return null;
+	}
 
-		if (type != null){
-			if (type.equals("accident")){
-				log_.log(Level.FINE, "Processing accident notification");
-				n = new AccidentNotification();
-				AccidentNotification an = (AccidentNotification)n;
-				an.setSpeed(Double.parseDouble(req.getParameter("speed")));
-				log_.log(Level.FINER, "Speed: " + an.getSpeed());
-				an.setDeceleration(Double.parseDouble(req.getParameter("dec")));
-				log_.log(Level.FINER, "Acceleration: " + an.getDeceleration());
-				an.setTime(Long.parseLong(req.getParameter("time")));
-				log_.log(Level.FINER, "Time: " + an.getTime());
-				an.setParty(req.getParameter("user"));
-				log_.log(Level.FINER, "User: " + an.getPerson());
-				an.setLatitude(Double.parseDouble(req.getParameter("lat")));
-				log_.log(Level.FINER, "Latitude: " + an.getLatitude());
-				an.setLongitude(Double.parseDouble(req.getParameter("lon")));
-				log_.log(Level.FINER, "Longitude: " + an.getLongitude());
+	private Notification handleAccident() {
+		log_.log(Level.FINE, "Processing accident notification");
+		Notification n = new AccidentNotification();
+		AccidentNotification an = (AccidentNotification) n;
+		an.setSpeed(Double.parseDouble(request_.getParameter("speed")));
+		log_.log(Level.FINER, "Speed: " + an.getSpeed());
+		an.setDeceleration(Double.parseDouble(request_.getParameter("dec")));
+		log_.log(Level.FINER, "Acceleration: " + an.getDeceleration());
+		an.setTime(Long.parseLong(request_.getParameter("time")));
+		log_.log(Level.FINER, "Time: " + an.getTime());
+		an.setParty(request_.getParameter("user"));
+		log_.log(Level.FINER, "User: " + an.getPerson());
+		an.setLatitude(Double.parseDouble(request_.getParameter("lat")));
+		log_.log(Level.FINER, "Latitude: " + an.getLatitude());
+		an.setLongitude(Double.parseDouble(request_.getParameter("lon")));
+		log_.log(Level.FINER, "Longitude: " + an.getLongitude());
 
+		return n;
+	}
 
+	private Notification handleInfo() {
+		Notification n = new InfoNotification();
+		InfoNotification info = (InfoNotification) n;
 
+		int latE6;
+		double lat;
 
-			}else if (type.equalsIgnoreCase("info")){
+		int lonE6;
+		double lon;
+		try {
 
-				n = new InfoNotification();
-				InfoNotification info = (InfoNotification)n;
+			latE6 = Integer.parseInt(request_.getParameter("lattl"));
+			lat = (double) latE6;
+			lat = lat / 1E6;
+			lonE6 = Integer.parseInt(request_.getParameter("lontl"));
+			lon = (double) lonE6;
+			lon = lon / 1E6;
+			info.setTopLeftCorner(lat, lon);
 
-				int latE6;
-				double lat;
+			latE6 = Integer.parseInt(request_.getParameter("lattr"));
+			lat = (double) latE6;
+			lat = lat / 1E6;
+			lonE6 = Integer.parseInt(request_.getParameter("lontr"));
+			lon = (double) lonE6;
+			lon = lon / 1E6;
+			info.setTopRightCorner(lat, lon);
 
-				int lonE6;
-				double lon;
-				try{
+			latE6 = Integer.parseInt(request_.getParameter("latbl"));
+			lat = (double) latE6;
+			lat = lat / 1E6;
+			lonE6 = Integer.parseInt(request_.getParameter("lonbl"));
+			lon = (double) lonE6;
+			lon = lon / 1E6;
+			info.setBottomLeftCorner(lat, lon);
 
-					latE6 = Integer.parseInt(req.getParameter("lattl"));
-					lat = (double)latE6;
-					lat = lat /1E6;
-					lonE6 = Integer.parseInt(req.getParameter("lontl"));
-					lon = (double)lonE6;
-					lon = lon / 1E6;
-					info.setTopLeftCorner(lat, lon);
+			latE6 = Integer.parseInt(request_.getParameter("latbr"));
+			lat = (double) latE6;
+			lat = lat / 1E6;
+			lonE6 = Integer.parseInt(request_.getParameter("lonbr"));
+			lon = (double) lonE6;
+			lon = lon / 1E6;
+			info.setBottomRightCorner(lat, lon);
 
-					latE6 = Integer.parseInt(req.getParameter("lattr"));
-					lat = (double)latE6;
-					lat = lat /1E6;
-					lonE6 = Integer.parseInt(req.getParameter("lontr"));
-					lon = (double)lonE6;
-					lon = lon / 1E6;
-					info.setTopRightCorner(lat, lon);
-
-					latE6 = Integer.parseInt(req.getParameter("latbl"));
-					lat = (double)latE6;
-					lat = lat /1E6;
-					lonE6 = Integer.parseInt(req.getParameter("lonbl"));
-					lon = (double)lonE6;
-					lon = lon / 1E6;
-					info.setBottomLeftCorner(lat, lon);
-
-					latE6 = Integer.parseInt(req.getParameter("latbr"));
-					lat = (double)latE6;
-					lat = lat /1E6;
-					lonE6 = Integer.parseInt(req.getParameter("lonbr"));
-					lon = (double)lonE6;
-					lon = lon / 1E6;
-					info.setBottomRightCorner(lat, lon);
-
-
-				}catch (Exception e) {
-					log_.log(Level.FINER, "Got exception handling InfoNotication: " + e.getMessage());
-					n = null;
-				}
-
-
-			}else if (type.equalsIgnoreCase("contact")){
-				String id = req.getParameter("id");
-				n = new ContactUpdateNotification(id);
-				ContactUpdateNotification cn = (ContactUpdateNotification)n;
-
-				cn.setNumbers(req.getParameterValues("number"));
-
-			}else if (type.equalsIgnoreCase("route")){
-
-				n = new RouteNotification();
-				RouteNotification rn = (RouteNotification)n;
-
-				rn.setPerson(req.getParameter("id"));
-
-				String[] lats = req.getParameterValues("lat");
-				String[] lons = req.getParameterValues("lon");
-				String[] times = req.getParameterValues("timert");
-
-				if (lats != null){
-
-
-					for(int i = 0; i < lats.length; ++i){
-						if (lats[i] != null && lons[i] != null && times[i] != null){
-							rn.addWaypoint(Double.parseDouble(lats[i]), Double.parseDouble(lons[i]), Long.parseLong(times[i]));
-						}
-					}
-				}else{
-					rn.addWaypoint(0, 0, System.currentTimeMillis());
-				}
-			}else{
-				n = new Notification(type);
-			}
+		} catch (Exception e) {
+			// If we get here, likely the parameters were wrong
+			n = null;
 		}
+
+		return n;
+	}
+
+	private Notification handleContact() {
+		String id = request_.getParameter("id");
+		Notification n = new ContactUpdateNotification(id);
+		ContactUpdateNotification cn = (ContactUpdateNotification) n;
+
+		cn.setNumbers(request_.getParameterValues("number"));
+		return n;
+	}
+
+
+	private Notification handleRoute() {
+		Notification n = new RouteNotification();
+		RouteNotification rn = (RouteNotification) n;
+
+		rn.setPerson(request_.getParameter("id"));
+
+		String[] lats = request_.getParameterValues("lat");
+		String[] lons = request_.getParameterValues("lon");
+		String[] times = request_.getParameterValues("timert");
+
+		if (lats != null) {
+
+			for (int i = 0; i < lats.length; ++i) {
+				if (lats[i] != null && lons[i] != null && times[i] != null) {
+					rn.addWaypoint(Double.parseDouble(lats[i]), Double
+							.parseDouble(lons[i]), Long.parseLong(times[i]));
+				}
+			}
+		} else {
+			rn.addWaypoint(0, 0, System.currentTimeMillis());
+		}
+
 		return n;
 	}
 }
