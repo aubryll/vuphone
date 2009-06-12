@@ -48,94 +48,83 @@ public class NotificationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	throws ServletException, IOException {
 
-		try {
-			Notification note = parser_.parse(req);
+		Notification note = parser_.parse(req);
 
-			if (note != null) {
-				NotificationHandler handler = handlers_.get(note.getType());
-				if (handler != null) {
-					Notification rnote = handler.handle(note);
-					if (rnote == null){
-						System.out.println("Rnote was null, something went wrong");
-						return;
-					}
-					if (rnote.getType().equalsIgnoreCase("infohandled")){
+		if (note != null) {
+			NotificationHandler handler = handlers_.get(note.getType());
+			if (handler != null) {
+				Notification rnote = handler.handle(note);
+				if (rnote == null){
+					System.out.println("Rnote was null, something went wrong");
+					return;
+				}
+				if (rnote.getType().equalsIgnoreCase("infohandled")){
+	
+					InfoHandledNotification info = (InfoHandledNotification)rnote;
+					//There's probably a better way to do this. Jules,
+					//any fancy XML ideas?
 
-						InfoHandledNotification info = (InfoHandledNotification)rnote;
-						//There's probably a better way to do this. Jules,
-						//any fancy XML ideas?
+					//Build the xml response
+					Document d = null;
+					try {
+						d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+					} catch (ParserConfigurationException e) {
 
-						//Build the xml response
-						Document d = null;
-						try {
-							d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-						} catch (ParserConfigurationException e) {
-
-							logger_
+						logger_
 							.log(
-									Level.SEVERE,
-									"Parser configuration exception creating document for xml response",
-									e);
-						}
-						Node rootRt = d.createElement("Routes");
-
-						for (Route r:info.getAccidents()){
-							Node route = d.createElement("Route");
-							Node rootPt = d.createElement("Points");
-
-							for (Waypoint w:r.getRoute()){
-								Node pointR = d.createElement("Point");
-								Node lat = d.createElement("Latitude");
-
-								lat.appendChild(d.createTextNode(Double.toString(w.getLatitude())));
-
-								pointR.appendChild(lat);
-
-								Node lon = d.createElement("Longitude");
-								lon.appendChild(d.createTextNode(Double.toString(w.getLongitude())));
-								
-								pointR.appendChild(lon);
-								
-								Node time = d.createElement("Time");
-								time.appendChild(d.createTextNode(Long.toString(w.getTime())));
-
-								pointR.appendChild(time);
-
-								rootPt.appendChild(pointR);
-							}
-							route.appendChild(rootPt);
-							rootRt.appendChild(route);
-
-						}
-						d.appendChild(rootRt);
-						LSSerializer ls = new LSSerializerImpl();
-						String xml = ls.writeToString(d);
-
-						resp.getWriter().write(xml);						
-
-
-
-					}else{
-						resp.getWriter().write(note.toString());
+								Level.SEVERE,
+								"Parser configuration exception creating document for xml response",
+								e);
 					}
+					Node rootRt = d.createElement("Routes");
 
-					if (rnote != null) {
+					for (Route r:info.getAccidents()){
+						Node route = d.createElement("Route");
+						Node rootPt = d.createElement("Points");
+
+						for (Waypoint w:r.getRoute()){
+							Node pointR = d.createElement("Point");
+							Node lat = d.createElement("Latitude");
+
+							lat.appendChild(d.createTextNode(Double.toString(w.getLatitude())));
+
+							pointR.appendChild(lat);
+
+							Node lon = d.createElement("Longitude");
+							lon.appendChild(d.createTextNode(Double.toString(w.getLongitude())));
+								
+							pointR.appendChild(lon);
+								
+							Node time = d.createElement("Time");
+							time.appendChild(d.createTextNode(Long.toString(w.getTime())));
+
+							pointR.appendChild(time);
+
+							rootPt.appendChild(pointR);
+						}
+						route.appendChild(rootPt);
+						rootRt.appendChild(route);
 
 					}
-				} else {
-					//This will just be temporary to make it do something
+					d.appendChild(rootRt);
+					LSSerializer ls = new LSSerializerImpl();
+					String xml = ls.writeToString(d);
+
+					resp.getWriter().write(xml);						
+
+
+
+				}else{
 					resp.getWriter().write(note.toString());
 				}
+
+			} else {
+				//This will just be temporary to make it do something
+				resp.getWriter().write(note.toString());
 			}
-			else {
-				// to do...
-			}
-		} catch (NotificationFormatException e) {
-			logger_
-			.log(
-					Level.SEVERE,
-					"Error in notification parameters provided with the request",
-					e);
+		}
+		else {
+			// to do...
 		}
 	}
 
