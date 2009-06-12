@@ -163,15 +163,15 @@ public class TestPoster {
 	public static void main(String[] args) {
 
 		final List<Waypoint> route = new ArrayList<Waypoint>();
-		route.add(new Waypoint(-86.76,36.09,System.currentTimeMillis()-10));
-		route.add(new Waypoint(-86.77,36.10,System.currentTimeMillis()-5));
-		route.add(new Waypoint(-86.78,36.11,System.currentTimeMillis()));
-		route.add(new Waypoint(-86.79,36.12,System.currentTimeMillis()+5));
-		route.add(new Waypoint(-86.80,36.13,System.currentTimeMillis()+10));
+		route.add(new Waypoint(-86.8096,36.1396,System.currentTimeMillis()-20));
+		route.add(new Waypoint(-86.8099,36.1399,System.currentTimeMillis()-15));
+		route.add(new Waypoint(-86.8101,36.1401,System.currentTimeMillis()-10));
+		route.add(new Waypoint(-86.8102,36.1402,System.currentTimeMillis()-5));
+		route.add(new Waypoint(-86.8103,36.1403,System.currentTimeMillis()));
 		
 		final String aid = "myAndroidID";
 		doAccidentPost(aid, System.currentTimeMillis(), 87.23, 35.74, 
-				36.14, -86.81, new Runnable() {
+				36.1403, -86.8103, new Runnable() {
 					public void run() {
 						doRoutePost(aid, route);
 					}
