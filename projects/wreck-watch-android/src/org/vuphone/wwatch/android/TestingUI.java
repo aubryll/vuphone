@@ -2,8 +2,11 @@ package org.vuphone.wwatch.android;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -48,17 +51,14 @@ public class TestingUI extends Activity {
 	 */
 	private OnClickListener updateListener = new OnClickListener() {
 		public void onClick(View v) {
-			double dialation = 1.0;
+			float speedScale = 1.0f;
 			Intent gpsIntent = new Intent(TestingUI.this, GPService.class);
 			try {
-				dialation = Double.parseDouble(speedScaleEdit_.getText()
+				speedScale= Float.parseFloat(speedScaleEdit_.getText()
 						.toString());
 			} catch (Exception e) {
 			}
-			gpsIntent.putExtra("TimeDialation", dialation);
-
-			startService(gpsIntent);
-
+			
 			// Update Accelerometer service
 			Intent accelIntent = new Intent(TestingUI.this,
 					DecelerationService.class);
@@ -68,7 +68,17 @@ public class TestingUI extends Activity {
 						.toString());
 			} catch (Exception e) {
 			}
-			accelIntent.putExtra("AccelerationScaleFactor", accelScale);
+			
+			// Left it here because I don't know what to do with the fired confirmation flag in the service itself
+			accelIntent.putExtra("AccelerationScaleFactor", 0);
+
+			SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+			Editor edit = prefs.edit();
+			edit.putFloat(VUphone.SPEED_SCALE, speedScale);
+			edit.putFloat(VUphone.ACCEL_SCALE, accelScale);
+			edit.commit();
+			
+			startService(gpsIntent);
 			startService(accelIntent);
 
 		}
@@ -134,9 +144,14 @@ public class TestingUI extends Activity {
 			button = (Button) findViewById(R.id.test_dialog_button);
 			button.setOnClickListener(testListener);
 
+			SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+			
 			speedScaleEdit_ = (EditText) super.findViewById(R.id.speed_scale);
 			accelScaleEdit_ = (EditText) super.findViewById(R.id.accel_scale);
 
+			speedScaleEdit_.setText("" + prefs.getFloat(VUphone.SPEED_SCALE, 1.0f));
+			accelScaleEdit_.setText("" + prefs.getFloat(VUphone.ACCEL_SCALE, 1.0f));
+			
 			break;
 
 		case TestingUI.CONFIRM:

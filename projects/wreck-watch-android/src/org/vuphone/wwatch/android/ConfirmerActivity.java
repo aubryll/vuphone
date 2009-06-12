@@ -16,7 +16,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * This activity will only start if the starting Intent contains true in its
@@ -141,10 +140,6 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 					bar_.setProgress(time_);
 					String remTimeStr = "" + (maxTime_ - time_);
 					timeRemaining_.setText(REM_STRING.replace("?", remTimeStr));
-
-					((TextView) findViewById(R.id.debug)).setText(""
-							+ getRemainingTime());
-
 				}
 			});
 		}

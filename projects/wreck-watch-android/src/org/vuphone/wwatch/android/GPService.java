@@ -5,6 +5,7 @@ import org.vuphone.wwatch.android.http.HTTPPoster;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -100,6 +101,7 @@ public class GPService extends Service {
 	 */
 	public void onCreate() {
 		super.onCreate();
+		Log.v(VUphone.tag, "GPS ON_CREATE");
 		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_SHORT).show();
 
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -113,15 +115,13 @@ public class GPService extends Service {
 	 */
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
+		Log.v(VUphone.tag, "GPS ON_START");
 
-		// Were we started from the testing activity?
-		if (intent.hasExtra("TimeDialation")) {
-			double d = intent.getExtras().getDouble("TimeDialation");
+			SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+			double d = prefs.getFloat(VUphone.SPEED_SCALE, 1.0f);
 			tracker_.setDilation(d);
 			Toast.makeText(this, "Speed Scale: " + d, Toast.LENGTH_SHORT)
 					.show();
-			return;
-		}
 
 		// Returned from the 'Are you OK?' dialog
 		if (intent.hasExtra("DidAccidentOccur")) {
@@ -141,6 +141,7 @@ public class GPService extends Service {
 	 */
 	public void onDestroy() {
 		super.onDestroy();
+		Log.v(VUphone.tag, "GPS ON_DESTROY");
 		Toast.makeText(this, "GPS Service destroyed", Toast.LENGTH_SHORT)
 				.show();
 
