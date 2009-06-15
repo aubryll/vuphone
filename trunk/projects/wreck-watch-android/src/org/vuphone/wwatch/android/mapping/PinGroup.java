@@ -7,6 +7,8 @@ import java.util.List;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -36,6 +38,8 @@ public class PinGroup extends Overlay{
 	private GeoPoint lastPoint_ = null;
 	
 	private static final String LOG_PREFIX = "PinGroup: ";
+	
+	private Context context_ = null;
 
 	private Bitmap pinIcon_;
 	/**
@@ -44,6 +48,12 @@ public class PinGroup extends Overlay{
 	public PinGroup(Bitmap icon){
 		points_ = Collections.synchronizedList(new ArrayList<GeoPoint>());
 		pinIcon_ = icon;
+	}
+	
+	public PinGroup(Bitmap icon, Context context) {
+		points_ = Collections.synchronizedList(new ArrayList<GeoPoint>());
+		pinIcon_ = icon;
+		context_ = context;	
 	}
 
 	/**
@@ -110,8 +120,15 @@ public class PinGroup extends Overlay{
 					event.getY() > y-radius && event.getY() < y+radius) {
 				Log.d(VUphone.tag, LOG_PREFIX + "Found the point "+lastPoint_.toString());
 
-				// Add code here to call up whatever we want to display when
-				// the pin for the wreck is clicked on.
+				// When the pin is clicked on, we will display the GalleryActivity
+				Intent i = new Intent(context_, GalleryActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				i.putExtra("org.vuphone.wwatch.android.mapping.GalleryActivity.point", 
+						"lat="+lastPoint_.getLatitudeE6()+
+						"&lon="+lastPoint_.getLongitudeE6());
+				context_.startActivity(i);
+				//view.getOverlays().add(new GalleryOverlay(context_));
+				//view.postInvalidate();
 				
 				return true;
 			}
