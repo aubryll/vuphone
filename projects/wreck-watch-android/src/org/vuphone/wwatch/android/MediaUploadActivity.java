@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * 
@@ -26,6 +27,9 @@ import android.widget.TextView;
  */
 public class MediaUploadActivity extends Activity {
 
+	private static final String SERVER = "http://129.59.135.144:8080";
+	private static final String PATH = "/wreckwatch/notifications";
+	
 	private TextView debug_;
 	private ImageView img_;
 	
@@ -64,13 +68,7 @@ public class MediaUploadActivity extends Activity {
 		}
 		
 		img_.setImageURI(content);
-		
-		(new Runnable() {
-			public void run() {
-				uploadImage(content);
-			}
-		}).run();
-		
+		uploadImage(content);		
 	}
 	
 	@Override
@@ -103,11 +101,24 @@ public class MediaUploadActivity extends Activity {
 		super.onStop();
 	}
 	
+	private void showToast(final String msg){
+		runOnUiThread(new Runnable() {
+			public void run() {
+				Toast.makeText(MediaUploadActivity.this, msg, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+	
 	private void uploadImage(final Uri uri) {
-
-		ContentResolver resolver = getContentResolver();
+		new Thread(new Runnable (){
+		public void run() {
+			
+		final ContentResolver resolver = getContentResolver();
+		final String time = Long.toString(System.currentTimeMillis());
 	
 		try {
+			showToast("Reading byte data...");
+			
 			final InputStream stream = resolver.openInputStream(uri);
 			ByteArrayBuffer array = new ByteArrayBuffer(100);
 			int b;
@@ -117,29 +128,33 @@ public class MediaUploadActivity extends Activity {
 				array.append(b);
 			}
 			
-//			Log.v(VUphone.tag, "Read stream. Size: " + size);
-//			byte[] encoded = Base64.base64Encode(array.toByteArray());
-//			Log.v(VUphone.tag, "Encoded byte array");
-			
 			ByteArrayEntity ent = new ByteArrayEntity(array.toByteArray());
 			
-			String address = "http://129.59.135.177:8080";
+				
+			final HttpClient client = new DefaultHttpClient();
 			
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(address);
+			String params = "?type=image&time=" + time + "&longitude=0.0&latitude=0.0";
+			
+			final HttpPost post = new HttpPost(SERVER + PATH + params);
 			
 			post.addHeader("Content-Type", resolver.getType(uri));
+			
 			post.setEntity(ent);
-			
+
+			showToast("Uploading to server...");
 			client.execute(post);
-			
-			
+			showToast("Finished uploading.");
+//			HTTPPoster.doAccidentPost("", 0L, 0.0, 0.0, 0.0, 0.0, new Runnable() {
+//				public void run(){}});
+		
 		} catch (FileNotFoundException e) {
 			Log.v(VUphone.tag, "File not found");
 			return;
 		} catch (IOException e) {
 			Log.v(VUphone.tag, "IOException while reading image stream");
 		}
+		
+		}}).start();
 	}
 
 }
