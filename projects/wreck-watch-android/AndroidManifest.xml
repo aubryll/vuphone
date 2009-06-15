@@ -28,6 +28,13 @@
 				<data android:mimeType="image/*" />
 			</intent-filter>
 		</activity>
+		
+		<activity android:name=".mapping.GalleryActivity" android:label="Gallery">
+			<intent-filter>
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
 
 		<!-- The four sub activities. -->
 		<activity android:name=".ContactPicker" android:label = "WW ContactPicker">

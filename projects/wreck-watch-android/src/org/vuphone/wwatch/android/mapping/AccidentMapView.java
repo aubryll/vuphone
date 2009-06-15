@@ -31,7 +31,7 @@ public class AccidentMapView extends MapView {
 	public AccidentMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		super.setBuiltInZoomControls(true);
-		pinGroup_ = new PinGroup(BitmapFactory.decodeResource(context.getResources(), R.drawable.unhapppy));
+		pinGroup_ = new PinGroup(BitmapFactory.decodeResource(context.getResources(), R.drawable.unhapppy), context);
 		getOverlays().add(pinGroup_);
 		
 		
