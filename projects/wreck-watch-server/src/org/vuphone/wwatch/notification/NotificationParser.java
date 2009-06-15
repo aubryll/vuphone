@@ -18,6 +18,7 @@ import org.vuphone.wwatch.contacts.ContactUpdateNotification;
 import org.vuphone.wwatch.inforeq.InfoNotification;
 import org.vuphone.wwatch.routing.RouteNotification;
 import org.vuphone.wwatch.media.ImageNotification;
+import org.vuphone.wwatch.media.ImageRequestNotification;
 
 public class NotificationParser {
 
@@ -41,6 +42,8 @@ public class NotificationParser {
 			return handleRoute();
 		else if (type.equalsIgnoreCase("image"))
 			return handleImage();
+		else if (type.equalsIgnoreCase("imageRequest"))
+			return handleImageRequest();
 		else
 			return null;
 	}
@@ -208,5 +211,34 @@ public class NotificationParser {
 			log_.log(Level.SEVERE, "param name (" + currentHeaderName + ") value (" + currentHeaderValue + ")");
 		}
 		return in;
+	}
+	
+	private Notification handleImageRequest() {
+		Notification n = new ImageRequestNotification();
+		ImageRequestNotification irn = (ImageRequestNotification) n;
+		
+		int latE6;
+		double lat;
+
+		int lonE6;
+		double lon;
+		try {
+
+			latE6 = Integer.parseInt(request_.getParameter("lat"));
+			lat = (double) latE6;
+			lat = lat / 1E6;
+			irn.setLat(lat);
+			
+			lonE6 = Integer.parseInt(request_.getParameter("lon"));
+			lon = (double) lonE6;
+			lon = lon / 1E6;
+			irn.setLon(lon);
+
+		} catch (Exception e) {
+			// If we get here, likely the parameters were wrong
+			n = null;
+		}
+		
+		return n;
 	}
 }
