@@ -18,6 +18,7 @@ public class SettingsUI extends Activity {
 
 	private AlertDialog timeoutExplanation_;
 	private AlertDialog batteryExplanation_;
+	private AlertDialog locationExplanation_;
 
 	private OnClickListener listener_ = new OnClickListener() {
 		public void onClick(View v) {
@@ -25,6 +26,8 @@ public class SettingsUI extends Activity {
 				timeoutExplanation_.show();
 			else if (v.equals(findViewById(R.id.battery_field)))
 				batteryExplanation_.show();
+			else if (v.equals(findViewById(R.id.location_field)))
+				locationExplanation_.show();
 			else if (v.equals(findViewById(R.id.save_button)))
 				savePreferences();
 		}
@@ -50,6 +53,15 @@ public class SettingsUI extends Activity {
 		field.setOnClickListener(listener_);
 
 		b = new AlertDialog.Builder(this);
+		b.setMessage("The default location to zoom in on. City, State");
+		b.setPositiveButton("Ok", null);
+		locationExplanation_ = b.create();
+		
+		field = findViewById(R.id.location_field);
+		field.setFocusable(true);
+		field.setOnClickListener(listener_);
+		
+		b = new AlertDialog.Builder(this);
 		b.setMessage("Higher battery power = faster wreck detection");
 		b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
@@ -69,6 +81,10 @@ public class SettingsUI extends Activity {
 				+ super.getSharedPreferences(VUphone.PREFERENCES_FILE,
 						Context.MODE_PRIVATE).getInt(VUphone.TIMEOUT_TAG, 10));
 
+		((EditText) super.findViewById(R.id.location)).setText(""
+				+ super.getSharedPreferences(VUphone.PREFERENCES_FILE,
+						Context.MODE_PRIVATE).getString(VUphone.LOCATION_TAG, "Nashville, TN"));
+
 	}
 
 	private void savePreferences() {
@@ -78,11 +94,14 @@ public class SettingsUI extends Activity {
 		int time = Integer.parseInt(((EditText) super
 				.findViewById(R.id.timeout)).getText().toString());
 		int level = (int) ((RatingBar) super.findViewById(R.id.battery_level))
-				.getRating();
+				.getRating();		
+		String location = ((EditText) super.findViewById(R.id.location)).getText().toString();
+		
 
 		Editor edit = prefs.edit();
 		edit.putInt(VUphone.TIMEOUT_TAG, time);
 		edit.putInt(VUphone.BATTERY_LEVEL_TAG, level);
+		edit.putString(VUphone.LOCATION_TAG, location);
 		edit.commit();
 	}
 }

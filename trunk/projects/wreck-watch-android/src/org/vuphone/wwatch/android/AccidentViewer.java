@@ -32,6 +32,9 @@ import org.vuphone.wwatch.android.mapping.Route;
 import org.xml.sax.InputSource;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -125,6 +128,41 @@ public class AccidentViewer extends MapActivity implements
 		super.onPause();
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.removeUpdates(this);
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		
+		if (firstLoc_ != null) 
+			return;
+		
+		// If we don't have a fix, zoom in on default location.
+		(new Thread() {
+			public void run() {
+				Geocoder coder = new Geocoder(AccidentViewer.this);
+				Address address = null;
+				SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+				String defaultLoc = prefs.getString(VUphone.LOCATION_TAG, "Nashville, TN");
+				try {
+					address = coder.getFromLocationName(defaultLoc, 1).get(0); 
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				if (address == null)
+					return;
+				
+				final GeoPoint point = new GeoPoint((int) (address.getLatitude() * 1000000), (int) (address.getLongitude() * 1000000));				
+
+				AccidentViewer.this.runOnUiThread(new Thread() {
+					public void run() {
+						mc_.animateTo(point);
+						mc_.setZoom(10);
+					}
+				});
+			}
+		}).start();	
 	}
 
 	@Override

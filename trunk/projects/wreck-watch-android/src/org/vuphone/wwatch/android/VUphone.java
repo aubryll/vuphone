@@ -17,6 +17,7 @@ public class VUphone {
 	
 	public static final String BATTERY_LEVEL_TAG = "WreckWatchBat";
 	public static final String TIMEOUT_TAG = "WreckWatchDialogTimeout";
+	public static final String LOCATION_TAG = "DefaultLocation";
 	
 	/**
 	 * Used in the preference file to specify the size of the ID list
