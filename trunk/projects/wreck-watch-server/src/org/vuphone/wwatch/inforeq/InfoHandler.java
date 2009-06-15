@@ -24,14 +24,13 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.vuphone.wwatch.accident.AccidentHandler;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 import org.vuphone.wwatch.routing.Waypoint;
 
 public class InfoHandler implements NotificationHandler {
 
-	private static final Logger logger_ = Logger.getLogger(AccidentHandler.class.getName());
+	private static final Logger logger_ = Logger.getLogger(InfoHandler.class.getName());
 
 	public Notification handle(Notification n) {
 		InfoNotification info = (InfoNotification)n;

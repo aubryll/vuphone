@@ -30,8 +30,7 @@ public class InfoHandledNotification extends Notification {
 
 	public InfoHandledNotification() {
 		super("infohandled");
-		accidents_ = new ArrayList<Route>();
-		
+		accidents_ = new ArrayList<Route>();	
 	}
 	
 	public void newRoute(){

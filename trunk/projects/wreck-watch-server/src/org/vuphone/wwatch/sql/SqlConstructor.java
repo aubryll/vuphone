@@ -76,6 +76,12 @@ public class SqlConstructor {
 		prep.execute();
 		db.commit();
 
+		prep = db.prepareStatement("create table if not exists WreckImages(ImageID integer primary key asc autoincrement, WreckID integer references Wreck(WreckID), " +  
+		"Lat double not null, Lon double not null, Time date not null);");
+		
+		prep.execute();
+		db.commit();
+		
 		db.close();
 
 	}
