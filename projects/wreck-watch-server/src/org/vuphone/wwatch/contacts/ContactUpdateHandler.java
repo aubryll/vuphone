@@ -23,12 +23,11 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.vuphone.wwatch.accident.AccidentHandler;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
 public class ContactUpdateHandler implements NotificationHandler {
-	private static final Logger logger_ = Logger.getLogger(AccidentHandler.class.getName());
+	private static final Logger logger_ = Logger.getLogger(ContactUpdateHandler.class.getName());
 
 
 	public Notification handle(Notification n) {

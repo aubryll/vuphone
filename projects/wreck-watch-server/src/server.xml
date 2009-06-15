@@ -44,7 +44,11 @@
         	</key>
         	<ref bean="routeHandler" />
         </entry>
-      </map>
+        <entry>
+        	<key>
+        		<value>image</value></key>
+        	<ref bean="imageHandler" /></entry>
+     </map>
     </property>
   </bean>
   
@@ -62,5 +66,8 @@
   
   <bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteNotificationHandler"/>
   
-  
+  <bean	name="imageHandler" class="org.vuphone.wwatch.media.ImageHandler">
+</bean>
+
+
 </beans>
