@@ -30,6 +30,11 @@ import org.w3c.dom.ls.LSSerializer;
  ****************************************************************************/
 public class NotificationServlet extends HttpServlet {
 
+	/**
+	 * Used for serialization
+	 */
+	private static final long serialVersionUID = 1895167101514191256L;
+
 	private static final Logger logger_ = Logger
 	.getLogger(NotificationServlet.class.getName());
 
@@ -111,8 +116,6 @@ public class NotificationServlet extends HttpServlet {
 					String xml = ls.writeToString(d);
 
 					resp.getWriter().write(xml);						
-
-
 
 				}else{
 					resp.getWriter().write(note.toString());

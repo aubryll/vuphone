@@ -72,7 +72,7 @@ public class WreckWatchServer {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		int port = 80;
+		int port = 8081;
 		if (args.length > 0) {
 			try {
 				port = Integer.parseInt(args[0]);

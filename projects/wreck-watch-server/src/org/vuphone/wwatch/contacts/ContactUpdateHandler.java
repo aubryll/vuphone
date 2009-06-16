@@ -29,7 +29,6 @@ import org.vuphone.wwatch.notification.NotificationHandler;
 public class ContactUpdateHandler implements NotificationHandler {
 	private static final Logger logger_ = Logger.getLogger(ContactUpdateHandler.class.getName());
 
-
 	public Notification handle(Notification n) {
 
 		ContactUpdateNotification cn = (ContactUpdateNotification)n;

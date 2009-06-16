@@ -10,7 +10,6 @@
  ****************************************************************************/
 package org.vuphone.wwatch.accident;
 
-import org.vuphone.wwatch.routing.Route;
 
 /**
  * This class is a data structure used

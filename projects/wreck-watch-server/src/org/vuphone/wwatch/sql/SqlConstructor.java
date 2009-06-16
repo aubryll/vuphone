@@ -83,7 +83,6 @@ public class SqlConstructor {
 		db.commit();
 		
 		db.close();
-
 	}
 
 }

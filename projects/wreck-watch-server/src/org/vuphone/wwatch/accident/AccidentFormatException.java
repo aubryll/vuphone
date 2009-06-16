@@ -19,4 +19,9 @@ package org.vuphone.wwatch.accident;
  */
 public class AccidentFormatException extends Exception{
 
+	/**
+	 * For serialization
+	 */
+	private static final long serialVersionUID = 9190537451446500751L;
+
 }
