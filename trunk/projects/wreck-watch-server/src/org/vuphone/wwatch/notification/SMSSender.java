@@ -23,9 +23,9 @@ public class SMSSender {
 	private static Session mailSession_ = Session.getDefaultInstance(props_);
 
 	// Carrier list
-	private static String[] carriers = { "message.alltel.com", "txt.att.net",
-			"myboostmobile.com", "messaging.nextel.com", "tmomail.net", "vtext.com", "vmobl.com" };
-
+	private static String[] carriers = { "message.alltel.com", "tmomail.net", "txt.att.net",
+			"myboostmobile.com", "messaging.nextel.com", "vtext.com", "vmobl.com" };
+	
 	// Messaging vars
 	public static final String SUBJECT = "WreckWatch, Possible Wreck Near You";
 	public static final String BODY = "There may have been a wreck near you, please let us know if you see it!";
@@ -44,7 +44,7 @@ public class SMSSender {
 		MimeMessage message = new MimeMessage(mailSession_);
 		try {
 			for (String recp : carriers)
-				message.addRecipient(Message.RecipientType.TO,
+				message.addRecipient(Message.RecipientType.BCC,
 						new InternetAddress(tenDigitNumber + "@" + recp));
 
 			message.setSubject(SUBJECT);
@@ -83,5 +83,9 @@ public class SMSSender {
 
 	}
 
+	public static void main(String[] args) {
+		
+		SMSSender.sendText("6508617363");
+	}
 
 }

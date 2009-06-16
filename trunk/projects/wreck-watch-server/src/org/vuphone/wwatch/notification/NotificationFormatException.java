@@ -12,4 +12,9 @@ package org.vuphone.wwatch.notification;
 
 public class NotificationFormatException extends Exception {
 
+	/**
+	 * For serialization
+	 */
+	private static final long serialVersionUID = 930086216392291265L;
+
 }
