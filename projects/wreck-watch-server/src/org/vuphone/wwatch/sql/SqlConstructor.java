@@ -21,67 +21,79 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * This class is responsible for constructing the WreckWatch database if it does not
- * exits.  If it does exist, no changes will be made.
+ * This class is responsible for constructing the WreckWatch database if it does
+ * not exits. If it does exist, no changes will be made.
+ * 
  * @author Chris Thompson
- *
+ * 
  */
 
 public class SqlConstructor {
 
 	/**
 	 * Static method responsible for creating the database, building the tables
-	 * and establishing the relationships.  After this method is called, the database
-	 * will be fully operational.  This method should be called at application startup.
+	 * and establishing the relationships. After this method is called, the
+	 * database will be fully operational. This method should be called at
+	 * application startup.
 	 * 
-	 * It could, in theory, be called before every query although that would result in
-	 * excessive overhead that is completely unnecessary.
+	 * It could, in theory, be called before every query although that would
+	 * result in excessive overhead that is completely unnecessary.
+	 * 
 	 * @throws SQLException
 	 */
-	public static void prepareDatabase() throws SQLException{
+	public static void prepareDatabase() throws SQLException {
 		try {
 			Class.forName("org.sqlite.JDBC");
 		} catch (ClassNotFoundException e) {
-
 			e.printStackTrace();
 		}
-		Connection db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+		Connection db = DriverManager
+				.getConnection("jdbc:sqlite:wreckwatch.db");
 
 		db.setAutoCommit(false);
-		String sql = 
 
-			"create table if not exists People(id integer primary key asc autoincrement, AndroidID varchar(10), PhoneNumber varchar(15), " +
-			"FirstName varchar(50), LastName varchar(50), Email varchar(100));";
-
-
+		String sql = "CREATE TABLE IF NOT EXISTS People ( "
+				+ "id INTEGER PRIMARY KEY ASC AUTOINCREMENT,"
+				+ "AndroidID VARCHAR(10)," + "PhoneNumber VARCHAR(15),"
+				+ "FirstName VARCHAR(50)," + "LastName VARCHAR(50),"
+				+ "Email VARCHAR(100));";
 		PreparedStatement prep = db.prepareStatement(sql);
-
 		prep.execute();
 		db.commit();
 
-		prep = db.prepareStatement("create table if not exists Wreck(WreckID integer primary key asc autoincrement, Person integer references " +
-		"People(id), Lat double not null, Lon double not null, Time date not null, LargestAccel double not null);");
-
+		sql = "CREATE TABLE IF NOT EXISTS Wreck ( "
+				+ "WreckID INTEGER PRIMARY KEY ASC AUTOINCREMENT,"
+				+ "Person INTEGER REFERENCES People(id),"
+				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
+				+ "Time DATE NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
+		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();
 
-		prep = db.prepareStatement("create table if not exists EmergencyContacts(PersonId integer references People(id), " +
-		"ContactId varchar(15) not null);");
+		sql = "CREATE TABLE IF NOT EXISTS EmergencyContacts ( "
+				+ "PersonId INTEGER REFERENCES People(id),"
+				+ "ContactId VARCHAR(15) NOT NULL);";
+		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();
 
-		prep = db.prepareStatement("create table if not exists Route(CoordID integer primary key asc autoincrement, WreckID integer references Wreck(WreckID), " +
-		"Lat double not null, Lon double not null, Time date not null);");
-
+		sql = "CREATE TABLE IF NOT EXISTS Route ( "
+				+ "CoordID INTEGER PRIMARY KEY ASC AUTOINCREMENT,"
+				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
+				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
+				+ "Time DATE NOT NULL);";
+		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();
 
-		prep = db.prepareStatement("create table if not exists WreckImages(ImageID integer primary key asc autoincrement, WreckID integer references Wreck(WreckID), " +  
-		"Lat double not null, Lon double not null, Time date not null);");
-		
+		sql = "CREATE TABLE IF NOT EXISTS WreckImages ( "
+				+ "ImageID INTEGER PRIMARY KEY ASC AUTOINCREMENT,"
+				+ "WreckID INTEGER REFERENCES Wreck(WreckID), Filename TEXT NOT NULL,"
+				+ "Lat DOUBLE NOT NULL, Lon DOUBLE NOT NULL, Time DATE NOT NULL);";
+		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();
-		
+
 		db.close();
 	}
 

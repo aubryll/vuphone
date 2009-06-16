@@ -28,7 +28,6 @@ public class ImageHandler implements NotificationHandler{
 
 		try {
 			db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
-			db.setAutoCommit(true);
 		} catch (SQLException e) {
 
 			logger_.log(Level.SEVERE,

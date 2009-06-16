@@ -24,7 +24,7 @@ import org.vuphone.wwatch.notification.NotificationHandler;
 import org.vuphone.wwatch.notification.SMSSender;
 
 /**
- * This class is responsible for receiving accident reports and kicking off the
+ * This class is responsible for receiving accident reports and handling the
  * accident response process.
  * 
  * @author jules
