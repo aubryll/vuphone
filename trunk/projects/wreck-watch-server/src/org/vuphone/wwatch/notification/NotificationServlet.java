@@ -1,6 +1,7 @@
 package org.vuphone.wwatch.notification;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -40,6 +42,7 @@ public class NotificationServlet extends HttpServlet {
 
 	private Map<String, NotificationHandler> handlers_;
 	private NotificationParser parser_;
+	private DataSource ds_;
 
 
 
@@ -129,6 +132,13 @@ public class NotificationServlet extends HttpServlet {
 		else {
 			// to do...
 		}
+		
+		try {
+			ds_.getConnection().close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public Map<String, NotificationHandler> getHandlers() {
@@ -145,6 +155,14 @@ public class NotificationServlet extends HttpServlet {
 
 	public void setParser(NotificationParser parser) {
 		parser_ = parser;
+	}
+	
+	public void setDataConnection(DataSource ds){
+		ds_ = ds;
+	}
+	
+	public DataSource getDataConnection(){
+		return ds_;
 	}
 
 }

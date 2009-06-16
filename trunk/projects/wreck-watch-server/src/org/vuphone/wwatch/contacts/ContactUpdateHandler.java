@@ -16,34 +16,31 @@
 package org.vuphone.wwatch.contacts;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.sql.DataSource;
+
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
 public class ContactUpdateHandler implements NotificationHandler {
 	private static final Logger logger_ = Logger.getLogger(ContactUpdateHandler.class.getName());
+	private DataSource ds_;
 
 	public Notification handle(Notification n) {
+		System.out.println("Contact Update Handler called");
 
 		ContactUpdateNotification cn = (ContactUpdateNotification)n;
 		ContactUpdateHandledNotification chn = null;
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-			logger_.log(Level.SEVERE, "SQLite library not loaded: " + e.getMessage());
-			e.printStackTrace();
-		}
-
+		
 		Connection db = null;
 
 		try{
-			db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+			db = ds_.getConnection();
 			db.setAutoCommit(true);
 		}catch (SQLException e) {
 			//Couldn't connect to the database
@@ -116,6 +113,10 @@ public class ContactUpdateHandler implements NotificationHandler {
 		}
 
 		return chn;
+	}
+	
+	public void setDataConnection(DataSource ds){
+		ds_ = ds;
 	}
 
 }

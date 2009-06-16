@@ -16,12 +16,13 @@
 package org.vuphone.wwatch.routing;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.sql.DataSource;
 
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
@@ -30,29 +31,26 @@ public class RouteNotificationHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger
 	.getLogger(RouteNotificationHandler.class.getName());
+	
+	private DataSource ds_;
 
 	public Notification handle(Notification n) {
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e1) {
 			
 			e1.printStackTrace();
 		}
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-
-			e.printStackTrace();
-		}
+		
 		try {
 			RouteNotification rn = (RouteNotification)n;
 			Connection db = null;
 
 			try {
-				db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+				db = ds_.getConnection();
 				db.setAutoCommit(true);
 			} catch (SQLException e) {
-				db.close();
+				closeDatabase(db);
 				logger_.log(Level.SEVERE,
 						"SQLException: ", e);
 			}
@@ -83,7 +81,7 @@ public class RouteNotificationHandler implements NotificationHandler {
 							id = rs.getInt("id");
 							rs.close();
 						}catch(SQLException sqle){
-							db.close();
+							closeDatabase(db);
 							return null;
 						}
 						
@@ -102,7 +100,7 @@ public class RouteNotificationHandler implements NotificationHandler {
 						//No wreck exists, we can disregard because there's no accident that's been
 						//reported anyway!
 						e.printStackTrace();
-						db.close();
+						closeDatabase(db);
 						return null;
 
 					}
@@ -123,22 +121,40 @@ public class RouteNotificationHandler implements NotificationHandler {
 
 					prep.executeBatch();
 					db.commit();
-					db.close();
+					closeDatabase(db);
 					return new RouteHandledNotification();
 				}catch (SQLException e) {
 					logger_.log(Level.SEVERE,
 							"SQLException: ", e);
-					db.close();
+					closeDatabase(db);
 					return null;
 				}
 
 			
 			}
 		}catch (Exception sqle) {
+			
 			return null;
 		}
 		return null;
 		
 	}
+
+	private void closeDatabase(Connection db) {
+		try {
+			db.close();
+		} catch (SQLException e) {
+			logger_.log(Level.SEVERE, "Failed to close database: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public void setDataConnection(DataSource ds){
+		ds_ = ds;
+	}
+	public DataSource getDataConnection(){
+		return ds_;
+	}
+
 
 }
