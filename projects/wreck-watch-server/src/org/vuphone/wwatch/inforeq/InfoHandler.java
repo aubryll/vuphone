@@ -16,13 +16,14 @@
 package org.vuphone.wwatch.inforeq;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.sql.DataSource;
 
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
@@ -31,21 +32,17 @@ import org.vuphone.wwatch.routing.Waypoint;
 public class InfoHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger.getLogger(InfoHandler.class.getName());
+	
+	private DataSource ds_;
 
 	public Notification handle(Notification n) {
 		InfoNotification info = (InfoNotification)n;
 
-		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-
-			logger_.log(Level.SEVERE,
-					"SQLException: ", e);
-		}
+		
 		Connection db = null;
 
 		try {
-			db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+			db = ds_.getConnection();
 			db.setAutoCommit(true);
 		} catch (SQLException e) {
 
@@ -54,7 +51,6 @@ public class InfoHandler implements NotificationHandler {
 		}
 
 
-		//I hate myself for doing this...
 		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;"; 
 		InfoHandledNotification note;
 		try{
@@ -63,14 +59,14 @@ public class InfoHandler implements NotificationHandler {
 			prep.setDouble(2, info.getBottomLeftCorner().getLatitude());
 			prep.setDouble(3, info.getTopLeftCorner().getLongitude());
 			prep.setDouble(4, info.getTopRightCorner().getLongitude()); 
-			ResultSet rs = prep.executeQuery();
+			
 
 			note = new InfoHandledNotification();
 			note.newRoute();
 
 			//Get the wreck id
 			ArrayList<Integer> ids = new ArrayList<Integer>();
-			
+			ResultSet rs = prep.executeQuery();
 			while (rs.next()){
 				ids.add(rs.getInt("WreckID"));
 			}
@@ -86,6 +82,7 @@ public class InfoHandler implements NotificationHandler {
 				while(rs.next()){
 					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs.getDouble("Lon"), rs.getLong("Time")));
 				}
+				rs.close();
 				note.newRoute();
 				
 			}
@@ -99,6 +96,14 @@ public class InfoHandler implements NotificationHandler {
 
 		return null;
 	}
+	
+	public void setDataConnection(DataSource ds){
+		ds_ = ds;
+	}
+	public DataSource getDataConnection(){
+		return ds_;
+	}
+
 
 	public static void main(String[] args){
 		InfoNotification n = new InfoNotification();

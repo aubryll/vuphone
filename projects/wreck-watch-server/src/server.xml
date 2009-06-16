@@ -15,9 +15,17 @@
            
         
 
-  
+  <bean id="dataProvider"  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  	<property name="driverClassName">
+  		<value>org.sqlite.JDBC</value>
+  	</property>
+  	<property name="url">
+  		<value>jdbc:sqlite:wreckwatch.db</value>
+  	</property>
+  </bean>
   <bean name="notificationServlet" class="org.vuphone.wwatch.notification.NotificationServlet">
     <property name="parser" ref="notificationParser"/>
+    <property name="dataConnection" ref="dataProvider"/>
     <property name="handlers">
      <map>
         <entry>
@@ -56,18 +64,34 @@
 
   <bean name="accidentHandler" class="org.vuphone.wwatch.accident.AccidentHandler">
     <property name="parser" ref="accidentParser"/>
+    <property name="dataConnection" ref="dataProvider"/>
+    <property name="EBehavior" ref="smsBehavior"/>
   </bean>
   
-  <bean name="infoHandler" class="org.vuphone.wwatch.inforeq.InfoHandler" />
+  <bean name="infoHandler" class="org.vuphone.wwatch.inforeq.InfoHandler">
+  	<property name="dataConnection" ref="dataProvider"/>
+  </bean>
   
-  <bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactUpdateHandler" />
+  <bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactUpdateHandler">
+  	<property name="dataConnection" ref="dataProvider"/>
+  </bean>
   
-  <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser"/>
+  <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser" />
   
-  <bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteNotificationHandler"/>
+  <bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteNotificationHandler">
+   	<property name="dataConnection" ref="dataProvider"/>
+  </bean> 
   
-  <bean	name="imageHandler" class="org.vuphone.wwatch.media.ImageHandler">
-</bean>
-
-
+  <bean	name="imageHandler" class="org.vuphone.wwatch.media.ImageHandler" >
+   	<property name="dataConnection" ref="dataProvider"/>
+  </bean> 
+  
+  <bean name="smsBehavior" class="org.vuphone.wwatch.ebehavior.SMSBehavior">
+  	<property name="next" ref="recordingBehavior"/>
+  </bean>
+  
+  <bean name="recordingBehavior" class="org.vuphone.wwatch.ebehavior.RecordingBehavior" />
+  
+  
+  
 </beans>

@@ -1,12 +1,13 @@
 package org.vuphone.wwatch.media;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.sql.DataSource;
 
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
@@ -15,22 +16,17 @@ public class ImageRequestHandler implements NotificationHandler{
 	
 	private static final Logger logger_ = Logger
 	.getLogger(ImageRequestHandler.class.getName());
+	private DataSource ds_;
 	
 	public Notification handle(Notification n) {
 		Notification response = null;
 		
 		try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
-
-			e.printStackTrace();
-		}
-		try {
 			ImageRequestNotification irn = (ImageRequestNotification)n;
 			Connection db = null;
 
 			try {
-				db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
+				db = ds_.getConnection();
 				db.setAutoCommit(true);
 			} catch (SQLException e) {
 				db.close();
@@ -81,6 +77,14 @@ public class ImageRequestHandler implements NotificationHandler{
 		//ImageRequestHandledNotification class to do this.
 		
 		return response;
+	}
+	
+	public void setDataConnection(DataSource ds){
+		ds_ = ds;
+	}
+	
+	public DataSource getDataConnection(){
+		return ds_;
 	}
 
 }
