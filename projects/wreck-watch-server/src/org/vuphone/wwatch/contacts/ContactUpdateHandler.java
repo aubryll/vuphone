@@ -32,7 +32,6 @@ public class ContactUpdateHandler implements NotificationHandler {
 	private DataSource ds_;
 
 	public Notification handle(Notification n) {
-		System.out.println("Contact Update Handler called");
 
 		ContactUpdateNotification cn = (ContactUpdateNotification)n;
 		ContactUpdateHandledNotification chn = null;
