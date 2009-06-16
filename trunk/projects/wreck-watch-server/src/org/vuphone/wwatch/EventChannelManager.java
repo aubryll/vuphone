@@ -24,7 +24,6 @@ import org.cometd.Channel;
 import org.cometd.Client;
 import org.cometd.Message;
 import org.mortbay.cometd.BayeuxService;
-import java.util.ArrayList;
 
 /**
  * This class manages the bidirectional HTTP event channel used by
@@ -76,7 +75,7 @@ public class EventChannelManager extends BayeuxService {
 	}
 
 	public void monitorSubscribe(Client client, Message message) {
-		String clientid = client.getId();
+		//String clientid = client.getId();
 		String channelid = "" + message.get(Bayeux.SUBSCRIPTION_FIELD);
 
 		Channel channel = getBayeux().getChannel(channelid, false);
