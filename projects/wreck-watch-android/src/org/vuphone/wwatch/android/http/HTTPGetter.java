@@ -15,7 +15,6 @@
  **************************************************************************/
 package org.vuphone.wwatch.android.http;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
@@ -23,7 +22,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.vuphone.wwatch.android.R;
 
 import android.util.Log;
 
@@ -109,38 +107,26 @@ public class HTTPGetter {
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPGetter.doAccidentGet");
 	}
 	
-	public static Integer[] doPictureGet(String point) {
+	public static HttpResponse doPictureGet(String point) {
 		
 		HttpClient c = new DefaultHttpClient();
 		String params = "?type=imageRequest&"+point;
+		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "+params);
 		HttpGet get = new HttpGet(SERVER + PATH + params);
 		
-		// Uncomment this stuff below when you can actually retrieve images
-		// from the server.
-		
-		/*try {
+		try {
 			HttpResponse resp = c.execute(get);
 			
-			ByteArrayOutputStream bao = new ByteArrayOutputStream();
-			resp.getEntity().writeTo(bao);
+			return resp;
 			
 		} catch (ClientProtocolException e) {
 
 			e.printStackTrace();
+			return null;
 		} catch (IOException e) {
 
 			e.printStackTrace();
-		}*/
-		
-		// Return some simple data for testing purposes
-		return new Integer[] {
-
-				R.drawable.ww_icon2,
-			    R.drawable.unhapppy,
-			    R.drawable.unhapppy,
-			    R.drawable.ww_icon2,
-			    R.drawable.help_icon,
-		};
-		
+			return null;
+		}
 	}
 }
