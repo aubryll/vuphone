@@ -2,20 +2,49 @@ package org.vuphone.wwatch.android;
 
 import android.app.Service;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
-public class MediaUploadService extends Service implements LocationListener {
+public class MediaUploadService extends Service implements ImageUploadListener {
 
-	private LocationManager man_;
-	private static float ACCURACY = 20f;
+	private static float ACCURACY_MARGIN = 5f;
 	private static long WAIT_TIME = 5000;
-	private Location location_ = null;
+
+	/** Manages the location service */
+//	private LocationManager man_;
+	/** Current location */
+//	private Location location_ = null;
+
+	/** Responsible for loading and uploading the image */
+	private ImageUploader uploader_;
+
+	/** A flag indicating whether the image was loaded */
+	private boolean imageLoaded_ = false;
+
+	/** Used to properly display toasts from callbacks */
+	private final Handler handler_ = new Handler();
+
+	public void badServerResponse() {
+
+	}
+
+	public void fileNotFound() {
+		showToast("Requested image not found");
+		stopSelf();
+	}
+
+	public void goodServerResponse() {
+		showToast("Image uploaded succesfully");
+		stopSelf();
+	}
+
+	public void imageLoaded() {
+		imageLoaded_ = true;
+		showToast("Image loaded");
+	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -25,58 +54,81 @@ public class MediaUploadService extends Service implements LocationListener {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		man_ = (LocationManager) getSystemService(LOCATION_SERVICE);
+		// Need to get the geo fix as quickly as possible so request here.
+//		man_ = (LocationManager) getSystemService(LOCATION_SERVICE);
+//		man_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		man_.removeUpdates(this);
+		Log.v(VUphone.tag, "onDestroy()");
+		// Turn off the GPS in case it's still active.
+//		man_.removeUpdates(this);
 	}
-
+/*
 	public void onLocationChanged(Location newLocation) {
-		// If accuracy info is not available that simple save the location and
-		// unregister
+		// If this gets called then we're still allowed to collect data so wait
+		// for the best Location point.
+
+		// If no accuracy data is available then simply save the new location
 		if (!newLocation.hasAccuracy()) {
-			if (location_ == null) {
-				location_ = newLocation;
-				man_.removeUpdates(this);
-			}
-			return;
-		}
-		// Else, if we have accuracy then compare to the last one and only save
-		// if accuracy is better
-		// TODO - Make this a progressive capture...............................
-		if (newLocation.getAccuracy() < ACCURACY) {
 			location_ = newLocation;
+		} else {
+
+			if (location_ == null)
+				location_ = newLocation;
+			
+			// Else, only save if this location is more accurate than the
+			// previous +/- some margin. Note, I'm using this margin because
+			// later location updates are usually closer to the actual position
+			// but not necessarily more accurate.
+			if (newLocation.getAccuracy() + ACCURACY_MARGIN < location_
+					.getAccuracy()) {
+				location_ = newLocation;
+			}
+		}
+
+		// If the image is ready and location is non-null then send it and
+		// remove gps updates.
+		if (imageLoaded_ && location_ != null) {
+			uploader_.uploadImage();
 			man_.removeUpdates(this);
 		}
 	}
-
-	public void onProviderDisabled(String provider) {
-	}
-
-	public void onProviderEnabled(String provider) {
-	}
-
+*/
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		final String uriStr = intent.getStringExtra("Uri");
-		if (uriStr == null)	// We weren't started correctly.
+		if (uriStr == null) // We weren't started correctly.
 			stopSelf();
-		
+
 		Uri uri = Uri.parse(uriStr);
 		Log.v(VUphone.tag, "Uri=" + uri.toString());
-		final ImageUploader imgUp = new ImageUploader(uri, this, null);
-		imgUp.loadImage();
-		imgUp.uploadImage();
-		
-		// Get updates as often as possible.
-		man_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		
+
+		uploader_ = new ImageUploader(uri, this, this);
+		uploader_.loadImage();
 	}
 
-	public void onStatusChanged(String provider, int status, Bundle extras) {
+	public void serverUploadFailed() {
+		showToast("Upload failed");
+		stopSelf();
+	}
+
+	public void setMetaInformation(ImageUploadMetaInformation info) {
+		//info.setLocation(location_);
+		showToast("Setting meta");
+		info.setTime(System.currentTimeMillis());
+	}
+
+	public void showToast(final String msg) {
+		handler_.post(new Runnable() {
+			public void run() {
+				Toast
+						.makeText(MediaUploadService.this, msg,
+								Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }

@@ -150,6 +150,7 @@ public class ImageUploader {
 
 				Log.v(VUphone.tag,
 						"ImageUploader.loadImage() loaded successfully");
+				listener_.imageLoaded();
 			}
 		}, "LoadImageThread");
 		loaderThread_.start();
@@ -163,6 +164,7 @@ public class ImageUploader {
 	 * information.
 	 */
 	public void uploadImage() {
+		Log.v(VUphone.tag, "ImageUploader.uploadImage() called...");
 		uploaderThread_ = new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -177,6 +179,7 @@ public class ImageUploader {
 					return;
 				}
 
+				Log.v(VUphone.tag, "ImageUploader.uploadImage() starting upload");
 				// Fetch the meta data and prepare the POST URI
 				listener_.setMetaInformation(meta_);
 				String uriStr = SERVER + PATH + "?type=image&" + meta_;
