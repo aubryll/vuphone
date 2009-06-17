@@ -19,8 +19,8 @@ import android.util.Log;
 
 public class ImageUploader {
 
-	private static final String SERVER = "http://129.59.135.144:8080";
 	private static final String PATH = "/wreckwatch/notifications";
+	private String server_;
 
 	/** The image we're uploading */
 	private final Uri uri_;
@@ -56,11 +56,16 @@ public class ImageUploader {
 		uri_ = uri;
 		resolver_ = c.getContentResolver();
 
-		listener_ = (listener == null) ? new DefaultImageUploadListener() : listener;
+		listener_ = (listener == null) ? new DefaultImageUploadListener()
+				: listener;
 
 		// Set up the POST with the correct content type.
 		post_ = new HttpPost();
 		post_.addHeader("Content-Type", resolver_.getType(uri_));
+
+		server_ = "http://" + c.getSharedPreferences(VUphone.PREFERENCES_FILE,
+				Context.MODE_PRIVATE).getString(VUphone.SERVER_TAG,
+				"0.0.0.0:8080");
 	}
 
 	/**
@@ -76,7 +81,7 @@ public class ImageUploader {
 			long size = desc.getStatSize();
 			desc.close();
 			return (int) size;
-			
+
 		} catch (FileNotFoundException e) {
 			Log.v(VUphone.tag, "FileNotFoundException in ImageUploader."
 					+ "getImageSize(). Uri: " + uri_.toString());
@@ -140,7 +145,9 @@ public class ImageUploader {
 				if (data_ == null) {
 					// Some exception occurred so execute listener callback and
 					// quit
-					Log.v(VUphone.tag, "ImageUploader.loadImage() FileNotFound");
+					Log
+							.v(VUphone.tag,
+									"ImageUploader.loadImage() FileNotFound");
 					listener_.fileNotFound();
 					return;
 				}
@@ -179,10 +186,12 @@ public class ImageUploader {
 					return;
 				}
 
-				Log.v(VUphone.tag, "ImageUploader.uploadImage() starting upload");
+				Log.v(VUphone.tag,
+						"ImageUploader.uploadImage() starting upload");
 				// Fetch the meta data and prepare the POST URI
 				listener_.setMetaInformation(meta_);
-				String uriStr = SERVER + PATH + "?type=image&" + meta_;
+
+				String uriStr = server_ + PATH + "?type=image&" + meta_;
 				post_.setURI(URI.create(uriStr));
 				HttpClient c = new DefaultHttpClient();
 

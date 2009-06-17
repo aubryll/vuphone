@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 public class SettingsUI extends Activity {
 
@@ -84,6 +85,10 @@ public class SettingsUI extends Activity {
 		((EditText) super.findViewById(R.id.location)).setText(""
 				+ super.getSharedPreferences(VUphone.PREFERENCES_FILE,
 						Context.MODE_PRIVATE).getString(VUphone.LOCATION_TAG, "Nashville, TN"));
+		
+		((EditText) super.findViewById(R.id.server)).setText(""
+				+ super.getSharedPreferences(VUphone.PREFERENCES_FILE,
+						Context.MODE_PRIVATE).getString(VUphone.SERVER_TAG, "0.0.0.0:8080"));		
 
 	}
 
@@ -97,11 +102,13 @@ public class SettingsUI extends Activity {
 				.getRating();		
 		String location = ((EditText) super.findViewById(R.id.location)).getText().toString();
 		
+		String server = ((EditText) super.findViewById(R.id.server)).getText().toString();
 
 		Editor edit = prefs.edit();
 		edit.putInt(VUphone.TIMEOUT_TAG, time);
 		edit.putInt(VUphone.BATTERY_LEVEL_TAG, level);
 		edit.putString(VUphone.LOCATION_TAG, location);
+		edit.putString(VUphone.SERVER_TAG, server);
 		edit.commit();
 	}
 }

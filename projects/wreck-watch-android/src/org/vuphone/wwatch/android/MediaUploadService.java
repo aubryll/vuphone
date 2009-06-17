@@ -109,6 +109,7 @@ public class MediaUploadService extends Service implements ImageUploadListener {
 
 		uploader_ = new ImageUploader(uri, this, this);
 		uploader_.loadImage();
+		uploader_.uploadImage();
 	}
 
 	public void serverUploadFailed() {
