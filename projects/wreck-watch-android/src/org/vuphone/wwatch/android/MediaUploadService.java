@@ -24,6 +24,8 @@ public class MediaUploadService extends Service implements ImageUploadListener {
 	/** A flag indicating whether the image was loaded */
 	private boolean imageLoaded_ = false;
 
+	private long wreckId_ = 0;
+	
 	/** Used to properly display toasts from callbacks */
 	private final Handler handler_ = new Handler();
 
@@ -103,6 +105,11 @@ public class MediaUploadService extends Service implements ImageUploadListener {
 		final String uriStr = intent.getStringExtra("Uri");
 		if (uriStr == null) // We weren't started correctly.
 			stopSelf();
+		
+		wreckId_ = intent.getLongExtra("WreckId", -1);
+		if (wreckId_ == -1) {
+			//stopSelf();
+		}
 
 		Uri uri = Uri.parse(uriStr);
 		Log.v(VUphone.tag, "Uri=" + uri.toString());
@@ -121,6 +128,7 @@ public class MediaUploadService extends Service implements ImageUploadListener {
 		//info.setLocation(location_);
 		showToast("Setting meta");
 		info.setTime(System.currentTimeMillis());
+		info.setId(wreckId_);
 	}
 
 	public void showToast(final String msg) {
