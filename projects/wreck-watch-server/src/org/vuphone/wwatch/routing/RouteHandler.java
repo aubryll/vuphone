@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.contacts;
+package org.vuphone.wwatch.routing;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,12 +28,13 @@ import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
-public class ContactHandler implements NotificationHandler {
-	private static final Logger logger_ = Logger.getLogger(ContactHandler.class
+public class RouteHandler implements NotificationHandler {
+
+	private static final Logger logger_ = Logger.getLogger(RouteHandler.class
 			.getName());
 
 	// XML will instantiate these
-	private ContactParser parser_;
+	private RouteParser parser_;
 	private DataSource ds_;
 
 	private void closeDatabase(Connection db) {
@@ -47,6 +48,16 @@ public class ContactHandler implements NotificationHandler {
 
 	public Notification handle(Notification n) {
 
+		// Sleep for 10 seconds to make sure that the posting of the wreck has
+		// finished
+		// This is a hack because SQLite will throw an exception if the database
+		// is currently being written to
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
+
 		Connection db = null;
 
 		try {
@@ -58,9 +69,9 @@ public class ContactHandler implements NotificationHandler {
 			return n;
 		}
 
-		ContactNotification cn = null;
+		RouteNotification rn = null;
 		try {
-			cn = parser_.getContact(n.getRequest());
+			rn = parser_.getRoute(n.getRequest());
 		} catch (InvalidFormatException ife) {
 			ife.printStackTrace();
 			logger_.log(Level.SEVERE,
@@ -69,83 +80,85 @@ public class ContactHandler implements NotificationHandler {
 			return n;
 		}
 
-		PreparedStatement prep;
-		int userId = 0;
+		String sql;
+
+		int id = 0;
 		try {
-			prep = db
-					.prepareStatement("select id from People where AndroidId like ?");
-			prep.setString(1, cn.getAndroidID());
+			PreparedStatement prep = db
+					.prepareStatement("select id from People where AndroidID like ?;");
+			prep.setString(1, rn.getPerson());
+
 			ResultSet rs = prep.executeQuery();
-			rs.next();
-			userId = rs.getInt("id");
-			rs.close();
-		} catch (SQLException e) {
+
 			try {
-				prep = db
-						.prepareStatement("insert into People (androidid) values (?)");
-				prep.setString(1, cn.getAndroidID());
-				prep.execute();
-				prep = db
-						.prepareStatement("select id from People where AndroidId like ?");
-				prep.setString(1, cn.getAndroidID());
-				ResultSet rs = prep.executeQuery();
 				rs.next();
-				userId = rs.getInt("id");
+				id = rs.getInt("id");
 				rs.close();
-			} catch (SQLException ex) {
-				logger_.log(Level.SEVERE, "SQLException retrieving userid: "
-						+ ex.getMessage());
+			} catch (SQLException e) {
 				closeDatabase(db);
 				return n;
 			}
-		}
 
-		String[] contacts = cn.getNumbers();
+			prep = db
+					.prepareStatement("select max(wreckid) from Wreck where Person = ?");
+			prep.setInt(1, id);
+			rs = prep.executeQuery();
+			int wid;
+			try {
+				rs.next();
+				wid = rs.getInt("max(wreckid)");
+				rs.close();
+			} catch (SQLException e) {
+				// No wreck exists, we can disregard because there's no
+				// accident that's been
+				// reported anyway!
+				e.printStackTrace();
+				closeDatabase(db);
+				return n;
 
-		try {
+			}
+
 			db.setAutoCommit(false);
-			prep = db
-					.prepareStatement("delete from EmergencyContacts where PersonId = ?");
-			prep.setInt(1, userId);
-			prep.executeUpdate();
 
-			prep = db
-					.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
-			for (String s : contacts) {
-				prep.setInt(1, userId);
-				prep.setString(2, s);
+			sql = "insert into route(wreckid, lat, lon, time) values (?, ?, ?, ?);";
+			prep = db.prepareStatement(sql);
+			Route route = rn.getRoute();
+			while (route.peek() != null) {
+				Waypoint temp = route.getNextPoint();
+				prep.setInt(1, wid);
+				prep.setDouble(2, temp.getLatitude());
+				prep.setDouble(3, temp.getLongitude());
+				prep.setLong(4, temp.getTime());
 				prep.addBatch();
 			}
 
 			prep.executeBatch();
-
 			db.commit();
 			closeDatabase(db);
+			return rn;
 
 		} catch (SQLException e) {
-			logger_.log(Level.SEVERE,
-					"SQLException creating emergency contacts: "
-							+ e.getMessage());
+			logger_.log(Level.SEVERE, "SQLException: ", e);
 			closeDatabase(db);
+			return n;
 		}
 
-		return cn;
 	}
 
 	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
 	}
-	
+
 	public DataSource getDataConnection() {
 		return ds_;
 	}
 	
-	public ContactParser getParser() {
-		return parser_;
+	public void setParser(RouteParser p) {
+		parser_ = p;
 	}
 	
-	public void setParser(ContactParser p) {
-		parser_ = p;
+	public RouteParser getParser() {
+		return parser_;
 	}
 
 }

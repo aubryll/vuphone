@@ -46,5 +46,10 @@ public class RouteNotification extends Notification {
 	public void addWaypoint(Waypoint w){
 		route_.addWaypoint(w);
 	}
+	
+	@Override
+	public String getResponseString() {
+		return "";
+	}
 
 }
