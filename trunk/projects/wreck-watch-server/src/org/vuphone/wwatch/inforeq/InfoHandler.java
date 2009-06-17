@@ -24,98 +24,175 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.xml.serializer.dom3.LSSerializerImpl;
+import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
+import org.vuphone.wwatch.routing.Route;
 import org.vuphone.wwatch.routing.Waypoint;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.ls.LSSerializer;
 
 public class InfoHandler implements NotificationHandler {
 
-	private static final Logger logger_ = Logger.getLogger(InfoHandler.class.getName());
-	
+	private static final Logger logger_ = Logger.getLogger(InfoHandler.class
+			.getName());
+
+	// XML will instantiate these
+	private InfoParser parser_;
 	private DataSource ds_;
 
-	public Notification handle(Notification n) {
-		InfoNotification info = (InfoNotification)n;
+	private InfoHandledNotification buildResponse(InfoHandledNotification info) {
 
-		
+		// Build the xml response
+		Document d = null;
+		try {
+			d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+					.newDocument();
+		} catch (ParserConfigurationException e) {
+
+			logger_
+					.log(
+							Level.SEVERE,
+							"Parser configuration exception creating document for xml response",
+							e);
+		}
+		Node rootRt = d.createElement("Routes");
+
+		for (Route r : info.getAccidents()) {
+			Node route = d.createElement("Route");
+			Node rootPt = d.createElement("Points");
+
+			for (Waypoint w : r.getRoute()) {
+				Node pointR = d.createElement("Point");
+				Node lat = d.createElement("Latitude");
+
+				lat.appendChild(d.createTextNode(Double.toString(w
+						.getLatitude())));
+
+				pointR.appendChild(lat);
+
+				Node lon = d.createElement("Longitude");
+				lon.appendChild(d.createTextNode(Double.toString(w
+						.getLongitude())));
+
+				pointR.appendChild(lon);
+
+				Node time = d.createElement("Time");
+				time.appendChild(d.createTextNode(Long.toString(w.getTime())));
+
+				pointR.appendChild(time);
+
+				rootPt.appendChild(pointR);
+			}
+			route.appendChild(rootPt);
+			rootRt.appendChild(route);
+
+		}
+		d.appendChild(rootRt);
+		LSSerializer ls = new LSSerializerImpl();
+		String xml = ls.writeToString(d);
+
+		info.setResponse(xml);
+		return info;
+	}
+
+	private void closeDatabase(Connection db) {
+		try {
+			db.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger_.log(Level.WARNING, "Unable to close database");
+		}
+	}
+
+	/**
+	 * This method uses a parser to attempt to convert a generic Notification
+	 * into an InfoNotification, and then builds the correct reply inside of an
+	 * InfoHandledNotificaiton
+	 */
+	public Notification handle(Notification n) {
+
 		Connection db = null;
+
+		InfoNotification info = null;
+		try {
+			info = parser_.getInfo(n.getRequest());
+		} catch (InvalidFormatException ife) {
+			ife.printStackTrace();
+			logger_.log(Level.SEVERE,
+					"Unable to parse the notification, stopping");
+			return n;
+		}
 
 		try {
 			db = ds_.getConnection();
 			db.setAutoCommit(true);
 		} catch (SQLException e) {
-
-			logger_.log(Level.SEVERE,
-					"SQLException: ", e);
+			logger_.log(Level.SEVERE, "SQLException: ", e);
+			closeDatabase(db);
+			return n;
 		}
 
-
-		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;"; 
+		// Prepare the SQL select
+		// Execute the select
+		// Add the results to the InfoHandledNotification
+		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;";
 		InfoHandledNotification note;
-		try{
+		try {
 			PreparedStatement prep = db.prepareStatement(sql);
 			prep.setDouble(1, info.getTopLeftCorner().getLatitude());
 			prep.setDouble(2, info.getBottomLeftCorner().getLatitude());
 			prep.setDouble(3, info.getTopLeftCorner().getLongitude());
-			prep.setDouble(4, info.getTopRightCorner().getLongitude()); 
-			
+			prep.setDouble(4, info.getTopRightCorner().getLongitude());
 
 			note = new InfoHandledNotification();
 			note.newRoute();
 
-			//Get the wreck id
+			// Get the wreck id
 			ArrayList<Integer> ids = new ArrayList<Integer>();
 			ResultSet rs = prep.executeQuery();
-			while (rs.next()){
+			while (rs.next()) {
 				ids.add(rs.getInt("WreckID"));
 			}
 			rs.close();
 
 			sql = "select * from Route where WreckID = ?";
-			for (Integer i:ids){
+			for (Integer i : ids) {
 				prep = db.prepareStatement(sql);
 				prep.setInt(1, i);
-				
+
 				rs = prep.executeQuery();
-				
-				while(rs.next()){
-					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs.getDouble("Lon"), rs.getLong("Time")));
+
+				while (rs.next()) {
+					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs
+							.getDouble("Lon"), rs.getLong("Time")));
 				}
 				rs.close();
 				note.newRoute();
-				
-			}
-			
-			db.close();
-			return note;
-		}catch (SQLException e) {
-			logger_.log(Level.SEVERE,
-					"SQLException: ", e);
-		}
 
-		return null;
+			}
+
+			db.close();
+			
+			note = buildResponse(note);
+			return note;
+		} catch (SQLException e) {
+			logger_.log(Level.SEVERE, "SQLException: ", e);
+			closeDatabase(db);
+			return n;
+		}
 	}
-	
-	public void setDataConnection(DataSource ds){
+
+	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
 	}
-	public DataSource getDataConnection(){
+
+	public DataSource getDataConnection() {
 		return ds_;
 	}
-
-
-	public static void main(String[] args){
-		InfoNotification n = new InfoNotification();
-		n.setBottomLeftCorner(34.00, -90);
-		n.setBottomRightCorner(34.00, -70);
-		n.setTopLeftCorner(37.00, -90);
-		n.setTopRightCorner(37.00, -70);
-
-		InfoHandler h = new InfoHandler();
-		Notification ihn = h.handle(n);
-		ihn = (InfoHandledNotification)ihn;
-
-	}
-
 }

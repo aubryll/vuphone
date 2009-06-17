@@ -38,113 +38,53 @@ public class NotificationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1895167101514191256L;
 
 	private static final Logger logger_ = Logger
-	.getLogger(NotificationServlet.class.getName());
+			.getLogger(NotificationServlet.class.getName());
 
 	private Map<String, NotificationHandler> handlers_;
 	private NotificationParser parser_;
 	private DataSource ds_;
 
-
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 		doPost(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-	throws ServletException, IOException {
+			throws ServletException, IOException {
 
 		Notification note = parser_.parse(req);
 
-		if (note != null) {
-			NotificationHandler handler = handlers_.get(note.getType());
-			if (handler != null) {
-				Notification rnote = handler.handle(note);
-				if (rnote == null){
-					System.out.println("Rnote was null, something went wrong");
-					return;
-				}
-				
-				resp.getWriter().write(rnote.toString());
-				
-				
-				
-				
-				if (rnote.getType().equalsIgnoreCase("infohandled")){
-	
-					InfoHandledNotification info = (InfoHandledNotification)rnote;
-					//There's probably a better way to do this. Jules,
-					//any fancy XML ideas?
-
-					//Build the xml response
-					Document d = null;
-					try {
-						d = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-					} catch (ParserConfigurationException e) {
-
-						logger_
-							.log(
-								Level.SEVERE,
-								"Parser configuration exception creating document for xml response",
-								e);
-					}
-					Node rootRt = d.createElement("Routes");
-
-					for (Route r:info.getAccidents()){
-						Node route = d.createElement("Route");
-						Node rootPt = d.createElement("Points");
-
-						for (Waypoint w:r.getRoute()){
-							Node pointR = d.createElement("Point");
-							Node lat = d.createElement("Latitude");
-
-							lat.appendChild(d.createTextNode(Double.toString(w.getLatitude())));
-
-							pointR.appendChild(lat);
-
-							Node lon = d.createElement("Longitude");
-							lon.appendChild(d.createTextNode(Double.toString(w.getLongitude())));
-								
-							pointR.appendChild(lon);
-								
-							Node time = d.createElement("Time");
-							time.appendChild(d.createTextNode(Long.toString(w.getTime())));
-
-							pointR.appendChild(time);
-
-							rootPt.appendChild(pointR);
-						}
-						route.appendChild(rootPt);
-						rootRt.appendChild(route);
-
-					}
-					d.appendChild(rootRt);
-					LSSerializer ls = new LSSerializerImpl();
-					String xml = ls.writeToString(d);
-
-					resp.getWriter().write(xml);						
-
-				}else{
-					resp.getWriter().write(note.toString());
-				}
-
-			} else {
-				//This will just be temporary to make it do something
-				resp.getWriter().write(note.toString());
-			}
+		if (note == null) {
+			logger_.log(Level.WARNING,
+					"The parser returned a null notification");
+			return;
 		}
-		else {
-			// to do...
+
+		NotificationHandler handler = handlers_.get(note.getType());
+		if (handler == null) {
+			logger_.log(Level.WARNING,
+					"The handler returned was null. Check XML validity");
+			return;
 		}
-		
+
+		Notification rnote = handler.handle(note);
+		if (rnote == null) {
+			logger_.log(Level.WARNING,
+					"The handler.handle function returned a null response");
+
+			return;
+		}
+
+		resp.getWriter().write(rnote.getResponseString());
+
 		try {
 			ds_.getConnection().close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public Map<String, NotificationHandler> getHandlers() {
@@ -162,12 +102,12 @@ public class NotificationServlet extends HttpServlet {
 	public void setParser(NotificationParser parser) {
 		parser_ = parser;
 	}
-	
-	public void setDataConnection(DataSource ds){
+
+	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
 	}
-	
-	public DataSource getDataConnection(){
+
+	public DataSource getDataConnection() {
 		return ds_;
 	}
 

@@ -19,7 +19,7 @@ import org.vuphone.wwatch.notification.InvalidFormatException;
 
 /**
  * This class is used to convert generic notification objects into
- * AccidentReport objects.
+ * AccidentNotification objects.
  * 
  * @author jules
  * 
