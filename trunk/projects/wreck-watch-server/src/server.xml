@@ -67,31 +67,36 @@
     <property name="dataConnection" ref="dataProvider"/>
     <property name="EBehavior" ref="smsBehavior"/>
   </bean>
+  <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser" />
   
   <bean name="infoHandler" class="org.vuphone.wwatch.inforeq.InfoHandler">
   	<property name="dataConnection" ref="dataProvider"/>
+  	<property name="parser" ref="infoParser"/>
   </bean>
+  <bean name="infoParser" class="org.vuphone.wwatch.inforeq.InfoParser" />
   
-  <bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactUpdateHandler">
+  <bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactHandler">
   	<property name="dataConnection" ref="dataProvider"/>
+  	<property name="parser" ref="contactParser"/>
   </bean>
+  <bean name="contactParser" class="org.vuphone.wwatch.contacts.ContactParser" />
   
-  <bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser" />
-  
-  <bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteNotificationHandler">
+  <bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteHandler">
    	<property name="dataConnection" ref="dataProvider"/>
+   	<property name="parser" ref="routeParser"/>
   </bean> 
+  <bean name="routeParser" class="org.vuphone.wwatch.routing.RouteParser" />
   
   <bean	name="imageHandler" class="org.vuphone.wwatch.media.ImageHandler" >
    	<property name="dataConnection" ref="dataProvider"/>
+   	<property name="parser" ref="imageParser"/>
   </bean> 
+  <bean name="imageParser" class="org.vuphone.wwatch.media.ImageParser" />
   
   <bean name="smsBehavior" class="org.vuphone.wwatch.ebehavior.SMSBehavior">
   	<property name="next" ref="recordingBehavior"/>
   </bean>
   
   <bean name="recordingBehavior" class="org.vuphone.wwatch.ebehavior.RecordingBehavior" />
-  
-  
   
 </beans>

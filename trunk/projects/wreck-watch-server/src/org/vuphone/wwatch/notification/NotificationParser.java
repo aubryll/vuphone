@@ -35,31 +35,6 @@ public class NotificationParser {
 		n.setRequest(req);
 		return n;
 	}
-
-	private Notification handleRoute() {
-		Notification n = new RouteNotification();
-		RouteNotification rn = (RouteNotification) n;
-
-		rn.setPerson(request_.getParameter("id"));
-
-		String[] lats = request_.getParameterValues("lat");
-		String[] lons = request_.getParameterValues("lon");
-		String[] times = request_.getParameterValues("timert");
-
-		if (lats != null) {
-
-			for (int i = 0; i < lats.length; ++i) {
-				if (lats[i] != null && lons[i] != null && times[i] != null) {
-					rn.addWaypoint(Double.parseDouble(lats[i]), Double
-							.parseDouble(lons[i]), Long.parseLong(times[i]));
-				}
-			}
-		} else {
-			rn.addWaypoint(0, 0, System.currentTimeMillis());
-		}
-
-		return n;
-	}
 	
 	private Notification handleImage() {
 		Notification n = new ImageNotification();

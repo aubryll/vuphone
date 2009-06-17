@@ -195,4 +195,12 @@ public class InfoHandler implements NotificationHandler {
 	public DataSource getDataConnection() {
 		return ds_;
 	}
+	
+	public void setParser(InfoParser p) {
+		parser_ = p;
+	}
+	
+	public InfoParser getParser() {
+		return parser_;
+	}
 }
