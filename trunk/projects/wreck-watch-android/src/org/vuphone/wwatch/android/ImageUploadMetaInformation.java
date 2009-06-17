@@ -15,33 +15,24 @@ import android.location.Location;
 public class ImageUploadMetaInformation {
 	/** UTC time */
 	private long time_;
-	/** Location in degrees */
-	private double longitude_, latitude_;
+
+	/** ID of the wreck */
+	private long id_;
 
 	/**
 	 * Sets the default values for the member fields.
 	 */
 	public ImageUploadMetaInformation() {
-		time_ = 0;
-		longitude_ = latitude_ = 0.0;
+		time_ = id_ = 0;
 	}
 
 	/**
-	 * Get the latitude.
+	 * Get the id.
 	 * 
 	 * @return
 	 */
-	public double getLatitude() {
-		return latitude_;
-	}
-
-	/**
-	 * Get the longitude.
-	 * 
-	 * @return
-	 */
-	public double getLongitude() {
-		return longitude_;
+	public long getId() {
+		return id_;
 	}
 
 	/**
@@ -54,39 +45,18 @@ public class ImageUploadMetaInformation {
 	}
 
 	/**
-	 * Set the latitude.
+	 * Set the id.
 	 * 
-	 * @param latitude
+	 * @param id
 	 */
-	public void setLatitude(double latitude) {
-		latitude_ = latitude;
-	}
-
-	/**
-	 * Set the latitude and the longitude based on the Location object
-	 * parameter. If loc is null, sets longitude and latitude to 0.
-	 * 
-	 * @param loc
-	 */
-	public void setLocation(Location loc) {
-		if (loc == null)
-			longitude_ = latitude_ = 0.0;
-		else {
-			longitude_ = loc.getLongitude();
-			latitude_ = loc.getLatitude();
-		}
-	}
-
-	/**
-	 * Set the longitude.
-	 * @param longitude
-	 */
-	public void setLongitude(double longitude) {
-		longitude_ = longitude;
+	public void setId(long id) {
+		id_ = id;
+		;
 	}
 
 	/**
 	 * Set the time.
+	 * 
 	 * @param time
 	 */
 	public void setTime(long time) {
@@ -97,8 +67,7 @@ public class ImageUploadMetaInformation {
 	 * Return the representation of this object as a URL formatted string.
 	 */
 	public String toString() {
-		return "time=" + Long.toString(time_) + "&longitude="
-				+ Double.toString(longitude_) + "&latitude="
-				+ Double.toString(latitude_);
+		return "time=" + Long.toString(time_) + "&wreckid="
+				+ Long.toString(id_);
 	}
 }
