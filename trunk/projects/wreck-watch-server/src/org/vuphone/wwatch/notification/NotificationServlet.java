@@ -11,16 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.xml.serializer.dom3.LSSerializerImpl;
-import org.vuphone.wwatch.inforeq.InfoHandledNotification;
-import org.vuphone.wwatch.routing.Route;
-import org.vuphone.wwatch.routing.Waypoint;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.ls.LSSerializer;
 
 /******************************************************************************
  * Copyright (c) 2007 Jules White. All rights reserved. This program and the
@@ -69,7 +59,12 @@ public class NotificationServlet extends HttpServlet {
 			return;
 		}
 
-		Notification rnote = handler.handle(note);
+		Notification rnote = null;
+		try {
+			rnote = handler.handle(note);
+		} catch (HandlerFailedException e1) {
+			e1.printStackTrace();
+		}
 		if (rnote == null) {
 			logger_.log(Level.WARNING,
 					"The handler.handle function returned a null response");
