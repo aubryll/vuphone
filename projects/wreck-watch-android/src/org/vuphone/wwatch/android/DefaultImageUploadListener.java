@@ -22,6 +22,10 @@ public class DefaultImageUploadListener implements ImageUploadListener {
 	public void goodServerResponse() {
 		Log.v(VUphone.tag, "DefaultImageUploadListener.goodServerResponse()");
 	}
+	
+	public void imageLoaded() {
+		Log.v(VUphone.tag, "DefaultImageUploadListener.imageLoaded()");
+	}
 
 	public void serverUploadFailed() {
 		Log.v(VUphone.tag, "DefaultImageUploadListener.serverUploadFailed()");

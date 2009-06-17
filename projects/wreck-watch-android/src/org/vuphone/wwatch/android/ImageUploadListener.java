@@ -10,7 +10,7 @@ package org.vuphone.wwatch.android;
 public interface ImageUploadListener {
 
 	/**
-	 * Called when the server returns with a response code other than 200.
+	 * Called when the server returns with a respprovideronse code other than 200.
 	 */
 	public void badServerResponse();
 
@@ -25,6 +25,11 @@ public interface ImageUploadListener {
 	 * Called when the server returns with a 200 response code.
 	 */
 	public void goodServerResponse();
+	
+	/**
+	 * Called when the image gets succesfully loaded.
+	 */
+	public void imageLoaded();
 
 	/**
 	 * Called when the file upload fails. TODO - Put in a parameter that
