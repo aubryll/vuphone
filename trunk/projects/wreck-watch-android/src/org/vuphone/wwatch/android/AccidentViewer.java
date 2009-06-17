@@ -199,12 +199,13 @@ public class AccidentViewer extends MapActivity implements
 		try {
 			resp.getEntity().writeTo(bao);	
 			Log.d(VUphone.tag, LOG_PREFIX + "Http response: " + bao.toString());
+			int wreckNum = 0;
 			for (Route r:adh.processXML(new InputSource(new ByteArrayInputStream(bao.toByteArray())))){
 				for (Waypoint w:r.getRoute()){
 					Log.d(VUphone.tag, LOG_PREFIX + "Adding accident point: " + w.toString());
-					map_.addPin(w);
+					map_.addPin(w,wreckNum);
 				}
-				
+				wreckNum++;
 			}
 		} catch (IOException e) {
 			Log.e(VUphone.tag, LOG_PREFIX + "IOException processing HttpResponse object: " + e.getMessage());

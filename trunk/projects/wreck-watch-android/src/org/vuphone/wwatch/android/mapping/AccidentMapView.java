@@ -37,8 +37,8 @@ public class AccidentMapView extends MapView {
 		
 	}
 	
-	public void addPin(Waypoint point){
-		pinGroup_.addPin(point);
+	public void addPin(Waypoint point, int id){
+		pinGroup_.addPin(point, id);
 		postInvalidate();
 
 	}
