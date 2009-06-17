@@ -24,77 +24,95 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.vuphone.wwatch.inforeq.InfoParser;
+import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
-public class ContactUpdateHandler implements NotificationHandler {
-	private static final Logger logger_ = Logger.getLogger(ContactUpdateHandler.class.getName());
+public class ContactHandler implements NotificationHandler {
+	private static final Logger logger_ = Logger.getLogger(ContactHandler.class
+			.getName());
+
+	// XML will instantiate these
+	private ContactParser parser_;
 	private DataSource ds_;
+
+	private void closeDatabase(Connection db) {
+		try {
+			db.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger_.log(Level.WARNING, "Unable to close database");
+		}
+	}
 
 	public Notification handle(Notification n) {
 
-		ContactUpdateNotification cn = (ContactUpdateNotification)n;
-		ContactUpdateHandledNotification chn = null;
-		
 		Connection db = null;
 
-		try{
+		try {
 			db = ds_.getConnection();
 			db.setAutoCommit(true);
-		}catch (SQLException e) {
-			//Couldn't connect to the database
-			logger_.log(Level.SEVERE, "SQLException connecting to database: " + e.getMessage());
+		} catch (SQLException e) {
+			logger_.log(Level.SEVERE, "SQLException connecting to database: "
+					+ e.getMessage());
+			return n;
 		}
 
-		if (db == null){
-			return null;
+		ContactNotification cn = null;
+		try {
+			cn = parser_.getContact(n.getRequest());
+		} catch (InvalidFormatException ife) {
+			ife.printStackTrace();
+			logger_.log(Level.SEVERE,
+					"Unable to parse the notification, stopping");
+			closeDatabase(db);
+			return n;
 		}
 
 		PreparedStatement prep;
 		int userId = 0;
 		try {
-			prep = db.prepareStatement("select id from People where AndroidId like ?");
+			prep = db
+					.prepareStatement("select id from People where AndroidId like ?");
 			prep.setString(1, cn.getAndroidID());
 			ResultSet rs = prep.executeQuery();
 			rs.next();
 			userId = rs.getInt("id");
 			rs.close();
-
-
 		} catch (SQLException e) {
-
-			try{
-				prep = db.prepareStatement("insert into People (androidid) values (?)");
+			try {
+				prep = db
+						.prepareStatement("insert into People (androidid) values (?)");
 				prep.setString(1, cn.getAndroidID());
 				prep.execute();
-				prep = db.prepareStatement("select id from People where AndroidId like ?");
+				prep = db
+						.prepareStatement("select id from People where AndroidId like ?");
 				prep.setString(1, cn.getAndroidID());
 				ResultSet rs = prep.executeQuery();
 				rs.next();
 				userId = rs.getInt("id");
 				rs.close();
-
-			}catch (SQLException ex) {
-				logger_.log(Level.SEVERE, "SQLException retrieving userid: " + ex.getMessage());	
+			} catch (SQLException ex) {
+				logger_.log(Level.SEVERE, "SQLException retrieving userid: "
+						+ ex.getMessage());
+				closeDatabase(db);
+				return n;
 			}
-
-
-
-
 		}
 
 		String[] contacts = cn.getNumbers();
 
-
-		try{
+		try {
 			db.setAutoCommit(false);
-
-			prep = db.prepareStatement("delete from EmergencyContacts where PersonId = ?");
+			prep = db
+					.prepareStatement("delete from EmergencyContacts where PersonId = ?");
 			prep.setInt(1, userId);
 			prep.executeUpdate();
 
-			prep = db.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
-			for (String s:contacts){
+			prep = db
+					.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
+			for (String s : contacts) {
 				prep.setInt(1, userId);
 				prep.setString(2, s);
 				prep.addBatch();
@@ -103,18 +121,19 @@ public class ContactUpdateHandler implements NotificationHandler {
 			prep.executeBatch();
 
 			db.commit();
-			db.close();
+			closeDatabase(db);
 
-			chn = new ContactUpdateHandledNotification();
-
-		}catch (SQLException e) {
-			logger_.log(Level.SEVERE, "SQLException creating emergency contacts: " + e.getMessage());
+		} catch (SQLException e) {
+			logger_.log(Level.SEVERE,
+					"SQLException creating emergency contacts: "
+							+ e.getMessage());
+			closeDatabase(db);
 		}
 
-		return chn;
+		return cn;
 	}
-	
-	public void setDataConnection(DataSource ds){
+
+	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
 	}
 
