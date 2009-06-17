@@ -17,64 +17,69 @@ package org.vuphone.wwatch.android.mapping;
 
 import java.util.ArrayList;
 
+import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
+import android.util.Log;
 
-public class Route  {
+public class Route {
 
 	private ArrayList<Waypoint> route_ = new ArrayList<Waypoint>();
 	private int curIndex_;
 
-	public Route(){
+	public Route() {
 
 	}
 
-	public void addWaypoint(Waypoint w){
-		route_.add(w);		
+	public void addWaypoint(Waypoint w) {
+		route_.add(w);
 	}
-	
-	public ArrayList<Waypoint> getRoute(){
+
+	public ArrayList<Waypoint> getRoute() {
 		return route_;
 	}
 
-	public void addWaypoint(double lat, double lon, long time){
+	public void addWaypoint(double lat, double lon, long time) {
 		route_.add(new Waypoint(lat, lon, time));
 	}
 
 	/**
-	 * This method will return a specific position along the route.
-	 * It will NOT increment the location.
+	 * This method will return a specific position along the route. It will NOT
+	 * increment the location.
+	 * 
 	 * @param index
 	 * @return
 	 */
-	public Waypoint getPoint(int index){
+	public Waypoint getPoint(int index) {
 		return route_.get(index);
 	}
-	
-	public Waypoint getEndPoint(){
-		return route_.get(route_.size() - 1);
+
+	public Waypoint getEndPoint() {
+		if (route_.size() > 0)
+			return route_.get(route_.size() - 1);
+		
+		Log.w(VUphone.tag, "Route: returning null end point, because route size is zero");
+		return null;
 	}
 
 	/**
-	 * This method is used to incrementally retrieve positions along
-	 * a route.  Sequential calls to this method will return points
-	 * in the order they were added.  
+	 * This method is used to incrementally retrieve positions along a route.
+	 * Sequential calls to this method will return points in the order they were
+	 * added.
 	 * 
-	 * For instance, to replay a route for a user sequential calls
-	 * to this method would achieve the correct progression of Waypoint
-	 * objects.
+	 * For instance, to replay a route for a user sequential calls to this
+	 * method would achieve the correct progression of Waypoint objects.
 	 * 
-	 * All logic required to keep track of which point should be retrieved
-	 * next is handled internally by the Route class.
+	 * All logic required to keep track of which point should be retrieved next
+	 * is handled internally by the Route class.
 	 * 
-	 * @return Waypoint - The Waypoint object representing the current
-	 * location in the list.  Will return a null value if we have reached
-	 * the end.  
+	 * @return Waypoint - The Waypoint object representing the current location
+	 *         in the list. Will return a null value if we have reached the end.
 	 */
-	public Waypoint getNextPoint(){
-		if (curIndex_ >= route_.size()){
+	public Waypoint getNextPoint() {
+		if (curIndex_ >= route_.size()) {
 			return null;
-		}else{
+		} else {
 			return route_.get(curIndex_++);
 		}
 
@@ -82,38 +87,35 @@ public class Route  {
 
 	/**
 	 * This method will reset the internal counter that keeps track of the
-	 * current position.  For example it could be used to allow you to 
-	 * replay a given route multiple times
+	 * current position. For example it could be used to allow you to replay a
+	 * given route multiple times
 	 */
-	public void reset(){
+	public void reset() {
 		curIndex_ = 0;
 	}
-	
+
 	/**
 	 * This method returns the size of the route.
+	 * 
 	 * @return int
 	 */
-	public int getSize(){
+	public int getSize() {
 		return route_.size();
 	}
-	
+
 	/**
-	 * This method returns the next Waypoint element in the list,
-	 * but does not increment the internal counter.  It will return
-	 * null if we have reached the end of the list.
+	 * This method returns the next Waypoint element in the list, but does not
+	 * increment the internal counter. It will return null if we have reached
+	 * the end of the list.
+	 * 
 	 * @return Waypoint
 	 */
-	public Waypoint peek(){
-		if (curIndex_ >= route_.size()){
+	public Waypoint peek() {
+		if (curIndex_ >= route_.size()) {
 			return null;
-		}else{
+		} else {
 			return route_.get(curIndex_);
 		}
 	}
-
-
-
-
-
 
 }
