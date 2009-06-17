@@ -22,23 +22,43 @@ public class ImageUploader {
 	private static final String SERVER = "http://129.59.135.144:8080";
 	private static final String PATH = "/wreckwatch/notifications";
 
-	private byte[] data_ = null;
-	private ImageUploadListener listener_;
-
+	/** The image we're uploading */
 	private final Uri uri_;
-	private final ContentResolver resolver_;
-
-	private final HttpPost post_;
+	/** An array storing the image data */
+	private byte[] data_ = null;
+	/** Meta information for the image */
 	private final ImageUploadMetaInformation meta_ = new ImageUploadMetaInformation();
 
+	/** Listener whose callbacks to call */
+	private ImageUploadListener listener_;
+
+	/** A ContentResolver to file access stuff */
+	private final ContentResolver resolver_;
+
+	/** The POST we'll be sending */
+	private final HttpPost post_;
+
+	/** Threads responsible for loading and uploading the image */
 	private Thread loaderThread_, uploaderThread_;
 
-	public ImageUploader(Uri uri, Context c) {
+	/**
+	 * Construct an ImageUploader. If listener is null, an instance of
+	 * DefaultImageUploadListener will be used.
+	 * 
+	 * @param uri
+	 *            The image to upload
+	 * @param c
+	 *            A context object
+	 * @param listener
+	 *            ImageUploadListener object whose callbacks to call.
+	 */
+	public ImageUploader(Uri uri, Context c, ImageUploadListener listener) {
 		uri_ = uri;
 		resolver_ = c.getContentResolver();
-		
-		listener_ = new DefaultImageUploadListener();
-		
+
+		listener_ = (listener == null) ? new DefaultImageUploadListener() : listener;
+
+		// Set up the POST with the correct content type.
 		post_ = new HttpPost();
 		post_.addHeader("Content-Type", resolver_.getType(uri_));
 	}
@@ -56,6 +76,7 @@ public class ImageUploader {
 			long size = desc.getStatSize();
 			desc.close();
 			return (int) size;
+			
 		} catch (FileNotFoundException e) {
 			Log.v(VUphone.tag, "FileNotFoundException in ImageUploader."
 					+ "getImageSize(). Uri: " + uri_.toString());
@@ -110,6 +131,7 @@ public class ImageUploader {
 	 * fileNotFound() method gets called.
 	 */
 	public void loadImage() {
+		// Create the Thread object.
 		loaderThread_ = new Thread(new Runnable() {
 			public void run() {
 				Log.v(VUphone.tag, "ImageUploader.loadImage() starting...");
@@ -118,6 +140,7 @@ public class ImageUploader {
 				if (data_ == null) {
 					// Some exception occurred so execute listener callback and
 					// quit
+					Log.v(VUphone.tag, "ImageUploader.loadImage() FileNotFound");
 					listener_.fileNotFound();
 					return;
 				}
@@ -143,19 +166,23 @@ public class ImageUploader {
 		uploaderThread_ = new Thread(new Runnable() {
 			public void run() {
 				try {
+					// Wait for loaderThread_ to finish loading the image.
 					loaderThread_.join();
-				} catch (InterruptedException e){}
-				
-				if (data_ == null){
+				} catch (InterruptedException e) {
+					Log.v(VUphone.tag, "uploaderThread_.run() Interrupted");
+				}
+
+				if (data_ == null) {
 					listener_.fileNotFound();
 					return;
 				}
-				
+
+				// Fetch the meta data and prepare the POST URI
 				listener_.setMetaInformation(meta_);
 				String uriStr = SERVER + PATH + "?type=image&" + meta_;
 				post_.setURI(URI.create(uriStr));
 				HttpClient c = new DefaultHttpClient();
-				
+
 				try {
 					HttpResponse r = c.execute(post_);
 					int code = r.getStatusLine().getStatusCode();
@@ -168,8 +195,7 @@ public class ImageUploader {
 				}
 			}
 		}, "UploadImageThread");
-		
-		uploaderThread_.start();
 
+		uploaderThread_.start();
 	}
 }
