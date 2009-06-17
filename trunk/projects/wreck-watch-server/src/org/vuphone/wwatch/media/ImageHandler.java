@@ -1,11 +1,20 @@
 package org.vuphone.wwatch.media;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletInputStream;
 
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
@@ -15,10 +24,14 @@ public class ImageHandler implements NotificationHandler{
 	private static final Logger logger_ = Logger.getLogger(ImageHandler.class.getName());
 	private DataSource ds_;
 	private ImageParser parser_;
+	private static final String LAT = "latitude";
+	private static final String LON = "longitude";
+	private static final String TIME = "time";
+	private static final String CONTENT_TYPE = "image/jpeg";
+	private static final String IMAGE_DIRECTORY = "images";
+	private static final String FILE_EXTENSION = ".jpg";
 	
 	public Notification handle(Notification n) {
-
-
 
 		Connection db = null;
 
@@ -33,9 +46,82 @@ public class ImageHandler implements NotificationHandler{
 			return n;
 		}
 		
+		//get data from request
+		HttpServletRequest request = n.getRequest();
+		if (!isRequestValid(request))
+		{
+			logger_.log(Level.SEVERE, "Request didn't have needed parameters");
+			return n;
+		}
+		
+		double lat, lon;
+		long time;
+		lat = Double.parseDouble(request.getParameter(ImageHandler.LAT));
+		lon = Double.parseDouble(request.getParameter(ImageHandler.LON));
+		time = Long.parseLong(request.getParameter(ImageHandler.TIME));
+		
+		//hack to remove later.  should get from request.
+		int wreckId = 1;
+		
+		int imageId = -1;
+		try {
+			// Prepare the SQL statement
+			PreparedStatement prep = null; 
+			prep = db
+					.prepareStatement("SELECT max(imageId) FROM WreckImages;");
+			ResultSet rs = prep.executeQuery();
+			rs.next();
+			imageId = rs.getInt("imageId");
+			rs.close();
+		} catch (SQLException e) {
+			logger_.log(Level.SEVERE, "Got SQLException when getting wreckId :" + e.getMessage());
+			return n;
+		}
+		
+		logger_.log(Level.SEVERE, "Got the value " + Integer.toString(imageId) + " for imageId");
+		//get the next value that the counter in the database would use.
+		imageId++;
+		
+		String fileName = Integer.toString(imageId) + ImageHandler.FILE_EXTENSION;
+		//put other data from request into database
+		// Insert wreck into database
+		try {
+			// Prepare the SQL statement
+			PreparedStatement prep = null; 
+			prep = db
+					.prepareStatement("INSERT INTO WreckImages (WreckID, FileName, Lat, Lon, Time) VALUES (?, ?, ?, ?,?);");
+			prep.setInt(1, wreckId);
+			prep.setString(2, fileName);
+			prep.setDouble(3, lat);
+			prep.setDouble(4, lon);
+			prep.setDate(5, new Date(time));
+			prep.execute();
+
+			db.commit();
+		} catch (SQLException e) {
+			logger_.log(Level.SEVERE, "Got SQLException when inserting into WreckImages table :" + e.getMessage());
+			return n;
+		}
+		
+		//put image as file on disk
+		File imageFile = new File(ImageHandler.IMAGE_DIRECTORY, fileName);
+		try {
+			FileOutputStream writer = new FileOutputStream(imageFile);
+			ServletInputStream input = request.getInputStream();
+			byte[] bytes = new byte[1024];
+			int read = -1;
+			while ((read = input.read (bytes)) > 0)
+			{
+				writer.write(bytes, 0, read);
+			}
+			writer.close();
+		} catch (IOException excp) {
+			logger_.log(Level.SEVERE, "Got an IOException: " + excp.getMessage());
+			return n;
+		}
 		
 		// Parse the Notification and extract the AccidentReport
-//		AccidentNotification report;
+//		ImageHandledNotificaiton report;
 //		try {
 //			report = parser_.getAccident(n);
 //		} catch (AccidentFormatException e1) {
@@ -51,6 +137,33 @@ public class ImageHandler implements NotificationHandler{
 //		
 		
 		return null;
+	}
+	
+	public boolean isRequestValid(HttpServletRequest request)
+	{
+		boolean isValid = false;
+		
+		if (request.getParameter(ImageHandler.LAT) == null)
+		{
+			logger_.log(Level.SEVERE, "Unable to get latitude from request");
+		}
+		else if (request.getParameter(ImageHandler.LON) == null)
+		{
+			logger_.log(Level.SEVERE, "Unable to get longitude from request");
+		}
+		else if (request.getParameter(ImageHandler.TIME) == null)
+		{
+			logger_.log(Level.SEVERE, "Unable to get time from request");
+		}
+		else if (!request.getContentType().equalsIgnoreCase(ImageHandler.CONTENT_TYPE))
+		{
+			logger_.log(Level.SEVERE, "Expected Content Type to be " + ImageHandler.CONTENT_TYPE + " not " + request.getContentType());
+		}
+		else
+		{
+			isValid = true;
+		}
+		return isValid;
 	}
 	
 	public void setDataConnection(DataSource ds){
