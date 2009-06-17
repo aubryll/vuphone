@@ -33,9 +33,11 @@ public class PinGroup extends Overlay{
 
 	private List<GeoPoint> points_ = null;
 	
-	private long lastTime_ = 0;
+	private long[] wreckTimes_ = null;
 	
-	private GeoPoint lastPoint_ = null;
+	private GeoPoint[] wrecks_ = null;
+	
+	private int numWrecks_ = 0;
 	
 	private static final String LOG_PREFIX = "PinGroup: ";
 	
@@ -53,7 +55,7 @@ public class PinGroup extends Overlay{
 	public PinGroup(Bitmap icon, Context context) {
 		points_ = Collections.synchronizedList(new ArrayList<GeoPoint>());
 		pinIcon_ = icon;
-		context_ = context;	
+		context_ = context;
 	}
 
 	/**
@@ -61,15 +63,26 @@ public class PinGroup extends Overlay{
 	 * @param point
 	 * @param name
 	 */
-	public void addPin(Waypoint point){
+	public void addPin(Waypoint point, int id){
 		if (!points_.contains(point)){
 			int lat = (int)(point.getLatitude() * 1E6);
 			int lon = (int) (point.getLongitude() * 1E6);
 			GeoPoint p = new GeoPoint(lat, lon);
 			points_.add(p);
-			if (point.getTime() > lastTime_) {
-				lastTime_ = point.getTime();
-				lastPoint_ = p;
+			if (id >= numWrecks_) {
+				GeoPoint[] temp = new GeoPoint[id+1];
+				long[] temp2 = new long[id+1];
+				for(int i = 0; i < numWrecks_; i++) {
+					temp[i] = wrecks_[i];
+					temp2[i] = wreckTimes_[i];
+				}
+				numWrecks_ = id+1;
+				wrecks_ = temp;
+				wreckTimes_ = temp2;
+			}
+			if (point.getTime() > wreckTimes_[id]) {
+				wreckTimes_[id] = point.getTime();
+				wrecks_[id] = p;
 			}
 		}
 	}
@@ -96,11 +109,15 @@ public class PinGroup extends Overlay{
 				float y = scrPt.y;
 				int radius = 5;
 				
-				
-				if (point.equals(lastPoint_)) {
-					canvas.drawCircle(x, y, radius, paint);
+				boolean found = false;
+				for (GeoPoint wreck : wrecks_) {
+					if (point.equals(wreck)) {
+						found = true;
+						canvas.drawCircle(x, y, radius, paint);
+						break;
+					}
 				}
-				else {
+				if (!found) {
 					canvas.drawCircle(x, y, radius, new Paint());
 				}
 			}
@@ -109,28 +126,32 @@ public class PinGroup extends Overlay{
 
 	public boolean onTouchEvent(MotionEvent event, MapView view){
 
-		if (event.getAction() == MotionEvent.ACTION_DOWN && lastPoint_ != null) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN && numWrecks_ > 0) {
 			Log.d(VUphone.tag, LOG_PREFIX + "Touch detected at ("+event.getX()+", "+event.getY()+").");
+			
+			// Figure out which point was touched.
 			Projection projection = view.getProjection();
-			Point scrPt = projection.toPixels(lastPoint_, null);
-			float x = scrPt.x; 
-			float y = scrPt.y;
-			int radius = 20;
-			if (event.getX() > x-radius && event.getX() < x+radius &&
-					event.getY() > y-radius && event.getY() < y+radius) {
-				Log.d(VUphone.tag, LOG_PREFIX + "Found the point "+lastPoint_.toString());
+			for (GeoPoint wreck : wrecks_) {
+				Point scrPt = projection.toPixels(wreck, null);
+				float x = scrPt.x; 
+				float y = scrPt.y;
+				int radius = 20;
+				if (event.getX() > x-radius && event.getX() < x+radius &&
+						event.getY() > y-radius && event.getY() < y+radius) {
+					Log.d(VUphone.tag, LOG_PREFIX + "Found the point "+wreck.toString());
 
-				// When the pin is clicked on, we will display the GalleryActivity
-				Intent i = new Intent(context_, GalleryActivity.class);
-				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				i.putExtra("org.vuphone.wwatch.android.mapping.GalleryActivity.point", 
-						"lat="+lastPoint_.getLatitudeE6()+
-						"&lon="+lastPoint_.getLongitudeE6());
-				context_.startActivity(i);
-				//view.getOverlays().add(new GalleryOverlay(context_));
-				//view.postInvalidate();
+					// When the pin is clicked on, we will display the GalleryActivity
+					Intent i = new Intent(context_, GalleryActivity.class);
+					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					i.putExtra("org.vuphone.wwatch.android.mapping.GalleryActivity.point", 
+							"latitude="+wreck.getLatitudeE6()+
+							"&longitude="+wreck.getLongitudeE6());
+					context_.startActivity(i);
+					//view.getOverlays().add(new GalleryOverlay(context_));
+					//view.postInvalidate();
 				
-				return true;
+					return true;
+				}
 			}
 		}
 		return false;
