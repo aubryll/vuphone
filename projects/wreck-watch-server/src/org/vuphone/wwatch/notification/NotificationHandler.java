@@ -28,7 +28,8 @@ public interface NotificationHandler {
 	 * 
 	 * @param n
 	 * @return
+	 * @throws HandlerFailedException 
 	 */
-	public Notification handle(Notification n);
+	public Notification handle(Notification n) throws HandlerFailedException;
 	
 }

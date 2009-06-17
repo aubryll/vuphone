@@ -181,7 +181,6 @@ public class AccidentHandler implements NotificationHandler {
 			prep.setDouble(5, report.getDeceleration());
 			prep.execute();
 
-			db.commit();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger_.log(Level.SEVERE, "Unable to insert wreck into database!");

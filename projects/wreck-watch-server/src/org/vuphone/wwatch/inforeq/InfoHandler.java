@@ -28,6 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.xml.serializer.dom3.LSSerializerImpl;
+import org.vuphone.wwatch.notification.HandlerFailedException;
 import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
@@ -52,14 +53,14 @@ public class InfoHandler implements NotificationHandler {
 		Document d = null;
 		try {
 			d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.newDocument();
+			.newDocument();
 		} catch (ParserConfigurationException e) {
 
 			logger_
-					.log(
-							Level.SEVERE,
-							"Parser configuration exception creating document for xml response",
-							e);
+			.log(
+					Level.SEVERE,
+					"Parser configuration exception creating document for xml response",
+					e);
 		}
 		Node rootRt = d.createElement("Routes");
 
@@ -110,24 +111,9 @@ public class InfoHandler implements NotificationHandler {
 		}
 	}
 
-	/**
-	 * This method uses a parser to attempt to convert a generic Notification
-	 * into an InfoNotification, and then builds the correct reply inside of an
-	 * InfoHandledNotificaiton
-	 */
-	public Notification handle(Notification n) {
+	private InfoHandledNotification getInfo(InfoNotification info) throws HandlerFailedException{
 
 		Connection db = null;
-
-		InfoNotification info = null;
-		try {
-			info = parser_.getInfo(n.getRequest());
-		} catch (InvalidFormatException ife) {
-			ife.printStackTrace();
-			logger_.log(Level.SEVERE,
-					"Unable to parse the notification, stopping");
-			return n;
-		}
 
 		try {
 			db = ds_.getConnection();
@@ -135,7 +121,9 @@ public class InfoHandler implements NotificationHandler {
 		} catch (SQLException e) {
 			logger_.log(Level.SEVERE, "SQLException: ", e);
 			closeDatabase(db);
-			return n;
+			HandlerFailedException hfe = new HandlerFailedException();
+			hfe.initCause(e);
+			throw hfe;
 		}
 
 		// Prepare the SQL select
@@ -143,6 +131,7 @@ public class InfoHandler implements NotificationHandler {
 		// Add the results to the InfoHandledNotification
 		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;";
 		InfoHandledNotification note;
+
 		try {
 			PreparedStatement prep = db.prepareStatement(sql);
 			prep.setDouble(1, info.getTopLeftCorner().getLatitude());
@@ -178,15 +167,47 @@ public class InfoHandler implements NotificationHandler {
 			}
 
 			db.close();
-			
-			note = buildResponse(note);
 			return note;
-		} catch (SQLException e) {
-			logger_.log(Level.SEVERE, "SQLException: ", e);
-			closeDatabase(db);
-			return n;
+
+
+		}catch (SQLException e) {
+			HandlerFailedException hfe = new HandlerFailedException();
+			hfe.initCause(e);
+			throw hfe;
 		}
 	}
+
+
+
+	/**
+	 * This method uses a parser to attempt to convert a generic Notification
+	 * into an InfoNotification, and then builds the correct reply inside of an
+	 * InfoHandledNotificaiton
+	 */
+	public Notification handle(Notification n) throws HandlerFailedException {
+
+
+
+		InfoNotification info = null;
+		try {
+			info = parser_.getInfo(n.getRequest());
+		} catch (InvalidFormatException ife) {
+			ife.printStackTrace();
+			logger_.log(Level.SEVERE,
+			"Unable to parse the notification, stopping");
+			HandlerFailedException hfe = new HandlerFailedException();
+			hfe.initCause(ife);
+			throw hfe;
+		}
+
+
+		InfoHandledNotification note = getInfo(info);
+
+		note = buildResponse(note);
+		return note;
+
+	}
+
 
 	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
