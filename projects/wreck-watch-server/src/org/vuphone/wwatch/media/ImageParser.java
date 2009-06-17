@@ -21,13 +21,15 @@ import org.vuphone.wwatch.notification.Notification;
  */
 public class ImageParser {
 
-//	public ImagePost getAccident(Notification notification)
-//			throws InvalidFormatException {
-//		if (notification.getType().equalsIgnoreCase("image")) {
-//			ImageNotification n = (ImageNotification) notification;
-//			return ImagePost.generateImagePost(n);
-//		} else {
-//			throw new InvalidFormatException();
-//		}
-//	}
+/*	public ImagePost getAccident(Notification notification)
+		throws InvalidFormatException {
+		if (notification.getType().equalsIgnoreCase("image")) {
+			ImageNotification n = (ImageNotification) notification;
+			return ImagePost.generateImagePost(n);
+		} else {
+			throw new InvalidFormatException();
+		}
+	}
+*/ 
+	
 }

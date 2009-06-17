@@ -55,7 +55,7 @@ public class NotificationParser {
 								log_.log(Level.FINE, "Unable to get Bytes out of request parameter: " + uee.getMessage());
 							}
 		 */
-		java.util.Enumeration paramNames = request_.getParameterNames();
+		/*java.util.Enumeration paramNames = request_.getParameterNames();
 		while (paramNames.hasMoreElements())
 		{
 			String currentParamName = (String) paramNames.nextElement();
@@ -91,7 +91,7 @@ public class NotificationParser {
 				first = false;
 			}
 			log_.log(Level.SEVERE, "param name (" + currentHeaderName + ") value (" + currentHeaderValue + ")");
-		}
+		}*/
 		return in;
 	}
 	
