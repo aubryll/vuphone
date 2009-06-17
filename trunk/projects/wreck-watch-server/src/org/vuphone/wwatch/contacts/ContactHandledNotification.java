@@ -17,10 +17,10 @@ package org.vuphone.wwatch.contacts;
 
 import org.vuphone.wwatch.notification.Notification;
 
-public class ContactUpdateHandledNotification extends Notification {
+public class ContactHandledNotification extends Notification {
 	
 	
-	public ContactUpdateHandledNotification() {
+	public ContactHandledNotification() {
 		super("contactupdatehandled");
 
 	}
