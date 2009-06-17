@@ -42,8 +42,8 @@ public class AccidentHandler implements NotificationHandler {
 	private Behavior b_ = null;
 
 	/**
-	 * This method receives a notification of an accident, converts the
-	 * notification into an AccidentReport, and then determines the proper way
+	 * This method receives a notification, tries to convert the
+	 * notification into an AccidentNotification, and then determines the proper way
 	 * to respond to the accident. This is typically by getting the emergency
 	 * contacts, and notifying them, either by SMS, voice message, or both
 	 * 
@@ -84,7 +84,8 @@ public class AccidentHandler implements NotificationHandler {
 			db.setAutoCommit(true);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			logger_.log(Level.WARNING, "Unable to control database at a fine-grained level");
+			logger_.log(Level.WARNING,
+					"Unable to control database at a fine-grained level");
 		}
 
 		// Used as the row ID of the person who wrecked
