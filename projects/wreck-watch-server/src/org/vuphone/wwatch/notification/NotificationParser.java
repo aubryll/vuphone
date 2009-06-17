@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import org.vuphone.wwatch.accident.AccidentNotification;
-import org.vuphone.wwatch.contacts.ContactUpdateNotification;
+import org.vuphone.wwatch.contacts.ContactNotification;
 import org.vuphone.wwatch.inforeq.InfoNotification;
 import org.vuphone.wwatch.routing.RouteNotification;
 import org.vuphone.wwatch.media.ImageNotification;
@@ -35,16 +35,6 @@ public class NotificationParser {
 		n.setRequest(req);
 		return n;
 	}
-
-	private Notification handleContact() {
-		String id = request_.getParameter("id");
-		Notification n = new ContactUpdateNotification(id);
-		ContactUpdateNotification cn = (ContactUpdateNotification) n;
-
-		cn.setNumbers(request_.getParameterValues("number"));
-		return n;
-	}
-
 
 	private Notification handleRoute() {
 		Notification n = new RouteNotification();

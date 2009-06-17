@@ -17,16 +17,20 @@ package org.vuphone.wwatch.contacts;
 
 import org.vuphone.wwatch.notification.Notification;
 
-public class ContactUpdateNotification extends Notification {
+public class ContactNotification extends Notification {
 	
 	private String[] numbers_;
 	private String androidId_;
 	
-	public ContactUpdateNotification(String androidID){
+	public ContactNotification(String androidID){
 		super("contact");
 		androidId_ = androidID;
 	}
 	
+	public ContactNotification() {
+		super("contact");
+	}
+
 	public void setNumbers(String[] number){
 		numbers_ = number;
 	}
@@ -38,7 +42,15 @@ public class ContactUpdateNotification extends Notification {
 	public String getAndroidID(){
 		return androidId_;
 	}
-
 	
+	public void setAndroidID(String id)
+	{
+		androidId_ = id;
+	}
+
+	@Override
+	public String getResponseString() {
+		return "";
+	}
 
 }
