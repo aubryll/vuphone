@@ -15,6 +15,8 @@
  **************************************************************************/
 package org.vuphone.wwatch.android.mapping;
 
+import java.util.List;
+
 import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.Waypoint;
 
@@ -33,14 +35,11 @@ public class AccidentMapView extends MapView {
 		super.setBuiltInZoomControls(true);
 		pinGroup_ = new PinGroup(BitmapFactory.decodeResource(context.getResources(), R.drawable.unhapppy), context);
 		getOverlays().add(pinGroup_);
-		
-		
 	}
 	
-	public void addPin(Waypoint point, int id){
-		pinGroup_.addPin(point, id);
+	public void addPins(final List<Waypoint> point){
+		pinGroup_.addPins(point);
 		postInvalidate();
-
 	}
 	
 

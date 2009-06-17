@@ -20,6 +20,8 @@ package org.vuphone.wwatch.android;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,6 +61,8 @@ public class AccidentViewer extends MapActivity implements
 	private GeoPoint curCenter_;
 
 	private Timer t = new Timer("Accident View Delay");
+
+	private ArrayList<Route> routes_;
 
 	// Used for centering on the first fix.
 	private Location firstLoc_ = null;
@@ -108,52 +112,50 @@ public class AccidentViewer extends MapActivity implements
 		setContentView(R.layout.accidentview);
 		map_ = (AccidentMapView) findViewById(R.id.accidentview);
 		mc_ = map_.getController();
-		mc_.setZoom(7);
+		mc_.setZoom(8);
 		map_.postInvalidate();
 
-		// Get fixes as quickly as possible. This will be turned off after the
-		// first fix comes in.
+		// Get fixes as quickly as possible.
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
 						this);
 
-		t.scheduleAtFixedRate(task_, 0, 3000);
+		// TODO - we really need to cache this somehow, and use a cron-esq thing
+		// to get it
+		t.scheduleAtFixedRate(task_, 0, 9000);
 
 		curCenter_ = map_.getMapCenter();
 
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
-				.removeUpdates(this);
-	}
-	
-	@Override
 	public void onStart() {
 		super.onStart();
-		
-		if (firstLoc_ != null) 
+
+		if (firstLoc_ != null)
 			return;
-		
+
 		// If we don't have a fix, zoom in on default location.
 		(new Thread() {
 			public void run() {
 				Geocoder coder = new Geocoder(AccidentViewer.this);
 				Address address = null;
-				SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
-				String defaultLoc = prefs.getString(VUphone.LOCATION_TAG, "Nashville, TN");
+				SharedPreferences prefs = getSharedPreferences(
+						VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+				String defaultLoc = prefs.getString(VUphone.LOCATION_TAG,
+						"Nashville, TN");
 				try {
-					address = coder.getFromLocationName(defaultLoc, 1).get(0); 
+					address = coder.getFromLocationName(defaultLoc, 1).get(0);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
+
 				if (address == null)
 					return;
-				
-				final GeoPoint point = new GeoPoint((int) (address.getLatitude() * 1000000), (int) (address.getLongitude() * 1000000));				
+
+				final GeoPoint point = new GeoPoint((int) (address
+						.getLatitude() * 1000000), (int) (address
+						.getLongitude() * 1000000));
 
 				AccidentViewer.this.runOnUiThread(new Thread() {
 					public void run() {
@@ -162,18 +164,7 @@ public class AccidentViewer extends MapActivity implements
 					}
 				});
 			}
-		}).start();	
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
-		// Only enable GPS if we still don't have a fix
-		if (firstLoc_ == null)
-			((LocationManager) getSystemService(Context.LOCATION_SERVICE))
-					.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-							this);
+		}).start();
 	}
 
 	@Override
@@ -192,26 +183,31 @@ public class AccidentViewer extends MapActivity implements
 
 	public void operationComplete(HttpResponse resp) {
 
-		Log.i(VUphone.tag, LOG_PREFIX + "HTTP operation complete.  Processing response.");
+		Log.i(VUphone.tag, LOG_PREFIX
+				+ "HTTP operation complete.  Processing response.");
 		AccidentDataHandler adh = new AccidentDataHandler();
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 
 		try {
-			resp.getEntity().writeTo(bao);	
+			resp.getEntity().writeTo(bao);
 			Log.d(VUphone.tag, LOG_PREFIX + "Http response: " + bao.toString());
-			int wreckNum = 0;
-			for (Route r:adh.processXML(new InputSource(new ByteArrayInputStream(bao.toByteArray())))){
-				for (Waypoint w:r.getRoute()){
-					Log.d(VUphone.tag, LOG_PREFIX + "Adding accident point: " + w.toString());
-					map_.addPin(w,wreckNum);
-				}
-				wreckNum++;
-			}
+			
+			routes_ = adh.processXML(new InputSource(new ByteArrayInputStream(
+					bao.toByteArray())));
+			Iterator<Route> i = routes_.iterator();
+			ArrayList<Waypoint> points = new ArrayList<Waypoint>();
+			while (i.hasNext())
+				points.add(i.next().getEndPoint());
+			
+			Log.i(VUphone.tag, LOG_PREFIX + "Adding waypoints: " + points.toString());
+			map_.addPins(points);
+			
 		} catch (IOException e) {
-			Log.e(VUphone.tag, LOG_PREFIX + "IOException processing HttpResponse object: " + e.getMessage());
+			Log.e(VUphone.tag, LOG_PREFIX
+					+ "IOException processing HttpResponse object: "
+					+ e.getMessage());
 		}
 	}
-
 
 	public void onLocationChanged(Location location) {
 		firstLoc_ = location;
@@ -228,7 +224,8 @@ public class AccidentViewer extends MapActivity implements
 				mc_.setZoom(15);
 			}
 		});
-		((LocationManager) getSystemService(Context.LOCATION_SERVICE)).removeUpdates(this);
+		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
+				.removeUpdates(this);
 	}
 
 	public void onProviderDisabled(String provider) {

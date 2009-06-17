@@ -84,7 +84,8 @@ public class AccidentDataHandler extends DefaultHandler {
 			inPoint = false;
 		}else if(localname.trim().equalsIgnoreCase("Route")){
 			inRoute = false;
-			points_.add(curRoute_);
+			if (curRoute_.getSize() > 0)
+				points_.add(curRoute_);
 		}else if(localname.trim().equalsIgnoreCase("Routes")){
 			inRoutes = false;
 			throw new SAXException("Done processing");
