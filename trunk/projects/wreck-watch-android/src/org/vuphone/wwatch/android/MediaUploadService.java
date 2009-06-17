@@ -14,6 +14,7 @@ public class MediaUploadService extends Service implements LocationListener {
 
 	private LocationManager man_;
 	private static float ACCURACY = 20f;
+	private static long WAIT_TIME = 5000;
 	private Location location_ = null;
 
 	@Override
@@ -67,7 +68,7 @@ public class MediaUploadService extends Service implements LocationListener {
 		
 		Uri uri = Uri.parse(uriStr);
 		Log.v(VUphone.tag, "Uri=" + uri.toString());
-		final ImageUploader imgUp = new ImageUploader(uri, this);
+		final ImageUploader imgUp = new ImageUploader(uri, this, null);
 		imgUp.loadImage();
 		imgUp.uploadImage();
 		
