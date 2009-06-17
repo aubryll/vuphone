@@ -27,6 +27,7 @@ public class ImageHandler implements NotificationHandler{
 	private static final String LAT = "latitude";
 	private static final String LON = "longitude";
 	private static final String TIME = "time";
+	private static final String WRECKID = "wreckid";
 	private static final String CONTENT_TYPE = "image/jpeg";
 	private static final String IMAGE_DIRECTORY = "images";
 	private static final String FILE_EXTENSION = ".jpg";
@@ -55,13 +56,12 @@ public class ImageHandler implements NotificationHandler{
 		}
 		
 		double lat, lon;
-		long time;
+		long time, wreckId;
 		lat = Double.parseDouble(request.getParameter(ImageHandler.LAT));
 		lon = Double.parseDouble(request.getParameter(ImageHandler.LON));
 		time = Long.parseLong(request.getParameter(ImageHandler.TIME));
+		wreckId = Long.parseLong(request.getParameter(ImageHandler.WRECKID));
 		
-		//hack to remove later.  should get from request.
-		int wreckId = 1;
 		
 		int imageId = -1;
 		try {
@@ -90,7 +90,7 @@ public class ImageHandler implements NotificationHandler{
 			PreparedStatement prep = null; 
 			prep = db
 					.prepareStatement("INSERT INTO WreckImages (WreckID, FileName, Lat, Lon, Time) VALUES (?, ?, ?, ?,?);");
-			prep.setInt(1, wreckId);
+			prep.setLong(1, wreckId);
 			prep.setString(2, fileName);
 			prep.setDouble(3, lat);
 			prep.setDouble(4, lon);
@@ -145,19 +145,23 @@ public class ImageHandler implements NotificationHandler{
 		
 		if (request.getParameter(ImageHandler.LAT) == null)
 		{
-			logger_.log(Level.SEVERE, "Unable to get latitude from request");
+			logger_.log(Level.SEVERE, "Unable to get latitude from the request");
 		}
 		else if (request.getParameter(ImageHandler.LON) == null)
 		{
-			logger_.log(Level.SEVERE, "Unable to get longitude from request");
+			logger_.log(Level.SEVERE, "Unable to get longitude from the request");
 		}
 		else if (request.getParameter(ImageHandler.TIME) == null)
 		{
-			logger_.log(Level.SEVERE, "Unable to get time from request");
+			logger_.log(Level.SEVERE, "Unable to get time from the request");
 		}
 		else if (!request.getContentType().equalsIgnoreCase(ImageHandler.CONTENT_TYPE))
 		{
 			logger_.log(Level.SEVERE, "Expected Content Type to be " + ImageHandler.CONTENT_TYPE + " not " + request.getContentType());
+		}
+		else if (request.getParameter(ImageHandler.WRECKID) == null)
+		{
+			logger_.log(Level.SEVERE, "Unable to get wreckid from the request");
 		}
 		else
 		{
