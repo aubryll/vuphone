@@ -26,26 +26,14 @@ public class NotificationParser {
 	private HttpServletRequest request_;
 
 	public Notification parse(HttpServletRequest req) {
-		request_ = req;
 		String type = req.getParameter("type");
-		
+	
 		if (type == null)
 			return null;
 
-		if (type.equalsIgnoreCase("accident"))
-			return handleAccident();
-		else if (type.equalsIgnoreCase("info"))
-			return handleInfo();
-		else if (type.equalsIgnoreCase("contact"))
-			return handleContact();
-		else if (type.equalsIgnoreCase("route"))
-			return handleRoute();
-		else if (type.equalsIgnoreCase("image"))
-			return handleImage();
-		else if (type.equalsIgnoreCase("imageRequest"))
-			return handleImageRequest();
-		else
-			return null;
+		Notification n = new Notification(type);
+		n.setRequest(req);
+		return n;
 	}
 
 	private Notification handleAccident() {

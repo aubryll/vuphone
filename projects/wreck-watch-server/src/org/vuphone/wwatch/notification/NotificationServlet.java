@@ -66,6 +66,12 @@ public class NotificationServlet extends HttpServlet {
 					System.out.println("Rnote was null, something went wrong");
 					return;
 				}
+				
+				resp.getWriter().write(rnote.toString());
+				
+				
+				
+				
 				if (rnote.getType().equalsIgnoreCase("infohandled")){
 	
 					InfoHandledNotification info = (InfoHandledNotification)rnote;
