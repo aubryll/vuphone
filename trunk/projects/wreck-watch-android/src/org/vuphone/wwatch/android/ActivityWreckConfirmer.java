@@ -267,7 +267,7 @@ public class ActivityWreckConfirmer extends Activity implements OnClickListener 
 		startService(message);
 
 		Intent intent = new Intent(this,
-				org.vuphone.wwatch.android.services.GPService.class);
+				org.vuphone.wwatch.android.gps.GPService.class);
 		intent.putExtra("DidAccidentOccur", occurred);
 		startService(intent);
 

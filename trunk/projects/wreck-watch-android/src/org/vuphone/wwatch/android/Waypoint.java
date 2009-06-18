@@ -3,6 +3,7 @@ package org.vuphone.wwatch.android;
 import android.location.Location;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.OverlayItem;
 
 /**
  * A wrapper class that encapsulates vital information about a point along a
@@ -12,50 +13,21 @@ import com.google.android.maps.GeoPoint;
  * 
  */
 
-public class Waypoint {
+public class Waypoint extends OverlayItem {
 	private long timeStamp_ = 0;
-	private GeoPoint point_;
+	private final GeoPoint point_;
 
-	/**
-	 * Construct a Waypoint from longitude, latitude, and time data.
-	 * 
-	 * @param lon
-	 *            Longitude in degrees
-	 * @param lat
-	 *            Latitude in degrees
-	 * @param time
-	 *            UTC time in milliseconds since January 1, 1970.
-	 */
-	public Waypoint(double lon, double lat, long time) {
-		timeStamp_ = time;
-		point_ = new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6));
-	}
-
-	/**
-	 * Construct a Waypoint using data stored in the given Location object.
-	 * 
-	 * @param loc
-	 *            Location object
-	 */
 	public Waypoint(Location loc) {
-		if (loc == null)
-			throw new IllegalArgumentException(
-					"NULL Location in Waypoint constructor not allowed");
-
-		point_ = new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc
-				.getLongitude() * 1E6));
-
-		timeStamp_ = loc.getTime();
+		this(new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc
+				.getLongitude() * 1E6)), loc.getTime());
 	}
 
-	public Waypoint() {
-		// To avoid null pointer exceptions
-		point_ = new GeoPoint(0, 0);
+	public Waypoint(GeoPoint point, long time) {
+		super(point, "title", "snippet");
+		point_ = point;
+		timeStamp_ = time;
 	}
 
-	public GeoPoint getGeoPoint() {
-		return point_;
-	}
 
 	/**
 	 * Returns the latitude in microdegrees.
@@ -83,6 +55,10 @@ public class Waypoint {
 	public long getTime() {
 		return timeStamp_;
 	}
+	
+	public GeoPoint getGeoPoint() {
+		return point_;
+	}
 
 	/**
 	 * Returns a human readable version of this Waypoint
@@ -92,19 +68,6 @@ public class Waypoint {
 	public String toString() {
 		return "[" + getLongitude() + ", " + getLatitude() + ", " + timeStamp_
 				+ "]";
-	}
-
-	/**
-	 * 
-	 * @param lat
-	 *            new latitude in degrees
-	 */
-	public void setLatitude(double lat) {
-		point_ = new GeoPoint((int) (lat * 1E6), point_.getLongitudeE6());
-	}
-
-	public void setLongitude(double lon) {
-		point_ = new GeoPoint(point_.getLatitudeE6(), (int) (lon * 1E6));
 	}
 
 	public void setTime(long time) {

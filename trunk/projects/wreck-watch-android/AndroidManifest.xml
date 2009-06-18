@@ -59,7 +59,7 @@
 		<activity android:name=".SettingsUI" android:label="WW Settings">
 		</activity>
 
-		<service android:name=".services.GPService" />
+		<service android:name=".gps.GPService" />
 
 		<service android:name=".services.DecelerationService" />
 		
