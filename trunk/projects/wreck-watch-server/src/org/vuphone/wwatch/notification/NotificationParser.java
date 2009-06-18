@@ -26,6 +26,7 @@ public class NotificationParser {
 	private HttpServletRequest request_;
 
 	public Notification parse(HttpServletRequest req) {
+		log_.log(Level.SEVERE, "Inside Notification.parse");
 		String type = req.getParameter("type");
 	
 		if (type == null)

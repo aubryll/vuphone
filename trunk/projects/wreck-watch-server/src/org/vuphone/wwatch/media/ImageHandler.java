@@ -29,6 +29,7 @@ public class ImageHandler implements NotificationHandler{
 	private static final String CONTENT_TYPE = "image/jpeg";
 	private static final String IMAGE_DIRECTORY = "images";
 	private static final String FILE_EXTENSION = ".jpg";
+	private static int FILE_NAME_PREFIX = 0;
 	
 	public Notification handle(Notification n) {
 
@@ -58,26 +59,13 @@ public class ImageHandler implements NotificationHandler{
 		wreckId = Long.parseLong(request.getParameter(ImageHandler.WRECKID));
 		
 		
-		int imageId = -1;
-		try {
-			// Prepare the SQL statement
-			PreparedStatement prep = null; 
-			prep = db
-					.prepareStatement("SELECT max(imageId) FROM WreckImages;");
-			ResultSet rs = prep.executeQuery();
-			rs.next();
-			imageId = rs.getInt("imageId");
-			rs.close();
-		} catch (SQLException e) {
-			logger_.log(Level.SEVERE, "Got SQLException when getting wreckId :" + e.getMessage());
-			return n;
+		String fileName;
+		synchronized (ImageHandler.class)
+		{
+			ImageHandler.FILE_NAME_PREFIX++;
+			fileName = Integer.toString(ImageHandler.FILE_NAME_PREFIX) + ImageHandler.FILE_EXTENSION;
 		}
-		
-		logger_.log(Level.SEVERE, "Got the value " + Integer.toString(imageId) + " for imageId");
-		//get the next value that the counter in the database would use.
-		imageId++;
-		
-		String fileName = Integer.toString(imageId) + ImageHandler.FILE_EXTENSION;
+
 		//put other data from request into database
 		// Insert wreck into database
 		try {
@@ -135,12 +123,13 @@ public class ImageHandler implements NotificationHandler{
 	public boolean isRequestValid(HttpServletRequest request)
 	{
 		boolean isValid = false;
-		
+
 		if (request.getParameter(ImageHandler.TIME) == null)
 		{
 			logger_.log(Level.SEVERE, "Unable to get time from the request");
 		}
-		else if (!request.getContentType().equalsIgnoreCase(ImageHandler.CONTENT_TYPE))
+		else if (request.getContentType() == null ||
+				!request.getContentType().equalsIgnoreCase(ImageHandler.CONTENT_TYPE))
 		{
 			logger_.log(Level.SEVERE, "Expected Content Type to be " + ImageHandler.CONTENT_TYPE + " not " + request.getContentType());
 		}
