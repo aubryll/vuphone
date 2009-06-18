@@ -24,8 +24,6 @@ public class ImageHandler implements NotificationHandler{
 	private static final Logger logger_ = Logger.getLogger(ImageHandler.class.getName());
 	private DataSource ds_;
 	private ImageParser parser_;
-	private static final String LAT = "latitude";
-	private static final String LON = "longitude";
 	private static final String TIME = "time";
 	private static final String WRECKID = "wreckid";
 	private static final String CONTENT_TYPE = "image/jpeg";
@@ -55,10 +53,7 @@ public class ImageHandler implements NotificationHandler{
 			return n;
 		}
 		
-		double lat, lon;
 		long time, wreckId;
-		lat = Double.parseDouble(request.getParameter(ImageHandler.LAT));
-		lon = Double.parseDouble(request.getParameter(ImageHandler.LON));
 		time = Long.parseLong(request.getParameter(ImageHandler.TIME));
 		wreckId = Long.parseLong(request.getParameter(ImageHandler.WRECKID));
 		
@@ -89,12 +84,10 @@ public class ImageHandler implements NotificationHandler{
 			// Prepare the SQL statement
 			PreparedStatement prep = null; 
 			prep = db
-					.prepareStatement("INSERT INTO WreckImages (WreckID, FileName, Lat, Lon, Time) VALUES (?, ?, ?, ?,?);");
+					.prepareStatement("INSERT INTO WreckImages (WreckID, FileName, Time) VALUES (?, ?, ?);");
 			prep.setLong(1, wreckId);
 			prep.setString(2, fileName);
-			prep.setDouble(3, lat);
-			prep.setDouble(4, lon);
-			prep.setDate(5, new Date(time));
+			prep.setDate(3, new Date(time));
 			prep.execute();
 
 			db.commit();
@@ -143,15 +136,7 @@ public class ImageHandler implements NotificationHandler{
 	{
 		boolean isValid = false;
 		
-		if (request.getParameter(ImageHandler.LAT) == null)
-		{
-			logger_.log(Level.SEVERE, "Unable to get latitude from the request");
-		}
-		else if (request.getParameter(ImageHandler.LON) == null)
-		{
-			logger_.log(Level.SEVERE, "Unable to get longitude from the request");
-		}
-		else if (request.getParameter(ImageHandler.TIME) == null)
+		if (request.getParameter(ImageHandler.TIME) == null)
 		{
 			logger_.log(Level.SEVERE, "Unable to get time from the request");
 		}

@@ -88,8 +88,8 @@ public class SqlConstructor {
 
 		sql = "CREATE TABLE IF NOT EXISTS WreckImages ( "
 				+ "ImageID INTEGER PRIMARY KEY ASC AUTOINCREMENT,"
-				+ "WreckID INTEGER REFERENCES Wreck(WreckID), Filename TEXT NOT NULL,"
-				+ "Lat DOUBLE NOT NULL, Lon DOUBLE NOT NULL, Time DATE NOT NULL);";
+				+ "WreckID INTEGER REFERENCES Wreck(WreckID), FileName TEXT NOT NULL,"
+				+ "Time DATE NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();
