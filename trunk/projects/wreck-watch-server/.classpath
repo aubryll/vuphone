@@ -53,5 +53,6 @@
 	<classpathentry kind="lib" path="lib/httpclient-4.0-beta2.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.0-beta3.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.0-beta2.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.7-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
