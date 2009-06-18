@@ -57,7 +57,8 @@ public class ImageHandler implements NotificationHandler{
 		long time, wreckId;
 		time = Long.parseLong(request.getParameter(ImageHandler.TIME));
 		wreckId = Long.parseLong(request.getParameter(ImageHandler.WRECKID));
-		
+				
+		//get initial value of FILE_NAME_PREFIX from DB? otherwise we start at 1 on every restart.
 		
 		String fileName;
 		synchronized (ImageHandler.class)
@@ -77,8 +78,6 @@ public class ImageHandler implements NotificationHandler{
 			prep.setString(2, fileName);
 			prep.setDate(3, new Date(time));
 			prep.execute();
-
-			db.commit();
 		} catch (SQLException e) {
 			logger_.log(Level.SEVERE, "Got SQLException when inserting into WreckImages table :" + e.getMessage());
 			return n;
