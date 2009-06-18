@@ -1,7 +1,8 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.services;
 
 import java.util.ArrayList;
 
+import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.http.HTTPPoster;
 
 import android.app.Service;

@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.media;
 
 /**
  * An interface containing signatures to callback methods that must be

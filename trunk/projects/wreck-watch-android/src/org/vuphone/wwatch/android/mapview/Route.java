@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.android.mapping;
+package org.vuphone.wwatch.android.mapview;
 
 import java.util.ArrayList;
 

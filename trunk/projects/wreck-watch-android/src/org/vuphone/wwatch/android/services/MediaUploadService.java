@@ -1,4 +1,9 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.services;
+
+import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.media.ImageUploadListener;
+import org.vuphone.wwatch.android.media.ImageUploadMetaInformation;
+import org.vuphone.wwatch.android.media.ImageUploader;
 
 import android.app.Service;
 import android.content.Intent;

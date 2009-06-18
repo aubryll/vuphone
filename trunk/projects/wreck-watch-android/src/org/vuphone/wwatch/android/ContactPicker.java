@@ -3,6 +3,8 @@ package org.vuphone.wwatch.android;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vuphone.wwatch.android.services.UpdateContactsService;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -152,7 +154,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		super.setContentView(R.layout.pickerview);
 
 		serviceIntent_ = new Intent(this,
-				org.vuphone.wwatch.android.UpdateContactsService.class);
+				org.vuphone.wwatch.android.services.UpdateContactsService.class);
 
 		serviceTrigger_ = PendingIntent.getService(this, 0, serviceIntent_,
 				PendingIntent.FLAG_CANCEL_CURRENT);

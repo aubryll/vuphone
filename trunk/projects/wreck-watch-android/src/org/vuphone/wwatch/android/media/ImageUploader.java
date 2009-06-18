@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.media;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.wwatch.android.VUphone;
 
 import android.content.ContentResolver;
 import android.content.Context;

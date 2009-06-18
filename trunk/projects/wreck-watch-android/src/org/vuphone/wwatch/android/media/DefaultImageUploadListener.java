@@ -1,4 +1,6 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.media;
+
+import org.vuphone.wwatch.android.VUphone;
 
 import android.util.Log;
 

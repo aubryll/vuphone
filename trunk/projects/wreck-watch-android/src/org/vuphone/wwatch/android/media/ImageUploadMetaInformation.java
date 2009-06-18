@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.media;
 
 import android.location.Location;
 

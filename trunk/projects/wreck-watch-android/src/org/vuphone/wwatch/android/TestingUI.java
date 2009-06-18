@@ -1,5 +1,8 @@
 package org.vuphone.wwatch.android;
 
+import org.vuphone.wwatch.android.services.DecelerationService;
+import org.vuphone.wwatch.android.services.GPService;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -105,7 +108,7 @@ public class TestingUI extends Activity {
 	
 	private OnClickListener testListener = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent = new Intent(TestingUI.this, org.vuphone.wwatch.android.ConfirmerActivity.class);
+			Intent intent = new Intent(TestingUI.this, org.vuphone.wwatch.android.ActivityWreckConfirmer.class);
 			intent.putExtra("ShowDialog", true);
 			startActivity(intent);
 		}

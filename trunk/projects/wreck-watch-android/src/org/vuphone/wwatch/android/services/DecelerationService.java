@@ -1,4 +1,10 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.services;
+
+import org.vuphone.wwatch.android.ActivityWreckConfirmer;
+import org.vuphone.wwatch.android.IRegister;
+import org.vuphone.wwatch.android.ISettingsViewCallback;
+import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.IRegister.Stub;
 
 import android.app.Service;
 import android.content.Context;
@@ -118,7 +124,7 @@ public class DecelerationService extends Service {
 				firedConfirmation_ = true;
 
 				Intent intent = new Intent(DecelerationService.this,
-						org.vuphone.wwatch.android.ConfirmerActivity.class);
+						org.vuphone.wwatch.android.ActivityWreckConfirmer.class);
 
 				intent.putExtra("ShowDialog", true);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
