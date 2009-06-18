@@ -1,6 +1,13 @@
 package org.vuphone.wwatch.android;
 
+import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.location.Location;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
@@ -17,6 +24,8 @@ public class Waypoint extends OverlayItem {
 	private long timeStamp_ = 0;
 	private final GeoPoint point_;
 
+	private BitmapDrawable drawable_ = null;
+
 	public Waypoint(Location loc) {
 		this(new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc
 				.getLongitude() * 1E6)), loc.getTime());
@@ -28,13 +37,12 @@ public class Waypoint extends OverlayItem {
 		timeStamp_ = time;
 	}
 
-
 	/**
 	 * Returns the latitude in microdegrees.
 	 * 
 	 * @return
 	 */
-	public double getLatitude() {
+	public int getLatitude() {
 		return point_.getLatitudeE6();
 	}
 
@@ -43,7 +51,7 @@ public class Waypoint extends OverlayItem {
 	 * 
 	 * @return
 	 */
-	public double getLongitude() {
+	public int getLongitude() {
 		return point_.getLongitudeE6();
 	}
 
@@ -55,9 +63,24 @@ public class Waypoint extends OverlayItem {
 	public long getTime() {
 		return timeStamp_;
 	}
-	
-	public GeoPoint getGeoPoint() {
+
+	@Override
+	public GeoPoint getPoint() {
+		Log.v(VUphone.tag, "Getting point - " + point_.toString());
 		return point_;
+	}
+
+	/**
+	 * If setContext(Context) has been called, this returns an appropriate
+	 * drawable. If it has not been called, it returns null, which indicates
+	 * that the map should use the default drawable
+	 */
+	@Override
+	public Drawable getMarker(int statebit) {
+		OvalShape oval = new OvalShape();
+		oval.resize(10, 10);
+		ShapeDrawable sd = new ShapeDrawable(oval);
+		return sd;
 	}
 
 	/**
@@ -68,6 +91,11 @@ public class Waypoint extends OverlayItem {
 	public String toString() {
 		return "[" + getLongitude() + ", " + getLatitude() + ", " + timeStamp_
 				+ "]";
+	}
+
+	public void setContext(Context c) {
+		drawable_ = new BitmapDrawable(BitmapFactory.decodeResource(c
+				.getResources(), R.drawable.unhapppy));
 	}
 
 	public void setTime(long time) {
