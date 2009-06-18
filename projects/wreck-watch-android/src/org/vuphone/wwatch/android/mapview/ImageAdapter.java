@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.android.mapping;
+package org.vuphone.wwatch.android.mapview;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.android.mapping;
+package org.vuphone.wwatch.android.mapview;
 
 import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;

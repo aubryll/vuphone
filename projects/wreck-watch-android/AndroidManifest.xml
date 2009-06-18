@@ -21,7 +21,7 @@
 			</intent-filter>		 
 		</activity>
 
-		<activity android:name=".MediaUploadActivity" android:label="UploadMedia">
+		<activity android:name=".media.MediaUploadActivity" android:label="UploadMedia">
 			<intent-filter android:label="My Activity">
 				<action android:name="android.intent.action.SEND" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -33,7 +33,7 @@
 			</intent-filter>	
 		</activity>
 		
-		<activity android:name=".mapping.GalleryActivity" android:label="Gallery">
+		<activity android:name=".mapview.GalleryActivity" android:label="Gallery">
 			<intent-filter>
 				<action android:name="android.intent.action.SEND" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -45,7 +45,7 @@
 
 		</activity>
 
-		<activity android:name=".ConfirmerActivity" android:label = "Confirm"
+		<activity android:name=".ActivityWreckConfirmer" android:label = "Confirm"
 			android:screenOrientation="portrait" >
 
 		</activity>
@@ -59,13 +59,13 @@
 		<activity android:name=".SettingsUI" android:label="WW Settings">
 		</activity>
 
-		<service android:name=".GPService" />
+		<service android:name=".services.GPService" />
 
-		<service android:name=".DecelerationService" />
+		<service android:name=".services.DecelerationService" />
 		
-		<service android:name=".UpdateContactsService" />
+		<service android:name=".services.UpdateContactsService" />
 		
-		<service android:name=".MediaUploadService" />
+		<service android:name=".services.MediaUploadService" />
 		
 </application>
 	<uses-sdk android:minSdkVersion="3" />

@@ -3,6 +3,8 @@ package org.vuphone.wwatch.android;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.vuphone.wwatch.android.services.DecelerationService;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +35,7 @@ import android.widget.TextView;
  * @author Krzysztof Zienkiewicz
  * 
  */
-public class ConfirmerActivity extends Activity implements OnClickListener {
+public class ActivityWreckConfirmer extends Activity implements OnClickListener {
 
 	/**
 	 * The string to be displayed in the timeRemaining_. ? will be substituted
@@ -265,7 +267,7 @@ public class ConfirmerActivity extends Activity implements OnClickListener {
 		startService(message);
 
 		Intent intent = new Intent(this,
-				org.vuphone.wwatch.android.GPService.class);
+				org.vuphone.wwatch.android.services.GPService.class);
 		intent.putExtra("DidAccidentOccur", occurred);
 		startService(intent);
 

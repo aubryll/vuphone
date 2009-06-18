@@ -1,8 +1,8 @@
 
 // Include your fully-qualified package statement.
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.bindings;
 
-import org.vuphone.wwatch.android.ISettingsViewCallback;
+import org.vuphone.wwatch.android.bindings.ISettingsViewCallback;
 
 // Declare the interface.
 interface IRegister {

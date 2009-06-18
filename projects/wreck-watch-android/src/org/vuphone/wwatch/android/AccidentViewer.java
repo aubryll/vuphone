@@ -28,9 +28,9 @@ import java.util.TimerTask;
 import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.http.HTTPGetter;
 import org.vuphone.wwatch.android.http.HttpOperationListener;
-import org.vuphone.wwatch.android.mapping.AccidentDataHandler;
-import org.vuphone.wwatch.android.mapping.AccidentMapView;
-import org.vuphone.wwatch.android.mapping.Route;
+import org.vuphone.wwatch.android.mapview.AccidentDataHandler;
+import org.vuphone.wwatch.android.mapview.AccidentMapView;
+import org.vuphone.wwatch.android.mapview.Route;
 import org.xml.sax.InputSource;
 
 import android.content.Context;

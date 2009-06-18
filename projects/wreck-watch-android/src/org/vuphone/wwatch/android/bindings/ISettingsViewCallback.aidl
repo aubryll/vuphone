@@ -1,7 +1,7 @@
 
 
 // Include your fully-qualified package statement.
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.bindings;
 
 // Interface for all calls that anyone might
 // want to make on the settings view

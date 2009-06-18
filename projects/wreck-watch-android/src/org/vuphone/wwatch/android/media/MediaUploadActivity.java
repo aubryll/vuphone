@@ -1,4 +1,9 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.media;
+
+import org.vuphone.wwatch.android.R;
+import org.vuphone.wwatch.android.R.id;
+import org.vuphone.wwatch.android.R.layout;
+import org.vuphone.wwatch.android.services.MediaUploadService;
 
 import android.app.Activity;
 import android.content.ContentResolver;
