@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.mapview;
 
 // TODO - Work on animated zooming
 
@@ -26,11 +26,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.http.HttpResponse;
+import org.vuphone.wwatch.android.R;
+import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.R.id;
+import org.vuphone.wwatch.android.R.layout;
 import org.vuphone.wwatch.android.http.HTTPGetter;
 import org.vuphone.wwatch.android.http.HttpOperationListener;
-import org.vuphone.wwatch.android.mapview.AccidentDataHandler;
-import org.vuphone.wwatch.android.mapview.AccidentMapView;
-import org.vuphone.wwatch.android.mapview.Route;
 import org.xml.sax.InputSource;
 
 import android.content.Context;
@@ -191,17 +193,24 @@ public class AccidentViewer extends MapActivity implements
 		try {
 			resp.getEntity().writeTo(bao);
 			Log.d(VUphone.tag, LOG_PREFIX + "Http response: " + bao.toString());
-			
+
 			routes_ = adh.processXML(new InputSource(new ByteArrayInputStream(
 					bao.toByteArray())));
 			Iterator<Route> i = routes_.iterator();
 			ArrayList<Waypoint> points = new ArrayList<Waypoint>();
-			while (i.hasNext())
-				points.add(i.next().getEndPoint());
-			
-			Log.i(VUphone.tag, LOG_PREFIX + "Adding waypoints: " + points.toString());
-			map_.addPins(points);
-			
+			while (i.hasNext()) {
+				Waypoint point = i.next().getEndPoint();
+
+				// Set the context, so the waypoint can access resources and
+				// draw it's bitmap
+				point.setContext(this);
+				points.add(point);
+			}
+
+			Log.i(VUphone.tag, LOG_PREFIX + "Adding waypoints: "
+					+ points.toString());
+			map_.updatePins(points);
+
 		} catch (IOException e) {
 			Log.e(VUphone.tag, LOG_PREFIX
 					+ "IOException processing HttpResponse object: "

@@ -53,7 +53,7 @@
 		<activity android:name=".TestingUI" android:label="WW Testing">
 		</activity>
 		
-		<activity android:name=".AccidentViewer" android:label="WW AccidentViewer">
+		<activity android:name=".mapview.AccidentViewer" android:label="WW AccidentViewer">
 		</activity>
 
 		<activity android:name=".SettingsUI" android:label="WW Settings">

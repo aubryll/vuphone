@@ -1,6 +1,5 @@
 package org.vuphone.wwatch.android.mapview;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -8,20 +7,11 @@ import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Typeface;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
-import android.view.MotionEvent;
 
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.Projection;
+import com.google.android.maps.ItemizedOverlay;
 
 /**
  * A wrapper class responsible for holding all the GeoPoint objects and
@@ -30,35 +20,20 @@ import com.google.android.maps.Projection;
  * @author Krzysztof Zienkiewicz
  * 
  */
-public class PinGroup extends Overlay {
+public class PinGroup extends ItemizedOverlay<Waypoint> {
 	private List<Waypoint> points_ = null;
-
-	private long lastTime_ = 0;
-
-	private long[] wreckTimes_ = null;
-
-	private GeoPoint[] wrecks_ = null;
-
-	private int numWrecks_ = 0;
 
 	private static final String LOG_PREFIX = "PinGroup: ";
 
 	private Context context_ = null;
 
-	private Bitmap pinIcon_;
+	public PinGroup(Context context) {
+		super(new ShapeDrawable(new OvalShape()));
 
-	/**
-	 * Default constructor.
-	 */
-	public PinGroup(Bitmap icon) {
 		points_ = new CopyOnWriteArrayList<Waypoint>();
-		pinIcon_ = icon;
-	}
-
-	public PinGroup(Bitmap icon, Context context) {
-		points_ = new CopyOnWriteArrayList<Waypoint>();
-		pinIcon_ = icon;
 		context_ = context;
+
+		populate();
 	}
 
 	/**
@@ -71,98 +46,81 @@ public class PinGroup extends Overlay {
 	 *            the list of Pins to be displayed if they are not already
 	 * 
 	 */
-	public void addPins(final List<Waypoint> points) {
+	public void updatePins(final List<Waypoint> points) {
 		// Intersect lists
-		points_.removeAll(points);
+		points_.clear();
 		points_.addAll(points);
+		populate();
 	}
 
-	/**
-	 * Draws all the pins
-	 * 
-	 * @param canvas
-	 *            The Canvas on which to draw
-	 * @param mapView
-	 *            The MapView that requested the draw
-	 * @param shadow
-	 *            Ignored in this implementation
-	 */
-	static final Paint paint = new Paint();
-	static int radius = 5;
-	static {
-		paint.setColor(Color.RED);
-		paint.setTextSize(15);
-		paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-	}
-
-	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-		Projection projection = mapView.getProjection();
-
-		Iterator<Waypoint> i = points_.iterator();
-		while (i.hasNext()) {
-			Point scrPt = projection.toPixels(i.next().getGeoPoint(), null);
-			canvas.drawCircle(scrPt.x, scrPt.y, radius, paint);
-
-		}
-
-	}
-
-	public boolean onTouchEvent(MotionEvent event, MapView view) {
-
-		if (event.getAction() == MotionEvent.ACTION_DOWN && numWrecks_ > 0) {
-			Log.d(VUphone.tag, LOG_PREFIX + "Touch detected at ("
-					+ event.getX() + ", " + event.getY() + ").");
-
-			// Figure out which point was touched.
-			Projection projection = view.getProjection();
-			for (GeoPoint wreck : wrecks_) {
-				Point scrPt = projection.toPixels(wreck, null);
-				float x = scrPt.x;
-				float y = scrPt.y;
-				int radius = 20;
-				if (event.getX() > x - radius && event.getX() < x + radius
-						&& event.getY() > y - radius
-						&& event.getY() < y + radius) {
-					Log.d(VUphone.tag, LOG_PREFIX + "Found the point "
-							+ wreck.toString());
-
-					// When the pin is clicked on, we will display the
-					// GalleryActivity
-					Intent i = new Intent(context_, GalleryActivity.class);
-					i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					i
-							.putExtra(
-									"org.vuphone.wwatch.android.mapping.GalleryActivity.point",
-									"latitude=" + wreck.getLatitudeE6()
-											+ "&longitude="
-											+ wreck.getLongitudeE6());
-					context_.startActivity(i);
-					// view.getOverlays().add(new GalleryOverlay(context_));
-					// view.postInvalidate();
-
-					return true;
-				}
-			}
-		}
+	@Override
+	protected boolean onTap(int index) {
+		Log.d(VUphone.tag, "onTap called with index " +  index);
+		Log.d(VUphone.tag, "onTap called - waypoint "
+				+ points_.get(index).toString());
 		return false;
 	}
 
 	/**
-	 * Removes the last added point.
+	 * Uses the super's draw method, which automagically asks all the pins to
+	 * draw themselves
+	 * 
+	 * @see com.google.android.maps.ItemizedOverlay#draw(Canvas, MapView,
+	 *      boolean)
 	 */
-	public void removeLastPoint() {
-		int size = points_.size();
-		if (size > 0) {
-			points_.remove(size - 1);
-		}
-	}
+//	@Override
+//	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+//		super.draw(canvas, mapView, shadow);
+//	}
+
+	// public boolean onTouchEvent(MotionEvent event, MapView view) {
+	//
+	// if (event.getAction() == MotionEvent.ACTION_DOWN && numWrecks_ > 0) {
+	// Log.d(VUphone.tag, LOG_PREFIX + "Touch detected at ("
+	// + event.getX() + ", " + event.getY() + ").");
+	//
+	// // Figure out which point was touched.
+	// Projection projection = view.getProjection();
+	// for (GeoPoint wreck : wrecks_) {
+	// Point scrPt = projection.toPixels(wreck, null);
+	// float x = scrPt.x;
+	// float y = scrPt.y;
+	// int radius = 20;
+	// if (event.getX() > x - radius && event.getX() < x + radius
+	// && event.getY() > y - radius
+	// && event.getY() < y + radius) {
+	// Log.d(VUphone.tag, LOG_PREFIX + "Found the point "
+	// + wreck.toString());
+	//
+	// // When the pin is clicked on, we will display the
+	// // GalleryActivity
+	// Intent i = new Intent(context_, GalleryActivity.class);
+	// i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	// i
+	// .putExtra(
+	// "org.vuphone.wwatch.android.mapping.GalleryActivity.point",
+	// "latitude=" + wreck.getLatitudeE6()
+	// + "&longitude="
+	// + wreck.getLongitudeE6());
+	// context_.startActivity(i);
+	// // view.getOverlays().add(new GalleryOverlay(context_));
+	// // view.postInvalidate();
+	//
+	// return true;
+	// }
+	// }
+	// }
+	// return false;
+	// }
 
 	/**
 	 * Get the number of OverlPin objects in this group.
 	 * 
 	 * @return size of this group.
 	 */
+	@Override
 	public int size() {
+		Log.i(VUphone.tag, "Size called, returning " + points_.size());
 		return points_.size();
 	}
 
@@ -171,6 +129,7 @@ public class PinGroup extends Overlay {
 	 * 
 	 * @return
 	 */
+	@Override
 	public String toString() {
 		int index = 0;
 		String str = "PinGroup: ";
@@ -179,5 +138,12 @@ public class PinGroup extends Overlay {
 			++index;
 		}
 		return str;
+	}
+
+	@Override
+	protected Waypoint createItem(int i) {
+		Log.i(VUphone.tag, "Create item " + i + " returning "
+				+ points_.get(i).toString());
+		return points_.get(i);
 	}
 }
