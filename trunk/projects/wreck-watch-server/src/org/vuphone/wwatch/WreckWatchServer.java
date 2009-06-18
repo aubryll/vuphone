@@ -43,9 +43,11 @@ import org.vuphone.wwatch.sql.SqlConstructor;
 public class WreckWatchServer {
 
 	private static final String NOTIFICATION_SERVLET = "notificationServlet";
+	private static final String MAP_SERVLET = "mapServlet";
 	public static final String WRECK_WATCH_PATH = "/wreckwatch";
 	public static final String WRECK_WATCH_EVENT_CHANNEL = "/events";
 	public static final String WRECK_WATCH_NOTIFICATIONS_CHANNEL = "/notifications";
+	public static final String WRECK_WATCH_BROWSER_CHANNEL = "/map";
 
 	private static final Logger logger_ = Logger
 			.getLogger(WreckWatchServer.class.getName());
@@ -118,9 +120,13 @@ public class WreckWatchServer {
 			}
 		});
 		
-		HttpServlet servlet = (HttpServlet)ServerUtils.get().getFactory().getBean(NOTIFICATION_SERVLET);
-		context.addServlet(new ServletHolder(servlet), WRECK_WATCH_PATH
+		HttpServlet notificationServlet = (HttpServlet)ServerUtils.get().getFactory().getBean(NOTIFICATION_SERVLET);
+		context.addServlet(new ServletHolder(notificationServlet), WRECK_WATCH_PATH
 				+ WRECK_WATCH_NOTIFICATIONS_CHANNEL + "/*");
+		
+		HttpServlet mapServlet = (HttpServlet)ServerUtils.get().getFactory().getBean(MAP_SERVLET);
+		context.addServlet(new ServletHolder(mapServlet), WRECK_WATCH_PATH + WRECK_WATCH_BROWSER_CHANNEL + "/*");
+		
 
 		ResourceHandler resource_handler = new ResourceHandler();
 		HandlerList handlers = new HandlerList();
