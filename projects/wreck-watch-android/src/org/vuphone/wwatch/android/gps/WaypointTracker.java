@@ -1,7 +1,9 @@
-package org.vuphone.wwatch.android;
+package org.vuphone.wwatch.android.gps;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.vuphone.wwatch.android.Waypoint;
 
 import android.location.Location;
 

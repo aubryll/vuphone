@@ -1,7 +1,7 @@
 package org.vuphone.wwatch.android;
 
+import org.vuphone.wwatch.android.gps.GPService;
 import org.vuphone.wwatch.android.services.DecelerationService;
-import org.vuphone.wwatch.android.services.GPService;
 
 import android.app.TabActivity;
 import android.content.Context;

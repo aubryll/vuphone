@@ -1,10 +1,9 @@
-package org.vuphone.wwatch.android.services;
+package org.vuphone.wwatch.android.gps;
 
 import org.vuphone.wwatch.android.IRegister;
 import org.vuphone.wwatch.android.ISettingsViewCallback;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
-import org.vuphone.wwatch.android.WaypointTracker;
 import org.vuphone.wwatch.android.IRegister.Stub;
 import org.vuphone.wwatch.android.http.HTTPPoster;
 

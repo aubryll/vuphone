@@ -35,7 +35,7 @@ public class HTTPGetter {
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-	private static final String SERVER = "http://129.59.135.143:8081";
+	private static final String SERVER = "http://129.59.135.149:8081";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -82,8 +82,10 @@ public class HTTPGetter {
 						listener.operationComplete(resp);
 						
 					} catch (ClientProtocolException e) {
+						e.printStackTrace();
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
 					} catch (IOException e) {
+						e.printStackTrace();
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "IOException writing to ByteArrayOutputStream: " + e.getMessage());
 					} catch (Exception e){
 						e.printStackTrace();

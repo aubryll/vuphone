@@ -39,9 +39,9 @@ public class Route {
 		return route_;
 	}
 
-	public void addWaypoint(double lat, double lon, long time) {
-		route_.add(new Waypoint(lat, lon, time));
-	}
+//	public void addWaypoint(double lat, double lon, long time) {
+//		route_.add(new Waypoint(lat, lon, time));
+//	}
 
 	/**
 	 * This method will return a specific position along the route. It will NOT
