@@ -13,19 +13,37 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.media;
+package org.vuphone.wwatch.media.incoming;
 
-import org.vuphone.wwatch.notification.Notification;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class ImageNotification extends Notification {
+import javax.imageio.ImageIO;
+
+public class ImageManipulator {
+	BufferedImage img_;
 	
-	private byte[] imageBytes;
-
-	public ImageNotification(){
-		super("image");
+	public ImageManipulator(String path){
+		try {
+			img_ = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setBytes(byte[] bytes){
-		imageBytes = bytes;
+	public BufferedImage resize(int w, int h){
+		if (img_ == null)
+			return null;
+		BufferedImage temp = new BufferedImage(w, h, img_.getType());
+		
+		Graphics2D g = temp.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g.drawImage(img_, 0, 0, w, h, 0, 0, img_.getWidth(), img_.getHeight(), null);
+		g.dispose();
+		return temp;
 	}
+
 }

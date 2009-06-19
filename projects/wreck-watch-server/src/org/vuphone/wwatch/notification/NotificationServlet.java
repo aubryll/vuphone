@@ -44,7 +44,7 @@ public class NotificationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		Notification note = parser_.parse(req);
+		Notification note = parser_.parse(req, resp);
 
 		if (note == null) {
 			logger_.log(Level.WARNING,
@@ -72,7 +72,21 @@ public class NotificationServlet extends HttpServlet {
 			return;
 		}
 
-		resp.getWriter().write(rnote.getResponseString());
+		try {
+			resp.getWriter().write(rnote.getResponseString());
+		}
+		catch (IllegalStateException e) {
+			if (e.getMessage() == "STREAM") {
+				logger_.log(Level.INFO, "NotificationServlet: resp.getWriter "+
+						"threw IllegalStateException, as expected when " +
+						"writing stream data.");
+				logger_.log(Level.INFO, "The response will be returned in " +
+						"the output stream instead of in the textwriter.");
+			}
+			else {
+				throw e;
+			}
+		}
 
 		try {
 			ds_.getConnection().close();
