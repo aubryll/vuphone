@@ -1,10 +1,8 @@
 package org.vuphone.wwatch.android.services;
 
-import org.vuphone.wwatch.android.ActivityWreckConfirmer;
-import org.vuphone.wwatch.android.IRegister;
-import org.vuphone.wwatch.android.ISettingsViewCallback;
 import org.vuphone.wwatch.android.VUphone;
-import org.vuphone.wwatch.android.IRegister.Stub;
+import org.vuphone.wwatch.android.bindings.IRegister;
+import org.vuphone.wwatch.android.bindings.ISettingsViewCallback;
 
 import android.app.Service;
 import android.content.Context;
