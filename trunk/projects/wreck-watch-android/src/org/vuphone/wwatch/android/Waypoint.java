@@ -1,11 +1,7 @@
 package org.vuphone.wwatch.android;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.location.Location;
 import android.util.Log;
 
@@ -24,8 +20,8 @@ public class Waypoint extends OverlayItem {
 	private long timeStamp_ = 0;
 	private final GeoPoint point_;
 
-	private BitmapDrawable drawable_ = null;
-
+	private Drawable drawable_ = null;
+	
 	public Waypoint(Location loc) {
 		this(new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc
 				.getLongitude() * 1E6)), loc.getTime());
@@ -83,12 +79,10 @@ public class Waypoint extends OverlayItem {
 	 * drawable. If it has not been called, it returns null, which indicates
 	 * that the map should use the default drawable
 	 */
+
 	@Override
 	public Drawable getMarker(int statebit) {
-		OvalShape oval = new OvalShape();
-		oval.resize(10, 10);
-		ShapeDrawable sd = new ShapeDrawable(oval);
-		return sd;
+		return drawable_;
 	}
 
 	/**
@@ -102,8 +96,9 @@ public class Waypoint extends OverlayItem {
 	}
 
 	public void setContext(Context c) {
-		drawable_ = new BitmapDrawable(BitmapFactory.decodeResource(c
-				.getResources(), R.drawable.unhapppy));
+		drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
+		drawable_.setBounds(0, 0, drawable_.getIntrinsicWidth(), drawable_.getIntrinsicHeight());
+		setMarker(drawable_);
 	}
 
 	public void setTime(long time) {
