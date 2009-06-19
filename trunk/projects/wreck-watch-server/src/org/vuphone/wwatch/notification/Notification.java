@@ -9,6 +9,7 @@
 package org.vuphone.wwatch.notification;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class is a data structure that represents a generic notification of an
@@ -21,6 +22,7 @@ public class Notification {
 
 	private String type_;
 	private HttpServletRequest request_ = null;
+	private HttpServletResponse response_;
 
 	public Notification(String type) {
 		super();
@@ -41,6 +43,19 @@ public class Notification {
 	}
 
 	/**
+	 * This allows a notification to access the raw response, if it so desires.
+	 * This is useful for notifications that would like to reply with raw byte
+	 * data. To use this response, extend Notification as typical, and override
+	 * getResponseString to return "". Use the HttpServletResponse to send your
+	 * response, and "" (aka, nothing) will be added to the end
+	 * 
+	 * @return
+	 */
+	public HttpServletResponse getResponse() {
+		return response_;
+	}
+
+	/**
 	 * This method returns the type of notification. The notification type is
 	 * used to determine which NotificationHandler implementation should be used
 	 * to handle the notification. The linking of notification types to
@@ -55,6 +70,10 @@ public class Notification {
 
 	public void setRequest(HttpServletRequest request) {
 		request_ = request;
+	}
+
+	public void setResponse(HttpServletResponse response) {
+		response_ = response;
 	}
 
 	public void setType(String type) {

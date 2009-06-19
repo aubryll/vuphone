@@ -12,21 +12,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.vuphone.wwatch.accident.AccidentNotification;
-import org.vuphone.wwatch.contacts.ContactNotification;
-import org.vuphone.wwatch.inforeq.InfoNotification;
-import org.vuphone.wwatch.routing.RouteNotification;
-import org.vuphone.wwatch.media.ImageNotification;
-import org.vuphone.wwatch.media.ImageRequestNotification;
+import org.vuphone.wwatch.media.incoming.ImageNotification;
+import org.vuphone.wwatch.media.outgoing.ImageRequestNotification;
 
 public class NotificationParser {
 
 	private Logger log_ = Logger.getLogger(NotificationParser.class.getName());
 	private HttpServletRequest request_;
 
-	public Notification parse(HttpServletRequest req) {
-		log_.log(Level.SEVERE, "Inside Notification.parse");
+	public Notification parse(HttpServletRequest req, HttpServletResponse resp) {
+
 		String type = req.getParameter("type");
 	
 		if (type == null)
@@ -34,6 +31,7 @@ public class NotificationParser {
 
 		Notification n = new Notification(type);
 		n.setRequest(req);
+		n.setResponse(resp);
 		return n;
 	}
 	
@@ -96,32 +94,4 @@ public class NotificationParser {
 		return in;
 	}
 	
-	private Notification handleImageRequest() {
-		Notification n = new ImageRequestNotification();
-		ImageRequestNotification irn = (ImageRequestNotification) n;
-		
-		int latE6;
-		double lat;
-
-		int lonE6;
-		double lon;
-		try {
-
-			latE6 = Integer.parseInt(request_.getParameter("lat"));
-			lat = (double) latE6;
-			lat = lat / 1E6;
-			irn.setLat(lat);
-			
-			lonE6 = Integer.parseInt(request_.getParameter("lon"));
-			lon = (double) lonE6;
-			lon = lon / 1E6;
-			irn.setLon(lon);
-
-		} catch (Exception e) {
-			// If we get here, likely the parameters were wrong
-			n = null;
-		}
-		
-		return n;
-	}
 }

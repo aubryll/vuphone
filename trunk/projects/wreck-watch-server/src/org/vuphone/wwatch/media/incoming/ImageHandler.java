@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.media;
+package org.vuphone.wwatch.media.incoming;
 
 import java.io.File;
 import java.io.FileOutputStream;

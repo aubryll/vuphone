@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.media;
+package org.vuphone.wwatch.media.outgoing;
 
 import org.vuphone.wwatch.notification.Notification;
 
@@ -41,6 +41,10 @@ public class ImageRequestNotification extends Notification{
 
 	public void setLon(double lon) {
 		lon_ = lon;
+	}
+	
+	public String getResponseString() {
+		return "";
 	}
 
 }

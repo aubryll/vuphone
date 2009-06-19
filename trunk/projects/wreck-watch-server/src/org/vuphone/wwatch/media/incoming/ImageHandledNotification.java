@@ -1,4 +1,4 @@
-package org.vuphone.wwatch.media;
+package org.vuphone.wwatch.media.incoming;
 
 import org.vuphone.wwatch.notification.Notification;
 

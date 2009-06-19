@@ -88,6 +88,12 @@
 					</key>
 					<ref bean="imageHandler" />
 				</entry>
+				<entry>
+        			<key>
+        				<value>imageRequest</value>
+        			</key>
+        			<ref bean="imageRequestHandler" />
+        		</entry>
 			</map>
 		</property>
 	</bean>
@@ -121,11 +127,18 @@
 	</bean>
 	<bean name="routeParser" class="org.vuphone.wwatch.routing.RouteParser" />
 
-	<bean name="imageHandler" class="org.vuphone.wwatch.media.ImageHandler">
+	<bean name="imageHandler" class="org.vuphone.wwatch.media.incoming.ImageHandler">
 		<property name="dataConnection" ref="dataProvider" />
 		<property name="parser" ref="imageParser" />
 	</bean>
-	<bean name="imageParser" class="org.vuphone.wwatch.media.ImageParser" />
+	<bean name="imageParser" class="org.vuphone.wwatch.media.incoming.ImageParser" />
+	
+	<bean name="imageRequestHandler" 
+  			class="org.vuphone.wwatch.media.outgoing.ImageRequestHandler" >
+  	<property name="parser" ref="imageRequestParser" />
+    </bean>
+    <bean name="imageRequestParser" 
+  			class="org.vuphone.wwatch.media.outgoing.ImageRequestParser" />
 
 	<bean name="smsBehavior" class="org.vuphone.wwatch.ebehavior.SMSBehavior">
 		<property name="next" ref="recordingBehavior" />
