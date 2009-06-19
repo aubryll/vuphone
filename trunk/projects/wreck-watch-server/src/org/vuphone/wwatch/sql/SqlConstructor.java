@@ -78,7 +78,7 @@ public class SqlConstructor {
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS WreckImages ( "
-				+ "ImageID INTEGER AUTO_INCREMENT PRIMARY KEY ASC,"
+				+ "ImageID INTEGER PRIMARY KEY,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), FileName TEXT NOT NULL,"
 				+ "Time DATE NOT NULL);";
 		prep = db.prepareStatement(sql);

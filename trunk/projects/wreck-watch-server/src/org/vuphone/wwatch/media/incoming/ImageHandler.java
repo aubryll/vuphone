@@ -19,7 +19,7 @@ import javax.servlet.ServletInputStream;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
 
-public class ImageHandler implements NotificationHandler{
+public class ImageHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger.getLogger(ImageHandler.class.getName());
 	private DataSource ds_;
@@ -29,7 +29,7 @@ public class ImageHandler implements NotificationHandler{
 	private static final String CONTENT_TYPE = "image/jpeg";
 	private static final String IMAGE_DIRECTORY = "images";
 	private static final String FILE_EXTENSION = ".jpg";
-	private static int FILE_NAME_PREFIX = 0;
+	private static int FILE_NAME_PREFIX = -1;
 	
 	public Notification handle(Notification n) {
 
@@ -46,6 +46,13 @@ public class ImageHandler implements NotificationHandler{
 			return n;
 		}
 		
+		//get the initial value to use from the database from the imageId column
+		//but only get the first time.
+		if (ImageHandler.FILE_NAME_PREFIX == -1)
+		{
+			getInitialFileNamePrefix(db);
+		}
+		
 		//get data from request
 		HttpServletRequest request = n.getRequest();
 		if (!isRequestValid(request))
@@ -57,9 +64,7 @@ public class ImageHandler implements NotificationHandler{
 		long time, wreckId;
 		time = Long.parseLong(request.getParameter(ImageHandler.TIME));
 		wreckId = Long.parseLong(request.getParameter(ImageHandler.WRECKID));
-				
-		//get initial value of FILE_NAME_PREFIX from DB? otherwise we start at 1 on every restart.
-		
+						
 		String fileName;
 		synchronized (ImageHandler.class)
 		{
@@ -73,7 +78,7 @@ public class ImageHandler implements NotificationHandler{
 			// Prepare the SQL statement
 			PreparedStatement prep = null; 
 			prep = db
-					.prepareStatement("INSERT INTO WreckImages (WreckID, FileName, Time) VALUES (?, ?, ?);");
+					.prepareStatement("INSERT INTO WreckImages (ImageId, WreckID, FileName, Time) VALUES (NULL, ?, ?, ?);");
 			prep.setLong(1, wreckId);
 			prep.setString(2, fileName);
 			prep.setDate(3, new Date(time));
@@ -159,5 +164,27 @@ public class ImageHandler implements NotificationHandler{
 		parser_ = p;
 	}
 
-
+ 
+	private synchronized void getInitialFileNamePrefix(Connection dbConn)
+	{
+		//check to see if possibly someone set FILE_NAME_PREFIX while
+		//we were waiting on the lock.
+		if (ImageHandler.FILE_NAME_PREFIX == -1)
+		{
+            try {
+            		ImageHandler.FILE_NAME_PREFIX = 0;
+                    // Prepare the SQL statement
+                    PreparedStatement prep = null; 
+                    prep = dbConn.prepareStatement("SELECT max(imageId) AS imageId FROM WreckImages;");
+                    ResultSet rs = prep.executeQuery();
+                    if (rs.next())
+                    {
+                        ImageHandler.FILE_NAME_PREFIX = rs.getInt("imageId");
+                    }
+                	rs.close();
+            } catch (SQLException e) {
+                    logger_.log(Level.SEVERE, "Got SQLException when getting imageId :" + e.getMessage());
+            }
+		}
+	}
 }
