@@ -109,16 +109,20 @@ public class ContactHandler implements NotificationHandler {
 			prep.setInt(1, userId);
 			prep.executeUpdate();
 
-			prep = db
-					.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
-			for (String s : contacts) {
-				prep.setInt(1, userId);
-				prep.setString(2, s);
-				prep.addBatch();
+			if (contacts != null && contacts.length > 0) {
+				prep = db
+						.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
+				
+				for (String s : contacts) {
+					prep.setInt(1, userId);
+					prep.setString(2, s);
+					prep.addBatch();
+				}
+	
+				prep.executeBatch();
+	
+				
 			}
-
-			prep.executeBatch();
-
 			db.commit();
 			closeDatabase(db);
 
