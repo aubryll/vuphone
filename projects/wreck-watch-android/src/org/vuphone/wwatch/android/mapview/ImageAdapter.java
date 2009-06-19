@@ -69,7 +69,7 @@ public class ImageAdapter extends BaseAdapter {
 			resp.getEntity().writeTo(bao);
 	    	byte[] array = bao.toByteArray();
 		
-	    	// Note: This only works if the headerLength is < 1,000,000
+	    	// Note: This only works if the headerLength is >20 and < 1,000,000
 	    	byte[] headerLengthArr = new byte[20];
 	    	for (int i = 0; i < 20; i++) {
 	    		headerLengthArr[i] = array[i];
