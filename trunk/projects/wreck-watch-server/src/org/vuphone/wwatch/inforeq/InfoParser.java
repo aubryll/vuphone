@@ -28,6 +28,8 @@ public class InfoParser {
 		double lon;
 		try {
 
+			info.setTime(Long.parseLong(request.getParameter("maxtime")));
+			
 			latE6 = Integer.parseInt(request.getParameter("lattl"));
 			lat = (double) latE6;
 			lat = lat / 1E6;

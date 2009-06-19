@@ -16,6 +16,7 @@
 package org.vuphone.wwatch.inforeq;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,14 +54,14 @@ public class InfoHandler implements NotificationHandler {
 		Document d = null;
 		try {
 			d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-			.newDocument();
+					.newDocument();
 		} catch (ParserConfigurationException e) {
 
 			logger_
-			.log(
-					Level.SEVERE,
-					"Parser configuration exception creating document for xml response",
-					e);
+					.log(
+							Level.SEVERE,
+							"Parser configuration exception creating document for xml response",
+							e);
 		}
 		Node rootRt = d.createElement("Routes");
 
@@ -111,7 +112,8 @@ public class InfoHandler implements NotificationHandler {
 		}
 	}
 
-	private InfoHandledNotification getInfo(InfoNotification info) throws HandlerFailedException{
+	private InfoHandledNotification getInfo(InfoNotification info)
+			throws HandlerFailedException {
 
 		Connection db = null;
 
@@ -129,7 +131,7 @@ public class InfoHandler implements NotificationHandler {
 		// Prepare the SQL select
 		// Execute the select
 		// Add the results to the InfoHandledNotification
-		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;";
+		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ? and time > ?;";
 		InfoHandledNotification note;
 
 		try {
@@ -138,6 +140,7 @@ public class InfoHandler implements NotificationHandler {
 			prep.setDouble(2, info.getBottomLeftCorner().getLatitude());
 			prep.setDouble(3, info.getTopLeftCorner().getLongitude());
 			prep.setDouble(4, info.getTopRightCorner().getLongitude());
+			prep.setDate(5, new Date(info.getTime()));
 
 			note = new InfoHandledNotification();
 			note.newRoute();
@@ -169,15 +172,12 @@ public class InfoHandler implements NotificationHandler {
 			db.close();
 			return note;
 
-
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(e);
 			throw hfe;
 		}
 	}
-
-
 
 	/**
 	 * This method uses a parser to attempt to convert a generic Notification
@@ -186,20 +186,17 @@ public class InfoHandler implements NotificationHandler {
 	 */
 	public Notification handle(Notification n) throws HandlerFailedException {
 
-
-
 		InfoNotification info = null;
 		try {
 			info = parser_.getInfo(n.getRequest());
 		} catch (InvalidFormatException ife) {
 			ife.printStackTrace();
 			logger_.log(Level.SEVERE,
-			"Unable to parse the notification, stopping");
+					"Unable to parse the notification, stopping");
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(ife);
 			throw hfe;
 		}
-
 
 		InfoHandledNotification note = getInfo(info);
 
@@ -208,7 +205,6 @@ public class InfoHandler implements NotificationHandler {
 
 	}
 
-
 	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
 	}
@@ -216,11 +212,11 @@ public class InfoHandler implements NotificationHandler {
 	public DataSource getDataConnection() {
 		return ds_;
 	}
-	
+
 	public void setParser(InfoParser p) {
 		parser_ = p;
 	}
-	
+
 	public InfoParser getParser() {
 		return parser_;
 	}
