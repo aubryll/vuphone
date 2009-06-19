@@ -21,7 +21,6 @@ import android.util.Log;
 public class ImageUploader {
 
 	private static final String PATH = "/wreckwatch/notifications";
-	private String server_;
 
 	/** The image we're uploading */
 	private final Uri uri_;
@@ -64,9 +63,6 @@ public class ImageUploader {
 		post_ = new HttpPost();
 		post_.addHeader("Content-Type", resolver_.getType(uri_));
 
-		server_ = "http://" + c.getSharedPreferences(VUphone.PREFERENCES_FILE,
-				Context.MODE_PRIVATE).getString(VUphone.SERVER_TAG,
-				"0.0.0.0:8080");
 	}
 
 	/**
@@ -192,7 +188,7 @@ public class ImageUploader {
 				// Fetch the meta data and prepare the POST URI
 				listener_.setMetaInformation(meta_);
 
-				String uriStr = server_ + PATH + "?type=image&" + meta_;
+				String uriStr = VUphone.getServer() + PATH + "?type=image&" + meta_;
 				post_.setURI(URI.create(uriStr));
 				HttpClient c = new DefaultHttpClient();
 

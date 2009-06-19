@@ -22,6 +22,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.wwatch.android.VUphone;
 
 import android.util.Log;
 
@@ -35,7 +36,6 @@ public class HTTPGetter {
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
-	private static final String SERVER = "http://129.59.135.149:8081";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -58,13 +58,13 @@ public class HTTPGetter {
 			String params = "?type=info&latbl="+bl.getLatitudeE6()+"&lonbl="+bl.getLongitudeE6()+"&latbr="+br.getLatitudeE6()+
 				"&lonbr=" + br.getLongitudeE6() + "&lattl=" + tl.getLatitudeE6() + "&lontl=" + tl.getLongitudeE6() + "&lattr=" + 
 				tr.getLatitudeE6() + "&lontr=" + tr.getLongitudeE6();
-			final HttpGet get = new HttpGet(SERVER + PATH + params);
+			final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
 
 			//Add the parameters
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
 
 			//Do it
-			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing get to " + SERVER + PATH + params);
+			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing get to " + VUphone.getServer() + PATH + params);
 			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP get");
 			new Thread(new Runnable(){
 
@@ -113,7 +113,7 @@ public class HTTPGetter {
 		HttpClient c = new DefaultHttpClient();
 		String params = "?type=imageRequest&"+point;
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "+params);
-		HttpGet get = new HttpGet(SERVER + PATH + params);
+		HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
 		
 		try {
 			HttpResponse resp = c.execute(get);
