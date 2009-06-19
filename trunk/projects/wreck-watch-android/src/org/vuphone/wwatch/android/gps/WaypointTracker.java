@@ -3,6 +3,7 @@ package org.vuphone.wwatch.android.gps;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.vuphone.wwatch.android.RingBuffer;
 import org.vuphone.wwatch.android.Waypoint;
 
 import android.location.Location;
@@ -18,7 +19,7 @@ import android.location.Location;
 
 public class WaypointTracker {
 
-	private ArrayList<Waypoint> pointList_ = null;
+	private RingBuffer<Waypoint> pointList_ = null;
 
 	// timeDilation_ * actual time = simulated time
 	// ie, 2.0 makes everything twice as fast. In terms of speed, this makes the
@@ -32,7 +33,7 @@ public class WaypointTracker {
 	 * @param dilation
 	 */
 	public WaypointTracker(double dilation) {
-		pointList_ = new ArrayList<Waypoint>();
+		pointList_ = new RingBuffer<Waypoint>();
 		timeDilation_ = dilation;
 	}
 
@@ -110,7 +111,7 @@ public class WaypointTracker {
 	 * @return
 	 */
 	public List<Waypoint> getList() {
-		return pointList_;
+		return pointList_.getList();
 	}
 
 	/**
