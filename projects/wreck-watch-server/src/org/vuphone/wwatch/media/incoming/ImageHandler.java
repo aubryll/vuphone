@@ -121,7 +121,7 @@ public class ImageHandler implements NotificationHandler {
 //		}
 //		
 		
-		return null;
+		return n;
 	}
 	
 	public boolean isRequestValid(HttpServletRequest request)
@@ -164,6 +164,9 @@ public class ImageHandler implements NotificationHandler {
 		parser_ = p;
 	}
 
+	public static String getIMAGE_DIRECTORY() {
+		return IMAGE_DIRECTORY;
+	}
  
 	private synchronized void getInitialFileNamePrefix(Connection dbConn)
 	{
@@ -187,4 +190,5 @@ public class ImageHandler implements NotificationHandler {
             }
 		}
 	}
+
 }

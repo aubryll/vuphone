@@ -135,7 +135,8 @@
 	
 	<bean name="imageRequestHandler" 
   			class="org.vuphone.wwatch.media.outgoing.ImageRequestHandler" >
-  	<property name="parser" ref="imageRequestParser" />
+  		<property name="dataConnection" ref="dataProvider" />
+  		<property name="parser" ref="imageRequestParser" />
     </bean>
     <bean name="imageRequestParser" 
   			class="org.vuphone.wwatch.media.outgoing.ImageRequestParser" />
