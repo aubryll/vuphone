@@ -130,9 +130,9 @@ public class WaypointTracker {
 							+ ", end:" + end + ", size:" + pointList_.size());
 
 		float[] result = new float[1];
-		Location.distanceBetween(pointList_.get(start).getLatitude(),
-				pointList_.get(start).getLongitude(), pointList_.get(end)
-						.getLatitude(), pointList_.get(end).getLongitude(),
+		Location.distanceBetween(pointList_.get(start).getLatitudeDegrees(),
+				pointList_.get(start).getLongitudeDegrees(), pointList_.get(end)
+						.getLatitudeDegrees(), pointList_.get(end).getLongitudeDegrees(),
 				result);
 
 		double distance = result[0];

@@ -170,7 +170,7 @@ public class GPService extends Service {
 
 			HTTPPoster.doAccidentPost(aid, System.currentTimeMillis(), tracker_
 					.getLatestSpeed(), tracker_.getLatestAcceleration(), temp
-					.getLatitude(), temp.getLongitude(), new Runnable() {
+					.getLatitudeDegrees(), temp.getLongitudeDegrees(), new Runnable() {
 						public void run() {
 							HTTPPoster.doRoutePost(aid, tracker_.getList());
 						}

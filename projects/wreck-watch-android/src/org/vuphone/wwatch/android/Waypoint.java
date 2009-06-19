@@ -45,6 +45,10 @@ public class Waypoint extends OverlayItem {
 	public int getLatitude() {
 		return point_.getLatitudeE6();
 	}
+	
+	public double getLatitudeDegrees() {
+		return point_.getLatitudeE6() / 1000000.0;
+	}
 
 	/**
 	 * Returns the longitude in microdegrees.
@@ -55,6 +59,10 @@ public class Waypoint extends OverlayItem {
 		return point_.getLongitudeE6();
 	}
 
+	public double getLongitudeDegrees() {
+		return point_.getLongitudeE6() / 1000000.0;
+	}
+	
 	/**
 	 * Returns UTC time in milliseconds since January 1, 1970.
 	 * 
@@ -89,7 +97,7 @@ public class Waypoint extends OverlayItem {
 	 * @return
 	 */
 	public String toString() {
-		return "[" + getLongitude() + ", " + getLatitude() + ", " + timeStamp_
+		return "[" + getLongitudeDegrees() + ", " + getLatitudeDegrees() + ", " + timeStamp_
 				+ "]";
 	}
 
