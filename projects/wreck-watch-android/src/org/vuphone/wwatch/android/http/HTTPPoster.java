@@ -28,6 +28,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
 import android.util.Log;
@@ -47,7 +48,6 @@ public class HTTPPoster {
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
 	//private static final String SERVER = "http://129.59.135.165";
-	private static final String SERVER = "http://129.59.135.149:8081";
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -80,7 +80,7 @@ public class HTTPPoster {
 
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doAccidentPost");
 		final HttpClient c = new DefaultHttpClient();
-		final HttpPost post = new HttpPost(SERVER + PATH);
+		final HttpPost post = new HttpPost(VUphone.getServer() + PATH);
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
 		StringBuffer params = new StringBuffer();
@@ -97,7 +97,7 @@ public class HTTPPoster {
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 
 		// Do it
-		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + SERVER + PATH);
+		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + VUphone.getServer() + PATH);
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
 		new Thread(new Runnable() {
 
@@ -138,7 +138,7 @@ public class HTTPPoster {
 	public static void doRoutePost(String androidID, List<Waypoint> route){
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doRoutePost");
 		final HttpClient c = new DefaultHttpClient();
-		final HttpPost post = new HttpPost(SERVER + PATH);
+		final HttpPost post = new HttpPost(VUphone.getServer() + PATH);
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
 		StringBuffer params = new StringBuffer();
@@ -154,7 +154,7 @@ public class HTTPPoster {
 		
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 		
-		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + SERVER + PATH);
+		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + VUphone.getServer() + PATH);
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
 		new Thread(new Runnable(){
 
@@ -194,7 +194,7 @@ public class HTTPPoster {
 	public static void doContactUpdate(String deviceID, ArrayList<String> numbers){
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doContactUpdate");
 		final HttpClient c = new DefaultHttpClient();
-		final HttpPost post = new HttpPost(SERVER + PATH);
+		final HttpPost post = new HttpPost(VUphone.getServer() + PATH);
 		post.addHeader("Content-Type","application/x-www-form-urlencoded");
 
 		StringBuffer params = new StringBuffer();
@@ -212,7 +212,7 @@ public class HTTPPoster {
 
 
 		//Do it
-		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + SERVER + PATH);
+		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + VUphone.getServer() + PATH);
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
 		new Thread(new Runnable(){
 

@@ -32,4 +32,14 @@ public class VUphone {
 	
 	public static final String SPEED_SCALE = "SpeedScale";
 	public static final String ACCEL_SCALE = "AccelScale";
+	
+	public static String server = "0.0.0.0:8080";
+	
+	public static final String getServer() {
+		return server;
+	}
+	
+	public static void setServer(final String s) {
+		server = s;
+	}
 }

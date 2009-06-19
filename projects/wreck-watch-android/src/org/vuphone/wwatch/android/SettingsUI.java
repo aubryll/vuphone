@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
 public class SettingsUI extends Activity {
 
@@ -103,6 +102,7 @@ public class SettingsUI extends Activity {
 		String location = ((EditText) super.findViewById(R.id.location)).getText().toString();
 		
 		String server = ((EditText) super.findViewById(R.id.server)).getText().toString();
+		VUphone.setServer("http://" + server);
 
 		Editor edit = prefs.edit();
 		edit.putInt(VUphone.TIMEOUT_TAG, time);
