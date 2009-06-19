@@ -27,10 +27,10 @@ public class ImageHandler implements NotificationHandler {
 	private static final String TIME = "time";
 	private static final String WRECKID = "wreckid";
 	private static final String CONTENT_TYPE = "image/jpeg";
-	private static final String IMAGE_DIRECTORY = "images";
 	private static final String FILE_EXTENSION = ".jpg";
 	private static int FILE_NAME_PREFIX = -1;
-	
+	public static final String IMAGE_DIRECTORY = "images";
+
 	public Notification handle(Notification n) {
 
 		Connection db = null;
@@ -120,8 +120,12 @@ public class ImageHandler implements NotificationHandler {
 //			return n;
 //		}
 //		
-		
-		return n;
+
+		ImageHandledNotification in = new ImageHandledNotification();
+		in.setTime(new Date(time));
+		in.setWreckId(wreckId);
+		in.setFileName(fileName);
+		return in;
 	}
 	
 	public boolean isRequestValid(HttpServletRequest request)
