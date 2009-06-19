@@ -39,8 +39,18 @@ public class InfoNotification extends Notification {
 
 	private Waypoint[] corners_ = new Waypoint[4];
 	
+	private long time_;
+	
 	public InfoNotification() {
 		super("info");
+	}
+	
+	public void setTime(long t) {
+		time_ = t;
+	}
+	
+	public long getTime() {
+		return time_;
 	}
 	
 	public void setTopLeftCorner(double lat, double lon){
