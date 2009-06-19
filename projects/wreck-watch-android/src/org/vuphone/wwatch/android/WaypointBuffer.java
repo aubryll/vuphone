@@ -12,7 +12,7 @@ import java.util.List;
  * @param <T>
  */
 
-public class RingBuffer<T> {
+public class WaypointBuffer<T> {
 
 	private final int capacity_;
 	private T[] data_;
@@ -20,12 +20,12 @@ public class RingBuffer<T> {
 	private int size_ = 0;
 	private int last_ = 0;
 
-	public RingBuffer() {
+	public WaypointBuffer() {
 		this(50);
 	}
 
 	@SuppressWarnings("unchecked")
-	public RingBuffer(int cap) {
+	public WaypointBuffer(int cap) {
 		capacity_ = cap;
 		data_ = (T[]) new Object[capacity_];
 	}
@@ -68,7 +68,7 @@ public class RingBuffer<T> {
 
 
 	public static void main(String[] args) {
-		RingBuffer<Integer> ring = new RingBuffer<Integer>(5);
+		WaypointBuffer<Integer> ring = new WaypointBuffer<Integer>(5);
 		for (int i = 0; i < 11; ++i) {
 			ring.add(i);
 			System.out.println(ring);
