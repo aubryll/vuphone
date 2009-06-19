@@ -61,6 +61,7 @@ public class MediaUploadService extends Service implements ImageUploadListener {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		VUphone.setContext(this);
 		// Need to get the geo fix as quickly as possible so request here.
 //		man_ = (LocationManager) getSystemService(LOCATION_SERVICE);
 //		man_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);

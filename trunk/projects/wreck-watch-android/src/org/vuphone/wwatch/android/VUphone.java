@@ -1,5 +1,7 @@
 package org.vuphone.wwatch.android;
 
+import android.content.Context;
+
 /**
  * A convenience class for storing application wide constants.
  * 
@@ -35,11 +37,16 @@ public class VUphone {
 	
 	public static String server = "0.0.0.0:8080";
 	
-	public static final String getServer() {
-		return server;
+	static private Context context_;
+	
+	public static void setContext(Context c) {
+		if (c != null && context_ == null)
+			context_ = c;
 	}
 	
-	public static void setServer(final String s) {
-		server = s;
+	public static final String getServer() {
+		if (context_ == null)
+			throw new IllegalStateException("VUphone.setContext() has not been called");
+		return context_.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE).getString(SERVER_TAG, "INVALID");
 	}
 }

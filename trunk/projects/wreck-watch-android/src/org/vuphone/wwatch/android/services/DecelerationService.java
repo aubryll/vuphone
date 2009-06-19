@@ -168,6 +168,7 @@ public class DecelerationService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		VUphone.setContext(this);
 
 		// Setup vars to talk to accelerometer
 		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
