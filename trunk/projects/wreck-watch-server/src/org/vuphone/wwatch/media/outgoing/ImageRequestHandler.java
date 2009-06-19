@@ -6,11 +6,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
+import org.vuphone.wwatch.media.incoming.ImageHandler;
 import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
@@ -19,6 +27,7 @@ public class ImageRequestHandler implements NotificationHandler{
 	
 	// XML will instantiate these
 	private ImageRequestParser parser_;
+	private DataSource ds_;
 	
 	private static final Logger logger_ = Logger
 	.getLogger(ImageRequestHandler.class.getName());
@@ -26,120 +35,129 @@ public class ImageRequestHandler implements NotificationHandler{
 	public Notification handle(Notification n) {
 
 		ImageRequestNotification irn = null;
+		Connection db = null;
 		try {
 			irn = parser_.getImage(n.getRequest(), n.getResponse());
+			db = ds_.getConnection();
 		} catch (InvalidFormatException ife) {
 			
 			ife.printStackTrace();
 			logger_.log(Level.SEVERE,
 					"Unable to parse the notification, stopping");
+			closeDatabase(db);
 			return n;
-		}
-		
-		/*try {
-			Class.forName("org.sqlite.JDBC");
-		} catch (ClassNotFoundException e) {
+			
+		} catch (SQLException e) {
 
 			e.printStackTrace();
+			logger_.log(Level.SEVERE,
+			" Unable to continue without database, stopping");
+			closeDatabase(db);
+			return n;
 		}
+
 		try {
-			ImageRequestNotification irn = (ImageRequestNotification)n;
-			Connection db = null;
+			db.setAutoCommit(true);
 
-			try {
-				db = DriverManager.getConnection("jdbc:sqlite:wreckwatch.db");
-				db.setAutoCommit(true);
-			} catch (SQLException e) {
-				db.close();
-				logger_.log(Level.SEVERE,
-						"SQLException: ", e);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger_.log(Level.WARNING,
+					"SQLException when setting auto commit: ", e);
+		}
+
+		int id = 0;
+		// Prepare the SQL statement
+		PreparedStatement prep = null;
+		ResultSet rs;
+		try {
+			prep = db.prepareStatement(
+					"select WreckID from Wreck where Lat like ? and Lon like ?;");
+			prep.setDouble(1, irn.getLat());
+			prep.setDouble(2, irn.getLon());
+
+		} catch (SQLException e) {
+			
+			logger_.log(Level.SEVERE, 
+					"Unable to prepare first statment, stopping.");
+			closeDatabase(db);
+			return n;
+		}
+
+		try {
+			rs  = prep.executeQuery();
+			
+		} catch (SQLException e) {
+			
+			logger_.log(Level.SEVERE, 
+					"Unable to execute first statement, stopping.");
+			closeDatabase(db);
+			return n;
+		}
+
+		try {
+			rs.next();
+			id = rs.getInt("WreckID");
+			rs.close();
+		} catch (SQLException e) {
+			
+			logger_.log(Level.SEVERE, 
+					"Unable to get the response from the first statement, " +
+					"stopping.");
+			closeDatabase(db);
+			return n;
+		}
+
+		List<String> filenames = new ArrayList<String>();
+		try {
+			prep = db.prepareStatement(
+					"select * from WreckImages where WreckID like ?;");
+			prep.setInt(1, id);
+
+			rs = prep.executeQuery();
+					
+			while (rs.next()) {
+				filenames.add(rs.getString("FileName"));
 			}
-			if (db != null){
+			rs.close();
 
-				int id = 0;
-				try {
-					PreparedStatement prep = db.prepareStatement("select WreckID from Wreck where Lat like ? and Lon like ?;");
-					prep.setDouble(1, irn.getLat());
-					prep.setDouble(2, irn.getLon());
+		}catch (SQLException e) {
+			logger_.log(Level.SEVERE,
+					"SQLException in the second statement: ", e);
+			closeDatabase(db);
+			return n;
+		}	
 
-					ResultSet rs  = prep.executeQuery();
-
-					rs.next();
-					id = rs.getInt("WreckID");
-					rs.close();
-
-					prep = db.prepareStatement("select * from Images where WreckID like ?;");
-					prep.setInt(1, id);
-					
-					rs = prep.executeQuery();
-					
-					while (rs.next()) {
-						//TODO - extract either the images themselves or their
-						//locations in the file system, depending on how they are 
-						//stored in the database.
-					}
-					rs.close();
-					
-					//TODO - might have to add an extra step here to get the images
-					//out of the file system.
-				
-				}catch (SQLException e) {
-					logger_.log(Level.SEVERE,
-							"SQLException: ", e);
-					db.close();
-					return null;
-				}	
-			}
-		}catch (Exception sqle) {
-			return null;
-		}*/
-		
-		//TODO - change this from hard coded image to the one you found above.
 		HttpServletResponse response = irn.getResponse();
 		int count = 0;
 		String header = "HeaderLength=?,";
 		ByteArrayOutputStream toSend = new ByteArrayOutputStream();
-		for (int i = 0; i < 5; i++) {
-			File file = new File("C:\\ww_icon2.png");
-			File file2 = new File("C:\\unhapppy.bmp");
+		
+		for (String fileStr : filenames) {
+			File file = new File(ImageHandler.getIMAGE_DIRECTORY(),fileStr);
+			
 			try {
+				
 				// This works assuming file only contains the binary data
 				// for the image, no headers.
 				int sz = (int) file.length();
 				byte[] array = new byte[sz];
 				int offset = 0;
 				int numRead = 0;
-				
+
 				InputStream is = new FileInputStream(file);
-				
+
 				while (offset < sz && (numRead = is.read(array, offset, sz - offset)) >= 0){
 					offset += numRead;
 				}
 
-				int sz2 = (int) file2.length();
-				byte[] array2 = new byte[sz2];
-				int offset2 = 0;
-				int numRead2 = 0;
-				
-				InputStream is2 = new FileInputStream(file2);
-				
-				while (offset2 < sz2 && (numRead2 = is2.read(array2, offset2, sz2 - offset2)) >= 0){
-					offset2 += numRead2;
-				}
-				
 				response.addIntHeader("Image"+count+" length",array.length);
 				header += "Image"+count+"length="+array.length+",";
 				count++;
-				response.addIntHeader("Image"+count+" length",array2.length);
-				header += "Image"+count+"length="+array2.length+",";
-				count++;
 
-				
 				toSend.write(array);
-				toSend.write(array2);
 			
 			} catch (FileNotFoundException e) {
-
+				
 				e.printStackTrace();
 				return null;
 			} catch (IOException e) {
@@ -147,7 +165,9 @@ public class ImageRequestHandler implements NotificationHandler{
 				e.printStackTrace();
 				return null;
 			}
+
 		}
+		
 		response.addIntHeader("Number of Images", count);
 		header += "NumImages="+count+",";
 		
@@ -172,6 +192,15 @@ public class ImageRequestHandler implements NotificationHandler{
 	
 		return irn;
 	}
+	
+	private void closeDatabase(Connection db) {
+		try {
+			db.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			logger_.log(Level.WARNING, "Unable to close database");
+		}
+	}
 
 	public ImageRequestParser getParser() {
 		return parser_;
@@ -179,6 +208,14 @@ public class ImageRequestHandler implements NotificationHandler{
 
 	public void setParser(ImageRequestParser parser) {
 		parser_ = parser;
+	}
+
+	public DataSource getDataConnection() {
+		return ds_;
+	}
+
+	public void setDataConnection(DataSource ds) {
+		ds_ = ds;
 	}
 
 }
