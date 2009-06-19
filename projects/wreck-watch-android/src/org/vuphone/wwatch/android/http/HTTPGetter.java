@@ -36,6 +36,7 @@ public class HTTPGetter {
 	//Jules's Jetty server\\
 	//Note this is equiv to localhost although the phone has to have an
 	//IP because it's not running it! :)
+
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
@@ -54,6 +55,8 @@ public class HTTPGetter {
 
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPGetter.doAccidentGet");
 			final HttpClient c = new DefaultHttpClient();
+			
+			;
 			
 			String params = "?type=info&latbl="+bl.getLatitudeE6()+"&lonbl="+bl.getLongitudeE6()+"&latbr="+br.getLatitudeE6()+
 				"&lonbr=" + br.getLongitudeE6() + "&lattl=" + tl.getLatitudeE6() + "&lontl=" + tl.getLongitudeE6() + "&lattr=" + 
@@ -82,13 +85,10 @@ public class HTTPGetter {
 						listener.operationComplete(resp);
 						
 					} catch (ClientProtocolException e) {
-						e.printStackTrace();
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
 					} catch (IOException e) {
-						e.printStackTrace();
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "IOException writing to ByteArrayOutputStream: " + e.getMessage());
 					} catch (Exception e){
-						e.printStackTrace();
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
 					}
@@ -99,7 +99,6 @@ public class HTTPGetter {
 
 		} 
 		catch (Exception e) {
-			e.printStackTrace();
 			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
 			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
 

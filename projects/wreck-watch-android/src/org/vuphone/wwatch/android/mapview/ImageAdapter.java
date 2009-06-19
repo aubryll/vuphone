@@ -64,30 +64,49 @@ public class ImageAdapter extends BaseAdapter {
     	
     	Map<Integer, Integer> imgLengths = new HashMap<Integer, Integer>();
     	int numImages = 0;
-		for (Header h : resp.getAllHeaders()) {
-			if (h.getName().equals("Number of Images")) {
-				numImages = Integer.parseInt(h.getValue());
-			}
-			else if (h.getName().startsWith("Image")) {
-				int ind = Character.getNumericValue(h.getName().charAt(5));
-				imgLengths.put(ind, Integer.parseInt(h.getValue()));
-			}
-		}
-
-	    Bitmap[] bitmapArr = new Bitmap[numImages];
-	    
 	    try {
 	    	ByteArrayOutputStream bao = new ByteArrayOutputStream();
 			resp.getEntity().writeTo(bao);
-		
 	    	byte[] array = bao.toByteArray();
+		
+	    	// Note: This only works if the headerLength is < 1,000,000
+	    	byte[] headerLengthArr = new byte[20];
+	    	for (int i = 0; i < 20; i++) {
+	    		headerLengthArr[i] = array[i];
+	    	}
+	    	String headerLengthStr = new String(headerLengthArr);
+
+	    	String lenStr = headerLengthStr.substring(
+	    			headerLengthStr.indexOf("=")+1,headerLengthStr.indexOf(","));
+	    	int headLen = Integer.parseInt(lenStr);
+	    	
+	    	byte[] headersArr = new byte[headLen];
+	    	for (int i = 0; i < headLen; i++) {
+	    		headersArr[i] = array[i];
+	    	}
+	    	String headers = new String(headersArr);
+	    	
+	    	String[] allHeaders = headers.split(",");
+	    		for (String h : allHeaders) {
+	    			String[] pair = h.split("=");
+	    			if (pair[0].equals("NumImages")) {
+	    				numImages = Integer.parseInt(pair[1]);
+	    			}
+	    			else if (pair[0].startsWith("Image")) {
+	    				int ind = Character.getNumericValue(pair[0].charAt(5));
+	    				imgLengths.put(ind, Integer.parseInt(pair[1]));
+	    			}
+	    		}
+	    		
+	    	Bitmap[] bitmapArr = new Bitmap[numImages];
+
+	    	Log.d(VUphone.tag, LOG_PREFIX + "parseImageFromServer received "+array.length+" bytes.");
 	    	int arrCount = 0;
 
-    		int size = imgLengths.get(arrCount);
-    		int index = 0;
-    		// Eventually, Integer.parseInt will throw an exception, so this is
-    		// not actually an infinite loop.
-    		while (true) {
+	    	int size;
+    		int index = headLen;
+    		while (arrCount < numImages) {
+    			size = imgLengths.get(arrCount);
     			byte[] img = new byte[size];
     			for(int i = 0; i < size; i++) {
     				img[i] = array[i+index];
@@ -96,11 +115,13 @@ public class ImageAdapter extends BaseAdapter {
     			BitmapDrawable bmd = new BitmapDrawable(is);
     			Bitmap b = bmd.getBitmap();
 
+    			Log.d(VUphone.tag, LOG_PREFIX + "added image "+arrCount);
     			bitmapArr[arrCount] = b;
     			arrCount++;
     			index = index + size;
-    			size = imgLengths.get(arrCount);
     		}
+    		
+    		return bitmapArr;
     	}
 	    catch (IOException e) {
 	    	
@@ -109,8 +130,10 @@ public class ImageAdapter extends BaseAdapter {
 	    	return null;
 	    }
     	catch (Exception e) {
-
-    		return bitmapArr;
+    		
+	    	Log.d(VUphone.tag, LOG_PREFIX + "There was a different Exception.");
+    		e.printStackTrace();
+    		return null;
     	}
     }
     

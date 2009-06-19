@@ -7,6 +7,7 @@ import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
@@ -58,6 +59,17 @@ public class PinGroup extends ItemizedOverlay<Waypoint> {
 		Log.d(VUphone.tag, "onTap called with index " +  index);
 		Log.d(VUphone.tag, "onTap called - waypoint "
 				+ points_.get(index).toString());
+		
+		// Start up the gallery
+		Waypoint p = points_.get(index);
+		Intent i = new Intent(context_, GalleryActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		i.putExtra(
+				"org.vuphone.wwatch.android.mapping.GalleryActivity.point",
+				"latitude=" + p.getLatitude()
+				+ "&longitude="
+				+ p.getLongitude());
+		context_.startActivity(i);
 		return false;
 	}
 
@@ -72,46 +84,6 @@ public class PinGroup extends ItemizedOverlay<Waypoint> {
 //	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 //		super.draw(canvas, mapView, shadow);
 //	}
-
-	// public boolean onTouchEvent(MotionEvent event, MapView view) {
-	//
-	// if (event.getAction() == MotionEvent.ACTION_DOWN && numWrecks_ > 0) {
-	// Log.d(VUphone.tag, LOG_PREFIX + "Touch detected at ("
-	// + event.getX() + ", " + event.getY() + ").");
-	//
-	// // Figure out which point was touched.
-	// Projection projection = view.getProjection();
-	// for (GeoPoint wreck : wrecks_) {
-	// Point scrPt = projection.toPixels(wreck, null);
-	// float x = scrPt.x;
-	// float y = scrPt.y;
-	// int radius = 20;
-	// if (event.getX() > x - radius && event.getX() < x + radius
-	// && event.getY() > y - radius
-	// && event.getY() < y + radius) {
-	// Log.d(VUphone.tag, LOG_PREFIX + "Found the point "
-	// + wreck.toString());
-	//
-	// // When the pin is clicked on, we will display the
-	// // GalleryActivity
-	// Intent i = new Intent(context_, GalleryActivity.class);
-	// i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	// i
-	// .putExtra(
-	// "org.vuphone.wwatch.android.mapping.GalleryActivity.point",
-	// "latitude=" + wreck.getLatitudeE6()
-	// + "&longitude="
-	// + wreck.getLongitudeE6());
-	// context_.startActivity(i);
-	// // view.getOverlays().add(new GalleryOverlay(context_));
-	// // view.postInvalidate();
-	//
-	// return true;
-	// }
-	// }
-	// }
-	// return false;
-	// }
 
 	/**
 	 * Get the number of OverlPin objects in this group.
