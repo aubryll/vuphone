@@ -105,6 +105,7 @@ public class GPService extends Service {
 	 */
 	public void onCreate() {
 		super.onCreate();
+		VUphone.setContext(this);
 		Log.v(VUphone.tag, "GPS ON_CREATE");
 		Toast.makeText(this, "GPS Service Created", Toast.LENGTH_SHORT).show();
 

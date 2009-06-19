@@ -101,8 +101,7 @@ public class SettingsUI extends Activity {
 				.getRating();		
 		String location = ((EditText) super.findViewById(R.id.location)).getText().toString();
 		
-		String server = ((EditText) super.findViewById(R.id.server)).getText().toString();
-		VUphone.setServer("http://" + server);
+		String server = "http://" + ((EditText) super.findViewById(R.id.server)).getText().toString();
 
 		Editor edit = prefs.edit();
 		edit.putInt(VUphone.TIMEOUT_TAG, time);
