@@ -73,6 +73,7 @@ public class NotificationServlet extends HttpServlet {
 		}
 
 		try {
+			logger_.log(Level.SEVERE, rnote.getResponseString());
 			resp.getWriter().write(rnote.getResponseString());
 		}
 		catch (IllegalStateException e) {
