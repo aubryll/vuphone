@@ -49,7 +49,7 @@ public class SqlConstructor {
 
 		String sql = "CREATE TABLE IF NOT EXISTS People ( "
 				+ "id INTEGER PRIMARY KEY ,"
-				+ "AndroidID VARCHAR(10)," + "PhoneNumber VARCHAR(15),"
+				+ "AndroidID VARCHAR(20)," + "PhoneNumber VARCHAR(15),"
 				+ "FirstName VARCHAR(50)," + "LastName VARCHAR(50),"
 				+ "Email VARCHAR(100));";
 		PreparedStatement prep = db.prepareStatement(sql);
@@ -59,7 +59,8 @@ public class SqlConstructor {
 				+ "WreckID INTEGER PRIMARY KEY,"
 				+ "Person INTEGER REFERENCES People(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Time DATE NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
+				+ "Date DATE NOT NULL, "
+				+ "Time TIME NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -73,7 +74,8 @@ public class SqlConstructor {
 				+ "CoordID INTEGER PRIMARY KEY,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Time DATE NOT NULL);";
+				+ "Date DATE NOT NULL, "
+				+ "Time TIME NOT NULL)" ;
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
