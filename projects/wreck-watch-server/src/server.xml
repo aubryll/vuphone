@@ -17,7 +17,7 @@
 	<!-- Use this bean to utilize the MySQL Database-->
 	<!-- Note: There must be a file called db.properties in the same directory
 		 as this file if this bean is to be used. -->
-	<!-- 
+	<!--  -->
 	<bean id="dataProvider"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName">
@@ -35,24 +35,24 @@
 			<value>${db.password}</value>
 		</property>
 	</bean>
-	 -->
+	
 	<!--  This bean loads the properties referenced in the username, password and url fields -->
 	<!--  The format of this file is property=value. For example, the file for my computer
 		  contains db.username=root.  Each property goes on its own line. 
 		  If you don't have this file, make sure this is commented out...-->
-	<!-- 
+	<!--  -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="db.properties" />
 	</bean>
-	 -->
+	
 	<!-- Use this bean to utilize the SQLite Database-->
-	<!-- -->
+	<!-- 
 		<bean id="dataProvider"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"> <value>org.sqlite.JDBC</value>
 		</property> <property name="url">
 		<value>jdbc:sqlite:wreckwatch.db</value> </property> </bean>
-	
+	-->
 	<bean name="notificationServlet" class="org.vuphone.wwatch.notification.NotificationServlet">
 		<property name="parser" ref="notificationParser" />
 		<property name="dataConnection" ref="dataProvider" />
@@ -97,9 +97,7 @@
 			</map>
 		</property>
 	</bean>
-	<bean name="mapServlet" class="org.vuphone.wwatch.mapping.MapServlet">
-	</bean>
-
+	
 	<bean name="notificationParser" class="org.vuphone.wwatch.notification.NotificationParser" />
 
 	<bean name="accidentHandler" class="org.vuphone.wwatch.accident.AccidentHandler">
@@ -148,6 +146,48 @@
 	<bean name="sqlConstructor" class="org.vuphone.wwatch.sql.SqlConstructor">
 		<property name="dataConnection" ref="dataProvider" />
 	</bean>
+	
+	<bean name="mapServlet" class="org.vuphone.wwatch.mapping.MapServlet">
+		<property name="eventHandlers">
+			<map>
+				<entry>
+					<key>
+						<value>locationrequest</value>
+					</key>
+					<ref bean="locationRequestHandler"/>
+				</entry>
+			</map>
+		</property>
+		<property name="responseHandlers">
+			<map>
+				<entry>
+					<key>
+						<value>locationresponse</value>
+					</key>
+					<ref bean="locationResponseHandler"/>
+				</entry>
+			</map>
+		</property>
+		<property name="parsers">
+			<map>
+				<entry>
+					<key>
+						<value>locationrequest</value>
+					</key>
+					<ref bean="locationRequestParser" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="locationResponseHandler" class="org.vuphone.wwatch.mapping.wrecklocationrequest.WreckLocationResponseHandler" />
+	
+	<bean name="locationRequestHandler" class="org.vuphone.wwatch.mapping.wrecklocationrequest.WreckLocationRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	
+	<bean name="locationRequestParser" class="org.vuphone.wwatch.mapping.wrecklocationrequest.WreckLocationRequestParser" />
+				
 
 	<bean name="recordingBehavior" class="org.vuphone.wwatch.ebehavior.RecordingBehavior" />
 
