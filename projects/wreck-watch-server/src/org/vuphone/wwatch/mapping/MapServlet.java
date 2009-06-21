@@ -16,15 +16,25 @@
 package org.vuphone.wwatch.mapping;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.vuphone.wwatch.notification.HandlerFailedException;
+
 public class MapServlet extends HttpServlet {
 
-	
+	private Map<String, MapEventHandler> eventHandlers_;
+	private Map<String, MapResponseHandler> responseHandlers_;
+	private Map<String, MapEventParser> parsers_;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -278111903083218074L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -34,6 +44,40 @@ public class MapServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		System.out.println("Receiving request..."+ req.getQueryString());
+		MapEvent e = parsers_.get(req.getParameter("type")).parse(req);
+		MapResponse r = null;
+		
+		try {
+			r = eventHandlers_.get(e.getType()).handle(e);
+			responseHandlers_.get(r.getType()).respond(r, resp);
+		} catch (HandlerFailedException e1) {
+			e1.printStackTrace();
+		}
+		
 	}
+	
+	public Map<String, MapEventHandler> getEventHandlers() {
+		return eventHandlers_;
+	}
+
+	public void setEventHandlers(Map<String, MapEventHandler> handlers) {
+		eventHandlers_ = handlers;
+	}
+	public Map<String, MapResponseHandler> getResponseHandlers() {
+		return responseHandlers_;
+	}
+
+	public void setResponseHandlers(Map<String, MapResponseHandler> handlers) {
+		responseHandlers_ = handlers;
+	}
+	
+	public Map<String, MapEventParser> getParsers(){
+		return parsers_;
+	}
+	public void setParsers(Map<String, MapEventParser> parsers){
+		parsers_ = parsers;
+	}
+
 
 }
