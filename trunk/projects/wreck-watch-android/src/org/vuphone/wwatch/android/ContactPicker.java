@@ -89,7 +89,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	@Override
 	public void finish() {
 		this.scheduleService();
-		super.finish();
+		// super.finish();
 	}
 
 	/**

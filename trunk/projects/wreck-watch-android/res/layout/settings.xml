@@ -1,6 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	<Button android:id="@+id/save_button" android:text="Save"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true"
+		android:textSize="24sp"
+		
+		android:padding="20px"/>
+
+<ScrollView 
+	android:layout_above="@id/save_button"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">
+
 <RelativeLayout android:id="@+id/RelativeLayout01"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	xmlns:android="http://schemas.android.com/apk/res/android">
+	>
 	
 	<RelativeLayout android:id="@+id/timeout_field"
 		android:layout_width="fill_parent" android:layout_height="wrap_content">
@@ -90,14 +106,6 @@
 			
 	</RelativeLayout>		
 
-
-	
-	<Button android:id="@+id/save_button" android:text="Save"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-		android:layout_alignParentBottom="true"
-		android:textSize="24sp"
-		
-		android:padding="20px"/>
-
+</RelativeLayout>
+</ScrollView>
 </RelativeLayout>
