@@ -45,14 +45,12 @@ public class AccidentList implements HttpOperationListener {
 					int snWidth = map_.getWidth();
 					Projection p = map_.getProjection();
 
-					GeoPoint upperRight = p.fromPixels(snWidth, snHeight);
 					GeoPoint upperLeft = p.fromPixels(0, snHeight);
-					GeoPoint lowerLeft = p.fromPixels(0, 0);
 					GeoPoint lowerRight = p.fromPixels(snWidth, 0);
 
 					long maxTime = getLatestTime();
-					HTTPGetter.doAccidentGet(lowerLeft, lowerRight, upperLeft,
-							upperRight, maxTime, AccidentList.this);
+					HTTPGetter.doAccidentGet(lowerRight, upperLeft,
+							maxTime, AccidentList.this);
 				}
 			}
 
