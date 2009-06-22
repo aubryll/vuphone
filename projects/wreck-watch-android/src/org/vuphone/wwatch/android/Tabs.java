@@ -1,7 +1,7 @@
 package org.vuphone.wwatch.android;
 
 import org.vuphone.wwatch.android.gps.GPService;
-import org.vuphone.wwatch.android.mapview.AccidentViewer;
+import org.vuphone.wwatch.android.mapview.AccidentActivity;
 import org.vuphone.wwatch.android.services.DecelerationService;
 
 import android.app.TabActivity;
@@ -56,7 +56,7 @@ public class Tabs extends TabActivity {
 		th.addTab(th.newTabSpec("Tab2").setIndicator("Testing").setContent(
 				new Intent(this, TestingUI.class)));
 		th.addTab(th.newTabSpec("Tab3").setIndicator("Wrecks").setContent(
-				new Intent(this, AccidentViewer.class)));
+				new Intent(this, AccidentActivity.class)));
 		th.addTab(th.newTabSpec("Tab4").setIndicator("Contacts").setContent(
 				new Intent(this, ContactPicker.class)));
 

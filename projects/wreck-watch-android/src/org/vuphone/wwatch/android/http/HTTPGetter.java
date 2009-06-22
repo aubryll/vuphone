@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -29,96 +29,128 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 public class HTTPGetter {
-	//Chris's test server\\
-//		private static final String SERVER = "http://dorm.cmthompson.net:8081";
-//		private static final String PATH = "/wreckwatch/notifications";
+	// Chris's test server\\
+	// private static final String SERVER = "http://dorm.cmthompson.net:8081";
+	// private static final String PATH = "/wreckwatch/notifications";
 
-	//Jules's Jetty server\\
-	//Note this is equiv to localhost although the phone has to have an
-	//IP because it's not running it! :)
+	// Jules's Jetty server\\
+	// Note this is equiv to localhost although the phone has to have an
+	// IP because it's not running it! :)
 
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final String LOG_LABEL = "VUPHONE";
 	private static final String LOG_MSG_PREFIX = "HTTPGetter: ";
 
-	//There might be a better way to do these methods....
+	// There might be a better way to do these methods....
 	/**
-	 * This method will be responsible for posting data to the
-	 * WreckWatch server.
+	 * This method will be responsible for posting data to the WreckWatch
+	 * server.
+	 * 
 	 * @param message
 	 */
-	public static void doAccidentGet(final GeoPoint bl, final GeoPoint br, final GeoPoint tl, final GeoPoint tr, final HttpOperationListener listener){
+	public static void doAccidentGet(final GeoPoint bl, final GeoPoint br,
+			final GeoPoint tl, final GeoPoint tr, final long maxTime,
+			final HttpOperationListener listener) {
 
-		try{
-			
+		try {
 
-			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPGetter.doAccidentGet");
+			Log.v(LOG_LABEL, LOG_MSG_PREFIX
+					+ "Entering HTTPGetter.doAccidentGet");
 			final HttpClient c = new DefaultHttpClient();
-			
-			;
-			
-			String params = "?type=info&latbl="+bl.getLatitudeE6()+"&lonbl="+bl.getLongitudeE6()+"&latbr="+br.getLatitudeE6()+
-				"&lonbr=" + br.getLongitudeE6() + "&lattl=" + tl.getLatitudeE6() + "&lontl=" + tl.getLongitudeE6() + "&lattr=" + 
-				tr.getLatitudeE6() + "&lontr=" + tr.getLongitudeE6();
+
+
+			String params = "?type=info&latbl=" + bl.getLatitudeE6()
+					+ "&lonbl=" + bl.getLongitudeE6() + "&latbr="
+					+ br.getLatitudeE6() + "&lonbr=" + br.getLongitudeE6()
+					+ "&lattl=" + tl.getLatitudeE6() + "&lontl="
+					+ tl.getLongitudeE6() + "&lattr=" + tr.getLatitudeE6()
+					+ "&lontr=" + tr.getLongitudeE6() + "&maxtime=" + maxTime;
+
 			final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
 
-			//Add the parameters
-			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: " + params);
+			// Add the parameters
+			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: "
+					+ params);
+
 
 			//Do it
 			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing get to " + VUphone.getServer() + PATH + params);
+
 			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP get");
-			new Thread(new Runnable(){
+			new Thread(new Runnable() {
 
 				public void run() {
 					HttpResponse resp;
 					try {
-						Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Requesting accident information for coordinates: TopLeft: " +
-								tl.getLatitudeE6() + ", " + tl.getLongitudeE6() + "\nTopRight: " + 
-								tr.getLatitudeE6() + ", " + tr.getLongitudeE6() + "\nBottomLeft: " +
-								bl.getLatitudeE6() + ", " + bl.getLongitudeE6() + "\nBottomRight: " +
-								br.getLatitudeE6() + ", " + br.getLongitudeE6());
+						Log
+								.d(
+										LOG_LABEL,
+										LOG_MSG_PREFIX
+												+ "Requesting accident information for coordinates: TopLeft: "
+												+ tl.getLatitudeE6() + ", "
+												+ tl.getLongitudeE6()
+												+ "\nTopRight: "
+												+ tr.getLatitudeE6() + ", "
+												+ tr.getLongitudeE6()
+												+ "\nBottomLeft: "
+												+ bl.getLatitudeE6() + ", "
+												+ bl.getLongitudeE6()
+												+ "\nBottomRight: "
+												+ br.getLatitudeE6() + ", "
+												+ br.getLongitudeE6()
+												+ "\nTime: " + maxTime);
 						resp = c.execute(get);
 
-						
 						listener.operationComplete(resp);
-						
+
 					} catch (ClientProtocolException e) {
-						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
+						Log.e(LOG_LABEL, LOG_MSG_PREFIX
+								+ "ClientProtocolException executing post: "
+								+ e.getMessage());
 					} catch (IOException e) {
-						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "IOException writing to ByteArrayOutputStream: " + e.getMessage());
-					} catch (Exception e){
-						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
-						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
+						Log
+								.e(
+										LOG_LABEL,
+										LOG_MSG_PREFIX
+												+ "IOException writing to ByteArrayOutputStream: "
+												+ e.getMessage());
+					} catch (Exception e) {
+						Log.e(LOG_LABEL, LOG_MSG_PREFIX
+								+ "Other Exception of type:" + e.getClass());
+						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
+								+ e.getMessage());
 					}
 				}
 
 			}).start();
 			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
 
-		} 
-		catch (Exception e) {
-			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
-			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
+		} catch (Exception e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"
+					+ e.getClass());
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
+					+ e.getMessage());
 
 		}
 
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPGetter.doAccidentGet");
 	}
-	
+
 	public static HttpResponse doPictureGet(String point) {
-		
+
 		HttpClient c = new DefaultHttpClient();
-		String params = "?type=imageRequest&"+point;
-		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "+params);
+		String params = "?type=imageRequest&" + point;
+		Log
+				.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "
+						+ params);
 		HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
-		
+
 		try {
 			HttpResponse resp = c.execute(get);
-			
+
 			return resp;
-			
+
 		} catch (ClientProtocolException e) {
 
 			e.printStackTrace();
