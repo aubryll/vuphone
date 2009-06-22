@@ -15,17 +15,46 @@
  **************************************************************************/
 package org.vuphone.wwatch.media.incoming;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.vuphone.wwatch.notification.Notification;
 
 public class ImageNotification extends Notification {
 	
 	private byte[] imageBytes;
-
+	private long wreckId;
+	private long time;
+	
 	public ImageNotification(){
 		super("image");
 	}
 	
 	public void setBytes(byte[] bytes){
 		imageBytes = bytes;
+	}
+	
+	public byte[] getBytes()
+	{
+		return imageBytes;
+	}
+	
+	public void setWreckId(long wreckId)
+	{
+		this.wreckId = wreckId;
+	}
+	
+	public long getWreckId()
+	{
+		return wreckId;
+	}
+	
+	public void setTime(long time)
+	{
+		this.time = time;
+	}
+	
+	public long getTime()
+	{
+		return time;
 	}
 }
