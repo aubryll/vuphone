@@ -33,7 +33,7 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
-public class AccidentDataHandler extends DefaultHandler {
+public class AccidentXMLHandler extends DefaultHandler {
 
 	private static final String LOG_LABEL = "VUPHONE";
 	private static final String LOG_PREFIX = "AccidentDataHandler: ";

@@ -15,25 +15,13 @@
  **************************************************************************/
 package org.vuphone.wwatch.android.mapview;
 
+
 // TODO - Work on animated zooming
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;
-import org.vuphone.wwatch.android.Waypoint;
-import org.vuphone.wwatch.android.R.id;
-import org.vuphone.wwatch.android.R.layout;
-import org.vuphone.wwatch.android.http.HTTPGetter;
-import org.vuphone.wwatch.android.http.HttpOperationListener;
-import org.xml.sax.InputSource;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -43,90 +31,48 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
-import com.google.android.maps.Projection;
 
-public class AccidentViewer extends MapActivity implements
-		HttpOperationListener, LocationListener {
+// For testing only
+// private static final String XML =
+// "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Points><Point><Latitude>37.413532</Latitude>"
+// +
+// "<Longitude>-122.072855</Longitude></Point><Point><Latitude>37.421975</Latitude><Longitude>-122.084054</Longitude></Point></Points>";
 
-	private static final String LOG_PREFIX = "AccidentViewer: ";
+
+public class AccidentActivity extends MapActivity implements LocationListener {
+
+	private static final String pre = "AccidentActivity: ";
 
 	private MapController mc_;
-
-	private AccidentMapView map_;
-
-	private GeoPoint curCenter_;
-
-	private Timer t = new Timer("Accident View Delay");
-
-	private ArrayList<Route> routes_;
+	
+	private AccidentList routes_;
 
 	// Used for centering on the first fix.
 	private Location firstLoc_ = null;
-
-	private final TimerTask task_ = new TimerTask() {
-
-		@Override
-		public void run() {
-
-			if (map_.getZoomLevel() > 7) {
-				if ((map_.getMapCenter().getLatitudeE6() != curCenter_
-						.getLatitudeE6())
-						|| (map_.getMapCenter().getLongitudeE6() != curCenter_
-								.getLongitudeE6())) {
-					curCenter_ = map_.getMapCenter();
-					Display d = getWindowManager().getDefaultDisplay();
-					int snHeight = d.getHeight();
-					int snWidth = d.getWidth();
-					Projection p = map_.getProjection();
-					GeoPoint upperRight = p.fromPixels(snWidth, snHeight);
-					GeoPoint upperLeft = p.fromPixels(0, snHeight);
-					GeoPoint lowerLeft = p.fromPixels(0, 0);
-					GeoPoint lowerRight = p.fromPixels(snWidth, 0);
-
-					getAccidentXML(lowerLeft, lowerRight, upperLeft, upperRight);
-				}
-			}
-
-		}
-
-	};
-
-	// For testing only
-	// private static final String XML =
-	// "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Points><Point><Latitude>37.413532</Latitude>"
-	// +
-	// "<Longitude>-122.072855</Longitude></Point><Point><Latitude>37.421975</Latitude><Longitude>-122.084054</Longitude></Point></Points>";
-
+	
 	@Override
 	protected boolean isRouteDisplayed() {
-
 		return false;
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accidentview);
-		map_ = (AccidentMapView) findViewById(R.id.accidentview);
+		AccidentMapView map_ = (AccidentMapView) findViewById(R.id.accidentview);
 		mc_ = map_.getController();
 		mc_.setZoom(8);
 		map_.postInvalidate();
+		
+		routes_ = new AccidentList(map_);
 
 		// Get fixes as quickly as possible.
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
 						this);
-
-		// TODO - we really need to cache this somehow, and use a cron-esq thing
-		// to get it
-		t.scheduleAtFixedRate(task_, 0, 9000);
-
-		curCenter_ = map_.getMapCenter();
 
 	}
 
@@ -140,7 +86,7 @@ public class AccidentViewer extends MapActivity implements
 		// If we don't have a fix, zoom in on default location.
 		(new Thread() {
 			public void run() {
-				Geocoder coder = new Geocoder(AccidentViewer.this);
+				Geocoder coder = new Geocoder(AccidentActivity.this);
 				Address address = null;
 				SharedPreferences prefs = getSharedPreferences(
 						VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
@@ -159,7 +105,7 @@ public class AccidentViewer extends MapActivity implements
 						.getLatitude() * 1000000), (int) (address
 						.getLongitude() * 1000000));
 
-				AccidentViewer.this.runOnUiThread(new Thread() {
+				AccidentActivity.this.runOnUiThread(new Thread() {
 					public void run() {
 						mc_.animateTo(point);
 						mc_.setZoom(10);
@@ -174,48 +120,7 @@ public class AccidentViewer extends MapActivity implements
 		super.onDestroy();
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.removeUpdates(this);
-		t.cancel();
-		task_.cancel();
-	}
-
-	private void getAccidentXML(GeoPoint bl, GeoPoint br, GeoPoint tl,
-			GeoPoint tr) {
-		HTTPGetter.doAccidentGet(bl, br, tl, tr, this);
-	}
-
-	public void operationComplete(HttpResponse resp) {
-
-		Log.i(VUphone.tag, LOG_PREFIX
-				+ "HTTP operation complete.  Processing response.");
-		AccidentDataHandler adh = new AccidentDataHandler();
-		ByteArrayOutputStream bao = new ByteArrayOutputStream();
-
-		try {
-			resp.getEntity().writeTo(bao);
-			Log.d(VUphone.tag, LOG_PREFIX + "Http response: " + bao.toString());
-
-			routes_ = adh.processXML(new InputSource(new ByteArrayInputStream(
-					bao.toByteArray())));
-			Iterator<Route> i = routes_.iterator();
-			ArrayList<Waypoint> points = new ArrayList<Waypoint>();
-			while (i.hasNext()) {
-				Waypoint point = i.next().getEndPoint();
-
-				// Set the context, so the waypoint can access resources and
-				// draw it's bitmap
-				point.setContext(this);
-				points.add(point);
-			}
-
-			Log.i(VUphone.tag, LOG_PREFIX + "Adding waypoints: "
-					+ points.toString());
-			map_.updatePins(points);
-
-		} catch (IOException e) {
-			Log.e(VUphone.tag, LOG_PREFIX
-					+ "IOException processing HttpResponse object: "
-					+ e.getMessage());
-		}
+		routes_.stopUpdates();
 	}
 
 	public void onLocationChanged(Location location) {

@@ -12,12 +12,16 @@ import com.google.android.maps.OverlayItem;
  * A wrapper class that encapsulates vital information about a point along a
  * route. Useful because the location object stores gobs of extra information.
  * 
- * @author Krzysztof Zienkiewicz
+ * This class is final to prevent subclasses from breaking our equality check.
+ * Because this class is used heavily with collections, it is imperative that
+ * the equals method be correct
+ * 
+ * @author Hamilton Turner
  * 
  */
 
-public class Waypoint extends OverlayItem {
-	private long timeStamp_ = 0;
+public final class Waypoint extends OverlayItem {
+	private final long timeStamp_;
 	private final GeoPoint point_;
 
 	private Drawable drawable_ = null;
@@ -27,10 +31,25 @@ public class Waypoint extends OverlayItem {
 				.getLongitude() * 1E6)), loc.getTime());
 	}
 
-	public Waypoint(GeoPoint point, long time) {
+	public Waypoint(GeoPoint point, final long time) {
 		super(point, "title", "snippet");
 		point_ = point;
 		timeStamp_ = time;
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		boolean result = false;
+		if (other instanceof Waypoint) {
+			Waypoint that = (Waypoint) other;
+			result = ((that.getPoint().equals(getPoint())) && (that.getTime() == getTime()));
+		}
+		return result;
+	}
+
+	@Override
+	public int hashCode() {
+		return (41 * (41 + (int) timeStamp_) + point_.hashCode());
 	}
 
 	/**
@@ -41,7 +60,7 @@ public class Waypoint extends OverlayItem {
 	public int getLatitude() {
 		return point_.getLatitudeE6();
 	}
-	
+
 	public double getLatitudeDegrees() {
 		return point_.getLatitudeE6() / 1000000.0;
 	}
@@ -58,7 +77,7 @@ public class Waypoint extends OverlayItem {
 	public double getLongitudeDegrees() {
 		return point_.getLongitudeE6() / 1000000.0;
 	}
-	
+
 	/**
 	 * Returns UTC time in milliseconds since January 1, 1970.
 	 * 
@@ -70,7 +89,6 @@ public class Waypoint extends OverlayItem {
 
 	@Override
 	public GeoPoint getPoint() {
-		Log.v(VUphone.tag, "Getting point - " + point_.toString());
 		return point_;
 	}
 
@@ -91,18 +109,14 @@ public class Waypoint extends OverlayItem {
 	 * @return
 	 */
 	public String toString() {
-		return "[" + getLongitudeDegrees() + ", " + getLatitudeDegrees() + ", " + timeStamp_
-				+ "]";
+		return "[" + getLongitudeDegrees() + ", " + getLatitudeDegrees() + ", "
+				+ timeStamp_ + "]";
 	}
 
 	public void setContext(Context c) {
 		drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
 		drawable_.setBounds(0, 0, drawable_.getIntrinsicWidth(), drawable_.getIntrinsicHeight());
 		setMarker(drawable_);
-	}
-
-	public void setTime(long time) {
-		timeStamp_ = time;
 	}
 
 }

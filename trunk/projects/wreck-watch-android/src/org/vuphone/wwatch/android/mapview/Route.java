@@ -22,13 +22,16 @@ import org.vuphone.wwatch.android.Waypoint;
 
 import android.util.Log;
 
+/**
+ * Data Structure representing a Route, and the associated wreck.
+ * 
+ */
 public class Route {
 
 	private ArrayList<Waypoint> route_ = new ArrayList<Waypoint>();
 	private int curIndex_;
 
 	public Route() {
-
 	}
 
 	public void addWaypoint(Waypoint w) {
@@ -38,10 +41,6 @@ public class Route {
 	public ArrayList<Waypoint> getRoute() {
 		return route_;
 	}
-
-//	public void addWaypoint(double lat, double lon, long time) {
-//		route_.add(new Waypoint(lat, lon, time));
-//	}
 
 	/**
 	 * This method will return a specific position along the route. It will NOT
@@ -54,11 +53,12 @@ public class Route {
 		return route_.get(index);
 	}
 
-	public Waypoint getEndPoint() {
+	public Waypoint getWreck() {
 		if (route_.size() > 0)
 			return route_.get(route_.size() - 1);
-		
-		Log.w(VUphone.tag, "Route: returning null end point, because route size is zero");
+
+		Log.w(VUphone.tag,
+				"Route: returning null end point, because route size is zero");
 		return null;
 	}
 
