@@ -49,8 +49,8 @@ public class HTTPGetter {
 	 * 
 	 * @param message
 	 */
-	public static void doAccidentGet(final GeoPoint bl, final GeoPoint br,
-			final GeoPoint tl, final GeoPoint tr, final long maxTime,
+	public static void doAccidentGet(final GeoPoint br,
+			final GeoPoint tl, final long maxTime,
 			final HttpOperationListener listener) {
 
 		try {
@@ -60,12 +60,10 @@ public class HTTPGetter {
 			final HttpClient c = new DefaultHttpClient();
 
 
-			String params = "?type=info&latbl=" + bl.getLatitudeE6()
-					+ "&lonbl=" + bl.getLongitudeE6() + "&latbr="
+			String params = "?type=info&latbr="
 					+ br.getLatitudeE6() + "&lonbr=" + br.getLongitudeE6()
 					+ "&lattl=" + tl.getLatitudeE6() + "&lontl="
-					+ tl.getLongitudeE6() + "&lattr=" + tr.getLatitudeE6()
-					+ "&lontr=" + tr.getLongitudeE6() + "&maxtime=" + maxTime;
+					+ tl.getLongitudeE6() + "&maxtime=" + maxTime;
 
 			final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
 
@@ -90,12 +88,6 @@ public class HTTPGetter {
 												+ "Requesting accident information for coordinates: TopLeft: "
 												+ tl.getLatitudeE6() + ", "
 												+ tl.getLongitudeE6()
-												+ "\nTopRight: "
-												+ tr.getLatitudeE6() + ", "
-												+ tr.getLongitudeE6()
-												+ "\nBottomLeft: "
-												+ bl.getLatitudeE6() + ", "
-												+ bl.getLongitudeE6()
 												+ "\nBottomRight: "
 												+ br.getLatitudeE6() + ", "
 												+ br.getLongitudeE6()

@@ -65,14 +65,11 @@ public class AccidentMapView extends MapView {
 				// This can change per draw, so we always get a fresh one
 				Projection p = getProjection();
 
-				GeoPoint upperRight = p.fromPixels(viewWidth_, viewHeight_);
 				GeoPoint upperLeft = p.fromPixels(0, viewHeight_);
-				GeoPoint lowerLeft = p.fromPixels(0, 0);
 				GeoPoint lowerRight = p.fromPixels(viewWidth_, 0);
 
 				long maxTime = routes_.getLatestTime();
-				HTTPGetter.doAccidentGet(lowerLeft, lowerRight, upperLeft,
-						upperRight, maxTime, routes_);
+				HTTPGetter.doAccidentGet(lowerRight, upperLeft, maxTime, routes_);
 			}
 		}
 
