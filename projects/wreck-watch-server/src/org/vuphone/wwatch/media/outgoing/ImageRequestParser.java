@@ -23,21 +23,9 @@ public class ImageRequestParser {
 			irn.setRequest(request);
 			irn.setResponse(response);
 			
-			int latE6;
-			double lat;
 
-			int lonE6;
-			double lon;
-
-			latE6 = Integer.parseInt(request.getParameter("latitude"));
-			lat = (double) latE6;
-			lat = lat / 1E6;
-			irn.setLat(lat);
-
-			lonE6 = Integer.parseInt(request.getParameter("longitude"));
-			lon = (double) lonE6;
-			lon = lon / 1E6;
-			irn.setLon(lon);
+			int id = Integer.parseInt(request.getParameter("wreckID"));
+			irn.setWreckID(id);
 
 			} catch (Exception e) {
 				e.printStackTrace();
