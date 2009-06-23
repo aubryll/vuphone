@@ -9,12 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class GalleryActivity extends Activity{
 	
 	public void onCreate(Bundle savedInstanceState) {
+		VUphone.setContext(this);
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.gallery);
 
@@ -22,7 +22,8 @@ public class GalleryActivity extends Activity{
 	    	getStringExtra("org.vuphone.wwatch.android.mapping.GalleryActivity.point");
 	    Log.d(VUphone.tag, "GalleryActivity: The point is "+point);
 	    Gallery g = (Gallery) findViewById(R.id.gallery);
-	    g.setAdapter(new ImageAdapter(this, point));
+	    
+	    g.setAdapter(new ImageAdapter(this, -1));
 
 	    g.setOnItemClickListener(new OnItemClickListener() {
 	        public void onItemClick(AdapterView parent, View v, int position, long id) {

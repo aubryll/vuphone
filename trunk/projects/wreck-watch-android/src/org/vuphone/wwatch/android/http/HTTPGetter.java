@@ -63,7 +63,7 @@ public class HTTPGetter {
 			String params = "?type=info&latbr="
 					+ br.getLatitudeE6() + "&lonbr=" + br.getLongitudeE6()
 					+ "&lattl=" + tl.getLatitudeE6() + "&lontl="
-					+ tl.getLongitudeE6() + "&maxtime=" + maxTime;
+					+ tl.getLongitudeE6();
 
 			final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
 
@@ -129,10 +129,10 @@ public class HTTPGetter {
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPGetter.doAccidentGet");
 	}
 
-	public static HttpResponse doPictureGet(String point) {
+	public static HttpResponse doPictureGet(int wreckID) {
 
 		HttpClient c = new DefaultHttpClient();
-		String params = "?type=imageRequest&" + point;
+		String params = "?type=imageRequest&wreckID=" + wreckID;
 		Log
 				.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "
 						+ params);

@@ -65,7 +65,7 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 		setContentView(R.layout.accidentview);
 		AccidentMapView map_ = (AccidentMapView) findViewById(R.id.accidentview);
 		mc_ = map_.getController();
-		mc_.setZoom(8);
+		mc_.setZoom(15);
 		map_.postInvalidate();
 		
 		routes_ = new AccidentList(map_);
