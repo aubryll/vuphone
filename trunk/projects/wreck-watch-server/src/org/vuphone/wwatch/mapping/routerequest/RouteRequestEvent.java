@@ -13,34 +13,45 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.mapping.wrecklocationrequest;
+package org.vuphone.wwatch.mapping.routerequest;
 
-import java.util.ArrayList;
+import org.vuphone.wwatch.mapping.MapEvent;
 
-import org.vuphone.wwatch.mapping.MapResponse;
-
-public class WreckLocationResponse extends MapResponse {
+public class RouteRequestEvent extends MapEvent {
 	
-	private ArrayList<Wreck> accidents_;
-
+	private double[][] corners;
 	
-	public WreckLocationResponse(){
-		super("locationresponse");
-		accidents_ = new ArrayList<Wreck>();
+	public RouteRequestEvent(){
+		super("routerequest");
+		corners = new double[2][2];
 	}
 
-
-	public void addAccident(Wreck w) {
-		accidents_.add(w);
+	public void setNorthEastLat(double nelat){
+		corners[1][0] = nelat;
 	}
-
-	public ArrayList<Wreck> getAccidents() {
-		return accidents_;
+	public void setNorthEastLon(double nelon){
+		corners[1][1] = nelon;
 	}
-
-	@Override
-	public byte[] getRespose() {
-		return null;
+	
+	public void setSouthWestLat(double swlat){
+		corners[0][0] = swlat;
+	}
+	public void setSouthWestLon(double swlon){
+		corners[0][1] = swlon;
+	}
+	
+	public double getNorthEastLat(){
+		return corners[1][0];
+	}
+	public double getNorthEastLon(){
+		return corners[1][1];
+	}
+	
+	public double getSouthWestLat(){
+		return corners[0][0];
+	}
+	public double getSouthWestLon(){
+		return corners[0][1];
 	}
 
 }

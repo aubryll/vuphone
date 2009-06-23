@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.mapping.wrecklocationrequest;
+package org.vuphone.wwatch.mapping.routerequest;
 
 import java.util.ArrayList;
 
 import org.vuphone.wwatch.mapping.MapResponse;
 
-public class WreckLocationResponse extends MapResponse {
+public class RouteResponse extends MapResponse {
 	
-	private ArrayList<Wreck> accidents_;
+	private ArrayList<EncodedRoute> routes_;
 
+	public RouteResponse(){
+		super("routeresponse");
+		routes_ = new ArrayList<EncodedRoute>();
+	}
 	
-	public WreckLocationResponse(){
-		super("locationresponse");
-		accidents_ = new ArrayList<Wreck>();
+
+	public void addRoute(String route, String levels, int id){
+		routes_.add(new EncodedRoute(route, levels, id));
 	}
 
-
-	public void addAccident(Wreck w) {
-		accidents_.add(w);
-	}
-
-	public ArrayList<Wreck> getAccidents() {
-		return accidents_;
+	public ArrayList<EncodedRoute> getAccidents() {
+		return routes_;
 	}
 
 	@Override

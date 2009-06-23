@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.mapping.wrecklocationrequest;
+package org.vuphone.wwatch.mapping.routerequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,14 +28,14 @@ import org.vuphone.wwatch.routing.Waypoint;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
-public class WreckLocationResponseHandler implements MapResponseHandler {
+public class RouteResponseHandler implements MapResponseHandler {
 
 	
 	public void respond(MapResponse mresp, HttpServletResponse resp, String callback) throws HandlerFailedException {
 		
-		WreckLocationResponse wlr;
-		if (mresp instanceof WreckLocationResponse)
-			wlr = (WreckLocationResponse)mresp;
+		RouteResponse rr;
+		if (mresp instanceof RouteResponse)
+			rr = (RouteResponse)mresp;
 		else{
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(new Exception("MapResponse/Hadler Mismatch:  WreckLocationResponseHandler cannot handle " + mresp.getClass()));
@@ -45,14 +45,16 @@ public class WreckLocationResponseHandler implements MapResponseHandler {
 		XStream xs = new XStream(new JettisonMappedXmlDriver());
 		xs.setMode(XStream.NO_REFERENCES);
 		
-		xs.alias("accidents", ArrayList.class);
+		
+		
+		xs.alias("routes", ArrayList.class);
+		xs.alias("route", EncodedRoute.class);
 		xs.alias("waypoint", Waypoint.class);
-		xs.alias("wreck", Wreck.class);
 		String response;
 		if (callback == null){
-			response = xs.toXML(wlr.getAccidents());
+			response = xs.toXML(rr.getAccidents());
 		}else{
-			response = callback + "( " + xs.toXML(wlr.getAccidents()) + " )";
+			response = callback + "( " + xs.toXML(rr.getAccidents()) + " )";
 		}
 		try {
 			resp.getWriter().write(response);

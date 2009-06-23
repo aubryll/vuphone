@@ -15,32 +15,39 @@
  **************************************************************************/
 package org.vuphone.wwatch.mapping.wrecklocationrequest;
 
-import java.util.ArrayList;
+import org.vuphone.wwatch.routing.Waypoint;
 
-import org.vuphone.wwatch.mapping.MapResponse;
-
-public class WreckLocationResponse extends MapResponse {
+public class Wreck {
 	
-	private ArrayList<Wreck> accidents_;
-
+	private Waypoint location_;
+	private int id_;
 	
-	public WreckLocationResponse(){
-		super("locationresponse");
-		accidents_ = new ArrayList<Wreck>();
+	public Wreck(){
 	}
-
-
-	public void addAccident(Wreck w) {
-		accidents_.add(w);
+	
+	public Wreck(Waypoint w, int id){
+		location_ = w;
+		id_ = id;
 	}
-
-	public ArrayList<Wreck> getAccidents() {
-		return accidents_;
+	
+	public void setLocation(double lat, double lon, long time){
+		location_ = new Waypoint(lat, lon, time);
 	}
-
-	@Override
-	public byte[] getRespose() {
-		return null;
+	
+	public void setLocation(Waypoint w){
+		location_ = w;
+	}
+	
+	public void setId(int id){
+		id_ = id;
+	}
+	
+	public Waypoint getLocation(){
+		return location_;
+	}
+	
+	public int getId(){
+		return id_;
 	}
 
 }

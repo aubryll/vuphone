@@ -21,6 +21,6 @@ import org.vuphone.wwatch.notification.HandlerFailedException;
 
 public interface MapResponseHandler {
 	
-	public void respond(MapResponse mresp, HttpServletResponse resp) throws HandlerFailedException;
+	public void respond(MapResponse mresp, HttpServletResponse resp, String callback) throws HandlerFailedException;
 
 }

@@ -13,12 +13,18 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.mapping.wrecklocationrequest;
+package org.vuphone.wwatch.mapping.routerequest;
+
+import it.rambow.master.javautils.PolylineEncoder;
+import it.rambow.master.javautils.Track;
+import it.rambow.master.javautils.Trackpoint;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,9 +35,8 @@ import org.vuphone.wwatch.mapping.MapEvent;
 import org.vuphone.wwatch.mapping.MapEventHandler;
 import org.vuphone.wwatch.mapping.MapResponse;
 import org.vuphone.wwatch.notification.HandlerFailedException;
-import org.vuphone.wwatch.routing.Waypoint;
 
-public class WreckLocationRequestHandler implements MapEventHandler {
+public class RouteRequestHandler implements MapEventHandler {
 
 	private static final Logger logger_ = Logger.getLogger(InfoHandler.class
 			.getName());
@@ -49,9 +54,9 @@ public class WreckLocationRequestHandler implements MapEventHandler {
 
 	public MapResponse handle(MapEvent e) throws HandlerFailedException {	
 
-		WreckLocationRequestEvent wlre = null;
-		if (e instanceof WreckLocationRequestEvent){
-			wlre = (WreckLocationRequestEvent)e;
+		RouteRequestEvent rre = null;
+		if (e instanceof RouteRequestEvent){
+			rre = (RouteRequestEvent)e;
 		}else{
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(new Exception("MapEvent/Hadler Mismatch:  WreckLocationRequestHandler cannot handle: " + e.getClass()));
@@ -74,29 +79,48 @@ public class WreckLocationRequestHandler implements MapEventHandler {
 		// Execute the select
 		// Add the results to the InfoHandledNotification
 		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;";
-		WreckLocationResponse wlr;
+		RouteResponse rr;
 
 		try {
 			PreparedStatement prep = db.prepareStatement(sql);
-			prep.setDouble(1, wlre.getSouthWestLat());
-			prep.setDouble(2, wlre.getNorthEastLat());
-			prep.setDouble(3, wlre.getSouthWestLon());
-			prep.setDouble(4, wlre.getNorthEastLon());
+			prep.setDouble(1, rre.getSouthWestLat());
+			prep.setDouble(2, rre.getNorthEastLat());
+			prep.setDouble(3, rre.getSouthWestLon());
+			prep.setDouble(4, rre.getNorthEastLon());
 
-			wlr = new WreckLocationResponse();
+			rr = new RouteResponse();
 
 
+			// Get the wreck id
+			ArrayList<Integer> ids = new ArrayList<Integer>();
 			ResultSet rs = prep.executeQuery();
 			while (rs.next()) {
-				wlr.addAccident(new Wreck(new Waypoint(rs.getDouble("Lat"), rs
-						.getDouble("Lon"), rs.getDate("Date").getTime()+rs.getTime("Time").getTime()), 
-						rs.getInt("WreckID")));
+				ids.add(rs.getInt("WreckID"));
 			}
 			rs.close();
 
-			
+			Track tr;
+
+			sql = "select * from Route where WreckID = ?";
+			for (Integer i : ids) {
+				prep = db.prepareStatement(sql);
+				prep.setInt(1, i);
+
+				rs = prep.executeQuery();
+				tr = new Track();
+
+				while (rs.next()) {
+					tr.addTrackpoint(new Trackpoint(rs.getDouble("Lat"), rs.getDouble("Lon")));
+				}
+				rs.close();
+				
+				HashMap<String, String> map = PolylineEncoder.createEncodings(tr, 17, 1);
+
+				rr.addRoute((String)(map.get("encodedPoints")),	(String)(map.get("encodedLevels")), i);				
+
+			}
 			closeDatabase(db);
-			return wlr;
+			return rr;
 		}catch (SQLException e2) {
 			logger_.log(Level.SEVERE, "SQLException: ", e);
 			closeDatabase(db);
