@@ -61,6 +61,7 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		VUphone.setContext(this);
 		setContentView(R.layout.accidentview);
 		AccidentMapView map_ = (AccidentMapView) findViewById(R.id.accidentview);
 		mc_ = map_.getController();
