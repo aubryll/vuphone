@@ -25,16 +25,16 @@ public class ImageAdapter extends BaseAdapter {
 
     private Context context_;
     
-    private String point_ = "";
+    private int wreckID_ = -1;
 
     private Bitmap[] images_ = {};
     
 	private static final String LOG_PREFIX = "ImageAdapter: ";
     
-    public ImageAdapter(Context c, String str) {
+    public ImageAdapter(Context c, int id) {
     	context_ = c;
-    	point_ = str;
-    	images_ = parseImageFromServer(HTTPGetter.doPictureGet(point_));
+    	wreckID_ = id;
+    	images_ = parseImageFromServer(HTTPGetter.doPictureGet(wreckID_));
     }
 
     public int getCount() {

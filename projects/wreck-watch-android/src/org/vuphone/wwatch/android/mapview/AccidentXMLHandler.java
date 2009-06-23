@@ -36,7 +36,7 @@ import com.google.android.maps.GeoPoint;
 public class AccidentXMLHandler extends DefaultHandler {
 
 	private static final String LOG_LABEL = "VUPHONE";
-	private static final String LOG_PREFIX = "AccidentDataHandler: ";
+	private static final String LOG_PREFIX = "AccidentXMLHandler: ";
 
 	private boolean inPoints = false;
 	private boolean inPoint = false;
@@ -121,14 +121,17 @@ public class AccidentXMLHandler extends DefaultHandler {
 		} catch (SAXException e) {
 			Log.e(LOG_LABEL, LOG_PREFIX + "Error getting XMLReader instance: "
 					+ e.getMessage());
+			e.printStackTrace();
 			return null;
 		} catch (ParserConfigurationException e) {
 			Log.e(LOG_LABEL, LOG_PREFIX + "Error getting XMLReader instance: "
 					+ e.getMessage());
+			e.printStackTrace();
 			return null;
 		} catch (FactoryConfigurationError e) {
 			Log.e(LOG_LABEL, LOG_PREFIX + "Error getting XMLReader instance: "
 					+ e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 
@@ -138,6 +141,7 @@ public class AccidentXMLHandler extends DefaultHandler {
 		} catch (IOException e) {
 			Log.e(LOG_LABEL, LOG_PREFIX + "IOException parsing AccidentXML: "
 					+ e.getMessage());
+			e.printStackTrace();
 		} catch (SAXException e) {
 			if (e.getMessage().equalsIgnoreCase("Done processing")) {
 				Log
@@ -147,7 +151,8 @@ public class AccidentXMLHandler extends DefaultHandler {
 				Log
 						.e(LOG_LABEL, LOG_PREFIX
 								+ "SAXException parsing AccidentXML: "
-								+ e.getMessage());
+								+ e.getMessage());		////////////////////////////////////////////
+				e.printStackTrace();
 			}
 		}
 

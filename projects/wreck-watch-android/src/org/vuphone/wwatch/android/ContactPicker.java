@@ -30,6 +30,9 @@ import android.widget.Toast;
  * @author Krzysztof Zienkiewicz
  * 
  */
+
+// TODO - Empty list doesn't clear the server
+// TODO - Back button doesn't exit the app
 public class ContactPicker extends Activity implements View.OnClickListener {
 
 	// List to hold all contact strings with non-null numbers (Name - Number)
