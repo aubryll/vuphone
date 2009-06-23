@@ -65,58 +65,23 @@ public class ImageRequestHandler implements NotificationHandler{
 					"SQLException when setting auto commit: ", e);
 		}
 
-		int id = 0;
+		int id = irn.getWreckID();
 		// Prepare the SQL statement
 		PreparedStatement prep = null;
 		ResultSet rs;
-		try {
-			prep = db.prepareStatement(
-					"select WreckID from Wreck where Lat like ? and Lon like ?;");
-			prep.setDouble(1, irn.getLat());
-			prep.setDouble(2, irn.getLon());
-
-		} catch (SQLException e) {
-			
-			logger_.log(Level.SEVERE, 
-					"Unable to prepare first statment, stopping.");
-			closeDatabase(db);
-			return n;
-		}
-
-		try {
-			rs  = prep.executeQuery();
-			
-		} catch (SQLException e) {
-			
-			logger_.log(Level.SEVERE, 
-					"Unable to execute first statement, stopping.");
-			closeDatabase(db);
-			return n;
-		}
-
-		try {
-			rs.next();
-			id = rs.getInt("WreckID");
-			rs.close();
-		} catch (SQLException e) {
-			
-			logger_.log(Level.SEVERE, 
-					"Unable to get the response from the first statement, " +
-					"stopping.");
-			closeDatabase(db);
-			return n;
-		}
 
 		List<String> filenames = new ArrayList<String>();
 		try {
 			prep = db.prepareStatement(
-					"select * from WreckImages where WreckID like ?;");
+					"select * from WreckImages where WreckID = ?;");
 			prep.setInt(1, id);
 
 			rs = prep.executeQuery();
 					
 			while (rs.next()) {
-				filenames.add(rs.getString("FileName"));
+				String name = rs.getString("FileName");
+				System.out.println("ADDING FILENAME: " + name);
+				filenames.add(name);
 			}
 			rs.close();
 

@@ -19,28 +19,18 @@ import org.vuphone.wwatch.notification.Notification;
 
 public class ImageRequestNotification extends Notification{
 
-	private double lat_ = 0.0;
-	
-	private double lon_ = 0.0;
+	private int wreckID_ = -1;
 	
 	public ImageRequestNotification() {
 		super("imageRequest");
 	}
 
-	public double getLat() {
-		return lat_;
+	public void setWreckID(int id) {
+		wreckID_ = id;
 	}
-
-	public void setLat(double lat) {
-		lat_ = lat;
-	}
-
-	public double getLon() {
-		return lon_;
-	}
-
-	public void setLon(double lon) {
-		lon_ = lon;
+	
+	public int getWreckID() {
+		return wreckID_;
 	}
 	
 	public String getResponseString() {
