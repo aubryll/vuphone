@@ -13,34 +13,29 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.mapping.wrecklocationrequest;
+package org.vuphone.wwatch.mapping.routerequest;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 
-import org.vuphone.wwatch.mapping.MapResponse;
+import org.vuphone.wwatch.mapping.MapEvent;
+import org.vuphone.wwatch.mapping.MapEventParser;
 
-public class WreckLocationResponse extends MapResponse {
+public class RouteRequestParser extends MapEventParser {
 	
-	private ArrayList<Wreck> accidents_;
-
-	
-	public WreckLocationResponse(){
-		super("locationresponse");
-		accidents_ = new ArrayList<Wreck>();
-	}
-
-
-	public void addAccident(Wreck w) {
-		accidents_.add(w);
-	}
-
-	public ArrayList<Wreck> getAccidents() {
-		return accidents_;
+	public RouteRequestParser(){
+		super("locationrequest");
 	}
 
 	@Override
-	public byte[] getRespose() {
-		return null;
+	public MapEvent parse(HttpServletRequest req) {
+	
+		RouteRequestEvent rre = new RouteRequestEvent();
+		rre.setNorthEastLat(Double.parseDouble(req.getParameter("nelat")));
+		rre.setNorthEastLon(Double.parseDouble(req.getParameter("nelon")));
+		rre.setSouthWestLat(Double.parseDouble(req.getParameter("swlat")));
+		rre.setSouthWestLon(Double.parseDouble(req.getParameter("swlon")));
+		
+		return rre;
 	}
 
 }

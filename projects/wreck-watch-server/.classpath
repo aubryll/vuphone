@@ -64,5 +64,6 @@
 	<classpathentry kind="lib" path="lib/xml-writer-0.2.jar"/>
 	<classpathentry kind="lib" path="lib/xom-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-benchmark-1.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/polylineencoder.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

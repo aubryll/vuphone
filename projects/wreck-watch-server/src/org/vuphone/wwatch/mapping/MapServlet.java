@@ -50,7 +50,7 @@ public class MapServlet extends HttpServlet {
 		
 		try {
 			r = eventHandlers_.get(e.getType()).handle(e);
-			responseHandlers_.get(r.getType()).respond(r, resp);
+			responseHandlers_.get(r.getType()).respond(r, resp, req.getParameter("callback"));
 		} catch (HandlerFailedException e1) {
 			e1.printStackTrace();
 		}
