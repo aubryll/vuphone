@@ -34,7 +34,22 @@ public class ImageRequestHandler implements NotificationHandler{
 	
 	public Notification handle(Notification n) {
 
+		/*
+		 * The format of the response is as follows:
+		 * Headers
+		 * 
+		 * Content-Type		application/octet-stream
+		 * Content-Length	number of bytes in the entity stream
+		 * ImageCount		number of images in the response stream
+		 * ImageXSize		size in bytes of image X
+		 * 
+		 * The actual image data are held in the stream as an array of bytes, 
+		 * back to back
+		 */
+		
 		ImageRequestNotification irn = null;
+
+		
 		Connection db = null;
 		try {
 			irn = parser_.getImage(n.getRequest(), n.getResponse());
@@ -80,47 +95,51 @@ public class ImageRequestHandler implements NotificationHandler{
 					
 			while (rs.next()) {
 				String name = rs.getString("FileName");
-				System.out.println("ADDING FILENAME: " + name);
 				filenames.add(name);
 			}
 			rs.close();
 
 		}catch (SQLException e) {
 			logger_.log(Level.SEVERE,
-					"SQLException in the second statement: ", e);
+					"SQLException in the statement: ", e);
 			closeDatabase(db);
 			return n;
 		}	
 
 		HttpServletResponse response = irn.getResponse();
-		int count = 0;
-		String header = "HeaderLength=?,";
-		ByteArrayOutputStream toSend = new ByteArrayOutputStream();
 		
-		for (String fileStr : filenames) {
-			File file = new File(ImageHandler.getIMAGE_DIRECTORY(),fileStr);
-			
+		// Preprocess the files to get sizes and set some headers
+		response.setIntHeader("ImageCount", filenames.size());
+		File[] files = new File[filenames.size()];
+		int totalSize = 0;
+		for (int i = 0; i < filenames.size(); ++i) {
+			files[i] = new File(ImageHandler.getIMAGE_DIRECTORY(), filenames.get(i));
+			int size = (int) files[i].length();
+			response.setIntHeader("Image" + i + "Size", size);
+			totalSize += size;
+		}
+		response.setContentLength(totalSize);
+		response.setContentType("application/octet-stream");
+		
+		ByteArrayOutputStream toSend = new ByteArrayOutputStream(totalSize);
+		
+		for (int i = 0; i < filenames.size(); ++i) {
+
+			int sz = (int) files[i].length();
+			byte[] array = new byte[sz];
+			int offset = 0;
+			int numRead = 0;
+
+			InputStream is = null;
+
 			try {
+				is = new FileInputStream(files[i]);
 				
-				// This works assuming file only contains the binary data
-				// for the image, no headers.
-				int sz = (int) file.length();
-				byte[] array = new byte[sz];
-				int offset = 0;
-				int numRead = 0;
-
-				InputStream is = new FileInputStream(file);
-
 				while (offset < sz && (numRead = is.read(array, offset, sz - offset)) >= 0){
 					offset += numRead;
 				}
-
-				response.addIntHeader("Image"+count+" length",array.length);
-				header += "Image"+count+"length="+array.length+",";
-				count++;
-
-				toSend.write(array);
-			
+				
+				toSend.write(array);			
 			} catch (FileNotFoundException e) {
 				
 				e.printStackTrace();
@@ -133,24 +152,9 @@ public class ImageRequestHandler implements NotificationHandler{
 
 		}
 		
-		response.addIntHeader("Number of Images", count);
-		header += "NumImages="+count+",";
-		
-		int headerLength = header.length();
-		// find order of magnitude of headerLength
-		int temp = headerLength;
-		int orderOfMag = 0;
-		while (temp >= 1) {
-			temp = temp / 10;
-			orderOfMag++;
-		}
-		header = header.replace("?", ""+(headerLength+orderOfMag-1));
-		
 		try {
-			response.getOutputStream().write(header.getBytes());
 			response.getOutputStream().write(toSend.toByteArray());
 		} catch (IOException e) {
-
 			e.printStackTrace();
 			return null;
 		}
