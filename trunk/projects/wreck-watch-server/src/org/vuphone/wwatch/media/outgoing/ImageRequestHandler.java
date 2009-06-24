@@ -33,7 +33,7 @@ public class ImageRequestHandler implements NotificationHandler{
 	.getLogger(ImageRequestHandler.class.getName());
 	
 	public Notification handle(Notification n) {
-
+		// TODO - Make this degrade gracefully on IOExceptions.
 		/*
 		 * The format of the response is as follows:
 		 * Headers
@@ -139,7 +139,7 @@ public class ImageRequestHandler implements NotificationHandler{
 					offset += numRead;
 				}
 				
-				toSend.write(array);			
+				toSend.write(array);
 			} catch (FileNotFoundException e) {
 				
 				e.printStackTrace();
@@ -153,6 +153,7 @@ public class ImageRequestHandler implements NotificationHandler{
 		}
 		
 		try {
+			toSend.flush();
 			response.getOutputStream().write(toSend.toByteArray());
 		} catch (IOException e) {
 			e.printStackTrace();
