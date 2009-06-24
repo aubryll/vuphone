@@ -129,28 +129,24 @@ public class HTTPGetter {
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPGetter.doAccidentGet");
 	}
 
-	public static HttpResponse doPictureGet(int wreckID) {
+	public static void doPictureGet(int wreckID, final HttpOperationListener list) {
 
-		HttpClient c = new DefaultHttpClient();
+		final HttpClient c = new DefaultHttpClient();
 		String params = "?type=imageRequest&wreckID=" + wreckID;
 		Log
 				.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "
 						+ params);
-		HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
+		final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
 
-		try {
-			HttpResponse resp = c.execute(get);
-
-			return resp;
-
-		} catch (ClientProtocolException e) {
-
-			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-
-			e.printStackTrace();
-			return null;
-		}
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					HttpResponse resp = c.execute(get);
+					list.operationComplete(resp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}, "PictureGetter").start();
 	}
 }

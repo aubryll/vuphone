@@ -1,15 +1,14 @@
 package org.vuphone.wwatch.android.mapview;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
 
-import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.http.HTTPGetter;
+import org.vuphone.wwatch.android.http.HttpOperationListener;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends BaseAdapter implements HttpOperationListener{
 
     private Context context_;
     
@@ -34,7 +33,47 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context c, int id) {
     	context_ = c;
     	wreckID_ = id;
-    	images_ = parseImageFromServer(HTTPGetter.doPictureGet(wreckID_));
+    	HTTPGetter.doPictureGet(wreckID_, this);
+    }
+    
+	public void operationComplete(HttpResponse resp) {
+		Log.v(VUphone.tag, "ImageAdapter.operationComplete()");
+		images_ = parseImages(resp);
+		Log.v(VUphone.tag, "ImageAdapter set images_ array");
+	}  
+    
+    private Bitmap[] parseImages(HttpResponse resp) {
+    	HttpEntity ent = resp.getEntity();
+    	int imgTotal = Integer.parseInt(resp.getHeaders("ImageCount")[0].getValue());
+    	int sizeTotal = (int) ent.getContentLength();
+    	String type = ent.getContentType().getValue();
+    	Log.v(VUphone.tag, "Received response: " + imgTotal +
+    			" images. Total size: " + sizeTotal + ". Sent as " + type);
+    	
+    	Bitmap[] images = new Bitmap[imgTotal];
+    	
+    	try {
+	    	InputStream is = ent.getContent();	    	
+	    	for (int i = 0; i < imgTotal; ++i) {
+	    		int sz = Integer.parseInt(resp.getHeaders("Image" + i + "Size")[0].getValue());
+	    		byte[] data = new byte[sz];
+	    		int offset = 0;
+	    		int numRead = 0;
+	    		
+	    		while ((numRead = is.read(data, offset, sz - offset)) >= 0 && offset < sz) {
+	    			offset += numRead;
+	    		}
+	    		
+	    		// TODO - This is too indirect. Work on efficiency.
+	    		ByteArrayInputStream bis = new ByteArrayInputStream(data);
+	    		images[i] = new BitmapDrawable(bis).getBitmap();
+	    		
+	    	}
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return images;    	
     }
 
     public int getCount() {
@@ -58,83 +97,5 @@ public class ImageAdapter extends BaseAdapter {
         i.setScaleType(ImageView.ScaleType.FIT_XY);
 
         return i;
-    }
-    
-    private Bitmap[] parseImageFromServer(HttpResponse resp) {
-    	
-    	Map<Integer, Integer> imgLengths = new HashMap<Integer, Integer>();
-    	int numImages = 0;
-	    try {
-	    	ByteArrayOutputStream bao = new ByteArrayOutputStream();
-			resp.getEntity().writeTo(bao);
-	    	byte[] array = bao.toByteArray();
-		
-	    	// Note: This only works if the headerLength is >20 and < 1,000,000
-	    	byte[] headerLengthArr = new byte[20];
-	    	for (int i = 0; i < 20; i++) {
-	    		headerLengthArr[i] = array[i];
-	    	}
-	    	String headerLengthStr = new String(headerLengthArr);
-
-	    	String lenStr = headerLengthStr.substring(
-	    			headerLengthStr.indexOf("=")+1,headerLengthStr.indexOf(","));
-	    	int headLen = Integer.parseInt(lenStr);
-	    	
-	    	byte[] headersArr = new byte[headLen];
-	    	for (int i = 0; i < headLen; i++) {
-	    		headersArr[i] = array[i];
-	    	}
-	    	String headers = new String(headersArr);
-	    	
-	    	String[] allHeaders = headers.split(",");
-	    		for (String h : allHeaders) {
-	    			String[] pair = h.split("=");
-	    			if (pair[0].equals("NumImages")) {
-	    				numImages = Integer.parseInt(pair[1]);
-	    			}
-	    			else if (pair[0].startsWith("Image")) {
-	    				int ind = Character.getNumericValue(pair[0].charAt(5));
-	    				imgLengths.put(ind, Integer.parseInt(pair[1]));
-	    			}
-	    		}
-	    		
-	    	Bitmap[] bitmapArr = new Bitmap[numImages];
-
-	    	Log.d(VUphone.tag, LOG_PREFIX + "parseImageFromServer received "+array.length+" bytes.");
-	    	int arrCount = 0;
-
-	    	int size;
-    		int index = headLen;
-    		while (arrCount < numImages) {
-    			size = imgLengths.get(arrCount);
-    			byte[] img = new byte[size];
-    			for(int i = 0; i < size; i++) {
-    				img[i] = array[i+index];
-    			}
-    			ByteArrayInputStream is = new ByteArrayInputStream(img);
-    			BitmapDrawable bmd = new BitmapDrawable(is);
-    			Bitmap b = bmd.getBitmap();
-
-    			Log.d(VUphone.tag, LOG_PREFIX + "added image "+arrCount);
-    			bitmapArr[arrCount] = b;
-    			arrCount++;
-    			index = index + size;
-    		}
-    		
-    		return bitmapArr;
-    	}
-	    catch (IOException e) {
-	    	
-	    	Log.d(VUphone.tag, LOG_PREFIX + "There was an IOException.");
-	    	e.printStackTrace();
-	    	return null;
-	    }
-    	catch (Exception e) {
-    		
-	    	Log.d(VUphone.tag, LOG_PREFIX + "There was a different Exception.");
-    		e.printStackTrace();
-    		return null;
-    	}
-    }
-    
+    }  
 }
