@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -19,86 +19,63 @@ import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.routing.Waypoint;
 
 /**
- * This class is utilized by the WreckWatch server to store
- * information regarding the area for within which to search
- * for accidents.  The area is represented as the vertices of
- * a rectangle and are stored internally in an array.  The indices
- * of that array are
- * 		0******1
- * 		*	   *
- *  	*	   *
- *  	*	   *
- *  	*	   *
- *  	2******3
- *  Each point is accessed by a method corresponding to its position
- *  rather than by its index within the array.
+ * This class is utilized by the WreckWatch server to store information
+ * regarding the area for within which to search for accidents. The area is
+ * represented as the vertices of a rectangle and are stored internally in an
+ * array. The indices of that array are 0******1 * * * * * * * * 2******3 Each
+ * point is accessed by a method corresponding to its position rather than by
+ * its index within the array.
+ * 
  * @author Chris Thompson
- *
+ * 
  */
 public class InfoNotification extends Notification {
 
-	private Waypoint[] corners_ = new Waypoint[4];
-	
+	private Waypoint topLeft_;
+	private Waypoint bottomRight_;
+
 	private long time_;
-	
+
 	public InfoNotification() {
 		super("info");
 	}
-	
+
 	public void setTime(long t) {
 		time_ = t;
 	}
-	
+
 	public long getTime() {
 		return time_;
 	}
-	
-	public void setTopLeftCorner(double lat, double lon){
-		corners_[0] = new Waypoint(lat, lon, 0);
+
+	public void setTopLeftCorner(double lat, double lon) {
+		topLeft_ = new Waypoint(lat, lon, 0);
 	}
-	
-	public void setTopLeftCorner(Waypoint w){
-		corners_[0] = w;
+
+	public void setBottomRightCorner(double lat, double lon) {
+		bottomRight_ = new Waypoint(lat, lon, 0);
 	}
-	
-	public void setTopRightCorner(double lat, double lon){
-		corners_[1] = new Waypoint (lat, lon, 0);
+
+	/**
+	 * In general (not counting the meridian or the equator) latitude more North
+	 * is larger, while longitude more East is larger
+	 * 
+	 * @return
+	 */
+	public double getMaxLatitude() {
+		return topLeft_.getLatitude();
 	}
-	
-	public void setTopRightCorner(Waypoint w){
-		corners_[1] = w;
+
+	public double getMinLatitude() {
+		return bottomRight_.getLatitude();
 	}
-	
-	public void setBottomLeftCorner(double lat, double lon){
-		corners_[2] = new Waypoint(lat, lon, 0);
+
+	public Double getMaxLongitude() {
+		return bottomRight_.getLongitude();
 	}
-	
-	public void setBottomLeftCorner(Waypoint w){
-		corners_[2] = w;
-	}
-	
-	public void setBottomRightCorner(double lat, double lon){
-		corners_[3] = new Waypoint(lat, lon, 0);
-	}
-	
-	public void setBottomRightCorner(Waypoint w){
-		corners_[3] = w;
-	}
-	
-	public Waypoint getTopLeftCorner(){
-		return corners_[0];
-	}
-	
-	public Waypoint getTopRightCorner(){
-		return corners_[1];
-	}
-	
-	public Waypoint getBottomLeftCorner(){
-		return corners_[2];
-	}
-	
-	public Waypoint getBottomRightCorner(){
-		return corners_[3];
+
+	public Double getMinLongitude() {
+		return topLeft_.getLongitude();
 	}
 
 }

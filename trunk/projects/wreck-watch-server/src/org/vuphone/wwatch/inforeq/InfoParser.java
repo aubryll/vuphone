@@ -24,8 +24,6 @@ public class InfoParser {
 		double tlLon, tlLat, brLon, brLat;
 		try {
 
-			info.setTime(Long.parseLong(request.getParameter("maxtime")));
-			
 			tlLat = Double.parseDouble(request.getParameter("lattl")) / 1E6;
 			tlLon = Double.parseDouble(request.getParameter("lontl")) / 1E6;
 			
@@ -35,11 +33,7 @@ public class InfoParser {
 			info.setBottomRightCorner(brLat, brLon);
 			info.setTopLeftCorner(tlLat, tlLon);
 			
-			info.setTopRightCorner(brLat, tlLon);
-			info.setBottomLeftCorner(tlLat, brLon);
-			
 			info.setRequest(request);
-			
 		} catch (Exception e) {
 			// If we get here, likely the parameters were wrong or not present
 			

@@ -101,6 +101,11 @@ public class ContactHandler implements NotificationHandler {
 		}
 
 		String[] contacts = cn.getNumbers();
+		if (contacts == null)
+		{
+			logger_.log(Level.WARNING, "No contacts were returned");
+			return n;
+		}
 
 		try {
 			db.setAutoCommit(false);
