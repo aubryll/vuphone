@@ -112,7 +112,7 @@ public class InfoHandler implements NotificationHandler {
 		}
 	}
 
-	private InfoHandledNotification getInfo(InfoNotification info)
+	private InfoHandledNotification getInfo(final InfoNotification info)
 			throws HandlerFailedException {
 
 		Connection db = null;
@@ -136,11 +136,13 @@ public class InfoHandler implements NotificationHandler {
 
 		try {
 			PreparedStatement prep = db.prepareStatement(sql);
-			prep.setDouble(1, info.getTopLeftCorner().getLatitude());
-			prep.setDouble(2, info.getBottomLeftCorner().getLatitude());
-			prep.setDouble(3, info.getTopLeftCorner().getLongitude());
-			prep.setDouble(4, info.getTopRightCorner().getLongitude());
-
+			
+			prep.setDouble(1, info.getMinLatitude());
+			prep.setDouble(2, info.getMaxLatitude());
+			
+			prep.setDouble(3, info.getMinLongitude());
+			prep.setDouble(4, info.getMaxLongitude());
+			
 			note = new InfoHandledNotification();
 			note.newRoute();
 
