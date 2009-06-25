@@ -15,7 +15,7 @@ import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 import org.vuphone.wwatch.android.http.HTTPGetter;
 import org.vuphone.wwatch.android.http.HttpOperationListener;
-import org.vuphone.wwatch.android.mapview.pinoverlays.PinOverlay.OverlayState;
+import org.vuphone.wwatch.android.mapview.pinoverlays.PinController;
 import org.xml.sax.InputSource;
 
 import android.util.Log;
@@ -93,8 +93,7 @@ public class AccidentList implements HttpOperationListener {
 			return;
 
 		// Do we care about actually pushing the updates to the map?
-		boolean showingAllWrecks = (map_.getOverlay().getState() == OverlayState.SHOWING_ALL_WRECKS) ? true
-				: false;
+		boolean showingAllWrecks = (map_.getOverlayController().getState() == PinController.State.SHOW_WRECKS);
 
 		ArrayList<Waypoint> points = new ArrayList<Waypoint>();
 		synchronized (routes_) {
@@ -109,7 +108,7 @@ public class AccidentList implements HttpOperationListener {
 
 		if (showingAllWrecks) {
 			Log.i(tag, pre + "Adding waypoints: " + points.toString());
-			map_.getOverlay().updatePins(points);
+			map_.getOverlayController().updateWrecks(points);
 		}
 
 	}
