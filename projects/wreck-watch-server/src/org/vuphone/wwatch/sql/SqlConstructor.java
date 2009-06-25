@@ -48,7 +48,7 @@ public class SqlConstructor {
 		db.setAutoCommit(false);
 
 		String sql = "CREATE TABLE IF NOT EXISTS People ( "
-				+ "id INTEGER PRIMARY KEY ,"
+				+ "id INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "AndroidID VARCHAR(20)," + "PhoneNumber VARCHAR(15),"
 				+ "FirstName VARCHAR(50)," + "LastName VARCHAR(50),"
 				+ "Email VARCHAR(100));";
@@ -56,7 +56,7 @@ public class SqlConstructor {
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS Wreck ( "
-				+ "WreckID INTEGER PRIMARY KEY,"
+				+ "WreckID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "Person INTEGER REFERENCES People(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
 				+ "Date DATE NOT NULL, "
@@ -71,7 +71,7 @@ public class SqlConstructor {
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS Route ( "
-				+ "CoordID INTEGER PRIMARY KEY,"
+				+ "CoordID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
 				+ "Date DATE NOT NULL, "
@@ -80,7 +80,7 @@ public class SqlConstructor {
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS WreckImages ( "
-				+ "ImageID INTEGER PRIMARY KEY,"
+				+ "ImageID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), FileName TEXT NOT NULL,"
 				+ "Time DATE NOT NULL);";
 		prep = db.prepareStatement(sql);
