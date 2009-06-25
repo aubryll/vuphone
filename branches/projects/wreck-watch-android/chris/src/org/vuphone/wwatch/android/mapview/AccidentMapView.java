@@ -44,7 +44,7 @@ public class AccidentMapView extends MapView {
 		super.setBuiltInZoomControls(true);
 		pinGroup_ = new PinController(this, context);
 		getOverlays().add(pinGroup_.getWreckOverlay());
-		getOverlays().add(pinGroup_.getRouteOverlay());
+		//getOverlays().add(pinGroup_.getRouteOverlay());
 		viewHeight_ = getHeight();
 		viewWidth_ = getWidth();
 		routes_ = new AccidentList(this);

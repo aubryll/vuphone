@@ -21,6 +21,7 @@ public class VUphone {
 	public static final String TIMEOUT_TAG = "WreckWatchDialogTimeout";
 	public static final String LOCATION_TAG = "DefaultLocation";
 	public static final String SERVER_TAG = "ServerAddress";
+	public static final String SERVER = "http://192.168.0.150:8080";
 	
 	/**
 	 * Used in the preference file to specify the size of the ID list
@@ -45,8 +46,9 @@ public class VUphone {
 	}
 	
 	public static final String getServer() {
-		if (context_ == null)
-			throw new IllegalStateException("VUphone.setContext() has not been called");
-		return context_.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE).getString(SERVER_TAG, "INVALID");
+		return SERVER;
+//		if (context_ == null)
+//			throw new IllegalStateException("VUphone.setContext() has not been called");
+//		return context_.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE).getString(SERVER_TAG, "INVALID");
 	}
 }
