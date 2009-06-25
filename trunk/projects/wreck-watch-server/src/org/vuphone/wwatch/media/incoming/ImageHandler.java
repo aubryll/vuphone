@@ -1,5 +1,6 @@
 package org.vuphone.wwatch.media.incoming;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,18 +14,19 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
-import org.vuphone.wwatch.notification.InvalidFormatException;
 
 public class ImageHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger.getLogger(ImageHandler.class.getName());
 	private DataSource ds_;
 	private ImageParser parser_;
-	private static final String FILE_EXTENSION = ".jpg";
+	public static final String FILE_EXTENSION = ".jpg";
 	private static int FILE_NAME_PREFIX = -1;
 	public static final String IMAGE_DIRECTORY = "images";
+	public static final String MINI_PREFIX = "mini";
 
 	public Notification handle(Notification n) {
 
@@ -83,12 +85,19 @@ public class ImageHandler implements NotificationHandler {
 			return ihn;
 		}
 		
-		//put image as file on disk
+		// Save the image from the POST.
 		File imageFile = new File(ImageHandler.IMAGE_DIRECTORY, fileName);
+		File miniFile = new File(IMAGE_DIRECTORY, MINI_PREFIX + fileName);
 		try {
 			FileOutputStream writer = new FileOutputStream(imageFile);
+			// TODO - why -1
 			writer.write(in.getBytes(), 0, in.getBytes().length - 1);
 			writer.close();
+			
+			// Scale the image down and save it
+			BufferedImage img = ImageManipulator.scaleDown(imageFile);
+			ImageManipulator.saveImage(img, miniFile);
+			
 		} catch (IOException excp) {
 			logger_.log(Level.SEVERE, "Got an IOException: " + excp.getMessage());
 			return ihn;
