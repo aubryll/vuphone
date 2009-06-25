@@ -95,7 +95,7 @@ public class ImageRequestHandler implements NotificationHandler{
 					
 			while (rs.next()) {
 				String name = rs.getString("FileName");
-				filenames.add(name);
+				filenames.add(ImageHandler.MINI_PREFIX + name);
 			}
 			rs.close();
 
