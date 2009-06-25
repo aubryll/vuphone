@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+	<Button android:id="@+id/save_button" android:text="Save"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_centerHorizontal="true" android:layout_alignParentBottom="true"
+		android:textSize="24sp" android:padding="20px"/>
+
+	<ScrollView android:layout_above="@id/save_button"
+		android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+		<RelativeLayout android:id="@+id/RelativeLayout01"
+			android:layout_width="fill_parent" android:layout_height="fill_parent">
+	
+			<RelativeLayout android:id="@+id/timeout_field"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				
+				<TextView android:text="Timeout" android:id="@+id/timeout_label"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:textSize="24sp" android:padding="8px"></TextView>
+			
+				<ImageView android:layout_height="wrap_content"
+					android:maxHeight='20dip' android:adjustViewBounds='true'
+					android:scaleType="fitXY" android:layout_width="wrap_content"
+					android:id="@+id/timeout_help_icon" android:layout_alignParentRight="true"
+					android:layout_alignParentTop='true' android:layout_marginTop='10px'
+					android:layout_marginRight='5px' android:src="@+drawable/help_icon" />
+			
+				<EditText android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_below="@id/timeout_label"
+					android:layout_marginLeft="35px" android:layout_alignParentRight='true'
+					android:layout_alignParentLeft='true' android:id="@+id/timeout" 
+					android:inputType="number"/>
+			</RelativeLayout>
+		
+			<RelativeLayout android:id="@+id/location_field" android:layout_below="@id/timeout_field"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				
+				<TextView android:text="Default Location" android:id="@+id/location_label"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:textSize="24sp" android:padding="8px" />
+			
+				<ImageView android:layout_height="wrap_content"
+					android:maxHeight='20dip' android:adjustViewBounds='true'
+					android:scaleType="fitXY" android:layout_width="wrap_content"
+					android:id="@+id/location_help_icon" android:layout_alignParentRight="true"
+					android:layout_alignParentTop='true' android:layout_marginTop='10px'
+					android:layout_marginRight='5px' android:src="@+drawable/help_icon" />
+			
+				<EditText android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_below="@id/location_label"
+					android:layout_marginLeft="35px" android:layout_alignParentRight='true'
+					android:layout_alignParentLeft='true' android:id="@+id/location" 
+					android:inputType="textPostalAddress" />
+			</RelativeLayout>
+		
+			<RelativeLayout android:id="@+id/server_field" android:layout_below="@id/location_field"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				
+				<TextView android:text="Server IP:Port" android:id="@+id/server_label"
+					android:layout_width="wrap_content" android:layout_height="wrap_content"
+					android:textSize="24sp" android:padding="8px" />
+			
+				<ImageView android:layout_height="wrap_content"
+					android:maxHeight='20dip' android:adjustViewBounds='true'
+					android:scaleType="fitXY" android:layout_width="wrap_content"
+					android:id="@+id/server_help_icon" android:layout_alignParentRight="true"
+					android:layout_alignParentTop='true' android:layout_marginTop='10px'
+					android:layout_marginRight='5px' android:src="@+drawable/help_icon" />
+			
+				<EditText android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_below="@id/server_label"
+					android:layout_marginLeft="35px" android:layout_alignParentRight='true'
+					android:layout_alignParentLeft='true' android:id="@+id/server" 
+					android:inputType="text" />
+			</RelativeLayout>
+		
+			<RelativeLayout android:id="@+id/battery_field" android:layout_below="@id/server_field"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+			
+				<TextView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:layout_below="@id/timeout"
+					android:layout_alignLeft="@id/timeout_label" android:id="@+id/battery_label"
+					android:text="Battery Usage" android:padding="8px" android:textSize="24sp"></TextView>
+				
+				<ImageView android:scaleType="fitXY" android:maxHeight="20dip"
+					android:layout_height='wrap_content' android:adjustViewBounds='true'
+					android:layout_marginBottom='10px' android:layout_width="wrap_content"
+					android:id="@+id/battery_help_icon" android:layout_alignParentRight="true"
+					android:layout_alignBottom="@id/battery_label"
+					android:layout_marginRight='5px' android:src="@drawable/help_icon" />
+		
+				<RatingBar android:id="@+id/battery_level" android:layout_height="wrap_content"
+					android:layout_below="@id/battery_label" 
+					android:layout_centerHorizontal="true"
+					android:layout_width="wrap_content" 
+					android:numStars="3"
+					android:rating="2.0"
+					android:stepSize="1.0"/>
+					
+			</RelativeLayout>		
+		</RelativeLayout>
+	</ScrollView>
+</RelativeLayout>
