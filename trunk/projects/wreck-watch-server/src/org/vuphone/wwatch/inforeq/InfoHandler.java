@@ -16,10 +16,10 @@
 package org.vuphone.wwatch.inforeq;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -144,7 +144,6 @@ public class InfoHandler implements NotificationHandler {
 			prep.setDouble(4, info.getMaxLongitude());
 			
 			note = new InfoHandledNotification();
-			note.newRoute();
 
 			// Get the wreck id
 			ArrayList<Integer> ids = new ArrayList<Integer>();
@@ -156,6 +155,7 @@ public class InfoHandler implements NotificationHandler {
 
 			sql = "select * from Route where WreckID = ?";
 			for (Integer i : ids) {
+				note.newRoute();
 				prep = db.prepareStatement(sql);
 				prep.setInt(1, i);
 
@@ -163,10 +163,10 @@ public class InfoHandler implements NotificationHandler {
 
 				while (rs.next()) {
 					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs
-							.getDouble("Lon"), rs.getLong("Time")));
+							.getDouble("Lon"), ((Time)rs.getTime("Time")).getTime() + rs.getDate("Date").getTime()));
 				}
 				rs.close();
-				note.newRoute();
+				
 
 			}
 
