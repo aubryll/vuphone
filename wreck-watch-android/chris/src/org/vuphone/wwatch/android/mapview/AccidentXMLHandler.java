@@ -51,13 +51,14 @@ public class AccidentXMLHandler extends DefaultHandler {
 	double currentLongitude_;
 	long currentTime_;
 
-	private ArrayList<Route> points_ = new ArrayList<Route>();
+	private ArrayList<Route> points_;
 	private Route curRoute_;
 
 	@Override
 	public void startElement(String uri, String localname, String qName,
 			Attributes atts) {
 		if (localname.trim().equalsIgnoreCase("Routes")) {
+			points_ = new ArrayList<Route>();
 			inRoutes = true;
 		} else if (localname.trim().equalsIgnoreCase("Route")) {
 			inRoute = true;

@@ -112,6 +112,7 @@ public class HTTPGetter {
 								+ "Other Exception of type:" + e.getClass());
 						Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
 								+ e.getMessage());
+						e.printStackTrace();
 					}
 				}
 
