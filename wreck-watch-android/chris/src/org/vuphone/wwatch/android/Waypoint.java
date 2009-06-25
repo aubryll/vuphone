@@ -3,7 +3,6 @@ package org.vuphone.wwatch.android;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
@@ -29,6 +28,10 @@ public final class Waypoint extends OverlayItem {
 	public Waypoint(Location loc) {
 		this(new GeoPoint((int) (loc.getLatitude() * 1E6), (int) (loc
 				.getLongitude() * 1E6)), loc.getTime());
+	}
+	
+	public Waypoint(double lat, double lon, long time){
+		this(new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)), time);
 	}
 
 	public Waypoint(GeoPoint point, final long time) {

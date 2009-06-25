@@ -17,7 +17,7 @@ package org.vuphone.wwatch.android.mapview;
 
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.http.HTTPGetter;
-import org.vuphone.wwatch.android.mapview.pinoverlays.PinOverlay;
+import org.vuphone.wwatch.android.mapview.pinoverlays.PinController;
 
 import android.content.Context;
 import android.location.Location;
@@ -31,7 +31,7 @@ import com.google.android.maps.Projection;
 // TODO - this class needs to know if the zoom changed, so it can fire another get :P
 public class AccidentMapView extends MapView {
 
-	private PinOverlay pinGroup_;
+	private PinController pinGroup_;
 	private static final String tag = VUphone.tag;
 	private static final String pre = "AccidentMapView: ";
 	private GeoPoint curCenter_ = null;
@@ -42,15 +42,16 @@ public class AccidentMapView extends MapView {
 	public AccidentMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		super.setBuiltInZoomControls(true);
-		pinGroup_ = new PinOverlay(context, this);
-		getOverlays().add(pinGroup_);
+		pinGroup_ = new PinController(this, context);
+		getOverlays().add(pinGroup_.getWreckOverlay());
+		getOverlays().add(pinGroup_.getRouteOverlay());
 		viewHeight_ = getHeight();
 		viewWidth_ = getWidth();
 		routes_ = new AccidentList(this);
 		curCenter_ = getMapCenter();
 	}
 
-	public PinOverlay getOverlay() {
+	public PinController getOverlayController() {
 		return pinGroup_;
 	}
 
