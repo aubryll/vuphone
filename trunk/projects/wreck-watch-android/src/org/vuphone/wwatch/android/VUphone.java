@@ -34,5 +34,6 @@ public class VUphone {
 	public static final String SPEED_SCALE = "SpeedScale";
 	public static final String ACCEL_SCALE = "AccelScale";
 	
+
 	public static final String SERVER = "http://129.59.135.144:8080";
 }

@@ -16,73 +16,47 @@
 package org.vuphone.wwatch.android.mapview;
 
 import org.vuphone.wwatch.android.VUphone;
-import org.vuphone.wwatch.android.http.HTTPGetter;
 
 import android.content.Context;
-import android.location.Location;
 import android.util.AttributeSet;
-import android.util.Log;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Projection;
 
-// TODO - this class needs to know if the zoom changed, so it can fire another get :P
+// TODO - this class needs to know if the zoom changed, so it can let the AccidentList know
 public class AccidentMapView extends MapView {
-
-	private PinOverlay pinGroup_;
+	/** Used for logging */
 	private static final String tag = VUphone.tag;
 	private static final String pre = "AccidentMapView: ";
-	private GeoPoint curCenter_ = null;
-	private int viewHeight_;
-	private int viewWidth_;
-	private AccidentList routes_;
+
+	private PinOverlay pinOverlay_;
+
+	/** Used for callbacks */
+	private Cache routes_;
+	private boolean firedFirstScrollEvent_ = false;
 
 	public AccidentMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		super.setBuiltInZoomControls(true);
-		pinGroup_ = new PinOverlay(context, this);
-		getOverlays().add(pinGroup_);
-		viewHeight_ = getHeight();
-		viewWidth_ = getWidth();
-		routes_ = new AccidentList(this);
-		curCenter_ = getMapCenter();
+		pinOverlay_ = new PinOverlay(context, this);
+		getOverlays().add(pinOverlay_);
+		routes_ = new Cache(pinOverlay_, context);
 	}
 
 	public PinOverlay getOverlay() {
-		return pinGroup_;
+		return pinOverlay_;
 	}
 
 	@Override
 	public void computeScroll() {
 		super.computeScroll();
-		Log.v(tag, pre + "Compute Scroll called");
-		
-		if (getZoomLevel() > 5) {
-			if (distanceChanged() > 20) {
-				curCenter_ = getMapCenter();
-				
-				// This can change per draw, so we always get a fresh one
-				Projection p = getProjection();
 
-				GeoPoint upperLeft = p.fromPixels(0, viewHeight_);
-				GeoPoint lowerRight = p.fromPixels(viewWidth_, 0);
-
-				long maxTime = routes_.getLatestTime();
-				HTTPGetter.doAccidentGet(lowerRight, upperLeft, maxTime, routes_);
-			}
-		}
-
-	}
-
-	private float distanceChanged() {
-		double startLat = curCenter_.getLatitudeE6() / 1.0E6;
-		double startLng = curCenter_.getLongitudeE6() / 1.0E6;
-		double endLat = getMapCenter().getLatitudeE6() / 1.0E6;
-		double endLng = getMapCenter().getLongitudeE6() / 1.0E6;
-
-		float[] results = new float[1];
-		Location.distanceBetween(startLat, startLng, endLat, endLng, results);
-		return results[0];
+		// The first event seems to come before the map is fully rendered, and
+		// the second event typically triggers an update on the initial data, so
+		// we might as just wait until the first event has passed to load
+		// initial data
+		if (firedFirstScrollEvent_)
+			routes_.onMapScroll(this);
+		else
+			firedFirstScrollEvent_ = true;
 	}
 }

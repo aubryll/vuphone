@@ -15,9 +15,6 @@
  **************************************************************************/
 package org.vuphone.wwatch.android.mapview;
 
-
-// TODO - Work on animated zooming
-
 import java.io.IOException;
 
 import org.vuphone.wwatch.android.R;
@@ -44,12 +41,10 @@ import com.google.android.maps.MapController;
 
 
 public class AccidentActivity extends MapActivity implements LocationListener {
-
+	private static final String tag = VUphone.tag;
 	private static final String pre = "AccidentActivity: ";
 
-	private MapController mc_;
-	
-	private AccidentList routes_;
+	private MapController controller_;
 
 	// Used for centering on the first fix.
 	private Location firstLoc_ = null;
@@ -63,11 +58,10 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accidentview);
 		AccidentMapView map_ = (AccidentMapView) findViewById(R.id.accidentview);
-		mc_ = map_.getController();
-		mc_.setZoom(15);
+		controller_ = map_.getController();
+		controller_.setZoom(8);
+
 		map_.postInvalidate();
-		
-		routes_ = new AccidentList(map_);
 
 		// Get fixes as quickly as possible.
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
@@ -107,8 +101,8 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 
 				AccidentActivity.this.runOnUiThread(new Thread() {
 					public void run() {
-						mc_.animateTo(point);
-						mc_.setZoom(10);
+						controller_.animateTo(point);
+						controller_.setZoom(10);
 					}
 				});
 			}
@@ -120,26 +114,28 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 		super.onDestroy();
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.removeUpdates(this);
-		routes_.stopUpdates();
 	}
 
 	public void onLocationChanged(Location location) {
-		firstLoc_ = location;
-		if (firstLoc_ == null)
+		if (location == null)
 			return;
 
-		// center and zoom in
+		firstLoc_ = location;
+		
+		// Remove location updates
+		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
+		.removeUpdates(this);
+		
+		
+		// Center and zoom in
 		GeoPoint center = new GeoPoint(
 				(int) (firstLoc_.getLatitude() * 1000000), (int) (firstLoc_
 						.getLongitude() * 1000000));
-
-		mc_.animateTo(center, new Runnable() {
+		controller_.animateTo(center, new Runnable() {
 			public void run() {
-				mc_.setZoom(15);
+				controller_.setZoom(15);
 			}
 		});
-		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
-				.removeUpdates(this);
 	}
 
 	public void onProviderDisabled(String provider) {

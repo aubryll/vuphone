@@ -1,6 +1,5 @@
 package org.vuphone.wwatch.android.mapview;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -8,12 +7,10 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.http.HTTPGetter;
-import org.vuphone.wwatch.android.http.HttpOperationListener;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +18,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-public class ImageAdapter extends BaseAdapter implements HttpOperationListener{
+public class ImageAdapter extends BaseAdapter {
 
     private Bitmap[] images_ = {};
 	private Handler handler_ = new Handler();

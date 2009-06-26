@@ -1,7 +1,8 @@
 package org.vuphone.wwatch.android.mapview;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;
@@ -10,6 +11,7 @@ import org.vuphone.wwatch.android.Waypoint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Canvas;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
@@ -32,7 +34,7 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 		SHOWING_ALL_WRECKS, SHOWING_ONE_WRECK
 	};
 
-	private List<Waypoint> points_ = new CopyOnWriteArrayList<Waypoint>();
+	private List<Waypoint> points_ = new ArrayList<Waypoint>();
 	private AlertDialog dialog_ = null;
 	private Waypoint lastOnTapPoint_ = new Waypoint(new GeoPoint(0, 0), System
 			.currentTimeMillis());
@@ -55,7 +57,7 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 		LayoutInflater inflater = LayoutInflater.from(context_);
 		View gallery = inflater.inflate(R.layout.wreck_details, null);
 
-		dialog_ = new AlertDialog.Builder(this.context_).setView(gallery)
+		dialog_ = new AlertDialog.Builder(context_).setView(gallery)
 				.setNegativeButton("Cancel",
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface di, int what) {
@@ -71,15 +73,25 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 	 */
 	@Override
 	protected Waypoint createItem(int i) {
-		Log.i(tag, pre + "Create item " + i + " returning "
-				+ points_.get(i).toString());
-		return points_.get(i);
+		synchronized (points_) {
+			Log.i(tag, pre + "Create item " + i + " returning "
+					+ points_.get(i).toString());
+			return points_.get(i);
+		}
+	}
+	
+	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		try {
+			super.draw(canvas, mapView, false);
+		} catch (IndexOutOfBoundsException ie) {
+			Log.w(tag, pre + "Index was out of bounds, ignoring");
+		}
 	}
 
 	public OverlayState getState() {
 		return state_;
 	}
-	
+
 	/**
 	 * Informs us a tap event occurred on item with index index. First tap
 	 * display's that wrecks route, and second tap will pop up the gallery
@@ -87,23 +99,23 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 	 */
 	@Override
 	protected boolean onTap(int index) {
-		Log.d(tag, pre + "onTap called with index " + index);
-		Waypoint point = points_.get(index);
-		Log.d(tag, pre + "onTap waypoint: " + point);
-
-		mapView_.getController().animateTo(points_.get(index).getPoint());
-
-		// If this is the second tap, open dialog
-		if (point.equals(lastOnTapPoint_)) {
-			dialog_.show();
-			return true;
-		}
-		
-		// If not, show route
-		state_ = OverlayState.SHOWING_ONE_WRECK;
-		lastOnTapPoint_ = point;
-		
-		
+		// Log.d(tag, pre + "onTap called with index " + index);
+		// Waypoint point = points_.get(index);
+		// Log.d(tag, pre + "onTap waypoint: " + point);
+		//
+		// mapView_.getController().animateTo(points_.get(index).getPoint());
+		//
+		// // If this is the second tap, open dialog
+		// if (point.equals(lastOnTapPoint_)) {
+		// dialog_.show();
+		// return true;
+		// }
+		//
+		// // If not, show route
+		// state_ = OverlayState.SHOWING_ONE_WRECK;
+		// lastOnTapPoint_ = point;
+		//
+		// return true;
 		return true;
 	}
 
@@ -114,24 +126,9 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 	 */
 	@Override
 	public int size() {
-		Log.i(tag, pre + "Size called, returning " + points_.size());
-		return points_.size();
-	}
-
-	/**
-	 * Return a human readable representation of this object
-	 * 
-	 * @return
-	 */
-	@Override
-	public String toString() {
-		int index = 0;
-		String str = "PinGroup: ";
-		for (Waypoint point : points_) {
-			str += "[" + point.toString() + "] ";
-			++index;
+		synchronized (points_) {
+			return points_.size();
 		}
-		return str;
 	}
 
 	/**
@@ -145,14 +142,11 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 	 * 
 	 */
 	public void updatePins(final List<Waypoint> points) {
-		// Give each point a context, so it can access resources and get its
-		// drawable
-		for (Waypoint wp : points)
-			wp.setContext(context_);
+		synchronized (points) {
+			points_ = points;
+			populate();
+		}
 
-		points_.clear();
-		points_.addAll(points);
-		populate();
 	}
 
 }
