@@ -19,11 +19,15 @@ import org.vuphone.wwatch.android.Waypoint;
 
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 
 
 public class RouteOverlay extends ItemizedOverlay<Waypoint>{
+	
+	private static final String TAG = "VUPHONE";
+	private static final String PREFIX = "RouteOverlay: ";
 
 	private PinController pc_;
 	public RouteOverlay(PinController pc){
@@ -35,15 +39,23 @@ public class RouteOverlay extends ItemizedOverlay<Waypoint>{
 	@Override
 	protected Waypoint createItem(int i) {
 		return pc_.getRouteItem(i);
+		//return new Waypoint(0.0, 0.0, System.currentTimeMillis());
 	}
 
 	@Override
 	public int size() {
 		return pc_.getRouteSize();
+		//return 1;
 	}
 	
 	public void populateRoutes(){
 		super.populate();
+	}
+	
+	@Override
+	public boolean onTap(int e){
+		Log.d(TAG, PREFIX + "onTap");
+		return false;
 	}
 
 }

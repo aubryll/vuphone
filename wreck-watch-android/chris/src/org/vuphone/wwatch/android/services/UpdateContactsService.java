@@ -46,7 +46,6 @@ public class UpdateContactsService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		VUphone.setContext(this);
 	}
 
 	/**

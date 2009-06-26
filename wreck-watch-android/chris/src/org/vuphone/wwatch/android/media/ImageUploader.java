@@ -188,7 +188,7 @@ public class ImageUploader {
 				// Fetch the meta data and prepare the POST URI
 				listener_.setMetaInformation(meta_);
 
-				String uriStr = VUphone.getServer() + PATH + "?type=image&" + meta_;
+				String uriStr = VUphone.SERVER + PATH + "?type=image&" + meta_;
 				post_.setURI(URI.create(uriStr));
 				HttpClient c = new DefaultHttpClient();
 
