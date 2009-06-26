@@ -45,6 +45,12 @@ public class MapServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		System.out.println("Receiving request..."+ req.getQueryString());
+
+		if (req.getParameter("type") == null){
+			req.getRequestDispatcher("html/Map.jsp").forward(req, resp);
+			return;
+		}
+		
 		MapEvent e = parsers_.get(req.getParameter("type")).parse(req);
 		MapResponse r = null;
 		

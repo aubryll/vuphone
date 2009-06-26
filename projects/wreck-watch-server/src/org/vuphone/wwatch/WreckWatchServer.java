@@ -44,10 +44,14 @@ public class WreckWatchServer {
 
 	private static final String NOTIFICATION_SERVLET = "notificationServlet";
 	private static final String MAP_SERVLET = "mapServlet";
+	private static final String JSP_SERVLET = "jspServlet";
+	private static final String SQL_CONSTRUCTOR = "sqlConstructor";
 	public static final String WRECK_WATCH_PATH = "/wreckwatch";
 	public static final String WRECK_WATCH_EVENT_CHANNEL = "/events";
 	public static final String WRECK_WATCH_NOTIFICATIONS_CHANNEL = "/notifications";
-	public static final String WRECK_WATCH_BROWSER_CHANNEL = "/map";
+	public static final String WRECK_WATCH_BROWSER_AJAX_CHANNEL = "/map";
+	public static final String WRECK_WATCH_BROWSER_CHANNEL = "/wrecks";
+	
 
 	private static final Logger logger_ = Logger
 			.getLogger(WreckWatchServer.class.getName());
@@ -126,8 +130,13 @@ public class WreckWatchServer {
 				+ WRECK_WATCH_NOTIFICATIONS_CHANNEL + "/*");
 		
 		HttpServlet mapServlet = (HttpServlet)ServerUtils.get().getFactory().getBean(MAP_SERVLET);
-		context.addServlet(new ServletHolder(mapServlet), WRECK_WATCH_PATH + WRECK_WATCH_BROWSER_CHANNEL + "/*");
+		context.addServlet(new ServletHolder(mapServlet), WRECK_WATCH_PATH + WRECK_WATCH_BROWSER_AJAX_CHANNEL + "/*");
 		
+		HttpServlet jspServlet = (HttpServlet)ServerUtils.get().getFactory().getBean(JSP_SERVLET);
+		context.addServlet(new ServletHolder(jspServlet), WRECK_WATCH_PATH + WRECK_WATCH_BROWSER_CHANNEL + "/*.jsp");
+		
+		
+		context.setResourceBase("html/");
 
 		ResourceHandler resource_handler = new ResourceHandler();
 		HandlerList handlers = new HandlerList();
@@ -137,7 +146,8 @@ public class WreckWatchServer {
 
 		try {
 			server_.start();
-			SqlConstructor.prepareDatabase();
+			SqlConstructor sql = (SqlConstructor)ServerUtils.get().getFactory().getBean(SQL_CONSTRUCTOR);
+			sql.prepareDatabase();
 		} catch (Exception e) {
 			logger_
 					.log(
