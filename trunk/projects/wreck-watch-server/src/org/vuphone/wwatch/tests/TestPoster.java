@@ -16,7 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 
 public class TestPoster {
-	private static final String SERVER = "http://129.59.135.153:8000";
+	private static final String SERVER = "http://129.59.135.162:8000";
 
 	private static final String PATH = "/wreckwatch/notifications";
 
@@ -162,20 +162,33 @@ public class TestPoster {
 	
 	public static void main(String[] args) {
 
-		final List<Waypoint> route = new ArrayList<Waypoint>();
-		route.add(new Waypoint(-86.819638,36.149693,System.currentTimeMillis()-20));
-		route.add(new Waypoint(-86.819938,36.149993,System.currentTimeMillis()-15));
-		route.add(new Waypoint(-86.820138,36.150193,System.currentTimeMillis()-10));
-		route.add(new Waypoint(-86.820238,36.150293,System.currentTimeMillis()-5));
-		route.add(new Waypoint(-86.820338,36.150393,System.currentTimeMillis()));
-		
-		final String aid = "myAndroidID";
-		doAccidentPost(aid, System.currentTimeMillis(), 87.23, 35.74, 
-				36.150393, -86.820338, new Runnable() {
-					public void run() {
-						doRoutePost(aid, route);
-					}
-				});
+		double lat = 36.0+(1.0*Math.random());
+		double lon = -87.0+(1.0*Math.random());
+		for (int i = 0; i < 5; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			final List<Waypoint> route = new ArrayList<Waypoint>();
+			route.add(new Waypoint(lon-0.0007,lat-0.0007,System.currentTimeMillis()-20));
+			route.add(new Waypoint(lon-0.0004,lat-0.0004,System.currentTimeMillis()-15));
+			route.add(new Waypoint(lon-0.0002,lat-0.0002,System.currentTimeMillis()-10));
+			route.add(new Waypoint(lon-0.0001,lat-0.0001,System.currentTimeMillis()-5));
+			route.add(new Waypoint(lon,lat,System.currentTimeMillis()));
+
+			final String aid = "myAndroidID";
+			doAccidentPost(aid, System.currentTimeMillis(), 87.23, 35.74, 
+					lat, lon, new Runnable() {
+				public void run() {
+					doRoutePost(aid, route);
+				}
+			});
+
+			lat = 36.0+(1.0*Math.random());
+			lon = -87.0+(1.0*Math.random());
+		}
 	}
 
 }
