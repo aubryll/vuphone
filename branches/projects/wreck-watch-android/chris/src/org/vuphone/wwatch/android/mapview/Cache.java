@@ -1,0 +1,345 @@
+package org.vuphone.wwatch.android.mapview;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.http.HTTPGetter;
+import org.vuphone.wwatch.android.mapview.pinoverlays.PinController;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
+import com.google.android.maps.MapView;
+import com.google.android.maps.Projection;
+
+/**
+ * A data structure to hold routes that have been retrieved from the server. The
+ * map moving causes an HTTP Post operation, which completes and returns data to
+ * this class.
+ * 
+ * This class calls on the Overlay when it has new data to be displayed. The map
+ * determines which data it would like to retrieve and makes the appropriate
+ * call
+ * 
+ */
+public class Cache {
+	/** Used for logging */
+	private String pre = "Cache: ";
+	private static final String tag = VUphone.tag;
+
+	private String pre() {
+		return pre + Thread.currentThread().getName() + ": ";
+	}
+
+	/** The cached routes. This is synchronized internally */
+	private List<Route> routes_ = new ArrayList<Route>();
+
+	/**
+	 * The Overlay displaying the wrecks or routes. This is used to set a flag
+	 * on the Overlay indicating that there is new Route data available, and the
+	 * Overlay should request is at their convenience
+	 */
+	private PinController overlay_;
+
+	/**
+	 * Used to set context on the waypoints we receive. This allows the
+	 * waypoints to access resources and find their drawables
+	 */
+	private Context context_;
+
+	private CacheExpander expander_;
+
+	/**
+	 * The current top left and bottom right of the rectangle of cached Routes.
+	 * This will expand as the user scrolls around, and more Routes are cached.
+	 * Use getter and setter to synchronize access. (These can be null, so a
+	 * synchronization block is not an option)
+	 */
+	private GeoRegion region_ = null;
+
+	/**
+	 * The maximum zoom level at which an update will be requested. This
+	 * prevents the user from zooming all the way out and requesting every wreck
+	 */
+	private int maxZoom = 10;
+
+	/** Used to periodically update the map. */
+	private TimerTask periodicUpdate_;
+
+	/** The time in milliseconds between updates */
+	private static final int updateTime_ = 1000 * 30; // 30 seconds
+
+	/** Keeps track of the current largest time that we can use for full updates */
+	private Long latestTime_ = (long) 0;
+
+	/**
+	 * 
+	 * @param overlay
+	 */
+	public Cache(PinController overlay, Context context) {
+		overlay_ = overlay;
+		context_ = context;
+		expander_ = new CacheExpander(this);
+		expander_.setDaemon(true);
+		expander_.setName("Cache Expander");
+		expander_.start();
+
+		periodicUpdate_ = new TimerTask() {
+			public void run() {
+				performFullUpdate(false);
+			}
+		};
+
+		// Specifically request this as a daemon thread, so that it will die
+		// with the JVM
+		Timer t = new Timer("Periodic Cache Updater", true);
+		t.scheduleAtFixedRate(periodicUpdate_, updateTime_, updateTime_);
+	}
+
+	public synchronized void acceptCacheUpdate(final CacheUpdate cu) {
+		Log.i(tag, pre() + "Receiving Cache Update");
+		if (region_ == null) {
+			Log.i(tag, pre() + "Rejecting CacheUpdate because"
+					+ " cache region is null");
+			return;
+		}
+
+		switch (cu.getType()) {
+		case CacheUpdate.TYPE_EXPAND_DOWN:
+			setBottomRight(new GeoPoint(cu.getNewValue(), getRegion()
+					.getBottomRight().getLongitudeE6()));
+			break;
+		case CacheUpdate.TYPE_EXPAND_LEFT:
+			setTopLeft(new GeoPoint(getRegion().getTopLeft().getLatitudeE6(),
+					cu.getNewValue()));
+			break;
+		case CacheUpdate.TYPE_EXPAND_RIGHT:
+			setBottomRight(new GeoPoint(getRegion().getBottomRight()
+					.getLatitudeE6(), cu.getNewValue()));
+			break;
+		case CacheUpdate.TYPE_EXPAND_UP:
+			setTopLeft(new GeoPoint(cu.getNewValue(), getRegion().getTopLeft()
+					.getLongitudeE6()));
+			break;
+		default:
+			Log.e(tag, pre() + "CacheUpdate not understood");
+			return;
+		}
+
+		addRoutes(cu.getRoutes());
+
+		if (cu.getLatestTime() < latestTime_)
+			latestTime_ = cu.getLatestTime();
+
+	}
+
+	/**
+	 * Handles parsing the server response, merging the data, and notifying the
+	 * overlay that there are new data points
+	 */
+	private void addRoutes(List<Route> routes) {
+		// Do we have any new routes to add
+		if (routes.size() == 0)
+			return;
+
+		// Set all Waypoints context
+		for (Route r : routes)
+			for (Waypoint wp : r.getRoute())
+				wp.setContext(context_);
+
+		synchronized (routes_) {
+			routes_.addAll(routes);
+		}
+		overlay_.updateWrecks(getWrecks());
+	}
+
+	/**
+	 * Called to clear the entire cache, and restart caching fully. If topLeft
+	 * and lowerRight points are provided, then the cache will use those points
+	 * for the intial cache region. If provided, those points should not be
+	 * scaled, as this function will take care of making the points provided the
+	 * bounds of the safe region, and will pre()-cache beyond the points given.
+	 * If either topleft or lowerRight are null, both are considered to be null
+	 * 
+	 * @param topLeft
+	 *            null, or a topleft point if desired
+	 * @param lowerRight
+	 *            null, or a lowerRight point if desired
+	 */
+	private void clearCache(GeoPoint topLeft, GeoPoint lowerRight) {
+		Log.e(tag, pre() + "Cache clear is not implemented yet");
+	}
+
+	/**
+	 * A thread safe method to access the current region of the cache
+	 * 
+	 * @return
+	 */
+	protected synchronized GeoRegion getRegion() {
+		return region_;
+	}
+
+	/**
+	 * Returns the route associated with a particular wreck
+	 * 
+	 * @param wreckPoint
+	 * @return
+	 */
+	public Route getRoute(Waypoint wreckPoint) {
+		Route r = null;
+		synchronized (routes_) {
+			Iterator<Route> i = routes_.iterator();
+			while (i.hasNext()) {
+				r = i.next();
+				if (r.getWreck().equals(wreckPoint))
+					break;
+			}
+		}
+
+		if (r == null) {
+			Log.w(tag, pre() + "Returning null for route with wreck:");
+			Log.w(tag, pre() + " " + wreckPoint.toString());
+		}
+
+		return r;
+	}
+
+	/**
+	 * Returns a list of Waypoints that all correlate to wrecks.
+	 * 
+	 * @return
+	 */
+	private List<Waypoint> getWrecks() {
+
+		// Create a list of wrecks from our list of Routes
+		long time = System.currentTimeMillis();
+		ArrayList<Waypoint> list = new ArrayList<Waypoint>();
+		synchronized (routes_) {
+			Iterator<Route> i = routes_.iterator();
+			while (i.hasNext())
+				list.add(i.next().getWreck());
+		}
+
+		long newtime = System.currentTimeMillis();
+		time = newtime - time;
+		Log.i(tag, pre() + "It took " + time + "ms to create the wrecks");
+
+		return list;
+	}
+
+	/**
+	 * Called every time the map scrolls. This allows us to handle pre()-caching
+	 * for the map
+	 * 
+	 * @param mv
+	 *            The MapView that was scrolled
+	 */
+	public void onMapScroll(final MapView mv) {
+		// Check that the zoom is within bounds
+		if (mv.getZoomLevel() < maxZoom) {
+			Log.d(tag, pre() + "Map zoom is above maxZoom, ignoring scroll");
+			return;
+		}
+
+		// Find the current top left and bottom right of the map
+		int mapHeight = mv.getHeight();
+		int mapWidth = mv.getWidth();
+		Projection p = mv.getProjection();
+
+		final GeoPoint upperLeft = p.fromPixels(0, 0);
+		final GeoPoint lowerRight = p.fromPixels(mapWidth, mapHeight);
+		final GeoRegion region = new GeoRegion(upperLeft, lowerRight);
+
+		// Check in case we have no cache
+		if (region_ == null) {
+
+			final double initialLatSpan = region.latitudeSpan();
+			final double initialLngSpan = region.longitudeSpan();
+
+			// Just double the initial size
+			// TODO - get krzysztof to take a look at the math and find a closer
+			// approximation
+			// Note that the spans are so large, the significant digits on the
+			// scale really matter
+			final double scale = 0.35;
+			final int initTLLat = upperLeft.getLatitudeE6()
+					+ (int) (initialLatSpan * scale);
+			final int initTLLng = upperLeft.getLongitudeE6()
+					- (int) (initialLngSpan * scale);
+			final int initLRLat = lowerRight.getLatitudeE6()
+					- (int) (initialLatSpan * scale);
+			final int initLRLng = lowerRight.getLongitudeE6()
+					+ (int) (initialLngSpan * scale);
+
+			final GeoPoint topLeft = new GeoPoint(initTLLat, initTLLng);
+			final GeoPoint bottomRight = new GeoPoint(initLRLat, initLRLng);
+			final GeoRegion gr = new GeoRegion(topLeft, bottomRight);
+			Log.d(tag, pre() + "Initial lat span: " + gr.latitudeSpan());
+			Log.d(tag, pre() + "Initial lng span: " + gr.longitudeSpan());
+			setRegion(gr);
+			Log.d(tag, pre() + "Assigned initial topLeft and bottomRight");
+			Log.d(tag, pre() + "TL:" + getRegion().getTopLeft() + ", BR:"
+					+ getRegion().getBottomRight());
+			Log.d(tag, pre() + "Firing initial update");
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					performFullUpdate(true);
+				}
+			});
+			t.setDaemon(true);
+			t.setName("Full Cache Update");
+			t.start();
+			return;
+		}
+
+		expander_.putPossibleExpansion(region);
+
+	}
+
+	/**
+	 * Called when a full cache update is requested. Ensures that no two update
+	 * calls can be running at the same time
+	 * 
+	 * @param critical
+	 *            Whether or not this update must go through
+	 */
+	private synchronized void performFullUpdate(boolean critical) {
+
+		Log.d(tag, pre() + "Performing full update");
+
+		final List<Route> routes = HTTPGetter.doAccidentGet(region_,
+				latestTime_);
+		if (routes == null) {
+			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
+			return;
+		}
+		addRoutes(routes);
+
+		// Update the latest time
+		for (Route r : routes)
+			if (r.getWreck().getTime() > latestTime_)
+				latestTime_ = r.getWreck().getTime();
+
+	}
+
+	private synchronized void setBottomRight(final GeoPoint p) {
+		Log.d(tag, pre() + "Setting BR to " + p);
+		region_ = new GeoRegion(region_.getTopLeft(), p);
+	}
+
+	private synchronized void setTopLeft(final GeoPoint p) {
+		Log.d(tag, pre() + "Setting TL to " + p);
+		region_ = new GeoRegion(p, region_.getBottomRight());
+	}
+
+	private synchronized void setRegion(final GeoRegion r) {
+		region_ = r;
+	}
+
+}

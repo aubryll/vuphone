@@ -87,8 +87,7 @@ public class AccidentXMLHandler extends DefaultHandler {
 		} else if (localname.trim().equalsIgnoreCase("Longitude")) {
 			inLon = false;
 		} else if (localname.trim().equalsIgnoreCase("Point")) {
-			GeoPoint point = new GeoPoint(
-					(int) (currentLatitude_ * 1E6),
+			GeoPoint point = new GeoPoint((int) (currentLatitude_ * 1E6),
 					(int) (currentLongitude_ * 1E6));
 			curRoute_.addWaypoint(new Waypoint(point, currentTime_));
 			inPoint = false;
@@ -117,6 +116,7 @@ public class AccidentXMLHandler extends DefaultHandler {
 
 	public ArrayList<Route> processXML(InputSource src) {
 		XMLReader xr = null;
+		points_ = new ArrayList<Route>();
 		try {
 			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
 		} catch (SAXException e) {
@@ -143,6 +143,7 @@ public class AccidentXMLHandler extends DefaultHandler {
 			Log.e(LOG_LABEL, LOG_PREFIX + "IOException parsing AccidentXML: "
 					+ e.getMessage());
 			e.printStackTrace();
+			return null;
 		} catch (SAXException e) {
 			if (e.getMessage().equalsIgnoreCase("Done processing")) {
 				Log
@@ -152,7 +153,7 @@ public class AccidentXMLHandler extends DefaultHandler {
 				Log
 						.e(LOG_LABEL, LOG_PREFIX
 								+ "SAXException parsing AccidentXML: "
-								+ e.getMessage());		////////////////////////////////////////////
+								+ e.getMessage()); // //////////////////////////////////////////
 				e.printStackTrace();
 			}
 		}

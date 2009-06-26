@@ -16,17 +16,13 @@
 package org.vuphone.wwatch.android.mapview;
 
 import org.vuphone.wwatch.android.VUphone;
-import org.vuphone.wwatch.android.http.HTTPGetter;
 import org.vuphone.wwatch.android.mapview.pinoverlays.PinController;
 
 import android.content.Context;
-import android.location.Location;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Projection;
 
 // TODO - this class needs to know if the zoom changed, so it can fire another get :P
 public class AccidentMapView extends MapView {
@@ -34,21 +30,22 @@ public class AccidentMapView extends MapView {
 	private PinController pinGroup_;
 	private static final String tag = VUphone.tag;
 	private static final String pre = "AccidentMapView: ";
-	private GeoPoint curCenter_ = null;
-	private int viewHeight_;
-	private int viewWidth_;
-	private AccidentList routes_;
+
+	private Cache routes_;
+	private boolean firedFirstScrollEvent_ = false;
+
 
 	public AccidentMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		super.setBuiltInZoomControls(true);
 		pinGroup_ = new PinController(this, context);
-		getOverlays().add(pinGroup_.getWreckOverlay());
-		//getOverlays().add(pinGroup_.getRouteOverlay());
-		viewHeight_ = getHeight();
-		viewWidth_ = getWidth();
-		routes_ = new AccidentList(this);
-		curCenter_ = getMapCenter();
+		getOverlays().add(pinGroup_.getRouteOverlay());
+		//getOverlays().add(pinGroup_.getWreckOverlay());
+		
+		
+
+		routes_ = new Cache(pinGroup_, context);
+
 	}
 
 	public PinController getOverlayController() {
@@ -60,31 +57,17 @@ public class AccidentMapView extends MapView {
 		super.computeScroll();
 		Log.v(tag, pre + "Compute Scroll called");
 		
-		if (getZoomLevel() > 5) {
-			if (distanceChanged() > 20) {
-				curCenter_ = getMapCenter();
-				
-				// This can change per draw, so we always get a fresh one
-				Projection p = getProjection();
+		 // The first event seems to come before the map is fully rendered, and
+        // the second event typically triggers an update on the initial data, so
+        // we might as just wait until the first event has passed to load
+        // initial data
+        if (firedFirstScrollEvent_)
+                routes_.onMapScroll(this);
+        else
+                firedFirstScrollEvent_ = true;
 
-				GeoPoint upperLeft = p.fromPixels(0, viewHeight_);
-				GeoPoint lowerRight = p.fromPixels(viewWidth_, 0);
-
-				long maxTime = routes_.getLatestTime();
-				HTTPGetter.doAccidentGet(lowerRight, upperLeft, maxTime, routes_);
-			}
-		}
 
 	}
 
-	private float distanceChanged() {
-		double startLat = curCenter_.getLatitudeE6() / 1.0E6;
-		double startLng = curCenter_.getLongitudeE6() / 1.0E6;
-		double endLat = getMapCenter().getLatitudeE6() / 1.0E6;
-		double endLng = getMapCenter().getLongitudeE6() / 1.0E6;
 
-		float[] results = new float[1];
-		Location.distanceBetween(startLat, startLng, endLat, endLng, results);
-		return results[0];
-	}
 }
