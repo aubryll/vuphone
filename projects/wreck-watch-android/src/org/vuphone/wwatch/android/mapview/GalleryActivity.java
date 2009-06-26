@@ -9,7 +9,6 @@ import android.os.Bundle;
 public class GalleryActivity extends Activity{
 	
 	public void onCreate(Bundle savedInstanceState) {
-		VUphone.setContext(this);
 	    super.onCreate(savedInstanceState);
 	    
 	    Dialog d = new AccidentImageDialog(this, -1);
