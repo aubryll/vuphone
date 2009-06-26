@@ -65,7 +65,7 @@ public class HTTPGetter {
 					+ "&lattl=" + tl.getLatitudeE6() + "&lontl="
 					+ tl.getLongitudeE6();
 
-			final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
+			final HttpGet get = new HttpGet(VUphone.SERVER + PATH + params);
 
 			// Add the parameters
 			Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Created parameter string: "
@@ -73,7 +73,7 @@ public class HTTPGetter {
 
 
 			//Do it
-			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing get to " + VUphone.getServer() + PATH + params);
+			Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing get to " + VUphone.SERVER + PATH + params);
 
 			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP get");
 			new Thread(new Runnable() {
@@ -136,7 +136,7 @@ public class HTTPGetter {
 		Log
 				.d(LOG_LABEL, LOG_MSG_PREFIX + "Params for doPictureGet = "
 						+ params);
-		final HttpGet get = new HttpGet(VUphone.getServer() + PATH + params);
+		final HttpGet get = new HttpGet(VUphone.SERVER + PATH + params);
 
 		new Thread(new Runnable() {
 			public void run() {
