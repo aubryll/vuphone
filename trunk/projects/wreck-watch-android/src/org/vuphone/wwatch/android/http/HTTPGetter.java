@@ -27,6 +27,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.mapview.AccidentXMLHandler;
+import org.vuphone.wwatch.android.mapview.FullImageViewer;
 import org.vuphone.wwatch.android.mapview.GeoRegion;
 import org.vuphone.wwatch.android.mapview.ImageAdapter;
 import org.vuphone.wwatch.android.mapview.Route;
@@ -96,6 +97,26 @@ public class HTTPGetter {
 		}, "PictureGetter").start();
 	}
 
+	public static void doFullPictureGet(int imageID, final FullImageViewer viewer) {
+
+		final HttpClient c = new DefaultHttpClient();
+		String params = "?type=imageRequest&imageID=" + imageID;
+		Log.d(tag, pre + "Params for doFullPictureGet = " + params);
+		final HttpGet get = new HttpGet(VUphone.SERVER + PATH + params);
+
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					HttpResponse resp = c.execute(get);
+					viewer.operationComplete(resp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}, "FullPictureGetter").start();
+	}
+
+	
 	private static ArrayList<Route> handleAccidentResponse(
 			GeoPoint bottomRight, GeoPoint topLeft, HttpGet get) {
 

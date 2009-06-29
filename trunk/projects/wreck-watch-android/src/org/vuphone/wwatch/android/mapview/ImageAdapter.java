@@ -9,17 +9,21 @@ import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.http.HTTPGetter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 
     private Bitmap[] images_ = {};
     private int[] imageIDs_ = {};
@@ -60,6 +64,14 @@ public class ImageAdapter extends BaseAdapter {
 		});
 	}
     
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		int imgID = imageIDs_[position];
+		Toast.makeText(parent.getContext(), "Item Clicked " + imgID, Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(parent.getContext(), org.vuphone.wwatch.android.mapview.FullImageViewer.class);
+		intent.putExtra("FullImageID", imgID);
+		parent.getContext().startActivity(intent);
+	}
+	
 	private void loadPictures(int id) {
 		HTTPGetter.doPictureGet(id, this);
 	}
