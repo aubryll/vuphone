@@ -66,6 +66,8 @@ public class InfoHandler implements NotificationHandler {
 
 		for (Route r : info.getAccidents()) {
 			Node route = d.createElement("Route");
+			
+			
 			Node rootPt = d.createElement("Points");
 
 			for (Waypoint w : r.getRoute()) {
@@ -151,13 +153,20 @@ public class InfoHandler implements NotificationHandler {
 
 			// Get the wreck id
 			ArrayList<Integer> ids = new ArrayList<Integer>();
+			ArrayList<Double> lats = new ArrayList<Double>();
+			ArrayList<Double> lons = new ArrayList<Double>();
+			ArrayList<Long> times = new ArrayList<Long>();
 			ResultSet rs = prep.executeQuery();
 			while (rs.next()) {
 				ids.add(rs.getInt("WreckID"));
+				lats.add(rs.getDouble("Lat"));
+				lons.add(rs.getDouble("Lon"));
+				times.add(rs.getLong("Date"));
 			}
 			rs.close();
 
 			sql = "select * from Route where WreckID = ?";
+			int j = 0;
 			for (Integer i : ids) {
 				note.newRoute();
 				note.setCurrentAccidentId(i);
@@ -171,7 +180,8 @@ public class InfoHandler implements NotificationHandler {
 							.getDouble("Lon"), rs.getLong("Date")));
 				}
 				rs.close();
-				
+				note.addWaypoint(new Waypoint(lats.get(j), lons.get(j), times.get(j)));
+				++j;
 
 			}
 
