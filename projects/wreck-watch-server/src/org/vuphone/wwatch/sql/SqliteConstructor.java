@@ -23,7 +23,6 @@ import javax.sql.DataSource;
 
 public class SqliteConstructor implements DatabaseConstructor {
 
-	@Override
 	public void construct(DataSource ds) throws SQLException {
 		Connection db = ds.getConnection();
 		db.setAutoCommit(false);
@@ -40,7 +39,7 @@ public class SqliteConstructor implements DatabaseConstructor {
 				+ "WreckID INTEGER PRIMARY KEY,"
 				+ "Person INTEGER REFERENCES People(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date INT NOT NULL" + "LargestAccel DOUBLE NOT NULL);";
+				+ "Date INT NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
