@@ -27,13 +27,13 @@ import javax.imageio.ImageIO;
 
 public class ImageManipulator {
 
-	private static final int MAX_WIDTH = 200;
-	private static final int MAX_HEIGHT = 200;
+	private static final int MAX_WIDTH = 140;
+	private static final int MAX_HEIGHT = 140;
 	
 	public static BufferedImage scaleDown(File file) {
 
 		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
-		.getDefaultScreenDevice().getDefaultConfiguration();
+			.getDefaultScreenDevice().getDefaultConfiguration();
 		
 		// Load the image
 		BufferedImage img = null;

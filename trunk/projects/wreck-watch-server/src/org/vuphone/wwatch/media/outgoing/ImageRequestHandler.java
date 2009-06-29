@@ -52,7 +52,17 @@ public class ImageRequestHandler implements NotificationHandler{
 					"SQLException when setting auto commit: ", e);
 		}
 
-		int id = irn.getWreckID();
+		String selector;
+		int id;
+		
+		if (irn.isFullImage()){
+			selector = "ImageID";
+			id = irn.getImageID();
+		} else {
+			selector = "WreckID";
+			id = irn.getWreckID();
+		}
+			
 		// Prepare the SQL statement
 		PreparedStatement prep = null;
 		ResultSet rs;
@@ -60,14 +70,18 @@ public class ImageRequestHandler implements NotificationHandler{
 		
 		try {
 			prep = db.prepareStatement(
-					"select * from WreckImages where WreckID = ?;");
+					"select * from WreckImages where " + selector + " = ?;");
 			prep.setInt(1, id);
 
 			rs = prep.executeQuery();
-					
+			
+			String prefix = ImageHandler.MINI_PREFIX;
+			if (irn.isFullImage())
+				prefix = "";
+			
 			while (rs.next()) {
 				String name = rs.getString("FileName");
-				File file = new File(ImageHandler.getIMAGE_DIRECTORY(), ImageHandler.MINI_PREFIX + name);
+				File file = new File(ImageHandler.getIMAGE_DIRECTORY(), prefix + name);
 				Integer imgID = Integer.valueOf(rs.getString("ImageID"));
 				IDFilePair pair = new IDFilePair(imgID, file);
 				fileList.add(pair);
