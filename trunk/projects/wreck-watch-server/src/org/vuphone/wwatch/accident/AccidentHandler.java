@@ -9,11 +9,9 @@
 package org.vuphone.wwatch.accident;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,13 +172,12 @@ public class AccidentHandler implements NotificationHandler {
 		// Insert wreck into database
 		try {
 			prep = db
-					.prepareStatement("INSERT INTO Wreck (Person, Lat, Lon, Date, Time, LargestAccel) VALUES (?, ?, ?, ?, ?,?);");
+					.prepareStatement("INSERT INTO Wreck (Person, Lat, Lon, Date, LargestAccel) VALUES (?, ?, ?, ?, ?);");
 			prep.setInt(1, id);
 			prep.setDouble(2, report.getLatitude());
 			prep.setDouble(3, report.getLongitude());
-			prep.setDate(4, new Date(report.getTime()));
-			prep.setTime(5, new Time(report.getTime()));
-			prep.setDouble(6, report.getDeceleration());
+			prep.setLong(4, report.getTime());
+			prep.setDouble(5, report.getDeceleration());
 			prep.execute();
 
 		} catch (SQLException e) {

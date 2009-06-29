@@ -16,7 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 
 public class TestPoster {
-	private static final String SERVER = "http://129.59.135.162:8000";
+	private static final String SERVER = "http://localhost:8080";
 
 	private static final String PATH = "/wreckwatch/notifications";
 
@@ -168,7 +168,6 @@ public class TestPoster {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			final List<Waypoint> route = new ArrayList<Waypoint>();
@@ -178,7 +177,7 @@ public class TestPoster {
 			route.add(new Waypoint(lon-0.0001,lat-0.0001,System.currentTimeMillis()-5));
 			route.add(new Waypoint(lon,lat,System.currentTimeMillis()));
 
-			final String aid = "myAndroidID";
+			final String aid = "myAndroidID" + i;
 			doAccidentPost(aid, System.currentTimeMillis(), 87.23, 35.74, 
 					lat, lon, new Runnable() {
 				public void run() {

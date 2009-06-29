@@ -89,7 +89,7 @@ public class WreckLocationRequestHandler implements MapEventHandler {
 			ResultSet rs = prep.executeQuery();
 			while (rs.next()) {
 				wlr.addAccident(new Wreck(new Waypoint(rs.getDouble("Lat"), rs
-						.getDouble("Lon"), rs.getDate("Date").getTime()+rs.getTime("Time").getTime()), 
+						.getDouble("Lon"),rs.getLong("Date")), 
 						rs.getInt("WreckID")));
 			}
 			rs.close();

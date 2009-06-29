@@ -16,11 +16,9 @@
 package org.vuphone.wwatch.routing;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -122,7 +120,7 @@ public class RouteHandler implements NotificationHandler {
 
 			db.setAutoCommit(false);
 
-			sql = "insert into route(wreckid, lat, lon, date, time) values (?, ?, ?, ?, ?);";
+			sql = "insert into route(wreckid, lat, lon, date) values (?, ?, ?, ?);";
 			prep = db.prepareStatement(sql);
 			Route route = rn.getRoute();
 			while (route.peek() != null) {
@@ -130,8 +128,7 @@ public class RouteHandler implements NotificationHandler {
 				prep.setInt(1, wid);
 				prep.setDouble(2, temp.getLatitude());
 				prep.setDouble(3, temp.getLongitude());
-				prep.setDate(4, new Date(temp.getTime()));
-				prep.setTime(5, new Time(temp.getTime()));
+				prep.setLong(4, temp.getTime());
 				prep.addBatch();
 			}
 

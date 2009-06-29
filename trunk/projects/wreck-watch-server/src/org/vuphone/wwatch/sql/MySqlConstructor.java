@@ -39,8 +39,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "WreckID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "Person INTEGER REFERENCES People(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date DATE NOT NULL, "
-				+ "Time TIME NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
+				+ "Date BIGINT NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -54,15 +53,14 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "CoordID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date DATE NOT NULL, "
-				+ "Time TIME NOT NULL)" ;
+				+ "Date BIGINT NOT NULL)" ;
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS WreckImages ( "
 				+ "ImageID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), FileName TEXT NOT NULL,"
-				+ "Time DATE NOT NULL);";
+				+ "Time BIGINT NOT NULL)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();
