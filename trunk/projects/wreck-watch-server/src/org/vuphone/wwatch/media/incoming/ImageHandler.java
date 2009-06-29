@@ -78,7 +78,7 @@ public class ImageHandler implements NotificationHandler {
 					.prepareStatement("INSERT INTO WreckImages (ImageId, WreckID, FileName, Time) VALUES (NULL, ?, ?, ?);");
 			prep.setLong(1, in.getWreckId());
 			prep.setString(2, fileName);
-			prep.setDate(3, new Date(in.getTime()));
+			prep.setLong(3, in.getTime());
 			prep.execute();
 		} catch (SQLException e) {
 			logger_.log(Level.SEVERE, "Got SQLException when inserting into WreckImages table :" + e.getMessage());
