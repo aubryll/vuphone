@@ -46,10 +46,12 @@ public class AccidentXMLHandler extends DefaultHandler {
 	private boolean inRoutes = false;
 	private boolean inRoute = false;
 	private boolean inTime = false;
+	private boolean inId = false;
 
 	double currentLatitude_;
 	double currentLongitude_;
 	long currentTime_;
+	int currentId_;
 
 	private ArrayList<Route> points_;
 	private Route curRoute_;
@@ -72,6 +74,8 @@ public class AccidentXMLHandler extends DefaultHandler {
 			inPoint = true;
 		} else if (localname.trim().equalsIgnoreCase("Time")) {
 			inTime = true;
+		} else if (localname.trim().equalsIgnoreCase("id")) {
+			inId = true;
 		}
 	}
 
@@ -93,12 +97,18 @@ public class AccidentXMLHandler extends DefaultHandler {
 		} else if (localname.trim().equalsIgnoreCase("Route")) {
 			inRoute = false;
 			if (curRoute_.getSize() > 0)
+				for (Waypoint w : curRoute_.getRoute()) {
+					w.setAccidentId(curRoute_.getAccidentId());
+				}
 				points_.add(curRoute_);
 		} else if (localname.trim().equalsIgnoreCase("Routes")) {
 			inRoutes = false;
 			throw new SAXException("Done processing");
 		} else if (localname.trim().equalsIgnoreCase("Time")) {
 			inTime = false;
+		} else if (localname.trim().equalsIgnoreCase("id")) {
+			curRoute_.setAccidentId(currentId_);
+			inId = false;
 		}
 	}
 
@@ -110,6 +120,12 @@ public class AccidentXMLHandler extends DefaultHandler {
 			currentLongitude_ = Double.parseDouble(new String(ch));
 		} else if (inTime == true) {
 			currentTime_ = Long.parseLong(new String(ch));
+		} else if (inId == true) {
+			String str = "";
+			for (int i = 0; i < length; i++) {
+				str += ch[i+start];
+			}
+			currentId_ = Integer.parseInt(str);
 		}
 	}
 
