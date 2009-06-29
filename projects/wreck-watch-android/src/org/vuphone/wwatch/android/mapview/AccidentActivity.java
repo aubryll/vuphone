@@ -50,6 +50,9 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 
 	private MapController controller_;
 	private AccidentMapView mapView_;
+	
+	private boolean lookingForWreckId_;
+	private int wreckId_;
 
 	// Used for centering on the first fix.
 	private Location firstLoc_ = null;
@@ -96,6 +99,8 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 				.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
 						this);
 
+		Intent intent = getIntent();
+		lookingForWreckId_ = intent.getBooleanExtra("LookingForWreckId", false);
 	}
 
 	@Override
@@ -188,6 +193,28 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+	}
+
+	public boolean isLookingForWreckId() {
+		return lookingForWreckId_;
+	}
+
+	public void setLookingForWreckId(boolean lookingForWreckId) {
+		this.lookingForWreckId_ = lookingForWreckId;
+	}
+
+	public int getWreckId() {
+		return wreckId_;
+	}
+
+	public void setWreckId(int wreckId) {
+		this.wreckId_ = wreckId;
+		
+		// Once someone has chosen a wreck, there is no reason for
+		// this instance of the activity to continue.  Therefore,
+		// we will finish here.
+		setResult(wreckId_);
+		finish();
 	}
 
 }

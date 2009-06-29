@@ -96,38 +96,44 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 		
 		 mapView_.getController().animateTo(points_.get(index).getPoint());
 		
-		 // If this is the second tap, open dialog
-		 if (point.equals(lastOnTapPoint_)) {
-			 //dialog_.show();
-			 final int id = point.getAccidentId();
-				
-			 AlertDialog dialog = new AlertDialog.Builder(context_)
-				.setTitle("Wreck Image Options")
-				.setItems(new String[]{"View Images", "Upload Image", "Cancel"}, new OnClickListener() {
-					public void onClick(DialogInterface d, int item) {
-						Log.v(VUphone.tag, "Item Clicked " + item);
-						switch (item) {
-						case 0:
-							new AccidentImageDialog(context_, id).show();
-							break;
-						case 1:
-							((AccidentActivity) context_).startUploadProcess(id);
-							break;
-						case 2:
-							d.dismiss();
-							break;
-						}
-					}
-				}).create();
+		 AccidentActivity aa = (AccidentActivity) context_;
+		 if (!aa.isLookingForWreckId()) {
+			 // If this is the second tap, open dialog
+			 if (point.equals(lastOnTapPoint_)) {
+				 //dialog_.show();
+				 final int id = point.getAccidentId();
 
-			 dialog.show();
-			 
-			 return true;
+				 AlertDialog dialog = new AlertDialog.Builder(context_)
+				 .setTitle("Wreck Image Options")
+				 .setItems(new String[]{"View Images", "Upload Image", "Cancel"}, new OnClickListener() {
+					 public void onClick(DialogInterface d, int item) {
+						 Log.v(VUphone.tag, "Item Clicked " + item);
+						 switch (item) {
+						 case 0:
+							 new AccidentImageDialog(context_, id).show();
+							 break;
+						 case 1:
+							 ((AccidentActivity) context_).startUploadProcess(id);
+							 break;
+						 case 2:
+							 d.dismiss();
+							 break;
+						 }
+					 }
+				 }).create();
+
+				 dialog.show();
+
+				 return true;
+			 }
+
+			 // If not, show route
+			 state_ = OverlayState.SHOWING_ONE_WRECK;
+			 lastOnTapPoint_ = point;
 		 }
-		
-		 // If not, show route
-		 state_ = OverlayState.SHOWING_ONE_WRECK;
-		 lastOnTapPoint_ = point;
+		 else {
+			 aa.setWreckId(point.getAccidentId());
+		 }
 		
 		 return true;
 	}

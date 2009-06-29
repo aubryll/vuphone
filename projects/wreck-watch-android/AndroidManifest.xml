@@ -20,9 +20,9 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>		 
 		</activity>
-
-		<activity android:name=".media.MediaUploadActivity" android:label="UploadMedia">
-			<intent-filter android:label="My Activity">
+		
+		<activity android:name=".media.WreckChooserActivity" android:label="WreckChooser">
+			<intent-filter android:label="WreckChooser">
 				<action android:name="android.intent.action.SEND" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:mimeType="image/*" />
