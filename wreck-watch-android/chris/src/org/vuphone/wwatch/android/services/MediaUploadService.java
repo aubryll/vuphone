@@ -111,7 +111,7 @@ public class MediaUploadService extends Service implements ImageUploadListener {
 		if (uriStr == null) // We weren't started correctly.
 			stopSelf();
 		
-		wreckId_ = intent.getLongExtra("WreckId", -1);
+		wreckId_ = intent.getIntExtra("WreckId", -1);
 		if (wreckId_ == -1) {
 			//stopSelf();
 		}

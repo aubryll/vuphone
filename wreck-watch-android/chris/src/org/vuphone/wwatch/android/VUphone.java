@@ -36,18 +36,6 @@ public class VUphone {
 	public static final String SPEED_SCALE = "SpeedScale";
 	public static final String ACCEL_SCALE = "AccelScale";
 	
-	
-	static private Context context_;
-	
-	public static void setContext(Context c) {
-		if (c != null && context_ == null)
-			context_ = c;
-	}
-	
-	public static final String getServer() {
-		return SERVER;
-//		if (context_ == null)
-//			throw new IllegalStateException("VUphone.setContext() has not been called");
-//		return context_.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE).getString(SERVER_TAG, "INVALID");
-	}
+
+
 }

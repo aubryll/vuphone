@@ -1,17 +1,17 @@
 package org.vuphone.wwatch.android.mapview.pinoverlays;
 
-import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.mapview.AccidentActivity;
+import org.vuphone.wwatch.android.mapview.AccidentImageDialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import com.google.android.maps.ItemizedOverlay;
 
@@ -24,8 +24,6 @@ import com.google.android.maps.ItemizedOverlay;
  */
 public class WreckOverlay extends ItemizedOverlay<Waypoint> {
 
-	private AlertDialog dialog_ = null;
-	
 	private PinController pc_;
 
 	private static final String pre = "PinOverlay: ";
@@ -41,16 +39,6 @@ public class WreckOverlay extends ItemizedOverlay<Waypoint> {
 
 		populate();
 
-		LayoutInflater inflater = LayoutInflater.from(context_);
-		View gallery = inflater.inflate(R.layout.wreck_details, null);
-
-		dialog_ = new AlertDialog.Builder(this.context_).setView(gallery)
-				.setNegativeButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface di, int what) {
-								di.dismiss();
-							}
-						}).create();
 	}
 
 	/**
@@ -76,8 +64,30 @@ public class WreckOverlay extends ItemizedOverlay<Waypoint> {
 		return pc_.onWreckTap(index);
 	}
 	
-	public void showGalleryDialog(){
-		dialog_.show();
+	public void showGalleryDialog(final int id){
+		
+         
+         AlertDialog dialog = new AlertDialog.Builder(context_)
+                .setTitle("Wreck Image Options")
+                .setItems(new String[]{"View Images", "Upload Image", "Cancel"}, new OnClickListener() {
+                        public void onClick(DialogInterface d, int item) {
+                                Log.v(VUphone.tag, "Item Clicked " + item);
+                                switch (item) {
+                                case 0:
+                                        new AccidentImageDialog(context_, id).show();
+                                        break;
+                                case 1:
+                                        ((AccidentActivity) context_).startUploadProcess(id);
+                                        break;
+                                case 2:
+                                        d.dismiss();
+                                        break;
+                                }
+                        }
+                }).create();
+
+         dialog.show();
+         
 	}
 
 	/**

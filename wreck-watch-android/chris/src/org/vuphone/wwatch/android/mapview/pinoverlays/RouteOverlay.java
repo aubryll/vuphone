@@ -26,36 +26,53 @@ import com.google.android.maps.ItemizedOverlay;
 
 public class RouteOverlay extends ItemizedOverlay<Waypoint>{
 	
-	private static final String TAG = "VUPHONE";
-	private static final String PREFIX = "RouteOverlay: ";
+	private static final String tag = "VUPHONE";
+	private static final String pre = "RouteOverlay: ";
 
 	private PinController pc_;
 	public RouteOverlay(PinController pc){
 		super(new ShapeDrawable(new OvalShape()));
 		pc_ = pc;
-		
+		populate();
 	}
 
+	/**
+	 * Allows this class to return items in any manner we would like, if we
+	 * wanted to impose our own ordering on drawing. We do not, so we just
+	 * return the item as we have them stored
+	 */
 	@Override
 	protected Waypoint createItem(int i) {
 		return pc_.getRouteItem(i);
-		//return new Waypoint(0.0, 0.0, System.currentTimeMillis());
 	}
 
+	/**
+	 * Informs us a tap event occurred on item with index index. First tap
+	 * display's that wrecks route, and second tap will pop up the gallery
+	 * activity
+	 */
 	@Override
-	public int size() {
-		return pc_.getRouteSize();
-		//return 1;
-	}
-	
-	public void populateRoutes(){
-		super.populate();
-	}
-	
-	@Override
-	public boolean onTap(int e){
-		Log.d(TAG, PREFIX + "onTap");
+	protected boolean onTap(int index) {
+		Log.d(tag, pre + "onTap called with index " + index);
 		return false;
 	}
+	
+
+	/**
+	 * Get the number of OverlayItem objects currently in this Overlay.
+	 * 
+	 * @return number of items.
+	 */
+	@Override
+	public int size() {
+		Log.i(tag, pre + "Size called, returning " + pc_.getWreckSize());
+		return pc_.getRouteSize();
+	}
+
+
+	public void populatePins(){
+		super.populate();
+	}
+
 
 }

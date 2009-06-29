@@ -19,9 +19,11 @@ import com.google.android.maps.OverlayItem;
  * 
  */
 
-public final class Waypoint extends OverlayItem {
+public class Waypoint extends OverlayItem {
 	private final long timeStamp_;
 	private final GeoPoint point_;
+
+	private int accidentId_;
 
 	private Drawable drawable_ = null;
 	
@@ -30,14 +32,21 @@ public final class Waypoint extends OverlayItem {
 				.getLongitude() * 1E6)), loc.getTime());
 	}
 	
-	public Waypoint(double lat, double lon, long time){
-		this(new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)), time);
-	}
-
 	public Waypoint(GeoPoint point, final long time) {
 		super(point, "title", "snippet");
 		point_ = point;
 		timeStamp_ = time;
+	}
+	
+	/**
+	 * Construct a Waypoint from longitude, latitude, and time data.
+	 * 
+	 * @param lon	Longitude in degrees
+	 * @param lat	Latitude in degrees
+	 * @param time	UTC time in milliseconds since January 1, 1970. 
+	 */
+	public Waypoint(double lat, double lon, long time) {
+		this(new GeoPoint((int) (lat * 1E6), (int) (lon * 1E6)), time);
 	}
 
 	@Override
@@ -120,6 +129,14 @@ public final class Waypoint extends OverlayItem {
 		drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
 		drawable_.setBounds(0, 0, drawable_.getIntrinsicWidth(), drawable_.getIntrinsicHeight());
 		setMarker(drawable_);
+	}
+
+	public int getAccidentId() {
+		return accidentId_;
+	}
+
+	public void setAccidentId(int accidentId) {
+		this.accidentId_ = accidentId;
 	}
 
 }

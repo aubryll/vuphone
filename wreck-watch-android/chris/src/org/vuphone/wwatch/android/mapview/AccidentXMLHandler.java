@@ -17,6 +17,7 @@ package org.vuphone.wwatch.android.mapview;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,11 +48,17 @@ public class AccidentXMLHandler extends DefaultHandler {
 	private boolean inRoute = false;
 	private boolean inTime = false;
 
+	private boolean inPerson = false;
+
+	private boolean inId = false;
+
 	double currentLatitude_;
 	double currentLongitude_;
 	long currentTime_;
+	private String currentPerson_;
+	int currentId_;
 
-	private ArrayList<Route> points_;
+	private List<Route> points_;
 	private Route curRoute_;
 
 	@Override
@@ -73,6 +80,10 @@ public class AccidentXMLHandler extends DefaultHandler {
 			inPoint = true;
 		} else if (localname.trim().equalsIgnoreCase("Time")) {
 			inTime = true;
+		} else if (localname.trim().equalsIgnoreCase("Person")){
+			inPerson = true;
+		} else if (localname.trim().equalsIgnoreCase("id")) {
+			inId = true;
 		}
 	}
 
@@ -94,12 +105,20 @@ public class AccidentXMLHandler extends DefaultHandler {
 		} else if (localname.trim().equalsIgnoreCase("Route")) {
 			inRoute = false;
 			if (curRoute_.getSize() > 0)
+				for (Waypoint w : curRoute_.getRoute()) {
+					w.setAccidentId(curRoute_.getAccidentId());
+				}
 				points_.add(curRoute_);
 		} else if (localname.trim().equalsIgnoreCase("Routes")) {
 			inRoutes = false;
 			throw new SAXException("Done processing");
 		} else if (localname.trim().equalsIgnoreCase("Time")) {
 			inTime = false;
+		} else if (localname.trim().equalsIgnoreCase("Person")){
+			inPerson = false;
+		} else if (localname.trim().equalsIgnoreCase("id")) {
+			curRoute_.setAccidentId(currentId_);
+			inId = false;
 		}
 	}
 
@@ -111,10 +130,18 @@ public class AccidentXMLHandler extends DefaultHandler {
 			currentLongitude_ = Double.parseDouble(new String(ch));
 		} else if (inTime == true) {
 			currentTime_ = Long.parseLong(new String(ch));
+		} else if (inPerson == true){
+			currentPerson_ = new String(ch);
+		} else if (inId == true) {
+			String str = "";
+			for (int i = 0; i < length; i++) {
+				str += ch[i+start];
+			}
+			currentId_ = Integer.parseInt(str);
 		}
 	}
 
-	public ArrayList<Route> processXML(InputSource src) {
+	public List<Route> processXML(InputSource src) {
 		XMLReader xr = null;
 		points_ = new ArrayList<Route>();
 		try {
