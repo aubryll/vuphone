@@ -1,7 +1,6 @@
 package org.vuphone.wwatch.android.mapview;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.vuphone.wwatch.android.R;
@@ -11,6 +10,7 @@ import org.vuphone.wwatch.android.Waypoint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Canvas;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -35,7 +35,6 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 	};
 
 	private List<Waypoint> points_ = new ArrayList<Waypoint>();
-	private AlertDialog dialog_ = null;
 	private Waypoint lastOnTapPoint_ = new Waypoint(new GeoPoint(0, 0), System
 			.currentTimeMillis());
 	private OverlayState state_ = OverlayState.SHOWING_ALL_WRECKS;
@@ -50,20 +49,9 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 		super(new ShapeDrawable(new OvalShape()));
 
 		mapView_ = mv;
-		context_ = context;
+		context_ = context;//.getApplicationContext();
 
 		populate();
-
-		LayoutInflater inflater = LayoutInflater.from(context_);
-		View gallery = inflater.inflate(R.layout.wreck_details, null);
-
-		dialog_ = new AlertDialog.Builder(context_).setView(gallery)
-				.setNegativeButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface di, int what) {
-								di.dismiss();
-							}
-						}).create();
 	}
 
 	/**
@@ -99,24 +87,45 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 	 */
 	@Override
 	protected boolean onTap(int index) {
-		// Log.d(tag, pre + "onTap called with index " + index);
-		// Waypoint point = points_.get(index);
-		// Log.d(tag, pre + "onTap waypoint: " + point);
-		//
-		// mapView_.getController().animateTo(points_.get(index).getPoint());
-		//
-		// // If this is the second tap, open dialog
-		// if (point.equals(lastOnTapPoint_)) {
-		// dialog_.show();
-		// return true;
-		// }
-		//
-		// // If not, show route
-		// state_ = OverlayState.SHOWING_ONE_WRECK;
-		// lastOnTapPoint_ = point;
-		//
-		// return true;
-		return true;
+		 Log.d(tag, pre + "onTap called with index " + index);
+		 Waypoint point = points_.get(index);
+		 Log.d(tag, pre + "onTap waypoint: " + point);
+		
+		 mapView_.getController().animateTo(points_.get(index).getPoint());
+		
+		 // If this is the second tap, open dialog
+		 if (point.equals(lastOnTapPoint_)) {
+			 //dialog_.show();
+			 final int id = point.getAccidentId();
+				
+			 AlertDialog dialog = new AlertDialog.Builder(context_)
+				.setTitle("Wreck Image Options")
+				.setItems(new String[]{"View Images", "Option 2", "Cancel"}, new OnClickListener() {
+					public void onClick(DialogInterface d, int item) {
+						Log.v(VUphone.tag, "Item Clicked " + item);
+						switch (item) {
+						case 0:
+							new AccidentImageDialog(context_, id).show();
+							break;
+						case 1:
+							break;
+						case 2:
+							d.dismiss();
+							break;
+						}
+					}
+				}).create();
+
+			 dialog.show();
+			 
+			 return true;
+		 }
+		
+		 // If not, show route
+		 state_ = OverlayState.SHOWING_ONE_WRECK;
+		 lastOnTapPoint_ = point;
+		
+		 return true;
 	}
 
 	/**
