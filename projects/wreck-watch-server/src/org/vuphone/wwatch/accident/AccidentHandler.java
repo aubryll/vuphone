@@ -35,6 +35,8 @@ public class AccidentHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger
 			.getLogger(AccidentHandler.class.getName());
+	
+	private static final boolean CALLAS = false;
 
 	// XML will instantiate these
 	private AccidentParser parser_;
@@ -222,10 +224,11 @@ public class AccidentHandler implements NotificationHandler {
 		b_.execute(nums);
 		
 		// Call a default 911 Emergency number
+		if (CALLAS){
 		String emergency = "311";
 		String recording = "zip-code";
 		AsteriskConnector.makeCallPlayRecording(emergency, recording);
-
+		}
 		// Return an AccidentNotification
 		return report;
 	}
