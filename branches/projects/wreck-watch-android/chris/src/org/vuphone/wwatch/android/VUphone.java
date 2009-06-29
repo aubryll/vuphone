@@ -1,6 +1,5 @@
 package org.vuphone.wwatch.android;
 
-import android.content.Context;
 
 /**
  * A convenience class for storing application wide constants.
@@ -21,7 +20,7 @@ public class VUphone {
 	public static final String TIMEOUT_TAG = "WreckWatchDialogTimeout";
 	public static final String LOCATION_TAG = "DefaultLocation";
 	public static final String SERVER_TAG = "ServerAddress";
-	public static final String SERVER = "http://129.59.129.151:8080";
+	public static final String SERVER = "http://129.59.135.160:8080";
 	
 	/**
 	 * Used in the preference file to specify the size of the ID list

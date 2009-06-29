@@ -27,8 +27,6 @@ import com.google.android.maps.GeoPoint;
 
 public class RouteMarker extends Waypoint {
 	
-	
-	
 	public RouteMarker(double lat, double lon, long time) {
 		super(lat, lon, time);
 	}

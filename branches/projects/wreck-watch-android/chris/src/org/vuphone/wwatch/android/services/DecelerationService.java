@@ -170,12 +170,12 @@ public class DecelerationService extends Service {
 		super.onCreate();
 
 		// Setup vars to talk to accelerometer
-		//sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		//accelerometer_ = sensorManager_
-		//		.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
+		sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		accelerometer_ = sensorManager_
+				.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
 
-		//sensorManager_.registerListener(listener_, accelerometer_,
-		//		SensorManager.SENSOR_DELAY_NORMAL);
+		sensorManager_.registerListener(listener_, accelerometer_,
+				SensorManager.SENSOR_DELAY_NORMAL);
 
 	}
 
@@ -238,7 +238,7 @@ public class DecelerationService extends Service {
 		Toast.makeText(this, "Deceleration Service Destroyed",
 				Toast.LENGTH_SHORT).show();
 		Log.v(VUphone.tag, "Decel Service onDestroy reached");
-		//sensorManager_.unregisterListener(listener_, accelerometer_);
+		sensorManager_.unregisterListener(listener_, accelerometer_);
 
 	}
 }
