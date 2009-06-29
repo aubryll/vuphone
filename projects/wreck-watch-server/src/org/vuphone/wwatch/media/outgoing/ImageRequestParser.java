@@ -24,6 +24,12 @@ public class ImageRequestParser {
 			irn.setResponse(response);
 			
 
+			if (!request.getParameterMap().containsKey("wreckID")) {
+				irn.setIsFullImage(true);
+				irn.setImageID(Integer.parseInt(request.getParameter("imageID")));
+				return irn;
+			}
+			
 			int id = Integer.parseInt(request.getParameter("wreckID"));
 			irn.setWreckID(id);
 

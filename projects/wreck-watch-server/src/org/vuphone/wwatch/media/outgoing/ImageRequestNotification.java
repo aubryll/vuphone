@@ -20,17 +20,35 @@ import org.vuphone.wwatch.notification.Notification;
 public class ImageRequestNotification extends Notification{
 
 	private int wreckID_ = -1;
+	private boolean isFull_ = false;
+	private int imageID_ = -1;
 	
 	public ImageRequestNotification() {
 		super("imageRequest");
 	}
 
+	public void setIsFullImage(boolean b) {
+		isFull_ = b;
+	}
+	
+	public void setImageID(int id) {
+		imageID_ = id;
+	}
+	
 	public void setWreckID(int id) {
 		wreckID_ = id;
 	}
 	
 	public int getWreckID() {
 		return wreckID_;
+	}
+	
+	public boolean isFullImage() {
+		return isFull_;
+	}
+	
+	public int getImageID() {
+		return imageID_;
 	}
 	
 	public String getResponseString() {
