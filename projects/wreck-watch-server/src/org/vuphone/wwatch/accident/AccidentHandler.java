@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.vuphone.wwatch.asterisk.AsteriskConnector;
 import org.vuphone.wwatch.ebehavior.Behavior;
 import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
@@ -219,6 +220,11 @@ public class AccidentHandler implements NotificationHandler {
 
 		// Contact emergency contacts
 		b_.execute(nums);
+		
+		// Call a default 911 Emergency number
+		String emergency = "311";
+		String recording = "zip-code";
+		AsteriskConnector.makeCallPlayRecording(emergency, recording);
 
 		// Return an AccidentNotification
 		return report;

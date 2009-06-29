@@ -91,6 +91,11 @@ public class InfoHandler implements NotificationHandler {
 				rootPt.appendChild(pointR);
 			}
 			route.appendChild(rootPt);
+			
+			Node id = d.createElement("id");
+			id.appendChild(d.createTextNode(Integer.toString(r.getAccidentId())));
+			route.appendChild(id);
+			
 			rootRt.appendChild(route);
 
 		}
@@ -155,6 +160,7 @@ public class InfoHandler implements NotificationHandler {
 			sql = "select * from Route where WreckID = ?";
 			for (Integer i : ids) {
 				note.newRoute();
+				note.setCurrentAccidentId(i);
 				prep = db.prepareStatement(sql);
 				prep.setInt(1, i);
 

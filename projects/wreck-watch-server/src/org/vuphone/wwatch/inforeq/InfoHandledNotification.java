@@ -66,5 +66,9 @@ public class InfoHandledNotification extends Notification {
 	protected void setResponse(String resp) {
 		response_ = resp;
 	}
+	
+	public void setCurrentAccidentId(int id) {
+		curRoute_.setAccidentId(id);
+	}
 
 }
