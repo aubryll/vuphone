@@ -9,11 +9,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Canvas;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 
 /**
  * Holds the OverlayItems (Waypoints, here) that should currently be rendered to
@@ -51,6 +53,16 @@ public class WreckOverlay extends ItemizedOverlay<Waypoint> {
 		Log.i(tag, pre + "Create item " + i + " returning "
 				+ pc_.getWreck(i).toString());
 		return pc_.getWreck(i);
+	}
+	
+	@Override
+	public void draw(Canvas canvas, MapView mv, boolean shadow){
+		try{
+			super.draw(canvas, mv, shadow);
+		}catch (IndexOutOfBoundsException e) {
+			Log.w(tag, pre + "IndexOutOfBoundsException drawing WreckOverlay");
+			
+		}
 	}
 
 	/**
