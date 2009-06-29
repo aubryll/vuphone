@@ -33,6 +33,7 @@ public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 	public final static int LOADING = 0;
 	public final static int EMPTY = 1;
 	public final static int FULL = 2;
+	public final static int FAILED = 3;
 
 	private Integer state_ = LOADING;
 	private static final int PAD = 10;
@@ -77,6 +78,16 @@ public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 
 	private void loadPictures(int id) {
 		HTTPGetter.doPictureGet(id, this);
+	}
+	
+	public void operationFailed() {
+		state_ = FAILED;
+		
+		handler_.post(new Runnable() {
+			public void run() {
+				notifyDataSetChanged();
+			}
+		});
 	}
 
 	private void parseImages(HttpResponse resp) {

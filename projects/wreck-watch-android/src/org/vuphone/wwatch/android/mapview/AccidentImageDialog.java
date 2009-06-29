@@ -23,6 +23,7 @@ public class AccidentImageDialog extends AlertDialog {
 	
 	public static final String EMPTY_STRING = "No images available.";
 	public static final String LOADING_STRING = "Downloading images...";
+	public static final String FAILED_STRING = "Connection to server failed.";
 	
 	public AccidentImageDialog(final Context c, int wreckID) {
 		super(c);
