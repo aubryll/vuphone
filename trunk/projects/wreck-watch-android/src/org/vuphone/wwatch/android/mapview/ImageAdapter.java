@@ -22,15 +22,35 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
 
     private Bitmap[] images_ = {};
+    private int[] imageIDs_ = {};
+    private int maxWidth_ = 0;
 	private Handler handler_ = new Handler();
 	
+	public final static int LOADING = 0;
+	public final static int EMPTY = 1;
+	public final static int FULL = 2;
+	
+	private Integer state_ = LOADING;
+	private static final int PAD = 5;
+	private Context context_;
+	
     public ImageAdapter(Context c, int id) {
+    	context_ = c;
     	loadPictures(id);
+    }
+    
+    //public synchronized int getState() {
+    public int getState() {
+    	return state_;
+    }
+    
+    public int getMaxWidth() {
+    	return maxWidth_ + (2 * PAD);
     }
     
 	public void operationComplete(HttpResponse resp) {
 		Log.v(VUphone.tag, "ImageAdapter.operationComplete()");
-		images_ = parseImages(resp);
+		parseImages(resp);
 		Log.v(VUphone.tag, "ImageAdapter set images_ array");
 		
 		handler_.post(new Runnable() {
@@ -44,15 +64,34 @@ public class ImageAdapter extends BaseAdapter {
 		HTTPGetter.doPictureGet(id, this);
 	}
 	
-    private Bitmap[] parseImages(HttpResponse resp) {
+    private void parseImages(HttpResponse resp) {
+    	if (!resp.containsHeader("ImageCount")) {
+    		state_ = EMPTY;
+    		return;
+    	}
+    	
+    	maxWidth_ = 0;
+    	images_ = null;
+    	imageIDs_ = null;
+    	
     	HttpEntity ent = resp.getEntity();
     	int imgTotal = Integer.parseInt(resp.getHeaders("ImageCount")[0].getValue());
+    	
+    	//synchronized (state_) {
+	    	if (imgTotal == 0) {
+	    		state_ = EMPTY;
+	    	} else {
+	    		state_ = FULL;
+	    	}
+    	//}
+    	
     	int sizeTotal = (int) ent.getContentLength();
     	String type = ent.getContentType().getValue();
     	Log.v(VUphone.tag, "Received response: " + imgTotal +
     			" images. Total size: " + sizeTotal + ". Sent as " + type);
     	
-    	Bitmap[] images = new Bitmap[imgTotal];
+    	images_ = new Bitmap[imgTotal];
+    	imageIDs_ = new int[imgTotal];
     	
     	try {
 	    	InputStream is = ent.getContent();	    	
@@ -66,14 +105,16 @@ public class ImageAdapter extends BaseAdapter {
 	    			offset += numRead;
 	    		}
 	    		
-	    		images[i] = BitmapFactory.decodeByteArray(data, 0, data.length);
+	    		images_[i] = BitmapFactory.decodeByteArray(data, 0, data.length);
+	    		if (images_[i].getWidth() > maxWidth_)
+	    			maxWidth_ = images_[i].getWidth();
+	    		
+	    		imageIDs_[i] = Integer.parseInt(resp.getHeaders("Image" + i + "ID")[0].getValue());
 	    		
 	    	}
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
-    	
-    	return images;    	
     }
 
     public int getCount() {
@@ -91,10 +132,13 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {  // If it's not recycled, initialize some attributes
-            imageView = new ImageView(parent.getContext());
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+            imageView = new ImageView(context_);//parent.getContext());
+            int w = images_[position].getWidth();
+            int h = images_[position].getHeight();
+            //Log.v(VUphone.tag, "Setting LayoutParams: " + w + ", " + h);
+            imageView.setLayoutParams(new GridView.LayoutParams(w, h));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            imageView.setPadding(PAD, PAD, PAD, PAD);
         } else {
             imageView = (ImageView) convertView;
         }
