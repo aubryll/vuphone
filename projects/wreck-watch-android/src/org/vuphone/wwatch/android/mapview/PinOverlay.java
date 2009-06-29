@@ -3,7 +3,6 @@ package org.vuphone.wwatch.android.mapview;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 
@@ -11,12 +10,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.net.Uri;
+import android.provider.MediaStore.Images.Thumbnails;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -100,7 +103,7 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 				
 			 AlertDialog dialog = new AlertDialog.Builder(context_)
 				.setTitle("Wreck Image Options")
-				.setItems(new String[]{"View Images", "Option 2", "Cancel"}, new OnClickListener() {
+				.setItems(new String[]{"View Images", "Upload Image", "Cancel"}, new OnClickListener() {
 					public void onClick(DialogInterface d, int item) {
 						Log.v(VUphone.tag, "Item Clicked " + item);
 						switch (item) {
@@ -108,6 +111,7 @@ public class PinOverlay extends ItemizedOverlay<Waypoint> {
 							new AccidentImageDialog(context_, id).show();
 							break;
 						case 1:
+							((AccidentActivity) context_).startUploadProcess(id);
 							break;
 						case 2:
 							d.dismiss();

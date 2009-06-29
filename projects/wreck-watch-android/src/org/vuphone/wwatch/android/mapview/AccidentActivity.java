@@ -19,14 +19,17 @@ import java.io.IOException;
 
 import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.services.MediaUploadService;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -56,6 +59,29 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 		return false;
 	}
 
+	public void startUploadProcess(int id) {
+		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+		photoPickerIntent.setType("image/*");
+		startActivityForResult(photoPickerIntent, id);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		if (resultCode == RESULT_OK) {
+			Uri photoUri = intent.getData();
+			if (photoUri != null) {
+				Log.v(VUphone.tag, "Image chosen: " + photoUri);
+				
+				Intent service = new Intent(this, MediaUploadService.class);
+				service.putExtra("Uri", photoUri.toString());
+				service.putExtra("WreckId", requestCode);
+				startService(service);
+			}
+		}
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accidentview);
