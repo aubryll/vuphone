@@ -40,6 +40,9 @@
 			</intent-filter>
 		</activity>
 
+		<activity android:name=".mapview.FullImageViewer">
+		</activity>
+
 		<!-- The four sub activities. -->
 		<activity android:name=".ContactPicker" android:label = "WW ContactPicker">
 

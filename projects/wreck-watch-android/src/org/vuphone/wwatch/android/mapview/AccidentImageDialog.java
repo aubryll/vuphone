@@ -6,6 +6,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * 
@@ -20,7 +24,7 @@ public class AccidentImageDialog extends AlertDialog {
 	public static final String EMPTY_STRING = "No images available.";
 	public static final String LOADING_STRING = "Downloading images...";
 	
-	public AccidentImageDialog(Context c, int wreckID) {
+	public AccidentImageDialog(final Context c, int wreckID) {
 		super(c);
 		
 		LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -31,6 +35,7 @@ public class AccidentImageDialog extends AlertDialog {
 		imageGrid_.setAdapter(adapter_);
 		imageGrid_.setEmptyView(layout.findViewById(R.id.empty_view));
 
+		imageGrid_.setOnItemClickListener(adapter_);
 		
 		setTitle("Accident Images");
 		setIcon(0);
