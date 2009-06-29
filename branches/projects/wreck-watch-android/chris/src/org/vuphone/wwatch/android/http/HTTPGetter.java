@@ -27,6 +27,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.mapview.AccidentXMLHandler;
+import org.vuphone.wwatch.android.mapview.FullImageViewer;
 import org.vuphone.wwatch.android.mapview.GeoRegion;
 import org.vuphone.wwatch.android.mapview.ImageAdapter;
 import org.vuphone.wwatch.android.mapview.Route;
@@ -56,13 +57,17 @@ public class HTTPGetter {
 	 * @param listener
 	 *            The AccidentList to pass the (possibly) new routes to
 	 */
-	public static ArrayList<Route> doAccidentGet(final GeoRegion region, long time) {
+
+	public static ArrayList<Route> doAccidentGet(final GeoRegion region,
+			long time) {
 
 		Log.v(tag, pre + "Entering HTTPGetter.doAccidentGet");
+		if (region == null)
+			return null;
 
 		final GeoPoint br = region.getBottomRight();
 		final GeoPoint tl = region.getTopLeft();
-		
+
 		// Add the parameters
 		String params = "?type=info&latbr=" + br.getLatitudeE6() + "&lonbr="
 				+ br.getLongitudeE6() + "&lattl=" + tl.getLatitudeE6()
@@ -70,8 +75,7 @@ public class HTTPGetter {
 		Log.v(tag, pre + "Created parameter string: " + params);
 
 		final HttpGet get = new HttpGet(VUphone.SERVER + PATH + params);
-		Log.i(tag, pre + "Executing get to " + VUphone.SERVER + PATH
-				+ params);
+		Log.i(tag, pre + "Executing get to " + VUphone.SERVER + PATH + params);
 
 		Log.i(tag, pre + "Starting HTTP Get");
 		return handleAccidentResponse(br, tl, get);
@@ -94,6 +98,27 @@ public class HTTPGetter {
 				}
 			}
 		}, "PictureGetter").start();
+	}
+
+
+	public static void doFullPictureGet(int imageID,
+			final FullImageViewer viewer) {
+
+		final HttpClient c = new DefaultHttpClient();
+		String params = "?type=imageRequest&imageID=" + imageID;
+		Log.d(tag, pre + "Params for doFullPictureGet = " + params);
+		final HttpGet get = new HttpGet(VUphone.SERVER + PATH + params);
+
+		new Thread(new Runnable() {
+			public void run() {
+				try {
+					HttpResponse resp = c.execute(get);
+					viewer.operationComplete(resp);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}, "FullPictureGetter").start();
 	}
 
 	private static ArrayList<Route> handleAccidentResponse(
@@ -131,9 +156,17 @@ public class HTTPGetter {
 		}
 
 		// Extract Routes from response
-		ArrayList<Route> routes = aXml_.processXML(new InputSource(
-				new ByteArrayInputStream(bao.toByteArray())));
-
+		if (bao.size() == 0) {
+			Log.w(tag, pre + "Response was completely empty, "
+					+ "are you sure you are using the "
+					+ "same version client and server? "
+					+ "At the least, there should have "
+					+ "been empty XML here");
+		}
+		
+		ArrayList<Route> routes = new ArrayList<Route>(aXml_.processXML(new InputSource(
+				new ByteArrayInputStream(bao.toByteArray()))));
+ 
 		return routes;
 	}
 }

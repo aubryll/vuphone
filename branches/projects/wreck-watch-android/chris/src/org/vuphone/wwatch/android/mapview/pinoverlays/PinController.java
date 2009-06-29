@@ -20,7 +20,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.mapview.Cache;
 import org.vuphone.wwatch.android.mapview.Route;
+import org.vuphone.wwatch.android.mapview.pinoverlays.markers.RouteMarker;
+import org.vuphone.wwatch.android.mapview.pinoverlays.markers.WreckMarker;
 
 import android.content.Context;
 import android.util.Log;
@@ -43,7 +46,6 @@ public class PinController {
 	//TODO: Change this so that we can somehow associate the wrecks with the routes and they
 	//don't necessarily have to be in the same order
 	private List<Waypoint> wrecks_ = new CopyOnWriteArrayList<Waypoint>();
-	private List<Route> routes_ = new CopyOnWriteArrayList<Route>();
 	
 	private static final String TAG = VUphone.tag;
 	private static final String PREFIX = "PinController: ";
@@ -60,8 +62,9 @@ public class PinController {
 	private MapView mv_;
 	private Context c_;
 	private int wreckToShow_ = 0;
-	private int routeToShow_ = 0;
 	private Waypoint lastTappedPoint_ = new Waypoint(0, 0, System.currentTimeMillis());
+	private Route currentRoute_;
+	private Cache cache_;
 
 
 
@@ -77,7 +80,7 @@ public class PinController {
 	}
 	
 	public Waypoint getRouteItem(int i){
-		return routes_.get(routeToShow_).getPoint(i);
+		return new RouteMarker(currentRoute_.getPoint(i));
 	}
 	
 	public RouteOverlay getRouteOverlay(){
@@ -85,11 +88,13 @@ public class PinController {
 	}
 	
 	public int getRouteSize(){
-		if (curState_ != State.SHOW_ROUTE){
-			return 0;
+		int size;
+		if (curState_ == State.SHOW_ROUTE && currentRoute_ != null){
+			size = currentRoute_.getSize();
 		}else{
-			return routes_.get(routeToShow_).getSize();
+			size = 0; 
 		}
+		return size;
 	}
 	
 	public State getState(){
@@ -98,7 +103,7 @@ public class PinController {
 	
 	public Waypoint getWreck(int i){
 		if (curState_ == State.SHOW_ONE_WRECK){
-			return wrecks_.get(wreckToShow_);
+			return new WreckMarker(wrecks_.get(wreckToShow_));
 		}else{
 			return wrecks_.get(i);
 		}
@@ -121,38 +126,32 @@ public class PinController {
 		Log.d(TAG, PREFIX + "onTap waypoint: " + point);
 
 		mv_.getController().animateTo(point.getPoint());
-
+		
 		// If this is the second tap, open dialog
 		if (point.equals(lastTappedPoint_)) {
-			wo_.showGalleryDialog();
+			final int id = point.getAccidentId();
+			wo_.showGalleryDialog(id);
 			return true;
 		}
 		
 		// If not, show route
+		currentRoute_ = cache_.getRoute(point);
 		curState_ = State.SHOW_ROUTE;
-		routeToShow_ = i;
+		ro_.populatePins();
+		
 		
 		lastTappedPoint_ = point;
 		return true;
+	}
+	
+	public void setCache(Cache c){
+		cache_ = c;
 	}
 	
 	public void setWreckToShow(int i){
 		wreckToShow_ = i;
 	}
 	
-	public void showRoute(int route){
-		routeToShow_ = route;
-	}
-	
-	/**
-	 * This method replaces the routes currently stored in the model.
-	 * @param routes
-	 * 			The new list of routes to be displayed
-	 */
-	public void updateRoutes(final List<Route> routes){
-		routes_.clear();
-		routes_.addAll(routes);
-	}
 	
 	/**
 	 * Replaces the List of Wrecks already displayed on the map with the new

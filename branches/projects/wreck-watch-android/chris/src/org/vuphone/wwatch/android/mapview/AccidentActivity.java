@@ -19,15 +19,19 @@ import java.io.IOException;
 
 import org.vuphone.wwatch.android.R;
 import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.services.MediaUploadService;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -45,6 +49,7 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	private static final String pre = "AccidentActivity: ";
 
 	private MapController controller_;
+	private AccidentMapView mapView_;
 
 	// Used for centering on the first fix.
 	private Location firstLoc_ = null;
@@ -54,14 +59,37 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 		return false;
 	}
 
+	public void startUploadProcess(int id) {
+		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+		photoPickerIntent.setType("image/*");
+		startActivityForResult(photoPickerIntent, id);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		super.onActivityResult(requestCode, resultCode, intent);
+
+		if (resultCode == RESULT_OK) {
+			Uri photoUri = intent.getData();
+			if (photoUri != null) {
+				Log.v(VUphone.tag, "Image chosen: " + photoUri);
+				
+				Intent service = new Intent(this, MediaUploadService.class);
+				service.putExtra("Uri", photoUri.toString());
+				service.putExtra("WreckId", requestCode);
+				startService(service);
+			}
+		}
+	}
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accidentview);
-		AccidentMapView map_ = (AccidentMapView) findViewById(R.id.accidentview);
-		controller_ = map_.getController();
+		mapView_ = (AccidentMapView) findViewById(R.id.accidentview);
+		controller_ = mapView_.getController();
 		controller_.setZoom(8);
 
-		map_.postInvalidate();
+		mapView_.postInvalidate();
 
 		// Get fixes as quickly as possible.
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
@@ -74,6 +102,8 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	public void onStart() {
 		super.onStart();
 
+		mapView_.startCache();
+		
 		if (firstLoc_ != null)
 			return;
 
@@ -110,8 +140,21 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		mapView_.stopCache();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		mapView_.startCache();
+	}
+	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		Log.i(tag, pre + "onDestroy reached");
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.removeUpdates(this);
 	}
