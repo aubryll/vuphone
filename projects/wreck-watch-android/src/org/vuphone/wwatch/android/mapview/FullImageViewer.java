@@ -1,18 +1,19 @@
 package org.vuphone.wwatch.android.mapview;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.http.HTTPGetter;
 
-import android.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,8 +30,6 @@ public class FullImageViewer extends Activity {
 		}
 		
 		image_ = new ImageView(this);
-		int h = getWindowManager().getDefaultDisplay().getHeight();
-		int w = getWindowManager().getDefaultDisplay().getWidth();
 		//image_.setLayoutParams(new LayoutParams(w, h));
 		setContentView(image_);
 		
@@ -39,7 +38,7 @@ public class FullImageViewer extends Activity {
 		
 	}
 	
-	public void operationComplete(HttpResponse resp) {
+	public void operationComplete(final HttpResponse resp) {
 	   	if (!resp.containsHeader("ImageCount"))
 	   		return;
 	   	
@@ -50,8 +49,41 @@ public class FullImageViewer extends Activity {
 			public void run() {
 				Toast.makeText(image_.getContext(), "Got pic " + size, Toast.LENGTH_SHORT).show();
 				Bitmap bmap = null;
+				Options opt = new Options();
+				Rect padding = null;
+				
+				Options dims = new Options();
+				dims.inJustDecodeBounds = true;
+				
+				final int height = getWindowManager().getDefaultDisplay().getHeight();
+				final int width = getWindowManager().getDefaultDisplay().getWidth();
+				
 				try {
-					bmap = BitmapFactory.decodeStream(ent.getContent());
+					InputStream is = ent.getContent();
+					
+		    		int sz = Integer.parseInt(resp.getHeaders("Image0Size")[0].getValue());
+		    		final byte[] data = new byte[sz];
+		    		int offset = 0;
+		    		int numRead = 0;
+		    		
+		    		while ((numRead = is.read(data, offset, sz - offset)) >= 0 && offset < sz) {
+		    			offset += numRead;
+		    		}
+		    		
+		    		BitmapFactory.decodeByteArray(data, 0, data.length, dims);
+		    		
+		    		int w = dims.outWidth;
+		    		int h = dims.outHeight;
+		    		
+		    		float multX = (float) w / width;
+		    		float multY = (float) h / height;
+		    		
+		    		int scale = (int) Math.max(multX, multY);
+		    		opt.inSampleSize = scale;
+		    		
+		    		bmap = BitmapFactory.decodeByteArray(data, 0, data.length, opt);
+
+				
 				} catch (IOException e) {
 					Toast.makeText(image_.getContext(), "IOException", Toast.LENGTH_SHORT).show();
 				}
