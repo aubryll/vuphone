@@ -71,8 +71,11 @@ public class Cache {
 	/** Used to periodically update the map. */
 	private TimerTask periodicUpdate_;
 
+	/** Used to run the periodic update */
+	private Timer updateTimer_;
+
 	/** The time in milliseconds between updates */
-	private static final int updateTime_ = 1000 * 30; // 30 seconds
+	private static final int updateTime_ = 1000 * 500; // 30 seconds
 
 	/** Keeps track of the current largest time that we can use for full updates */
 	private Long latestTime_ = (long) 0;
@@ -84,21 +87,6 @@ public class Cache {
 	public Cache(PinOverlay overlay, Context context) {
 		overlay_ = overlay;
 		context_ = context;
-		expander_ = new CacheExpander(this);
-		expander_.setDaemon(true);
-		expander_.setName("Cache Expander");
-		expander_.start();
-
-		periodicUpdate_ = new TimerTask() {
-			public void run() {
-				performFullUpdate(false);
-			}
-		};
-
-		// Specifically request this as a daemon thread, so that it will die
-		// with the JVM
-		Timer t = new Timer("Periodic Cache Updater", true);
-		t.scheduleAtFixedRate(periodicUpdate_, updateTime_, updateTime_);
 	}
 
 	public synchronized void acceptCacheUpdate(final CacheUpdate cu) {
@@ -297,6 +285,9 @@ public class Cache {
 			return;
 		}
 
+		if (true)
+			return;
+
 		expander_.putPossibleExpansion(region);
 
 	}
@@ -339,6 +330,34 @@ public class Cache {
 
 	private synchronized void setRegion(final GeoRegion r) {
 		region_ = r;
+	}
+
+	public void start() {
+		Log.i(tag, pre + "Cache started");
+		if (expander_ != null)
+			expander_.terminate();
+		expander_ = new CacheExpander(this);
+		expander_.setDaemon(true);
+		expander_.setName("Cache Expander");
+		expander_.start();
+		
+		periodicUpdate_ = new TimerTask() {
+			public void run() {
+				performFullUpdate(false);
+			}
+		};
+		
+		// Specifically request this as a daemon thread, so that it will die
+		// with the JVM
+		updateTimer_ = new Timer("Periodic Cache Updater", true);
+		updateTimer_.scheduleAtFixedRate(periodicUpdate_, updateTime_,
+				updateTime_);
+	}
+
+	public void stop() {
+		Log.i(tag, pre + "Cache stopped");
+		updateTimer_.cancel();
+		expander_.terminate();
 	}
 
 }

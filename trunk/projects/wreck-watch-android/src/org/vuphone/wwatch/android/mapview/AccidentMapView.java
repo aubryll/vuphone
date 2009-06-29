@@ -41,6 +41,14 @@ public class AccidentMapView extends MapView {
 		getOverlays().add(pinOverlay_);
 		routes_ = new Cache(pinOverlay_, context);
 	}
+	
+	public void startCache() {
+		routes_.start();
+	}
+	
+	public void stopCache() {
+		routes_.stop();
+	}
 
 	public PinOverlay getOverlay() {
 		return pinOverlay_;
