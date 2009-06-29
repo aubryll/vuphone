@@ -32,17 +32,12 @@ public class AccidentImageView extends GridView {
 		super.handleDataChanged();
 		Log.v(VUphone.tag, "handleDataChanged()");
  
-		/*
+		
 		TextView view = (TextView) getEmptyView();
 		ImageAdapter adapt = (ImageAdapter) getAdapter();
 		if (adapt.getState() == ImageAdapter.EMPTY) {
 			view.setText(AccidentImageDialog.EMPTY_STRING);
 		}
-
-		int w = adapt.getMaxWidth();
-		Log.v(VUphone.tag, "Setting column width: " + w);
-		setColumnWidth(w);
-		*/
 		
 		postInvalidate();
 	}
