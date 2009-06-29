@@ -30,6 +30,7 @@ public class Route {
 
 	private ArrayList<Waypoint> route_ = new ArrayList<Waypoint>();
 	private int curIndex_;
+	private int accidentID_;
 
 	public Route() {
 	}
@@ -40,6 +41,10 @@ public class Route {
 
 	public ArrayList<Waypoint> getRoute() {
 		return route_;
+	}
+	
+	public void addWaypoint(double lat, double lon, long time){
+		route_.add(new Waypoint(lat, lon, time));
 	}
 
 	/**
@@ -116,6 +121,14 @@ public class Route {
 		} else {
 			return route_.get(curIndex_);
 		}
+	}
+	
+	public void setAccidentId(int id){
+		accidentID_ = id;
+	}
+	
+	public int getAccidentId(){
+		return accidentID_;
 	}
 
 }
