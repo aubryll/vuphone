@@ -19,7 +19,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -163,7 +162,7 @@ public class InfoHandler implements NotificationHandler {
 
 				while (rs.next()) {
 					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs
-							.getDouble("Lon"), ((Time)rs.getTime("Time")).getTime() + rs.getDate("Date").getTime()));
+							.getDouble("Lon"), rs.getLong("Date")));
 				}
 				rs.close();
 				

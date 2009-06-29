@@ -40,8 +40,7 @@ public class SqliteConstructor implements DatabaseConstructor {
 				+ "WreckID INTEGER PRIMARY KEY,"
 				+ "Person INTEGER REFERENCES People(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date DATE NOT NULL, "
-				+ "Time TIME NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
+				+ "Date INT NOT NULL" + "LargestAccel DOUBLE NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -55,8 +54,7 @@ public class SqliteConstructor implements DatabaseConstructor {
 				+ "CoordID INTEGER PRIMARY KEY,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date DATE NOT NULL, "
-				+ "Time TIME NOT NULL)" ;
+				+ "Date INT NOT NULL)" ;
 		prep = db.prepareStatement(sql);
 		prep.execute();
 

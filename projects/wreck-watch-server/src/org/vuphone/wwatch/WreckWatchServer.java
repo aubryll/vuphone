@@ -139,6 +139,7 @@ public class WreckWatchServer {
 		context.setResourceBase("html/");
 
 		ResourceHandler resource_handler = new ResourceHandler();
+		resource_handler.setBaseResource(context.getBaseResource());
 		HandlerList handlers = new HandlerList();
 		handlers.setHandlers(new Handler[] { resource_handler, context });
 		server_.setHandler(handlers);
