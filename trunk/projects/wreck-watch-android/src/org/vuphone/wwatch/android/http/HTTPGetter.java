@@ -94,6 +94,7 @@ public class HTTPGetter {
 					list.operationComplete(resp);
 				} catch (IOException e) {
 					e.printStackTrace();
+					list.operationFailed();
 				}
 			}
 		}, "PictureGetter").start();

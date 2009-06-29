@@ -37,6 +37,8 @@ public class AccidentImageView extends GridView {
 		ImageAdapter adapt = (ImageAdapter) getAdapter();
 		if (adapt.getState() == ImageAdapter.EMPTY) {
 			view.setText(AccidentImageDialog.EMPTY_STRING);
+		} else if (adapt.getState() == ImageAdapter.FAILED) {
+			view.setText(AccidentImageDialog.FAILED_STRING);
 		}
 		
 		postInvalidate();
