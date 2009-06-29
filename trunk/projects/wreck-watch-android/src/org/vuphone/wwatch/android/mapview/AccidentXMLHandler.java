@@ -47,11 +47,13 @@ public class AccidentXMLHandler extends DefaultHandler {
 	private boolean inRoute = false;
 	private boolean inTime = false;
 	private boolean inId = false;
+	private boolean inPerson = false;
 
-	double currentLatitude_;
-	double currentLongitude_;
-	long currentTime_;
-	int currentId_;
+	private double currentLatitude_;
+	private double currentLongitude_;
+	private long currentTime_;
+	private int currentId_;
+	private String currentPerson_;
 
 	private ArrayList<Route> points_;
 	private Route curRoute_;
@@ -76,6 +78,8 @@ public class AccidentXMLHandler extends DefaultHandler {
 			inTime = true;
 		} else if (localname.trim().equalsIgnoreCase("id")) {
 			inId = true;
+		} else if (localname.trim().equalsIgnoreCase("Person")){
+			inPerson = true;
 		}
 	}
 
@@ -109,7 +113,9 @@ public class AccidentXMLHandler extends DefaultHandler {
 		} else if (localname.trim().equalsIgnoreCase("id")) {
 			curRoute_.setAccidentId(currentId_);
 			inId = false;
-		}
+		} else if (localname.trim().equalsIgnoreCase("Person")){
+			inPerson = false;
+		} 
 	}
 
 	@Override
@@ -126,7 +132,9 @@ public class AccidentXMLHandler extends DefaultHandler {
 				str += ch[i+start];
 			}
 			currentId_ = Integer.parseInt(str);
-		}
+		} else if (inPerson == true){
+			currentPerson_ = new String(ch);
+		} 
 	}
 
 	public ArrayList<Route> processXML(InputSource src) {

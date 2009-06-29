@@ -57,6 +57,7 @@ public class HTTPGetter {
 	 * @param listener
 	 *            The AccidentList to pass the (possibly) new routes to
 	 */
+
 	public static ArrayList<Route> doAccidentGet(final GeoRegion region,
 			long time) {
 
@@ -94,11 +95,11 @@ public class HTTPGetter {
 					list.operationComplete(resp);
 				} catch (IOException e) {
 					e.printStackTrace();
-					list.operationFailed();
 				}
 			}
 		}, "PictureGetter").start();
 	}
+
 
 	public static void doFullPictureGet(int imageID,
 			final FullImageViewer viewer) {
@@ -163,9 +164,9 @@ public class HTTPGetter {
 					+ "been empty XML here");
 		}
 		
-		ArrayList<Route> routes = aXml_.processXML(new InputSource(
-				new ByteArrayInputStream(bao.toByteArray())));
-
+		ArrayList<Route> routes = new ArrayList<Route>(aXml_.processXML(new InputSource(
+				new ByteArrayInputStream(bao.toByteArray()))));
+ 
 		return routes;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.TimerTask;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 import org.vuphone.wwatch.android.http.HTTPGetter;
+import org.vuphone.wwatch.android.mapview.pinoverlays.PinController;
 
 import android.content.Context;
 import android.util.Log;
@@ -44,7 +45,7 @@ public class Cache {
 	 * on the Overlay indicating that there is new Route data available, and the
 	 * Overlay should request is at their convenience
 	 */
-	private PinOverlay overlay_;
+	private PinController overlay_;
 
 	/**
 	 * Used to set context on the waypoints we receive. This allows the
@@ -75,7 +76,7 @@ public class Cache {
 	private Timer updateTimer_;
 
 	/** The time in milliseconds between updates */
-	private static final int updateTime_ = 1000 * 500; // 30 seconds
+	private static final int updateTime_ = 1000 * 10; // 30 seconds
 
 	/** Keeps track of the current largest time that we can use for full updates */
 	private Long latestTime_ = (long) 0;
@@ -84,7 +85,7 @@ public class Cache {
 	 * 
 	 * @param overlay
 	 */
-	public Cache(PinOverlay overlay, Context context) {
+	public Cache(PinController overlay, Context context) {
 		overlay_ = overlay;
 		context_ = context;
 	}
@@ -115,7 +116,7 @@ public class Cache {
 					.getLongitudeE6()));
 			break;
 		default:
-			Log.e(tag, pre() + "CacheUpdate no understood");
+			Log.e(tag, pre() + "CacheUpdate not understood");
 			return;
 		}
 
@@ -143,7 +144,7 @@ public class Cache {
 		synchronized (routes_) {
 			routes_.addAll(routes);
 		}
-		overlay_.updatePins(getWrecks());
+		overlay_.updateWrecks(getWrecks());
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package org.vuphone.wwatch.android;
 
-import android.content.Context;
 
 /**
  * A convenience class for storing application wide constants.
@@ -35,5 +34,5 @@ public class VUphone {
 	public static final String ACCEL_SCALE = "AccelScale";
 	
 
-	public static final String SERVER = "http://129.59.135.149:8080";
+	public static final String SERVER = "http://129.59.135.160:8080";
 }
