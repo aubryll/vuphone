@@ -29,15 +29,15 @@ import org.vuphone.wwatch.notification.NotificationHandler;
  * accident response process.
  * 
  * @author jules
- * 
+ * 4
  */
 public class AccidentHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger
 			.getLogger(AccidentHandler.class.getName());
 	
-	private static final boolean CALLAS = false;
-
+	private static final boolean CALL_ASTERISK = false;
+	
 	// XML will instantiate these
 	private AccidentParser parser_;
 	private DataSource ds_;
@@ -224,11 +224,12 @@ public class AccidentHandler implements NotificationHandler {
 		b_.execute(nums);
 		
 		// Call a default 911 Emergency number
-		if (CALLAS){
+		
 		String emergency = "311";
 		String recording = "zip-code";
-		AsteriskConnector.makeCallPlayRecording(emergency, recording);
-		}
+		if (CALL_ASTERISK)
+			AsteriskConnector.makeCallPlayRecording(emergency, recording);
+		
 		// Return an AccidentNotification
 		return report;
 	}

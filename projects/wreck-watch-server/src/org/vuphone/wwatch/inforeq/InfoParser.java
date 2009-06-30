@@ -24,6 +24,8 @@ public class InfoParser {
 		double tlLon, tlLat, brLon, brLat;
 		try {
 
+			info.setTime(Long.parseLong(request.getParameter("maxtime")));
+			
 			tlLat = Double.parseDouble(request.getParameter("lattl")) / 1E6;
 			tlLon = Double.parseDouble(request.getParameter("lontl")) / 1E6;
 			
