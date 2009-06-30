@@ -268,9 +268,6 @@ public class Cache {
 			return;
 		}
 
-		if (true)
-			return;
-
 		expander_.putPossibleExpansion(region);
 
 	}
