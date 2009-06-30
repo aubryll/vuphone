@@ -140,6 +140,10 @@ public class HTTPGetter {
 			e1.printStackTrace();
 			Log.e(tag, pre + "HTTP error in server response");
 			return null;
+		} catch (Exception e) {
+			Log.e(tag, pre + "An unknown exception was thrown");
+			e.printStackTrace();
+			return null;
 		}
 		Log.i(tag, pre + "HTTP operation complete. Processing response.");
 

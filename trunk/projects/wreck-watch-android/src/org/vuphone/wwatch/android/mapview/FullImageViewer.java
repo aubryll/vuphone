@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -43,14 +42,11 @@ public class FullImageViewer extends Activity {
 	   		return;
 	   	
 		final HttpEntity ent = resp.getEntity();
-    	final int size = (int) ent.getContentLength();
 		
     	runOnUiThread(new Runnable() {
 			public void run() {
-				Toast.makeText(image_.getContext(), "Got pic " + size, Toast.LENGTH_SHORT).show();
 				Bitmap bmap = null;
 				Options opt = new Options();
-				Rect padding = null;
 				
 				Options dims = new Options();
 				dims.inJustDecodeBounds = true;
@@ -85,7 +81,7 @@ public class FullImageViewer extends Activity {
 
 				
 				} catch (IOException e) {
-					Toast.makeText(image_.getContext(), "IOException", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
 				}
 				
 				if (bmap == null)
