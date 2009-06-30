@@ -72,7 +72,7 @@ public class HTTPGetter {
 		Log.v(tag, pre + "Entering doRouteGet");
 
 		// Add the parameters
-		String params = "?type=routeGet&wreckd=" + wreckId;
+		String params = "?type=routeGet&wreckid=" + wreckId;
 		Log.v(tag, pre + "Created parameter string: " + params);
 
 		final HttpGet get = new HttpGet(VUphone.SERVER + PATH + params);
