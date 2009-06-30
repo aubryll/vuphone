@@ -2,26 +2,28 @@ package org.vuphone.wwatch.android.mapview;
 
 import java.util.List;
 
+import org.vuphone.wwatch.android.Waypoint;
+
 public class CacheUpdate {
 	public static final int TYPE_EXPAND_LEFT = 0;
 	public static final int TYPE_EXPAND_RIGHT = 1;
 	public static final int TYPE_EXPAND_UP = 2;
 	public static final int TYPE_EXPAND_DOWN = 3;
 	
-	private final List<Route> routes_;
+	private final List<Waypoint> points_;
 	private final long latestTime_;
 	private final int newValue_;
 	private final int type_;
 	
-	public CacheUpdate(final List<Route> routes, final long latestTime, final int type, final int newValue) {
-		routes_ = routes;
+	public CacheUpdate(final List<Waypoint> routes, final long latestTime, final int type, final int newValue) {
+		points_ = routes;
 		latestTime_ = latestTime;
 		newValue_ = newValue;
 		type_ = type;
 	}
 	
-	public List<Route> getRoutes() {
-		return routes_;
+	public List<Waypoint> getWrecks() {
+		return points_;
 	}
 	
 	public long getLatestTime() {
