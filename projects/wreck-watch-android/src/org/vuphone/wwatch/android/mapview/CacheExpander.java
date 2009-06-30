@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.vuphone.wwatch.android.VUphone;
+import org.vuphone.wwatch.android.Waypoint;
 import org.vuphone.wwatch.android.http.HTTPGetter;
 
 import android.util.Log;
@@ -107,7 +108,7 @@ public class CacheExpander extends Thread {
 			final GeoRegion expandRegion = findRegionBelow(getCR(), ce
 					.getBottomRight());
 
-			final CacheUpdate update = getRoutes(expandRegion,
+			final CacheUpdate update = getWrecks(expandRegion,
 					CacheUpdate.TYPE_EXPAND_DOWN);
 			sendCacheUpdate(update);
 		}
@@ -119,7 +120,7 @@ public class CacheExpander extends Thread {
 			final GeoRegion expandRegion = findRegionToRight(getCR(), ce
 					.getBottomRight());
 
-			final CacheUpdate update = getRoutes(expandRegion,
+			final CacheUpdate update = getWrecks(expandRegion,
 					CacheUpdate.TYPE_EXPAND_RIGHT);
 			sendCacheUpdate(update);
 		}
@@ -131,7 +132,7 @@ public class CacheExpander extends Thread {
 			final GeoRegion expandRegion = findRegionAbove(getCR(), ce
 					.getTopLeft());
 
-			final CacheUpdate update = getRoutes(expandRegion,
+			final CacheUpdate update = getWrecks(expandRegion,
 					CacheUpdate.TYPE_EXPAND_UP);
 			sendCacheUpdate(update);
 		}
@@ -143,7 +144,7 @@ public class CacheExpander extends Thread {
 			final GeoRegion expandRegion = findRegionToLeft(getCR(), ce
 					.getTopLeft());
 
-			final CacheUpdate update = getRoutes(expandRegion,
+			final CacheUpdate update = getWrecks(expandRegion,
 					CacheUpdate.TYPE_EXPAND_LEFT);
 			sendCacheUpdate(update);
 		}
@@ -203,18 +204,18 @@ public class CacheExpander extends Thread {
 		return cache_.getRegion().getSafeRegion(safeRegionSize);
 	}
 
-	private CacheUpdate getRoutes(final GeoRegion region,
+	private CacheUpdate getWrecks(final GeoRegion region,
 			final int cacheUpdateType) {
-		final List<Route> routes = HTTPGetter.doWreckGet(region, 0);
-		if (routes == null) {
+		final List<Waypoint> wrecks = HTTPGetter.doWreckGet(region, 0);
+		if (wrecks == null) {
 			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
 			return null;
 		}
 
 		long time = 0;
-		for (Route r : routes)
-			if (r.getWreck().getTime() > time)
-				time = r.getWreck().getTime();
+		for (Waypoint wp : wrecks)
+			if (wp.getTime() > time)
+				time = wp.getTime();
 
 		int value;
 		switch (cacheUpdateType) {
@@ -234,7 +235,7 @@ public class CacheExpander extends Thread {
 			return null;
 		}
 
-		final CacheUpdate cu = new CacheUpdate(routes, time, cacheUpdateType,
+		final CacheUpdate cu = new CacheUpdate(wrecks, time, cacheUpdateType,
 				value);
 
 		return cu;

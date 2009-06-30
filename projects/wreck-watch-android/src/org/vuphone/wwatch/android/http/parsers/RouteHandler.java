@@ -38,7 +38,7 @@ import com.google.android.maps.GeoPoint;
 public class RouteHandler extends DefaultHandler {
 
 	private static final String tag = VUphone.tag;
-	private static final String pre = "AccidentXMLHandler: ";
+	private static final String pre = "RouteHandler: ";
 
 	private boolean inPoints = false;
 	private boolean inPoint = false;
@@ -57,11 +57,10 @@ public class RouteHandler extends DefaultHandler {
 	private int currentId_;
 	private String currentPerson_;
 
-	private ArrayList<Route> points_;
 	private Route curRoute_;
 
 	@Override
-	public void startElement(String uri, String localname, String qName,
+	public void startElement(String uri, final String localname, String qName,
 			Attributes atts) {
 		if (localname.trim().equalsIgnoreCase("Routes")) {
 			inRoutes = true;
@@ -106,7 +105,6 @@ public class RouteHandler extends DefaultHandler {
 				for (Waypoint w : curRoute_.getRoute()) {
 					w.setAccidentId(curRoute_.getAccidentId());
 				}
-				points_.add(curRoute_);
 		} else if (localname.trim().equalsIgnoreCase("Routes")) {
 			inRoutes = false;
 			throw new SAXException("Done processing");
@@ -139,9 +137,9 @@ public class RouteHandler extends DefaultHandler {
 		} 
 	}
 
-	public ArrayList<Route> processXML(InputSource src) {
+	public Route processXML(InputSource src) {
 		XMLReader xr = null;
-		points_ = new ArrayList<Route>();
+		curRoute_ = new Route();
 		try {
 			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
 		} catch (SAXException e) {
@@ -183,7 +181,7 @@ public class RouteHandler extends DefaultHandler {
 			}
 		}
 
-		return points_;
+		return curRoute_;
 	}
 
 }

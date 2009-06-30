@@ -38,7 +38,7 @@ public class Cache {
 	}
 
 	/** The cached routes. This is synchronized internally */
-	private List<Route> routes_ = new ArrayList<Route>();
+	private List<Waypoint> points_ = new ArrayList<Waypoint>();
 
 	/**
 	 * The Overlay displaying the wrecks or routes. This is used to set a flag
@@ -120,7 +120,7 @@ public class Cache {
 			return;
 		}
 
-		addRoutes(cu.getRoutes());
+		addWrecks(cu.getWrecks());
 
 		if (cu.getLatestTime() < latestTime_)
 			latestTime_ = cu.getLatestTime();
@@ -131,18 +131,17 @@ public class Cache {
 	 * Handles parsing the server response, merging the data, and notifying the
 	 * overlay that there are new data points
 	 */
-	private void addRoutes(List<Route> routes) {
+	private void addWrecks(List<Waypoint> wrecks) {
 		// Do we have any new routes to add
-		if (routes.size() == 0)
+		if (wrecks.size() == 0)
 			return;
 
 		// Set all Waypoints context
-		for (Route r : routes)
-			for (Waypoint wp : r.getRoute())
-				wp.setContext(context_);
+		for (Waypoint wp : wrecks)
+			wp.setContext(context_);
 
-		synchronized (routes_) {
-			routes_.addAll(routes);
+		synchronized (points_) {
+			points_.addAll(wrecks);
 		}
 		overlay_.updateWrecks(getWrecks());
 	}
@@ -180,22 +179,9 @@ public class Cache {
 	 * @return
 	 */
 	public Route getRoute(Waypoint wreckPoint) {
-		Route r = null;
-		synchronized (routes_) {
-			Iterator<Route> i = routes_.iterator();
-			while (i.hasNext()) {
-				r = i.next();
-				if (r.getWreck().equals(wreckPoint))
-					break;
-			}
-		}
+		// TODO - This is where we should call the getRoute function in HttpGetter
 
-		if (r == null) {
-			Log.w(tag, pre() + "Returning null for route with wreck:");
-			Log.w(tag, pre() + " " + wreckPoint.toString());
-		}
-
-		return r;
+		return null;
 	}
 
 	/**
@@ -208,10 +194,10 @@ public class Cache {
 		// Create a list of wrecks from our list of Routes
 		long time = System.currentTimeMillis();
 		ArrayList<Waypoint> list = new ArrayList<Waypoint>();
-		synchronized (routes_) {
-			Iterator<Route> i = routes_.iterator();
+		synchronized (points_) {
+			Iterator<Waypoint> i = points_.iterator();
 			while (i.hasNext())
-				list.add(i.next().getWreck());
+				list.add(i.next());
 		}
 
 		long newtime = System.currentTimeMillis();
@@ -304,18 +290,18 @@ public class Cache {
 
 		Log.d(tag, pre() + "Performing full update");
 
-		final List<Route> routes = HTTPGetter.doWreckGet(region_,
+		final List<Waypoint> points = HTTPGetter.doWreckGet(region_,
 				latestTime_);
-		if (routes == null) {
+		if (points == null) {
 			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
 			return;
 		}
-		addRoutes(routes);
+		addWrecks(points);
 
 		// Update the latest time
-		for (Route r : routes)
-			if (r.getWreck().getTime() > latestTime_)
-				latestTime_ = r.getWreck().getTime();
+		for (Waypoint wp : points)
+			if (wp.getTime() > latestTime_)
+				latestTime_ = wp.getTime();
 
 	}
 
