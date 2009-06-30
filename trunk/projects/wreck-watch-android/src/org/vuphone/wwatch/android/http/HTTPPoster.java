@@ -30,6 +30,7 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.services.UpdateContactsService;
 
 import android.util.Log;
 
@@ -191,7 +192,7 @@ public class HTTPPoster {
 	}
 
 	
-	public static void doContactUpdate(String deviceID, ArrayList<String> numbers){
+	public static void doContactUpdate(String deviceID, ArrayList<String> numbers, final UpdateContactsService list){
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doContactUpdate");
 		final HttpClient c = new DefaultHttpClient();
 		final HttpPost post = new HttpPost(VUphone.SERVER + PATH);
@@ -224,7 +225,7 @@ public class HTTPPoster {
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					resp.getEntity().writeTo(bao);
 					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: " + new String(bao.toByteArray()));
-					
+					list.operationComplete(resp);
 				} catch (ClientProtocolException e) {
 					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
 				} catch (IOException e) {

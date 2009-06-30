@@ -2,6 +2,7 @@ package org.vuphone.wwatch.android.services;
 
 import java.util.ArrayList;
 
+import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.http.HTTPPoster;
 
@@ -10,10 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Contacts.People;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * A service used to update the emergency contact information to the server.
@@ -27,10 +30,11 @@ import android.util.Log;
 public class UpdateContactsService extends Service {
 	// How often to run this service (in milliseconds)
 	public static final long TIME_INTERVAL = 1 * (24 * 60 * 60 * 1000); // 1 day
-	
 
 	// A list of 10 digit strings containing only digit characters.
 	private final ArrayList<String> numberList_ = new ArrayList<String>();
+
+	private final Handler handler_ = new Handler();
 
 	/**
 	 * Returns null since we're not binding to this service
@@ -72,6 +76,13 @@ public class UpdateContactsService extends Service {
 
 		Log.v(VUphone.tag, "UpdateContactsService started.");
 		this.loadNumbers();
+		handler_.post(new Runnable() {
+			public void run() {
+				Toast.makeText(UpdateContactsService.this,
+						"Uploading contact information", Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 		this.sendToServer();
 
 		super.stopSelf();
@@ -85,7 +96,21 @@ public class UpdateContactsService extends Service {
 		TelephonyManager man = (TelephonyManager) super
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		String deviceId = man.getDeviceId();
-		HTTPPoster.doContactUpdate(deviceId, numberList_);
+		HTTPPoster.doContactUpdate(deviceId, numberList_, this);
+	}
+
+	public void operationComplete(final HttpResponse resp) {
+
+		handler_.post(new Runnable() {
+			public void run() {
+				String msg = "Upload successful.";
+				if (resp.getStatusLine().getStatusCode() != 200)
+					msg = "Upload failed.";
+
+				Toast.makeText(UpdateContactsService.this, msg,
+						Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 
 	/**
