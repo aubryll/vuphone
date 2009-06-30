@@ -36,7 +36,7 @@ public class AccidentHandler implements NotificationHandler {
 	private static final Logger logger_ = Logger
 			.getLogger(AccidentHandler.class.getName());
 	
-	private static final boolean CALL_ASTERISK = false;
+	private static final boolean CALL_ASTERISK = true;
 	
 	// XML will instantiate these
 	private AccidentParser parser_;

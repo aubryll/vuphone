@@ -8,14 +8,12 @@
  ****************************************************************************/
 package org.vuphone.wwatch.notification;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.vuphone.wwatch.media.incoming.ImageNotification;
-import org.vuphone.wwatch.media.outgoing.ImageRequestNotification;
 
 public class NotificationParser {
 
