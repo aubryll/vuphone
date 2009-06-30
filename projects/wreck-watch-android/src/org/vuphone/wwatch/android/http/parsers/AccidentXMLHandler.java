@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.wwatch.android.mapview;
+package org.vuphone.wwatch.android.http.parsers;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.mapview.Route;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

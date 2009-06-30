@@ -26,7 +26,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.wwatch.android.VUphone;
-import org.vuphone.wwatch.android.mapview.AccidentXMLHandler;
+import org.vuphone.wwatch.android.http.parsers.AccidentXMLHandler;
 import org.vuphone.wwatch.android.mapview.FullImageViewer;
 import org.vuphone.wwatch.android.mapview.GeoRegion;
 import org.vuphone.wwatch.android.mapview.ImageAdapter;
@@ -57,8 +57,7 @@ public class HTTPGetter {
 	 * @param listener
 	 *            The AccidentList to pass the (possibly) new routes to
 	 */
-
-	public static ArrayList<Route> doAccidentGet(final GeoRegion region,
+	public static ArrayList<Route> doWreckGet(final GeoRegion region,
 			long time) {
 
 		Log.v(tag, pre + "Entering HTTPGetter.doAccidentGet");
@@ -78,7 +77,7 @@ public class HTTPGetter {
 		Log.i(tag, pre + "Executing get to " + VUphone.SERVER + PATH + params);
 
 		Log.i(tag, pre + "Starting HTTP Get");
-		return handleAccidentResponse(br, tl, get);
+		return handleWreckResponse(br, tl, get);
 	}
 
 	public static void doPictureGet(int wreckID, final ImageAdapter list) {
@@ -121,7 +120,7 @@ public class HTTPGetter {
 		}, "FullPictureGetter").start();
 	}
 
-	private static ArrayList<Route> handleAccidentResponse(
+	private static ArrayList<Route> handleWreckResponse(
 			GeoPoint bottomRight, GeoPoint topLeft, HttpGet get) {
 
 		HttpResponse resp;
