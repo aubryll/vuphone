@@ -205,7 +205,7 @@ public class CacheExpander extends Thread {
 
 	private CacheUpdate getRoutes(final GeoRegion region,
 			final int cacheUpdateType) {
-		final List<Route> routes = HTTPGetter.doAccidentGet(region, 0);
+		final List<Route> routes = HTTPGetter.doWreckGet(region, 0);
 		if (routes == null) {
 			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
 			return null;

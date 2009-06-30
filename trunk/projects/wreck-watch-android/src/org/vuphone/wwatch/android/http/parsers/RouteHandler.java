@@ -22,6 +22,7 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 import org.vuphone.wwatch.android.mapview.Route;
 import org.xml.sax.Attributes;
@@ -34,10 +35,10 @@ import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 
-public class AccidentXMLHandler extends DefaultHandler {
+public class RouteHandler extends DefaultHandler {
 
-	private static final String LOG_LABEL = "VUPHONE";
-	private static final String LOG_PREFIX = "AccidentXMLHandler: ";
+	private static final String tag = VUphone.tag;
+	private static final String pre = "AccidentXMLHandler: ";
 
 	private boolean inPoints = false;
 	private boolean inPoint = false;
@@ -144,17 +145,17 @@ public class AccidentXMLHandler extends DefaultHandler {
 		try {
 			xr = SAXParserFactory.newInstance().newSAXParser().getXMLReader();
 		} catch (SAXException e) {
-			Log.e(LOG_LABEL, LOG_PREFIX + "Error getting XMLReader instance: "
+			Log.e(tag, pre + "Error getting XMLReader instance: "
 					+ e.getMessage());
 			e.printStackTrace();
 			return null;
 		} catch (ParserConfigurationException e) {
-			Log.e(LOG_LABEL, LOG_PREFIX + "Error getting XMLReader instance: "
+			Log.e(tag, pre + "Error getting XMLReader instance: "
 					+ e.getMessage());
 			e.printStackTrace();
 			return null;
 		} catch (FactoryConfigurationError e) {
-			Log.e(LOG_LABEL, LOG_PREFIX + "Error getting XMLReader instance: "
+			Log.e(tag, pre + "Error getting XMLReader instance: "
 					+ e.getMessage());
 			e.printStackTrace();
 			return null;
@@ -164,20 +165,20 @@ public class AccidentXMLHandler extends DefaultHandler {
 		try {
 			xr.parse(src);
 		} catch (IOException e) {
-			Log.e(LOG_LABEL, LOG_PREFIX + "IOException parsing AccidentXML: "
+			Log.e(tag, pre + "IOException parsing AccidentXML: "
 					+ e.getMessage());
 			e.printStackTrace();
 			return null;
 		} catch (SAXException e) {
 			if (e.getMessage().equalsIgnoreCase("Done processing")) {
 				Log
-						.i(LOG_LABEL, LOG_PREFIX
+						.i(tag, pre
 								+ "Finished processing AccidentXML");
 			} else {
 				Log
-						.e(LOG_LABEL, LOG_PREFIX
+						.e(tag, pre
 								+ "SAXException parsing AccidentXML: "
-								+ e.getMessage()); // //////////////////////////////////////////
+								+ e.getMessage()); 
 				e.printStackTrace();
 			}
 		}

@@ -26,7 +26,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.wwatch.android.VUphone;
-import org.vuphone.wwatch.android.http.parsers.AccidentXMLHandler;
+import org.vuphone.wwatch.android.http.parsers.RouteHandler;
 import org.vuphone.wwatch.android.mapview.FullImageViewer;
 import org.vuphone.wwatch.android.mapview.GeoRegion;
 import org.vuphone.wwatch.android.mapview.ImageAdapter;
@@ -44,7 +44,7 @@ public class HTTPGetter {
 	private static final String PATH = "/wreckwatch/notifications";
 
 	private static final HttpClient c = new DefaultHttpClient();
-	private static final AccidentXMLHandler aXml_ = new AccidentXMLHandler();
+	private static final RouteHandler aXml_ = new RouteHandler();
 
 	/**
 	 * This method will be responsible for setting up the GET to the server with

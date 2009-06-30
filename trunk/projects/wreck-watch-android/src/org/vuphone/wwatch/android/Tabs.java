@@ -12,7 +12,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TabHost;
-import android.widget.Toast;
 
 public class Tabs extends TabActivity {
 	public final static String tag = "VUPHONE";

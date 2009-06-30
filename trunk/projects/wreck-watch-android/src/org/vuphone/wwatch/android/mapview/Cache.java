@@ -304,7 +304,7 @@ public class Cache {
 
 		Log.d(tag, pre() + "Performing full update");
 
-		final List<Route> routes = HTTPGetter.doAccidentGet(region_,
+		final List<Route> routes = HTTPGetter.doWreckGet(region_,
 				latestTime_);
 		if (routes == null) {
 			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
