@@ -67,7 +67,7 @@ public class Cache {
 	 * The maximum zoom level at which an update will be requested. This
 	 * prevents the user from zooming all the way out and requesting every wreck
 	 */
-	private int maxZoom = 10;
+	private int maxZoom = 8;
 
 	/** Used to periodically update the map. */
 	private TimerTask periodicUpdate_;
@@ -76,7 +76,7 @@ public class Cache {
 	private Timer updateTimer_;
 
 	/** The time in milliseconds between updates */
-	private static final int updateTime_ = 1000 * 10; // 30 seconds
+	private static final int updateTime_ = 1000 * 15; // 3 seconds
 
 	/** Keeps track of the current largest time that we can use for full updates */
 	private Long latestTime_ = (long) 0;
@@ -358,6 +358,8 @@ public class Cache {
 	public void stop() {
 		Log.i(tag, pre + "Cache stopped");
 		updateTimer_.cancel();
+		periodicUpdate_.cancel();
+		periodicUpdate_ = null;
 		expander_.terminate();
 	}
 

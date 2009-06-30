@@ -25,6 +25,7 @@ public class GPService extends Service {
 
 	private static final float GPS_RADIUS = 0.5f;
 	private static final long GPS_FREQUENCY = 1000;
+	private static final float MIN_ACCURACY = 20;
 
 	private final WaypointTracker tracker_ = new WaypointTracker();
 
@@ -40,6 +41,9 @@ public class GPService extends Service {
 	 */
 	private final LocationListener listener_ = new LocationListener() {
 		public void onLocationChanged(Location location) {
+			if (location.hasAccuracy() && location.getAccuracy() > MIN_ACCURACY)
+				return;
+			
 			tracker_.addWaypoint(location);
 
 			final int N = callbacks_.beginBroadcast();
