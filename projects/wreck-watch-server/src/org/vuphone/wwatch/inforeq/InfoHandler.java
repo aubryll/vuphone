@@ -19,24 +19,17 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.xml.serializer.dom3.LSSerializerImpl;
 import org.vuphone.wwatch.notification.HandlerFailedException;
 import org.vuphone.wwatch.notification.InvalidFormatException;
 import org.vuphone.wwatch.notification.Notification;
 import org.vuphone.wwatch.notification.NotificationHandler;
-import org.vuphone.wwatch.routing.Route;
-import org.vuphone.wwatch.routing.Waypoint;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.ls.LSSerializer;
+
+import com.thoughtworks.xstream.XStream;
 
 public class InfoHandler implements NotificationHandler {
 
@@ -48,64 +41,17 @@ public class InfoHandler implements NotificationHandler {
 	private DataSource ds_;
 
 	private InfoHandledNotification buildResponse(InfoHandledNotification info) {
+		XStream xs = new XStream();
+		xs.alias("Wrecks", InfoHandledNotification.class);
+		xs.aliasField("Latitude", Wreck.class, "lat_");
+		xs.aliasField("Longitude", Wreck.class, "lon_");
+		xs.aliasField("id", Wreck.class, "id_");
+		xs.aliasField("Time", Wreck.class, "time_");
+		xs.omitField(InfoHandledNotification.class, "response_");
+		xs.omitField(Notification.class, "type_");
+		xs.addImplicitCollection(InfoHandledNotification.class, "accidents_", "Wreck", Wreck.class);
 
-		// Build the xml response
-		Document d = null;
-		try {
-			d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.newDocument();
-		} catch (ParserConfigurationException e) {
-
-			logger_
-					.log(
-							Level.SEVERE,
-							"Parser configuration exception creating document for xml response",
-							e);
-		}
-		Node rootRt = d.createElement("Routes");
-
-		for (Route r : info.getAccidents()) {
-			Node route = d.createElement("Route");
-			
-			
-			Node rootPt = d.createElement("Points");
-
-			for (Waypoint w : r.getRoute()) {
-				Node pointR = d.createElement("Point");
-				Node lat = d.createElement("Latitude");
-
-				lat.appendChild(d.createTextNode(Double.toString(w
-						.getLatitude())));
-
-				pointR.appendChild(lat);
-
-				Node lon = d.createElement("Longitude");
-				lon.appendChild(d.createTextNode(Double.toString(w
-						.getLongitude())));
-
-				pointR.appendChild(lon);
-
-				Node time = d.createElement("Time");
-				time.appendChild(d.createTextNode(Long.toString(w.getTime())));
-
-				pointR.appendChild(time);
-
-				rootPt.appendChild(pointR);
-			}
-			route.appendChild(rootPt);
-			
-			Node id = d.createElement("id");
-			id.appendChild(d.createTextNode(Integer.toString(r.getAccidentId())));
-			route.appendChild(id);
-			
-			rootRt.appendChild(route);
-
-		}
-		d.appendChild(rootRt);
-		LSSerializer ls = new LSSerializerImpl();
-		String xml = ls.writeToString(d);
-
-		info.setResponse(xml);
+		info.setResponse(xs.toXML(info));
 		return info;
 	}
 
@@ -153,41 +99,14 @@ public class InfoHandler implements NotificationHandler {
 			
 			note = new InfoHandledNotification();
 
-			// Get the wreck id
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			ArrayList<Double> lats = new ArrayList<Double>();
-			ArrayList<Double> lons = new ArrayList<Double>();
-			ArrayList<Long> times = new ArrayList<Long>();
+			
 			ResultSet rs = prep.executeQuery();
 			while (rs.next()) {
-				ids.add(rs.getInt("WreckID"));
-				lats.add(rs.getDouble("Lat"));
-				lons.add(rs.getDouble("Lon"));
-				times.add(rs.getLong("Date"));
+				note.addWreck(rs.getDouble("Lat"), rs.getDouble("Lon"), rs.getInt("WreckID"),rs.getLong("Date"));
 			}
 			rs.close();
 
-			sql = "select * from Route where WreckID = ?";
-			int j = 0;
-			for (Integer i : ids) {
-				note.newRoute();
-				note.setCurrentAccidentId(i);
-				prep = db.prepareStatement(sql);
-				prep.setInt(1, i);
-
-				rs = prep.executeQuery();
-
-				while (rs.next()) {
-					note.addWaypoint(new Waypoint(rs.getDouble("Lat"), rs
-							.getDouble("Lon"), rs.getLong("Date")));
-				}
-				rs.close();
-				note.addWaypoint(new Waypoint(lats.get(j), lons.get(j), times.get(j)));
-				++j;
-
-			}
-
-			db.close();
+			
 			return note;
 
 		} catch (SQLException e) {

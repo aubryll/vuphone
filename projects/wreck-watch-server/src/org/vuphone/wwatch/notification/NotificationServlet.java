@@ -43,6 +43,7 @@ public class NotificationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		System.out.println(req.getQueryString());
 
 		Notification note = parser_.parse(req, resp);
 

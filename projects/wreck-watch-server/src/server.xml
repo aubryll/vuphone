@@ -102,6 +102,12 @@
         			</key>
         			<ref bean="imageRequestHandler" />
         		</entry>
+        		<entry>
+        			<key>
+        				<value>routeGet</value>
+        			</key>
+        			<ref bean="handsetRouteRequestHandler" />
+        		</entry>
 			</map>
 		</property>
 	</bean>
@@ -132,6 +138,10 @@
 		<property name="parser" ref="routeParser" />
 	</bean>
 	<bean name="routeParser" class="org.vuphone.wwatch.routing.RouteParser" />
+	
+	<bean name="handsetRouteRequestHandler" class="org.vuphone.wwatch.routing.handsetrouterequest.RouteRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
 
 	<bean name="imageHandler" class="org.vuphone.wwatch.media.incoming.ImageHandler">
 		<property name="dataConnection" ref="dataProvider" />
