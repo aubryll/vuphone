@@ -147,20 +147,17 @@ public class Cache {
 	}
 
 	/**
-	 * Called to clear the entire cache, and restart caching fully. If topLeft
-	 * and lowerRight points are provided, then the cache will use those points
-	 * for the intial cache region. If provided, those points should not be
-	 * scaled, as this function will take care of making the points provided the
-	 * bounds of the safe region, and will pre()-cache beyond the points given.
-	 * If either topleft or lowerRight are null, both are considered to be null
-	 * 
-	 * @param topLeft
-	 *            null, or a topleft point if desired
-	 * @param lowerRight
-	 *            null, or a lowerRight point if desired
+	 * Called to clear the entire cache, and restart caching fully.
 	 */
-	private void clearCache(GeoPoint topLeft, GeoPoint lowerRight) {
+	public synchronized void clearCache() {
 		Log.e(tag, pre() + "Cache clear is not implemented yet");
+		latestTime_ = new Long(0);
+		
+		synchronized (points_) {
+			points_ = new ArrayList<Waypoint>();
+		}
+		
+		region_ = null;
 	}
 
 	/**
@@ -178,10 +175,9 @@ public class Cache {
 	 * @param wreckPoint
 	 * @return
 	 */
-	public Route getRoute(Waypoint wreckPoint) {
-		// TODO - This is where we should call the getRoute function in HttpGetter
-
-		return null;
+	public Route getRoute(final Waypoint wreckPoint) {
+		long id = wreckPoint.getAccidentId();
+		return HTTPGetter.doRouteGet(id);
 	}
 
 	/**

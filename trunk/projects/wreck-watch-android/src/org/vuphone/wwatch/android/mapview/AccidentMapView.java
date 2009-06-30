@@ -60,6 +60,13 @@ public class AccidentMapView extends MapView {
 	public PinController getOverlayController() {
 		return pinGroup_;
 	}
+	
+	/**
+	 * Clears the Cache object used by this map view.
+	 */
+	public void clearCache() {
+		routes_.clearCache();
+	}
 
 	@Override
 	public void computeScroll() {
