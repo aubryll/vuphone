@@ -143,7 +143,7 @@ public class Cache {
 		synchronized (points_) {
 			points_.addAll(wrecks);
 		}
-		overlay_.updateWrecks(getWrecks());
+		overlay_.updateWrecks(points_);
 	}
 
 	/**
@@ -178,29 +178,6 @@ public class Cache {
 	public Route getRoute(final Waypoint wreckPoint) {
 		long id = wreckPoint.getAccidentId();
 		return HTTPGetter.doRouteGet(id);
-	}
-
-	/**
-	 * Returns a list of Waypoints that all correlate to wrecks.
-	 * 
-	 * @return
-	 */
-	private List<Waypoint> getWrecks() {
-
-		// Create a list of wrecks from our list of Routes
-		long time = System.currentTimeMillis();
-		ArrayList<Waypoint> list = new ArrayList<Waypoint>();
-		synchronized (points_) {
-			Iterator<Waypoint> i = points_.iterator();
-			while (i.hasNext())
-				list.add(i.next());
-		}
-
-		long newtime = System.currentTimeMillis();
-		time = newtime - time;
-		Log.i(tag, pre() + "It took " + time + "ms to create the wrecks");
-
-		return list;
 	}
 
 	/**
