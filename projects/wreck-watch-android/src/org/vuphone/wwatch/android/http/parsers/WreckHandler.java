@@ -82,11 +82,29 @@ public class WreckHandler extends DefaultHandler {
 	@Override
 	public void characters(char ch[], int start, int length) {
 		if (inLat == true) {
-			currentLatitude_ = (int)(Double.parseDouble(new String(ch)) * 1E6);
+			try {
+				currentLatitude_ = (int) (Double.parseDouble(new String(ch)) * 1E6);
+			} catch (NumberFormatException nfe) {
+				nfe.printStackTrace();
+				Log.e(tag, pre + "Unable to parse XML as Double");
+				Log.e(tag, pre + ch.toString());
+			}
 		} else if (inLon == true) {
-			currentLongitude_ = (int)(Double.parseDouble(new String(ch)) * 1E6);
+			try {
+				currentLongitude_ = (int) (Double.parseDouble(new String(ch)) * 1E6);
+			} catch (NumberFormatException nfe) {
+				nfe.printStackTrace();
+				Log.e(tag, pre + "Unable to parse XML as Double");
+				Log.e(tag, pre + ch.toString());
+			}
 		} else if (inTime == true) {
-			currentTime_ = Long.parseLong(new String(ch));
+			try {
+				currentTime_ = Long.parseLong(new String(ch));
+			} catch (NumberFormatException nfe) {
+				nfe.printStackTrace();
+				Log.e(tag, pre + "Unable to parse XML as Long");
+				Log.e(tag, pre + ch.toString());
+			}
 		} else if (inId == true) {
 			String str = "";
 			for (int i = 0; i < length; i++) {
