@@ -58,11 +58,7 @@ public class RouteRequestHandler implements NotificationHandler {
 		
 	}
 
-	@Override
 	public Notification handle(Notification n) throws HandlerFailedException {
-		
-		
-
 		RouteRequestNotification rn;
 		if (n.getType().equalsIgnoreCase("routeGet")){
 			rn = parser_.parse(n.getRequest());
