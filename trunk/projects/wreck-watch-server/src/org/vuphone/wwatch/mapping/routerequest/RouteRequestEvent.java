@@ -19,39 +19,28 @@ import org.vuphone.wwatch.mapping.MapEvent;
 
 public class RouteRequestEvent extends MapEvent {
 	
-	private double[][] corners;
+	private int wreckid_;
 	
 	public RouteRequestEvent(){
 		super("routerequest");
-		corners = new double[2][2];
+		
 	}
+	
+	public RouteRequestEvent(int id){
+		super("routerequest");
+		wreckid_ = id;
+	}
+	
+	public void setWreckId(int id){
+		wreckid_ = id;
+	}
+	
+	public int getWreckId(){
+		return wreckid_;
+	}
+	
+	
 
-	public void setNorthEastLat(double nelat){
-		corners[1][0] = nelat;
-	}
-	public void setNorthEastLon(double nelon){
-		corners[1][1] = nelon;
-	}
 	
-	public void setSouthWestLat(double swlat){
-		corners[0][0] = swlat;
-	}
-	public void setSouthWestLon(double swlon){
-		corners[0][1] = swlon;
-	}
-	
-	public double getNorthEastLat(){
-		return corners[1][0];
-	}
-	public double getNorthEastLon(){
-		return corners[1][1];
-	}
-	
-	public double getSouthWestLat(){
-		return corners[0][0];
-	}
-	public double getSouthWestLon(){
-		return corners[0][1];
-	}
 
 }

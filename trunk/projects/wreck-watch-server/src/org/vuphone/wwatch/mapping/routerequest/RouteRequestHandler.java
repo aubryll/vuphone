@@ -78,48 +78,31 @@ public class RouteRequestHandler implements MapEventHandler {
 		// Prepare the SQL select
 		// Execute the select
 		// Add the results to the InfoHandledNotification
-		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;";
+		String sql;
 		RouteResponse rr;
 
 		try {
-			PreparedStatement prep = db.prepareStatement(sql);
-			prep.setDouble(1, rre.getSouthWestLat());
-			prep.setDouble(2, rre.getNorthEastLat());
-			prep.setDouble(3, rre.getSouthWestLon());
-			prep.setDouble(4, rre.getNorthEastLon());
-
 			rr = new RouteResponse();
-
-
-			// Get the wreck id
-			ArrayList<Integer> ids = new ArrayList<Integer>();
-			ResultSet rs = prep.executeQuery();
-			while (rs.next()) {
-				ids.add(rs.getInt("WreckID"));
-			}
-			rs.close();
 
 			Track tr;
 
 			sql = "select * from Route where WreckID = ?";
-			for (Integer i : ids) {
-				prep = db.prepareStatement(sql);
-				prep.setInt(1, i);
+			PreparedStatement prep = db.prepareStatement(sql);
+			prep.setInt(1, rre.getWreckId());
+			
+			ResultSet rs = prep.executeQuery();
+			tr = new Track();
 
-				rs = prep.executeQuery();
-				tr = new Track();
-
-				while (rs.next()) {
-					tr.addTrackpoint(new Trackpoint(rs.getDouble("Lat"), rs.getDouble("Lon")));
-				}
-				rs.close();
-				
-				HashMap<String, String> map = PolylineEncoder.createEncodings(tr, 17, 1);
-
-				rr.addRoute((String)(map.get("encodedPoints")),	(String)(map.get("encodedLevels")), i);				
-
+			while (rs.next()) {
+				tr.addTrackpoint(new Trackpoint(rs.getDouble("Lat"), rs.getDouble("Lon")));
 			}
+			rs.close();
 			closeDatabase(db);
+			
+			HashMap<String, String> map = PolylineEncoder.createEncodings(tr, 17, 1);
+			rr.addRoute((String)(map.get("encodedPoints")),	(String)(map.get("encodedLevels")), rre.getWreckId());	
+			
+			
 			return rr;
 		}catch (SQLException e2) {
 			logger_.log(Level.SEVERE, "SQLException: ", e);
