@@ -26,12 +26,9 @@
 	lastClicked.setId(0);
 	
     var accidentCallback = function (data, textStatus){
-        console.log(data);
     	$.each(data.list.wreck, processAccidentItem);
     }
     var routeCallback = function (data, textStatus){
-        console.log(data);
-        
     	$.each(data.list.route, processRouteItem);
     }
 
@@ -131,7 +128,7 @@
              map.enableScrollWheelZoom();
              map.addControl(new GSmallMapControl());
              map.addControl(new GMapTypeControl());
-             map.setCenter(new GLatLng(36.14951909060777, -86.79576873779297), 13);
+             map.setCenter(new GLatLng(36.1477864065951, -86.80392265319824), 15);
              getAccidentData();
 
              $("#map_canvas").everyTime(10000, getAccidentData);
@@ -279,10 +276,10 @@
  <div style="background:rgb(200,200,200); height:100%; width:120px; margin-left:13px; border:solid 2px rgb(100,100,100)">
      <p><input type="button" id="hideWrecks" value="Hide Wrecks" /></p>
      <p><input type="button" id="hideRoutes" value="Hide Routes" /></p>
-     <p><input type="button" id="hideRoutes" value="Hide Routes" /></p>
-     <p><input type="button" id="" value="Show FD" /></p>
-     <p><input type="button" id="" value="Call EMS" /></p>
-     <p><input type="button" id="" value="Report Wreck" /></p>
+     <p><input type="button" id="accidentData" value="View Data" /></p>
+     <p><input type="button" id="showFD" value="Show FD" /></p>
+     <p><input type="button" id="callEMS" value="Call EMS" /></p>
+     <p><input type="button" id="reportWreck" value="Report Wreck" /></p>
   </div>
   <div style="width:150px; height:73px; background:url('palb.png')"></div>
 </div>
