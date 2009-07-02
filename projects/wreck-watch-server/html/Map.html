@@ -22,6 +22,8 @@
 	var routes = new Array();
 	var showWrecks = true;
 	var showRoutes = true;
+	var lastClicked = new Waypoint();
+	lastClicked.setId(0);
 	
     var accidentCallback = function (data, textStatus){
         console.log(data);
@@ -59,6 +61,41 @@
         
     }
 
+    var handleMapClick = function(){
+        var latlng = this.getLatLng();
+        var temp = null;
+
+        map.panTo(latlng);
+
+        $.each(waypoints, function(i, item){
+            if (item.lat == latlng.lat() && item.lon == latlng.lng()){
+                temp = item;
+            }
+        });
+
+        if (temp.equals(lastClicked)){
+            //show popup
+            temp.marker.openInfoWindowHtml("<b>Wreck</b><br />"+
+                   "Latitude: " + temp.lat + "<br />Longitude: " + temp.lon);
+                        
+        }else{
+            //show the route
+            var getData = true;
+        	$.each(routes, function(i, item){
+            	map.removeOverlay(item.marker);
+            	if (item.wreckid == temp.wreckid){
+                	map.addOverlay(item.marker);
+                	getData = false;
+            	} 
+        	});
+        	if (getData){
+            	getRouteData(temp.wreckid);
+        	}
+        }
+        lastClicked = temp;
+        
+    }
+
 
     function processAccidentItem(i, item){
 		var temp = new Waypoint();
@@ -77,11 +114,15 @@
 
         if (!skip){
          	waypoints.push(temp);
+          	GEvent.addListener(temp.marker, "click", handleMapClick);
+
          	if (showWrecks){
             	map.addOverlay(temp.marker);
          	}
         }
     }
+
+
     
     $(document).ready(function(){
     	 if (GBrowserIsCompatible()) {
@@ -92,9 +133,8 @@
              map.addControl(new GMapTypeControl());
              map.setCenter(new GLatLng(36.14951909060777, -86.79576873779297), 13);
              getAccidentData();
-             getRouteData();
+
              $("#map_canvas").everyTime(10000, getAccidentData);
-             $("#map_canvas").everyTime(10000, getRouteData);
 
              $("#hideWrecks").click(function(){
                  if (showWrecks){
@@ -130,6 +170,11 @@
                  }
                      
                  });
+
+
+             GEvent.addListener(map, "moveend", function(){
+                 getAccidentData();
+             });
              
     	 }
     });
@@ -142,18 +187,17 @@
     	$.getJSON(qry, accidentCallback);
     }
 
-    function getRouteData(){
+    function getRouteData(id){
     	var bnds = map.getBounds();
-        var qry = new String("http://localhost:8080/wreckwatch/map/?type=routerequest&nelat="+bnds.getNorthEast().lat()+"&swlat="+bnds.getSouthWest().lat()+
-        "&nelon="+bnds.getNorthEast().lng()+"&swlon="+bnds.getSouthWest().lng()+"&callback=?");
+        var qry = new String("http://localhost:8080/wreckwatch/map/?type=routerequest&id=" + id + "&callback=?");
     	$.getJSON(qry, routeCallback);
     }
 
     function genHex(){
     	colors = new Array("0000ff", "00ff00", "ff0000", "ff00ff", "00ffff");
-    	digit = new Array(5)
     	return colors[Math.round(Math.random()*5)];
     }
+    
     function Waypoint(){
 
     	this.setLat = function (lat){
