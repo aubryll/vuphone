@@ -23,6 +23,7 @@ public class Waypoint extends OverlayItem {
 	private final long timeStamp_;
 	private final GeoPoint point_;
 	private int accidentId_;
+	private int severity_;
 
 	private Drawable drawable_ = null;
 	
@@ -125,7 +126,18 @@ public class Waypoint extends OverlayItem {
 	}
 
 	public void setContext(Context c) {
-		drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
+		switch (severity_) {
+		case 0: 		
+			drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
+			break;
+		case 1:
+			drawable_ = c.getResources().getDrawable(R.drawable.pow3);
+			break;
+		default:
+			// Just for now so we can know when the default is being called.
+			drawable_ = c.getResources().getDrawable(R.drawable.help_icon);
+		}
+
 		drawable_.setBounds(0, 0, drawable_.getIntrinsicWidth(), drawable_.getIntrinsicHeight());
 		setMarker(drawable_);
 	}
@@ -136,6 +148,14 @@ public class Waypoint extends OverlayItem {
 
 	public void setAccidentId(int accidentId) {
 		this.accidentId_ = accidentId;
+	}
+
+	public int getSeverity() {
+		return severity_;
+	}
+
+	public void setSeverity(int severity) {
+		this.severity_ = severity;
 	}
 
 }

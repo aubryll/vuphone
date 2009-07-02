@@ -67,6 +67,7 @@ public class WreckHandler extends DefaultHandler {
 			final Waypoint wp = new Waypoint(new GeoPoint(currentLatitude_,
 					currentLongitude_), currentTime_);
 			wp.setAccidentId(currentId_);
+			wp.setSeverity((int) (System.currentTimeMillis()%2));
 			wrecks_.add(wp);
 		} else if (localname.trim().equalsIgnoreCase("Latitude")) {
 			inLat = false;
