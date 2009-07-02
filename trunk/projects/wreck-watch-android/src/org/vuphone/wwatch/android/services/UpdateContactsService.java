@@ -34,8 +34,6 @@ public class UpdateContactsService extends Service {
 	// A list of 10 digit strings containing only digit characters.
 	private final ArrayList<String> numberList_ = new ArrayList<String>();
 
-	private final Handler handler_ = new Handler();
-
 	/**
 	 * Returns null since we're not binding to this service
 	 */
@@ -76,13 +74,6 @@ public class UpdateContactsService extends Service {
 
 		Log.v(VUphone.tag, "UpdateContactsService started.");
 		this.loadNumbers();
-		handler_.post(new Runnable() {
-			public void run() {
-				Toast.makeText(UpdateContactsService.this,
-						"Uploading contact information", Toast.LENGTH_SHORT)
-						.show();
-			}
-		});
 		this.sendToServer();
 
 		super.stopSelf();
@@ -95,22 +86,31 @@ public class UpdateContactsService extends Service {
 	private void sendToServer() {
 		TelephonyManager man = (TelephonyManager) super
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		String deviceId = man.getDeviceId();
-		HTTPPoster.doContactUpdate(deviceId, numberList_, this);
-	}
-
-	public void operationComplete(final HttpResponse resp) {
-
-		handler_.post(new Runnable() {
-			public void run() {
-				String msg = "Upload successful.";
-				if (resp.getStatusLine().getStatusCode() != 200)
-					msg = "Upload failed.";
-
-				Toast.makeText(UpdateContactsService.this, msg,
-						Toast.LENGTH_SHORT).show();
+		final String deviceId = man.getDeviceId();
+		
+		final Handler handler = new Handler();
+		Log.v(VUphone.tag, "Starting contact upload");
+		Toast.makeText(this, "Uploading contact information.", Toast.LENGTH_SHORT).show();
+		
+		new Thread(new Runnable() {
+			public void run() {	
+				final HttpResponse resp = HTTPPoster.doContactUpdate(deviceId, numberList_);
+				Log.v(VUphone.tag, "Finished contact upload");
+				
+				final int code = (resp == null) ? -1 : resp.getStatusLine().getStatusCode();
+				
+				handler.postAtFrontOfQueue(new Runnable() {
+					public void run() {
+						String msg = "Contact upload successful.";
+						if (code != 200)
+							msg = "Contact upload failed.";
+						Toast.makeText(UpdateContactsService.this, msg,
+								Toast.LENGTH_SHORT).show();
+					}
+				});
 			}
-		});
+		}, "ContactUploadThread").start();
+		
 	}
 
 	/**

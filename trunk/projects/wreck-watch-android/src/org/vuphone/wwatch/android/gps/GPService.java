@@ -1,5 +1,6 @@
 package org.vuphone.wwatch.android.gps;
 
+import org.apache.http.HttpResponse;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 import org.vuphone.wwatch.android.bindings.IRegister;
@@ -14,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
@@ -29,6 +31,18 @@ public class GPService extends Service {
 
 	private final WaypointTracker tracker_ = new WaypointTracker();
 
+	private class ToastRunnable implements Runnable {
+		private final String msg_;
+
+		public ToastRunnable(final String str) {
+			msg_ = str;
+		}
+
+		public void run() {
+			Toast.makeText(GPService.this, msg_, Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	/**
 	 * Used to keep track of the classes that have bound to us, and allow us to
 	 * call on them using the interface declared in the ISettingsViewCallback
@@ -43,7 +57,7 @@ public class GPService extends Service {
 		public void onLocationChanged(Location location) {
 			if (location.hasAccuracy() && location.getAccuracy() > MIN_ACCURACY)
 				return;
-			
+
 			tracker_.addWaypoint(location);
 
 			final int N = callbacks_.beginBroadcast();
@@ -125,11 +139,11 @@ public class GPService extends Service {
 		super.onStart(intent, startId);
 		Log.v(VUphone.tag, "GPS ON_START");
 
-			SharedPreferences prefs = getSharedPreferences(VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
-			double d = prefs.getFloat(VUphone.SPEED_SCALE, 1.0f);
-			tracker_.setDilation(d);
-			Toast.makeText(this, "Speed Scale: " + d, Toast.LENGTH_SHORT)
-					.show();
+		SharedPreferences prefs = getSharedPreferences(
+				VUphone.PREFERENCES_FILE, Context.MODE_PRIVATE);
+		double d = prefs.getFloat(VUphone.SPEED_SCALE, 1.0f);
+		tracker_.setDilation(d);
+		Toast.makeText(this, "Speed Scale: " + d, Toast.LENGTH_SHORT).show();
 
 		// Returned from the 'Are you OK?' dialog
 		if (intent.hasExtra("DidAccidentOccur")) {
@@ -164,20 +178,48 @@ public class GPService extends Service {
 	public void reportAccident() {
 
 		if (tracker_.getList().size() > 0) {
-			Toast.makeText(this, "Reporting Accident", Toast.LENGTH_LONG)
+			Toast.makeText(this, "Reporting Accident", Toast.LENGTH_SHORT)
 					.show();
-			Waypoint temp = tracker_.getList().get(
+
+			final Waypoint temp = tracker_.getList().get(
 					tracker_.getList().size() - 1);
 			final String aid = ((TelephonyManager) super
 					.getSystemService(Service.TELEPHONY_SERVICE)).getDeviceId();
 
-			HTTPPoster.doAccidentPost(aid, System.currentTimeMillis(), tracker_
-					.getLatestSpeed(), tracker_.getLatestAcceleration(), temp
-					.getLatitudeDegrees(), temp.getLongitudeDegrees(), new Runnable() {
-						public void run() {
-							HTTPPoster.doRoutePost(aid, tracker_.getList());
+			final Handler handler = new Handler();
+
+			new Thread(new Runnable() {
+				public void run() {
+					final HttpResponse accident = HTTPPoster.doAccidentPost(
+							aid, System.currentTimeMillis(), tracker_
+									.getLatestSpeed(), tracker_
+									.getLatestAcceleration(), temp
+									.getLatitudeDegrees(), temp
+									.getLongitudeDegrees());
+
+					if (accident == null || accident.getStatusLine().getStatusCode() != 200) {
+						handler.post(new ToastRunnable("Accident POST failed"));
+					
+					} else {
+					
+						handler.post(new ToastRunnable("Accident POST successful"));
+						
+						final HttpResponse route = HTTPPoster.doRoutePost(aid,
+								tracker_.getList());
+
+						String msg = "";
+						if (route == null || route.getStatusLine().getStatusCode() != 200) {
+							msg = "Route POST failed";
+						} else {
+							msg = "Route POST successful";
 						}
-					});
+
+						handler.post(new ToastRunnable(msg));
+
+					}
+				}
+			}, "AccidentUploadThread").start();
+
 		} else
 			Toast.makeText(this, "No valid GPS data to report.",
 					Toast.LENGTH_SHORT).show();
