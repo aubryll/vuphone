@@ -23,12 +23,14 @@ public class SMSSender {
 	private static Session mailSession_ = Session.getDefaultInstance(props_);
 
 	// Carrier list
-	private static String[] carriers = { "message.alltel.com", "tmomail.net", "txt.att.net",
-			"myboostmobile.com", "messaging.nextel.com", "vtext.com", "vmobl.com" };
-	
+	private static String[] carriers = { "message.alltel.com", "tmomail.net",
+			"txt.att.net", "myboostmobile.com", "messaging.nextel.com",
+			"vtext.com", "vmobl.com" };
+
 	// Messaging vars
-	public static final String SUBJECT = "WreckWatch, Possible Wreck Near You";
-	public static final String BODY = "There may have been a wreck near you, please let us know if you see it!";
+	public static final String SUBJECT = "WreckWatch, Someone you know has wrecked!";
+	public static final String BODY = "John Reeds has wrecked! Call 866-901-4463 " +
+			"Ext 123 for details! You are on John's emergency contact list.";
 
 	/**
 	 * Sends a text message to the given 10 digit number by e-mailing it to all
@@ -75,7 +77,8 @@ public class SMSSender {
 					.println("SMSSender: Could not find the transport, unable to send SMS!");
 			return;
 		} catch (MessagingException me2) {
-			System.out.println("SMSSender: Unable to send SMS: " + me2.getMessage());
+			System.out.println("SMSSender: Unable to send SMS: "
+					+ me2.getMessage());
 			return;
 		}
 
@@ -84,7 +87,7 @@ public class SMSSender {
 	}
 
 	public static void main(String[] args) {
-		
+
 		SMSSender.sendText("6508617363");
 	}
 
