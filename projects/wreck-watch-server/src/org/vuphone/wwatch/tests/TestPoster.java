@@ -159,7 +159,7 @@ public class TestPoster {
 
 		double lat, lon;
 
-		for (int i = 0; i < 5000; ++i) {
+		for (int i = 0; i < 7; ++i) {
 			lat = 36.0 + Math.random();
 			lon = -87.0 + Math.random();
 
@@ -172,6 +172,13 @@ public class TestPoster {
 			final String aid = "myAndroidID" + i;
 			doAccidentPost(aid, System.currentTimeMillis(), 87.23, 35.74, lat,
 					lon);
+			final List<Waypoint> route = new ArrayList<Waypoint>();
+			route.add(new Waypoint(lon-0.0007,lat-0.0007,System.currentTimeMillis()-20));
+			route.add(new Waypoint(lon-0.0004,lat-0.0004,System.currentTimeMillis()-15));
+			route.add(new Waypoint(lon-0.0002,lat-0.0002,System.currentTimeMillis()-10));
+			route.add(new Waypoint(lon-0.0001,lat-0.0001,System.currentTimeMillis()-5));
+			route.add(new Waypoint(lon,lat,System.currentTimeMillis()));
+			doRoutePost(aid, route);
 			System.out.println("Added " + lat + ", " + lon);
 
 		}

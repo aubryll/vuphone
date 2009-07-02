@@ -29,12 +29,8 @@ public class RouteRequestParser extends MapEventParser {
 	@Override
 	public MapEvent parse(HttpServletRequest req) {
 	
-		RouteRequestEvent rre = new RouteRequestEvent();
-		rre.setNorthEastLat(Double.parseDouble(req.getParameter("nelat")));
-		rre.setNorthEastLon(Double.parseDouble(req.getParameter("nelon")));
-		rre.setSouthWestLat(Double.parseDouble(req.getParameter("swlat")));
-		rre.setSouthWestLon(Double.parseDouble(req.getParameter("swlon")));
-		
+		RouteRequestEvent rre = new RouteRequestEvent(Integer.parseInt(req.getParameter("id")));
+				
 		return rre;
 	}
 
