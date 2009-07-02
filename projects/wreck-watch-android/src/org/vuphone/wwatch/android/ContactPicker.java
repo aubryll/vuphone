@@ -237,8 +237,8 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		AlarmManager man = (AlarmManager) super
 				.getSystemService(Context.ALARM_SERVICE);
 
-		// Trigger the first call in 10 seconds.
-		final long trigger = SystemClock.elapsedRealtime() + (10 * 1000);
+		// Trigger the first call in .5 seconds.
+		final long trigger = SystemClock.elapsedRealtime() + (500);
 
 		// Call the service every TIME_INTERVAL milliseconds, waking up the
 		// device if necessary.

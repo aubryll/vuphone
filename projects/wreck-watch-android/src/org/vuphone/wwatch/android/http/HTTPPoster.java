@@ -62,8 +62,8 @@ public class HTTPPoster {
 	 * @param message
 	 * @param okRun		A Runnable to execute if the response comes back with a 200 OK status
 	 */
-	public static void doAccidentPost(String androidid, Long time, Double speed, Double dec,
-			double lat, double lon, final Runnable okRun) {
+	public static HttpResponse doAccidentPost(String androidid, Long time, Double speed, Double dec,
+			double lat, double lon) {
 
 		String timeStr = Long.toString(time.longValue());
 		String speedStr = Double.toString(speed.doubleValue());
@@ -100,43 +100,35 @@ public class HTTPPoster {
 		// Do it
 		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + VUphone.SERVER + PATH);
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
-		new Thread(new Runnable() {
 
-			public void run() {
-				HttpResponse resp = null;
-				try {
-					resp = c.execute(post);
-					ByteArrayOutputStream bao = new ByteArrayOutputStream();
-					resp.getEntity().writeTo(bao);
-					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
-							+ new String(bao.toByteArray()));					
-				} catch (ClientProtocolException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "ClientProtocolException executing post: "
-							+ e.getMessage());
-				} catch (IOException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "IOException writing to ByteArrayOutputStream: "
-							+ e.getMessage());
-				} catch (Exception e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "Other Exception of type:" + e.getClass());
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
-							+ e.getMessage());
-				}
-				
-				if (resp != null && resp.getStatusLine().getStatusCode() == 200) {
-					okRun.run();
-				}
-			}
-
-		}).start();
-		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
-
+		
+		HttpResponse resp = null;
+		try {
+			resp = c.execute(post);
+			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+			resp.getEntity().writeTo(bao);
+			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
+					+ new String(bao.toByteArray()));					
+		} catch (ClientProtocolException e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX
+					+ "ClientProtocolException executing post: "
+					+ e.getMessage());
+		} catch (IOException e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX
+					+ "IOException writing to ByteArrayOutputStream: "
+					+ e.getMessage());
+		} catch (Exception e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX
+					+ "Other Exception of type:" + e.getClass());
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
+					+ e.getMessage());
+		}
+		
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doAccidentPost");
+		return resp;
 	}
 	
-	public static void doRoutePost(String androidID, List<Waypoint> route){
+	public static HttpResponse doRoutePost(String androidID, List<Waypoint> route){
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doRoutePost");
 		final HttpClient c = new DefaultHttpClient();
 		final HttpPost post = new HttpPost(VUphone.SERVER + PATH);
@@ -157,42 +149,36 @@ public class HTTPPoster {
 		
 		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + VUphone.SERVER + PATH);
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
-		new Thread(new Runnable(){
 
-			public void run() {
-				HttpResponse resp;
-				try {
-					resp = c.execute(post);
-					ByteArrayOutputStream bao = new ByteArrayOutputStream();
-					resp.getEntity().writeTo(bao);
-					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
-							+ new String(bao.toByteArray()));
+		HttpResponse resp = null;
+		try {
+			resp = c.execute(post);
+			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+			resp.getEntity().writeTo(bao);
+			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: "
+					+ new String(bao.toByteArray()));
 
-				} catch (ClientProtocolException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "ClientProtocolException executing post: "
-							+ e.getMessage());
-				} catch (IOException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "IOException writing to ByteArrayOutputStream: "
-							+ e.getMessage());
-				} catch (Exception e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX
-							+ "Other Exception of type:" + e.getClass());
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
-							+ e.getMessage());
-				}
-			}
-			
-		}).start();
-		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
+		} catch (ClientProtocolException e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX
+					+ "ClientProtocolException executing post: "
+					+ e.getMessage());
+		} catch (IOException e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX
+					+ "IOException writing to ByteArrayOutputStream: "
+					+ e.getMessage());
+		} catch (Exception e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX
+					+ "Other Exception of type:" + e.getClass());
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "
+					+ e.getMessage());
+		}
 
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doRoutePost");
-		
+		return resp;
 	}
 
 	
-	public static void doContactUpdate(String deviceID, ArrayList<String> numbers, final UpdateContactsService list){
+	public static HttpResponse doContactUpdate(String deviceID, ArrayList<String> numbers){
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Entering HTTPPoster.doContactUpdate");
 		final HttpClient c = new DefaultHttpClient();
 		final HttpPost post = new HttpPost(VUphone.SERVER + PATH);
@@ -215,31 +201,25 @@ public class HTTPPoster {
 		//Do it
 		Log.i(LOG_LABEL, LOG_MSG_PREFIX + "Executing post to " + VUphone.SERVER + PATH);
 		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Spawning thread for HTTP post");
-		new Thread(new Runnable(){
 
-			
-			public void run() {
-				HttpResponse resp;
-				try {
-					resp = c.execute(post);
-					ByteArrayOutputStream bao = new ByteArrayOutputStream();
-					resp.getEntity().writeTo(bao);
-					Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: " + new String(bao.toByteArray()));
-					list.operationComplete(resp);
-				} catch (ClientProtocolException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
-				} catch (IOException e) {
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "IOException writing to ByteArrayOutputStream: " + e.getMessage());
-				} catch (Exception e){
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
-					Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
-				}
-			}
-
-		}).start();
-		Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Thread for HTTP post started");
+		HttpResponse resp = null;
+		
+		try {
+			resp = c.execute(post);
+			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+			resp.getEntity().writeTo(bao);
+			Log.d(LOG_LABEL, LOG_MSG_PREFIX + "Response from server: " + new String(bao.toByteArray()));
+		} catch (ClientProtocolException e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "ClientProtocolException executing post: " + e.getMessage());
+		} catch (IOException e) {
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "IOException writing to ByteArrayOutputStream: " + e.getMessage());
+		} catch (Exception e){
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "Other Exception of type:"+e.getClass());
+			Log.e(LOG_LABEL, LOG_MSG_PREFIX + "The message is: "+e.getMessage());
+		}
 		
 		Log.v(LOG_LABEL, LOG_MSG_PREFIX + "Leaving HTTPPoster.doContactUpdate");
+		return resp;
 	}
 
 
