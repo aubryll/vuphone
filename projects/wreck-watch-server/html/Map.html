@@ -237,15 +237,58 @@
 
 
       </script>
+      
+      <style>
+        table, tbody, tfoot, thead, tr, th, td {
+		    margin: 0;
+		    padding: 0;
+		    border: 0;
+		    outline: 0;
+		    font-weight: inherit;
+			font-style: inherit;
+			font-size: 100%;
+			font-family: inherit;
+		}
+
+		table {
+			border-collapse: separate;
+			border-spacing: 0;
+		}
+		
+		html, body { 
+			margin:0; 
+			padding:0; 
+			height:100%; 
+		}
+      </style>
 </head>
-<body onunload="GUnload()" style="font-family: Arial; border: 0 none;">
-<div id="control">
-<input type="button" id="hideWrecks" value="Hide Wrecks" />
-&nbsp;
-&nbsp;
-<input type="button" id="hideRoutes" value="Hide Routes" />
+<body onunload="GUnload()" style="font-family: Arial; border: 0 none; background:rgb(100,100,100);">
+
+<div id="map_canvas" style="width: 100%; height: 80%; margin-top:75px;"></div>
+
+
+<div style="background:url('hb.png'); width:100%; height:75px; position:absolute; top:0px; left:0px;">
+   <img src="vandy.png"></img>&nbsp;&nbsp;<img src="ww.png"></img>
 </div>
-<div id="map_canvas" style="width: 1000px; height: 700px"></div>
+
+
+
+<div style="width:100%; height:73px; background:url('hbd.png')"><span style="font-size:.6em">by Chris Thompson, Hamilton Turner, Krzysztof Zienkiewicz, Scott Campbell, Brian Dougherty, Jules White, and Douglas C. Schmidt</span></div>
+<div id="control" style="position:absolute; left:30px; top:365px; align:center; text-align:center; ">
+ <div style="width:150px; height:73px; background:url('pal.png'); ">&nbsp;</div>
+ <div style="background:rgb(200,200,200); height:100%; width:120px; margin-left:13px; border:solid 2px rgb(100,100,100)">
+     <p><input type="button" id="hideWrecks" value="Hide Wrecks" /></p>
+     <p><input type="button" id="hideRoutes" value="Hide Routes" /></p>
+     <p><input type="button" id="hideRoutes" value="Hide Routes" /></p>
+     <p><input type="button" id="" value="Show FD" /></p>
+     <p><input type="button" id="" value="Call EMS" /></p>
+     <p><input type="button" id="" value="Report Wreck" /></p>
+  </div>
+  <div style="width:150px; height:73px; background:url('palb.png')"></div>
+</div>
+
+<div style="position:absolute; top: 200px; left:10px;"><img src="meter.png"></img></div>
+
 </body>
 </html>
 
