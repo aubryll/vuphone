@@ -19,7 +19,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,7 +51,6 @@ public class RouteRequestHandler implements NotificationHandler {
 		xs.aliasField("Time", Waypoint.class, "timeStamp_");
 		xs.omitField(Route.class, "curIndex_");
 		xs.omitField(Route.class, "accidentID_");
-		
 		rrn.setResponse(xs.toXML(rrn.getRoute()));
 		return rrn;		
 		
