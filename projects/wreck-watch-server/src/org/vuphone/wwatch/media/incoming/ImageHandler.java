@@ -75,7 +75,7 @@ public class ImageHandler implements NotificationHandler {
 			// Prepare the SQL statement
 			PreparedStatement prep = null; 
 			prep = db
-					.prepareStatement("INSERT INTO WreckImages (ImageId, WreckID, FileName, Time) VALUES (NULL, ?, ?, ?);");
+					.prepareStatement("INSERT INTO wreckimages (ImageId, WreckID, FileName, Time) VALUES (NULL, ?, ?, ?);");
 			prep.setLong(1, in.getWreckId());
 			prep.setString(2, fileName);
 			prep.setLong(3, in.getTime());
@@ -142,7 +142,7 @@ public class ImageHandler implements NotificationHandler {
             		ImageHandler.FILE_NAME_PREFIX = 0;
                     // Prepare the SQL statement
                     PreparedStatement prep = null; 
-                    prep = dbConn.prepareStatement("SELECT max(imageId) AS imageId FROM WreckImages;");
+                    prep = dbConn.prepareStatement("SELECT max(imageId) AS imageId FROM wreckimages;");
                     ResultSet rs = prep.executeQuery();
                     if (rs.next())
                     {

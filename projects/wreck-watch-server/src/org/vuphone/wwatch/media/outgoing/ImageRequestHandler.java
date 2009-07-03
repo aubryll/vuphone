@@ -70,7 +70,7 @@ public class ImageRequestHandler implements NotificationHandler{
 		
 		try {
 			prep = db.prepareStatement(
-					"select * from WreckImages where " + selector + " = ?;");
+					"select * from wreckimages where " + selector + " = ?;");
 			prep.setInt(1, id);
 
 			rs = prep.executeQuery();

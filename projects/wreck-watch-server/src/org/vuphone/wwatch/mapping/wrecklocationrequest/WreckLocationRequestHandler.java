@@ -73,7 +73,7 @@ public class WreckLocationRequestHandler implements MapEventHandler {
 		// Prepare the SQL select
 		// Execute the select
 		// Add the results to the InfoHandledNotification
-		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ?;";
+		String sql = "select * from wreck where lat between ? and ? and lon between ? and ?";
 		WreckLocationResponse wlr;
 
 		try {
@@ -93,8 +93,6 @@ public class WreckLocationRequestHandler implements MapEventHandler {
 						rs.getInt("WreckID")));
 			}
 			rs.close();
-
-			
 			closeDatabase(db);
 			return wlr;
 		}catch (SQLException e2) {

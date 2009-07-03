@@ -42,5 +42,13 @@ public class WreckLocationResponse extends MapResponse {
 	public byte[] getRespose() {
 		return null;
 	}
+	
+	@Override
+	public String toString(){
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("Number of accidents: " + accidents_.size() + "\n");
+		return sb.toString();
+	}
 
 }

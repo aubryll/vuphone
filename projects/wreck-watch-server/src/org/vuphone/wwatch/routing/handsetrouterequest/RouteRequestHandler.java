@@ -81,7 +81,7 @@ public class RouteRequestHandler implements NotificationHandler {
 		}
 		PreparedStatement prep;
 		ResultSet rs;
-		String sql = "select * from Route where WreckID = ?";
+		String sql = "select * from route where WreckID = ?";
 		
 		
 		try {

@@ -98,7 +98,7 @@ public class AccidentHandler implements NotificationHandler {
 		ResultSet rs;
 		try {
 			prep = db
-					.prepareStatement("SELECT id FROM People WHERE AndroidID LIKE ?;");
+					.prepareStatement("SELECT id FROM people WHERE AndroidID LIKE ?;");
 			prep.setString(1, report.getPerson());
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -149,7 +149,7 @@ public class AccidentHandler implements NotificationHandler {
 		// get the ID of the created person
 		try {
 			prep = db
-					.prepareStatement("SELECT id FROM People WHERE AndroidID LIKE ?;");
+					.prepareStatement("SELECT id FROM people WHERE AndroidID LIKE ?;");
 			prep.setString(1, report.getPerson());
 
 			rs = prep.executeQuery();
@@ -175,7 +175,7 @@ public class AccidentHandler implements NotificationHandler {
 		// Insert wreck into database
 		try {
 			prep = db
-					.prepareStatement("INSERT INTO Wreck (Person, Lat, Lon, Date, LargestAccel) VALUES (?, ?, ?, ?, ?);");
+					.prepareStatement("INSERT INTO wreck (Person, Lat, Lon, Date, LargestAccel) VALUES (?, ?, ?, ?, ?);");
 			prep.setInt(1, id);
 			prep.setDouble(2, report.getLatitude());
 			prep.setDouble(3, report.getLongitude());
@@ -200,7 +200,7 @@ public class AccidentHandler implements NotificationHandler {
 		ArrayList<String> nums = new ArrayList<String>();
 		try {
 			prep = db
-					.prepareStatement("SELECT ContactId FROM EmergencyContacts WHERE PersonId = ?");
+					.prepareStatement("SELECT ContactId FROM emergencycontacts WHERE PersonId = ?");
 			prep.setInt(1, id);
 			rs = prep.executeQuery();
 			while (rs.next()) {
@@ -262,7 +262,7 @@ public class AccidentHandler implements NotificationHandler {
 
 		try {
 			prep = db
-					.prepareStatement("INSERT INTO People (AndroidID) VALUES (?)");
+					.prepareStatement("INSERT INTO people (AndroidID) VALUES (?)");
 			prep.setString(1, report.getPerson());
 			prep.executeUpdate();
 		} catch (SQLException e) {

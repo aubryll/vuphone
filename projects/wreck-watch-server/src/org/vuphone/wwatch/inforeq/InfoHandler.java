@@ -83,7 +83,7 @@ public class InfoHandler implements NotificationHandler {
 		// Prepare the SQL select
 		// Execute the select
 		// Add the results to the InfoHandledNotification
-		String sql = "select * from Wreck where lat between ? and ? and lon between ? and ? and Date>?";
+		String sql = "select * from wreck where lat between ? and ? and lon between ? and ? and Date>?";
 		InfoHandledNotification note;
 
 		try {
