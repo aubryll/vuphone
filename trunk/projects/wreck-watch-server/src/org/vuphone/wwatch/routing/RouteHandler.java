@@ -85,7 +85,7 @@ public class RouteHandler implements NotificationHandler {
 		int id = 0;
 		try {
 			PreparedStatement prep = db
-					.prepareStatement("select id from People where AndroidID like ?;");
+					.prepareStatement("select id from people where AndroidID like ?;");
 			prep.setString(1, rn.getPerson());
 
 			ResultSet rs = prep.executeQuery();
@@ -100,7 +100,7 @@ public class RouteHandler implements NotificationHandler {
 			}
 
 			prep = db
-					.prepareStatement("select max(wreckid) from Wreck where Person = ?");
+					.prepareStatement("select max(wreckid) from wreck where Person = ?");
 			prep.setInt(1, id);
 			rs = prep.executeQuery();
 			int wid;

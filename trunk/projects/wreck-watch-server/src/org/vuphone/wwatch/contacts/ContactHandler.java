@@ -73,7 +73,7 @@ public class ContactHandler implements NotificationHandler {
 		int userId = 0;
 		try {
 			prep = db
-					.prepareStatement("select id from People where AndroidId like ?");
+					.prepareStatement("select id from people where AndroidId like ?");
 			prep.setString(1, cn.getAndroidID());
 			ResultSet rs = prep.executeQuery();
 			rs.next();
@@ -82,11 +82,11 @@ public class ContactHandler implements NotificationHandler {
 		} catch (SQLException e) {
 			try {
 				prep = db
-						.prepareStatement("insert into People (androidid) values (?)");
+						.prepareStatement("insert into people (androidid) values (?)");
 				prep.setString(1, cn.getAndroidID());
 				prep.execute();
 				prep = db
-						.prepareStatement("select id from People where AndroidId like ?");
+						.prepareStatement("select id from people where AndroidId like ?");
 				prep.setString(1, cn.getAndroidID());
 				ResultSet rs = prep.executeQuery();
 				rs.next();
@@ -110,13 +110,13 @@ public class ContactHandler implements NotificationHandler {
 		try {
 			db.setAutoCommit(false);
 			prep = db
-					.prepareStatement("delete from EmergencyContacts where PersonId = ?");
+					.prepareStatement("delete from emergencycontacts where PersonId = ?");
 			prep.setInt(1, userId);
 			prep.executeUpdate();
 
 			if (contacts != null && contacts.length > 0) {
 				prep = db
-						.prepareStatement("insert into EmergencyContacts (PersonId, ContactId) values(?,?)");
+						.prepareStatement("insert into emergencycontacts (PersonId, ContactId) values(?,?)");
 				
 				for (String s : contacts) {
 					prep.setInt(1, userId);
