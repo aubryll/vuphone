@@ -127,15 +127,24 @@ public class Waypoint extends OverlayItem {
 
 	public void setContext(Context c) {
 		switch (severity_) {
-		case 0: 		
-			drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
+		case 0:
+			drawable_ = c.getResources().getDrawable(R.drawable.sev_1s);
 			break;
 		case 1:
-			drawable_ = c.getResources().getDrawable(R.drawable.pow3);
+			drawable_ = c.getResources().getDrawable(R.drawable.sev_2s);
+			break;
+		case 2:
+			drawable_ = c.getResources().getDrawable(R.drawable.sev_3s);
+			break;
+		case 3:
+			drawable_ = c.getResources().getDrawable(R.drawable.sev_4s);
+			break;
+		case 4:
+			drawable_ = c.getResources().getDrawable(R.drawable.sev_5s);
 			break;
 		default:
 			// Just for now so we can know when the default is being called.
-			drawable_ = c.getResources().getDrawable(R.drawable.help_icon);
+			drawable_ = c.getResources().getDrawable(R.drawable.unhapppy);
 		}
 
 		drawable_.setBounds(0, 0, drawable_.getIntrinsicWidth(), drawable_.getIntrinsicHeight());

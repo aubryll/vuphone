@@ -120,20 +120,26 @@ public class RouteHandler extends DefaultHandler {
 
 	@Override
 	public void characters(char ch[], int start, int length) {
+		// We use a StringBuilder here to ensure we only get the first length
+		// characters of ch, because sometimes ch contains extra garbage.
+		
+		// Note: StringBuilders are not synchronized.  If this needs to be
+		// synchronized, we should use the slower StringBuffer instead.
+		StringBuilder sb = new StringBuilder(length);
+		for (int i = 0; i < length; i++) {
+			sb.append(ch[i + start]);
+		}
+		String str = sb.toString();
 		if (inLat == true) {
-			currentLatitude_ = Double.parseDouble(new String(ch));
+			currentLatitude_ = Double.parseDouble(str);
 		} else if (inLon == true) {
-			currentLongitude_ = Double.parseDouble(new String(ch));
+			currentLongitude_ = Double.parseDouble(str);
 		} else if (inTime == true) {
-			currentTime_ = Long.parseLong(new String(ch));
+			currentTime_ = Long.parseLong(str);
 		} else if (inId == true) {
-			String str = "";
-			for (int i = 0; i < length; i++) {
-				str += ch[i+start];
-			}
 			currentId_ = Integer.parseInt(str);
 		} else if (inPerson == true){
-			currentPerson_ = new String(ch);
+			currentPerson_ = str;
 		} 
 	}
 
