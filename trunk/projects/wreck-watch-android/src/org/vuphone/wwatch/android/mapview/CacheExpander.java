@@ -206,7 +206,7 @@ public class CacheExpander extends Thread {
 
 	private CacheUpdate getWrecks(final GeoRegion region,
 			final int cacheUpdateType) {
-		long httpGetTime = System.currentTimeMillis();
+
 		final List<Waypoint> wrecks = HTTPGetter.doWreckGet(region, 0);
 		if (wrecks == null) {
 			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
@@ -215,15 +215,8 @@ public class CacheExpander extends Thread {
 
 		long time = 0;
 		for (Waypoint wp : wrecks)
-			if (wp.getTime() > time) {
-				Log.i(tag, pre() + "The CacheUpdate will have new time "+wp.getTime());
+			if (wp.getTime() > time) 
 				time = wp.getTime();
-			}
-
-		if (time == 0) {
-			Log.i(tag, pre() + "The CacheUpdate will have time "+httpGetTime);
-			time = httpGetTime;
-		}
 		
 		int value;
 		switch (cacheUpdateType) {

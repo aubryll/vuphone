@@ -9,7 +9,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
-import org.vuphone.wwatch.android.mapview.Route;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -67,7 +66,7 @@ public class WreckHandler extends DefaultHandler {
 			final Waypoint wp = new Waypoint(new GeoPoint(currentLatitude_,
 					currentLongitude_), currentTime_);
 			wp.setAccidentId(currentId_);
-			wp.setSeverity((int) (System.currentTimeMillis()%2));
+			wp.setSeverity((int) (wp.getTime()%5));
 			wrecks_.add(wp);
 		} else if (localname.trim().equalsIgnoreCase("Latitude")) {
 			inLat = false;
@@ -82,9 +81,19 @@ public class WreckHandler extends DefaultHandler {
 
 	@Override
 	public void characters(char ch[], int start, int length) {
+		// We use a StringBuilder here to ensure we only get the first length
+		// characters of ch, because sometimes ch contains extra garbage.
+		
+		// Note: StringBuilders are not synchronized.  If this needs to be
+		// synchronized, we should use the slower StringBuffer instead.
+		StringBuilder sb = new StringBuilder(length);
+		for (int i = 0; i < length; i++) {
+			sb.append(ch[i + start]);
+		}
+		String str = sb.toString();
 		if (inLat == true) {
 			try {
-				currentLatitude_ = (int) (Double.parseDouble(new String(ch)) * 1E6);
+				currentLatitude_ = (int) (Double.parseDouble(str) * 1E6);
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				Log.e(tag, pre + "Unable to parse XML as Double");
@@ -92,7 +101,7 @@ public class WreckHandler extends DefaultHandler {
 			}
 		} else if (inLon == true) {
 			try {
-				currentLongitude_ = (int) (Double.parseDouble(new String(ch)) * 1E6);
+				currentLongitude_ = (int) (Double.parseDouble(str) * 1E6);
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				Log.e(tag, pre + "Unable to parse XML as Double");
@@ -100,18 +109,20 @@ public class WreckHandler extends DefaultHandler {
 			}
 		} else if (inTime == true) {
 			try {
-				currentTime_ = Long.parseLong(new String(ch));
+				currentTime_ = Long.parseLong(str);
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				Log.e(tag, pre + "Unable to parse XML as Long");
 				Log.e(tag, pre + ch.toString());
 			}
 		} else if (inId == true) {
-			String str = "";
-			for (int i = 0; i < length; i++) {
-				str += ch[i + start];
+			try {
+				currentId_ = Integer.parseInt(str);
+			} catch (NumberFormatException nfe) {
+				nfe.printStackTrace();
+				Log.e(tag, pre + "Unable to parse XML as Integer");
+				Log.e(tag, pre + ch.toString());
 			}
-			currentId_ = Integer.parseInt(str);
 		}
 	}
 

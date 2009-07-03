@@ -122,7 +122,7 @@ public class Cache {
 
 		addWrecks(cu.getWrecks());
 
-		if (cu.getLatestTime() < latestTime_)
+		if (cu.getLatestTime() < latestTime_ && cu.getLatestTime() != 0)
 			latestTime_ = cu.getLatestTime();
 
 	}
