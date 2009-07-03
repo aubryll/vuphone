@@ -32,9 +32,6 @@ public class ImageManipulator {
 	
 	public static BufferedImage scaleDown(File file) {
 
-		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
-			.getDefaultScreenDevice().getDefaultConfiguration();
-		
 		// Load the image
 		BufferedImage img = null;
 		try {
@@ -63,7 +60,10 @@ public class ImageManipulator {
 		// Create the mini image surface and draw to it the scaled image
 		int miniWidth = (int) (width * scale);
 		int miniHeight = (int) (height * scale);
-		BufferedImage mini = gc.createCompatibleImage(miniWidth, miniHeight, transparency);
+		
+		// Using a hack here to avoid HeadlessExceptions.
+		BufferedImage mini = img.getSubimage(0, 0, miniWidth, miniHeight);
+		
 		Graphics2D g2 = mini.createGraphics();
 		g2.drawRenderedImage(img, trans);
 		g2.dispose();
