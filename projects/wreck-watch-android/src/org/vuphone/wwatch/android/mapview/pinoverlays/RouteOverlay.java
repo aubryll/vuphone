@@ -94,7 +94,7 @@ public class RouteOverlay extends ItemizedOverlay<Waypoint>{
 	 */
 	@Override
 	public int size() {
-		Log.i(tag, pre + "Size called, returning " + pc_.getWreckSize());
+		Log.v(tag, pre + "Size called, returning " + pc_.getWreckSize());
 		return pc_.getRouteSize();
 	}
 
