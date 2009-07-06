@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<!--
+		- Application context definition for JPetStore's business layer. -
+		Contains bean references to the transaction manager and to the DAOs in
+		- dataAccessContext-local/jta.xml (see web.xml's
+		"contextConfigLocation").
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+
+	<!-- Use this bean to utilize the MySQL Database-->
+	<!-- Note: There must be a file called db.properties in the same directory
+		 as this file if this bean is to be used. -->
+	<!--  -->
+	<bean id="dataProvider"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+			</value>
+		</property>
+		<property name="url">
+			<value>${db.host}
+			</value>
+		</property>
+		<property name="username">
+			<value>${db.username}</value>
+		</property>
+		<property name="password">
+			<value>${db.password}</value>
+		</property>
+	</bean>
+	
+	<!--  This bean is used for MySql Connections -->
+	<!--  -->
+	<bean name="dbConstructor" class="org.vuphone.wwatch.sql.MySqlConstructor" />
+	
+	<!--  This bean is used for SQLite Connections -->
+	<!--  <bean name="dbConstructor" class="org.vuphone.wwatch.sql.SqliteConstructor" />-->
+	
+	<!--  This bean loads the properties referenced in the username, password and url fields -->
+	<!--  The format of this file is property=value. For example, the file for my computer
+		  contains db.username=root.  Each property goes on its own line. 
+		  If you don't have this file, make sure this is commented out...-->
+	<!--  -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="db.properties" />
+	</bean>
+	
+	<!-- Use this bean to utilize the SQLite Database-->
+	<!-- 
+		<bean id="dataProvider"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"> <value>org.sqlite.JDBC</value>
+		</property> <property name="url">
+		<value>jdbc:sqlite:wreckwatch.db</value> </property> </bean>
+	-->
+	<bean name="jspServlet" class="org.apache.jasper.servlet.JspServlet" />
+	<bean name="notificationServlet" class="org.vuphone.wwatch.notification.NotificationServlet">
+		<property name="parser" ref="notificationParser" />
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="handlers">
+			<map>
+				<entry>
+					<key>
+						<value>accident</value>
+					</key>
+					<ref bean="accidentHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>info</value>
+					</key>
+					<ref bean="infoHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>contact</value>
+					</key>
+					<ref bean="contactHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>route</value>
+					</key>
+					<ref bean="routeHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>image</value>
+					</key>
+					<ref bean="imageHandler" />
+				</entry>
+				<entry>
+        			<key>
+        				<value>imageRequest</value>
+        			</key>
+        			<ref bean="imageRequestHandler" />
+        		</entry>
+        		<entry>
+        			<key>
+        				<value>routeGet</value>
+        			</key>
+        			<ref bean="handsetRouteRequestHandler" />
+        		</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="notificationParser" class="org.vuphone.wwatch.notification.NotificationParser" />
+
+	<bean name="accidentHandler" class="org.vuphone.wwatch.accident.AccidentHandler">
+		<property name="parser" ref="accidentParser" />
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="EBehavior" ref="smsBehavior" />
+	</bean>
+	<bean name="accidentParser" class="org.vuphone.wwatch.accident.AccidentParser" />
+
+	<bean name="infoHandler" class="org.vuphone.wwatch.inforeq.InfoHandler">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="parser" ref="infoParser" />
+	</bean>
+	<bean name="infoParser" class="org.vuphone.wwatch.inforeq.InfoParser" />
+
+	<bean name="contactHandler" class="org.vuphone.wwatch.contacts.ContactHandler">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="parser" ref="contactParser" />
+	</bean>
+	<bean name="contactParser" class="org.vuphone.wwatch.contacts.ContactParser" />
+
+	<bean name="routeHandler" class="org.vuphone.wwatch.routing.RouteHandler">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="parser" ref="routeParser" />
+	</bean>
+	<bean name="routeParser" class="org.vuphone.wwatch.routing.RouteParser" />
+	
+	<bean name="handsetRouteRequestHandler" class="org.vuphone.wwatch.routing.handsetrouterequest.RouteRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+
+	<bean name="imageHandler" class="org.vuphone.wwatch.media.incoming.ImageHandler">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="parser" ref="imageParser" />
+	</bean>
+	<bean name="imageParser" class="org.vuphone.wwatch.media.incoming.ImageParser" />
+	
+	<bean name="imageRequestHandler" 
+  			class="org.vuphone.wwatch.media.outgoing.ImageRequestHandler" >
+  		<property name="dataConnection" ref="dataProvider" />
+  		<property name="parser" ref="imageRequestParser" />
+    </bean>
+    <bean name="imageRequestParser" 
+  			class="org.vuphone.wwatch.media.outgoing.ImageRequestParser" />
+
+	<bean name="smsBehavior" class="org.vuphone.wwatch.ebehavior.SMSBehavior">
+		<property name="next" ref="recordingBehavior" />
+	</bean>
+
+	<bean name="sqlConstructor" class="org.vuphone.wwatch.sql.SqlConstructor">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="databaseConstructor" ref="dbConstructor" />
+	</bean>
+	
+	<bean name="mapServlet" class="org.vuphone.wwatch.mapping.MapServlet">
+		<property name="eventHandlers">
+			<map>
+				<entry>
+					<key>
+						<value>locationrequest</value>
+					</key>
+					<ref bean="locationRequestHandler"/>
+				</entry>
+				<entry>
+					<key>
+						<value>routerequest</value>
+					</key>
+					<ref bean="routeRequestHandler" />
+				</entry>
+			</map>
+		</property>
+		<property name="responseHandlers">
+			<map>
+				<entry>
+					<key>
+						<value>locationresponse</value>
+					</key>
+					<ref bean="locationResponseHandler"/>
+				</entry>
+				<entry>
+					<key>
+						<value>routeresponse</value>
+					</key>
+					<ref bean="routeResponseHandler" />
+				</entry>
+			</map>
+		</property>
+		<property name="parsers">
+			<map>
+				<entry>
+					<key>
+						<value>locationrequest</value>
+					</key>
+					<ref bean="locationRequestParser" />
+				</entry>
+				<entry>
+					<key>
+						<value>routerequest</value>
+					</key>
+					<ref bean="routeRequestParser" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="locationResponseHandler" class="org.vuphone.wwatch.mapping.wrecklocationrequest.WreckLocationResponseHandler" />
+	
+	<bean name="locationRequestHandler" class="org.vuphone.wwatch.mapping.wrecklocationrequest.WreckLocationRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	
+	<bean name="routeRequestParser" class = "org.vuphone.wwatch.mapping.routerequest.RouteRequestParser" />
+	<bean name="routeRequestHandler" class="org.vuphone.wwatch.mapping.routerequest.RouteRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	<bean name="routeResponseHandler" class="org.vuphone.wwatch.mapping.routerequest.RouteResponseHandler" />
+	
+	<bean name="locationRequestParser" class="org.vuphone.wwatch.mapping.wrecklocationrequest.WreckLocationRequestParser" />
+				
+
+	<bean name="recordingBehavior" class="org.vuphone.wwatch.ebehavior.RecordingBehavior" />
+
+
+</beans>
