@@ -50,7 +50,7 @@ public class AsteriskConnector {
 	 * This is the IP of the server where the trixbox resides.
 	 * Do NOT include 'http://'.
 	 */
-	private static final String SERVER = "129.59.129.235";
+	private static final String SERVER = "129.59.129.97";
 	
 	/**
 	 * There are the credentials for the maint account on the trixbox.
@@ -74,7 +74,7 @@ public class AsteriskConnector {
 	 * must be a .gsm file located on the trixbox server at
 	 * /var/lib/asterisk/sounds, and it must not include the file type.
 	 */
-	private static final String MESSAGE = "zip-code";
+	private static final String MESSAGE = "wreck-notification";
 	
 	/**
 	 * This method will do all the work necessary to play a recording to
