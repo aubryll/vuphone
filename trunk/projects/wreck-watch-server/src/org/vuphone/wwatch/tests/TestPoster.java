@@ -17,7 +17,7 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 public class TestPoster {
-	private static final String SERVER = "http://localhost:8080";
+	private static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8080";
 
 	private static final String PATH = "/wreckwatch/notifications";
 
@@ -159,7 +159,7 @@ public class TestPoster {
 
 		double lat, lon;
 
-		for (int i = 0; i < 7; ++i) {
+		for (int i = 0; i < 1; ++i) {
 			lat = 36.0 + Math.random();
 			lon = -87.0 + Math.random();
 
@@ -169,7 +169,7 @@ public class TestPoster {
 				--i;
 			}
 
-			final String aid = "myAndroidID" + i;
+			final String aid = "myAndroidIDtest" + i;
 			doAccidentPost(aid, System.currentTimeMillis(), 87.23, 35.74, lat,
 					lon);
 			final List<Waypoint> route = new ArrayList<Waypoint>();

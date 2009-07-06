@@ -226,7 +226,7 @@ public class AccidentHandler implements NotificationHandler {
 		// Call a default 911 Emergency number
 		
 		String emergency = "311";
-		String recording = "zip-code";
+		String recording = "custom/wreck-notification";
 		if (CALL_ASTERISK)
 			AsteriskConnector.makeCallPlayRecording(emergency, recording);
 		
