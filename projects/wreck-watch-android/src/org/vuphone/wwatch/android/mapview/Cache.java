@@ -1,10 +1,8 @@
 package org.vuphone.wwatch.android.mapview;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
@@ -27,6 +25,12 @@ import com.google.android.maps.Projection;
  * determines which data it would like to retrieve and makes the appropriate
  * call
  * 
+ * Note that many of the protected methods are synchronized. The concept is that
+ * the Cache is entirely 'locked' whenever something important is happening.
+ * This could definitely be optimized for more finer-grained locking, but
+ * currently this will block only the CacheUpdater and the CacheExpander, so it
+ * is not a critical change.
+ * 
  */
 public class Cache {
 	/** Used for logging */
@@ -37,13 +41,13 @@ public class Cache {
 		return pre + Thread.currentThread().getName() + ": ";
 	}
 
-	/** The cached routes. This is synchronized internally */
-	private List<Waypoint> points_ = new ArrayList<Waypoint>();
+	/** The cached wrecks */
+	private List<Waypoint> points_ = Collections
+			.synchronizedList(new ArrayList<Waypoint>());
 
 	/**
-	 * The Overlay displaying the wrecks or routes. This is used to set a flag
-	 * on the Overlay indicating that there is new Route data available, and the
-	 * Overlay should request is at their convenience
+	 * The Overlay displaying the wrecks. Data is pushed from the Cache onto the
+	 * PinController
 	 */
 	private PinController overlay_;
 
@@ -53,48 +57,59 @@ public class Cache {
 	 */
 	private Context context_;
 
+	/**
+	 * Handles determining when the Cache needs to be expanded, performing the
+	 * expansion, and returning the Cache an appropriate CacheUpdate. This is
+	 * notified every time the map scrolls
+	 */
 	private CacheExpander expander_;
 
 	/**
-	 * The current top left and bottom right of the rectangle of cached Routes.
-	 * This will expand as the user scrolls around, and more Routes are cached.
-	 * Use getter and setter to synchronize access. (These can be null, so a
-	 * synchronization block is not an option)
+	 * Handles updating the full cache periodically. Returns CacheUpdates to the
+	 * Cache
 	 */
+	private CacheUpdater updater_;
+
+	/** The current top left and bottom right of the cached region. */
 	private GeoRegion region_ = null;
 
 	/**
 	 * The maximum zoom level at which an update will be requested. This
-	 * prevents the user from zooming all the way out and requesting every wreck
+	 * prevents the user from zooming all the way out and requesting every
+	 * wreck. Higher values are closer to the earth, 1-20 range.
 	 */
 	private int maxZoom = 8;
 
-	/** Used to periodically update the map. */
-	private TimerTask periodicUpdate_;
-
-	/** Used to run the periodic update */
-	private Timer updateTimer_;
-
-	/** The time in milliseconds between updates */
-	private static final int updateTime_ = 1000 * 15; // 3 seconds
-
-	/** Keeps track of the current largest time that we can use for full updates */
+	/**
+	 * The current largest time that we can use for full updates. The server
+	 * will only return points that occurred after this time, saving on
+	 * resources.
+	 */
 	private Long latestTime_ = (long) 0;
 
-	/**
-	 * 
-	 * @param overlay
-	 */
 	public Cache(PinController overlay, Context context) {
 		overlay_ = overlay;
-		context_ = context;
+		context_ = context.getApplicationContext();
+
+		expander_ = new CacheExpander(this);
+		expander_.setDaemon(true);
+		expander_.setName("Cache Expander");
+		expander_.start();
+
+		updater_ = new CacheUpdater(this);
 	}
 
-	public synchronized void acceptCacheUpdate(final CacheUpdate cu) {
+	protected synchronized void acceptCacheUpdate(final CacheUpdate cu) {
 		Log.i(tag, pre() + "Receiving Cache Update");
 		if (region_ == null) {
-			Log.i(tag, pre() + "Rejecting CacheUpdate because"
+			Log.w(tag, pre() + "Rejecting CacheUpdate because"
 					+ " cache region is null");
+			return;
+		}
+
+		if (cu.getWrecks().size() == 0) {
+			Log.w(tag, pre() + "Rejecting CacheUpdate because "
+					+ "there are no points included");
 			return;
 		}
 
@@ -115,6 +130,9 @@ public class Cache {
 			setTopLeft(new GeoPoint(cu.getNewValue(), getRegion().getTopLeft()
 					.getLongitudeE6()));
 			break;
+		case CacheUpdate.TYPE_FULL_UPDATE:
+			// no-op, but we do understand the update
+			break;
 		default:
 			Log.e(tag, pre() + "CacheUpdate not understood");
 			return;
@@ -122,16 +140,16 @@ public class Cache {
 
 		addWrecks(cu.getWrecks());
 
-		if (cu.getLatestTime() < latestTime_ && cu.getLatestTime() != 0)
+		if (cu.getType() == CacheUpdate.TYPE_FULL_UPDATE)
 			latestTime_ = cu.getLatestTime();
-
+		else if (cu.getLatestTime() < latestTime_ && cu.getLatestTime() != 0)
+			latestTime_ = cu.getLatestTime();
 	}
 
 	/**
-	 * Handles parsing the server response, merging the data, and notifying the
-	 * overlay that there are new data points
+	 * Handles merging the data, and pushing the new points to the overlay
 	 */
-	private void addWrecks(List<Waypoint> wrecks) {
+	private synchronized void addWrecks(List<Waypoint> wrecks) {
 		// Do we have any new routes to add
 		if (wrecks.size() == 0)
 			return;
@@ -140,24 +158,26 @@ public class Cache {
 		for (Waypoint wp : wrecks)
 			wp.setContext(context_);
 
-		synchronized (points_) {
-			points_.addAll(wrecks);
-		}
+		points_.addAll(wrecks);
+
 		overlay_.updateWrecks(points_);
 	}
 
 	/**
 	 * Called to clear the entire cache, and restart caching fully.
 	 */
-	public synchronized void clearCache() {
-		Log.e(tag, pre() + "Cache clear is not implemented yet");
+	protected synchronized void clearCache() {
 		latestTime_ = new Long(0);
-		
+
 		synchronized (points_) {
 			points_ = new ArrayList<Waypoint>();
 		}
-		
+
 		region_ = null;
+	}
+
+	protected synchronized Long getLatestTime() {
+		return latestTime_;
 	}
 
 	/**
@@ -181,7 +201,7 @@ public class Cache {
 	}
 
 	/**
-	 * Called every time the map scrolls. This allows us to handle pre()-caching
+	 * Called every time the map scrolls. This allows us to handle pre-caching
 	 * for the map
 	 * 
 	 * @param mv
@@ -233,45 +253,11 @@ public class Cache {
 			Log.d(tag, pre() + "Assigned initial topLeft and bottomRight");
 			Log.d(tag, pre() + "TL:" + getRegion().getTopLeft() + ", BR:"
 					+ getRegion().getBottomRight());
-			Log.d(tag, pre() + "Firing initial update");
-			Thread t = new Thread(new Runnable() {
-				public void run() {
-					performFullUpdate(true);
-				}
-			});
-			t.setDaemon(true);
-			t.setName("Full Cache Update");
-			t.start();
+			updater_.forceUpdate();
 			return;
 		}
 
 		expander_.putPossibleExpansion(region);
-
-	}
-
-	/**
-	 * Called when a full cache update is requested. Ensures that no two update
-	 * calls can be running at the same time
-	 * 
-	 * @param critical
-	 *            Whether or not this update must go through
-	 */
-	private synchronized void performFullUpdate(boolean critical) {
-
-		Log.d(tag, pre() + "Performing full update");
-
-		final List<Waypoint> points = HTTPGetter.doWreckGet(region_,
-				latestTime_);
-		if (points == null) {
-			Log.w(tag, pre() + "Unable to do update: HTTPGetter returned null");
-			return;
-		}
-		addWrecks(points);
-
-		// Update the latest time
-		for (Waypoint wp : points)
-			if (wp.getTime() > latestTime_)
-				latestTime_ = wp.getTime();
 
 	}
 
@@ -291,32 +277,14 @@ public class Cache {
 
 	public void start() {
 		Log.i(tag, pre + "Cache started");
-		if (expander_ != null)
-			expander_.terminate();
-		expander_ = new CacheExpander(this);
-		expander_.setDaemon(true);
-		expander_.setName("Cache Expander");
-		expander_.start();
-		
-		periodicUpdate_ = new TimerTask() {
-			public void run() {
-				performFullUpdate(false);
-			}
-		};
-		
-		// Specifically request this as a daemon thread, so that it will die
-		// with the JVM
-		updateTimer_ = new Timer("Periodic Cache Updater", true);
-		updateTimer_.scheduleAtFixedRate(periodicUpdate_, updateTime_,
-				updateTime_);
+		updater_.start();
 	}
 
 	public void stop() {
 		Log.i(tag, pre + "Cache stopped");
-		updateTimer_.cancel();
-		periodicUpdate_.cancel();
-		periodicUpdate_ = null;
-		expander_.terminate();
+
+		expander_.quickPause();
+		updater_.stop();
 	}
 
 }

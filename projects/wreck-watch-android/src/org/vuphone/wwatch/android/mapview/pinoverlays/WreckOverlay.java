@@ -50,8 +50,6 @@ public class WreckOverlay extends ItemizedOverlay<Waypoint> {
 	 */
 	@Override
 	protected Waypoint createItem(int i) {
-		Log.i(tag, pre + "Create item " + i + " returning "
-				+ pc_.getWreck(i).toString());
 		return pc_.getWreck(i);
 	}
 	

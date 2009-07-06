@@ -28,9 +28,6 @@ public class CacheExpander extends Thread {
 	 */
 	private BlockingQueue<GeoRegion> expansions_ = new LinkedBlockingQueue<GeoRegion>();
 
-	/** A flag indicating whether or not this thread should terminate */
-	private volatile boolean shouldTerminate_ = false;
-
 	/**
 	 * The maximum cache expansion (in percent) that is allowed in any one
 	 * direction. If an expansion would exceed this value, then the cache is
@@ -69,7 +66,7 @@ public class CacheExpander extends Thread {
 	// performed, before we fire the expensive POST
 	public void run() {
 		try {
-			while (!shouldTerminate_) {
+			while (true) {
 				final GeoRegion ce = expansions_.take();
 				Log.d(tag, pre() + "Took a GeoRegion");
 				Log.d(tag, pre() + " Count is " + expansions_.size());
@@ -78,7 +75,7 @@ public class CacheExpander extends Thread {
 				// ultimately saves on rapid back-to-back HTTP operations
 				// resulting from a single large scroll operation that posts a
 				// lot of GeoRegions
-				sleep(1000);
+				sleep(200);
 
 				// TODO - wrap this in an if, and if the expansion was needed,
 				// then check the area to see if we should ask for a new cache
@@ -192,8 +189,8 @@ public class CacheExpander extends Thread {
 		return true;
 	}
 
-	public void terminate() {
-		shouldTerminate_ = true;
+	public void quickPause() {
+		expansions_.clear();
 	}
 
 	private GeoRegion getCR() {
@@ -215,9 +212,9 @@ public class CacheExpander extends Thread {
 
 		long time = 0;
 		for (Waypoint wp : wrecks)
-			if (wp.getTime() > time) 
+			if (wp.getTime() > time)
 				time = wp.getTime();
-		
+
 		int value;
 		switch (cacheUpdateType) {
 		case CacheUpdate.TYPE_EXPAND_DOWN:

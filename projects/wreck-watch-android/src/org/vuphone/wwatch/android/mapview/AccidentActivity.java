@@ -31,6 +31,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
@@ -88,10 +89,13 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accidentview);
+		
 		mapView_ = (AccidentMapView) findViewById(R.id.accidentview);
 		controller_ = mapView_.getController();
 		controller_.setZoom(8);
 
+		Log.v(tag, pre + "Reached onCreate");
+		
 		mapView_.postInvalidate();
 
 		// Get fixes as quickly as possible.
@@ -107,6 +111,7 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	public void onStart() {
 		super.onStart();
 
+		Log.v(tag, pre + "Reached onStart");
 		mapView_.startCache();
 		
 		if (firstLoc_ != null)
@@ -147,19 +152,23 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 	@Override
 	public void onPause() {
 		super.onPause();
+		Log.v(tag, pre + "Reached onPause");
 		mapView_.stopCache();
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.v(tag, pre + "Reached onResume");
 		mapView_.startCache();
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.i(tag, pre + "onDestroy reached");
+		Log.v(tag, pre + "Reached onDestroy");
+		mapView_.stopCache();
+		
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.removeUpdates(this);
 	}
