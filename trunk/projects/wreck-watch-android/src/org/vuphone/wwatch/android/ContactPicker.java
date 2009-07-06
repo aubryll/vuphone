@@ -28,7 +28,7 @@ import android.widget.Toast;
  * emergency. The list of contact IDs is saved in a preference file.
  * 
  * @author Krzysztof Zienkiewicz
- * 
+ * 3
  */
 
 // TODO - Empty list doesn't clear the server
@@ -50,7 +50,7 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 	private ListView listView_;
 	private Button submitButton_;
 	private Button clearButton_;
-	private Button cancelButton_;
+	//private Button cancelButton_;
 
 	/**
 	 * Loads in the preference file and puts a check mark next to contacts that
@@ -144,9 +144,9 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 			this.onSubmitClicked();
 		} else if (v.equals(clearButton_)) {
 			this.onClearClicked();
-		} else if (v.equals(cancelButton_)) {
-			this.onCancelClicked();
-		}
+		}// else if (v.equals(cancelButton_)) {
+		//	this.onCancelClicked();
+		//}
 	}
 
 	/**
@@ -179,11 +179,11 @@ public class ContactPicker extends Activity implements View.OnClickListener {
 		// Fetch the buttons and setup the click listeners
 		submitButton_ = (Button) super.findViewById(R.id.submit_button);
 		clearButton_ = (Button) super.findViewById(R.id.clear_button);
-		cancelButton_ = (Button) super.findViewById(R.id.cancel_button);
+		//cancelButton_ = (Button) super.findViewById(R.id.cancel_button);
 
 		submitButton_.setOnClickListener(this);
 		clearButton_.setOnClickListener(this);
-		cancelButton_.setOnClickListener(this);
+		//cancelButton_.setOnClickListener(this);
 
 		if (contactInfoList_.size() == 0)
 			Toast.makeText(this, "Sorry. You have no contacts to display",
