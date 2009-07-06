@@ -50,7 +50,7 @@ public class AsteriskConnector {
 	 * This is the IP of the server where the trixbox resides.
 	 * Do NOT include 'http://'.
 	 */
-	private static final String SERVER = "129.59.129.229";
+	private static final String SERVER = "129.59.129.235";
 	
 	/**
 	 * There are the credentials for the maint account on the trixbox.
@@ -58,7 +58,7 @@ public class AsteriskConnector {
 	 * Http Post and Get.
 	 */
 	private static final String MAINT_USERNAME = "maint";
-	private static final String MAINT_PASSWORD = "__eece261";
+	private static final String MAINT_PASSWORD = "password";
 	
 	/**
 	 * These are the credentials for the admin account on the trixbox.
@@ -66,7 +66,7 @@ public class AsteriskConnector {
 	 * the trixbox server directly.
 	 */
 	private static final String ADMIN_USERNAME = "admin";
-	private static final String ADMIN_PASSWORD = "__eece261";
+	private static final String ADMIN_PASSWORD = "amp111";
 	
 	/**
 	 * This is the default message that will be played to every phone
