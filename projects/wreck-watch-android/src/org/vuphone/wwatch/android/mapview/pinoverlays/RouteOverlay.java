@@ -18,12 +18,15 @@ package org.vuphone.wwatch.android.mapview.pinoverlays;
 import org.vuphone.wwatch.android.Waypoint;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
+import com.google.android.maps.Projection;
 
 
 public class RouteOverlay extends ItemizedOverlay<Waypoint>{
@@ -52,6 +55,20 @@ public class RouteOverlay extends ItemizedOverlay<Waypoint>{
 	public void draw(Canvas canvas, MapView mv, boolean shadow){
 		try{
 			super.draw(canvas, mv, shadow);
+			
+			Projection proj = mv.getProjection();
+			Paint paint = new Paint();
+			paint.setStrokeWidth(5);
+			
+			Point start = new Point();
+			Point end = new Point();
+			for (int i = 0; i < pc_.getRouteSize() - 1; ++i) {
+				proj.toPixels(pc_.getRouteItem(i).getPoint(), start);
+				proj.toPixels(pc_.getRouteItem(i + 1).getPoint(), end);
+				
+				canvas.drawLine(start.x, start.y, end.x, end.y, paint);
+			}
+			
 		}catch (IndexOutOfBoundsException e) {
 			Log.w(tag, pre + "IndexOutOfBoundsException drawing RouteOverlay");
 			

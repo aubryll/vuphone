@@ -25,8 +25,8 @@ import android.widget.Toast;
 
 public class GPService extends Service {
 
-	private static final float GPS_RADIUS = 0.5f;
-	private static final long GPS_FREQUENCY = 1000;
+	private static final float GPS_RADIUS = 0f;
+	private static final long GPS_FREQUENCY = 500;
 	private static final float MIN_ACCURACY = 20;
 
 	private final WaypointTracker tracker_ = new WaypointTracker();
