@@ -26,7 +26,7 @@ public class CacheExpander extends Thread {
 	 * Contains all of the regions that the map has viewed. Handles them one by
 	 * one to determine if they need a cache update
 	 */
-	private BlockingQueue<GeoRegion> expansions_ = new LinkedBlockingQueue<GeoRegion>();
+	private LinkedBlockingQueue<GeoRegion> expansions_ = new LinkedBlockingQueue<GeoRegion>();
 
 	/**
 	 * The maximum cache expansion (in percent) that is allowed in any one
@@ -68,6 +68,7 @@ public class CacheExpander extends Thread {
 		try {
 			while (true) {
 				final GeoRegion ce = expansions_.take();
+				
 				Log.d(tag, pre() + "Took a GeoRegion");
 				Log.d(tag, pre() + " Count is " + expansions_.size());
 
@@ -79,7 +80,8 @@ public class CacheExpander extends Thread {
 
 				// TODO - wrap this in an if, and if the expansion was needed,
 				// then check the area to see if we should ask for a new cache
-				expandIfNeeded(ce);
+				if (ce != null)
+					expandIfNeeded(ce);
 			}
 		} catch (InterruptedException ie) {
 			Thread.currentThread().interrupt();
@@ -190,7 +192,17 @@ public class CacheExpander extends Thread {
 	}
 
 	public void quickPause() {
-		expansions_.clear();
+		// expansions_.clear() does NOT work here! An bug in Java(fixed in newer
+		// versions, but at time of writing,7-09, not fixed on the latest, most
+		// up to date mac) causes a null pointer exception
+		//See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6215625
+
+		while (expansions_.size() > 0)
+			try {
+				expansions_.take();
+			} catch (InterruptedException ie) {
+				Log.w(tag, pre + "quickPause was interrupted");
+			}
 	}
 
 	private GeoRegion getCR() {
