@@ -68,8 +68,7 @@ public class ImageAdapter extends BaseAdapter implements OnItemClickListener {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		int imgID = imageIDs_[position];
-		Toast.makeText(parent.getContext(), "Item Clicked " + imgID,
-				Toast.LENGTH_SHORT).show();
+
 		Intent intent = new Intent(parent.getContext(),
 				org.vuphone.wwatch.android.mapview.FullImageViewer.class);
 		intent.putExtra("FullImageID", imgID);
