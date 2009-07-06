@@ -97,7 +97,7 @@ public class WreckHandler extends DefaultHandler {
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				Log.e(tag, pre + "Unable to parse XML as Double");
-				Log.e(tag, pre + ch.toString());
+				Log.e(tag, pre + new String(ch));
 			}
 		} else if (inLon == true) {
 			try {
@@ -105,7 +105,7 @@ public class WreckHandler extends DefaultHandler {
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				Log.e(tag, pre + "Unable to parse XML as Double");
-				Log.e(tag, pre + ch.toString());
+				Log.e(tag, pre + new String(ch));
 			}
 		} else if (inTime == true) {
 			try {
@@ -113,7 +113,7 @@ public class WreckHandler extends DefaultHandler {
 			} catch (NumberFormatException nfe) {
 				nfe.printStackTrace();
 				Log.e(tag, pre + "Unable to parse XML as Long");
-				Log.e(tag, pre + ch.toString());
+				Log.e(tag, pre + new String(ch));
 			}
 		} else if (inId == true) {
 			try {

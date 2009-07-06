@@ -121,8 +121,15 @@ public class Waypoint extends OverlayItem {
 	 * @return
 	 */
 	public String toString() {
-		return "[" + getLongitudeDegrees() + ", " + getLatitudeDegrees() + ", "
-				+ timeStamp_ + "]";
+		final StringBuffer sb = new StringBuffer();
+		sb.append("[");
+		sb.append(getLongitudeDegrees());
+		sb.append(", ");
+		sb.append(getLatitudeDegrees());
+		sb.append(", ");
+		sb.append(timeStamp_);
+		sb.append("]");
+		return sb.toString();
 	}
 
 	public void setContext(Context c) {
