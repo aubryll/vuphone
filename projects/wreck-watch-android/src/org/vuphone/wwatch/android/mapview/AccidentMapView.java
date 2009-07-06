@@ -49,6 +49,10 @@ public class AccidentMapView extends MapView {
 		pinGroup_.setCache(routes_);
 	}
 	
+	public void hardStopCache() {
+		routes_.stopCold();
+	}
+	
 	public void startCache() {
 		routes_.start();
 	}

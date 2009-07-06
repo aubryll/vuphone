@@ -168,6 +168,7 @@ public class AccidentActivity extends MapActivity implements LocationListener {
 		super.onDestroy();
 		Log.v(tag, pre + "Reached onDestroy");
 		mapView_.stopCache();
+		mapView_.hardStopCache();
 		
 		((LocationManager) getSystemService(Context.LOCATION_SERVICE))
 				.removeUpdates(this);

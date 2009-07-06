@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
 import org.vuphone.wwatch.android.http.HTTPGetter;
@@ -285,6 +286,10 @@ public class Cache {
 
 		expander_.quickPause();
 		updater_.stop();
+	}
+	
+	public void stopCold() {
+		expander_.interrupt();
 	}
 
 }
