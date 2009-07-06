@@ -27,7 +27,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 		Connection db = ds.getConnection();
 		db.setAutoCommit(false);
 
-		String sql = "CREATE TABLE IF NOT EXISTS People ( "
+		String sql = "CREATE TABLE IF NOT EXISTS people ( "
 				+ "id INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "AndroidID VARCHAR(20)," + "PhoneNumber VARCHAR(15),"
 				+ "FirstName VARCHAR(50)," + "LastName VARCHAR(50),"
@@ -35,7 +35,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 		PreparedStatement prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS Wreck ( "
+		sql = "CREATE TABLE IF NOT EXISTS wreck ( "
 				+ "WreckID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "Person INTEGER REFERENCES People(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
@@ -43,13 +43,13 @@ public class MySqlConstructor implements DatabaseConstructor {
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS EmergencyContacts ( "
+		sql = "CREATE TABLE IF NOT EXISTS emergencycontacts ( "
 				+ "PersonId INTEGER REFERENCES People(id),"
 				+ "ContactId VARCHAR(15) NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS Route ( "
+		sql = "CREATE TABLE IF NOT EXISTS route ( "
 				+ "CoordID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
@@ -57,7 +57,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS WreckImages ( "
+		sql = "CREATE TABLE IF NOT EXISTS wreckimages ( "
 				+ "ImageID INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "WreckID INTEGER REFERENCES Wreck(WreckID), FileName TEXT NOT NULL,"
 				+ "Time BIGINT NOT NULL)";
