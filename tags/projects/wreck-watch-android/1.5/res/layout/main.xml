@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+
+	<RelativeLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:padding="10px">
+		<TextView android:id="@+id/label" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:text="Speed Scale Factor (ex 2 means twice as fast):" />
+		<EditText android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:id="@+id/speed_scale"
+			android:layout_below="@id/label" android:text="1" android:inputType="numberDecimal" />
+		<TextView android:id="@+id/accel_scale_lbl"
+			android:layout_height="wrap_content" android:layout_width="fill_parent"
+			android:layout_below="@id/speed_scale" android:text="Accelerometer Scale Factor"
+			android:layout_alignLeft="@id/speed_scale" />
+		<EditText android:layout_below="@id/accel_scale_lbl"
+			android:id="@+id/accel_scale" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:text="1" android:inputType="numberDecimal" />
+
+		<Button android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/update_button"
+			android:text="Update Scales" android:layout_below="@id/accel_scale"
+			android:layout_alignLeft="@id/speed_scale" />
+		<Button android:id="@+id/stop_button" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:text="Stop Service"
+			android:layout_toRightOf="@id/update_button" android:layout_alignTop="@id/update_button" />
+
+		<Button android:id="@+id/test_dialog_button" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:text="Test Dialog"
+			android:layout_toRightOf="@id/stop_button" android:layout_alignTop="@id/update_button" />
+
+
+
+		<TextView android:id="@+id/latest_speed" android:text="Latest Speed"
+			android:layout_height="wrap_content" android:layout_width="fill_parent"
+			android:layout_below="@id/update_button" android:layout_alignLeft="@id/update_button"
+			android:paddingTop="5px" />
+		<TextView android:id="@+id/real_speed" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_below="@id/latest_speed"
+			android:layout_alignLeft="@id/update_button" android:paddingLeft="9px" />
+		<TextView android:id="@+id/scaled_speed"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_below="@id/real_speed" android:layout_alignLeft="@id/update_button"
+			android:paddingLeft="9px" />
+
+
+
+		<TextView android:id="@+id/latest_accel" android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_alignParentRight='true' android:layout_alignTop="@id/latest_speed"
+		    android:text="Latest Acceleration" android:paddingTop="5px" />
+		<TextView android:id="@+id/real_accel" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_below="@id/latest_accel"
+			android:layout_alignParentRight='true' />
+		<TextView android:id="@+id/scale_accel"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_below="@id/real_accel" android:layout_alignParentRight='true'
+		 />
+
+
+
+		<TextView android:id="@+id/last_gps_label" android:text="Last GPS Point Recv"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_below="@id/scaled_speed" android:layout_alignLeft="@id/update_button"
+			android:paddingTop="5px" />
+		<TextView android:id="@+id/last_gps" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_below="@id/last_gps_label"
+			android:layout_alignLeft="@id/last_gps_label" android:paddingLeft="9px" />
+
+		<TextView android:id="@+id/num_label" android:text="Number Recv"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:layout_below="@id/last_gps" android:layout_alignLeft="@id/last_gps"
+			android:paddingTop="5px" />
+		<TextView android:id="@+id/num_gps" android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:layout_below="@id/num_label"
+			android:layout_alignLeft="@id/num_label" android:paddingLeft="9px" />
+	</RelativeLayout>
+</ScrollView>
