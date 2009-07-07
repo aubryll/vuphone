@@ -28,7 +28,7 @@ public class SMSSender {
 			"vtext.com", "vmobl.com", "messaging.sprintpcs.com"};
 
 	// Messaging vars
-	public static final String SUBJECT = "WreckWatch, Someone you know has wrecked!";
+	public static final String SUBJECT = "";//WreckWatch, Someone you know has wrecked!";
 	public static final String BODY = "John Reeds has wrecked! Call 866-901-4463 " +
 			"Ext 123 for details! You are on John's emergency contact list.";
 
