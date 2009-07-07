@@ -37,21 +37,21 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		sql = "CREATE TABLE IF NOT EXISTS wreck ( "
 				+ "WreckID INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "Person INTEGER REFERENCES People(id),"
+				+ "Person INTEGER REFERENCES people(id),"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
 				+ "Date BIGINT NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS emergencycontacts ( "
-				+ "PersonId INTEGER REFERENCES People(id),"
+				+ "PersonId INTEGER REFERENCES people(id),"
 				+ "ContactId VARCHAR(15) NOT NULL);";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS route ( "
 				+ "CoordID INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "WreckID INTEGER REFERENCES Wreck(WreckID), "
+				+ "WreckID INTEGER REFERENCES wreck(WreckID), "
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
 				+ "Date BIGINT NOT NULL)" ;
 		prep = db.prepareStatement(sql);
@@ -59,7 +59,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		sql = "CREATE TABLE IF NOT EXISTS wreckimages ( "
 				+ "ImageID INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "WreckID INTEGER REFERENCES Wreck(WreckID), FileName TEXT NOT NULL,"
+				+ "WreckID INTEGER REFERENCES wreck(WreckID), FileName TEXT NOT NULL,"
 				+ "Time BIGINT NOT NULL)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
