@@ -62,13 +62,13 @@
 		<activity android:name=".SettingsUI" android:label="WW Settings">
 		</activity>
 
-		<service android:name=".gps.GPService" />
+		<service android:name=".gps.GPService" android:process="wreckwatch.services"/>
 
-		<service android:name=".services.DecelerationService" />
+		<service android:name=".services.DecelerationService" android:process="wreckwatch.services"/>
 		
-		<service android:name=".services.UpdateContactsService" />
+		<service android:name=".services.UpdateContactsService" android:process="wreckwatch.services"/>
 		
-		<service android:name=".services.MediaUploadService" />
+		<service android:name=".services.MediaUploadService" android:process="wreckwatch.services"/>
 		
 </application>
 	<uses-sdk android:minSdkVersion="3" />
