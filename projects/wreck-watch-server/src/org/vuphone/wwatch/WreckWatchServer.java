@@ -19,6 +19,7 @@ package org.vuphone.wwatch;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -81,6 +82,13 @@ public class WreckWatchServer {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+		Logger logger = Logger.getLogger("org.vuphone.wwatch"); 
+		ConsoleHandler ch = new ConsoleHandler();
+		ch.setLevel(Level.FINEST);
+		logger.addHandler(ch);
+		logger.setLevel(Level.FINEST);
+		
+		
 		int port = 8080;
 		if (args.length > 0) {
 			try {

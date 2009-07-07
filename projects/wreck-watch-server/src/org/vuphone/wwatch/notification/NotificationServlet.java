@@ -43,7 +43,7 @@ public class NotificationServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		System.out.println(req.getQueryString());
+		logger_.log(Level.FINER, "Query was " + req.getQueryString());
 
 		Notification note = parser_.parse(req, resp);
 
@@ -74,7 +74,7 @@ public class NotificationServlet extends HttpServlet {
 		}
 
 		try {
-			logger_.log(Level.SEVERE, rnote.getResponseString());
+			logger_.log(Level.FINER, rnote.getResponseString());
 			resp.getWriter().write(rnote.getResponseString());
 		}
 		catch (IllegalStateException e) {
