@@ -20,6 +20,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.vuphone.wwatch.android.VUphone;
 import org.vuphone.wwatch.android.Waypoint;
+import org.vuphone.wwatch.android.mapview.AccidentActivity;
 import org.vuphone.wwatch.android.mapview.Cache;
 import org.vuphone.wwatch.android.mapview.Route;
 import org.vuphone.wwatch.android.mapview.pinoverlays.markers.RouteMarker;
@@ -127,20 +128,27 @@ public class PinController {
 
 		mv_.getController().animateTo(point.getPoint());
 		
-		// If this is the second tap, open dialog
-		if (point.equals(lastTappedPoint_)) {
-			final int id = point.getAccidentId();
-			wo_.showGalleryDialog(id);
-			return true;
+		AccidentActivity aa = (AccidentActivity) c_;
+		if (!aa.isLookingForWreckId()) {
+			// If this is the second tap, open dialog
+			if (point.equals(lastTappedPoint_)) {
+				final int id = point.getAccidentId();
+				wo_.showGalleryDialog(id);
+				return true;
+			}
+
+			// If not, show route
+			currentRoute_ = cache_.getRoute(point);
+			curState_ = State.SHOW_ROUTE;
+			ro_.populatePins();
+
+
+			lastTappedPoint_ = point;
+		}
+		else {
+			aa.setWreckId(point.getAccidentId());
 		}
 		
-		// If not, show route
-		currentRoute_ = cache_.getRoute(point);
-		curState_ = State.SHOW_ROUTE;
-		ro_.populatePins();
-		
-		
-		lastTappedPoint_ = point;
 		return true;
 	}
 	
