@@ -25,7 +25,7 @@ public class SMSSender {
 	// Carrier list
 	private static String[] carriers = { "message.alltel.com", "tmomail.net",
 			"txt.att.net", "myboostmobile.com", "messaging.nextel.com",
-			"vtext.com", "vmobl.com" };
+			"vtext.com", "vmobl.com", "messaging.sprintpcs.com"};
 
 	// Messaging vars
 	public static final String SUBJECT = "WreckWatch, Someone you know has wrecked!";
@@ -88,7 +88,7 @@ public class SMSSender {
 
 	public static void main(String[] args) {
 
-		SMSSender.sendText("6508617363");
+		SMSSender.sendText("6155543980");
 	}
 
 }
