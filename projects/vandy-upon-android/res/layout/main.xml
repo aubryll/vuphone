@@ -35,16 +35,15 @@
 			android:layout_alignBottom="@+id/TV_event_date_time"
 			android:layout_alignLeft="@+id/ET_event_title" android:text="Sept. 7, 2009"
 			android:textSize="17sp" android:paddingLeft="10sp"
-			android:paddingBottom="1sp"></TextView>
+			android:paddingBottom="1sp" android:clickable="true"></TextView>
 
 
 		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/TV_event_date"
-			android:text="7:00 PM" android:textSize="17sp"
+			android:layout_height="wrap_content" android:text="7:00 PM" android:textSize="17sp"
 			android:layout_toRightOf="@+id/TV_event_date"
 			android:layout_alignTop="@+id/TV_event_date" android:paddingLeft="15sp"
 			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
-			android:paddingRight="3sp"></TextView>
+			android:paddingRight="3sp" android:id="@+id/TV_event_time"></TextView>
 
 		<Spinner android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_location"
@@ -67,9 +66,10 @@
 			android:layout_height="wrap_content" android:layout_alignRight="@+id/TV_event_location"
 			android:id="@+id/TV_event_desc" android:layout_below="@+id/TV_event_building"
 			android:textSize="19sp" android:text="Desc" android:layout_marginTop="10sp"></TextView>
+		
 		<EditText android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_desc"
-			android:layout_below="@+id/TV_event_building" android:id="@+id/EditText01"
+			android:layout_below="@+id/TV_event_building" android:id="@+id/ET_event_desc"
 			android:layout_alignLeft="@+id/ET_event_title"
 			android:layout_alignTop="@+id/TV_event_desc"
 			android:layout_alignRight="@+id/ET_event_title" android:textSize="17sp"
