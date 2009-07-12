@@ -15,7 +15,7 @@
 			android:layout_marginTop="8sp" android:layout_marginRight="10sp"
 			android:layout_marginLeft="15sp" android:layout_height="wrap_content"
 			android:text="Type your event name here" android:textSize="17sp"
-			android:layout_toRightOf="@id/TV_event_title"></EditText>
+			android:layout_toRightOf="@id/TV_event_title" android:nextFocusDown="@+id/TV_event_date"></EditText>
 
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/TV_event_date_time"
@@ -35,7 +35,7 @@
 			android:layout_alignBottom="@+id/TV_event_date_time"
 			android:layout_alignLeft="@+id/ET_event_title" android:text="Sept. 7, 2009"
 			android:textSize="17sp" android:paddingLeft="10sp"
-			android:paddingBottom="1sp" android:clickable="true"></TextView>
+			android:paddingBottom="1sp" android:clickable="true" android:focusable="true" android:cursorVisible="true" android:nextFocusDown="@+id/TV_event_time"></TextView>
 
 
 		<TextView android:layout_width="wrap_content"
@@ -43,14 +43,12 @@
 			android:layout_toRightOf="@+id/TV_event_date"
 			android:layout_alignTop="@+id/TV_event_date" android:paddingLeft="15sp"
 			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
-			android:paddingRight="3sp" android:id="@+id/TV_event_time"></TextView>
+			android:paddingRight="3sp" android:id="@+id/TV_event_time" android:clickable="true" android:nextFocusDown="@+id/SPIN_event_location" android:focusable="true" android:nextFocusUp="@+id/TV_event_date"></TextView>
 
 		<Spinner android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_location"
-			android:layout_alignLeft="@+id/TV_event_date" android:paddingTop="20sp"
-			android:layout_alignTop="@+id/TV_event_location"
-			android:layout_marginTop="15sp" android:layout_marginLeft="2sp"
-			android:id="@+id/SPIN_event_location" android:layout_alignRight="@+id/ET_event_title"></Spinner>
+			android:layout_alignLeft="@+id/TV_event_date" android:layout_alignTop="@+id/TV_event_location"
+			android:layout_marginTop="15sp" android:id="@+id/SPIN_event_location" android:layout_alignRight="@+id/ET_event_title" android:layout_marginLeft="2sp" android:entries="@array/location_modifiers" android:nextFocusDown="@+id/TV_event_building" android:nextFocusUp="@+id/TV_event_time"></Spinner>
 
 
 
@@ -59,7 +57,7 @@
 			android:layout_height="wrap_content" android:layout_alignLeft="@+id/SPIN_event_location"
 			android:layout_below="@+id/SPIN_event_location" android:paddingLeft="5sp"
 			android:text="Featheringill Hall" android:textSize="17sp"
-			android:paddingTop="4sp" android:id="@+id/TV_event_building"></TextView>
+			android:paddingTop="4sp" android:id="@+id/TV_event_building" android:clickable="true" android:focusable="true"></TextView>
 
 
 		<TextView android:layout_width="wrap_content"
