@@ -1,0 +1,10 @@
+<resources>
+	<string-array name="location_modifiers">
+		<item>inside</item>
+		<item>on top of</item>
+		<item>behind</item>
+		<item>in front of</item>
+		<item>beside</item>
+		<item>near</item>
+	</string-array>
+</resources>

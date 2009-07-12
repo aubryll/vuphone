@@ -1,13 +1,18 @@
 package org.vuphone.vandyupon.android;
 
+import java.io.IOException;
 import java.util.Calendar;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +24,17 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class SubmitEvent extends Activity {
+	protected static final int RESULT_OK = 0;
+	protected static final int RESULT_UNKNOWN = 1;
+	protected static final int RESULT_CANCELED = 2;
+	protected static final String RESULT = "r";
 
 	private static final int DIALOG_DATE_PICKER = 0;
 	private static final int DIALOG_TIME_PICKER = 1;
 
 	private TextView dateLabel_;
 	private TextView timeLabel_;
+	private TextView buildingLabel_;
 
 	private int year_;
 	private int month_;
@@ -41,6 +51,7 @@ public class SubmitEvent extends Activity {
 			month_ = monthOfYear;
 			day_ = dayOfMonth;
 			updateDateLabel();
+			dateLabel_.requestFocus();
 		}
 	};
 
@@ -50,6 +61,7 @@ public class SubmitEvent extends Activity {
 			hour_ = hourOfDay;
 			minute_ = minute;
 			updateTimeLabel();
+			timeLabel_.requestFocus();
 		}
 	};
 
@@ -93,13 +105,50 @@ public class SubmitEvent extends Activity {
 		}
 	}
 
+	/**
+	 * This method is called when the sending activity has finished, with the
+	 * result it supplied.
+	 * 
+	 * @param requestCode
+	 *            The original request code as given to startActivity().
+	 * @param resultCode
+	 *            From sending activity as per setResult().
+	 * @param data
+	 *            From sending activity as per setResult().
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK)
+			buildingLabel_.setText(data.getStringExtra(RESULT));
+		else if (resultCode == RESULT_CANCELED)
+			;
+		else {
+			// TODO - make the Other location dialog
+			Toast.makeText(
+					this,
+					"queue Dialog to enter String"
+							+ " representing 'Other' location",
+					Toast.LENGTH_LONG).show();
+			buildingLabel_.setText("Other");
+		}
+
+		// TODO - None of these will work right now, because the screen is in
+		// touch mode. We don't want the controls to allow focus in touch mode,
+		// because then you would have to double click them to activate them -
+		// once to focus and once to click. So, we would like to figure out how
+		// to change the mode of the screen here and then request focus
+		buildingLabel_.requestFocus();
+	}
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.submit_event);
 
 		dateLabel_ = (TextView) findViewById(R.id.TV_event_date);
+		timeLabel_ = (TextView) findViewById(R.id.TV_event_time);
+		buildingLabel_ = (TextView) findViewById(R.id.TV_event_building);
 
 		// Create the onClickListener for the date
 		dateLabel_.setOnClickListener(new OnClickListener() {
@@ -108,7 +157,6 @@ public class SubmitEvent extends Activity {
 			}
 		});
 
-		timeLabel_ = (TextView) findViewById(R.id.TV_event_time);
 		// Create the onClickListener for the date
 		timeLabel_.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -122,12 +170,36 @@ public class SubmitEvent extends Activity {
 		year_ = c.get(Calendar.YEAR);
 		month_ = c.get(Calendar.MONTH);
 		day_ = c.get(Calendar.DATE);
-
 		hour_ = c.get(Calendar.HOUR_OF_DAY);
 		minute_ = c.get(Calendar.MINUTE);
-
 		updateDateLabel();
 		updateTimeLabel();
+
+		// Set up the location chooser
+		buildingLabel_.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startActivityForResult(new Intent(SubmitEvent.this,
+						ChooseLocation.class), RESULT_OK);
+			}
+		});
+
+		ColorStateList csl = null;
+		XmlResourceParser parser = getResources().getXml(
+				R.color.focused_textview);
+		try {
+			csl = ColorStateList.createFromXml(getResources(), parser);
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (csl == null)
+			return;
+
+		dateLabel_.setTextColor(csl);
+		timeLabel_.setTextColor(csl);
+		buildingLabel_.setTextColor(csl);
 	}
 
 	/** Creates the menu items */
