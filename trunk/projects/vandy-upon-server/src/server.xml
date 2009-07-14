@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<!--
+		- Application context definition for JPetStore's business layer. -
+		Contains bean references to the transaction manager and to the DAOs in
+		- dataAccessContext-local/jta.xml (see web.xml's
+		"contextConfigLocation").
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+
+	<!-- Use this bean to utilize the MySQL Database-->
+	<!-- Note: There must be a file called db.properties in the same directory
+		 as this file if this bean is to be used. -->
+	<!--  -->
+	<bean id="dataProvider"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+			</value>
+		</property>
+		<property name="url">
+			<value>${db.host}
+			</value>
+		</property>
+		<property name="username">
+			<value>${db.username}</value>
+		</property>
+		<property name="password">
+			<value>${db.password}</value>
+		</property>
+	</bean>
+	
+	<!--  This bean is used for MySql Connections -->
+	<!--  -->
+	<bean name="dbConstructor" class="org.vuphone.vandyupon.sql.MySqlConstructor" />
+	
+	<!--  This bean loads the properties referenced in the username, password and url fields -->
+	<!--  The format of this file is property=value. For example, the file for my computer
+		  contains db.username=root.  Each property goes on its own line. 
+		  If you don't have this file, make sure this is commented out...-->
+	<!--  -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="db.properties" />
+	</bean>
+	
+	<!--  This bean is used for SQLite Connections -->
+	<!--  <bean name="dbConstructor" class="org.vuphone.vandyupon.sql.SqliteConstructor" />-->
+	
+	<!-- Use this bean to utilize the SQLite Database-->
+	<!-- 
+		<bean id="dataProvider"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"> <value>org.sqlite.JDBC</value>
+		</property> <property name="url">
+		<value>jdbc:sqlite:vandyupon.db</value> </property> </bean>
+	-->
+	<bean name="notificationServlet" class="org.vuphone.vandyupon.notification.NotificationServlet">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="handlers">
+			<map>
+				<entry>
+					<key>
+						<value>eventpost</value>
+					</key>
+					<ref bean="eventPostHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>eventrequest</value>
+					</key>
+					<ref bean="eventRequestHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>locationpost</value>
+					</key>
+					<ref bean="locationPostHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>locationrequest</value>
+					</key>
+					<ref bean="locationRequestHandler" />
+				</entry>
+			</map>
+		</property>
+		<property name="parsers">
+			<map>
+				<entry>
+					<key>
+						<value>eventpost</value>
+					</key>
+					<ref bean="eventPostParser" />
+				</entry>
+				<entry>
+					<key>
+						<value>eventrequest</value>
+					</key>
+					<ref bean="eventRequestParser" />
+				</entry>
+				<entry>
+					<key>
+						<value>locationpost</value>
+					</key>
+					<ref bean="locationPostParser" />
+				</entry>
+				<entry>
+					<key>
+						<value>locationrequest</value>
+					</key>
+					<ref bean="locationRequestParser" />
+				</entry>
+				
+				
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Handler Beans -->
+	<bean name="eventPostHandler" class="org.vuphone.vandyupon.notification.eventpost.EventPostHandler" />
+	<bean name="eventRequestHandler" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestHandler" />
+	<bean name="locationPostHandler" class="org.vuphone.vandyupon.notification.locationpost.LocationPostHandler" />
+	<bean name="locationRequestHandler" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestHandler" />
+	
+	<!-- Parser Beans -->
+	<bean name="eventPostParser" class="org.vuphone.vandyupon.notification.eventpost.EventPostParser" />
+	<bean name="eventRequestParser" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestParser" />
+	<bean name="locationPostParser" class="org.vuphone.vandyupon.notification.locationpost.LocationPostParser" />
+	<bean name="locationRequestParser" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestParser" />
+
+	<!-- Sql Bean -->
+	<bean name="sqlConstructor" class="org.vuphone.vandyupon.sql.SqlConstructor">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="databaseConstructor" ref="dbConstructor" />
+	</bean>
+
+
+</beans>

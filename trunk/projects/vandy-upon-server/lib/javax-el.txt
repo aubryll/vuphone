@@ -1,0 +1,8 @@
+	<module name='sun-servlet'
+		licenseType='apache-2.0'
+		version='2.4'
+		projectHome='http://jakarta.apache.org/tomcat/index.html'
+		description='Tomcat 5.5 servlet 2.4 spec api classes'>
+		<jar name='servlet-api.jar' />
+		<jar name='jsp-api.jar' />
+	</module>
