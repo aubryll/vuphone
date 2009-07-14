@@ -9,7 +9,7 @@
 	src="http://jquery.offput.ca/js/jquery.timers.js"></script>
 
 <script
-	src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAwUmhtXq7l-pmd0VaUhQuOBTRzhAzSQ3u4E7LYXha2CwyHvWJ_RRIk9eLyEB9DTAVD0x0VYHWvAzg2A"
+	src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAABWCNt87qa4B0xMt7qCbeOhSUJe7as4HRkTSp8W_Y5vZTzgBsVRRK2y9QPUsVV97Efab1bIzjFmYggQ"
 	type="text/javascript"></script>
 	
 
@@ -179,14 +179,14 @@
     function getAccidentData(){
         
         var bnds = map.getBounds();
-        var qry = new String("http://localhost:8080/wreckwatch/map/?type=locationrequest&nelat="+bnds.getNorthEast().lat()+"&swlat="+bnds.getSouthWest().lat()+
+        var qry = new String("http://afrl-gift.dre.vanderbilt.edu:8080/wreckwatch/map/?type=locationrequest&nelat="+bnds.getNorthEast().lat()+"&swlat="+bnds.getSouthWest().lat()+
         "&nelon="+bnds.getNorthEast().lng()+"&swlon="+bnds.getSouthWest().lng()+"&callback=?");
     	$.getJSON(qry, accidentCallback);
     }
 
     function getRouteData(id){
     	var bnds = map.getBounds();
-        var qry = new String("http://localhost:8080/wreckwatch/map/?type=routerequest&id=" + id + "&callback=?");
+        var qry = new String("http://afrl-gift.dre.vanderbilt.edu:8080/wreckwatch/map/?type=routerequest&id=" + id + "&callback=?");
     	$.getJSON(qry, routeCallback);
     }
 

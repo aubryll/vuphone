@@ -34,10 +34,10 @@ import org.vuphone.wwatch.notification.NotificationHandler;
 public class AccidentHandler implements NotificationHandler {
 
 	private static final Logger logger_ = Logger
-			.getLogger(AccidentHandler.class.getName());
-	
+	.getLogger(AccidentHandler.class.getName());
+
 	private static final boolean CALL_ASTERISK = true;
-	
+
 	// XML will instantiate these
 	private AccidentParser parser_;
 	private DataSource ds_;
@@ -65,18 +65,18 @@ public class AccidentHandler implements NotificationHandler {
 			logger_.log(Level.SEVERE, " Notification was: ");
 			logger_.log(Level.SEVERE, " " + n.toString());
 			logger_
-					.log(Level.SEVERE,
-							" Unable to continue without AccidentNotification, stopping");
+			.log(Level.SEVERE,
+					" Unable to continue without AccidentNotification, stopping");
 			closeDatabase(db);
 			return n;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger_.log(Level.SEVERE,
-					"Unable to connect to wreckwatch.db database");
+			"Unable to connect to wreckwatch.db database");
 
 			logger_.log(Level.SEVERE, "SQLException: ", e);
 			logger_.log(Level.SEVERE,
-					" Unable to continue without database, stopping");
+			" Unable to continue without database, stopping");
 			closeDatabase(db);
 			return n;
 		}
@@ -87,7 +87,7 @@ public class AccidentHandler implements NotificationHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger_.log(Level.WARNING,
-					"Unable to control database at a fine-grained level");
+			"Unable to control database at a fine-grained level");
 		}
 
 		// Used as the row ID of the person who wrecked
@@ -98,16 +98,16 @@ public class AccidentHandler implements NotificationHandler {
 		ResultSet rs;
 		try {
 			prep = db
-					.prepareStatement("SELECT id FROM people WHERE AndroidID LIKE ?;");
+			.prepareStatement("SELECT id FROM people WHERE AndroidID LIKE ?;");
 			prep.setString(1, report.getPerson());
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			logger_
-					.log(
-							Level.SEVERE,
-							"Unable to prepare a SQL statement to return the Contact ID based off the Android ID");
+			.log(
+					Level.SEVERE,
+					"Unable to prepare a SQL statement to return the Contact ID based off the Android ID");
 			logger_.log(Level.SEVERE,
-					" Unable to continue without statement, stopping");
+			" Unable to continue without statement, stopping");
 			closeDatabase(db);
 			return n;
 		}
@@ -118,12 +118,12 @@ public class AccidentHandler implements NotificationHandler {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			logger_
-					.log(
-							Level.SEVERE,
-							"Unable to execute a SQL statement to return the Contact ID based off the Android ID");
+			.log(
+					Level.SEVERE,
+					"Unable to execute a SQL statement to return the Contact ID based off the Android ID");
 
 			logger_.log(Level.SEVERE,
-					" Unable to continue without statement, stopping");
+			" Unable to continue without statement, stopping");
 			closeDatabase(db);
 			return n;
 		}
@@ -137,19 +137,19 @@ public class AccidentHandler implements NotificationHandler {
 		} catch (SQLException e) {
 			if (insertPerson(report) == false) {
 				logger_.log(Level.SEVERE,
-						"(possibly) Unable to insert a new person");
+				"(possibly) Unable to insert a new person");
 				logger_
-						.log(
-								Level.SEVERE,
-								" Continuing in the hope that it was added, we will"
-										+ " fail shortly if it was indeed not inserted");
+				.log(
+						Level.SEVERE,
+						" Continuing in the hope that it was added, we will"
+						+ " fail shortly if it was indeed not inserted");
 			}
 		}
 
 		// get the ID of the created person
 		try {
 			prep = db
-					.prepareStatement("SELECT id FROM people WHERE AndroidID LIKE ?;");
+			.prepareStatement("SELECT id FROM people WHERE AndroidID LIKE ?;");
 			prep.setString(1, report.getPerson());
 
 			rs = prep.executeQuery();
@@ -160,14 +160,14 @@ public class AccidentHandler implements NotificationHandler {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			logger_.log(Level.SEVERE,
-					"Unable to get the ID of the last inserted person");
+			"Unable to get the ID of the last inserted person");
 
 			logger_
-					.log(
-							Level.SEVERE,
-							" Either the person does not exist (was not inserted), or the ResultSet went bad");
+			.log(
+					Level.SEVERE,
+					" Either the person does not exist (was not inserted), or the ResultSet went bad");
 			logger_.log(Level.SEVERE,
-					" Unable to continue with either error, stopping");
+			" Unable to continue with either error, stopping");
 			closeDatabase(db);
 			return n;
 		}
@@ -175,7 +175,7 @@ public class AccidentHandler implements NotificationHandler {
 		// Insert wreck into database
 		try {
 			prep = db
-					.prepareStatement("INSERT INTO wreck (Person, Lat, Lon, Date, LargestAccel) VALUES (?, ?, ?, ?, ?);");
+			.prepareStatement("INSERT INTO wreck (Person, Lat, Lon, Date, LargestAccel) VALUES (?, ?, ?, ?, ?);");
 			prep.setInt(1, id);
 			prep.setDouble(2, report.getLatitude());
 			prep.setDouble(3, report.getLongitude());
@@ -188,19 +188,19 @@ public class AccidentHandler implements NotificationHandler {
 			logger_.log(Level.SEVERE, "Unable to insert wreck into database!");
 
 			logger_.log(Level.SEVERE,
-					" This is very bad, core functionality is broken");
+			" This is very bad, core functionality is broken");
 			logger_.log(Level.SEVERE, " AccidentReport: ");
 			logger_.log(Level.SEVERE, " " + report.toString());
 			logger_
-					.log(Level.SEVERE,
-							" Continuing execution, attempting to contact emergency contacts");
+			.log(Level.SEVERE,
+					" Continuing execution, attempting to contact emergency contacts");
 		}
 
 		// Retrieve emergency contact numbers
 		ArrayList<String> nums = new ArrayList<String>();
 		try {
 			prep = db
-					.prepareStatement("SELECT ContactId FROM emergencycontacts WHERE PersonId = ?");
+			.prepareStatement("SELECT ContactId FROM emergencycontacts WHERE PersonId = ?");
 			prep.setInt(1, id);
 			rs = prep.executeQuery();
 			while (rs.next()) {
@@ -212,24 +212,27 @@ public class AccidentHandler implements NotificationHandler {
 			logger_.log(Level.WARNING, "Unable to retrieve emergency contacts");
 
 			logger_
-					.log(Level.WARNING,
-							" Not absolutely terrible, but this should definitely be checked out");
+			.log(Level.WARNING,
+					" Not absolutely terrible, but this should definitely be checked out");
 			logger_
-					.log(Level.WARNING,
-							" Continuing execution to close DB and return Notification");
+			.log(Level.WARNING,
+					" Continuing execution to close DB and return Notification");
 		}
 		closeDatabase(db);
 
 		// Contact emergency contacts
 		b_.execute(nums);
-		
+
 		// Call a default 911 Emergency number
-		
-		String emergency = "311";
-		String recording = "custom/wreck-notification";
-		if (CALL_ASTERISK)
-			AsteriskConnector.makeCallPlayRecording(emergency, recording);
-		
+		try{
+			String emergency = "campbesh-302@pbxes.org";
+			String recording = "custom/wreck-notification";
+			if (CALL_ASTERISK)
+				AsteriskConnector.makeCallPlayRecording(emergency, recording);
+		}catch(Exception e){
+
+		}
+
 		// Return an AccidentNotification
 		return report;
 	}
@@ -252,9 +255,9 @@ public class AccidentHandler implements NotificationHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger_.log(Level.SEVERE,
-					"Unable to get database connection for insertion");
+			"Unable to get database connection for insertion");
 			logger_.log(Level.SEVERE,
-					" unable to continue without database, stopping");
+			" unable to continue without database, stopping");
 			return false;
 		}
 
@@ -262,13 +265,13 @@ public class AccidentHandler implements NotificationHandler {
 
 		try {
 			prep = db
-					.prepareStatement("INSERT INTO people (AndroidID) VALUES (?)");
+			.prepareStatement("INSERT INTO people (AndroidID) VALUES (?)");
 			prep.setString(1, report.getPerson());
 			prep.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger_.log(Level.SEVERE,
-					"Unable to insert new person into people table");
+			"Unable to insert new person into people table");
 			return false;
 		}
 
