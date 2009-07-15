@@ -41,11 +41,13 @@ public class EventPostHandler implements NotificationHandler {
 	 */
 	private int createEvent(EventPost ep, int locationId) throws SQLException{
 		Connection conn = ds_.getConnection();
-		String sql = "insert into events (name, locationid, userid) values (?, ?, ?)";
+		String sql = "insert into events (name, locationid, userid, starttime, endtime) values (?, ?, ?, ?, ?)";
 		PreparedStatement prep = conn.prepareStatement(sql);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
 		prep.setInt(3, ep.getUser());
+		prep.setLong(4, ep.getStartTime());
+		prep.setLong(5, ep.getEndTime());
 		
 		if (prep.executeUpdate() == 0){
 			throw new SQLException("Insertion into vandyupon.events failed for an unknown reason");
@@ -98,10 +100,11 @@ public class EventPostHandler implements NotificationHandler {
 		ResultSet rs = prep.executeQuery();
 		rs.next();
 		int id = rs.getInt("locationid");
+		rs.close();
 
 		if (id == 0){
 			sql = "insert into locations (name, lat, lon, userid) values (?, ?, ?, ?)";
-			prep.setString(1, ep.getName());
+			prep.setString(1, ep.getLocation().getName());
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
 			prep.setInt(4, ep.getUser());
@@ -133,8 +136,10 @@ public class EventPostHandler implements NotificationHandler {
 		ResultSet rs = prep.executeQuery();
 		rs.next();
 		if (rs.getInt(1) != 0){
+			rs.close();
 			return true;
 		}else{
+			rs.close();
 			return false;
 		}
 	}

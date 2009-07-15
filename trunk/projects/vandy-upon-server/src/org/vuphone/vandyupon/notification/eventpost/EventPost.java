@@ -23,17 +23,25 @@ public class EventPost extends Notification {
 	private Location loc_;
 	private String name_;
 	private int user_;
+	private long start_;
+	private long end_;
 	
 	
 	public EventPost(){
 		super("eventpost");
 	}
 	
-	public EventPost(Location loc, String name, int user){
+	public EventPost(Location loc, String name, int user, long start, long end){
 		super("eventpost");
 		loc_ = loc;
 		name_ = name;
 		user_ = user;
+		start_ = start;
+		end_ = end;
+	}
+	
+	public long getEndTime(){
+		return end_;
 	}
 
 	/**
@@ -49,6 +57,10 @@ public class EventPost extends Notification {
 	public String getName() {
 		return name_;
 	}
+	
+	public long getStartTime(){
+		return start_;
+	}
 
 	/**
 	 * @return the user_
@@ -57,6 +69,9 @@ public class EventPost extends Notification {
 		return user_;
 	}
 	
+	public void setEndTime(long end){
+		end_ = end;
+	}
 	/**
 	 * @param loc the loc_ to set
 	 */
@@ -69,6 +84,10 @@ public class EventPost extends Notification {
 	 */
 	public void setName(String name) {
 		name_ = name;
+	}
+	
+	public void setStartTime(long start){
+		start_ = start;
 	}
 
 	/**
