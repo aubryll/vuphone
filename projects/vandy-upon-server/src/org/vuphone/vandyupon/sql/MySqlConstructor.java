@@ -28,39 +28,53 @@ public class MySqlConstructor implements DatabaseConstructor {
 		db.setAutoCommit(false);
 
 		String sql = "CREATE TABLE IF NOT EXISTS people ( "
-				+ "id INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "AndroidID VARCHAR(20)," + "PhoneNumber VARCHAR(15),"
-				+ "FirstName VARCHAR(50)," + "LastName VARCHAR(50),"
-				+ "Email VARCHAR(100));";
+				+ "userid INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ "deviceid VARCHAR(20))";
 		PreparedStatement prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS wreck ( "
-				+ "WreckID INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "Person INTEGER REFERENCES people(id),"
+		sql = "CREATE TABLE IF NOT EXISTS locations ( "
+				+ "locationid INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ "name varchar(100) not null,"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date BIGINT NOT NULL," + "LargestAccel DOUBLE NOT NULL);";
+				+ "Date BIGINT NOT NULL," + "userid int not null references people(userid))";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS emergencycontacts ( "
-				+ "PersonId INTEGER REFERENCES people(id),"
-				+ "ContactId VARCHAR(15) NOT NULL);";
+		sql = "CREATE TABLE IF NOT EXISTS events ( "
+				+ "eventid INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ "name varchar(100) not null,"
+				+ "locationid integer not null references locations(locationid),"
+				+ "userid integer not null references people(userid))";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS route ( "
-				+ "CoordID INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "WreckID INTEGER REFERENCES wreck(WreckID), "
-				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date BIGINT NOT NULL)" ;
+		sql = "CREATE TABLE IF NOT EXISTS eventrating ( "
+				+ "ratingid INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ "value tinyint not null,"
+				+ "eventid INTEGER REFERENCES events(eventid), "
+				+ "comment text," 
+				+ "userid integer not null references people (userid),"
+				+ "submissiondate BIGINT NOT NULL)" ;
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
-		sql = "CREATE TABLE IF NOT EXISTS wreckimages ( "
-				+ "ImageID INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "WreckID INTEGER REFERENCES wreck(WreckID), FileName TEXT NOT NULL,"
-				+ "Time BIGINT NOT NULL)";
+		sql = "CREATE TABLE IF NOT EXISTS locationrating ( "
+				+ "ratingid INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ "value tinyint, "
+				+ "locationid integer not null references locations(locationid),"
+				+ "userid integer not null references people(userid),"
+				+ "comment text, "
+				+ "submissiondate bigint not null)";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+		
+		sql = "create table if not exists facebookconnector ("
+			+ "facebookid integer primary key auto_increment,"
+			+ "userid integer not null, "
+			+ "login varchar(100) not null,"
+			+ "password varchar(100) not null)";
+		
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		db.commit();

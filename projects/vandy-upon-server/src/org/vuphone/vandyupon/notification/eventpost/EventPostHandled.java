@@ -15,69 +15,24 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventpost;
 
-import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.Notification;
 
-public class EventPost extends Notification {
+public class EventPostHandled extends Notification {
 	
-	private Location loc_;
-	private String name_;
-	private int user_;
+	private int id_;
 	
-	
-	public EventPost(){
-		super("eventpost");
+	public EventPostHandled(int eventid){
+		super("eventposthandled");
+		id_ = eventid;
 	}
 	
-	public EventPost(Location loc, String name, int user){
-		super("eventpost");
-		loc_ = loc;
-		name_ = name;
-		user_ = user;
-	}
-
-	/**
-	 * @return the loc_
-	 */
-	public Location getLocation() {
-		return loc_;
-	}
-
-	/**
-	 * @return the name_
-	 */
-	public String getName() {
-		return name_;
-	}
-
-	/**
-	 * @return the user_
-	 */
-	public int getUser() {
-		return user_;
+	public int getEventId(){
+		return id_;
 	}
 	
-	/**
-	 * @param loc the loc_ to set
-	 */
-	public void setLocation(Location loc) {
-		loc_ = loc;
+	public void setEventId(int eventid){
+		id_ = eventid;
 	}
-
-	/**
-	 * @param name the name_ to set
-	 */
-	public void setName(String name) {
-		name_ = name;
-	}
-
-	/**
-	 * @param user the user_ to set
-	 */
-	public void setUser(int user) {
-		user_ = user;
-	}
-	
 	
 	
 	
