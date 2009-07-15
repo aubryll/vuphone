@@ -13,73 +13,36 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.eventpost;
+package org.vuphone.vandyupon.datastructs;
 
-import org.vuphone.vandyupon.datastructs.Location;
-import org.vuphone.vandyupon.notification.Notification;
+public class Location {
 
-public class EventPost extends Notification {
-	
-	private Location loc_;
-	private String name_;
-	private int user_;
-	
-	
-	public EventPost(){
-		super("eventpost");
-	}
-	
-	public EventPost(Location loc, String name, int user){
-		super("eventpost");
-		loc_ = loc;
-		name_ = name;
-		user_ = user;
-	}
-
+	private double lat_;
+	private double lon_;
 	/**
-	 * @return the loc_
+	 * @return the lat_
 	 */
-	public Location getLocation() {
-		return loc_;
+	public double getLat() {
+		return lat_;
 	}
-
 	/**
-	 * @return the name_
+	 * @return the lon_
 	 */
-	public String getName() {
-		return name_;
+	public double getLon() {
+		return lon_;
 	}
-
 	/**
-	 * @return the user_
+	 * @param lat the lat_ to set
 	 */
-	public int getUser() {
-		return user_;
+	public void setLat(double lat) {
+		lat_ = lat;
 	}
-	
 	/**
-	 * @param loc the loc_ to set
+	 * @param lon the lon_ to set
 	 */
-	public void setLocation(Location loc) {
-		loc_ = loc;
-	}
-
-	/**
-	 * @param name the name_ to set
-	 */
-	public void setName(String name) {
-		name_ = name;
-	}
-
-	/**
-	 * @param user the user_ to set
-	 */
-	public void setUser(int user) {
-		user_ = user;
+	public void setLon(double lon) {
+		lon_ = lon;
 	}
 	
 	
-	
-	
-
 }
