@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    
+    <TextView android:text="Create Land Mine"
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:layout_gravity="center_horizontal" android:textSize="30px" 
+ 		android:layout_marginTop="20px"/>
+ 		
+ 	<TextView android:text="Click the button to create a land mine at your last know GPS position."
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="20px" android:layout_margin="20px" />
+ 		
+ 	<Button android:id="@+id/create_land_mine" android:text="Create Mine"
+	 	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	 	android:layout_weight="1" android:textSize="20px"
+	 	android:padding="15px" android:layout_gravity="center_horizontal" />
+	 	
+	 <TextView android:id="@+id/activated_message" 
+	 	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	 	android:layout_margin="20px" android:textSize="15px" 
+	 	android:visibility="invisible"/>
+ 		
+</LinearLayout>
