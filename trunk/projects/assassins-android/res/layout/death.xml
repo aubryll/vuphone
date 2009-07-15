@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical">
+  
+   	<TextView android:text="You're Dead!"
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:layout_gravity="center_horizontal" android:textSize="30px" 
+ 		android:layout_marginTop="20px"/>
+ 		
+ 	<TextView android:text="In the Assassins game, you have been killed!"
+ 		android:layout_width="fill_parent" android:layout_height="wrap_content"
+ 		android:textSize="20px" android:layout_margin="20px" />
+ 		
+ 	<TextView android:id="@+id/killMessage" 
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="20px" android:layout_margin="20px" />
+ 		
+ 	<TextView android:text="To rejoin the game, exit the playing area and contact the Godfather." 
+ 		android:layout_width="fill_parent" android:layout_height="wrap_content" 
+ 		android:gravity="bottom" android:textSize="15px" 
+ 		android:layout_margin="20px" />
+ 		
+</LinearLayout>
