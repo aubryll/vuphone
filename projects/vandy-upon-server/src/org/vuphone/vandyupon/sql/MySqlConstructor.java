@@ -77,6 +77,33 @@ public class MySqlConstructor implements DatabaseConstructor {
 		
 		prep = db.prepareStatement(sql);
 		prep.execute();
+		
+		sql = "create table if not exists metatypes ("
+			+ "typeid integer not null primary key auto_increment,"
+			+ "typename varchar(100) not null)";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+		
+		sql = "create table if not exists eventmeta ("
+			+ "metaid integer not null primary key auto_increment,"
+			+ "eventid integer not null references events(eventid),"
+			+ "value text not null,"
+			+ "metatype integer references metatypes(typeid))";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+		
+		sql = "create table if not exists locationmeta ("
+			+ "metaid integer not null primary key auto_increment,"
+			+ "locationid integer not null references locations(locationid),"
+			+ "value text not null,"
+			+ "metatype integer references metatypes(typeid))";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+		
+		sql = "insert into metatypes(typename) values ('DESCRIPTION'), ('IMAGE'), ('HOSTING_ORG')";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+		
 		db.commit();
 
 		db.close();
