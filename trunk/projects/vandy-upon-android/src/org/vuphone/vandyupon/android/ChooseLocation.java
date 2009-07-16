@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
-import android.widget.Toast;
 
 /**
+ * Used by the SubmitEvent class to allow the user to choose a location on
+ * campus.
+ * 
  * @author Hamilton Turner
  * 
  */
