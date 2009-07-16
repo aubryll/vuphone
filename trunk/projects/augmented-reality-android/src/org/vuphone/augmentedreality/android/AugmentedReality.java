@@ -37,10 +37,7 @@ public class AugmentedReality extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		ARView view_ = new ARView(this);
-
-		view_.addDrawer(new IntelligentDrawer(this));
-		
+		ARView view_ = new ARView(this);		
 		setContentView(view_);
 	}
 }
