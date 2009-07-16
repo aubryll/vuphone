@@ -18,6 +18,11 @@ package org.vuphone.augmentedreality.android;
 
 import android.graphics.Canvas;
 
+/**
+ * An interface for classes that wish to draw over the camera preview.
+ * 
+ * @author Krzysztof Zienkiewicz
+ */
 public interface ARDrawer {
 	void draw(Canvas canvas);
 	void surfaceReady(int width, int height);

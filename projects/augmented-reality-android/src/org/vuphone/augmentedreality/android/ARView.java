@@ -28,6 +28,17 @@ import android.view.View;
 import android.view.SurfaceHolder.Callback;
 import android.widget.FrameLayout;
 
+/**
+ * A view used for Augmented Reality applications. It composites a SurfaceView
+ * that displays the camera preview with another view on which the user can
+ * draw. To draw an overlay, implement the ARDrawer interface and register your
+ * object with addDrawer().
+ * 
+ * @author Krzysztof Zienkiewicz
+ */
+
+// TODO - Control the Invalidator Thread...
+
 public class ARView extends FrameLayout {
 
 	private CameraPreview preview_;
@@ -40,7 +51,7 @@ public class ARView extends FrameLayout {
 
 		addView(preview_);
 		addView(overlay_);
-		
+
 		new Thread(new Runnable() {
 			public void run() {
 				while (true)
@@ -49,6 +60,14 @@ public class ARView extends FrameLayout {
 		}, "Invalidator").start();
 	}
 
+	/**
+	 * This method registers the user's ARDrawer. Multiple drawers can be added.
+	 * The canvas is passed to each drawer in sequence based on the order in
+	 * which they were added.
+	 * 
+	 * @param drawer
+	 *            An ARDrawer object which will receive the overlay canvas.
+	 */
 	public void addDrawer(ARDrawer drawer) {
 		overlay_.addDrawer(drawer);
 	}
@@ -76,7 +95,7 @@ public class ARView extends FrameLayout {
 					drawerList_.get(i).surfaceReady(canvas.getWidth(),
 							canvas.getHeight());
 			}
-			
+
 			for (int i = 0; i < drawerList_.size(); i++)
 				drawerList_.get(i).draw(canvas);
 		}
@@ -91,7 +110,7 @@ public class ARView extends FrameLayout {
 			SurfaceHolder holder = getHolder();
 			holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 			holder.addCallback(this);
-		} 
+		}
 
 		@Override
 		public void surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
