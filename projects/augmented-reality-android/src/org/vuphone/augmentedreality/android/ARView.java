@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright 2009 Krzysztof Zienkiewicz
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
+
 package org.vuphone.augmentedreality.android;
 
 import java.io.IOException;
@@ -6,14 +22,12 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.hardware.Camera;
-import android.hardware.Camera.Parameters;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.SurfaceHolder.Callback;
 import android.widget.FrameLayout;
 
-// TODO - Figure out how to do Full-Screen Exclusive and the correct params for camera lens.
 public class ARView extends FrameLayout {
 
 	private CameraPreview preview_;
@@ -26,9 +40,16 @@ public class ARView extends FrameLayout {
 
 		addView(preview_);
 		addView(overlay_);
+		
+		new Thread(new Runnable() {
+			public void run() {
+				while (true)
+					overlay_.postInvalidate();
+			}
+		}, "Invalidator").start();
 	}
 
-	public void setDrawer(ARDrawer drawer) {
+	public void addDrawer(ARDrawer drawer) {
 		overlay_.addDrawer(drawer);
 	}
 
@@ -70,13 +91,10 @@ public class ARView extends FrameLayout {
 			SurfaceHolder holder = getHolder();
 			holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 			holder.addCallback(this);
-		}
+		} 
 
 		@Override
 		public void surfaceChanged(SurfaceHolder holder, int f, int w, int h) {
-			Parameters params = camera_.getParameters();
-			params.setPreviewSize(w, h);
-			camera_.setParameters(params);
 			camera_.startPreview();
 		}
 
