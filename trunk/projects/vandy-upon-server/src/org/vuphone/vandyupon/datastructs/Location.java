@@ -19,7 +19,15 @@ public class Location {
 
 	private double lat_;
 	private double lon_;
-	private String name_;
+	
+	public Location(){
+		
+	}
+	
+	public Location(double lat, double lon){
+		lat_ = lat;
+		lon_ = lon;
+	}
 	/**
 	 * @return the lat_
 	 */
@@ -33,9 +41,6 @@ public class Location {
 		return lon_;
 	}
 	
-	public String getName(){
-		return name_;
-	}
 	/**
 	 * @param lat the lat_ to set
 	 */
@@ -49,9 +54,6 @@ public class Location {
 		lon_ = lon;
 	}
 	
-	public void setName(String name){
-		name_ = name;
-	}
 	
 	
 }

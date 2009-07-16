@@ -17,13 +17,29 @@ package org.vuphone.vandyupon.notification.eventpost;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationParser;
 
 public class EventPostParser implements NotificationParser {
 
 	public Notification parse(HttpServletRequest req) {
-		return null;
+		if (!req.getParameter("type").equalsIgnoreCase("eventpost")){
+			return null;
+		}
+		EventPost ep = new EventPost();
+		ep.setLocation(new Location(Double.parseDouble(req.getParameter("locationlat")), 
+				Double.parseDouble(req.getParameter("locationlon"))));
+		
+		ep.setName(req.getParameter("eventname"));
+		ep.setStartTime(Long.parseLong(req.getParameter("starttime")));
+		ep.setEndTime(Long.parseLong(req.getParameter("endtime")));
+		ep.setUser(Integer.parseInt(req.getParameter("userid")));
+		ep.setReponseType(req.getParameter("response"));
+		ep.setCallback(req.getParameter("callback"));
+		ep.setDescription_(req.getParameter("description"));
+		
+		return ep;
 	}
 
 }

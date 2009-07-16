@@ -100,7 +100,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
-		sql = "insert into metatypes(typename) values ('DESCRIPTION'), ('IMAGE'), ('HOSTING_ORG')";
+		sql = "insert into metatypes(typename) values ('DESCRIPTION'), ('IMAGE'), " +
+				"('HOSTING_ORG'), ('LOCATION_MODIFIER')";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		

@@ -54,8 +54,20 @@ public class EventPostHandler implements NotificationHandler {
 			throw new SQLException("Insertion into vandyupon.events failed for an unknown reason");
 		}else{
 			//Everything worked
-			return prep.getGeneratedKeys().getInt(1);
+			int id = prep.getGeneratedKeys().getInt(1);
+			
+			sql = "insert into eventmeta (eventid, value, metatype) values (?, ?, (select typeid from " +
+			"metatypes where typename like 'DESCRIPTION'))";
+			
+			prep = conn.prepareStatement(sql);
+			prep.setInt(1, id);
+			prep.setString(2, ep.getDescription());
+			
+			prep.execute();
+			return id;
 		}
+		
+		
 	}
 
 	@Override
@@ -106,7 +118,7 @@ public class EventPostHandler implements NotificationHandler {
 
 		if (id == 0){
 			sql = "insert into locations (name, lat, lon, userid) values (?, ?, ?, ?)";
-			prep.setString(1, ep.getLocation().getName());
+			prep.setString(1, "unknown");
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
 			prep.setInt(4, ep.getUser());

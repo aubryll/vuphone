@@ -27,6 +27,7 @@ public class EventPost extends Notification {
 	private long end_;
 	private String callback_;
 	private String responseType_;
+	private String description_;
 	
 	
 	public EventPost(){
@@ -49,6 +50,13 @@ public class EventPost extends Notification {
 		return callback_;
 	}
 	
+	/**
+	 * @return the description_
+	 */
+	public String getDescription() {
+		return description_;
+	}
+
 	public long getEndTime(){
 		return end_;
 	}
@@ -84,6 +92,13 @@ public class EventPost extends Notification {
 	
 	public void setCallback(String cb){
 		callback_ = cb;
+	}
+	
+	/**
+	 * @param description the description_ to set
+	 */
+	public void setDescription_(String description) {
+		description_ = description;
 	}
 	
 	public void setEndTime(long end){
