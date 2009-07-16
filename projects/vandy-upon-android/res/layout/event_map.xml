@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <org.vuphone.vandyupon.android.EventViewerMap
+       	android:id="@+id/event_map"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+	    android:clickable="true"
+        android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />
+
+        <!-- Scott="0MTtaKsivpbDccqACwibpR4EWKVLtK1567_XsPQ" -->
+        <!-- Krzysztof="006K8o9WBJ9kmj2b0zgtit9-GXFF2om4L9YxqAQ" -->
+        <!-- Hamilton="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" -->
+        <!-- Chris="0jkNEKZdvnMwQ2yB7GDUqrWqjgAEsPhREB9YyPQ" -->
+        <!-- Chris2="0jkNEKZdvnMzof7knUDjeLDoLEnEqnnsuXRbdqA" -->
+    
+</LinearLayout>   

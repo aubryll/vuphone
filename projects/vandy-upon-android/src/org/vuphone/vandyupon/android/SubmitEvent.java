@@ -23,6 +23,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+/**
+ * Allows a user to submit a new event to the main server
+ * 
+ * @author Hamilton Turner
+ * 
+ */
 public class SubmitEvent extends Activity {
 	protected static final int RESULT_OK = 0;
 	protected static final int RESULT_UNKNOWN = 1;
