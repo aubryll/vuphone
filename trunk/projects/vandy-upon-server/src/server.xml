@@ -61,7 +61,6 @@
 		<value>jdbc:sqlite:vandyupon.db</value> </property> </bean>
 	-->
 	<bean name="notificationServlet" class="org.vuphone.vandyupon.notification.NotificationServlet">
-		<property name="dataConnection" ref="dataProvider" />
 		<property name="handlers">
 			<map>
 				<entry>
@@ -116,8 +115,16 @@
 					</key>
 					<ref bean="locationRequestParser" />
 				</entry>
-				
-				
+			</map>
+		</property>
+		<property name="responders">
+			<map>
+				<entry>
+					<key>
+						<value>eventpost</value>
+					</key>
+					<ref bean="eventPostResponder" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -133,6 +140,31 @@
 	<bean name="eventRequestParser" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestParser" />
 	<bean name="locationPostParser" class="org.vuphone.vandyupon.notification.locationpost.LocationPostParser" />
 	<bean name="locationRequestParser" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestParser" />
+	
+	<!-- Responder Beans -->
+	<bean name="eventPostResponder" class="org.vuphone.vandyupon.notification.eventpost.EventPostResponseHandler">
+		<property name="emitters">
+			<map>
+				<entry>
+					<key>
+						<value>json</value>
+					</key>
+					<ref bean="jsonEmitter" />
+				</entry>
+				<entry>
+					<key>
+						<value>xml</value>
+					</key>
+					<ref bean="xmlEmitter" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	
+	<!-- Emitter Beans -->
+	<bean name="jsonEmitter" class="org.vuphone.vandyupon.utils.JSONEmitter" />
+	<bean name="xmkEmitter" class="org.vuphone.vandyupon.utils.XMLEmitter" />
 
 	<!-- Sql Bean -->
 	<bean name="sqlConstructor" class="org.vuphone.vandyupon.sql.SqlConstructor">

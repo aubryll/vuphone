@@ -25,19 +25,28 @@ public class EventPost extends Notification {
 	private int user_;
 	private long start_;
 	private long end_;
+	private String callback_;
+	private String responseType_;
 	
 	
 	public EventPost(){
 		super("eventpost");
 	}
 	
-	public EventPost(Location loc, String name, int user, long start, long end){
+	public EventPost(Location loc, String name, int user, long start, long end, 
+			String callback, String responseType){
 		super("eventpost");
 		loc_ = loc;
 		name_ = name;
 		user_ = user;
 		start_ = start;
 		end_ = end;
+		callback_ = callback;
+		responseType_ = responseType;
+	}
+	
+	public String getCallback(){
+		return callback_;
 	}
 	
 	public long getEndTime(){
@@ -58,6 +67,10 @@ public class EventPost extends Notification {
 		return name_;
 	}
 	
+	public String getResponseType(){
+		return responseType_;
+	}
+	
 	public long getStartTime(){
 		return start_;
 	}
@@ -67,6 +80,10 @@ public class EventPost extends Notification {
 	 */
 	public int getUser() {
 		return user_;
+	}
+	
+	public void setCallback(String cb){
+		callback_ = cb;
 	}
 	
 	public void setEndTime(long end){
@@ -84,6 +101,10 @@ public class EventPost extends Notification {
 	 */
 	public void setName(String name) {
 		name_ = name;
+	}
+	
+	public void setReponseType(String type){
+		responseType_ = type;
 	}
 	
 	public void setStartTime(long start){

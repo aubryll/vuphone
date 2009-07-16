@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 /**
- * This class is responsible for constructing the WreckWatch database if it does
+ * This class is responsible for constructing the VandyUpon database if it does
  * not exits. If it does exist, no changes will be made.
  * 
  * @author Chris Thompson

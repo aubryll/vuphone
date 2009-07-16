@@ -18,11 +18,12 @@ package org.vuphone.vandyupon.notification.eventrequest;
 import org.vuphone.vandyupon.notification.HandlerFailedException;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationHandler;
+import org.vuphone.vandyupon.notification.ResponseNotification;
 
 public class EventRequestHandler implements NotificationHandler {
 
 	@Override
-	public Notification handle(Notification n) throws HandlerFailedException {
+	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 		return null;
 	}
 
