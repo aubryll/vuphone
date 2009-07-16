@@ -1,7 +1,21 @@
+ /**************************************************************************
+ * Copyright 2009 Chris Thompson                                           *
+ *                                                                         *
+ * Licensed under the Apache License, Version 2.0 (the "License");         *
+ * you may not use this file except in compliance with the License.        *
+ * You may obtain a copy of the License at                                 *
+ *                                                                         *
+ * http://www.apache.org/licenses/LICENSE-2.0                              *
+ *                                                                         *
+ * Unless required by applicable law or agreed to in writing, software     *
+ * distributed under the License is distributed on an "AS IS" BASIS,       *
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+ * See the License for the specific language governing permissions and     *
+ * limitations under the License.                                          *
+ **************************************************************************/
 package org.vuphone.vandyupon.notification;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,16 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
-/******************************************************************************
- * Copyright (c) 2007 Jules White. All rights reserved. This program and the
- * accompanying materials are made available under the terms of the Eclipse
- * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Jules White - initial API and implementation
- ****************************************************************************/
 public class NotificationServlet extends HttpServlet {
 
 	/**
@@ -28,39 +33,40 @@ public class NotificationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1895167101514191256L;
 
 	private static final Logger logger_ = Logger
-			.getLogger(NotificationServlet.class.getName());
+	.getLogger(NotificationServlet.class.getName());
 
 	private Map<String, NotificationHandler> handlers_;
 	private Map<String, NotificationParser> parsers_;
-	private DataSource ds_;
+	private Map<String, NotificationResponseHandler> responders_;
+
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		doPost(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	throws ServletException, IOException {
 		logger_.log(Level.FINER, "Query was " + req.getQueryString());
 
 		Notification note = parsers_.get(req.getParameter("type")).parse(req);
 
 		if (note == null) {
 			logger_.log(Level.WARNING,
-					"The parser returned a null notification");
+			"The parser returned a null notification");
 			return;
 		}
 
 		NotificationHandler handler = handlers_.get(note.getType());
 		if (handler == null) {
 			logger_.log(Level.WARNING,
-					"The handler returned was null. Check XML validity");
+			"The handler returned was null. Check XML validity");
 			return;
 		}
 
-		Notification rnote = null;
+		ResponseNotification rnote = null;
 		try {
 			rnote = handler.handle(note);
 		} catch (HandlerFailedException e1) {
@@ -68,31 +74,16 @@ public class NotificationServlet extends HttpServlet {
 		}
 		if (rnote == null) {
 			logger_.log(Level.WARNING,
-					"The handler.handle function returned a null response");
+			"The handler.handle function returned a null response");
 
 			return;
 		}
 
 		try {
 			logger_.log(Level.FINER, rnote.getResponseString());
-			resp.getWriter().write(rnote.getResponseString());
+			responders_.get(rnote.getType()).handle(resp, rnote);
 		}
-		catch (IllegalStateException e) {
-			if (e.getMessage() == "STREAM") {
-				logger_.log(Level.INFO, "NotificationServlet: resp.getWriter "+
-						"threw IllegalStateException, as expected when " +
-						"writing stream data.");
-				logger_.log(Level.INFO, "The response will be returned in " +
-						"the output stream instead of in the textwriter.");
-			}
-			else {
-				throw e;
-			}
-		}
-
-		try {
-			ds_.getConnection().close();
-		} catch (SQLException e) {
+		catch (HandlerFailedException e) {
 			e.printStackTrace();
 		}
 
@@ -105,21 +96,22 @@ public class NotificationServlet extends HttpServlet {
 	public void setHandlers(Map<String, NotificationHandler> handlers) {
 		handlers_ = handlers;
 	}
-	
+
 	public void setParsers(Map<String, NotificationParser> parsers){
 		parsers_ = parsers;
 	}
-	
+
 	public Map<String, NotificationParser> getParsers(){
 		return parsers_;
 	}
 
-	public void setDataConnection(DataSource ds) {
-		ds_ = ds;
+	public void setResponders(Map<String, NotificationResponseHandler> resp){
+		responders_ = resp;
 	}
 
-	public DataSource getDataConnection() {
-		return ds_;
+	public Map<String, NotificationResponseHandler> getResponders(){
+		return responders_;
 	}
+
 
 }

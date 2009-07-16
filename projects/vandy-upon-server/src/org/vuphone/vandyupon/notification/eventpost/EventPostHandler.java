@@ -26,6 +26,7 @@ import org.vuphone.vandyupon.notification.HandlerFailedException;
 import org.vuphone.vandyupon.notification.InvalidFormatException;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationHandler;
+import org.vuphone.vandyupon.notification.ResponseNotification;
 
 public class EventPostHandler implements NotificationHandler {
 
@@ -58,7 +59,7 @@ public class EventPostHandler implements NotificationHandler {
 	}
 
 	@Override
-	public Notification handle(Notification n) throws HandlerFailedException {
+	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 
 		if (!(n instanceof EventPost)){
 			HandlerFailedException hfe = new HandlerFailedException();
@@ -70,7 +71,8 @@ public class EventPostHandler implements NotificationHandler {
 		try{
 			if (verifyUserID(ep)){
 				int locationid = getLocationId(ep);
-				return new EventPostHandled(createEvent(ep, locationid));
+				return new EventPostResponse(createEvent(ep, locationid), 
+						ep.getResponseType(), ep.getCallback());
 			}
 		}catch (SQLException e){
 			e.printStackTrace();
