@@ -4,6 +4,7 @@
 package org.vuphone.vandyupon.android;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
@@ -15,14 +16,8 @@ import com.google.android.maps.MapActivity;
  * 
  */
 public class EventViewer extends MapActivity {
-
-	/** Called when the Activity is first created */
-	@Override
-	protected void onCreate(Bundle ice) {
-		super.onCreate(ice);
-		setContentView(R.layout.event_map);
-	}
-
+	private EventViewerMap map_;
+	
 	/**
 	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
 	 */
@@ -30,4 +25,29 @@ public class EventViewer extends MapActivity {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+	/** Called when the Activity is first created */
+	@Override
+	protected void onCreate(Bundle ice) {
+		super.onCreate(ice);
+		setContentView(R.layout.event_map);
+		
+		map_ = (EventViewerMap) findViewById(R.id.event_map);
+	}
+	
+	/** Called when the Activity is no longer visible */
+	@Override
+	protected void onPause() {
+		super.onPause();
+		map_.disableMyLocation();
+	}
+	
+	/** Called when the Activity is about to be visible */
+	@Override
+	protected void onResume() {
+		super.onResume();
+		map_.enableMyLocation();
+	}
+	
+
 }
