@@ -35,29 +35,35 @@ import com.google.android.maps.GeoPoint;
  * 
  */
 public class SubmitEvent extends Activity {
+	/** Used to indicate the status of returned activities */
 	protected static final int RESULT_OK = 0;
 	protected static final int RESULT_UNKNOWN = 1;
 	protected static final int RESULT_CANCELED = 2;
+
+	/** Used to access data returned by other activities */
 	protected static final String RESULT_NAME = "r";
 	protected static final String RESULT_LAT = "lat";
 	protected static final String RESULT_LNG = "lng";
 
+	/** Used to indicate to ourselves which activities we requested */
 	private static final int REQUEST_LIST_LOCATION = 0;
 	private static final int REQUEST_MAP_LOCATION = 1;
 
+	/** Used to indicate which dialog should be started */
 	private static final int DIALOG_DATE_PICKER = 0;
 	private static final int DIALOG_TIME_PICKER = 1;
 	private static final int DIALOG_END_DATE_PICKER = 2;
 	private static final int DIALOG_END_TIME_PICKER = 3;
 
+	/** Used to access all of the TextViews */
 	private TextView dateLabel_;
 	private TextView timeLabel_;
 	private TextView dateEndLabel_;
 	private TextView timeEndLabel_;
 	private TextView buildingLabel_;
 
+	/** Used to keep track of the start and end times */
 	private GregorianCalendar startCalendar_;
-
 	private GregorianCalendar endCalendar_;
 
 	/**
@@ -85,6 +91,11 @@ public class SubmitEvent extends Activity {
 								.getTimeInMillis()));
 
 			startCalendar_ = newCalendar;
+
+			if (endCalendar_.getTimeInMillis()
+					- startCalendar_.getTimeInMillis() < 60 * 1000)
+				endCalendar_.add(GregorianCalendar.MINUTE, 5);
+
 			updateDateLabels();
 			dateLabel_.requestFocusFromTouch();
 		}
@@ -104,6 +115,10 @@ public class SubmitEvent extends Activity {
 				return;
 
 			endCalendar_ = newCalendar;
+
+			if (endCalendar_.getTimeInMillis()
+					- startCalendar_.getTimeInMillis() < 60 * 1000)
+				endCalendar_.add(GregorianCalendar.MINUTE, 5);
 
 			updateDateLabels();
 			dateEndLabel_.requestFocusFromTouch();
@@ -128,7 +143,11 @@ public class SubmitEvent extends Activity {
 								.getTimeInMillis()));
 
 			startCalendar_ = newCalendar;
-			
+
+			if (endCalendar_.getTimeInMillis()
+					- startCalendar_.getTimeInMillis() < 60 * 1000)
+				endCalendar_.add(GregorianCalendar.MINUTE, 5);
+
 			updateTimeLabels();
 			timeLabel_.requestFocusFromTouch();
 		}
@@ -140,7 +159,7 @@ public class SubmitEvent extends Activity {
 			final int year = endCalendar_.get(GregorianCalendar.YEAR);
 			final int month = endCalendar_.get(GregorianCalendar.MONTH);
 			final int day = endCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
-			
+
 			GregorianCalendar newCalendar = new GregorianCalendar(year, month,
 					day, hourOfDay, minute);
 
@@ -149,7 +168,11 @@ public class SubmitEvent extends Activity {
 				return;
 
 			endCalendar_ = newCalendar;
-			
+
+			if (endCalendar_.getTimeInMillis()
+					- startCalendar_.getTimeInMillis() < 60 * 1000)
+				endCalendar_.add(GregorianCalendar.MINUTE, 5);
+
 			updateTimeLabels();
 			timeEndLabel_.requestFocusFromTouch();
 		}
@@ -277,6 +300,12 @@ public class SubmitEvent extends Activity {
 		startCalendar_ = new GregorianCalendar();
 		endCalendar_ = new GregorianCalendar();
 		endCalendar_.add(GregorianCalendar.HOUR, 2);
+
+		while ((startCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
+			startCalendar_.add(GregorianCalendar.MINUTE, 1);
+
+		while ((endCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
+			endCalendar_.add(GregorianCalendar.MINUTE, 1);
 
 		updateDateLabels();
 		updateTimeLabels();
@@ -432,16 +461,19 @@ public class SubmitEvent extends Activity {
 		final int minute = startCalendar_.get(GregorianCalendar.MINUTE);
 		final int amPm = startCalendar_.get(GregorianCalendar.AM_PM);
 
-		StringBuilder time = new StringBuilder("" + hour);
+		StringBuilder time = new StringBuilder();
+		if (hour == 0)
+			time.append("12");
+		else 
+			time.append(hour);
 		time.append(":");
 		if (minute < 10)
 			time.append("0");
 		time.append(minute);
-		time.append(" ");
 		if (amPm == GregorianCalendar.AM)
-			time.append("AM");
+			time.append(" AM");
 		else
-			time.append("PM");
+			time.append(" PM");
 		timeLabel_.setText(time.toString());
 
 		// Repeat the entire process for the end time
@@ -450,16 +482,19 @@ public class SubmitEvent extends Activity {
 		final int eamPm = startCalendar_.get(GregorianCalendar.AM_PM);
 
 		// Correct for 0th hour
-		time = new StringBuilder("" + eHour);
+		time = new StringBuilder();
+		if (eHour == 0)
+			time.append("12");
+		else
+			time.append(eHour);
 		time.append(":");
 		if (eMinute < 10)
 			time.append("0");
 		time.append(eMinute);
-		time.append(" ");
 		if (eamPm == GregorianCalendar.AM)
-			time.append("AM");
+			time.append(" AM");
 		else
-			time.append("PM");
+			time.append(" PM");
 		timeEndLabel_.setText(time.toString());
 	}
 }

@@ -49,14 +49,12 @@
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:text="7:00 PM"
 			android:textSize="17sp" android:layout_toRightOf="@+id/TV_event_date"
-			android:layout_alignTop="@+id/TV_event_date" android:paddingLeft="15sp"
-			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
+			android:layout_alignTop="@+id/TV_event_date" android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
 			android:paddingRight="3sp" android:id="@+id/TV_event_time"
 			android:clickable="true" android:focusable="true" android:nextFocusDown="@+id/TV_event_time_end" android:nextFocusLeft="@+id/TV_event_date" android:nextFocusUp="@+id/ET_event_title"></TextView>
 
 		<TextView android:text="8:00 PM" android:layout_toRightOf="@+id/TV_event_date"
-			android:textSize="17sp" android:paddingLeft="15sp"
-			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
+			android:textSize="17sp" android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
 			android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingRight="3sp" android:layout_alignTop="@+id/TV_event_date_end" android:nextFocusDown="@+id/SPIN_event_location" android:id="@+id/TV_event_time_end" android:nextFocusUp="@+id/TV_event_time" android:nextFocusLeft="@+id/TV_event_date_end" android:focusable="true" android:clickable="true"></TextView>
 
 		<Spinner android:layout_width="wrap_content"
