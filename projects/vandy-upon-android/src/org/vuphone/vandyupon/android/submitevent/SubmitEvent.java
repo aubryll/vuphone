@@ -50,14 +50,21 @@ public class SubmitEvent extends Activity {
 
 	private TextView dateLabel_;
 	private TextView timeLabel_;
+	private TextView dateEndLabel_;
+	private TextView timeEndLabel_;
 	private TextView buildingLabel_;
 
 	private int year_;
 	private int month_;
 	private int day_;
-
 	private int hour_;
 	private int minute_;
+	
+	private int endYear_;
+	private int endMonth_;
+	private int endDay_;
+	private int endHour_;
+	private int endMinute_;
 
 	/**
 	 * Keeps track of the lat and lng we will send to the server. Default to FGH
@@ -72,7 +79,7 @@ public class SubmitEvent extends Activity {
 			year_ = year;
 			month_ = monthOfYear;
 			day_ = dayOfMonth;
-			updateDateLabel();
+			updateDateLabels();
 			dateLabel_.requestFocus();
 		}
 	};
@@ -82,7 +89,7 @@ public class SubmitEvent extends Activity {
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 			hour_ = hourOfDay;
 			minute_ = minute;
-			updateTimeLabel();
+			updateTimeLabels();
 			timeLabel_.requestFocus();
 		}
 	};
@@ -178,6 +185,9 @@ public class SubmitEvent extends Activity {
 		dateLabel_ = (TextView) findViewById(R.id.TV_event_date);
 		timeLabel_ = (TextView) findViewById(R.id.TV_event_time);
 		buildingLabel_ = (TextView) findViewById(R.id.TV_event_building);
+		
+		dateEndLabel_ = (TextView) findViewById(R.id.TV_event_date_end);
+		timeEndLabel_ = (TextView) findViewById(R.id.TV_event_time_end);
 
 		// Create the onClickListener for the date
 		dateLabel_.setOnClickListener(new OnClickListener() {
@@ -201,8 +211,14 @@ public class SubmitEvent extends Activity {
 		day_ = c.get(Calendar.DATE);
 		hour_ = c.get(Calendar.HOUR_OF_DAY);
 		minute_ = c.get(Calendar.MINUTE);
-		updateDateLabel();
-		updateTimeLabel();
+		endYear_ = year_;
+		endMonth_ = month_;
+		endDay_ = day_;
+		endHour_ = (hour_ + 2) % 24;
+		endMinute_ = minute_;
+		
+		updateDateLabels();
+		updateTimeLabels();
 
 		// Set up the location chooser
 		buildingLabel_.setOnClickListener(new OnClickListener() {
@@ -229,7 +245,9 @@ public class SubmitEvent extends Activity {
 		dateLabel_.setTextColor(csl);
 		timeLabel_.setTextColor(csl);
 		buildingLabel_.setTextColor(csl);
-
+		
+		dateEndLabel_.setTextColor(csl);
+		timeEndLabel_.setTextColor(csl);
 	}
 
 	/** Creates the menu items */
@@ -282,17 +300,25 @@ public class SubmitEvent extends Activity {
 	}
 
 	/** Uses the current date variables to update the date text */
-	private void updateDateLabel() {
+	private void updateDateLabels() {
 		StringBuilder date = new StringBuilder(convertMonth(month_));
 		date.append(". ");
 		date.append(day_);
 		date.append(", ");
 		date.append(year_);
 		dateLabel_.setText(date.toString());
+		
+		// Repeat process for end date
+		date = new StringBuilder(convertMonth(endMonth_));
+		date.append(". ");
+		date.append(endDay_);
+		date.append(", ");
+		date.append(endYear_);
+		dateEndLabel_.setText(date.toString());
 	}
 
 	/** Uses the current time variables to update the time text */
-	private void updateTimeLabel() {
+	private void updateTimeLabels() {
 		int civilianHour = hour_;
 		String amPm;
 
@@ -317,5 +343,30 @@ public class SubmitEvent extends Activity {
 		time.append(" ");
 		time.append(amPm);
 		timeLabel_.setText(time.toString());
+		
+		// Repeat the entire process for the end time
+		civilianHour = endHour_;
+
+		if (civilianHour == 12)
+			amPm = "PM";
+		else if (civilianHour > 12) {
+			civilianHour -= 12;
+			amPm = "PM";
+		} else {
+			amPm = "AM";
+		}
+
+		// Correct for 0th hour
+		if (civilianHour == 0)
+			civilianHour = 12;
+
+		time = new StringBuilder("" + civilianHour);
+		time.append(":");
+		if (endMinute_ < 10)
+			time.append("0");
+		time.append(endMinute_);
+		time.append(" ");
+		time.append(amPm);
+		timeEndLabel_.setText(time.toString());
 	}
 }

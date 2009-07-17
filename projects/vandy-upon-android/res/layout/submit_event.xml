@@ -20,14 +20,13 @@
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/TV_event_date_time"
 			android:layout_below="@id/ET_event_title" android:layout_alignRight="@+id/TV_event_title"
-			android:textSize="19sp" android:text="Date, Time" android:paddingTop="15sp"></TextView>
+			android:textSize="19sp" android:text="Date, Time" android:paddingTop="2sp"></TextView>
 
 
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_alignRight="@+id/TV_event_date_time"
 			android:layout_below="@+id/TV_event_date_time" android:textSize="19sp"
-			android:text="Location" android:id="@+id/TV_event_location"
-			android:paddingTop="24sp"></TextView>
+			android:text="Location" android:id="@+id/TV_event_location" android:paddingTop="40sp"></TextView>
 
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/TV_event_date"
@@ -35,20 +34,39 @@
 			android:layout_alignBottom="@+id/TV_event_date_time"
 			android:layout_alignLeft="@+id/ET_event_title" android:text="Sept. 7, 2009"
 			android:textSize="17sp" android:paddingLeft="10sp"
-			android:paddingBottom="1sp" android:clickable="true" android:focusable="true" android:cursorVisible="true" android:nextFocusDown="@+id/TV_event_time"></TextView>
+			android:paddingBottom="1sp" android:clickable="true"
+			android:focusable="true" android:nextFocusDown="@+id/TV_event_date_end" android:nextFocusRight="@+id/TV_event_time" android:nextFocusUp="@+id/ET_event_title"></TextView>
 
+
+		<TextView android:layout_below="@+id/TV_event_date"
+			android:layout_toRightOf="@+id/TV_event_date_time"
+			android:layout_height="wrap_content" android:layout_width="wrap_content"
+			android:paddingLeft="10sp" android:layout_alignLeft="@+id/ET_event_title"
+			android:clickable="true" android:focusable="true" android:id="@+id/TV_event_date_end"
+			android:textSize="17sp" android:text="Sept. 7, 2009"
+			android:paddingBottom="1sp" android:layout_marginTop="2sp" android:nextFocusUp="@+id/TV_event_date" android:nextFocusRight="@+id/TV_event_time_end" android:nextFocusDown="@+id/SPIN_event_location"></TextView>
 
 		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="7:00 PM" android:textSize="17sp"
-			android:layout_toRightOf="@+id/TV_event_date"
+			android:layout_height="wrap_content" android:text="7:00 PM"
+			android:textSize="17sp" android:layout_toRightOf="@+id/TV_event_date"
 			android:layout_alignTop="@+id/TV_event_date" android:paddingLeft="15sp"
 			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
-			android:paddingRight="3sp" android:id="@+id/TV_event_time" android:clickable="true" android:nextFocusDown="@+id/SPIN_event_location" android:focusable="true" android:nextFocusUp="@+id/TV_event_date"></TextView>
+			android:paddingRight="3sp" android:id="@+id/TV_event_time"
+			android:clickable="true" android:focusable="true" android:nextFocusDown="@+id/TV_event_time_end" android:nextFocusLeft="@+id/TV_event_date" android:nextFocusUp="@+id/ET_event_title"></TextView>
+
+		<TextView android:text="8:00 PM" android:layout_toRightOf="@+id/TV_event_date"
+			android:textSize="17sp" android:paddingLeft="15sp"
+			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
+			android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingRight="3sp" android:layout_alignTop="@+id/TV_event_date_end" android:nextFocusDown="@+id/SPIN_event_location" android:id="@+id/TV_event_time_end" android:nextFocusUp="@+id/TV_event_time" android:nextFocusLeft="@+id/TV_event_date_end" android:focusable="true"></TextView>
 
 		<Spinner android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_location"
-			android:layout_alignLeft="@+id/TV_event_date" android:layout_alignTop="@+id/TV_event_location"
-			android:layout_marginTop="15sp" android:id="@+id/SPIN_event_location" android:layout_alignRight="@+id/ET_event_title" android:layout_marginLeft="2sp" android:entries="@array/location_modifiers" android:nextFocusDown="@+id/TV_event_building" android:nextFocusUp="@+id/TV_event_time"></Spinner>
+			android:layout_alignLeft="@+id/TV_event_date"
+			android:layout_alignTop="@+id/TV_event_location"
+			android:id="@+id/SPIN_event_location"
+			android:layout_alignRight="@+id/ET_event_title"
+			android:layout_marginLeft="2sp" android:entries="@array/location_modifiers"
+			android:nextFocusDown="@+id/TV_event_building" android:nextFocusUp="@+id/TV_event_time_end" android:layout_marginTop="32sp"></Spinner>
 
 
 
@@ -57,14 +75,15 @@
 			android:layout_height="wrap_content" android:layout_alignLeft="@+id/SPIN_event_location"
 			android:layout_below="@+id/SPIN_event_location" android:paddingLeft="5sp"
 			android:text="Featheringill Hall" android:textSize="17sp"
-			android:paddingTop="4sp" android:id="@+id/TV_event_building" android:clickable="true" android:focusable="true"></TextView>
+			android:paddingTop="4sp" android:id="@+id/TV_event_building"
+			android:clickable="true" android:focusable="true"></TextView>
 
 
 		<TextView android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_alignRight="@+id/TV_event_location"
 			android:id="@+id/TV_event_desc" android:layout_below="@+id/TV_event_building"
 			android:textSize="19sp" android:text="Desc" android:layout_marginTop="10sp"></TextView>
-		
+
 		<EditText android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_desc"
 			android:layout_below="@+id/TV_event_building" android:id="@+id/ET_event_desc"
@@ -73,7 +92,9 @@
 			android:layout_alignRight="@+id/ET_event_title" android:textSize="17sp"
 			android:minLines="9" android:gravity="top"
 			android:text="Type your event description here"></EditText>
-	</RelativeLayout>
+	
+
+</RelativeLayout>
 </ScrollView>	
 	
 	
