@@ -1,7 +1,7 @@
 package org.vuphone.vandyupon.android.submitevent;
 
 import java.io.IOException;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.vuphone.vandyupon.android.LocationManager;
 import org.vuphone.vandyupon.android.R;
@@ -47,6 +47,8 @@ public class SubmitEvent extends Activity {
 
 	private static final int DIALOG_DATE_PICKER = 0;
 	private static final int DIALOG_TIME_PICKER = 1;
+	private static final int DIALOG_END_DATE_PICKER = 2;
+	private static final int DIALOG_END_TIME_PICKER = 3;
 
 	private TextView dateLabel_;
 	private TextView timeLabel_;
@@ -54,17 +56,9 @@ public class SubmitEvent extends Activity {
 	private TextView timeEndLabel_;
 	private TextView buildingLabel_;
 
-	private int year_;
-	private int month_;
-	private int day_;
-	private int hour_;
-	private int minute_;
-	
-	private int endYear_;
-	private int endMonth_;
-	private int endDay_;
-	private int endHour_;
-	private int endMinute_;
+	private GregorianCalendar startCalendar_;
+
+	private GregorianCalendar endCalendar_;
 
 	/**
 	 * Keeps track of the lat and lng we will send to the server. Default to FGH
@@ -76,21 +70,88 @@ public class SubmitEvent extends Activity {
 	private DatePickerDialog.OnDateSetListener dateSetListener_ = new DatePickerDialog.OnDateSetListener() {
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
 				int dayOfMonth) {
-			year_ = year;
-			month_ = monthOfYear;
-			day_ = dayOfMonth;
+
+			final int startHour = startCalendar_
+					.get(GregorianCalendar.HOUR_OF_DAY);
+			final int startMin = startCalendar_.get(GregorianCalendar.MINUTE);
+			GregorianCalendar newCalendar = new GregorianCalendar(year,
+					monthOfYear, dayOfMonth, startHour, startMin);
+
+			// If the newer date is greater than the current end date, then bump
+			// up the current end date by the original time span
+			if (newCalendar.getTimeInMillis() > endCalendar_.getTimeInMillis())
+				endCalendar_.setTimeInMillis(newCalendar.getTimeInMillis()
+						+ (endCalendar_.getTimeInMillis() - startCalendar_
+								.getTimeInMillis()));
+
+			startCalendar_ = newCalendar;
 			updateDateLabels();
-			dateLabel_.requestFocus();
+			dateLabel_.requestFocusFromTouch();
+		}
+	};
+
+	/** Updates the text when the DatePicker dialog is set */
+	private DatePickerDialog.OnDateSetListener endDateSetListener_ = new DatePickerDialog.OnDateSetListener() {
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			final int hour = endCalendar_.get(GregorianCalendar.HOUR_OF_DAY);
+			final int minute = endCalendar_.get(GregorianCalendar.MINUTE);
+			GregorianCalendar newCalendar = new GregorianCalendar(year,
+					monthOfYear, dayOfMonth, hour, minute);
+
+			if (newCalendar.getTimeInMillis() < startCalendar_
+					.getTimeInMillis())
+				return;
+
+			endCalendar_ = newCalendar;
+
+			updateDateLabels();
+			dateEndLabel_.requestFocusFromTouch();
 		}
 	};
 
 	/** Updates the text when the TimePicker dialog is set */
 	private TimePickerDialog.OnTimeSetListener timeSetListener_ = new TimePickerDialog.OnTimeSetListener() {
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-			hour_ = hourOfDay;
-			minute_ = minute;
+			final int year = startCalendar_.get(GregorianCalendar.YEAR);
+			final int month = startCalendar_.get(GregorianCalendar.MONTH);
+			final int day = startCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+			GregorianCalendar newCalendar = new GregorianCalendar(year, month,
+					day, hourOfDay, minute);
+
+			// If the newer date is greater than the current end date, then bump
+			// up the current end date by the original time span
+			if (newCalendar.getTimeInMillis() > endCalendar_.getTimeInMillis())
+				endCalendar_.setTimeInMillis(newCalendar.getTimeInMillis()
+						+ (endCalendar_.getTimeInMillis() - startCalendar_
+								.getTimeInMillis()));
+
+			startCalendar_ = newCalendar;
+			
 			updateTimeLabels();
-			timeLabel_.requestFocus();
+			timeLabel_.requestFocusFromTouch();
+		}
+	};
+
+	/** Updates the text when the TimePicker dialog is set */
+	private TimePickerDialog.OnTimeSetListener endTimeSetListener_ = new TimePickerDialog.OnTimeSetListener() {
+		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+			final int year = endCalendar_.get(GregorianCalendar.YEAR);
+			final int month = endCalendar_.get(GregorianCalendar.MONTH);
+			final int day = endCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+			
+			GregorianCalendar newCalendar = new GregorianCalendar(year, month,
+					day, hourOfDay, minute);
+
+			if (newCalendar.getTimeInMillis() < startCalendar_
+					.getTimeInMillis())
+				return;
+
+			endCalendar_ = newCalendar;
+			
+			updateTimeLabels();
+			timeEndLabel_.requestFocusFromTouch();
 		}
 	};
 
@@ -163,17 +224,12 @@ public class SubmitEvent extends Activity {
 					.getLatitudeE6());
 			int lng = data.getIntExtra(RESULT_LNG, LocationManager.vandyCenter_
 					.getLongitudeE6());
-			
+
 			location_ = new GeoPoint(lat, lng);
 			buildingLabel_.setText("Other");
 		}
 
-		// TODO - None of these will work right now, because the screen is in
-		// touch mode. We don't want the controls to allow focus in touch mode,
-		// because then you would have to double click them to activate them -
-		// once to focus and once to click. So, we would like to figure out how
-		// to change the mode of the screen here and then request focus
-		buildingLabel_.requestFocus();
+		buildingLabel_.requestFocusFromTouch();
 	}
 
 	/** Called when the activity is first created. */
@@ -185,7 +241,7 @@ public class SubmitEvent extends Activity {
 		dateLabel_ = (TextView) findViewById(R.id.TV_event_date);
 		timeLabel_ = (TextView) findViewById(R.id.TV_event_time);
 		buildingLabel_ = (TextView) findViewById(R.id.TV_event_building);
-		
+
 		dateEndLabel_ = (TextView) findViewById(R.id.TV_event_date_end);
 		timeEndLabel_ = (TextView) findViewById(R.id.TV_event_time_end);
 
@@ -203,20 +259,25 @@ public class SubmitEvent extends Activity {
 			}
 		});
 
-		final Calendar c = Calendar.getInstance();
+		// Create the onClickListener for the date
+		dateEndLabel_.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				showDialog(DIALOG_END_DATE_PICKER);
+			}
+		});
+
+		// Create the onClickListener for the date
+		timeEndLabel_.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				showDialog(DIALOG_END_TIME_PICKER);
+			}
+		});
 
 		// Set the initial date
-		year_ = c.get(Calendar.YEAR);
-		month_ = c.get(Calendar.MONTH);
-		day_ = c.get(Calendar.DATE);
-		hour_ = c.get(Calendar.HOUR_OF_DAY);
-		minute_ = c.get(Calendar.MINUTE);
-		endYear_ = year_;
-		endMonth_ = month_;
-		endDay_ = day_;
-		endHour_ = (hour_ + 2) % 24;
-		endMinute_ = minute_;
-		
+		startCalendar_ = new GregorianCalendar();
+		endCalendar_ = new GregorianCalendar();
+		endCalendar_.add(GregorianCalendar.HOUR, 2);
+
 		updateDateLabels();
 		updateTimeLabels();
 
@@ -245,7 +306,7 @@ public class SubmitEvent extends Activity {
 		dateLabel_.setTextColor(csl);
 		timeLabel_.setTextColor(csl);
 		buildingLabel_.setTextColor(csl);
-		
+
 		dateEndLabel_.setTextColor(csl);
 		timeEndLabel_.setTextColor(csl);
 	}
@@ -262,11 +323,31 @@ public class SubmitEvent extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_DATE_PICKER:
-			return new DatePickerDialog(this, dateSetListener_, year_, month_,
-					day_);
+			final int year = startCalendar_.get(GregorianCalendar.YEAR);
+			final int month = startCalendar_.get(GregorianCalendar.MONTH);
+			final int day = startCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+			return new DatePickerDialog(this, dateSetListener_, year, month,
+					day);
 		case DIALOG_TIME_PICKER:
-			return new TimePickerDialog(this, timeSetListener_, hour_, minute_,
+			final int hour = startCalendar_.get(GregorianCalendar.HOUR_OF_DAY);
+			final int minute = startCalendar_.get(GregorianCalendar.MINUTE);
+
+			return new TimePickerDialog(this, timeSetListener_, hour, minute,
 					false);
+		case DIALOG_END_DATE_PICKER:
+			final int eYear = endCalendar_.get(GregorianCalendar.YEAR);
+			final int eMonth = endCalendar_.get(GregorianCalendar.MONTH);
+			final int eDay = endCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+			return new DatePickerDialog(this, endDateSetListener_, eYear,
+					eMonth, eDay);
+		case DIALOG_END_TIME_PICKER:
+			final int eHour = endCalendar_.get(GregorianCalendar.HOUR_OF_DAY);
+			final int eMinute = endCalendar_.get(GregorianCalendar.MINUTE);
+
+			return new TimePickerDialog(this, endTimeSetListener_, eHour,
+					eMinute, false);
 		default:
 			return null;
 		}
@@ -291,82 +372,94 @@ public class SubmitEvent extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch (id) {
 		case DIALOG_DATE_PICKER:
-			((DatePickerDialog) dialog).updateDate(year_, month_, day_);
+			final int year = startCalendar_.get(GregorianCalendar.YEAR);
+			final int month = startCalendar_.get(GregorianCalendar.MONTH);
+			final int day = startCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+			((DatePickerDialog) dialog).updateDate(year, month, day);
 			break;
 		case DIALOG_TIME_PICKER:
-			((TimePickerDialog) dialog).updateTime(hour_, minute_);
+			final int hour = startCalendar_.get(GregorianCalendar.HOUR_OF_DAY);
+			final int minute = startCalendar_.get(GregorianCalendar.MINUTE);
+
+			((TimePickerDialog) dialog).updateTime(hour, minute);
+			break;
+		case DIALOG_END_DATE_PICKER:
+			final int eYear = endCalendar_.get(GregorianCalendar.YEAR);
+			final int eMonth = endCalendar_.get(GregorianCalendar.MONTH);
+			final int eDay = endCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+			((DatePickerDialog) dialog).updateDate(eYear, eMonth, eDay);
+			break;
+		case DIALOG_END_TIME_PICKER:
+			final int eHour = endCalendar_.get(GregorianCalendar.HOUR_OF_DAY);
+			final int eMinute = endCalendar_.get(GregorianCalendar.MINUTE);
+
+			((TimePickerDialog) dialog).updateTime(eHour, eMinute);
 			break;
 		}
 	}
 
 	/** Uses the current date variables to update the date text */
 	private void updateDateLabels() {
-		StringBuilder date = new StringBuilder(convertMonth(month_));
+		final int year = startCalendar_.get(GregorianCalendar.YEAR);
+		final int month = startCalendar_.get(GregorianCalendar.MONTH);
+		final int day = startCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+		StringBuilder date = new StringBuilder(convertMonth(month));
 		date.append(". ");
-		date.append(day_);
+		date.append(day);
 		date.append(", ");
-		date.append(year_);
+		date.append(year);
 		dateLabel_.setText(date.toString());
-		
+
 		// Repeat process for end date
-		date = new StringBuilder(convertMonth(endMonth_));
+		final int eYear = endCalendar_.get(GregorianCalendar.YEAR);
+		final int eMonth = endCalendar_.get(GregorianCalendar.MONTH);
+		final int eDay = endCalendar_.get(GregorianCalendar.DAY_OF_MONTH);
+
+		date = new StringBuilder(convertMonth(eMonth));
 		date.append(". ");
-		date.append(endDay_);
+		date.append(eDay);
 		date.append(", ");
-		date.append(endYear_);
+		date.append(eYear);
 		dateEndLabel_.setText(date.toString());
 	}
 
 	/** Uses the current time variables to update the time text */
 	private void updateTimeLabels() {
-		int civilianHour = hour_;
-		String amPm;
+		final int hour = startCalendar_.get(GregorianCalendar.HOUR);
+		final int minute = startCalendar_.get(GregorianCalendar.MINUTE);
+		final int amPm = startCalendar_.get(GregorianCalendar.AM_PM);
 
-		if (civilianHour == 12)
-			amPm = "PM";
-		else if (civilianHour > 12) {
-			civilianHour -= 12;
-			amPm = "PM";
-		} else {
-			amPm = "AM";
-		}
-
-		// Correct for 0th hour
-		if (civilianHour == 0)
-			civilianHour = 12;
-
-		StringBuilder time = new StringBuilder("" + civilianHour);
+		StringBuilder time = new StringBuilder("" + hour);
 		time.append(":");
-		if (minute_ < 10)
+		if (minute < 10)
 			time.append("0");
-		time.append(minute_);
+		time.append(minute);
 		time.append(" ");
-		time.append(amPm);
+		if (amPm == GregorianCalendar.AM)
+			time.append("AM");
+		else
+			time.append("PM");
 		timeLabel_.setText(time.toString());
-		
-		// Repeat the entire process for the end time
-		civilianHour = endHour_;
 
-		if (civilianHour == 12)
-			amPm = "PM";
-		else if (civilianHour > 12) {
-			civilianHour -= 12;
-			amPm = "PM";
-		} else {
-			amPm = "AM";
-		}
+		// Repeat the entire process for the end time
+		final int eHour = endCalendar_.get(GregorianCalendar.HOUR);
+		final int eMinute = endCalendar_.get(GregorianCalendar.MINUTE);
+		final int eamPm = startCalendar_.get(GregorianCalendar.AM_PM);
 
 		// Correct for 0th hour
-		if (civilianHour == 0)
-			civilianHour = 12;
-
-		time = new StringBuilder("" + civilianHour);
+		time = new StringBuilder("" + eHour);
 		time.append(":");
-		if (endMinute_ < 10)
+		if (eMinute < 10)
 			time.append("0");
-		time.append(endMinute_);
+		time.append(eMinute);
 		time.append(" ");
-		time.append(amPm);
+		if (eamPm == GregorianCalendar.AM)
+			time.append("AM");
+		else
+			time.append("PM");
 		timeEndLabel_.setText(time.toString());
 	}
 }
