@@ -57,7 +57,7 @@
 		<TextView android:text="8:00 PM" android:layout_toRightOf="@+id/TV_event_date"
 			android:textSize="17sp" android:paddingLeft="15sp"
 			android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
-			android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingRight="3sp" android:layout_alignTop="@+id/TV_event_date_end" android:nextFocusDown="@+id/SPIN_event_location" android:id="@+id/TV_event_time_end" android:nextFocusUp="@+id/TV_event_time" android:nextFocusLeft="@+id/TV_event_date_end" android:focusable="true"></TextView>
+			android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingRight="3sp" android:layout_alignTop="@+id/TV_event_date_end" android:nextFocusDown="@+id/SPIN_event_location" android:id="@+id/TV_event_time_end" android:nextFocusUp="@+id/TV_event_time" android:nextFocusLeft="@+id/TV_event_date_end" android:focusable="true" android:clickable="true"></TextView>
 
 		<Spinner android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_location"
