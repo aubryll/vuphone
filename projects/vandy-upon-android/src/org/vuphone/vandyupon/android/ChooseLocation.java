@@ -21,27 +21,22 @@ import android.widget.SimpleExpandableListAdapter;
 public class ChooseLocation extends ExpandableListActivity {
 	private static final String LOCATION_CATEGORY = "lc";
 	private static final String LOCATION = "l";
-
-	/** The top-level categories */
-	static final String locationCategories[] = { "Engineering Buildings",
-			"A&S Buildings", "Lawns", "Restaurants near campus", "Other" };
-
-	/** The items in each category */
-	static final String locations[][] = { { "Featheringill", "Stevenson" },
-			{ "Garland", "Calhoun" }, { "Alumni", "Wilson" },
-			{ "Qudoba", "Taco Bell", "Cafe Coco", "Mellow Mushroom" },
-			{ "Other" } };
+	
+	private static final String[][] locations_ = LocationManager.locations;
+	private static final String[] locationCategories_ = LocationManager.groups;
 
 	/** Controls the action associated with selecting an item */
 	private ExpandableListView.OnChildClickListener childClickListener_ = new ExpandableListView.OnChildClickListener() {
 		public boolean onChildClick(ExpandableListView parent, View v,
 				int groupPosition, int childPosition, long id) {
-			if (locations[groupPosition][childPosition].equals("Other"))
+			if (locations_[groupPosition][childPosition].equals("Other"))
 				setResult(SubmitEvent.RESULT_UNKNOWN);
-			else
-				setResult(SubmitEvent.RESULT_OK, (new Intent()).putExtra(
-						SubmitEvent.RESULT,
-						locations[groupPosition][childPosition]));
+			else {
+				Intent result = new Intent();
+				result.putExtra(SubmitEvent.RESULT_NAME,
+						locations_[groupPosition][childPosition]);
+				setResult(SubmitEvent.RESULT_OK, result);
+			}
 			finish();
 			return true;
 		}
@@ -56,13 +51,13 @@ public class ChooseLocation extends ExpandableListActivity {
 	private static ArrayList<ArrayList<HashMap<String, String>>> createChildList() {
 		// Iterate over the groups
 		ArrayList<ArrayList<HashMap<String, String>>> result = new ArrayList<ArrayList<HashMap<String, String>>>();
-		for (int i = 0; i < locations.length; ++i) {
+		for (int i = 0; i < locations_.length; ++i) {
 
 			// Create lists that represent the items
 			ArrayList<HashMap<String, String>> secList = new ArrayList<HashMap<String, String>>();
-			for (int n = 0; n < locations[i].length; ++n) {
+			for (int n = 0; n < locations_[i].length; ++n) {
 				HashMap<String, String> child = new HashMap<String, String>();
-				child.put(LOCATION, locations[i][n]);
+				child.put(LOCATION, locations_[i][n]);
 				secList.add(child);
 			}
 			result.add(secList);
@@ -79,9 +74,9 @@ public class ChooseLocation extends ExpandableListActivity {
 	private static ArrayList<HashMap<String, String>> createGroupList() {
 		// Create a list representing the groups
 		ArrayList<HashMap<String, String>> result = new ArrayList<HashMap<String, String>>();
-		for (int i = 0; i < locationCategories.length; ++i) {
+		for (int i = 0; i < locationCategories_.length; ++i) {
 			HashMap<String, String> m = new HashMap<String, String>();
-			m.put(LOCATION_CATEGORY, locationCategories[i]);
+			m.put(LOCATION_CATEGORY, locationCategories_[i]);
 			result.add(m);
 		}
 		return result;

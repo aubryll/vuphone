@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.maps.GeoPoint;
 
 /**
  * Allows a user to submit a new event to the main server
@@ -33,7 +36,7 @@ public class SubmitEvent extends Activity {
 	protected static final int RESULT_OK = 0;
 	protected static final int RESULT_UNKNOWN = 1;
 	protected static final int RESULT_CANCELED = 2;
-	protected static final String RESULT = "r";
+	protected static final String RESULT_NAME = "r";
 
 	private static final int DIALOG_DATE_PICKER = 0;
 	private static final int DIALOG_TIME_PICKER = 1;
@@ -48,6 +51,12 @@ public class SubmitEvent extends Activity {
 
 	private int hour_;
 	private int minute_;
+
+	/**
+	 * Keeps track of the lat and lng we will send to the server. Default to FGH
+	 */
+	private GeoPoint location_ = LocationManager.coordinates
+			.get("Featheringill");
 
 	/** Updates the text when the DatePicker dialog is set */
 	private DatePickerDialog.OnDateSetListener dateSetListener_ = new DatePickerDialog.OnDateSetListener() {
@@ -124,11 +133,14 @@ public class SubmitEvent extends Activity {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK)
-			buildingLabel_.setText(data.getStringExtra(RESULT));
-		else if (resultCode == RESULT_CANCELED)
-			;
-		else {
+		if (requestCode == RESULT_CANCELED)
+			return;
+
+		if (resultCode == RESULT_OK) {
+			buildingLabel_.setText(data.getStringExtra(RESULT_NAME));
+			location_ = LocationManager.coordinates.get(data
+					.getStringExtra(RESULT_NAME));
+		} else {
 			// TODO - make the Other location dialog
 			Toast.makeText(
 					this,
@@ -206,6 +218,7 @@ public class SubmitEvent extends Activity {
 		dateLabel_.setTextColor(csl);
 		timeLabel_.setTextColor(csl);
 		buildingLabel_.setTextColor(csl);
+
 	}
 
 	/** Creates the menu items */
@@ -233,9 +246,11 @@ public class SubmitEvent extends Activity {
 
 	/** Handles menu item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getTitle().equals("Save"))
+		if (item.getTitle().equals("Save")) {
 			Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-		else if (item.getTitle().equals("Clear"))
+			Log.v("tag", "" + location_.getLatitudeE6() + ", "
+					+ location_.getLongitudeE6());
+		} else if (item.getTitle().equals("Clear"))
 			clear();
 		else
 			return false;
