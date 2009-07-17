@@ -4,7 +4,6 @@
 package org.vuphone.vandyupon.android;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
@@ -48,6 +47,4 @@ public class EventViewer extends MapActivity {
 		super.onResume();
 		map_.enableMyLocation();
 	}
-	
-
 }
