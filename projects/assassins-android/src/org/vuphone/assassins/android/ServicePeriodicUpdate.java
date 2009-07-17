@@ -99,8 +99,13 @@ public class ServicePeriodicUpdate extends Service {
 	private void performUpdate() {
 		Log.d(VUphone.tag, pre + "Performing full update");
 		
-		ArrayList<LandMine> mines = HTTPGetter.doLandMineGet();
-		GameObjects.getInstance().setLandMines(mines, this);
+		new Thread(new Runnable() {
+			public void run() {
+				ArrayList<LandMine> mines = HTTPGetter.doLandMineGet();
+				GameObjects.getInstance().setLandMines(mines, 
+						ServicePeriodicUpdate.this);
+			}
+		}, "PeriodicFullUpdater").start();
 		
 	}
 

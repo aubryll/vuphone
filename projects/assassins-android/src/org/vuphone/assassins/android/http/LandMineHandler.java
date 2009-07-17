@@ -40,9 +40,9 @@ public class LandMineHandler extends DefaultHandler {
 			inLandMines = true;
 		} else if (localname.trim().equalsIgnoreCase("LandMine")) {
 			inLandMine = true;
-		} else if (localname.trim().equalsIgnoreCase("Latitude")) {
+		} else if (localname.trim().equalsIgnoreCase("Lat")) {
 			inLat = true;
-		} else if (localname.trim().equalsIgnoreCase("Longitude")) {
+		} else if (localname.trim().equalsIgnoreCase("Lon")) {
 			inLon = true;
 		} else if (localname.trim().equalsIgnoreCase("Radius")) {
 			inRadius = true;
@@ -52,7 +52,7 @@ public class LandMineHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localname, String qName)
 			throws SAXException {
-		if (localname.trim().equalsIgnoreCase("Wrecks")) {
+		if (localname.trim().equalsIgnoreCase("LandMines")) {
 			inLandMines = false;
 			throw new SAXException("Done processing");
 		} else if (localname.trim().equalsIgnoreCase("LandMine")) {
@@ -60,9 +60,9 @@ public class LandMineHandler extends DefaultHandler {
 			final LandMine lm = new LandMine(currentLatitude_, 
 					currentLongitude_, currentRadius_);
 			mines_.add(lm);
-		} else if (localname.trim().equalsIgnoreCase("Latitude")) {
+		} else if (localname.trim().equalsIgnoreCase("Lat")) {
 			inLat = false;
-		} else if (localname.trim().equalsIgnoreCase("Longitude")) {
+		} else if (localname.trim().equalsIgnoreCase("Lon")) {
 			inLon = false;
 		} else if (localname.trim().equalsIgnoreCase("Radius")) {
 			inRadius = false;

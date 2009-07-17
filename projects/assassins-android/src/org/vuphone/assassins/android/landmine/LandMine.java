@@ -16,14 +16,12 @@
 package org.vuphone.assassins.android.landmine;
 
 import org.vuphone.assassins.android.VUphone;
-import org.vuphone.assassins.android.http.HTTPPoster;
 import org.vuphone.assassins.android.notices.ActivityDeathNotice;
 import org.vuphone.assassins.android.notices.ActivityWarning;
 
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
@@ -48,12 +46,6 @@ public class LandMine {
 	
 	private String pre = "LandMine: ";
 	
-	/**
-	 * The time the land mine will wait after activate is called before
-	 * actually becoming active, in seconds
-	 */
-	public static final int MAX_TIME = 15;
-	
 	public LandMine(double lat, double lon, float radius, float first_warn, 
 			float second_warn) {
 		latitude_ = lat;
@@ -63,8 +55,8 @@ public class LandMine {
 		second_warn_radius_ = second_warn;
 	}
 	
-	public LandMine(double lat, double lon, float radius, float first_warn) {
-		this (lat, lon, radius, first_warn, first_warn * 2);
+	public LandMine(double lat, double lon, float radius, float warn) {
+		this (lat, lon, radius, warn * 2, warn);
 	}
 	
 	public LandMine(double lat, double lon, float radius) {
@@ -75,68 +67,42 @@ public class LandMine {
 		if (!activated_) {
 			activated_ = true;
 			Log.d(VUphone.tag, pre + "LandMine activated!");
+
+			String pack = "org.vuphone.assassins.android.";
 			
-			new Thread(new Runnable() {
-				public void run() {
-					try {
-						Thread.sleep(MAX_TIME * 1000);
-						
-						// This check is necessary because the landmine may
-						// have been deactivated while this thread was
-						// sleeping.
-						if (activated_) {
-							String pack = "org.vuphone.assassins.android.";
-							Intent toSend = new Intent(c, ActivityDeathNotice.class);
-							toSend.putExtra(pack+"KillMethod","LandMine");
-							toSend.putExtra(pack+"Id", id_);
-							kill_intent_ = PendingIntent.getActivity(c, 0, 
-									toSend, Intent.FLAG_ACTIVITY_NEW_TASK);
-							LocationManager lm = (LocationManager) 
-							c.getSystemService(Context.LOCATION_SERVICE);
-							lm.addProximityAlert(latitude_, longitude_, 
-									kill_radius_, -1, kill_intent_);
-							Log.d(VUphone.tag, pre + "Added proximity alert at ("
-									+latitude_+", "+longitude_+") with radius "+
-									kill_radius_);
+			Intent toSend = new Intent(c, ActivityDeathNotice.class);
+			toSend.putExtra(pack+"KillMethod","LandMine");
+			toSend.putExtra(pack+"Id", id_);
+			kill_intent_ = PendingIntent.getActivity(c, 0, toSend, 
+					Intent.FLAG_ACTIVITY_NEW_TASK);
+			LocationManager lm = (LocationManager) 
+					c.getSystemService(Context.LOCATION_SERVICE);
+			lm.addProximityAlert(latitude_, longitude_, kill_radius_, -1, 
+					kill_intent_);
+			Log.d(VUphone.tag, pre + "Added proximity alert at ("+latitude_
+					+", "+longitude_+") with radius "+kill_radius_);
 
-							Intent toSend2 = new Intent(c, ActivityWarning.class);
-							toSend2.putExtra(pack+"WarningAbout", "LandMine");
-							toSend2.putExtra(pack+"WarningDistance", 
-									String.valueOf(first_warn_radius_));
-							first_warn_intent_ = PendingIntent.getActivity(c, 0, 
-									toSend2, Intent.FLAG_ACTIVITY_NEW_TASK);
-							lm.addProximityAlert(latitude_, longitude_, 
-									first_warn_radius_, -1, 
-									first_warn_intent_);
-							Log.d(VUphone.tag, pre + "Added proximity alert at ("
-									+latitude_+", "+longitude_+") with radius "+
-									first_warn_radius_);
+			Intent toSend2 = new Intent(c, ActivityWarning.class);
+			toSend2.putExtra(pack+"WarningAbout", "LandMine");
+			toSend2.putExtra(pack+"WarningDistance", first_warn_radius_);
+			first_warn_intent_ = PendingIntent.getActivity(c, 0, toSend2, 
+					Intent.FLAG_ACTIVITY_NEW_TASK);
+			lm.addProximityAlert(latitude_, longitude_, first_warn_radius_, 
+					-1, first_warn_intent_);
+			Log.d(VUphone.tag, pre + "Added proximity alert at ("+latitude_
+					+", "+longitude_+") with radius "+first_warn_radius_);
 
-							Intent toSend3 = new Intent(c, ActivityWarning.class);
-							toSend3.putExtra(pack+"WarningAbout", "LandMine");
-							toSend3.putExtra(pack+"WarningDistance", 
-									String.valueOf(second_warn_radius_));
-							second_warn_intent_ = PendingIntent.getActivity(c, 0, 
-									toSend3, Intent.FLAG_ACTIVITY_NEW_TASK);
-							lm.addProximityAlert(latitude_, longitude_, 
-									second_warn_radius_, -1, 
-									second_warn_intent_);
-							Log.d(VUphone.tag, pre + "Added proximity alert at ("
-									+latitude_+", "+longitude_+") with radius "+
-									second_warn_radius_);
-
-							HTTPPoster.doLandMinePost(LandMine.this);
-						}
-						
-					}
-					catch (Exception e) {
-						Log.e(VUphone.tag, pre + "Exception in activate thread:");
-						e.printStackTrace();
-					}
-				}
-			}, "LandMineActivater").start();
-			
+			Intent toSend3 = new Intent(c, ActivityWarning.class);
+			toSend3.putExtra(pack+"WarningAbout", "LandMine");
+			toSend3.putExtra(pack+"WarningDistance", second_warn_radius_);
+			second_warn_intent_ = PendingIntent.getActivity(c, 0, toSend3, 
+					Intent.FLAG_ACTIVITY_NEW_TASK);
+			lm.addProximityAlert(latitude_, longitude_, second_warn_radius_, 
+					-1, second_warn_intent_);
+			Log.d(VUphone.tag, pre + "Added proximity alert at ("+latitude_
+					+", "+longitude_+") with radius "+second_warn_radius_);
 		}
+
 	}
 	
 	public void deactivate(Context c) {
