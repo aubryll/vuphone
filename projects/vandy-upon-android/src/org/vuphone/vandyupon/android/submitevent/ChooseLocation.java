@@ -1,7 +1,9 @@
-package org.vuphone.vandyupon.android;
+package org.vuphone.vandyupon.android.submitevent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.vuphone.vandyupon.android.LocationManager;
 
 import android.app.ExpandableListActivity;
 import android.content.Intent;
