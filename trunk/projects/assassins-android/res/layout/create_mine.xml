@@ -9,7 +9,7 @@
  		android:layout_gravity="center_horizontal" android:textSize="30px" 
  		android:layout_marginTop="20px"/>
  		
- 	<TextView android:text="Click the button to create a land mine at your last know GPS position."
+ 	<TextView android:text="Click the button to create a land mine at your current GPS position."
  		android:layout_width="wrap_content" android:layout_height="wrap_content"
  		android:textSize="20px" android:layout_margin="20px" />
  		
@@ -19,8 +19,8 @@
 	 	android:padding="15px" android:layout_gravity="center_horizontal" />
 	 	
 	 <TextView android:id="@+id/activated_message" 
+	 	android:text="Note: You must have an Internet connection for other players to be able to see this land mine."
 	 	android:layout_width="wrap_content" android:layout_height="wrap_content"
-	 	android:layout_margin="20px" android:textSize="15px" 
-	 	android:visibility="invisible"/>
+	 	android:layout_margin="20px" android:textSize="15px" />
  		
 </LinearLayout>

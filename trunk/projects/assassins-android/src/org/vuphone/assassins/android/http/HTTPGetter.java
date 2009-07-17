@@ -18,6 +18,7 @@ package org.vuphone.assassins.android.http;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -25,9 +26,9 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.assassins.android.GameObjects;
 import org.vuphone.assassins.android.VUphone;
 import org.vuphone.assassins.android.landmine.LandMine;
-
 import org.xml.sax.InputSource;
 
 import android.util.Log;
@@ -40,7 +41,7 @@ public class HTTPGetter {
 	
 	private static final HttpClient c = new DefaultHttpClient();
 	
-	private static LandMineHandler landMineHandler_;
+	private static LandMineHandler landMineHandler_ = new LandMineHandler();
 
 	public static ArrayList<LandMine> doLandMineGet() {
 
@@ -65,6 +66,13 @@ public class HTTPGetter {
 			e1.printStackTrace();
 			Log.e(VUphone.tag, pre + "HTTP error while executing post");
 			return null;
+		} catch (SocketException se) {
+			// If we have no Internet connection, we don't want to wipe the
+			// existing list of land mines by returning null.
+			Log.e(VUphone.tag, pre + "SocketException: handled by " +
+					"returning current land mine list.");
+			se.printStackTrace();
+			return GameObjects.getInstance().getLandMines();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 			Log.e(VUphone.tag, pre + "HTTP error in server response");
@@ -96,10 +104,13 @@ public class HTTPGetter {
 					+ "At the least, there should have "
 					+ "been empty XML here");
 		}
-		
+
 		ArrayList<LandMine> mines = new ArrayList<LandMine>(
 				landMineHandler_.processXML(new InputSource(
-				new ByteArrayInputStream(bao.toByteArray()))));
+						new ByteArrayInputStream(bao.toByteArray()))));
+
+		//		landMineHandler_.processXML(new InputSource(
+		//				new ByteArrayInputStream(bao.toByteArray()))));
  
 		return mines;
 		//return GameObjects.getInstance().getLandMines();

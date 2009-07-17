@@ -63,10 +63,15 @@ public class ActivityDeathNotice extends Activity{
 		if (killMethod.equalsIgnoreCase("LandMine")) {
 			killMessage_.append("You were blown up by a land mine!");
 			
-			// TODO Debug why the id in the extras here is still null...
 			int id = extras.getInt("org.vuphone.assassins.android.Id");
-			LandMine lm = GameObjects.getInstance().getLandMine(id);
-			HTTPPoster.doLandMineRemove(lm);
+			final LandMine lm = GameObjects.getInstance().getLandMine(id);
+			
+			new Thread(new Runnable() {
+				public void run() {
+					HTTPPoster.doLandMineRemove(lm);
+				}
+			}, "LandMineRemover").start();
+			
 			GameObjects.getInstance().removeLandMine(id, this);
 
 		}

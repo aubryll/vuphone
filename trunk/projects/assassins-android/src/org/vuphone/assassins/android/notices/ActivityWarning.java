@@ -17,8 +17,6 @@ package org.vuphone.assassins.android.notices;
 
 import org.vuphone.assassins.android.R;
 import org.vuphone.assassins.android.VUphone;
-import org.vuphone.assassins.android.R.id;
-import org.vuphone.assassins.android.R.layout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -55,14 +53,16 @@ public class ActivityWarning extends Activity{
 			warnMethod = "unknown";
 		}
 		else {
-			warnMethod = extras.getString("org.vuphone.assassins.android.WarningAbout");
+			warnMethod = extras.getString(
+					"org.vuphone.assassins.android.WarningAbout");
 		}
 		
 		if (warnMethod.equalsIgnoreCase("LandMine")) {
-			float dist = Float.valueOf(extras.getString(
-					"org.vuphone.assassins.android.WarningDistance"));
-			warnMessage_.append("You are within "+dist+" of a land mine!  " +
-					"You should probably turn around before you get killed!");
+			float dist = extras.getFloat(
+					"org.vuphone.assassins.android.WarningDistance");
+			warnMessage_.append("In the Assassins game, you are within "
+					+ dist + " meters of a land mine!  " 
+					+"You should probably turn around before you get killed!");
 		}
 		// Add more warn methods here as you develop them.
 		else {

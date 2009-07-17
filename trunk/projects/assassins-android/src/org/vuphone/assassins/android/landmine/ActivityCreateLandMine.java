@@ -40,6 +40,8 @@ public class ActivityCreateLandMine extends Activity implements OnClickListener{
 	
 	Location location_ = null;
 	
+	private static final int WAIT_TIME = 15;
+	
 	private static final float GPS_RADIUS = 0f;
 	private static final long GPS_FREQUENCY = 500;
 	// 6 seems to be a common accuracy, so we'll accept those to make
@@ -54,16 +56,16 @@ public class ActivityCreateLandMine extends Activity implements OnClickListener{
 	private final LocationListener listener_ = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			if (location.hasAccuracy() && location.getAccuracy() > MIN_ACCURACY) {
-				Log.d(VUphone.tag, pre + "location rejected because accuracy = "
+				Log.v(VUphone.tag, pre + "location rejected because accuracy = "
 						+location.getAccuracy());
 				return;
 			}
 			if (!location.hasAccuracy()) {
-				Log.d(VUphone.tag, pre + "location rejected because it has no accuracy.");
+				Log.v(VUphone.tag, pre + "location rejected because it has no accuracy.");
 				return;
 			}
 			location_ = location;
-			Log.d(VUphone.tag, pre + "location_ has been set to ("+
+			Log.v(VUphone.tag, pre + "location_ has been set to ("+
 					location_.getLatitude()+", "+location_.getLongitude()
 					+").");
 		}
@@ -110,18 +112,31 @@ public class ActivityCreateLandMine extends Activity implements OnClickListener{
 
 		if (location_ != null) {
 			Log.d(VUphone.tag, pre + "About to create a land mine...");
-			LandMine mine = new LandMine(location_.getLatitude(), 
+			final LandMine mine = new LandMine(location_.getLatitude(), 
 					location_.getLongitude(), (float) 5.0);
-			//mine.activate(this);
-			GameObjects.getInstance().addLandMine(mine, this);
-			HTTPPoster.doLandMinePost(mine);
+			
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						// Do this so that the mine will not immediately
+						// blow up the person who sets it.
+						Thread.sleep(WAIT_TIME * 1000);
+
+						GameObjects.getInstance().addLandMine(mine, 
+								ActivityCreateLandMine.this);
+						HTTPPoster.doLandMinePost(mine);
+					}catch (InterruptedException e) {
+
+						e.printStackTrace();
+					}
+				}
+			}, "LandMineCreator").start();
 
 			createMine_.setVisibility(View.INVISIBLE);
 			String msg = "You have successfully created a land mine.  " +
-					"It will become activated in "+LandMine.MAX_TIME+
+					"It will become activated in "+WAIT_TIME+
 					" seconds, so you better leave the area by then!";
 			activatedMessage_.setText(msg);
-			activatedMessage_.setVisibility(View.VISIBLE);
 		}
 		else {
 			Log.e(VUphone.tag, pre + "location_ was null after requesting updates.");
@@ -130,7 +145,6 @@ public class ActivityCreateLandMine extends Activity implements OnClickListener{
 					"land mine here.  Try going outside or moving to a " +
 					"location with a better view of the sky.";
 			activatedMessage_.setText(msg);
-			activatedMessage_.setVisibility(View.VISIBLE);
 		}
 	}
 

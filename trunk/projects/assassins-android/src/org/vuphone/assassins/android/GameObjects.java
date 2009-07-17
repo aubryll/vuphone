@@ -75,8 +75,9 @@ public class GameObjects {
 				return landmines_.get(i);
 			}
 		}
-		throw new IllegalArgumentException("The given id does not exist " +
-				"in the list of currently active landmines.");
+		throw new IllegalArgumentException("The given id, "+id+", does not "+
+				"exist in the list of currently active landmines of size "+
+				landmines_.size());
 	}
 	
 	/**
@@ -89,12 +90,20 @@ public class GameObjects {
 	public synchronized void setLandMines(ArrayList<LandMine> mines, Context c) {
 		Log.d(VUphone.tag, pre + "setLandMines called.");
 		if (mines != null) {
+			Log.i(VUphone.tag, pre + "The new land mines are: ");
+			for (int i = 0; i < mines.size(); i++) {
+				Log.v(VUphone.tag, pre + "Lat: "+mines.get(i).getLatitude());
+				Log.v(VUphone.tag, pre + "Lon: "+mines.get(i).getLongitude());
+				Log.v(VUphone.tag, pre + "Radius: "+mines.get(i).getRadius());
+			}
 			for (int i = 0; i < landmines_.size(); i++) {
 				boolean found = false;
 				for (int j = 0; j < mines.size(); j++) {
 					if (landmines_.get(i).equals(mines.get(j))) {
 						found = true;
 						// if this mine is already in landmines_, don't add it
+						Log.i(VUphone.tag, pre + "removing duplicate land " +
+								"mine from the list to be added.");
 						mines.remove(j);
 					}
 				}
@@ -119,6 +128,7 @@ public class GameObjects {
 		}
 		else {
 			// Deactivate the old landmines
+			Log.i(VUphone.tag, pre + "The new land mines are: null");
 			for (int i = 0; i < landmines_.size(); i++) {
 				Log.i(VUphone.tag, pre + "landmine at "+i+"will be deactivated and removed.");
 				landmines_.get(i).deactivate(c);
