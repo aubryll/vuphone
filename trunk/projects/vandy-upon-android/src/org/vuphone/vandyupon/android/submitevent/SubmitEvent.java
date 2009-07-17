@@ -1,8 +1,10 @@
-package org.vuphone.vandyupon.android;
+package org.vuphone.vandyupon.android.submitevent;
 
 import java.io.IOException;
 import java.util.Calendar;
 
+import org.vuphone.vandyupon.android.LocationManager;
+import org.vuphone.vandyupon.android.R;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
@@ -37,6 +39,11 @@ public class SubmitEvent extends Activity {
 	protected static final int RESULT_UNKNOWN = 1;
 	protected static final int RESULT_CANCELED = 2;
 	protected static final String RESULT_NAME = "r";
+	protected static final String RESULT_LAT = "lat";
+	protected static final String RESULT_LNG = "lng";
+
+	private static final int REQUEST_LIST_LOCATION = 0;
+	private static final int REQUEST_MAP_LOCATION = 1;
 
 	private static final int DIALOG_DATE_PICKER = 0;
 	private static final int DIALOG_TIME_PICKER = 1;
@@ -133,20 +140,24 @@ public class SubmitEvent extends Activity {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == RESULT_CANCELED)
+		if (resultCode == RESULT_CANCELED)
 			return;
 
-		if (resultCode == RESULT_OK) {
+		if (requestCode == REQUEST_LIST_LOCATION && resultCode == RESULT_OK) {
 			buildingLabel_.setText(data.getStringExtra(RESULT_NAME));
 			location_ = LocationManager.coordinates.get(data
 					.getStringExtra(RESULT_NAME));
-		} else {
-			// TODO - make the Other location dialog
-			Toast.makeText(
-					this,
-					"queue Dialog to enter String"
-							+ " representing 'Other' location",
-					Toast.LENGTH_LONG).show();
+		} else if (requestCode == REQUEST_LIST_LOCATION
+				&& resultCode == RESULT_UNKNOWN) {
+			startActivityForResult(new Intent(this, LocationChooser.class),
+					REQUEST_MAP_LOCATION);
+		} else if (requestCode == REQUEST_MAP_LOCATION) {
+			int lat = data.getIntExtra(RESULT_LAT, LocationManager.vandyCenter_
+					.getLatitudeE6());
+			int lng = data.getIntExtra(RESULT_LNG, LocationManager.vandyCenter_
+					.getLongitudeE6());
+			
+			location_ = new GeoPoint(lat, lng);
 			buildingLabel_.setText("Other");
 		}
 
@@ -197,7 +208,7 @@ public class SubmitEvent extends Activity {
 		buildingLabel_.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				startActivityForResult(new Intent(SubmitEvent.this,
-						ChooseLocation.class), RESULT_OK);
+						ChooseLocation.class), REQUEST_LIST_LOCATION);
 			}
 		});
 

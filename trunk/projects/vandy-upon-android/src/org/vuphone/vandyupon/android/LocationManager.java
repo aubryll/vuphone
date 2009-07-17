@@ -17,6 +17,10 @@ import com.google.android.maps.GeoPoint;
  */
 public class LocationManager {
 
+	/** Center of Vanderbilt */
+	public static final GeoPoint vandyCenter_ = new GeoPoint(
+			(int) (36.143792 * 1E6), (int) (-86.803279 * 1E6));
+	
 	/** The top-level categories */
 	public static final String groups[] = { "Engineering Buildings",
 			"A&S Buildings", "Lawns", "Restaurants near campus", "Other" };
@@ -27,7 +31,7 @@ public class LocationManager {
 			{ "Alumni", "Wilson" }, { "Qudoba", "Cafe Coco" }, { "Other" } };
 
 	/** Mapping from location names to coordinates */
-	static final HashMap<String, GeoPoint> coordinates = new HashMap<String, GeoPoint>();
+	public static final HashMap<String, GeoPoint> coordinates = new HashMap<String, GeoPoint>();
 
 	/** Fill in mapping */
 	static {
