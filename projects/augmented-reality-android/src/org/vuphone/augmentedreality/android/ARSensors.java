@@ -32,7 +32,7 @@ public class ARSensors implements LocationListener, SensorEventListener {
 
 	private static final long GPS_TIME = 0;
 	private static final float GPS_DISTANCE = 0f;
-	private static final int ORIENTATION_DELAY = SensorManager.SENSOR_DELAY_FASTEST;
+	private static final int ORIENTATION_DELAY = SensorManager.SENSOR_DELAY_UI;
 
 	private LocationManager lMan_;
 	private SensorManager sMan_;
