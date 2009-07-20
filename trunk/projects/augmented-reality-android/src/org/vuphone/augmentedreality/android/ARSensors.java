@@ -25,6 +25,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 public class ARSensors implements LocationListener, SensorEventListener {
 
@@ -32,7 +33,7 @@ public class ARSensors implements LocationListener, SensorEventListener {
 
 	private static final long GPS_TIME = 0;
 	private static final float GPS_DISTANCE = 0f;
-	private static final int ORIENTATION_DELAY = SensorManager.SENSOR_DELAY_UI;
+	private static final int ORIENTATION_DELAY = SensorManager.SENSOR_DELAY_FASTEST;
 
 	private LocationManager lMan_;
 	private SensorManager sMan_;
@@ -62,6 +63,7 @@ public class ARSensors implements LocationListener, SensorEventListener {
 	public void finish() {
 		lMan_.removeUpdates(this);
 		sMan_.unregisterListener(this);
+		instance_ = null;
 	}
 
 	public Location getLocation() {
@@ -95,6 +97,13 @@ public class ARSensors implements LocationListener, SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
+		if (event.accuracy != SensorManager.SENSOR_STATUS_ACCURACY_HIGH) {
+			Log.v("AndroidTests", "Unreliable sensor change");
+			return;
+		}
+		
 		orientation_ = event.values;
+		
+		//orientation_ = new float[] {0, 0, 0};
 	}
 }

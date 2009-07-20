@@ -56,10 +56,8 @@ public class ARCalculator {
 	 * Calculates and returns the unit vectors that form an orthogonal basis
 	 * (relative to the standard basis) using the compass heading as a
 	 * parameter. The first vector is the "right" vector, then the "up" vector,
-	 * and finally the "forward" vector. So to pull out the x coordinate of the
-	 * forward vector we would call getBasis(angle)[2][0]; Note that the first
-	 * vector crossed with the second vector yields the negative of the third
-	 * vector.
+	 * and finally the "back" vector. So to pull out the x coordinate of the
+	 * forward vector we would call getBasis(angle)[2][0];
 	 * 
 	 * @param azimuth
 	 *            The compass heading where 0 is North, 90 is East, etc.
@@ -85,8 +83,8 @@ public class ARCalculator {
 		data[1][0] = data[1][2] = 0;
 		data[1][1] = 1;
 
-		// Calculate the forward vector
-		data[2][0] = (float) Math.sin((double) azimuth);
+		// Calculate the backward vector
+		data[2][0] = (float) -Math.sin((double) azimuth);
 		data[2][1] = 0;
 		data[2][2] = (float) Math.cos((double) azimuth);
 
@@ -214,6 +212,7 @@ public class ARCalculator {
 	 * @return
 	 */
 	public static float getHorizontalSpan(float angle, float depth) {
+		depth *= depth < 0 ? -1 : 1;
 		return depth * (float) Math.tan(Math.toRadians((angle)));
 	}
 
@@ -230,6 +229,7 @@ public class ARCalculator {
 	 * @return
 	 */
 	public static float getVerticalSpan(float angle, float depth) {
+		depth *= depth < 0 ? -1 : 1;
 		return depth * (float) Math.tan(Math.toRadians((angle)));
 	}
 	

@@ -21,7 +21,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
+import android.util.Log;
 
 public class IntelligentDrawer implements ARDrawer {
 
@@ -30,9 +30,7 @@ public class IntelligentDrawer implements ARDrawer {
 	
 	private final Point3D pt_;
 	
-	private float normalizedAzimuth_;
-	private int normalCount_;
-	float azimuth = 0;
+	private float azimuth_ = 0;
 	
 	private class Point3D {
 		public float x, y, z;
@@ -47,7 +45,7 @@ public class IntelligentDrawer implements ARDrawer {
 	}
 
 	public IntelligentDrawer(Context context) {
-		pt_ = new Point3D(0, 0, 10);
+		pt_ = new Point3D(0, 0, -10);
 		
 		paint_ = new Paint();
 		paint_.setColor(Color.WHITE);
@@ -71,31 +69,23 @@ public class IntelligentDrawer implements ARDrawer {
 		
 		float[] data = sensor_.getOrientation();
 		
-		paint_.setTypeface(Typeface.DEFAULT_BOLD);
-
-		if (data == null)
+		if (data == null) {
+			Log.v("AndroidTests", "Returning");
 			return;
-
-		normalizedAzimuth_ += data[0];
-		normalCount_++;
-		
-		if (normalCount_ >= 10) {
-			azimuth = normalizedAzimuth_ / normalCount_;
-			normalizedAzimuth_ = 0;
-			normalCount_ = 0;
 		}
+
+		azimuth_ = data[0];
 		
 		// Process the points.
-		float[][] basis = ARCalculator.getBasis(azimuth);
+		float[][] basis = ARCalculator.getBasis(azimuth_);
 		float[] ptVector = ARCalculator.getLinearCombination(basis, pt_.getVector());
 		
-		float angle = 45;
 		float depth = ptVector[2];
 		float right = ptVector[0];
 		float up = ptVector[1];
 		
-		float maxRight = ARCalculator.getHorizontalSpan(angle, depth);
-		float maxUp = ARCalculator.getVerticalSpan(angle, depth);
+		float maxRight = ARCalculator.getHorizontalSpan(15, depth);
+		float maxUp = ARCalculator.getVerticalSpan(25, depth);
 		
 		if (Math.abs(up) <= maxUp && Math.abs(right) <= maxRight) {
 			drawString(canvas, "Point in view", 250, 0);
@@ -103,10 +93,10 @@ public class IntelligentDrawer implements ARDrawer {
 			float offsetX = w * (right / maxRight);
 			float offsetY = h * (up / maxUp);
 			
-			canvas.drawCircle(w / 2 + offsetX, h / 2 + offsetY, 10, paint_);
+			//canvas.drawCircle(w / 2 + offsetX, h / 2 + offsetY, 10, paint_);
 		}
 		
-		String str = "Azimuth: " + data[0];
+		String str = "Azimuth: " + azimuth_;
 		drawString(canvas, str, 0, 0);
 		drawString(canvas, "Point Vector", 0, 15);
 		drawVector(canvas, ptVector, 0, 30);
