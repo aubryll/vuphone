@@ -42,4 +42,10 @@ public class AugmentedReality extends Activity {
 		
 		setContentView(view_);
 	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		ARSensors.getInstance(this).finish();
+	}
 }
