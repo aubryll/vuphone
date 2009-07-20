@@ -3,6 +3,7 @@ package org.vuphone.vandyupon.android.submitevent;
 import java.io.IOException;
 import java.util.GregorianCalendar;
 
+import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.LocationManager;
 import org.vuphone.vandyupon.android.R;
 import org.xmlpull.v1.XmlPullParserException;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -35,6 +37,9 @@ import com.google.android.maps.GeoPoint;
  * 
  */
 public class SubmitEvent extends Activity {
+	private static final String tag = Constants.tag;
+	private static final String pre = "SubmitEvent: ";
+
 	/** Used to indicate the status of returned activities */
 	protected static final int RESULT_OK = 0;
 	protected static final int RESULT_UNKNOWN = 1;
@@ -386,9 +391,42 @@ public class SubmitEvent extends Activity {
 	/** Handles menu item selections */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getTitle().equals("Save")) {
-			Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
-			Log.v("tag", "" + location_.getLatitudeE6() + ", "
-					+ location_.getLongitudeE6());
+			Toast.makeText(this, "Saving, please wait", Toast.LENGTH_SHORT)
+					.show();
+			EditText name = (EditText) findViewById(R.id.ET_event_title);
+			EditText desc = (EditText) findViewById(R.id.ET_event_desc);
+
+			name.setEnabled(false);
+			desc.setEnabled(false);
+			dateLabel_.setEnabled(false);
+			timeLabel_.setEnabled(false);
+			dateEndLabel_.setEnabled(false);
+			timeEndLabel_.setEnabled(false);
+			buildingLabel_.setEnabled(false);
+			Spinner locationModifier = (Spinner) findViewById(R.id.SPIN_event_location);
+			locationModifier.setEnabled(false);
+
+			boolean posted = EventPoster.doEventPost(name.getText().toString(),
+					startCalendar_, endCalendar_, location_, desc.getText()
+							.toString(), getApplicationContext());
+			if (posted) {
+				Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
+				finish();
+			} else {
+				Toast.makeText(this,
+						"Failed. Error was: " + EventPoster.getLastError(),
+						Toast.LENGTH_LONG).show();
+				Log.d(tag, pre + "Event post failed");
+				Log.d(tag, pre + "Error was: " + EventPoster.getLastError());
+				name.setEnabled(true);
+				desc.setEnabled(true);
+				dateLabel_.setEnabled(true);
+				timeLabel_.setEnabled(true);
+				dateEndLabel_.setEnabled(true);
+				timeEndLabel_.setEnabled(true);
+				buildingLabel_.setEnabled(true);
+				locationModifier.setEnabled(true);
+			}
 		} else if (item.getTitle().equals("Clear"))
 			clear();
 		else
@@ -464,7 +502,7 @@ public class SubmitEvent extends Activity {
 		StringBuilder time = new StringBuilder();
 		if (hour == 0)
 			time.append("12");
-		else 
+		else
 			time.append(hour);
 		time.append(":");
 		if (minute < 10)
