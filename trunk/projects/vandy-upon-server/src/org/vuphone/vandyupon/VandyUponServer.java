@@ -138,7 +138,7 @@ public class VandyUponServer {
 		
 		HttpServlet notificationServlet = (HttpServlet)ServerUtils.get().getFactory().getBean(NOTIFICATION_SERVLET);
 		context.addServlet(new ServletHolder(notificationServlet), VANDY_UPON_PATH
-				+ VANDY_UPON_NOTIFICATIONS_CHANNEL + "/*");
+				+ VANDY_UPON_EVENT_CHANNEL + "/*");
 		
 		context.setResourceBase("html/");
 

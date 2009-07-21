@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.sql.DataSource;
 
@@ -31,7 +32,7 @@ import org.vuphone.vandyupon.notification.ResponseNotification;
 public class EventPostHandler implements NotificationHandler {
 
 	private DataSource ds_;
-	
+
 	/**
 	 * Helper method that generates an event entry in the database and returns
 	 * the index of the newly created event.
@@ -43,31 +44,33 @@ public class EventPostHandler implements NotificationHandler {
 	private int createEvent(EventPost ep, int locationId) throws SQLException{
 		Connection conn = ds_.getConnection();
 		String sql = "insert into events (name, locationid, userid, starttime, endtime) values (?, ?, ?, ?, ?)";
-		PreparedStatement prep = conn.prepareStatement(sql);
+		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
 		prep.setInt(3, ep.getUser());
 		prep.setLong(4, ep.getStartTime());
 		prep.setLong(5, ep.getEndTime());
-		
+
 		if (prep.executeUpdate() == 0){
 			throw new SQLException("Insertion into vandyupon.events failed for an unknown reason");
 		}else{
 			//Everything worked
-			int id = prep.getGeneratedKeys().getInt(1);
-			
+			ResultSet rs = prep.getGeneratedKeys();
+			rs.next();
+			int id = rs.getInt(1);
+
 			sql = "insert into eventmeta (eventid, value, metatype) values (?, ?, (select typeid from " +
 			"metatypes where typename like 'DESCRIPTION'))";
-			
+
 			prep = conn.prepareStatement(sql);
 			prep.setInt(1, id);
 			prep.setString(2, ep.getDescription());
-			
+
 			prep.execute();
 			return id;
 		}
-		
-		
+
+
 	}
 
 	@Override
@@ -111,21 +114,26 @@ public class EventPostHandler implements NotificationHandler {
 		prep.setDouble(1, ep.getLocation().getLat());
 		prep.setDouble(2, ep.getLocation().getLon());
 
+		int id;
 		ResultSet rs = prep.executeQuery();
 		rs.next();
-		int id = rs.getInt("locationid");
-		rs.close();
-
-		if (id == 0){
-			sql = "insert into locations (name, lat, lon, userid) values (?, ?, ?, ?)";
+		try {
+			id = rs.getInt("locationid");
+			rs.close();
+		}catch(SQLException e){
+			sql = "insert into locations (name, lat, lon, date, userid) values (?, ?, ?, ?, ?)";
+			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			prep.setString(1, "unknown");
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
-			prep.setInt(4, ep.getUser());
+			prep.setLong(4, System.currentTimeMillis());
+			prep.setInt(5, ep.getUser());
 
 			prep.execute();
 			id = prep.getGeneratedKeys().getInt(1);
 		}
+
+
 		return id;
 
 	}
@@ -157,6 +165,7 @@ public class EventPostHandler implements NotificationHandler {
 			return false;
 		}
 	}
+
 
 
 

@@ -13,20 +13,34 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification;
+package org.vuphone.vandyupon.test;
 
-public abstract class ResponseNotification extends Notification {
+import java.io.IOException;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+public class EventPostTester {
 	
-	private String type_;
-	
-	public ResponseNotification(String type){
-		super("response");
-		type_ = type;;
+	public static void main(String[] args){
+		HttpClient c = new DefaultHttpClient();
+		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		
+		String params = "type=eventpost&eventname=Test&starttime=" + System.currentTimeMillis() + "&endtime=" + (System.currentTimeMillis() + 600000) +
+			"&userid=1&response=xml&description=a new event&locationlat=36.1437&locationlon=-86.8046";
+		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
+		
+		try {
+			HttpResponse resp = c.execute(post);
+			resp.getEntity().writeTo(System.out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
-	
-	public String getResponseNotificationType(){
-		return type_;
-	}
-	
 
 }

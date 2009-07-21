@@ -17,15 +17,25 @@ package org.vuphone.vandyupon.notification.eventrequest;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationParser;
 
 public class EventRequestParser implements NotificationParser {
-
 	
+	
+	/**
+	 * This method is used to parse an event request.  The Http parameters
+	 * it expects are the anchor point and the radius from that anchor point.
+	 * 
+	 */
 	public Notification parse(HttpServletRequest req) {
+		
+		Location loc = new Location(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")));
+		double distance = Double.parseDouble(req.getParameter("dist"));
 
-		return null;
+		return new EventRequest(loc, distance);
 	}
+	
 
 }

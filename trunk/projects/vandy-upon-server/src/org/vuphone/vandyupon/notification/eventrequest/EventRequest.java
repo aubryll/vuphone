@@ -15,12 +15,26 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventrequest;
 
+import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.Notification;
 
 public class EventRequest extends Notification {
 	
-	public EventRequest(){
+	private Location anchorPt_;
+	private double distance_;
+	
+	public EventRequest(Location anchor, double distance){
 		super("eventrequest");
+		anchorPt_ = anchor;
+		distance_ = distance;
+	}
+	
+	public double getDistance(){
+		return distance_;
+	}
+	
+	public Location getAnchor(){
+		return anchorPt_;
 	}
 
 }

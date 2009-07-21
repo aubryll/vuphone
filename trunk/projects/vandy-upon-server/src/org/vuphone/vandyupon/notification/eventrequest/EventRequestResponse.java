@@ -13,20 +13,28 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification;
+package org.vuphone.vandyupon.notification.eventrequest;
 
-public abstract class ResponseNotification extends Notification {
+import java.util.ArrayList;
+
+import org.vuphone.vandyupon.datastructs.Event;
+import org.vuphone.vandyupon.notification.ResponseNotification;
+
+public class EventRequestResponse extends ResponseNotification {
 	
-	private String type_;
+	private ArrayList<Event> events_;
 	
-	public ResponseNotification(String type){
-		super("response");
-		type_ = type;;
+	public EventRequestResponse(){
+		super("eventrequestresponse");
+		events_ = new ArrayList<Event>();
 	}
 	
-	public String getResponseNotificationType(){
-		return type_;
+	public void addEvent(Event e){
+		events_.add(e);
 	}
 	
+	public ArrayList<Event> getEvents(){
+		return events_;
+	}
 
 }
