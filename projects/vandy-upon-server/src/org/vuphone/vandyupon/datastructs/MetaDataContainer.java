@@ -13,49 +13,24 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.eventrequest;
+package org.vuphone.vandyupon.datastructs;
 
-import org.vuphone.vandyupon.datastructs.Location;
-import org.vuphone.vandyupon.notification.Notification;
-
-public class EventRequest extends Notification {
+public class MetaDataContainer {
 	
-	private Location anchorPt_;
-	private double distance_;
-	private String callback_;
-	private String responseType_;
-	private String userid_;
+	private String type_;
+	private String value_;
 	
-	public EventRequest(Location anchor, double distance, String userid, String responseType, String callback){
-		super("eventrequest");
-		anchorPt_ = anchor;
-		distance_ = distance;
-		responseType_ = responseType;
-		userid_ = userid;
-		callback_ = callback;
+	public MetaDataContainer (String type, String value){
+		type_ = type;
+		value_ = value;
 	}
 	
-	public double getDistance(){
-		return distance_;
+	public String getKey(){
+		return type_;
 	}
 	
-	public Location getAnchor(){
-		return anchorPt_;
-	}
-	
-	public String getResponseType(){
-		return responseType_;
-	}
-	
-	public String getCallback(){
-		return callback_;
-	}
-	
-	public String getUserId(){
-		return userid_;
+	public String getValue(){
+		return value_;
 	}
 
-	public void setUserId(String userid){
-		userid_ = userid;
-	}
 }

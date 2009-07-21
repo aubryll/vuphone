@@ -47,7 +47,7 @@ public class EventPostHandler implements NotificationHandler {
 		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
-		prep.setInt(3, ep.getUser());
+		prep.setLong(3, ep.getDbUserId());
 		prep.setLong(4, ep.getStartTime());
 		prep.setLong(5, ep.getEndTime());
 
@@ -127,10 +127,12 @@ public class EventPostHandler implements NotificationHandler {
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
 			prep.setLong(4, System.currentTimeMillis());
-			prep.setInt(5, ep.getUser());
+			prep.setLong(5, ep.getDbUserId());
 
 			prep.execute();
-			id = prep.getGeneratedKeys().getInt(1);
+			rs = prep.getGeneratedKeys();
+			rs.next();
+			id = rs.getInt(1);
 		}
 
 
@@ -152,18 +154,37 @@ public class EventPostHandler implements NotificationHandler {
 	private boolean verifyUserID(EventPost ep) throws SQLException{
 		String sql;
 		Connection conn = ds_.getConnection();
-		sql = "select * from people where userid = ?";
-		PreparedStatement prep = conn.prepareStatement(sql);
-		prep.setInt(1, ep.getUser());
+		sql = "select * from people where deviceid like ?";
+		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		prep.setString(1, ep.getUser());
 		ResultSet rs = prep.executeQuery();
-		rs.next();
-		if (rs.getInt(1) != 0){
-			rs.close();
-			return true;
-		}else{
-			rs.close();
-			return false;
+		try{
+			rs.next();
+			int id = rs.getInt(1);
+			if (id != 0){
+				ep.setDbUserId(id);
+				rs.close();
+				return true;
+			}else{
+				rs.close();
+				return false;
+			}
+		}catch (SQLException e){
+			sql = "insert into people (deviceid) values (?)";
+			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			prep.setString(1, ep.getUser());
+
+			if (prep.executeUpdate() != 0){
+				ResultSet rs2 = prep.getGeneratedKeys();
+				rs2.next();
+				ep.setDbUserId(rs2.getInt(1));
+				return true;
+			}else {
+				return false;
+			}
+
 		}
+
 	}
 
 

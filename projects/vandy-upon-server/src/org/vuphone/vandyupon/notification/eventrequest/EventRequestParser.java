@@ -33,8 +33,10 @@ public class EventRequestParser implements NotificationParser {
 		
 		Location loc = new Location(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")));
 		double distance = Double.parseDouble(req.getParameter("dist"));
-
-		return new EventRequest(loc, distance);
+		String response = req.getParameter("resp");
+		String callback = req.getParameter("callback");
+		String userid = req.getParameter("userid");
+		return new EventRequest(loc, distance, userid, response, callback);
 	}
 	
 

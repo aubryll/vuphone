@@ -31,7 +31,7 @@ public class EventPostTester {
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
 		String params = "type=eventpost&eventname=Test&starttime=" + System.currentTimeMillis() + "&endtime=" + (System.currentTimeMillis() + 600000) +
-			"&userid=1&response=xml&description=a new event&locationlat=36.1437&locationlon=-86.8046";
+			"&userid=chris&resp=xml&desc=a%20new%20event&locationlat=36.1437&locationlon=-86.8046";
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 		
 		try {

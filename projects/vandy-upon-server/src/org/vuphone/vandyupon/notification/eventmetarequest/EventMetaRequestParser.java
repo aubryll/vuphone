@@ -13,49 +13,25 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.eventrequest;
+package org.vuphone.vandyupon.notification.eventmetarequest;
 
-import org.vuphone.vandyupon.datastructs.Location;
+import javax.servlet.http.HttpServletRequest;
+
 import org.vuphone.vandyupon.notification.Notification;
+import org.vuphone.vandyupon.notification.NotificationParser;
 
-public class EventRequest extends Notification {
-	
-	private Location anchorPt_;
-	private double distance_;
-	private String callback_;
-	private String responseType_;
-	private String userid_;
-	
-	public EventRequest(Location anchor, double distance, String userid, String responseType, String callback){
-		super("eventrequest");
-		anchorPt_ = anchor;
-		distance_ = distance;
-		responseType_ = responseType;
-		userid_ = userid;
-		callback_ = callback;
-	}
-	
-	public double getDistance(){
-		return distance_;
-	}
-	
-	public Location getAnchor(){
-		return anchorPt_;
-	}
-	
-	public String getResponseType(){
-		return responseType_;
-	}
-	
-	public String getCallback(){
-		return callback_;
-	}
-	
-	public String getUserId(){
-		return userid_;
+public class EventMetaRequestParser implements NotificationParser {
+
+	@Override
+	public Notification parse(HttpServletRequest req) {
+		
+		if (!req.getParameter("type").equalsIgnoreCase("eventmetarequest"))
+			return null;
+		
+		EventMetaRequest emr = new EventMetaRequest(Integer.parseInt("id"), req.getParameter("resp"),
+				req.getParameter("callback"));
+		
+		return emr;
 	}
 
-	public void setUserId(String userid){
-		userid_ = userid;
-	}
 }

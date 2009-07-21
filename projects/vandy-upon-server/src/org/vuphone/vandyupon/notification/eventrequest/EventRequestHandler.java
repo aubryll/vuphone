@@ -56,7 +56,7 @@ public class EventRequestHandler implements NotificationHandler {
 
 
 		try {
-			EventRequestResponse err = new EventRequestResponse();
+			EventRequestResponse err = new EventRequestResponse(req.getResponseType(), req.getCallback());
 			HashMap<Integer, Event> events = new HashMap<Integer, Event>(); 
 			Connection db = ds_.getConnection();
 			
@@ -69,7 +69,7 @@ public class EventRequestHandler implements NotificationHandler {
 			 * 5: Longitude of the anchor point
 			 * 6: Radius requested
 			 */
-			String sql = "select eventid as id, events.name as name, starttime, endtime, events.userid as user, lat, lon " +
+			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, events.userid as user, lat, lon " +
 			"from events inner join locations on events.locationid = locations.locationid " +
 			"where endtime > ? and ? * ACOS( (SIN( PI() * ? / 180) * SIN( PI() * lat/180) ) + (COS ( PI() * ? /180) * " +
 			"COS (PI() * lat /180) * COS ( PI() * lon/180 - PI() * ?/180))) < ?";
@@ -84,6 +84,11 @@ public class EventRequestHandler implements NotificationHandler {
 			prep.setDouble(5,req.getAnchor().getLon());
 			prep.setDouble(6, req.getDistance());
 
+			prep.executeUpdate();
+			
+			sql = "select id, name, starttime, endtime, deviceid, lat, lon from evtstmp inner join people on user = userid";
+			
+			prep = db.prepareStatement(sql);
 			ResultSet rs = prep.executeQuery();
 			
 			while (rs.next()){
@@ -93,20 +98,16 @@ public class EventRequestHandler implements NotificationHandler {
 				e.setStartTime(rs.getLong("starttime"));
 				e.setEndTime(rs.getLong("endtime"));
 				e.setLocation(new Location(rs.getDouble("lat"), rs.getDouble("lon")));
-				e.setUser(rs.getInt("user"));
+				if (rs.getString("deviceid").equalsIgnoreCase(req.getUserId())){
+					//this user owns this event
+					e.setIsOwner(true);
+				}else {
+					e.setIsOwner(false);
+				}
 				err.addEvent(e);
 				events.put(e.getID(), e);
 			}
-			sql = "select eventid, value, typename from eventmeta inner join metatypes on metaid = typeid where eventid in (?)";
-			prep = db.prepareStatement(sql);
-			prep.setObject(1, events.keySet().toArray());
-			
-			rs = prep.executeQuery();
-			
-			while (rs.next()){
-				events.get(rs.getInt("id")).addMeta(rs.getString("typename"), rs.getString("value"));
-			}
-			
+
 			rs.close();
 			return err;
 			

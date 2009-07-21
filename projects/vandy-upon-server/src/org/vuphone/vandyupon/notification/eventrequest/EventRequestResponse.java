@@ -24,8 +24,8 @@ public class EventRequestResponse extends ResponseNotification {
 	
 	private ArrayList<Event> events_;
 	
-	public EventRequestResponse(){
-		super("eventrequestresponse");
+	public EventRequestResponse(String responseType, String callback){
+		super("eventrequest", responseType, callback);
 		events_ = new ArrayList<Event>();
 	}
 	

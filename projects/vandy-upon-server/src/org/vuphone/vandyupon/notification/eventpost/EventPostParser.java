@@ -27,6 +27,7 @@ public class EventPostParser implements NotificationParser {
 		if (!req.getParameter("type").equalsIgnoreCase("eventpost")){
 			return null;
 		}
+		
 		EventPost ep = new EventPost();
 		ep.setLocation(new Location(Double.parseDouble(req.getParameter("locationlat")), 
 				Double.parseDouble(req.getParameter("locationlon"))));
@@ -34,10 +35,10 @@ public class EventPostParser implements NotificationParser {
 		ep.setName(req.getParameter("eventname"));
 		ep.setStartTime(Long.parseLong(req.getParameter("starttime")));
 		ep.setEndTime(Long.parseLong(req.getParameter("endtime")));
-		ep.setUser(Integer.parseInt(req.getParameter("userid")));
-		ep.setReponseType(req.getParameter("response"));
+		ep.setUser(req.getParameter("userid"));
+		ep.setReponseType(req.getParameter("resp"));
 		ep.setCallback(req.getParameter("callback"));
-		ep.setDescription_(req.getParameter("description"));
+		ep.setDescription(req.getParameter("desc"));
 		
 		return ep;
 	}
