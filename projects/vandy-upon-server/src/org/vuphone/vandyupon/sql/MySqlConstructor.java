@@ -17,6 +17,7 @@ package org.vuphone.vandyupon.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -45,7 +46,9 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "eventid INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "name varchar(100) not null,"
 				+ "locationid integer not null references locations(locationid),"
-				+ "userid integer not null references people(userid))";
+				+ "userid integer not null references people(userid)," 
+				+ "starttime bigint not null," 
+				+ "endtime bigint not null)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -100,13 +103,20 @@ public class MySqlConstructor implements DatabaseConstructor {
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
-		sql = "insert into metatypes(typename) values ('DESCRIPTION'), ('IMAGE'), " +
-				"('HOSTING_ORG'), ('LOCATION_MODIFIER')";
-		prep = db.prepareStatement(sql);
-		prep.execute();
-		
 		db.commit();
-
+		
+		db.setAutoCommit(true);
+		sql = "select count(*) from metatypes where typename like 'DESCRIPTION'";
+		prep = db.prepareStatement(sql);
+		ResultSet rs = prep.executeQuery();
+		rs.next();
+		if (rs.getInt(1) == 0){
+			sql = "insert into metatypes(typename) values ('DESCRIPTION'), ('IMAGE'), " +
+			"('HOSTING_ORG'), ('LOCATION_MODIFIER')";
+			prep = db.prepareStatement(sql);
+			prep.execute();
+		}
+		
 		db.close();
 	}
 

@@ -58,9 +58,9 @@ public class EventPostResponseHandler extends NotificationResponseHandler {
 		ArrayList<ObjectAliasContainer> objects = new ArrayList<ObjectAliasContainer>();
 		objects.add(new ObjectAliasContainer("EventPostResponse", EventPostResponse.class));
 
-		String response = emitters_.get(nr.getResponseType()).emit(nr, objects, fields);
+		String response = emitters_.get(epr.getResponseType()).emit(nr, objects, fields);
 
-		if (nr.getResponseType().equalsIgnoreCase("json")){
+		if (epr.getResponseType().equalsIgnoreCase("json")){
 			response = epr.getCallback() + "( " + response + " )";
 		}
 

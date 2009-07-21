@@ -81,7 +81,7 @@ public class NotificationServlet extends HttpServlet {
 
 		try {
 			logger_.log(Level.FINER, rnote.getResponseString());
-			responders_.get(rnote.getType()).handle(resp, rnote);
+			responders_.get(rnote.getResponseNotificationType()).handle(resp, rnote);
 		}
 		catch (HandlerFailedException e) {
 			e.printStackTrace();

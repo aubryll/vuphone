@@ -130,8 +130,12 @@
 	</bean>
 	
 	<!-- Handler Beans -->
-	<bean name="eventPostHandler" class="org.vuphone.vandyupon.notification.eventpost.EventPostHandler" />
-	<bean name="eventRequestHandler" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestHandler" />
+	<bean name="eventPostHandler" class="org.vuphone.vandyupon.notification.eventpost.EventPostHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	<bean name="eventRequestHandler" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
 	<bean name="locationPostHandler" class="org.vuphone.vandyupon.notification.locationpost.LocationPostHandler" />
 	<bean name="locationRequestHandler" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestHandler" />
 	
@@ -164,7 +168,7 @@
 	
 	<!-- Emitter Beans -->
 	<bean name="jsonEmitter" class="org.vuphone.vandyupon.utils.JSONEmitter" />
-	<bean name="xmkEmitter" class="org.vuphone.vandyupon.utils.XMLEmitter" />
+	<bean name="xmlEmitter" class="org.vuphone.vandyupon.utils.XMLEmitter" />
 
 	<!-- Sql Bean -->
 	<bean name="sqlConstructor" class="org.vuphone.vandyupon.sql.SqlConstructor">
