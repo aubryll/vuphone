@@ -22,19 +22,19 @@ public class EventPost extends Notification {
 	
 	private Location loc_;
 	private String name_;
-	private int user_;
+	private String user_;
 	private long start_;
 	private long end_;
 	private String callback_;
 	private String responseType_;
 	private String description_;
-	
+	private int dbUserId_;
 	
 	public EventPost(){
 		super("eventpost");
 	}
 	
-	public EventPost(Location loc, String name, int user, long start, long end, 
+	public EventPost(Location loc, String name, String user, long start, long end, 
 			String callback, String responseType){
 		super("eventpost");
 		loc_ = loc;
@@ -86,7 +86,7 @@ public class EventPost extends Notification {
 	/**
 	 * @return the user_
 	 */
-	public int getUser() {
+	public String getUser() {
 		return user_;
 	}
 	
@@ -97,7 +97,7 @@ public class EventPost extends Notification {
 	/**
 	 * @param description the description_ to set
 	 */
-	public void setDescription_(String description) {
+	public void setDescription(String description) {
 		description_ = description;
 	}
 	
@@ -129,8 +129,16 @@ public class EventPost extends Notification {
 	/**
 	 * @param user the user_ to set
 	 */
-	public void setUser(int user) {
+	public void setUser(String user) {
 		user_ = user;
+	}
+	
+	public void setDbUserId(int user){
+		dbUserId_ = user;
+	}
+	
+	public int getDbUserId(){
+		return dbUserId_;
 	}
 	
 	

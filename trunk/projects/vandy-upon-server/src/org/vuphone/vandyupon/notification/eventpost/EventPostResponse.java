@@ -19,26 +19,15 @@ import org.vuphone.vandyupon.notification.ResponseNotification;
 
 public class EventPostResponse extends ResponseNotification {
 	private int id_;
-	private String responseType_;
-	private String callback_;
 	
 	public EventPostResponse(int id, String responseType, String callback){
-		super("eventpost");
+		super("eventpost", responseType, callback);
 		id_ = id;
-		responseType_ = responseType;
-		callback_ = callback;
-	}
-	
-	public String getCallback(){
-		return callback_;
 	}
 	
 	public int getId(){
 		return id_;
 	}
-	
-	public String getResponseType(){
-		return responseType_;
-	}
+
 
 }

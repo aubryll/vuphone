@@ -13,49 +13,32 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.eventrequest;
+package org.vuphone.vandyupon.notification.eventmetarequest;
 
-import org.vuphone.vandyupon.datastructs.Location;
-import org.vuphone.vandyupon.notification.Notification;
+import java.util.ArrayList;
 
-public class EventRequest extends Notification {
-	
-	private Location anchorPt_;
-	private double distance_;
-	private String callback_;
-	private String responseType_;
-	private String userid_;
-	
-	public EventRequest(Location anchor, double distance, String userid, String responseType, String callback){
-		super("eventrequest");
-		anchorPt_ = anchor;
-		distance_ = distance;
-		responseType_ = responseType;
-		userid_ = userid;
-		callback_ = callback;
-	}
-	
-	public double getDistance(){
-		return distance_;
-	}
-	
-	public Location getAnchor(){
-		return anchorPt_;
-	}
-	
-	public String getResponseType(){
-		return responseType_;
-	}
-	
-	public String getCallback(){
-		return callback_;
-	}
-	
-	public String getUserId(){
-		return userid_;
-	}
+import org.vuphone.vandyupon.datastructs.MetaDataContainer;
+import org.vuphone.vandyupon.notification.ResponseNotification;
 
-	public void setUserId(String userid){
-		userid_ = userid;
+public class EventMetaRequestResponse extends ResponseNotification {
+	
+	private ArrayList<MetaDataContainer> meta_ = new ArrayList<MetaDataContainer>();
+	private int event_;
+	
+	public EventMetaRequestResponse(int id, String responsetype, String callback){
+		super("eventmeta", responsetype, callback);
+		event_ = id;
+	}
+	
+	public void addMeta(String type, String value){
+		meta_.add(new MetaDataContainer(type, value));
+	}
+	
+	public int getEvent(){
+		return event_;
+	}
+	
+	public ArrayList<MetaDataContainer> getMetaData(){
+		return meta_;
 	}
 }

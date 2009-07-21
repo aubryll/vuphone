@@ -30,7 +30,7 @@ public class EventRequestTester {
 		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
-		String params = "type=eventrequest&lat=36.1437&lon=-86.8046&dist=100";
+		String params = "type=eventrequest&lat=36.1437&lon=-86.8046&dist=100&resp=xml&userid=chris";
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 		
 		try {

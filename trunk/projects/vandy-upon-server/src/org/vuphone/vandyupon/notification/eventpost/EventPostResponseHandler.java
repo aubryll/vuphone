@@ -16,30 +16,23 @@
 package org.vuphone.vandyupon.notification.eventpost;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.vuphone.vandyupon.notification.HandlerFailedException;
 import org.vuphone.vandyupon.notification.InvalidFormatException;
+import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationResponseHandler;
 import org.vuphone.vandyupon.notification.ResponseNotification;
-import org.vuphone.vandyupon.utils.Emitter;
-import org.vuphone.vandyupon.utils.FieldAliasContainer;
-import org.vuphone.vandyupon.utils.ObjectAliasContainer;
+import org.vuphone.vandyupon.utils.EmitterFactory;
+
+import com.thoughtworks.xstream.XStream;
 
 public class EventPostResponseHandler extends NotificationResponseHandler {
-
-	private Map<String, Emitter> emitters_;
-
+	
 	public EventPostResponseHandler() {
 		super("eventpost");
 
-	}
-
-	public Map<String, Emitter> getEmitters(){
-		return emitters_;
 	}
 
 	@Override
@@ -53,13 +46,22 @@ public class EventPostResponseHandler extends NotificationResponseHandler {
 			hfe.initCause(new InvalidFormatException());
 			throw hfe;
 		}
-		ArrayList<FieldAliasContainer> fields = new ArrayList<FieldAliasContainer> ();
-		fields.add(new FieldAliasContainer("eventid", EventPostResponse.class, "id_"));
-		ArrayList<ObjectAliasContainer> objects = new ArrayList<ObjectAliasContainer>();
-		objects.add(new ObjectAliasContainer("EventPostResponse", EventPostResponse.class));
-
-		String response = emitters_.get(epr.getResponseType()).emit(nr, objects, fields);
-
+		XStream emitter;
+		if (epr.getResponseType().equalsIgnoreCase("json")){
+			emitter = EmitterFactory.createXStream(EmitterFactory.ResponseType.JSON);
+		}else {
+			emitter = EmitterFactory.createXStream(EmitterFactory.ResponseType.XML);
+		}
+		
+		emitter.alias("EventPostResponse", EventPostResponse.class);
+		emitter.aliasField("eventid", EventPostResponse.class, "id_");
+		emitter.omitField(ResponseNotification.class, "type_");
+		emitter.omitField(ResponseNotification.class, "responseType_");
+		emitter.omitField(Notification.class, "type_");
+		emitter.omitField(EventPostResponse.class, "callback_");
+		
+		String response = emitter.toXML(epr);
+		
 		if (epr.getResponseType().equalsIgnoreCase("json")){
 			response = epr.getCallback() + "( " + response + " )";
 		}
@@ -75,8 +77,5 @@ public class EventPostResponseHandler extends NotificationResponseHandler {
 
 	}
 
-	public void setEmitters(Map<String, Emitter> e){
-		emitters_ = e;
-	}
 
 }

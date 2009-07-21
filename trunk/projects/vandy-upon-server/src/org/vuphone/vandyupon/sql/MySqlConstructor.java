@@ -30,7 +30,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		String sql = "CREATE TABLE IF NOT EXISTS people ( "
 				+ "userid INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "deviceid VARCHAR(20))";
+				+ "deviceid VARCHAR(20) unique)";
 		PreparedStatement prep = db.prepareStatement(sql);
 		prep.execute();
 

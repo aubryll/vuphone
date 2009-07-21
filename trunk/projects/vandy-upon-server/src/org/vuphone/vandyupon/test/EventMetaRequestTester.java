@@ -13,49 +13,31 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.eventrequest;
+package org.vuphone.vandyupon.test;
 
-import org.vuphone.vandyupon.datastructs.Location;
-import org.vuphone.vandyupon.notification.Notification;
+import java.io.IOException;
 
-public class EventRequest extends Notification {
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+public class EventMetaRequestTester {
 	
-	private Location anchorPt_;
-	private double distance_;
-	private String callback_;
-	private String responseType_;
-	private String userid_;
-	
-	public EventRequest(Location anchor, double distance, String userid, String responseType, String callback){
-		super("eventrequest");
-		anchorPt_ = anchor;
-		distance_ = distance;
-		responseType_ = responseType;
-		userid_ = userid;
-		callback_ = callback;
-	}
-	
-	public double getDistance(){
-		return distance_;
-	}
-	
-	public Location getAnchor(){
-		return anchorPt_;
-	}
-	
-	public String getResponseType(){
-		return responseType_;
-	}
-	
-	public String getCallback(){
-		return callback_;
-	}
-	
-	public String getUserId(){
-		return userid_;
+	public static void main(String[] args){
+		HttpClient c = new DefaultHttpClient();
+		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
+		
+		String params = "type=eventmetarequest&id=2";
+		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
+		
+		try {
+			HttpResponse resp = c.execute(post);
+			resp.getEntity().writeTo(System.out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void setUserId(String userid){
-		userid_ = userid;
-	}
 }

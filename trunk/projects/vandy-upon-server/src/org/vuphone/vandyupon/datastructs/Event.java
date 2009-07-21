@@ -15,33 +15,28 @@
  **************************************************************************/
 package org.vuphone.vandyupon.datastructs;
 
-import java.util.HashMap;
 
 public class Event {
 	
 	private String name_;
 	private Location loc_;
-	private int user_;
+	private boolean owner_;
 	private long startTime_;
 	private long endTime_;
 	private int id_;
-	private HashMap<String, String> meta_ = new HashMap<String, String>();
+	
 	
 	public Event(){
 		
 	}
 	
-	public Event(String name, Location loc, int user, long startTime, long endTime, int id){
+	public Event(String name, Location loc, boolean owner, long startTime, long endTime, int id){
 		name_ = name;
 		loc_ = loc;
-		user_ = user;
+		owner_ = owner;
 		startTime_ = startTime;
 		endTime_ = endTime;
 		id_ = id;
-	}
-	
-	public void addMeta(String type, String value){
-		meta_.put(type, value);
 	}
 	
 	public long getEndTime(){
@@ -56,10 +51,6 @@ public class Event {
 		return loc_;
 	}
 	
-	public HashMap<String, String> getMetaData(){
-		return meta_;
-	}
-	
 	public String getName(){
 		return name_;
 	}
@@ -68,8 +59,8 @@ public class Event {
 		return startTime_;
 	}
 	
-	public int getUser(){
-		return user_;
+	public boolean isOwner(){
+		return owner_;
 	}
 	
 	public void setEndTime(long endTime){
@@ -92,7 +83,7 @@ public class Event {
 		startTime_ = startTime;
 	}
 	
-	public void setUser(int user){
-		user_ = user;
+	public void setIsOwner(boolean owner){
+		owner_ = owner;
 	}
 }

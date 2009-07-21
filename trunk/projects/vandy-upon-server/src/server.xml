@@ -77,6 +77,12 @@
 				</entry>
 				<entry>
 					<key>
+						<value>eventmetarequest</value>
+					</key>
+					<ref bean="eventMetaRequestHandler" />
+				</entry>
+				<entry>
+					<key>
 						<value>locationpost</value>
 					</key>
 					<ref bean="locationPostHandler" />
@@ -105,6 +111,12 @@
 				</entry>
 				<entry>
 					<key>
+						<value>eventmetarequest</value>
+					</key>
+					<ref bean="eventMetaRequestParser" />
+				</entry>
+				<entry>
+					<key>
 						<value>locationpost</value>
 					</key>
 					<ref bean="locationPostParser" />
@@ -125,6 +137,18 @@
 					</key>
 					<ref bean="eventPostResponder" />
 				</entry>
+				<entry>
+					<key>
+						<value>eventrequest</value>
+					</key>
+					<ref bean="eventRequestResponder" />
+				</entry>
+				<entry>
+					<key>
+						<value>eventmetarequest</value>
+					</key>
+					<ref bean="eventMetaRequestResponder" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -136,39 +160,23 @@
 	<bean name="eventRequestHandler" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestHandler">
 		<property name="dataConnection" ref="dataProvider" />
 	</bean>
+	<bean name="eventMetaRequestHandler" class="org.vuphone.vandyupon.notification.eventmetarequest.EventMetaRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
 	<bean name="locationPostHandler" class="org.vuphone.vandyupon.notification.locationpost.LocationPostHandler" />
 	<bean name="locationRequestHandler" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestHandler" />
 	
 	<!-- Parser Beans -->
 	<bean name="eventPostParser" class="org.vuphone.vandyupon.notification.eventpost.EventPostParser" />
 	<bean name="eventRequestParser" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestParser" />
+	<bean name="eventMetaRequestParser" class="org.vuphone.vandyupon.notification.eventmetarequest.EventMetaRequestParser" />
 	<bean name="locationPostParser" class="org.vuphone.vandyupon.notification.locationpost.LocationPostParser" />
 	<bean name="locationRequestParser" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestParser" />
 	
 	<!-- Responder Beans -->
-	<bean name="eventPostResponder" class="org.vuphone.vandyupon.notification.eventpost.EventPostResponseHandler">
-		<property name="emitters">
-			<map>
-				<entry>
-					<key>
-						<value>json</value>
-					</key>
-					<ref bean="jsonEmitter" />
-				</entry>
-				<entry>
-					<key>
-						<value>xml</value>
-					</key>
-					<ref bean="xmlEmitter" />
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
-	
-	<!-- Emitter Beans -->
-	<bean name="jsonEmitter" class="org.vuphone.vandyupon.utils.JSONEmitter" />
-	<bean name="xmlEmitter" class="org.vuphone.vandyupon.utils.XMLEmitter" />
+	<bean name="eventPostResponder" class="org.vuphone.vandyupon.notification.eventpost.EventPostResponseHandler" />
+	<bean name="eventRequestResponder" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestResponseHandler" />
+	<bean name="eventMetaRequestResponder" class="org.vuphone.vandyupon.notification.eventmetarequest.EventMetaRequestResponseHandler" />	
 
 	<!-- Sql Bean -->
 	<bean name="sqlConstructor" class="org.vuphone.vandyupon.sql.SqlConstructor">

@@ -18,14 +18,34 @@ package org.vuphone.vandyupon.notification;
 public abstract class ResponseNotification extends Notification {
 	
 	private String type_;
+	private String callback_;
+	private String responseType_;
 	
-	public ResponseNotification(String type){
+	public ResponseNotification(String type, String responseType, String callback){
 		super("response");
-		type_ = type;;
+		type_ = type;
+		callback_ = callback;
+		responseType_ = responseType;
+	}
+	
+	public String getCallback(){
+		return callback_;
 	}
 	
 	public String getResponseNotificationType(){
 		return type_;
+	}
+	
+	public String getResponseType(){
+		return responseType_;
+	}
+	
+	public void setCallback(String cb){
+		callback_ = cb;
+	}
+	
+	public void setReponseType(String type){
+		responseType_ = type;
 	}
 	
 

@@ -13,49 +13,39 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.eventrequest;
+package org.vuphone.vandyupon.utils;
 
-import org.vuphone.vandyupon.datastructs.Location;
-import org.vuphone.vandyupon.notification.Notification;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
-public class EventRequest extends Notification {
+public class EmitterFactory {
 	
-	private Location anchorPt_;
-	private double distance_;
-	private String callback_;
-	private String responseType_;
-	private String userid_;
-	
-	public EventRequest(Location anchor, double distance, String userid, String responseType, String callback){
-		super("eventrequest");
-		anchorPt_ = anchor;
-		distance_ = distance;
-		responseType_ = responseType;
-		userid_ = userid;
-		callback_ = callback;
+	public enum ResponseType{
+		JSON, XML
 	}
 	
-	public double getDistance(){
-		return distance_;
-	}
-	
-	public Location getAnchor(){
-		return anchorPt_;
-	}
-	
-	public String getResponseType(){
-		return responseType_;
-	}
-	
-	public String getCallback(){
-		return callback_;
-	}
-	
-	public String getUserId(){
-		return userid_;
+	public static XStream createXStream(ResponseType type){
+		
+		XStream temp;
+		
+		switch (type){
+			case JSON:{
+				temp = new XStream (new JettisonMappedXmlDriver());
+				temp.setMode(XStream.NO_REFERENCES);
+				break;
+			}
+			case XML:{
+				temp = new XStream();
+				break;
+			}
+			default:{
+				temp = new XStream();
+			}
+			
+		}
+		
+		return temp;
+		
 	}
 
-	public void setUserId(String userid){
-		userid_ = userid;
-	}
 }
