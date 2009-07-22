@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+	<!--
+		- Application context definition for JPetStore's business layer. -
+		Contains bean references to the transaction manager and to the DAOs in
+		- dataAccessContext-local/jta.xml (see web.xml's
+		"contextConfigLocation").
+	-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+
+	<!-- Use this bean to utilize the MySQL Database-->
+	<!-- Note: There must be a file called db.properties in the same directory
+		 as this file if this bean is to be used. -->
+	<!-- 
+	<bean id="dataProvider"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+			</value>
+		</property>
+		<property name="url">
+			<value>${db.host}
+			</value>
+		</property>
+		<property name="username">
+			<value>${db.username}</value>
+		</property>
+		<property name="password">
+			<value>${db.password}</value>
+		</property>
+	</bean>
+	-->
+	<!--  This bean is used for MySql Connections -->
+	<!--
+	<bean name="dbConstructor" class="org.vuphone.assassins.sql.MySqlConstructor" />
+	-->
+	<!--  This bean is used for SQLite Connections -->
+	<!-- --> <bean name="dbConstructor" class="org.vuphone.assassins.sql.SqliteConstructor" />
+	
+	<!-- This bean used for both MySql and SQLite Connections -->
+	<bean name="sqlConstructor" class="org.vuphone.assassins.sql.SqlConstructor">
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="databaseConstructor" ref="dbConstructor" />
+	</bean>
+	
+	<!--  This bean loads the properties referenced in the username, password and url fields -->
+	<!--  The format of this file is property=value. For example, the file for my computer
+		  contains db.username=root.  Each property goes on its own line. 
+		  If you don't have this file, make sure this is commented out...-->
+	<!-- 
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="db.properties" />
+	</bean>
+	-->
+	<!-- Use this bean to utilize the SQLite Database-->
+	<!-- -->
+		<bean id="dataProvider"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"> <value>org.sqlite.JDBC</value>
+		</property> <property name="url">
+		<value>jdbc:sqlite:assassins.db</value> </property> </bean>
+
+	<bean name="jspServlet" class="org.apache.jasper.servlet.JspServlet" />
+	<bean name="notificationServlet" class="org.vuphone.assassins.notification.NotificationServlet">
+		<property name="parser" ref="notificationParser" />
+		<property name="dataConnection" ref="dataProvider" />
+		<property name="handlers">
+			<map>
+				<entry>
+					<key>
+						<value>landMineGet</value>
+					</key>
+					<ref bean="landMineRequestHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>landMinePost</value>
+					</key>
+					<ref bean="landMineAddHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>landMineRemove</value>
+					</key>
+					<ref bean="landMineRemoveHandler" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="notificationParser" class="org.vuphone.assassins.notification.NotificationParser" />
+
+	<bean name="landMineRequestHandler" class="org.vuphone.assassins.landminerequest.LandMineRequestHandler">
+		<property name="parser" ref="landMineRequestParser" />
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	<bean name="landMineRequestParser" class="org.vuphone.assassins.landminerequest.LandMineRequestParser" />
+	
+	<bean name="landMineAddHandler" class="org.vuphone.assassins.landmineadd.LandMineAddHandler">
+		<property name="parser" ref="landMineAddParser" />
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	<bean name="landMineAddParser" class="org.vuphone.assassins.landmineadd.LandMineAddParser" />
+
+	<bean name="landMineRemoveHandler" class="org.vuphone.assassins.landmineremove.LandMineRemoveHandler">
+		<property name="parser" ref="landMineRemoveParser" />
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	<bean name="landMineRemoveParser" class="org.vuphone.assassins.landmineremove.LandMineRemoveParser" />
+	
+</beans>
