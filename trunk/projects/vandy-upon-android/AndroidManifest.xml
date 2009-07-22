@@ -26,7 +26,7 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".EventViewer" android:label="Event Viewer">
+		<activity android:name=".viewevents.EventViewer" android:label="Event Viewer">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -35,6 +35,9 @@
 
 		<!-- Used to start this activity explicitly -->
 		<activity android:name=".submitevent.LocationChooser" />
+		
+		<!-- Used to start the loader service explicitly -->
+		<service android:name=".eventloader.EventLoader" />
 
 	</application>
 	<uses-sdk android:minSdkVersion="3" />

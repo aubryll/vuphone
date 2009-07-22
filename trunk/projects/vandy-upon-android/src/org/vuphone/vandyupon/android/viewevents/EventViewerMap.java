@@ -1,7 +1,9 @@
 /**
  * 
  */
-package org.vuphone.vandyupon.android;
+package org.vuphone.vandyupon.android.viewevents;
+
+import org.vuphone.vandyupon.android.LocationManager;
 
 import android.content.Context;
 import android.util.AttributeSet;

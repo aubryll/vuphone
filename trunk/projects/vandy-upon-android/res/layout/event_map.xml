@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
     
-    <org.vuphone.vandyupon.android.EventViewerMap
+    <org.vuphone.vandyupon.android.viewevents.EventViewerMap
        	android:id="@+id/event_map"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

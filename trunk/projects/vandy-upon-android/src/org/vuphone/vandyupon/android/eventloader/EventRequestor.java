@@ -1,13 +1,12 @@
 /**
  * 
  */
-package org.vuphone.vandyupon.android.submitevent;
+package org.vuphone.vandyupon.android.eventloader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.GregorianCalendar;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -23,59 +22,34 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 /**
- * 
- * Contacts the server and attempts to post a new event.
+ * Contains the code that contacts the server and downloads the XML for the
+ * events
  * 
  * @author Hamilton Turner
  * 
  */
-public class EventPoster {
+public class EventRequestor {
 	private static final String tag = Constants.tag;
-	private static final String pre = "EventPoster: ";
+	private static final String pre = "EventRequestor: ";
 	private static final String PATH = "/vandyupon/events/";
 
-	private static String lastError_ = "";
+	public static ByteArrayOutputStream doEventRequest(GeoPoint anchorLocation,
+			int radiusInFeet, long latestUpdatedTime, Context context) {
 
-	/**
-	 * Attempts to contact the server and post an event.
-	 * 
-	 * @param name
-	 *            event name
-	 * @param start
-	 *            event start calendar
-	 * @param end
-	 *            event end calendar
-	 * @param location
-	 *            event location
-	 * @param desc
-	 *            event description
-	 * @param context
-	 *            application context used to fetch the android ID
-	 * @return true if the server was contacted, and returned 200 OK, false
-	 *         otherwise
-	 */
-	public static boolean doEventPost(String name, GregorianCalendar start,
-			GregorianCalendar end, GeoPoint location, String desc,
-			Context context) {
-
-		lastError_ = "";
-		
-		String startTime = Long.toString(start.getTimeInMillis());
-		String endTime = Long.toString(end.getTimeInMillis());
-		String latitude = Double
-				.toString((double) location.getLatitudeE6() / 1E6);
-		String longitude = Double
-				.toString((double) location.getLongitudeE6() / 1E6);
+		String radius = Integer.toString(radiusInFeet);
+		String latestTime = Long.toString(latestUpdatedTime);
+		String latitude = Double.toString((double) anchorLocation
+				.getLatitudeE6() / 1E6);
+		String longitude = Double.toString((double) anchorLocation
+				.getLongitudeE6() / 1E6);
 		String androidID = Constants.getAndroidID(context);
 
 		try {
-			name = URLEncoder.encode(name, "UTF-8");
-			startTime = URLEncoder.encode(startTime, "UTF-8");
-			endTime = URLEncoder.encode(endTime, "UTF-8");
+			radius = URLEncoder.encode(radius, "UTF-8");
+			latestTime = URLEncoder.encode(latestTime, "UTF-8");
 			latitude = URLEncoder.encode(latitude, "UTF-8");
 			longitude = URLEncoder.encode(longitude, "UTF-8");
 			androidID = URLEncoder.encode(androidID, "UTF-8");
-			desc = URLEncoder.encode(desc, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
 			use.printStackTrace();
 			Log.w(tag, pre + "Unable to encode one of the parameters");
@@ -89,22 +63,18 @@ public class EventPoster {
 
 		// Create the parameter string
 		StringBuffer params = new StringBuffer();
-		params.append("type=eventpost");
-		params.append("&locationlat=");
+		params.append("type=eventrequest");
+		params.append("&lat=");
 		params.append(latitude);
-		params.append("&locationlon=");
+		params.append("&lon=");
 		params.append(longitude);
-		params.append("&eventname=");
-		params.append(name);
-		params.append("&starttime=");
-		params.append(startTime);
-		params.append("&endtime=");
-		params.append(endTime);
+		params.append("&updatetime=");
+		params.append(latestTime);
+		params.append("&dist=");
+		params.append(radius);
 		params.append("&userid=");
 		params.append(androidID);
 		params.append("&resp=xml");
-		params.append("&desc=");
-		params.append(desc);
 
 		// Add the parameters to the post
 		Log.v(tag, pre + "Created parameter string: " + params);
@@ -117,45 +87,36 @@ public class EventPoster {
 		try {
 			resp = c.execute(post);
 			resp.getEntity().writeTo(bao);
-			Log.v(tag, pre + "Response from server: "
-					+ bao.toString());
+			Log.v(tag, pre + "Response from server: " + bao.toString());
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			Log.e(tag, pre + "ClientProtocolException executing post: "
 					+ e.getMessage());
-			lastError_ = "General HTTP Error";
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.e(tag, pre + "IOException writing to ByteArrayOutputStream: "
 					+ e.getMessage());
-			lastError_ = "Unable to access server response. Is Internet available?";
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e(tag, pre + "Other Exception of type:" + e.getClass());
 			Log.e(tag, pre + "The message is: " + e.getMessage());
-			lastError_ = "Unknown problem";
 		}
 
-		if (resp == null)
-			return false;
-		else if (resp.getStatusLine().getStatusCode() != 200) {
-			if (lastError_.equals("") == false)
-				lastError_ += ". ";
-			lastError_ += "Server returned "
-					+ resp.getStatusLine().getStatusCode() + " status";
-			return false;
+		if (resp == null) {
+			Log.e(tag, pre + "Some error occurred, we had no response");
+			return null;
+		} else if (resp.getStatusLine().getStatusCode() != 200) {
+			// log status returned
+			Log.e(tag, pre + "Server returned a Status-Code: "
+					+ resp.getStatusLine().getStatusCode());
+			return null;
 		} else if (bao.size() == 0) {
-			if (lastError_.equals("") == false)
-				lastError_ += ". ";
-			lastError_ += "Server did not acknowledge";
-			return false;
+			// log absolutely nothing returned from server!
+			Log.e(tag, pre + "We contacted the server, but they did"
+					+ " not acknowledge. No data was send back");
+			return null;
 		}
 
-		else
-			return true;
-	}
-
-	public static String getLastError() {
-		return lastError_;
+		return bao;
 	}
 }
