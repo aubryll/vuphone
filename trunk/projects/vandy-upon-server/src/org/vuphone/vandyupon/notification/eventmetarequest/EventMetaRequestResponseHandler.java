@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.vuphone.vandyupon.datastructs.MetaDataContainer;
 import org.vuphone.vandyupon.notification.HandlerFailedException;
 import org.vuphone.vandyupon.notification.InvalidFormatException;
+import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationResponseHandler;
 import org.vuphone.vandyupon.notification.ResponseNotification;
 import org.vuphone.vandyupon.utils.EmitterFactory;
@@ -52,9 +53,14 @@ public class EventMetaRequestResponseHandler extends NotificationResponseHandler
 		}
 		
 		emitter.addImplicitCollection(EventMetaRequestResponse.class, "meta_");
+		emitter.alias("EventMetaRequestResponse", EventMetaRequestResponse.class);
+		emitter.omitField(Notification.class, "type_");
+		emitter.omitField(ResponseNotification.class, "type_");
+		emitter.omitField(ResponseNotification.class, "responseType_");
 		emitter.alias("MetaData", MetaDataContainer.class);
 		emitter.aliasField("Type", MetaDataContainer.class, "type_");
 		emitter.aliasField("Value", MetaDataContainer.class, "value_");
+		emitter.aliasField("Event", EventMetaRequestResponse.class, "event_");
 		
 		String response = emitter.toXML(emrr);
 		if (emrr.getResponseType().equalsIgnoreCase("json")){
