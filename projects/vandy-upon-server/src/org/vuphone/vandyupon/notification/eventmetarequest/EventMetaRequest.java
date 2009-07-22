@@ -24,7 +24,7 @@ public class EventMetaRequest extends Notification {
 	private String callback_;
 	
 	public EventMetaRequest(int eventid, String responsetype, String callback){
-		super("eventmeta");
+		super("eventmetarequest");
 		event_ = eventid;
 		responseType_ = responsetype;
 		callback_ = callback;

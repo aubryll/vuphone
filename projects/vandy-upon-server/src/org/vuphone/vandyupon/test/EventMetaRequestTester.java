@@ -28,8 +28,9 @@ public class EventMetaRequestTester {
 	public static void main(String[] args){
 		HttpClient c = new DefaultHttpClient();
 		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
-		String params = "type=eventmetarequest&id=2";
+		String params = "type=eventmetarequest&id=2&resp=xml";
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 		
 		try {

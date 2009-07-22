@@ -22,11 +22,11 @@ import org.vuphone.vandyupon.notification.ResponseNotification;
 
 public class EventMetaRequestResponse extends ResponseNotification {
 	
-	private ArrayList<MetaDataContainer> meta_ = new ArrayList<MetaDataContainer>();
 	private int event_;
+	private ArrayList<MetaDataContainer> meta_ = new ArrayList<MetaDataContainer>();
 	
 	public EventMetaRequestResponse(int id, String responsetype, String callback){
-		super("eventmeta", responsetype, callback);
+		super("eventmetarequest", responsetype, callback);
 		event_ = id;
 	}
 	

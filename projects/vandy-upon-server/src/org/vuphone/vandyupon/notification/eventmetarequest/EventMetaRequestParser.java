@@ -28,7 +28,7 @@ public class EventMetaRequestParser implements NotificationParser {
 		if (!req.getParameter("type").equalsIgnoreCase("eventmetarequest"))
 			return null;
 		
-		EventMetaRequest emr = new EventMetaRequest(Integer.parseInt("id"), req.getParameter("resp"),
+		EventMetaRequest emr = new EventMetaRequest(Integer.parseInt(req.getParameter("id")), req.getParameter("resp"),
 				req.getParameter("callback"));
 		
 		return emr;
