@@ -38,7 +38,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "locationid INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "name varchar(100) not null,"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
-				+ "Date BIGINT NOT NULL," + "userid int not null references people(userid))";
+				+ "Date BIGINT NOT NULL," + "userid int not null references people(userid)," +
+						"lastupdate bigint not null)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -48,7 +49,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "locationid integer not null references locations(locationid),"
 				+ "userid integer not null references people(userid)," 
 				+ "starttime bigint not null," 
-				+ "endtime bigint not null)";
+				+ "endtime bigint not null," +
+						"lastupdate bigint not null)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 

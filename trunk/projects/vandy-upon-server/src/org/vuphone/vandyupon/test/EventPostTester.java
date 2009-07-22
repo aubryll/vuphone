@@ -27,10 +27,10 @@ public class EventPostTester {
 	
 	public static void main(String[] args){
 		HttpClient c = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
+		HttpPost post = new HttpPost("http://afrl-gift.dre.vanderbilt.edu:8080/vandyupon/events/");
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
-		String params = "type=eventpost&eventname=Test&starttime=" + System.currentTimeMillis() + "&endtime=" + (System.currentTimeMillis() + 600000) +
+		String params = "type=eventpost&eventname=Test&starttime=" + System.currentTimeMillis() + "&endtime=" + (System.currentTimeMillis() + 6000000) +
 			"&userid=chris&resp=xml&desc=a%20new%20event&locationlat=36.1437&locationlon=-86.8046";
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 		

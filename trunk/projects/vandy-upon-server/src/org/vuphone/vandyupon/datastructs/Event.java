@@ -24,19 +24,21 @@ public class Event {
 	private long startTime_;
 	private long endTime_;
 	private int id_;
+	private long lastUpdate_;
 	
 	
 	public Event(){
 		
 	}
 	
-	public Event(String name, Location loc, boolean owner, long startTime, long endTime, int id){
+	public Event(String name, Location loc, boolean owner, long startTime, long endTime, int id, long lastUpdate){
 		name_ = name;
 		loc_ = loc;
 		owner_ = owner;
 		startTime_ = startTime;
 		endTime_ = endTime;
 		id_ = id;
+		lastUpdate_ = lastUpdate;
 	}
 	
 	public long getEndTime(){
@@ -45,6 +47,10 @@ public class Event {
 	
 	public int getID(){
 		return id_;
+	}
+	
+	public long getLastUpdate(){
+		return lastUpdate_;
 	}
 	
 	public Location getLocation(){
@@ -69,6 +75,10 @@ public class Event {
 	
 	public void setID(int id){
 		id_ = id;
+	}
+	
+	public void setLastUpdate(long lastUpdate){
+		lastUpdate_ = lastUpdate;
 	}
 	
 	public void setLocation(Location loc){

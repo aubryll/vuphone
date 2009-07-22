@@ -57,15 +57,16 @@ public class EventMetaRequestResponseHandler extends NotificationResponseHandler
 		emitter.omitField(Notification.class, "type_");
 		emitter.omitField(ResponseNotification.class, "type_");
 		emitter.omitField(ResponseNotification.class, "responseType_");
+		emitter.omitField(ResponseNotification.class, "callback_");
 		emitter.alias("MetaData", MetaDataContainer.class);
 		emitter.aliasField("Type", MetaDataContainer.class, "type_");
 		emitter.aliasField("Value", MetaDataContainer.class, "value_");
 		emitter.aliasField("Event", EventMetaRequestResponse.class, "event_");
 		
+		
 		String response = emitter.toXML(emrr);
-		if (emrr.getResponseType().equalsIgnoreCase("json")){
+		if (emrr.getResponseType().equalsIgnoreCase("json"))
 			response = emrr.getCallback() + " (" + response + ")";
-		} 
 		
 		try{
 			resp.getWriter().write(response);
