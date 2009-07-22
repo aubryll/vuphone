@@ -71,8 +71,8 @@ public class EventRequestHandler implements NotificationHandler {
 			 */
 			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, events.userid as user, lat, lon " +
 			"from events inner join locations on events.locationid = locations.locationid " +
-			"where endtime > ? and ? * ACOS( (SIN( PI() * ? / 180) * SIN( PI() * lat/180) ) + (COS ( PI() * ? /180) * " +
-			"COS (PI() * lat /180) * COS ( PI() * lon/180 - PI() * ?/180))) < ?";
+			"where endtime > ? and ? * ACOS( (SIN( PI() * ? / 180) * SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
+			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ?";
 			
 
 			PreparedStatement prep = db.prepareStatement(sql);
@@ -104,6 +104,7 @@ public class EventRequestHandler implements NotificationHandler {
 				}else {
 					e.setIsOwner(false);
 				}
+				e.setLastUpdate(rs.getLong("lastupdate"));
 				err.addEvent(e);
 				events.put(e.getID(), e);
 			}

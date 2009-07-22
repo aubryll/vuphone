@@ -30,7 +30,6 @@ public class EventRequestParser implements NotificationParser {
 	 * 
 	 */
 	public Notification parse(HttpServletRequest req) {
-		
 		Location loc = new Location(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")));
 		double distance = Double.parseDouble(req.getParameter("dist"));
 		String response = req.getParameter("resp");

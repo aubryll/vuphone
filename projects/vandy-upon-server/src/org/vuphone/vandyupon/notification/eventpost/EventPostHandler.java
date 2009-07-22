@@ -43,13 +43,15 @@ public class EventPostHandler implements NotificationHandler {
 	 */
 	private int createEvent(EventPost ep, int locationId) throws SQLException{
 		Connection conn = ds_.getConnection();
-		String sql = "insert into events (name, locationid, userid, starttime, endtime) values (?, ?, ?, ?, ?)";
+		String sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate)" +
+				" values (?, ?, ?, ?, ?, ?)";
 		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
 		prep.setLong(3, ep.getDbUserId());
 		prep.setLong(4, ep.getStartTime());
 		prep.setLong(5, ep.getEndTime());
+		prep.setLong(6, System.currentTimeMillis());
 
 		if (prep.executeUpdate() == 0){
 			throw new SQLException("Insertion into vandyupon.events failed for an unknown reason");
@@ -121,13 +123,15 @@ public class EventPostHandler implements NotificationHandler {
 			id = rs.getInt("locationid");
 			rs.close();
 		}catch(SQLException e){
-			sql = "insert into locations (name, lat, lon, date, userid) values (?, ?, ?, ?, ?)";
+			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) " +
+					"values (?, ?, ?, ?, ?, ?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			prep.setString(1, "unknown");
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
 			prep.setLong(4, System.currentTimeMillis());
 			prep.setLong(5, ep.getDbUserId());
+			prep.setLong(6, System.currentTimeMillis());
 
 			prep.execute();
 			rs = prep.getGeneratedKeys();

@@ -57,6 +57,7 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		emitter.omitField(ResponseNotification.class, "type_");
 		emitter.omitField(ResponseNotification.class, "responseType_");
 		emitter.omitField(Notification.class, "type_");
+		emitter.omitField(ResponseNotification.class, "callback_");
 		
 		emitter.alias("EventRequestResponse", EventRequestResponse.class);
 		emitter.alias("Event", Event.class);
@@ -73,9 +74,15 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		emitter.aliasField("End", Event.class, "endTime_");
 		emitter.aliasField("EventId", Event.class, "id_");
 		emitter.aliasField("Owner", Event.class, "owner_");
+		emitter.aliasField("LastUpdate", Event.class, "lastUpdate_");
+		
+		String response = emitter.toXML(err);
+		
+		if (err.getResponseType().equalsIgnoreCase("json"))
+			response = err.getCallback() + " (" + response + ") ";
 		
 		try{
-			resp.getWriter().write(emitter.toXML(err));
+			resp.getWriter().write(response);
 		}catch(IOException e){
 			e.printStackTrace();
 			HandlerFailedException hfe = new HandlerFailedException();

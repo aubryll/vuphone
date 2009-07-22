@@ -62,9 +62,8 @@ public class EventPostResponseHandler extends NotificationResponseHandler {
 		
 		String response = emitter.toXML(epr);
 		
-		if (epr.getResponseType().equalsIgnoreCase("json")){
+		if (epr.getResponseType().equalsIgnoreCase("json"))
 			response = epr.getCallback() + "( " + response + " )";
-		}
 
 		try {
 			resp.getWriter().write(response);
