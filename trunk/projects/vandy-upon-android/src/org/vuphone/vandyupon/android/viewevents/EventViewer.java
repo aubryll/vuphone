@@ -44,11 +44,11 @@ public class EventViewer extends MapActivity {
 		Intent loaderIntent = new Intent(this, EventLoader.class);
 		PendingIntent loader = PendingIntent.getService(this, 0, loaderIntent,
 				PendingIntent.FLAG_UPDATE_CURRENT);
-		AlarmManager am = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
-		am.cancel(loader);
-		am.setInexactRepeating(AlarmManager.RTC,
-				System.currentTimeMillis(),
-				10000, loader);
+//		AlarmManager am = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
+//		am.cancel(loader);
+//		am.setInexactRepeating(AlarmManager.RTC,
+//				System.currentTimeMillis(),
+//				30000, loader);
 	}
 
 	/** Called when the Activity is no longer visible */

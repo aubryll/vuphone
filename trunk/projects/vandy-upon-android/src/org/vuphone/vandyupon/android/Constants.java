@@ -15,7 +15,7 @@ import android.telephony.TelephonyManager;
  */
 public class Constants {
 	public static final String tag = "Vandy Upon";
-	public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8080";
+	public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8081";
 
 	/** Center of Vanderbilt */
 	public static final GeoPoint vandyCenter = new GeoPoint(
