@@ -1,5 +1,5 @@
  /**************************************************************************
- * Copyright 2009 Jules White                                              *
+ * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
  * you may not use this file except in compliance with the License.        *
@@ -13,50 +13,64 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification;
+package org.vuphone.vandyupon.media.incoming.event;
 
+import org.vuphone.vandyupon.notification.Notification;
 
-/**
- * This class is a data structure that represents a generic notification of an
- * event, such as an accident.
- * 
- * @author jules
- * 
- */
-public class Notification {
-
-	private String type_;
-
-	public Notification(String type) {
-		super();
-		type_ = type;
+public class ImageNotification extends Notification {
+	
+	private byte[] imageBytes_;
+	private long eventId_;
+	private long time_;
+	private String responseType_;
+	private String callback_;
+	
+	public ImageNotification(){
+		super("eventimagepost");
 	}
-
-
-	/**
-	 * This method returns the type of notification. The notification type is
-	 * used to determine which NotificationHandler implementation should be used
-	 * to handle the notification. The linking of notification types to
-	 * notification handlers is done in org.vuphone server.xml, and can be
-	 * changed at run time
-	 * 
-	 * @return string representing the notification type
-	 */
-	public String getType() {
-		return type_;
+	
+	public void setBytes(byte[] bytes){
+		imageBytes_ = bytes;
 	}
-
-
-	public void setType(String type) {
-		type_ = type;
+	
+	public byte[] getBytes()
+	{
+		return imageBytes_;
 	}
-
-	/**
-	 * This method should be Overridden by specific Notification subtypes. They
-	 * should print out their responses, which will be sent back to the client
-	 */
-	public String getResponseString() {
-		return "";
+	
+	public void setEventId(long eventId)
+	{
+		this.eventId_ = eventId;
 	}
-
+	
+	public long getEventId()
+	{
+		return eventId_;
+	}
+	
+	public void setTime(long time)
+	{
+		time_ = time;
+	}
+	
+	public long getTime()
+	{
+		return time_;
+	}
+	
+	public void setResponseType(String resp){
+		responseType_ = resp;
+	}
+	
+	public String getResponseType(){
+		return responseType_;
+	}
+	
+	public void setCallback(String cb){
+		callback_ = cb;
+	}
+	
+	public String getCallback(){
+		return callback_;
+	}
 }

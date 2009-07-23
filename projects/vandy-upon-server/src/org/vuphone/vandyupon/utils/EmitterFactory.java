@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -15,37 +15,68 @@
  **************************************************************************/
 package org.vuphone.vandyupon.utils;
 
+import org.vuphone.vandyupon.notification.Notification;
+import org.vuphone.vandyupon.notification.ResponseNotification;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
 public class EmitterFactory {
-	
+
 	public enum ResponseType{
 		JSON, XML
 	}
-	
+
+	/**
+	 * This factory method creates an Xstream object preconfigured to emit the proper
+	 * object type.  
+	 * @param type
+	 * @return XStream object configured for the proper object type
+	 */
 	public static XStream createXStream(ResponseType type){
-		
+
 		XStream temp;
-		
+
 		switch (type){
-			case JSON:{
-				temp = new XStream (new JettisonMappedXmlDriver());
-				temp.setMode(XStream.NO_REFERENCES);
-				break;
-			}
-			case XML:{
-				temp = new XStream();
-				break;
-			}
-			default:{
-				temp = new XStream();
-			}
-			
+		case JSON:{
+			temp = new XStream (new JettisonMappedXmlDriver());
+			temp.setMode(XStream.NO_REFERENCES);
+			break;
 		}
-		
+		case XML:{
+			temp = new XStream();
+			break;
+		}
+		default:{
+			temp = new XStream();
+		}
+
+		}
+
 		return temp;
-		
+
+	}
+
+	/**
+	 * This is a convenience method designed to prepopulate the emitter with
+	 * commonly omitted fields.  This is equivalent to calling 
+	 * EmitterFactory.createXStream(ResponseType) and then adding the omit's
+	 * on the returned object.
+	 * @param type
+	 * @param prepopulate
+	 * @return
+	 */
+	public static XStream createXStream(ResponseType type, boolean prepopulate){
+
+		XStream temp = createXStream(type);
+		if (prepopulate){
+			temp.omitField(Notification.class, "type_");
+			temp.omitField(ResponseNotification.class, "type_");
+			temp.omitField(ResponseNotification.class, "responseType_");
+		}
+
+		return temp;
+
 	}
 
 }
