@@ -3,17 +3,29 @@
  */
 package org.vuphone.vandyupon.android.filters;
 
-import org.vuphone.vandyupon.android.Constants;
-
 import com.google.android.maps.GeoPoint;
 
 /**
+ * Represents a central location, and a radius around that location. Events must
+ * fall within this radius to be included in results
+ * 
+ * This class is intended to be used on the client device to assist in database
+ * queries. It converts the radius and the center point to a bounding rectangle,
+ * because a database query can easily be constructed for a rectangular region,
+ * but it is very difficult in SQLite to do a database query for a circular
+ * radius (although in MySQL it is not very hard to do this query, because of
+ * the support for trigonometric functions in the query. See
+ * http://www.artfulsoftware.com/infotree/queries.php?&bw=1280#109 )
+ * 
  * @author Hamilton Turner
  * 
  */
 public class PositionFilter {
-	private static final String tag = Constants.tag;
-	private static final String pre = "PositionFilter: ";
+	/** Used for logging */
+	//private static final String tag = Constants.tag;
+	//private static final String pre = "PositionFilter: ";
+
+	/** Hold the data */
 	private int lowerLat_;
 	private int lowerLon_;
 	private int upperLat_;
@@ -48,12 +60,12 @@ public class PositionFilter {
 
 		int latDegreeChange = (int) ((radiusInMeters / latlen) * 1E6);
 		int lonDegreeChange = (int) ((radiusInMeters / longlen) * 1E6);
-		
+
 		int lowerLat = center.getLatitudeE6() - latDegreeChange;
 		int upperLat = center.getLatitudeE6() + latDegreeChange;
 		int lowerLon = center.getLongitudeE6() - lonDegreeChange;
 		int upperLon = center.getLongitudeE6() + lonDegreeChange;
-		
+
 		if (lowerLat >= upperLat)
 			throw new IllegalArgumentException(
 					"Lower Latitude cannot be >= Upper latitude");
@@ -67,18 +79,22 @@ public class PositionFilter {
 		upperLon_ = upperLon;
 	}
 
+	/** Get the lower of the two latitudes */
 	public long getLowerLatitude() {
 		return lowerLat_;
 	}
 
+	/** Get the lower of the two longitudes */
 	public long getLowerLongitude() {
 		return lowerLon_;
 	}
 
+	/** Get the upper of the two latitudes */
 	public long getUpperLatitude() {
 		return upperLat_;
 	}
 
+	/** Get the upper of the two longitudes */
 	public long getUpperLongitude() {
 		return upperLon_;
 	}

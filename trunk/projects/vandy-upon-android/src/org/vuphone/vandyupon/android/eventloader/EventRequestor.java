@@ -22,20 +22,42 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 /**
- * Contains the code that contacts the server and downloads the XML for the
- * events
+ * Contains the code that contacts the server via HTTP and downloads the XML for
+ * the events
  * 
  * @author Hamilton Turner
  * 
  */
 public class EventRequestor {
+	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventRequestor: ";
+
+	/** The path to contact the server on */
 	private static final String PATH = "/vandyupon/events/";
 
+	/**
+	 * Performs the event request
+	 * 
+	 * @param anchorLocation
+	 *            the central location around which we are requesting events
+	 *            from
+	 * @param radiusInFeet
+	 *            the radius of the circle. Events within this radius will be
+	 *            returned by the server, other events will not
+	 * @param latestUpdatedTime
+	 *            the latest update time that we have for any event. This will
+	 *            allow the server to only return events that are new or have
+	 *            been modified
+	 * @param context
+	 *            used to access the Telephony service and get the device ID
+	 * @return the OutputStream containing the XML response, or null if an error
+	 *         occurred
+	 */
 	public static ByteArrayOutputStream doEventRequest(GeoPoint anchorLocation,
 			int radiusInFeet, long latestUpdatedTime, Context context) {
 
+		// Convert all params to strings
 		String radius = Integer.toString(radiusInFeet);
 		String latestTime = Long.toString(latestUpdatedTime);
 		String latitude = Double.toString((double) anchorLocation
@@ -44,6 +66,7 @@ public class EventRequestor {
 				.getLongitudeE6() / 1E6);
 		String androidID = Constants.getAndroidID(context);
 
+		// URL encode all params
 		try {
 			radius = URLEncoder.encode(radius, "UTF-8");
 			latestTime = URLEncoder.encode(latestTime, "UTF-8");

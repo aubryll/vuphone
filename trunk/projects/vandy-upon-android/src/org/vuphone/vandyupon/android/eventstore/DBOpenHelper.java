@@ -12,6 +12,8 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
 /**
+ * Used to help open the database, or create it if it does not already exist.
+ * 
  * @author Hamilton Turner
  * 
  */
@@ -49,7 +51,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_IS_OWNER + " INTEGER NOT NULL DEFAULT 0,        "
 			+ COLUMN_SERVER_ID + " INTEGER NOT NULL);                ";
 
-	// CREATE TABLE events_new (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT
+	// CREATE TABLE events (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT
 	// NOT NULL, startTime INTEGER NOT NULL, endTime INTEGER NOT NULL,
 	// updatedTime INTEGER NOT NULL, latitude INTEGER NOT NULL, longitude
 	// INTEGER NOT NULL, owner INTEGER NOT NULL DEFAULT 0, serverId INTEGER NOT

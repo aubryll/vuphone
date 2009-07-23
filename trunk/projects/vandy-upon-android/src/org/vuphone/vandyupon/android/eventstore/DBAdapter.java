@@ -26,6 +26,7 @@ import com.google.android.maps.GeoPoint;
  * 
  */
 public class DBAdapter {
+	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "DBAdapter: ";
 
@@ -270,7 +271,7 @@ public class DBAdapter {
 		return this;
 	}
 
-	/** Used to open a writeable database */
+	/** Used to open a writable database */
 	public DBAdapter openWritable() throws SQLException {
 		database_ = openHelper_.getWritableDatabase();
 		return this;
