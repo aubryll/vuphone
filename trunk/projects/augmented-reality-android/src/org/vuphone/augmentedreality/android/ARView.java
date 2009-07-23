@@ -37,27 +37,22 @@ import android.widget.FrameLayout;
  * @author Krzysztof Zienkiewicz
  */
 
-// TODO - Control the Invalidator Thread...
-
 public class ARView extends FrameLayout {
 
 	private CameraPreview preview_;
 	private OverlayView overlay_;
+	private InvalidatorThread invalidator_;
 
 	public ARView(Context context) {
 		super(context.getApplicationContext());
 		preview_ = new CameraPreview(context);
 		overlay_ = new OverlayView(context);
+		invalidator_ = new InvalidatorThread(overlay_);
 
 		addView(preview_);
 		addView(overlay_);
-
-		new Thread(new Runnable() {
-			public void run() {
-				while (true)
-					overlay_.postInvalidate();
-			}
-		}, "Invalidator").start();
+		
+		invalidator_.start();
 	}
 
 	/**
@@ -70,6 +65,59 @@ public class ARView extends FrameLayout {
 	 */
 	public void addDrawer(ARDrawer drawer) {
 		overlay_.addDrawer(drawer);
+	}
+	
+	public void destroy() {
+		invalidator_.kill();
+	}
+	
+	public void pause() {
+		invalidator_.pause();
+		overlay_.pause();
+	}
+	
+	public void resume() {
+		invalidator_.unpause();
+		overlay_.resume();
+	}
+
+	private class InvalidatorThread extends Thread {
+
+		private final View view_;
+		private boolean shouldRun_ = true;
+		private boolean isPaused_ = false;
+
+		public InvalidatorThread(View view) {
+			super("OverlayInvalidator");
+			view_ = view;
+		}
+		
+		public void kill() {
+			shouldRun_ = false;
+		}
+
+		public void pause() {
+			isPaused_ = true;
+		}
+
+		@Override
+		public void run() {
+			while (shouldRun_) {
+				if (!isPaused_)
+					view_.postInvalidate();
+				else {
+					try {
+						// Give someone a chance to reset the flag.
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+					}
+				}
+			}
+		}
+
+		public void unpause() {
+			isPaused_ = false;
+		}
 	}
 
 	private class OverlayView extends View {
@@ -98,6 +146,16 @@ public class ARView extends FrameLayout {
 
 			for (int i = 0; i < drawerList_.size(); i++)
 				drawerList_.get(i).draw(canvas);
+		}
+		
+		public void pause() {
+			for (int i = 0; i < drawerList_.size(); i++)
+				drawerList_.get(i).pause();
+		}
+		
+		public void resume() {
+			for (int i = 0; i < drawerList_.size(); i++)
+				drawerList_.get(i).resume();
 		}
 	}
 
