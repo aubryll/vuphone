@@ -3,7 +3,11 @@
  */
 package org.vuphone.vandyupon.android.viewevents;
 
+import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.LocationManager;
+import org.vuphone.vandyupon.android.filters.PositionFilter;
+import org.vuphone.vandyupon.android.filters.TagsFilter;
+import org.vuphone.vandyupon.android.filters.TimeFilter;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -35,6 +39,14 @@ public class EventViewerMap extends MapView {
 		getController().setZoom(15);
 		currentLocation_ = new MyLocationOverlay(getContext(), this);
 		getOverlays().add(currentLocation_);
+		
+		PositionFilter pf = new PositionFilter(Constants.vandyCenter, 10000);
+		TimeFilter tf = new TimeFilter();
+		TagsFilter tgsf = new TagsFilter();
+		
+		EventOverlay overlay = new EventOverlay(pf, tf, tgsf, context);
+		getOverlays().add(overlay);
+		
 	}
 
 	/** Used to turn off the various sensors */

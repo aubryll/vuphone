@@ -131,8 +131,10 @@ public class DBAdapter {
 		}
 		Log.d(tag, pre + "Generated " + temp.toString());
 
-		return database_.query(TABLE_NAME, returnValues, sb.toString(),
+		Cursor c = database_.query(TABLE_NAME, returnValues, sb.toString(),
 				selectionArgs, null, null, null);
+		Log.d(tag, pre + "Found " + c.getCount() + " results");
+		return c;
 	}
 
 	/**

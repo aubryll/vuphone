@@ -3,6 +3,7 @@
  */
 package org.vuphone.vandyupon.android.filters;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -16,6 +17,8 @@ public class TimeFilter {
 	}
 	
 	public GregorianCalendar getEndTime() {
-		return new GregorianCalendar();
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.add(Calendar.HOUR_OF_DAY, 24);
+		return cal;
 	}
 }
