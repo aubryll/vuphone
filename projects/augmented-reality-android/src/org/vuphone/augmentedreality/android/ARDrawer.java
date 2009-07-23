@@ -25,5 +25,7 @@ import android.graphics.Canvas;
  */
 public interface ARDrawer {
 	void draw(Canvas canvas);
+	void pause();
+	void resume();
 	void surfaceReady(int width, int height);
 }

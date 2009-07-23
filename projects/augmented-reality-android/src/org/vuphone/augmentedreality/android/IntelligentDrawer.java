@@ -31,16 +31,19 @@ import android.util.Log;
 public class IntelligentDrawer implements ARDrawer {
 
 	private final Paint paint_;
-	private final ARSensors sensor_;
+	private ARSensors sensor_;
 
 	private final ArrayList<ARObject> objList_ = new ArrayList<ARObject>();
+	private Context context_;
 	
 	public float azimuth;
+	
 
 	public IntelligentDrawer(Context context) {
+		context_ = context.getApplicationContext();
 		paint_ = new Paint();
 		paint_.setColor(Color.WHITE);
-		sensor_ = ARSensors.getInstance(context);
+		sensor_ = ARSensors.getInstance(context_);
 
 		Location isis = new Location(LocationManager.GPS_PROVIDER);
 		isis.setLatitude(36.149181);
@@ -245,5 +248,16 @@ public class IntelligentDrawer implements ARDrawer {
 
 	@Override
 	public void surfaceReady(int width, int height) {
+	}
+
+	
+	@Override
+	public void pause() {
+		sensor_.finish();
+	}
+
+	@Override
+	public void resume() {
+		sensor_ = ARSensors.getInstance(context_);
 	}
 }

@@ -18,42 +18,39 @@ package org.vuphone.augmentedreality.android;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 
 public class AugmentedReality extends Activity {
 
-	IntelligentDrawer drawer;
+	private ARView view_;
+	private IntelligentDrawer drawer_;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		/*
-		 * Moved to XML
-		 * // G1 camera does not support preview resizing so run in fullscreen
-		 * // landscape mode to ensure proper aspect ratio.
-		 * setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		 * requestWindowFeature(Window.FEATURE_NO_TITLE);
-		 * getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		 * WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		 */
-
-		ARView view_ = new ARView(this);
-		drawer = new IntelligentDrawer(this); 
-		view_.addDrawer(drawer);
-
+		view_ = new ARView(this);
+		
 		setContentView(view_);
+		
+		drawer_ = new IntelligentDrawer(this); 
+		view_.addDrawer(drawer_);
 	}
 	
 	@Override
-	public boolean onTrackballEvent(MotionEvent e) {
-		//drawer.azimuth += 5 * e.getY();
-		return true;
+	public void onDestroy() {
+		super.onDestroy();
+		view_.destroy();
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		ARSensors.getInstance(this).finish();
+	public void onPause() {
+		super.onPause();
+		view_.pause();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		view_.resume();
 	}
 }
