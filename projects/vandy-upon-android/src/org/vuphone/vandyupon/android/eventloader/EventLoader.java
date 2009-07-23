@@ -19,15 +19,25 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 
 /**
+ * Occasionally started by AlarmManager to retrieve new events from the server,
+ * and process those events (put them into the local database).
+ * 
+ * Passes off the duty of performing the request to {@link EventRequestor} and
+ * the duty of parsing the request to {@link EventHandler}. Called back every
+ * time an event is ready for inserting into the database.
+ * 
  * @author Hamilton Turner
  * 
  */
 public class EventLoader extends Service {
+	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventLoader: ";
 
+	/** Used to insert events into the database */
 	private DBAdapter database_;
 
+	/** Called when the Service is first started */
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -36,19 +46,19 @@ public class EventLoader extends Service {
 		database_.openWritable();
 	}
 
+	/** Called when the Service is destroyed */
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		Log.i(tag, pre + "onDestroy");
 	}
 
+	/** Called every time the Service is started */
 	@Override
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
-		Log.i(tag, pre + "onStart");
-		Toast.makeText(this, "Starting", Toast.LENGTH_LONG).show();
+		Log.i(tag, pre + "Starting the load - " + System.currentTimeMillis());
 		loadEvents();
-		Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+		Log.i(tag, pre + "Finished the load - " + System.currentTimeMillis());
 	}
 
 	/**
@@ -59,6 +69,9 @@ public class EventLoader extends Service {
 		return null;
 	}
 
+	/**
+	 * Starts the EventRequestor and the EventHandler
+	 */
 	private void loadEvents() {
 		long time = database_.getLargestUpdatedTime();
 		ByteArrayOutputStream xmlResponse = EventRequestor.doEventRequest(
@@ -76,6 +89,28 @@ public class EventLoader extends Service {
 
 	}
 
+	/**
+	 * Inserts events into the database as they are returned by the Handler.
+	 * Attempts to insert each event multiple times if a failure occurs, until
+	 * finally giving up and printing an error message for that event
+	 * 
+	 * @param name
+	 *            the event name
+	 * @param latitude
+	 *            the event latitude
+	 * @param longitude
+	 *            the event longitude
+	 * @param owner
+	 *            true if this device is the owner of the event, false otherwise
+	 * @param startTime
+	 *            the event start time
+	 * @param endTime
+	 *            the event end time
+	 * @param updateTime
+	 *            the last time this event was updated
+	 * @param serverId
+	 *            the unique, server-based id for this event
+	 */
 	protected void handleEvent(String name, double latitude, double longitude,
 			boolean owner, long startTime, long endTime, long updateTime,
 			long serverId) {

@@ -14,22 +14,29 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
 /**
+ * Used to represent one event.
+ * 
  * @author Hamilton Turner
  * 
  */
 public class EventOverlayItem extends OverlayItem {
+	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventOverlayItem: ";
-	
-	/**
-	 * @param point
-	 * @param title
-	 * @param snippet
-	 */
+
 	private EventOverlayItem(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
 	}
 
+	/**
+	 * Used to create an EventOverlayItem
+	 * 
+	 * @param c
+	 *            a Cursor that is assumed to be on a valid database row, which
+	 *            will be used to fetch the values used to populate the
+	 *            EventOverlayItem
+	 * @return
+	 */
 	public static EventOverlayItem getItemFromRow(Cursor c) {
 		int lat = c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LOCATION_LAT));
 		int lon = c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LOCATION_LON));
@@ -39,6 +46,7 @@ public class EventOverlayItem extends OverlayItem {
 		return new EventOverlayItem(location, name, "");
 	}
 
+	/** @see com.google.android.maps.OverlayItem#getMarker(int) */
 	@Override
 	public Drawable getMarker(int bitStateset) {
 		Log.v(tag, pre + "returning null");

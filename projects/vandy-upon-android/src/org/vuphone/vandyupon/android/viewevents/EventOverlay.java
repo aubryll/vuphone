@@ -4,7 +4,6 @@
 package org.vuphone.vandyupon.android.viewevents;
 
 import org.vuphone.vandyupon.android.Constants;
-import org.vuphone.vandyupon.android.R;
 import org.vuphone.vandyupon.android.eventstore.DBAdapter;
 import org.vuphone.vandyupon.android.filters.PositionFilter;
 import org.vuphone.vandyupon.android.filters.TagsFilter;
@@ -19,27 +18,37 @@ import android.util.Log;
 import com.google.android.maps.ItemizedOverlay;
 
 /**
+ * Contains the {@link EventOverlayItem}s. Holds a handle to the database, and
+ * holds the current display filters. Every time the filters are updated, the
+ * database is re-queried
+ * 
  * @author Hamilton Turner
  * 
  */
 public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
+	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventOverlay: ";
-	
+
+	/** Used for filtering events */
 	private PositionFilter positionFilter_;
 	private TimeFilter timeFilter_;
 	private TagsFilter tagsFilter_;
+	
+	/** Used to get events that match the current filters */
 	private DBAdapter database_;
+	
+	/** Used to point to the current row in the database */
 	private Cursor eventCursor_;
 
 	private static ShapeDrawable defaultDrawable_;
-	
+
 	static {
 		defaultDrawable_ = new ShapeDrawable(new OvalShape());
 		defaultDrawable_.setIntrinsicWidth(20);
 		defaultDrawable_.setIntrinsicHeight(20);
 	}
-	
+
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, Context context) {
 		super(boundCenterBottom(defaultDrawable_));
@@ -52,7 +61,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 		database_.openReadable();
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
-		
+
 		populate();
 	}
 
@@ -93,6 +102,11 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 			timeFilter_ = t;
 		if (ts != null)
 			tagsFilter_ = ts;
+		
+		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
+				tagsFilter_);
+
+		populate();
 	}
 
 }

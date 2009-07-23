@@ -5,8 +5,6 @@ package org.vuphone.vandyupon.android.submitevent;
 
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
