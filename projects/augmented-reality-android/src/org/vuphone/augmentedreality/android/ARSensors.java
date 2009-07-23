@@ -33,13 +33,16 @@ public class ARSensors implements LocationListener, SensorEventListener {
 
 	private static final long GPS_TIME = 0;
 	private static final float GPS_DISTANCE = 0f;
-	private static final int ORIENTATION_DELAY = SensorManager.SENSOR_DELAY_FASTEST;
+	private static final int ORIENTATION_DELAY = SensorManager.SENSOR_DELAY_GAME;
 
 	private LocationManager lMan_;
 	private SensorManager sMan_;
 
 	private Location location_ = null;
 	private float[] orientation_ = null;
+	
+	private boolean useMockLocation_ = false;
+	private Location mockLocation_;
 
 	public static ARSensors getInstance(Context context) {
 		if (instance_ == null)
@@ -67,7 +70,7 @@ public class ARSensors implements LocationListener, SensorEventListener {
 	}
 
 	public Location getLocation() {
-		return location_;
+		return useMockLocation_ ? mockLocation_ : location_;
 	}
 
 	public float[] getOrientation() {
@@ -105,5 +108,10 @@ public class ARSensors implements LocationListener, SensorEventListener {
 		orientation_ = event.values;
 		
 		//orientation_ = new float[] {0, 0, 0};
+	}
+	
+	public void setMockLocation(Location loc) {
+		useMockLocation_ = true;
+		mockLocation_ = loc;
 	}
 }

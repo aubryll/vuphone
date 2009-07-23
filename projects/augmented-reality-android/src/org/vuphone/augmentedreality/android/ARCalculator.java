@@ -16,6 +16,7 @@
 
 package org.vuphone.augmentedreality.android;
 
+import android.location.Location;
 import android.util.Log;
 
 /**
@@ -64,35 +65,27 @@ public class ARCalculator {
 	 * 
 	 * @return The calculated unit vectors.
 	 */
-	public static float[][] getBasis(float azimuth) {
+	public static float[][] getBasis(float azimuth, float pitch) {
+		//float pitch = -90;
+
+		
 		float[][] data = new float[3][3];
-		// Make sure azimuth is positive
-		if (azimuth < 0) {
-			azimuth = (azimuth % 360) + 360;
-			Log.v("AndroidTests", "Adjusted azimuth to " + azimuth);
-		} else if (azimuth >= 360) {
-			azimuth %= 360;
-			Log.v("AndroidTests", "Adjusted azimuth to " + azimuth);
-		}
 
 		// Convert to radians
-		azimuth = azimuth * (float) (Math.PI / 180.0);
+		//azimuth = azimuth * (float) (Math.PI / 180.0);
+		//pitch = pitch * (float) (Math.PI / 180.0);
 
-		// Set the up vector since we're only using the compass heading.
-		// Note: this is just the second standard vector.
-		data[1][0] = data[1][2] = 0;
-		data[1][1] = 1;
-
-		// Calculate the backward vector
-		data[2][0] = (float) -Math.sin((double) azimuth);
-		data[2][1] = 0;
-		data[2][2] = (float) Math.cos((double) azimuth);
-
-		// Calculate the right vector
-		data[0][0] = (float) Math.cos((double) azimuth);
-		data[0][1] = 0;
-		data[0][2] = (float) Math.sin((double) azimuth);
-
+		float[][] rotMatX = getRotationMatrixX(-90 - pitch);
+		float[][] rotMatY = getRotationMatrixY(-azimuth);
+		float[][] rotMat = multiply(rotMatX, rotMatY);
+		
+		// Right
+		data[0] = multiply(rotMat, new float[]{1, 0, 0});
+		// Up
+		data[1] = multiply(rotMat, new float[]{0, 1, 0});
+		// Back
+		data[2] = multiply(rotMat, new float[]{0, 0, 1});
+		
 		return data;
 	}
 
@@ -216,6 +209,18 @@ public class ARCalculator {
 		return depth * (float) Math.tan(Math.toRadians((angle)));
 	}
 
+	public static float[] getPointVector(Location origin, Location point) {
+		float dist = origin.distanceTo(point);
+		float angle = origin.bearingTo(point);
+		
+		float[] offsets = new float[3];
+		offsets[0] = dist *(float) Math.cos(angle);
+		offsets[1] = 0;	// For now. Later use altitude
+		offsets[2] = -dist * (float) Math.sin(angle);
+		
+		return offsets;
+	}
+	
 	/**
 	 * Returns the "up" coordinate of the farthest point still visible based
 	 * on the angle and depth provided.
@@ -315,5 +320,23 @@ public class ARCalculator {
 		}
 
 		return res;
+	}
+	
+	public static float[][] getRotationMatrixX(float angle) {
+		angle = angle * (float) Math.PI / 180f;
+		float[][] m = {{1, 0, 0},						//First column 
+						{0, (float) Math.cos(angle), (float) Math.sin(angle)}, 					//Second column
+						{0, (float) -Math.sin(angle), (float) Math.cos(angle)}};
+		
+		return m;
+	}
+
+	public static float[][] getRotationMatrixY(float angle) {
+		angle = angle * (float) Math.PI / 180f;
+		float[][] m = {{(float) Math.cos(angle), 0, (float) -Math.sin(angle)},						//First column 
+						{0, 1, 0}, 					//Second column
+						{(float) Math.sin(angle), 0, (float) Math.cos(angle)}};
+		
+		return m;
 	}
 }
