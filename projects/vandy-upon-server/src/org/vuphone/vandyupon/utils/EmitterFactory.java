@@ -21,8 +21,22 @@ import org.vuphone.vandyupon.notification.ResponseNotification;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 
+/**
+ * This class is a factory for creating emitters using in response handlers.
+ * Currently this factory can create XML or JSON objects.  There is also a
+ * convenience method that prepopulates some of the commonly omitted fields
+ * so that users can avoid dealing with them.
+ * @author Chris Thompson
+ *
+ */
 public class EmitterFactory {
 
+	/**
+	 * This enum defines the response types supported by this factory.
+	 * This could be later increased to other emitter types.
+	 * @author Chris Thompson
+	 *
+	 */
 	public enum ResponseType{
 		JSON, XML
 	}

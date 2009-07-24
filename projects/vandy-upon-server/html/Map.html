@@ -8,6 +8,7 @@
 <script type="text/javascript"
 	src="jquery/jquery.timers.js"></script>
 <script type="text/javascript" src="datepicker.js"></script>
+<script type="text/javascript" src="dateformat.js"></script>
 
 <script
 	src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAABWCNt87qa4B0xMt7qCbeOhSUJe7as4HRkTSp8W_Y5vZTzgBsVRRK2y9QPUsVV97Efab1bIzjFmYggQ"
@@ -32,24 +33,39 @@
 	lastClicked.setId(0);
 	
     var eventCallback = function (data, textStatus){
-    	$.each(data.EventRequestResponse, processEventItem);
+        if (data.EventRequestResponse.Event.constructor.toString().indexOf("Array") != -1)
+    		$.each(data.EventRequestResponse.Event, processEventItem);
+        else {
+        	var temp = new Event();
+    		temp.setLat(data.EventRequestResponse.Event.Loc.Lat);
+    		temp.setLon(data.EventRequestResponse.Event.Loc.Lon);
+    		temp.setStartTime(data.EventRequestResponse.Event.Start);
+    		temp.setEndTime(data.EventRequestResponse.Event.End);
+    		temp.setId(data.EventRequestResponse.Event.EventId);
+    		temp.setName(data.EventRequestResponse.Event.Name);
+    		temp.setMarker(new GMarker(new GLatLng(temp.lat, temp.lon)));
+    		var skip = false;
+            $.each(events, function(j, item2){
+                if (item2.equals(temp)){
+    				skip = true;
+                }
+                
+            });
+
+            if (!skip){
+             	events.push(temp);
+              	GEvent.addListener(temp.marker, "click", handleMapClick);
+                map.addOverlay(temp.marker);
+            }
+        }
     }
     var metaCallback = function (data, textStatus){
         curHtml = "<b>Event Name: </b>" + lastClicked.name;
         var start = new Date(lastClicked.starttime);
         var end = new Date(lastClicked.endtime);
-
-        var ap1;
-        var ap2;
-        if (start.getHours() > 12) {ap1 = "PM"}
-        if (end.getHours() > 12) {ap2 = "PM"}
-        
-        curHtml = curHtml + "<br /><b>Start Time: </b>" + days[start.getDay()] + " " + months[start.getMonth()] +
-        			", " + start.getDate() + " " + start.getFullYear() + " " + start.getHours() % 12 + ":" 
-        			+ start.getMinutes() + " " + ap1 + 
-        			"<br /><b>End Time: </b>" + days[end.getDay()] + " " + months[end.getMonth()] +
-        			", " + end.getDate() + " " + end.getFullYear() + " " + end.getHours() % 12 + ":" 
-        			+ end.getMinutes() + " " + ap2;
+        curHtml = curHtml + "<br /><b>Start Time: </b>" + start.format("dddd, mmmm dS, yyyy, h:MM TT")
+        			+ 
+        			"<br /><b>End Time: </b>" + end.format("dddd, mmmm dS, yyyy, h:MM TT");
     	$.each(data.EventMetaRequestResponse, processMetaItem);
     	lastClicked.marker.openInfoWindowHtml(curHtml);
     }
@@ -64,38 +80,6 @@
         } 
         
     }
-
-    var handleMapClick = function(overlay, latlng){
-    	 
-        if (recordLocation){
-            $("#evtLat").attr("value", latlng.y);
-            $("#evtLon").attr("value", latlng.x);
-            $("#createEventWindow").css("visibility", "visible");
-            recordLoction = false;	        
-        }else{
-           
-            if (this.getLatLng()){
-            	var temp = null;
-	            var latlng = this.getLatLng();
-	        	
-		        map.panTo(latlng);
-		
-		        //This needs to be reworked
-		        $.each(events, function(i, item){
-		            if (item.lat == latlng.lat() && item.lon == latlng.lng()){
-		                temp = item;
-		            }
-		        });
-	
-		    
-		        getMetaData(temp.eventid);
-		
-		        lastClicked = temp;
-            }
-        }
-        
-    }
-
 
     function processEventItem(i, item){
 		var temp = new Event();
@@ -121,7 +105,90 @@
         }
     }
 
+    var handleMapClick = function(overlay, latlng){
+    	 
+        if (recordLocation){
+            $("#evtLat").attr("value", latlng.y);
+            $("#evtLon").attr("value", latlng.x);
+            $("#createEventWindow").css("visibility", "visible");
+            recordLoction = false;	        
+        }else{
+           
+            if (typeof this.getLatLng == "function"){
+            	var temp = null;
+	            var latlng = this.getLatLng();
+	        	
+		        map.panTo(latlng);
+		
+		        //This needs to be reworked
+		        $.each(events, function(i, item){
+		            if (item.lat == latlng.lat() && item.lon == latlng.lng()){
+		                temp = item;
+		            }
+		        });
+	
+		    
+		        getMetaData(temp.eventid);
+		
+		        lastClicked = temp;
+            }
+        }
+        
+    }
 
+    var uploadEvent = function(){
+        
+        var start = Date.parse($("#startDateInput").val() + " " + 
+                $("#startHour").val() + ":" + $("#startMinute").val() + " " + $("#startAp").val());
+        var end = Date.parse($("#endDateInput").val() + " " + 
+                $("#endHour").val() + ":" + $("#endMinute").val() + " " + $("#endAp").val());
+
+        if (end < start){
+            alert("The end time is before the start time.");
+            return;
+        }
+        
+        $.post("http://localhost:8080/vandyupon/events/?callback=?",
+           {
+            type: "eventpost",
+            starttime: start,
+            endtime: end,
+            resp: "json",
+            eventname: $("#evtName").val(),
+            desc: $("#evtDesc").val(),
+            locationlat: $("#evtLat").val(),
+            locationlon: $("#evtLon").val(),
+            userid: "browser"}, 
+
+            function (data, textStatus){
+                if (textStatus == "success"){
+                	$("#createEventWindow").css("visibility", "hidden");
+                	alert("Your event has been recorded.");
+                	getEventData();
+
+                	$("#startDateInput").val(""); 
+                    $("#startHour").val("12");
+                    $("#startMinute").val("00");
+                    $("#startAp").val("am");
+                    $("#endDateInput").val(""); 
+                    $("#endHour").val("12");
+                    $("#endMinute").val("00");
+                    $("#endAp").val("am");
+
+                    $("#evtName").val("");
+                    $("#evtDesc").val("");
+                    $("#evtLat").val("");
+                    $("#evtLon").val("");
+
+                    recordLocation = false;
+                }else {
+                    alert("An error occurred.");
+                }
+            }, "json"
+                    
+        );
+            
+    }
     
     $(document).ready(function(){
     	 if (GBrowserIsCompatible()) {
@@ -137,17 +204,20 @@
 
     	 $("#createEvent").click(function(){
         	 $("#createEventWindow").css("visibility", "visible");
-
          });
-
          $("#selectLocation").click(function(){
         	 $("#createEventWindow").css("visibility", "hidden");
         	 recordLocation = true;
-             
          });
-
-         $("#selectStartDate").click(function(){
+         $("#startDateInput").click(function(){
         	 displayDatePicker('startDate');
+         });
+         $("#endDateInput").click(function(){
+        	 displayDatePicker('endDate');
+         });
+         $("#submit").click(uploadEvent);
+         $("#cancel").click(function(){
+        	 $("#createEventWindow").css("visibility", "hidden");
          });
 
          GEvent.addListener(map, "click", handleMapClick);
@@ -156,7 +226,7 @@
     function getEventData(){
         var bnds = map.getCenter();
         var qry = "http://localhost:8080/vandyupon/events/?type=eventrequest&lat="+bnds.lat()+"&lon="+bnds.lng() + 
-                "&dist=10560&resp=json&callback=?";
+                "&dist=10560&updatetime=0&resp=json&callback=?";
     	$.getJSON(qry, eventCallback);
     }
 
@@ -188,8 +258,8 @@
     	this.setMarker = function(marker){
         	this.marker = marker;
     	}
-    	this.equals = function(wreck){
-        	return (this.wreckid == wreck.wreckid);  
+    	this.equals = function(event){
+        	return (this.eventid == event.eventid);  
     	}
     }   
 
@@ -243,14 +313,14 @@
   <div style="width:150px; height:73px; background:url('images/palb.png')"></div>
 </div>
 
-<div id="createEventWindow" style="position:absolute; z-index:3; border: 5px solid black; background-color:#FFFFFF; width:300px; height:200px; margin-left: 100px; margin-top:50px; visibility:hidden;">
+<div id="createEventWindow" style="position:absolute; z-index:3; border: 5px solid black; background-color:#FFFFFF; width:300px; height:400px; margin-left: 275px; margin-top:50px; visibility:hidden;">
 	<table>
 		<tr>
 			<td><b>Event Name: </b></td>
-			<td><input type="text" name="evtName" value="" /></td>
+			<td><input type="text" id="evtName" value="" /></td>
 		</tr>
 		<tr>
-			<td colspan="2"><a href="#" id="selectLocation">Select Location</a></td>
+			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td><b>Latitude: </b></td>
@@ -261,27 +331,100 @@
 			<td><input type="text" id="evtLon" value="" disabled="true" /></td>
 		</tr>
 		<tr>
+			<td colspan="2"><a href="#" id="selectLocation">Select Location</a></td>
+		</tr>
+		<tr>
 			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td><b>Start Date: </b></td>
-			<td><input type="text" name="startDate" value="" disabled="true" /></td>
-		</tr>
-		<tr>
-			<td colspan="2"><a href="#" id="selectStartDate">Select Start Date</a></td>
+			<td><input type="text" id="startDateInput" name="startDate" value="" /></td>
 		</tr>
 		<tr>
 			<td><b>Start Time: </b></td>
-			<td><input type="text" name="startTime" value="" disabled="true" /></td>
+			<td>
+				<select id="startHour">
+					<option value="12" selected="true">12</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+				</select>
+				:
+				<select id="startMinute">
+					<option value="00" selected="true">00</option>
+					<option value="15">15</option>
+					<option value="30">30</option>
+					<option value="45">45</option>
+				</select>
+				<select id="startAp">
+					<option value="am" selected="true">AM</option>
+					<option value="pm">PM</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td><b>End Date: </b></td>
+			<td><input type="text" id="endDateInput" name="endDate" value="" /></td>
+		</tr>
+		<tr>
+			<td><b>End Time: </b></td>
+			<td>
+				<select id="endHour">
+					<option value="12" selected="true">12</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+				</select>
+				:
+				<select id="endMinute">
+					<option value="00" selected="true">00</option>
+					<option value="15">15</option>
+					<option value="30">30</option>
+					<option value="45">45</option>
+				</select>
+				<select id="endAp">
+					<option value="am" selected="true">AM</option>
+					<option value="pm">PM</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
 			<td colspan="2"><b>Event Description: </b></td>
 		</tr>
 		<tr>
-			<td colspan="2"><textarea rows="3" cols="30"></textarea></td>
+			<td colspan="2"><textarea rows="3" cols="30" id="evtDesc"></textarea></td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td><input type="button" id="submit" value="Submit" /></td>
+			<td><input type="button" id="cancel" value="Cancel" /></td>
 		</tr>
 	</table>
-	<br style="clear:all;" />
+	<br style="clear:both;" />
 </div>
 
 </body>

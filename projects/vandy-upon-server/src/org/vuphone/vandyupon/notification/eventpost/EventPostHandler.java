@@ -61,12 +61,13 @@ public class EventPostHandler implements NotificationHandler {
 			rs.next();
 			int id = rs.getInt(1);
 
-			sql = "insert into eventmeta (eventid, value, metatype) values (?, ?, (select typeid from " +
-			"metatypes where typename like 'DESCRIPTION'))";
+			sql = "insert into eventmeta (eventid, value, submissiontime, metatype) " +
+					"values (?, ?, ?, (select typeid from metatypes where typename like 'DESCRIPTION'))";
 
 			prep = conn.prepareStatement(sql);
 			prep.setInt(1, id);
 			prep.setString(2, ep.getDescription());
+			prep.setLong(3, System.currentTimeMillis());
 
 			prep.execute();
 			return id;

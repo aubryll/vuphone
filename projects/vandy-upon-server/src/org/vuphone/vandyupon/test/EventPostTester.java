@@ -27,7 +27,7 @@ public class EventPostTester {
 	
 	public static void main(String[] args){
 		HttpClient c = new DefaultHttpClient();
-		HttpPost post = new HttpPost("http://afrl-gift.dre.vanderbilt.edu:8080/vandyupon/events/");
+		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
 		String params = "type=eventpost&eventname=Test&starttime=" + System.currentTimeMillis() + "&endtime=" + (System.currentTimeMillis() + 6000000) +

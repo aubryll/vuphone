@@ -25,14 +25,17 @@ public class EventRequest extends Notification {
 	private String callback_;
 	private String responseType_;
 	private String userid_;
+	private long updatetime_;
 	
-	public EventRequest(Location anchor, double distance, String userid, String responseType, String callback){
+	public EventRequest(Location anchor, double distance, 
+			String userid, String responseType, String callback, long updatetime){
 		super("eventrequest");
 		anchorPt_ = anchor;
 		distance_ = distance;
 		responseType_ = responseType;
 		userid_ = userid;
 		callback_ = callback;
+		updatetime_ = updatetime;
 	}
 	
 	public double getDistance(){
@@ -49,6 +52,10 @@ public class EventRequest extends Notification {
 	
 	public String getCallback(){
 		return callback_;
+	}
+	
+	public long getUpdateTime(){
+		return updatetime_;
 	}
 	
 	public String getUserId(){

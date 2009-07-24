@@ -74,7 +74,7 @@ public class ImageParser implements NotificationParser {
 				while ((read = sis.read (imageData, readSoFar, imageData.length - readSoFar)) != -1)
 				{
 					readSoFar += read;
-					logger_.log(Level.SEVERE, "Read " + String.valueOf(read) + " bytes this time. So Far " + String.valueOf(readSoFar));
+					//logger_.log(Level.SEVERE, "Read " + String.valueOf(read) + " bytes this time. So Far " + String.valueOf(readSoFar));
 				}
 			} catch (IOException excp) {
 				logger_.log(Level.SEVERE, "Got IOException:" + excp.getMessage());

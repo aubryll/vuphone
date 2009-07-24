@@ -35,7 +35,8 @@ public class EventRequestParser implements NotificationParser {
 		String response = req.getParameter("resp");
 		String callback = req.getParameter("callback");
 		String userid = req.getParameter("userid");
-		return new EventRequest(loc, distance, userid, response, callback);
+		long update = Long.parseLong(req.getParameter("updatetime"));
+		return new EventRequest(loc, distance, userid, response, callback, update);
 	}
 	
 

@@ -41,10 +41,28 @@ public class ImageHandler implements NotificationHandler {
 	private static final Logger logger_ = Logger.getLogger(ImageHandler.class.getName());
 	private DataSource ds_;
 	public static final String FILE_EXTENSION = ".jpg";
-	public static final String IMAGE_DIRECTORY = "images";
+	public static final String IMAGE_DIRECTORY = "html/images";
 	public static final String MINI_PREFIX = "mini";
+	
+	/**
+	 * This helper method asserts that the images directory exists and if it doesn't,
+	 * creates it.
+	 */
+	private static boolean checkImagesDirectory(){
+		File dir = new File(IMAGE_DIRECTORY);
+		if (!dir.exists())
+			return dir.mkdir();			
+		else
+			return true;
+	}
 
 	public ResponseNotification handle(Notification n) throws HandlerFailedException{
+		
+		if (!checkImagesDirectory()){
+			HandlerFailedException hfe = new HandlerFailedException();
+			hfe.initCause(new Exception("Directory could not be created or found"));
+			throw hfe;
+		}
 		
 		if (!(n instanceof ImageNotification)){
 			HandlerFailedException hfe = new HandlerFailedException();
@@ -98,11 +116,12 @@ public class ImageHandler implements NotificationHandler {
 		try {
 			// Prepare the SQL statement
 			PreparedStatement prep = null; 
-			prep = db
-					.prepareStatement("INSERT INTO eventmeta (eventid, value, metatype) VALUES (?, ?, " +
-							"(select typeid from metatypes where typename like 'IMAGE'))");
+			prep = 
+				db.prepareStatement("INSERT INTO eventmeta (eventid, value, submissiontime, metatype) " +
+					"VALUES (?, ?, ?,(select typeid from metatypes where typename like 'IMAGE'))");
 			prep.setLong(1, in.getEventId());
-			prep.setString(2, fileName);
+			prep.setString(2, fileName + FILE_EXTENSION);
+			prep.setLong(3, System.currentTimeMillis());
 			prep.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,7 +156,7 @@ public class ImageHandler implements NotificationHandler {
 		ihn = new ImageHandledNotification(in.getResponseType(), in.getCallback());
 		ihn.setTime(in.getTime());
 		ihn.setEventId(in.getEventId());
-		ihn.setFileName(fileName);
+		ihn.setFileName(fileName + FILE_EXTENSION);
 		return ihn;
 	}
 	
