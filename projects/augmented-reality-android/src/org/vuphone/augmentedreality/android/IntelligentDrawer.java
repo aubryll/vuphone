@@ -27,7 +27,7 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
-
+// TODO - Z ordering
 public class IntelligentDrawer implements ARDrawer {
 
 	private final Paint paint_;

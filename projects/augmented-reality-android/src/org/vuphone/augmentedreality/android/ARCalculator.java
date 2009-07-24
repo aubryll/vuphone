@@ -212,9 +212,7 @@ public class ARCalculator {
 	public static float[] getPointVector(Location origin, Location point) {
 		float dist = origin.distanceTo(point);
 		float angle = origin.bearingTo(point);
-		
-		Log.v("AndroidTests", "Distance: " + dist + " Angle: " + angle);
-		
+				
 		angle = (float) Math.toRadians(angle);
 		
 		float[] offsets = new float[3];
