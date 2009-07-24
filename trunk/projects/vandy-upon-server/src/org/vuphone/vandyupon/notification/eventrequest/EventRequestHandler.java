@@ -69,24 +69,28 @@ public class EventRequestHandler implements NotificationHandler {
 			 * 5: Longitude of the anchor point
 			 * 6: Radius requested
 			 */
-			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, events.userid as user, lat, lon " +
+			String sql = "create temporary table evtstmp select eventid as id, events.name as name, " +
+			"starttime, endtime, events.userid as user, lat, lon, events.lastupdate as lastupdate " +
 			"from events inner join locations on events.locationid = locations.locationid " +
-			"where endtime > ? and ? * ACOS( (SIN( PI() * ? / 180) * SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
+			"where endtime > ?  and events.lastupdate >= ? and ? * ACOS( (SIN( PI() * ? / 180) * " +
+			"SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
 			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ?";
 			
 
 			PreparedStatement prep = db.prepareStatement(sql);
 
 			prep.setLong(1, System.currentTimeMillis());
-			prep.setDouble(2, RADIUS_EARTH);
-			prep.setDouble(3,req.getAnchor().getLat());
+			prep.setLong(2, req.getUpdateTime());
+			prep.setDouble(3, RADIUS_EARTH);
 			prep.setDouble(4,req.getAnchor().getLat());
-			prep.setDouble(5,req.getAnchor().getLon());
-			prep.setDouble(6, req.getDistance());
+			prep.setDouble(5,req.getAnchor().getLat());
+			prep.setDouble(6,req.getAnchor().getLon());
+			prep.setDouble(7, req.getDistance());
 
 			prep.executeUpdate();
 			
-			sql = "select id, name, starttime, endtime, deviceid, lat, lon from evtstmp inner join people on user = userid";
+			sql = "select id, name, starttime, endtime, deviceid, lat, lon, lastupdate " +
+					"from evtstmp inner join people on user = userid";
 			
 			prep = db.prepareStatement(sql);
 			ResultSet rs = prep.executeQuery();

@@ -93,7 +93,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "metaid integer not null primary key auto_increment,"
 			+ "eventid integer not null references events(eventid),"
 			+ "value text not null,"
-			+ "metatype integer references metatypes(typeid))";
+			+ "metatype integer references metatypes(typeid)," +
+					"submissiontime bigint not null)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
@@ -101,7 +102,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "metaid integer not null primary key auto_increment,"
 			+ "locationid integer not null references locations(locationid),"
 			+ "value text not null,"
-			+ "metatype integer references metatypes(typeid))";
+			+ "metatype integer references metatypes(typeid)," +
+					"submissiontime bigint not null)";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
