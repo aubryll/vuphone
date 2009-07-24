@@ -84,6 +84,8 @@ public class EventPoster {
 		// Prepare to make the post
 		final HttpClient c = new DefaultHttpClient();
 		final HttpPost post = new HttpPost(Constants.SERVER + PATH);
+		c.getParams().setParameter("http.socket.timeout", new Integer(1000));
+		c.getParams().setParameter("http.connection.timeout", new Integer(1000));
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		post.addHeader("Content-Encoding", "UTF-8");
 

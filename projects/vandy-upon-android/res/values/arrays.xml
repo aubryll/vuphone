@@ -7,4 +7,8 @@
 		<item>beside</item>
 		<item>near</item>
 	</string-array>
+	<string-array name="spinner_position_filter_values">
+		<item>My Current Position</item>
+		<item>Other Point of Interest</item>
+	</string-array>
 </resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/RelativeLayout01" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Please choose a central location, and a distance around that location. Choose 'Clear Filter' if you would like all events to be displayed"
+		android:layout_centerHorizontal="true" android:gravity="center_horizontal"
+		android:id="@+id/TV_position_filter_instructions"></TextView>
+	
+	
+	
+	<Spinner android:layout_height="wrap_content"
+	 android:layout_width="wrap_content" 
+	 android:entries="@array/spinner_position_filter_values" 
+	 android:id="@+id/SPIN_position_filter" 
+	 android:layout_alignParentRight="true" android:layout_below="@+id/TV_position_filter_instructions" android:layout_marginTop="14sp" android:layout_marginRight="4sp"></Spinner>
+	
+<TextView android:layout_height="wrap_content" android:layout_toLeftOf="@+id/SPIN_position_filter" android:layout_width="wrap_content" android:layout_alignTop="@+id/SPIN_position_filter" android:text="Center" android:paddingTop="12sp" android:textSize="16sp" android:paddingRight="8sp"></TextView><Button android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:id="@+id/BT_radius"
+		android:text="200 feet" android:layout_centerHorizontal="false"
+		android:layout_below="@+id/SPIN_position_filter"
+		android:layout_alignLeft="@+id/SPIN_position_filter"
+		android:paddingLeft="25sp" android:paddingRight="30sp"></Button>
+		
+	<TextView android:layout_height="wrap_content" android:layout_toLeftOf="@+id/BT_radius" android:layout_width="wrap_content" android:layout_alignTop="@+id/BT_radius" android:paddingTop="12sp" android:text="Radius" android:textSize="16sp" android:paddingRight="8sp"></TextView><Button android:layout_toRightOf="@+id/BT_position_filter_back"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:layout_centerHorizontal="true" android:text="Set Filter"
+		android:id="@+id/BT_position_filter_ok" android:layout_below="@+id/BT_radius" android:layout_marginTop="10sp" android:paddingLeft="15sp" android:paddingRight="15sp"></Button>
+
+	<Button android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:id="@+id/BT_position_filter_cancel"
+		android:layout_toLeftOf="@+id/BT_position_filter_ok" android:text="   Cancel   "
+		android:layout_alignTop="@+id/BT_position_filter_ok" android:layout_marginRight="4sp" android:paddingLeft="15sp" android:paddingRight="15sp"></Button>
+
+	<Button android:layout_toRightOf="@+id/BT_position_filter_ok"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:id="@+id/BT_position_filter_clear" android:text="Clear Filter"
+		android:layout_alignTop="@+id/BT_position_filter_ok" android:paddingLeft="15sp" android:paddingRight="15sp" android:layout_marginLeft="4sp"></Button>
+
+	
+
+
+
+
+
+
+
+
+</RelativeLayout>
