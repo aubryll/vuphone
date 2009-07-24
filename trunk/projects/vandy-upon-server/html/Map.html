@@ -10,13 +10,14 @@
 <script type="text/javascript" src="scripts/jquery.datePicker.js"></script>
 <script type="text/javascript" src="scripts/jquery.bgiframe.js"></script>
 <script type="text/javascript" src="scripts/date.js"></script>
-<script type="text/javascript" src="dateformat.js"></script>
+<script type="text/javascript" src="scripts/dateformat.js"></script>
 
 <script
 	src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAABWCNt87qa4B0xMt7qCbeOhSUJe7as4HRkTSp8W_Y5vZTzgBsVRRK2y9QPUsVV97Efab1bIzjFmYggQ"
 	type="text/javascript"></script>
 	
 <link rel="stylesheet" href="styles/datePicker.css" />
+<link rel="stylesheet" href="styles/stylesheet.css" />
 	
 
 	
@@ -67,9 +68,9 @@
         curHtml = "<b>Event Name: </b>" + lastClicked.name;
         var start = new Date(lastClicked.starttime);
         var end = new Date(lastClicked.endtime);
-        curHtml = curHtml + "<br /><b>Start Time: </b>" + start.format("dddd, mmmm dS, yyyy, h:MM TT")
+        curHtml = curHtml + "<br /><b>Start Time: </b>" + dateFormat(start,"dddd, mmmm dS, yyyy, h:MM TT")
         			+ 
-        			"<br /><b>End Time: </b>" + end.format("dddd, mmmm dS, yyyy, h:MM TT");
+        			"<br /><b>End Time: </b>" + dateFormat(end,"dddd, mmmm dS, yyyy, h:MM TT");
     	$.each(data.EventMetaRequestResponse, processMetaItem);
     	lastClicked.marker.openInfoWindowHtml(curHtml);
     }
@@ -112,8 +113,8 @@
     var handleMapClick = function(overlay, latlng){
     	 
         if (recordLocation){
-            $("#evtLat").attr("value", latlng.y);
-            $("#evtLon").attr("value", latlng.x);
+            $("#evtLat").text(latlng.y);
+            $("#evtLon").text(latlng.x);
             $("#createEventWindow").css("visibility", "visible");
             recordLoction = false;	        
         }else{
@@ -169,22 +170,7 @@
                 	$("#createEventWindow").css("visibility", "hidden");
                 	alert("Your event has been recorded.");
                 	getEventData();
-
-                	$("#startDateInput").val(""); 
-                    $("#startHour").val("12");
-                    $("#startMinute").val("00");
-                    $("#startAp").val("am");
-                    $("#endDateInput").val(""); 
-                    $("#endHour").val("12");
-                    $("#endMinute").val("00");
-                    $("#endAp").val("am");
-
-                    $("#evtName").val("");
-                    $("#evtDesc").val("");
-                    $("#evtLat").val("");
-                    $("#evtLon").val("");
-
-                    recordLocation = false;
+                	resetCreateForm();
                 }else {
                     alert("An error occurred.");
                 }
@@ -193,6 +179,24 @@
         );
             
     }
+
+     function resetCreateForm(){
+    	 $("#startDateInput").val(""); 
+         $("#startHour").val("12");
+         $("#startMinute").val("00");
+         $("#startAp").val("am");
+         $("#endDateInput").val(""); 
+         $("#endHour").val("12");
+         $("#endMinute").val("00");
+         $("#endAp").val("am");
+
+         $("#evtName").val("");
+         $("#evtDesc").val("");
+         $("#evtLat").text("");
+         $("#evtLon").text("");
+
+         recordLocation = false;
+     }
     
     $(document).ready(function(){
     	 if (GBrowserIsCompatible()) {
@@ -218,6 +222,7 @@
          $("#submit").click(uploadEvent);
          $("#cancel").click(function(){
         	 $("#createEventWindow").css("visibility", "hidden");
+        	 resetCreateForm();
          });
 
          GEvent.addListener(map, "click", handleMapClick);
@@ -292,16 +297,15 @@
 </head>
 <body onunload="GUnload()" style="font-family: Arial; border: 0 none; background:rgb(100,100,100);">
 
-<div id="map_canvas" style="position:absolute; z-index:0; width: 100%; height: 80%; margin-top:75px;"></div>
-
-
-<div style="background:url('images/hb.png'); width:100%; height:75px; position:absolute; top:0px; left:0px;">
+<div style="background:url('images/hb.png'); width:100%; z-index: 0; height:10%; position:absolute; top:0px; left:0px;">
    <img src="images/vandy.png"></img>&nbsp;&nbsp;<img src="images/ww.png"></img>
 </div>
 
+<div style="position:absolute; z-index:0; bottom:0; left:0; z-index:0; width:100%; height:10%; background:url('images/hbd.png')"><span style="font-size:.6em">by Chris Thompson, Hamilton Turner, Krzysztof Zienkiewicz, Scott Campbell, Brian Dougherty, Jules White, and Douglas C. Schmidt</span></div>
 
 
-<div style="width:100%; height:73px; background:url('images/hbd.png')"><span style="font-size:.6em">by Chris Thompson, Hamilton Turner, Krzysztof Zienkiewicz, Scott Campbell, Brian Dougherty, Jules White, and Douglas C. Schmidt</span></div>
+<div id="map_canvas" style="position:absolute; z-index:0; width: 100%; height:80%; margin-top:75px; 
+		margin-bottom:10%;"></div>
 
 
 <div id="control" style="position:absolute; left:30px; top:365px; align:center; text-align:center; ">
@@ -313,7 +317,7 @@
   <div style="width:150px; height:73px; background:url('images/palb.png')"></div>
 </div>
 
-<div id="createEventWindow" style="position:absolute; z-index:3; border: 5px solid black; background-color:#FFFFFF; width:300px; height:400px; margin-left: 275px; margin-top:50px; visibility:hidden;">
+<div id="createEventWindow" style="position:absolute; z-index:3; border: 5px solid black; background-color:#FFFFFF; width:300px; height:400px; left: 300px; top:100px; visibility:hidden;">
 	<table>
 		<tr>
 			<td><b>Event Name: </b></td>
@@ -324,11 +328,11 @@
 		</tr>
 		<tr>
 			<td><b>Latitude: </b></td>
-			<td><input type="text" id="evtLat" value="" disabled="true" /></td>
+			<td><label id="evtLat"></label></td>
 		</tr>
 		<tr>
 			<td><b>Longitude: </b></td>
-			<td><input type="text" id="evtLon" value="" disabled="true" /></td>
+			<td><label id="evtLon"></label></td>
 		</tr>
 		<tr>
 			<td colspan="2"><a href="#" id="selectLocation">Select Location</a></td>
@@ -424,7 +428,6 @@
 			<td><input type="button" id="cancel" value="Cancel" /></td>
 		</tr>
 	</table>
-	<br style="clear:both;" />
 </div>
 
 </body>
