@@ -24,11 +24,13 @@ public class SampleARObject implements ARObject {
 
 	private final float latitude_, longitude_;
 	private final boolean shouldScale_;
+	private final String metaString;
 	
-	public SampleARObject(float lat, float lon, boolean shouldScale) {
+	public SampleARObject(float lat, float lon, boolean shouldScale, String str) {
 		latitude_ = lat;
 		longitude_ = lon;
 		shouldScale_ = shouldScale;
+		metaString = str;
 	}
 	
 	@Override
@@ -79,7 +81,7 @@ public class SampleARObject implements ARObject {
 
 	@Override
 	public String getMetaData() {
-		return "Meta data";
+		return metaString;
 	}
 
 	@Override

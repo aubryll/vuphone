@@ -49,11 +49,10 @@ public class IntelligentDrawer implements ARDrawer {
 		isis.setLatitude(36.149181);
 		isis.setLongitude(-86.799634);
 		sensor_.setMockLocation(isis);
-
-		ARObject commons = new SampleARObject(36.141781f, -86.797104f, true);
-		//ARObject dudley = new SampleARObject(36.144033f, -86.808912f, true);
-		objList_.add(commons);
-		//objList_.add(dudley);
+	}
+	
+	public void addObject(ARObject obj) {
+		objList_.add(obj);
 	}
 
 	@Override
