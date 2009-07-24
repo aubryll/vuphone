@@ -34,6 +34,17 @@ public class AugmentedReality extends Activity {
 		
 		drawer_ = new IntelligentDrawer(this); 
 		view_.addDrawer(drawer_);
+		
+		ARObject commons = new SampleARObject(36.141781f, -86.797104f, true, "Commons Center");
+		ARObject dudley = new SampleARObject(36.144033f, -86.808912f, true, "Dudley Field");
+		
+		ARObject north = new SampleARObject(36.154279f, -86.799524f, true, "North");
+		ARObject east = new SampleARObject(36.149081f, -86.787550f, true, "East");
+		
+		drawer_.addObject(dudley);
+		drawer_.addObject(commons);
+		drawer_.addObject(north);
+		drawer_.addObject(east);
 	}
 	
 	@Override

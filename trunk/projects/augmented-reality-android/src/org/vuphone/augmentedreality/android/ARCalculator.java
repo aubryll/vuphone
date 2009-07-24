@@ -213,10 +213,14 @@ public class ARCalculator {
 		float dist = origin.distanceTo(point);
 		float angle = origin.bearingTo(point);
 		
+		Log.v("AndroidTests", "Distance: " + dist + " Angle: " + angle);
+		
+		angle = (float) Math.toRadians(angle);
+		
 		float[] offsets = new float[3];
-		offsets[0] = dist *(float) Math.cos(angle);
+		offsets[0] = dist * (float) Math.sin(angle);
 		offsets[1] = 0;	// For now. Later use altitude
-		offsets[2] = -dist * (float) Math.sin(angle);
+		offsets[2] = -dist * (float) Math.cos(angle);
 		
 		return offsets;
 	}
