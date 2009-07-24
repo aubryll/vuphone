@@ -6,6 +6,7 @@ package org.vuphone.vandyupon.android.viewevents;
 import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.R;
 import org.vuphone.vandyupon.android.eventloader.EventLoader;
+import org.vuphone.vandyupon.android.filters.PositionActivity;
 import org.vuphone.vandyupon.android.submitevent.SubmitEvent;
 
 import android.app.AlarmManager;
@@ -39,7 +40,9 @@ public class EventViewer extends MapActivity {
 	private static final int MENUITEM_FILTER_POS = 1;
 	private static final int MENUITEM_FILTER_TIME = 2;
 	private static final int MENUITEM_FILTER_TAG = 3;
-	private static final int MENUITEM_MAP_MODE = 4;
+	private static final int MENUITEM_MAP_SATELLITE = 4;
+	private static final int MENUITEM_MAP_NORM = 5;
+	private static final int MENUITEM_MAP_STREET = 6;
 
 	/**
 	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
@@ -74,7 +77,10 @@ public class EventViewer extends MapActivity {
 		filter.add(0, MENUITEM_FILTER_POS, Menu.NONE, "By Position");
 		filter.add(0, MENUITEM_FILTER_TIME, Menu.NONE, "By Time");
 		filter.add(0, MENUITEM_FILTER_TAG, Menu.NONE, "By Tags");
-		menu.add(0, MENUITEM_MAP_MODE, Menu.NONE, "Map Mode");
+		SubMenu map = menu.addSubMenu(0, -1, Menu.NONE, "Map Mode");
+		map.add(0, MENUITEM_MAP_NORM, Menu.NONE, "Map");
+		map.add(0, MENUITEM_MAP_SATELLITE, Menu.NONE, "Satellite");
+		map.add(0, MENUITEM_MAP_STREET, Menu.NONE, "Street View");
 		return true;
 	}
 
@@ -87,17 +93,27 @@ public class EventViewer extends MapActivity {
 			startActivity(submitEvent);
 			break;
 		case MENUITEM_FILTER_POS:
-			
+			Intent pos = new Intent(this, PositionActivity.class);
+			startActivity(pos);
 			break;
 		case MENUITEM_FILTER_TAG:
-			
+
 			break;
 		case MENUITEM_FILTER_TIME:
-			
+
 			break;
-		case MENUITEM_MAP_MODE:
-			
-			
+		case MENUITEM_MAP_NORM:
+			map_.setSatellite(false);
+			map_.setStreetView(false);
+			break;
+		case MENUITEM_MAP_SATELLITE:
+			map_.setSatellite(true);
+			map_.setStreetView(false);
+			break;
+		case MENUITEM_MAP_STREET:
+			map_.setSatellite(false);
+			map_.setTraffic(false);
+			map_.setStreetView(true);
 			break;
 		default:
 			Log.w(tag, pre + "No menu case matched! Did we open a submenu?");

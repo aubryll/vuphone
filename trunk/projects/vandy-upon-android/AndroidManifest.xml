@@ -26,16 +26,19 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name=".viewevents.EventViewer" android:label="Event Viewer">
+		<activity android:name=".viewevents.EventViewer"
+			android:label="Event Viewer">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
 
-		<!-- Used to start this activity explicitly -->
+		<!-- Used to start these activities explicitly -->
 		<activity android:name=".submitevent.LocationChooser" />
-		
+		<activity android:name=".filters.PositionActivity"
+			android:theme="@android:style/Theme.Dialog" />
+
 		<!-- Used to start the loader service explicitly -->
 		<service android:name=".eventloader.EventLoader" />
 
