@@ -3,12 +3,10 @@
  */
 package org.vuphone.vandyupon.android.viewevents;
 
-import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.eventstore.DBAdapter;
 
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
@@ -21,8 +19,8 @@ import com.google.android.maps.OverlayItem;
  */
 public class EventOverlayItem extends OverlayItem {
 	/** Used for logging */
-	private static final String tag = Constants.tag;
-	private static final String pre = "EventOverlayItem: ";
+//	private static final String tag = Constants.tag;
+//	private static final String pre = "EventOverlayItem: ";
 
 	private EventOverlayItem(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
@@ -49,7 +47,6 @@ public class EventOverlayItem extends OverlayItem {
 	/** @see com.google.android.maps.OverlayItem#getMarker(int) */
 	@Override
 	public Drawable getMarker(int bitStateset) {
-		Log.v(tag, pre + "returning null");
 		return null;
 	}
 }

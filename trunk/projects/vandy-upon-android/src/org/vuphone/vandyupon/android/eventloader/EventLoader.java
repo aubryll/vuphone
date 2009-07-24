@@ -11,10 +11,10 @@ import org.vuphone.vandyupon.android.eventstore.DBAdapter;
 import org.xml.sax.InputSource;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
@@ -35,7 +35,13 @@ public class EventLoader extends Service {
 	private static final String pre = "EventLoader: ";
 
 	/** Used to insert events into the database */
-	private DBAdapter database_;
+	private DBAdapter database_ = null;
+
+	/** Used to instantiate this class and manually force an update */
+	public EventLoader(Context c) {
+		database_ = new DBAdapter(c);
+		database_.openWritable();
+	}
 
 	/** Called when the Service is first started */
 	@Override
@@ -57,7 +63,7 @@ public class EventLoader extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		Log.i(tag, pre + "Starting the load - " + System.currentTimeMillis());
-		loadEvents();
+		loadEvents(this);
 		Log.i(tag, pre + "Finished the load - " + System.currentTimeMillis());
 	}
 
@@ -72,10 +78,10 @@ public class EventLoader extends Service {
 	/**
 	 * Starts the EventRequestor and the EventHandler
 	 */
-	private void loadEvents() {
+	public void loadEvents(Context c) {
 		long time = database_.getLargestUpdatedTime();
 		ByteArrayOutputStream xmlResponse = EventRequestor.doEventRequest(
-				Constants.vandyCenter, 10000, time, this);
+				Constants.vandyCenter, 10000, time, c);
 
 		if (xmlResponse == null) {
 			Log.e(tag, pre + "Unable to continue, there is no XML response");

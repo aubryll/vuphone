@@ -3,7 +3,6 @@
  */
 package org.vuphone.vandyupon.android.viewevents;
 
-import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.eventstore.DBAdapter;
 import org.vuphone.vandyupon.android.filters.PositionFilter;
 import org.vuphone.vandyupon.android.filters.TagsFilter;
@@ -13,7 +12,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 
@@ -27,8 +25,8 @@ import com.google.android.maps.ItemizedOverlay;
  */
 public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 	/** Used for logging */
-	private static final String tag = Constants.tag;
-	private static final String pre = "EventOverlay: ";
+//	private static final String tag = Constants.tag;
+//	private static final String pre = "EventOverlay: ";
 
 	/** Used for filtering events */
 	private PositionFilter positionFilter_;
@@ -79,7 +77,6 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 	 */
 	@Override
 	public int size() {
-		Log.d(tag, pre + "Returning size of " + eventCursor_.getCount());
 		return eventCursor_.getCount();
 	}
 

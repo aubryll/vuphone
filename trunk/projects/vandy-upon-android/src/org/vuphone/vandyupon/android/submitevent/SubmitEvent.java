@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.LocationManager;
 import org.vuphone.vandyupon.android.R;
+import org.vuphone.vandyupon.android.eventloader.EventLoader;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
@@ -37,6 +38,7 @@ import com.google.android.maps.GeoPoint;
  * 
  */
 public class SubmitEvent extends Activity {
+	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "SubmitEvent: ";
 
@@ -60,12 +62,25 @@ public class SubmitEvent extends Activity {
 	private static final int DIALOG_END_DATE_PICKER = 2;
 	private static final int DIALOG_END_TIME_PICKER = 3;
 
+	/** Used to save and restore instance state */
+	private static String STATE_NAME = "sname";
+	private static String STATE_START_CALENDAR = "sscal";
+	private static String STATE_END_CALENDAR = "secal";
+	private static String STATE_LOCATION_NAME = "sln";
+	private static String STATE_LOCATION_LAT = "slla";
+	private static String STATE_LOCATION_LON = "sllo";
+	private static String STATE_DESCRIPTION = "sd";
+
 	/** Used to access all of the TextViews */
 	private TextView dateLabel_;
 	private TextView timeLabel_;
 	private TextView dateEndLabel_;
 	private TextView timeEndLabel_;
 	private TextView buildingLabel_;
+
+	/** Used to access all of the EditText boxes */
+	private EditText nameLabel_;
+	private EditText descLabel_;
 
 	/** Used to keep track of the start and end times */
 	private GregorianCalendar startCalendar_;
@@ -273,6 +288,9 @@ public class SubmitEvent extends Activity {
 		dateEndLabel_ = (TextView) findViewById(R.id.TV_event_date_end);
 		timeEndLabel_ = (TextView) findViewById(R.id.TV_event_time_end);
 
+		nameLabel_ = (EditText) findViewById(R.id.ET_event_title);
+		descLabel_ = (EditText) findViewById(R.id.ET_event_desc);
+
 		// Create the onClickListener for the date
 		dateLabel_.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -389,15 +407,13 @@ public class SubmitEvent extends Activity {
 	}
 
 	/** Handles menu item selections */
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getTitle().equals("Save")) {
-			Toast.makeText(this, "Saving, please wait", Toast.LENGTH_SHORT)
-					.show();
-			EditText name = (EditText) findViewById(R.id.ET_event_title);
-			EditText desc = (EditText) findViewById(R.id.ET_event_desc);
+			Toast.makeText(this, "Working...", Toast.LENGTH_SHORT).show();
 
-			name.setEnabled(false);
-			desc.setEnabled(false);
+			nameLabel_.setEnabled(false);
+			descLabel_.setEnabled(false);
 			dateLabel_.setEnabled(false);
 			timeLabel_.setEnabled(false);
 			dateEndLabel_.setEnabled(false);
@@ -406,20 +422,23 @@ public class SubmitEvent extends Activity {
 			Spinner locationModifier = (Spinner) findViewById(R.id.SPIN_event_location);
 			locationModifier.setEnabled(false);
 
-			boolean posted = EventPoster.doEventPost(name.getText().toString(),
-					startCalendar_, endCalendar_, location_, desc.getText()
+			boolean posted = EventPoster.doEventPost(nameLabel_.getText().toString(),
+					startCalendar_, endCalendar_, location_, descLabel_.getText()
 							.toString(), getApplicationContext());
 			if (posted) {
+				EventLoader loader = new EventLoader(this);
+				loader.loadEvents(this);
+
 				Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
 				finish();
 			} else {
 				Toast.makeText(this,
-						"Failed. Error was: " + EventPoster.getLastError(),
+						"Error! " + EventPoster.getLastError(),
 						Toast.LENGTH_LONG).show();
 				Log.d(tag, pre + "Event post failed");
 				Log.d(tag, pre + "Error was: " + EventPoster.getLastError());
-				name.setEnabled(true);
-				desc.setEnabled(true);
+				nameLabel_.setEnabled(true);
+				descLabel_.setEnabled(true);
 				dateLabel_.setEnabled(true);
 				timeLabel_.setEnabled(true);
 				dateEndLabel_.setEnabled(true);
@@ -465,6 +484,42 @@ public class SubmitEvent extends Activity {
 			((TimePickerDialog) dialog).updateTime(eHour, eMinute);
 			break;
 		}
+	}
+
+	/** Called when the activity is resumed */
+	@Override
+	protected void onRestoreInstanceState(Bundle savedState) {
+		String eventName = savedState.getString(STATE_NAME);
+		long startCal = savedState.getLong(STATE_START_CALENDAR);
+		long endCal = savedState.getLong(STATE_END_CALENDAR);
+		int locLat = savedState.getInt(STATE_LOCATION_LAT);
+		int locLon = savedState.getInt(STATE_LOCATION_LON);
+		String locName = savedState.getString(STATE_LOCATION_NAME);
+		String desc = savedState.getString(STATE_DESCRIPTION);
+
+		nameLabel_.setText(eventName);
+		startCalendar_.setTimeInMillis(startCal);
+		endCalendar_.setTimeInMillis(endCal);
+		location_ = new GeoPoint(locLat, locLon);
+		buildingLabel_.setText(locName);
+		descLabel_.setText(desc);
+
+		updateDateLabels();
+		updateTimeLabels();
+	}
+
+	/** Called when the activity is vulnerable to being destroyed */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putString(STATE_NAME, nameLabel_.getText().toString());
+		outState
+				.putLong(STATE_START_CALENDAR, startCalendar_.getTimeInMillis());
+		outState.putLong(STATE_END_CALENDAR, endCalendar_.getTimeInMillis());
+		outState.putString(STATE_LOCATION_NAME, buildingLabel_.getText()
+				.toString());
+		outState.putInt(STATE_LOCATION_LAT, location_.getLatitudeE6());
+		outState.putInt(STATE_LOCATION_LON, location_.getLongitudeE6());
+		outState.putString(STATE_DESCRIPTION, descLabel_.getText().toString());
 	}
 
 	/** Uses the current date variables to update the date text */
