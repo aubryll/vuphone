@@ -3,10 +3,18 @@
  */
 package org.vuphone.vandyupon.android.filters;
 
+import java.util.HashMap;
+
 import org.vuphone.vandyupon.android.Constants;
+import org.vuphone.vandyupon.android.LocationManager;
 import org.vuphone.vandyupon.android.R;
+import org.vuphone.vandyupon.android.submitevent.ChooseLocation;
+import org.vuphone.vandyupon.android.submitevent.LocationChooser;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,10 +45,14 @@ public class PositionActivity extends Activity {
 	public static final String EXTRA_LOCATION_LON = "ello";
 	public static final String EXTRA_RADIUS = "rad";
 
-	/** Used to declare what result this activity gives */
-	public static final int RESULT_CANCEL = 0;
-	public static final int RESULT_CLEAR = 1;
-	public static final int RESULT_UPDATE = 2;
+	/** Used to indicate to ourselves which activities we requested */
+	private static final int REQUEST_LIST_LOCATION = 0;
+	private static final int REQUEST_MAP_LOCATION = 1;
+
+	/** Used to declare what data this activity returns */
+	public static final String RESULT_DATA_NAME = "name";
+	public static final String RESULT_DATA_LAT = "lat";
+	public static final String RESULT_DATA_LON = "lon";
 
 	/** Handles to the UI elements */
 	Spinner locationSpinner_;
@@ -49,11 +61,32 @@ public class PositionActivity extends Activity {
 	Button setFilterButton_;
 	Button clearButton_;
 
+	/** Used to populate the various radii */
+	private static final String[] radiusItemStrings_ = { "50 feet", "100 feet",
+			"200 feet", "400 feet", "1600 feet" };
+
+	/** Used to map radius Strings to Integers */
+	private static final HashMap<String, Integer> radiusItems_ = new HashMap<String, Integer>();
+	static {
+		radiusItems_.put("50 feet", 50);
+		radiusItems_.put("100 feet", 100);
+		radiusItems_.put("200 feet", 200);
+		radiusItems_.put("400 feet", 400);
+		radiusItems_.put("1600 feet", 1600);
+	}
+
 	/** Handles clicks from the center button */
 	private OnItemSelectedListener centerListener_ = new OnItemSelectedListener() {
 		public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id) {
 			Log.i(tag, pre + "item " + position + " was selected");
+
+			// If they selected other, then start activity for an other result
+			if (position == 1) {
+				Intent i = new Intent(PositionActivity.this,
+						ChooseLocation.class);
+				startActivityForResult(i, 0);
+			}
 		}
 
 		public void onNothingSelected(AdapterView<?> arg0) {
@@ -65,7 +98,14 @@ public class PositionActivity extends Activity {
 	/** Handles clicks from the radius button */
 	private OnClickListener radiusListener_ = new OnClickListener() {
 		public void onClick(View v) {
+			showDialog(0);
+		}
+	};
 
+	/** Handles selections from the radius dialog */
+	private DialogInterface.OnClickListener radiusSelectedListener_ = new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface dialog, int which) {
+			radiusButton_.setText(radiusItemStrings_[which]);
 		}
 	};
 
@@ -82,11 +122,8 @@ public class PositionActivity extends Activity {
 			data.putExtra(EXTRA_LOCATION_LAT, location_.getLatitudeE6());
 			data.putExtra(EXTRA_LOCATION_LON, location_.getLongitudeE6());
 			data.putExtra(EXTRA_RADIUS, radius_);
-
-			Toast.makeText(PositionActivity.this,
-					"Set position to '" + locationName_ + "'",
-					Toast.LENGTH_SHORT).show();
-			setResult(RESULT_UPDATE, data);
+			
+			setResult(Constants.RESULT_UPDATE, data);
 			finish();
 		}
 	};
@@ -94,7 +131,7 @@ public class PositionActivity extends Activity {
 	/** Handles clicks from the cancel button */
 	private OnClickListener cancelListener_ = new OnClickListener() {
 		public void onClick(View v) {
-			setResult(RESULT_CANCEL);
+			setResult(Constants.RESULT_CANCELED);
 			finish();
 		}
 	};
@@ -102,9 +139,7 @@ public class PositionActivity extends Activity {
 	/** Handles clicks from the clear button */
 	private OnClickListener clearListener_ = new OnClickListener() {
 		public void onClick(View v) {
-			Toast.makeText(PositionActivity.this, "Cleared position filter",
-					Toast.LENGTH_SHORT).show();
-			setResult(RESULT_CLEAR);
+			setResult(Constants.RESULT_CLEAR);
 			finish();
 		}
 	};
@@ -113,6 +148,51 @@ public class PositionActivity extends Activity {
 	private GeoPoint location_;
 	private String locationName_;
 	private int radius_;
+
+	/**
+	 * This method is called when the sending activity has finished, with the
+	 * result it supplied.
+	 * 
+	 * @param requestCode
+	 *            The original request code as given to startActivity().
+	 * @param resultCode
+	 *            From sending activity as per setResult().
+	 * @param data
+	 *            From sending activity as per setResult().
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == Constants.RESULT_CANCELED) {
+			// Set them back to the current location selection
+			locationSpinner_.setSelection(0);
+			Log.i(tag, pre + "Cancel request");
+			return;
+		}
+
+		if (requestCode == REQUEST_LIST_LOCATION
+				&& resultCode == Constants.RESULT_OK) {
+			locationName_ = data.getStringExtra(ChooseLocation.RESULT_NAME);
+			location_ = LocationManager.coordinates.get(data
+					.getStringExtra(ChooseLocation.RESULT_NAME));
+			Log.i(tag, pre + "Location Name is " + locationName_);
+			Log.i(tag, pre + "Point is " + location_);
+		} else if (requestCode == REQUEST_LIST_LOCATION
+				&& resultCode == Constants.RESULT_UNKNOWN) {
+			locationName_ = "Custom";
+			startActivityForResult(new Intent(this, LocationChooser.class),
+					REQUEST_MAP_LOCATION);
+		} else if (requestCode == REQUEST_MAP_LOCATION) {
+			int lat = data.getIntExtra(LocationChooser.RESULT_LAT,
+					Constants.vandyCenter.getLatitudeE6());
+			int lng = data.getIntExtra(LocationChooser.RESULT_LNG,
+					Constants.vandyCenter.getLongitudeE6());
+
+			location_ = new GeoPoint(lat, lng);
+			
+			Log.i(tag, pre + "Location Name is " + locationName_);
+			Log.i(tag, pre + "Point is " + location_);
+		}
+	}
 
 	/** Called when the activity is first created */
 	@Override
@@ -128,7 +208,7 @@ public class PositionActivity extends Activity {
 		setContentView(R.layout.position_filter);
 
 		// If anything happens to this activity, we should cancel
-		setResult(RESULT_CANCEL);
+		setResult(Constants.RESULT_CANCELED);
 
 		// Set up some defaults that make sense
 		locationName_ = "My Current Position";
@@ -148,6 +228,16 @@ public class PositionActivity extends Activity {
 		cancelButton_.setOnClickListener(cancelListener_);
 		setFilterButton_.setOnClickListener(updateListener_);
 		clearButton_.setOnClickListener(clearListener_);
+	}
+
+	/** Called when a dialog is first created */
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		// Ignore the id because we only have one dialog
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setItems(radiusItemStrings_, radiusSelectedListener_);
+
+		return builder.create();
 	}
 
 	/** Called when the activity is about to become visible */

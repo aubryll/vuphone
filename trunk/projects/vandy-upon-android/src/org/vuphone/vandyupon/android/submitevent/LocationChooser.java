@@ -3,6 +3,7 @@
  */
 package org.vuphone.vandyupon.android.submitevent;
 
+import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.R;
 
 import android.content.Intent;
@@ -18,6 +19,10 @@ import com.google.android.maps.MapActivity;
  */
 public class LocationChooser extends MapActivity {
 	private LocationChooserMap map_;
+
+	/** Used to let other activities access our return data */
+	public static final String RESULT_LAT = "lat";
+	public static final String RESULT_LNG = "lng";
 
 	/**
 	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
@@ -60,12 +65,10 @@ public class LocationChooser extends MapActivity {
 		}
 
 		Intent result = new Intent();
-		result.putExtra(SubmitEvent.RESULT_LAT, map_.getCurrentLocation()
-				.getLatitudeE6());
-		result.putExtra(SubmitEvent.RESULT_LNG, map_.getCurrentLocation()
-				.getLongitudeE6());
+		result.putExtra(RESULT_LAT, map_.getCurrentLocation().getLatitudeE6());
+		result.putExtra(RESULT_LNG, map_.getCurrentLocation().getLongitudeE6());
 
-		setResult(SubmitEvent.RESULT_OK, result);
+		setResult(Constants.RESULT_OK, result);
 		return super.onKeyDown(keyCode, event);
 	}
 }

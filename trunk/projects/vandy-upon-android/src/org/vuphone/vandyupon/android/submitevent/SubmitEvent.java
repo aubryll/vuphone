@@ -42,16 +42,6 @@ public class SubmitEvent extends Activity {
 	private static final String tag = Constants.tag;
 	private static final String pre = "SubmitEvent: ";
 
-	/** Used to indicate the status of returned activities */
-	protected static final int RESULT_OK = 0;
-	protected static final int RESULT_UNKNOWN = 1;
-	protected static final int RESULT_CANCELED = 2;
-
-	/** Used to access data returned by other activities */
-	protected static final String RESULT_NAME = "r";
-	protected static final String RESULT_LAT = "lat";
-	protected static final String RESULT_LNG = "lng";
-
 	/** Used to indicate to ourselves which activities we requested */
 	private static final int REQUEST_LIST_LOCATION = 0;
 	private static final int REQUEST_MAP_LOCATION = 1;
@@ -251,22 +241,24 @@ public class SubmitEvent extends Activity {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_CANCELED)
+		if (resultCode == Constants.RESULT_CANCELED)
 			return;
 
-		if (requestCode == REQUEST_LIST_LOCATION && resultCode == RESULT_OK) {
-			buildingLabel_.setText(data.getStringExtra(RESULT_NAME));
+		if (requestCode == REQUEST_LIST_LOCATION
+				&& resultCode == Constants.RESULT_OK) {
+			buildingLabel_.setText(data
+					.getStringExtra(ChooseLocation.RESULT_NAME));
 			location_ = LocationManager.coordinates.get(data
-					.getStringExtra(RESULT_NAME));
+					.getStringExtra(ChooseLocation.RESULT_NAME));
 		} else if (requestCode == REQUEST_LIST_LOCATION
-				&& resultCode == RESULT_UNKNOWN) {
+				&& resultCode == Constants.RESULT_UNKNOWN) {
 			startActivityForResult(new Intent(this, LocationChooser.class),
 					REQUEST_MAP_LOCATION);
 		} else if (requestCode == REQUEST_MAP_LOCATION) {
-			int lat = data.getIntExtra(RESULT_LAT, LocationManager.vandyCenter_
-					.getLatitudeE6());
-			int lng = data.getIntExtra(RESULT_LNG, LocationManager.vandyCenter_
-					.getLongitudeE6());
+			int lat = data.getIntExtra(LocationChooser.RESULT_LAT,
+					LocationManager.vandyCenter_.getLatitudeE6());
+			int lng = data.getIntExtra(LocationChooser.RESULT_LNG,
+					LocationManager.vandyCenter_.getLongitudeE6());
 
 			location_ = new GeoPoint(lat, lng);
 			buildingLabel_.setText("Other");
@@ -403,7 +395,6 @@ public class SubmitEvent extends Activity {
 		default:
 			return null;
 		}
-
 	}
 
 	/** Handles menu item selections */
@@ -422,9 +413,9 @@ public class SubmitEvent extends Activity {
 			Spinner locationModifier = (Spinner) findViewById(R.id.SPIN_event_location);
 			locationModifier.setEnabled(false);
 
-			boolean posted = EventPoster.doEventPost(nameLabel_.getText().toString(),
-					startCalendar_, endCalendar_, location_, descLabel_.getText()
-							.toString(), getApplicationContext());
+			boolean posted = EventPoster.doEventPost(nameLabel_.getText()
+					.toString(), startCalendar_, endCalendar_, location_,
+					descLabel_.getText().toString(), getApplicationContext());
 			if (posted) {
 				EventLoader loader = new EventLoader(this);
 				loader.loadEvents(this);
@@ -432,8 +423,7 @@ public class SubmitEvent extends Activity {
 				Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
 				finish();
 			} else {
-				Toast.makeText(this,
-						"Error! " + EventPoster.getLastError(),
+				Toast.makeText(this, "Error! " + EventPoster.getLastError(),
 						Toast.LENGTH_LONG).show();
 				Log.d(tag, pre + "Event post failed");
 				Log.d(tag, pre + "Error was: " + EventPoster.getLastError());
