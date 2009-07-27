@@ -3,6 +3,7 @@ package org.vuphone.vandyupon.android.submitevent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.LocationManager;
 
 import android.app.ExpandableListActivity;
@@ -21,9 +22,13 @@ import android.widget.SimpleExpandableListAdapter;
  * 
  */
 public class ChooseLocation extends ExpandableListActivity {
+	/** Used for logging */
 	private static final String LOCATION_CATEGORY = "lc";
 	private static final String LOCATION = "l";
-	
+
+	/** Used to let other classes access the data returned */
+	public static final String RESULT_NAME = "r";
+
 	private static final String[][] locations_ = LocationManager.locations;
 	private static final String[] locationCategories_ = LocationManager.groups;
 
@@ -32,12 +37,12 @@ public class ChooseLocation extends ExpandableListActivity {
 		public boolean onChildClick(ExpandableListView parent, View v,
 				int groupPosition, int childPosition, long id) {
 			if (locations_[groupPosition][childPosition].equals("Other"))
-				setResult(SubmitEvent.RESULT_UNKNOWN);
+				setResult(Constants.RESULT_UNKNOWN);
 			else {
 				Intent result = new Intent();
-				result.putExtra(SubmitEvent.RESULT_NAME,
+				result.putExtra(RESULT_NAME,
 						locations_[groupPosition][childPosition]);
-				setResult(SubmitEvent.RESULT_OK, result);
+				setResult(Constants.RESULT_OK, result);
 			}
 			finish();
 			return true;
@@ -90,7 +95,7 @@ public class ChooseLocation extends ExpandableListActivity {
 		super.onCreate(savedInstanceState);
 
 		// If we die, or otherwise quit, the result should be canceled
-		setResult(SubmitEvent.RESULT_CANCELED);
+		setResult(Constants.RESULT_CANCELED);
 
 		// Set up our adapter
 		ExpandableListAdapter adapter = new SimpleExpandableListAdapter(this,

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.widget.Toast;
 
 import com.google.android.maps.MapActivity;
 
@@ -33,6 +34,7 @@ public class EventViewer extends MapActivity {
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventViewer: ";
 
+	/** The map we are using */
 	private EventViewerMap map_;
 
 	/** Constants to identify MenuItems */
@@ -44,12 +46,52 @@ public class EventViewer extends MapActivity {
 	private static final int MENUITEM_MAP_NORM = 5;
 	private static final int MENUITEM_MAP_STREET = 6;
 
+	/** Constants to identify activities we requested */
+	private static final int REQUEST_POSITION_FILTER = 0;
+	private static final int REQUEST_TIME_FILTER = 1;
+	private static final int REQUEST_TAGS_FILTER = 2;
+
 	/**
 	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
 	 */
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+
+	/** Called when an activity has a result to return to us */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+		switch (requestCode) {
+		case REQUEST_POSITION_FILTER:
+			switch (resultCode) {
+			case Constants.RESULT_CLEAR:
+				Toast.makeText(this, "Cleared position filter",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case Constants.RESULT_UPDATE:
+				Bundle extras = data.getExtras();
+				String name;
+				if (extras
+						.getBoolean(PositionActivity.EXTRA_LOCATION_IS_CURRENT))
+					name = "My Current Location";
+				else
+					name = data.getExtras().getString(
+							PositionActivity.EXTRA_LOCATION_NAME);
+				Toast.makeText(this, "Set position to '" + name + "'",
+						Toast.LENGTH_SHORT).show();
+				break;
+			default:
+			case Constants.RESULT_CANCELED:
+				break;
+			}
+			break;
+		case REQUEST_TAGS_FILTER:
+			break;
+		case REQUEST_TIME_FILTER:
+			break;
+		}
 	}
 
 	/** Called when the Activity is first created */
@@ -94,7 +136,7 @@ public class EventViewer extends MapActivity {
 			break;
 		case MENUITEM_FILTER_POS:
 			Intent pos = new Intent(this, PositionActivity.class);
-			startActivity(pos);
+			startActivityForResult(pos, REQUEST_POSITION_FILTER);
 			break;
 		case MENUITEM_FILTER_TAG:
 
