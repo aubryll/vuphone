@@ -83,6 +83,12 @@
 				</entry>
 				<entry>
 					<key>
+						<value>eventratingpost</value>
+					</key>
+					<ref bean="eventRatingPostHandler" />
+				</entry>
+				<entry>
+					<key>
 						<value>locationpost</value>
 					</key>
 					<ref bean="locationPostHandler" />
@@ -98,6 +104,12 @@
 						<value>eventimagepost</value>
 					</key>
 					<ref bean="eventImagePostHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>eventratingrequest</value>
+					</key>
+					<ref bean="eventRatingRequestHandler" />
 				</entry>
 			</map>
 		</property>
@@ -139,6 +151,18 @@
 					</key>
 					<ref bean="eventImagePostParser" />
 				</entry>
+				<entry>
+					<key>
+						<value>eventratingpost</value>
+					</key>
+					<ref bean="eventRatingPostParser" />
+				</entry>
+				<entry>
+					<key>
+						<value>eventratingrequest</value>
+					</key>
+					<ref bean="eventRatingRequestParser" />
+				</entry>
 			</map>
 		</property>
 		<property name="responders">
@@ -167,6 +191,18 @@
 					</key>
 					<ref bean="eventImagePostResponder" />
 				</entry>
+				<entry>
+					<key>
+						<value>eventratingpost</value>
+					</key>
+					<ref bean="eventRatingPostResponder" />
+				</entry>
+				<entry>
+					<key>
+						<value>eventratingrequest</value>
+					</key>
+					<ref bean="eventRatingRequestResponder" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -184,6 +220,12 @@
 	<bean name="eventImagePostHandler" class="org.vuphone.vandyupon.media.incoming.event.ImageHandler">
 		<property name="dataConnection" ref="dataProvider" />
 	</bean>
+	<bean name="eventRatingPostHandler" class="org.vuphone.vandyupon.notification.ratingpost.event.EventRatingPostHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
+	<bean name="eventRatingRequestHandler" class="org.vuphone.vandyupon.notification.ratingrequest.event.EventRatingRequestHandler">
+		<property name="dataConnection" ref="dataProvider" />
+	</bean>
 	<bean name="locationPostHandler" class="org.vuphone.vandyupon.notification.locationpost.LocationPostHandler" />
 	<bean name="locationRequestHandler" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestHandler" />
 	
@@ -192,6 +234,8 @@
 	<bean name="eventPostParser" class="org.vuphone.vandyupon.notification.eventpost.EventPostParser" />
 	<bean name="eventRequestParser" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestParser" />
 	<bean name="eventMetaRequestParser" class="org.vuphone.vandyupon.notification.eventmetarequest.EventMetaRequestParser" />
+	<bean name="eventRatingPostParser" class="org.vuphone.vandyupon.notification.ratingpost.event.EventRatingPostParser" />
+	<bean name="eventRatingRequestParser" class="org.vuphone.vandyupon.notification.ratingrequest.event.EventRatingRequestParser" />
 	<bean name="eventImagePostParser" class="org.vuphone.vandyupon.media.incoming.event.ImageParser" />
 	<bean name="locationPostParser" class="org.vuphone.vandyupon.notification.locationpost.LocationPostParser" />
 	<bean name="locationRequestParser" class="org.vuphone.vandyupon.notification.locationrequest.LocationRequestParser" />
@@ -201,7 +245,9 @@
 	<bean name="eventPostResponder" class="org.vuphone.vandyupon.notification.eventpost.EventPostResponseHandler" />
 	<bean name="eventRequestResponder" class="org.vuphone.vandyupon.notification.eventrequest.EventRequestResponseHandler" />
 	<bean name="eventMetaRequestResponder" class="org.vuphone.vandyupon.notification.eventmetarequest.EventMetaRequestResponseHandler" />
-	<bean name="eventImagePostResponder" class="org.vuphone.vandyupon.media.incoming.event.ImageResponseHandler" />	
+	<bean name="eventImagePostResponder" class="org.vuphone.vandyupon.media.incoming.event.ImageResponseHandler" />
+	<bean name="eventRatingPostResponder" class="org.vuphone.vandyupon.notification.ratingpost.event.EventRatingPostResponseHandler" />
+	<bean name="eventRatingRequestResponder" class="org.vuphone.vandyupon.notification.ratingrequest.event.EventRatingRequestResponseHandler" />	
 
 	<!-- Sql Bean -->
 	<bean name="sqlConstructor" class="org.vuphone.vandyupon.sql.SqlConstructor">

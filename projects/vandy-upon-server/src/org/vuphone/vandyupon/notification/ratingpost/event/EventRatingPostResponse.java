@@ -13,33 +13,21 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.ratingrequest.event;
+package org.vuphone.vandyupon.notification.ratingpost.event;
 
-import javax.servlet.http.HttpServletRequest;
+import org.vuphone.vandyupon.notification.ResponseNotification;
 
-import org.vuphone.vandyupon.notification.Notification;
-import org.vuphone.vandyupon.notification.NotificationParser;
-
-public class EventRatingRequestParser implements NotificationParser {
-
-	@Override
-	public Notification parse(HttpServletRequest req) {
-		
-		if (!req.getParameter("type").equalsIgnoreCase("eventratingrequest"))
-			return null;
-		
-		String response = req.getParameter("resp");
-		String callback = req.getParameter("callback");
-		long id = Long.parseLong(req.getParameter("id"));
-		
-		boolean getComments = Boolean.getBoolean(req.getParameter("comments"));
-		int numCom = 0;
-		if (getComments){
-			numCom = Integer.parseInt(req.getParameter("numcom"));
-		}
-		
-		return new EventRatingRequest(response,callback, id, getComments, numCom);
-		
+public class EventRatingPostResponse extends ResponseNotification {
+	
+	private String message_;
+	
+	public EventRatingPostResponse(String responseMessage, String responseType, String callback){
+		super("eventratingpost", responseType, callback);
+		message_ = responseMessage;
+	}
+	
+	public String getMessage(){
+		return message_;
 	}
 
 }
