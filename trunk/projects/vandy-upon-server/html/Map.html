@@ -3,14 +3,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Wreck Watch Map</title>
-<script src="scripts/jquery-1.3.2.js"
-	type="text/javascript"></script>
+<script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
+<script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
+<script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.draggable.js"></script>
+<script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.resizable.js"></script>
+<script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.dialog.js"></script>
+
 <script type="text/javascript"
 	src="scripts/jquery.timers.js"></script>
 <script type="text/javascript" src="scripts/jquery.datePicker.js"></script>
 <script type="text/javascript" src="scripts/jquery.bgiframe.js"></script>
 <script type="text/javascript" src="scripts/date.js"></script>
 <script type="text/javascript" src="scripts/dateformat.js"></script>
+<script type="text/javascript" src="scripts/ajaxupload-3.5.js"></script>
 
 <script
 	src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAABWCNt87qa4B0xMt7qCbeOhSUJe7as4HRkTSp8W_Y5vZTzgBsVRRK2y9QPUsVV97Efab1bIzjFmYggQ"
@@ -18,6 +23,7 @@
 	
 <link rel="stylesheet" href="styles/datePicker.css" />
 <link rel="stylesheet" href="styles/stylesheet.css" />
+<link rel="stylesheet" href="http://jquery-ui.googlecode.com/svn/tags/latest/themes/base/ui.all.css" />
 	
 
 	
@@ -25,6 +31,7 @@
 <script type="text/javascript">
 
 	var map;
+	var server = "http://localhost:8080";
 	var events = new Array();
 	var routes = new Array();
 	var days = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
@@ -35,6 +42,7 @@
 	var lastClicked = new Event();
 	var curHtml;
 	var recordLocation = false;
+	var upload;
 	lastClicked.setId(0);
 	
     var eventCallback = function (data, textStatus){
@@ -65,13 +73,14 @@
         }
     }
     var metaCallback = function (data, textStatus){
-        curHtml = "<b>Event Name: </b>" + lastClicked.name;
+        curHtml = "<div style=\"width:350px;\"><b>Event Name: </b>" + lastClicked.name;
         var start = new Date(lastClicked.starttime);
         var end = new Date(lastClicked.endtime);
         curHtml = curHtml + "<br /><b>Start Time: </b>" + dateFormat(start,"dddd, mmmm dS, yyyy, h:MM TT")
         			+ 
         			"<br /><b>End Time: </b>" + dateFormat(end,"dddd, mmmm dS, yyyy, h:MM TT");
-    	$.each(data.EventMetaRequestResponse, processMetaItem);
+    	$.each(data.EventMetaRequestResponse.MetaData, processMetaItem);
+    	curHtml = curHtml + "</div>";
     	lastClicked.marker.openInfoWindowHtml(curHtml);
     }
 
@@ -79,7 +88,7 @@
         if (item.Type == "DESCRIPTION"){
             curHtml = curHtml + "<br /><b>Description: </b>" + item.Value;
         }else if (item.Type == "IMAGE"){
-            curHtml = curHtml + "<br /><b>Image: </b><img src=\"" + item.Value + "\" />";
+            curHtml = curHtml + "<br /><b>Image: </b><img align=\"right\" src=\"" + server + "/images/" + item.Value + "\" width=\"250\" />";
         }else if (item.Type == "HOSTING_ORG"){
             curHtml = curHtml + "<br /><b>Hosting Organization:</b> " + item.Value;
         } 
@@ -115,6 +124,8 @@
         if (recordLocation){
             $("#evtLat").text(latlng.y);
             $("#evtLon").text(latlng.x);
+            $("#evtLatHid").val(latlng.y);
+            $("#evtLonHid").val(latlng.x);
             $("#createEventWindow").css("visibility", "visible");
             recordLoction = false;	        
         }else{
@@ -153,7 +164,7 @@
             return;
         }
         
-        $.post("http://localhost:8080/vandyupon/events/?callback=?",
+        $.post(server + "/vandyupon/events/?callback=?",
            {
             type: "eventpost",
             starttime: start,
@@ -161,16 +172,26 @@
             resp: "json",
             eventname: $("#evtName").val(),
             desc: $("#evtDesc").val(),
-            locationlat: $("#evtLat").val(),
-            locationlon: $("#evtLon").val(),
+            locationlat: $("#evtLatHid").val(),
+            locationlon: $("#evtLonHid").val(),
             userid: "browser"}, 
 
             function (data, textStatus){
                 if (textStatus == "success"){
                 	$("#createEventWindow").css("visibility", "hidden");
-                	alert("Your event has been recorded.");
-                	getEventData();
-                	resetCreateForm();
+                	$("#dialog").dialog("open");
+               		 upload = new AjaxUpload("#yesBtn", 
+            	    	 {
+        	    	 		action: "vandyupon/events/?type=eventimagepost&resp=json&eventid=" + data.EventPostResponse.eventid,
+        	    	 		name: "eventimage",
+        	    	 		autoSubmit: true,
+        	    	 		onComplete: resetAndDownload,
+        	    	 		onSubmit: function(){
+            		 			$("#uploadingBar").css("visibility", "visible");
+            		 			$("#yesnobar").css("visibility", "hidden");
+            		 			
+            	 			}
+            	    	 });
                 }else {
                     alert("An error occurred.");
                 }
@@ -194,6 +215,8 @@
          $("#evtDesc").val("");
          $("#evtLat").text("");
          $("#evtLon").text("");
+         $("#evtLatHid").val("");
+         $("#evtLonHid").val("");
 
          recordLocation = false;
      }
@@ -210,6 +233,8 @@
 
     	 }
 
+
+
     	 $(".date-pick").datePicker();
 
     	 $("#createEvent").click(function(){
@@ -225,18 +250,29 @@
         	 resetCreateForm();
          });
 
+         $("#dialog").dialog({autoOpen:false});
+         $("#noBtn").click(resetAndDownload);
+         
          GEvent.addListener(map, "click", handleMapClick);
     });
 
+    var resetAndDownload = function(){
+    	getEventData();
+    	resetCreateForm();
+    	$("#dialog").dialog("close");
+    	$("#uploadingBar").css("visibility", "hidden");
+    	$("#yesnobar").css("visibility", "visible");
+    }
+
     function getEventData(){
         var bnds = map.getCenter();
-        var qry = "http://localhost:8080/vandyupon/events/?type=eventrequest&lat="+bnds.lat()+"&lon="+bnds.lng() + 
+        var qry = server + "/vandyupon/events/?type=eventrequest&lat="+bnds.lat()+"&lon="+bnds.lng() + 
                 "&dist=10560&updatetime=0&resp=json&callback=?";
     	$.getJSON(qry, eventCallback);
     }
 
     function getMetaData(id){
-        var qry = "http://localhost:8080/vandyupon/events/?type=eventmetarequest&id=" + id + "&resp=json&callback=?";
+        var qry = server + "/vandyupon/events/?type=eventmetarequest&id=" + id + "&resp=json&callback=?";
     	$.getJSON(qry, metaCallback);
     }
     
@@ -317,7 +353,7 @@
   <div style="width:150px; height:73px; background:url('images/palb.png')"></div>
 </div>
 
-<div id="createEventWindow" style="position:absolute; z-index:3; border: 5px solid black; background-color:#FFFFFF; width:300px; height:400px; left: 300px; top:100px; visibility:hidden;">
+<div id="createEventWindow" style="position:absolute; z-index:3; border: 5px solid black; background-color:#FFFFFF; width:300px; height:450px; left: 300px; top:100px; visibility:hidden;">
 	<table>
 		<tr>
 			<td><b>Event Name: </b></td>
@@ -424,11 +460,24 @@
 			<td colspan="2">&nbsp;</td>
 		</tr>
 		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
 			<td><input type="button" id="submit" value="Submit" /></td>
 			<td><input type="button" id="cancel" value="Cancel" /></td>
 		</tr>
 	</table>
+	<input type="hidden" id="evtLatHid" value="" />
+	<input type="hidden" id="evtLonHid" value="" />
 </div>
+
+<div id="dialog" style="display:none;" title="Upload Image">
+			<p>Would you like to upload an image?</p>
+			<div id="yesnobar"><a id="yesBtn">Yes</a> &nbsp; <a id="noBtn">No</a></div>
+			<div id="uploadingBar" style="visibility:hidden"><img src="images/spinner.gif" />Uploading...</div>
+			
+		</div>
+
 
 </body>
 </html>

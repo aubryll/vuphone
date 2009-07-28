@@ -47,7 +47,6 @@ import org.vuphone.vandyupon.sql.SqlConstructor;
 public class VandyUponServer {
 
 	private static final String NOTIFICATION_SERVLET = "notificationServlet";
-	private static final String MAP_SERVLET = "mapServlet";
 
 	private static final String SQL_CONSTRUCTOR = "sqlConstructor";
 	public static final String VANDY_UPON_PATH = "/vandyupon";
