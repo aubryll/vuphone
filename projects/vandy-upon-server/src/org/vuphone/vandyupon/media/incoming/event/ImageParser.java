@@ -62,8 +62,12 @@ public class ImageParser implements NotificationParser {
 			
 			
 			long time, eventId;
-			time = Long.parseLong(req.getParameter(ImageParser.TIME));
-			eventId = Long.parseLong(req.getParameter(ImageParser.EVENTID));
+			time = System.currentTimeMillis();
+			//try{
+				eventId = Long.parseLong(req.getParameter(EVENTID));
+			//}catch(NumberFormatException e){
+				//eventId = Integer.parseInt(req.getParameter(EVENTID));
+			//}
 			String response = req.getParameter("resp");
 			String callback = req.getParameter("callback");
 			byte[] imageData = new byte[req.getContentLength() + 1];
