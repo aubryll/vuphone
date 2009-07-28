@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.ratingrequest.event;
+package org.vuphone.vandyupon.test;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-import org.vuphone.vandyupon.notification.Notification;
-import org.vuphone.vandyupon.notification.NotificationParser;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 
-public class EventRatingRequestParser implements NotificationParser {
+public class EventRatingPostTest {
 
-	@Override
-	public Notification parse(HttpServletRequest req) {
+	
+	public static void main(String[] args){
+		HttpClient c = new DefaultHttpClient();
+		HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/");
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		
-		if (!req.getParameter("type").equalsIgnoreCase("eventratingrequest"))
-			return null;
+		String params = "type=eventratingpost&event=1&user=chris&comment=awesome&value=1&resp=xml";
+		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 		
-		String response = req.getParameter("resp");
-		String callback = req.getParameter("callback");
-		long id = Long.parseLong(req.getParameter("id"));
-		
-		boolean getComments = Boolean.getBoolean(req.getParameter("comments"));
-		int numCom = 0;
-		if (getComments){
-			numCom = Integer.parseInt(req.getParameter("numcom"));
+		try {
+			HttpResponse resp = c.execute(post);
+			resp.getEntity().writeTo(System.out);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		
-		return new EventRatingRequest(response,callback, id, getComments, numCom);
-		
 	}
-
 }

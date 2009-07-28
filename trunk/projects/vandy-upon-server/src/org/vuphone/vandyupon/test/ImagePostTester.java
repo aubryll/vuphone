@@ -29,7 +29,7 @@ public class ImagePostTester {
 
 	public static void main(String[] args){
 		try {
-			File image = new File("2008-05-8 ChrisMikeNinaCampus.jpg");
+			File image = new File("800px-Monster_inc_block_party.jpg");
 			byte[] bytes = new byte[(int) image.length()];
 			FileInputStream fis = new FileInputStream(image);
 
@@ -44,7 +44,7 @@ public class ImagePostTester {
 			fis.close();
 			
 			HttpClient c = new DefaultHttpClient();
-			HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/?type=eventimagepost&eventid=1" +
+			HttpPost post = new HttpPost("http://localhost:8080/vandyupon/events/?type=eventimagepost&eventid=22" +
 					"&time=" + System.currentTimeMillis() + "&resp=xml");
 			
 			post.addHeader("Content-Type", "image/jpeg");

@@ -19,26 +19,45 @@ import org.vuphone.vandyupon.notification.Notification;
 
 public class EventRatingPost extends Notification {
 	
-	private long userId_;
+	private String userId_;
 	private String comment_;
 	private String value_;
+	private long eventId_;
+	private String responseType_;
+	private String callback_;
 	
-	public EventRatingPost(long user, String comment, String value){
+	public EventRatingPost(String user, long event, String comment, 
+			String value, String responseType, String callback){
 		super("eventratingpost");
 		userId_ = user;
 		comment_ = comment;
 		value_ = value;
+		eventId_ = event;
+		responseType_ = responseType;
+		callback_ = callback;
+	}
+	
+	public String getCallback(){
+		return callback_;
 	}
 	
 	public String getComment(){
 		return comment_;
 	}
 	
+	public long getEvent(){
+		return eventId_;
+	}
+	
+	public String getResponseType(){
+		return responseType_;
+	}
+	
 	public String getValue(){
 		return value_;
 	}
 	
-	public long getUser(){
+	public String getUser(){
 		return userId_;
 	}
 

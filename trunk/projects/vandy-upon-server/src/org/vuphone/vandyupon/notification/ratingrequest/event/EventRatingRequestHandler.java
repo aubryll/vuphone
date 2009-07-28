@@ -28,7 +28,7 @@ import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationHandler;
 import org.vuphone.vandyupon.notification.ResponseNotification;
 
-public class EventRatingHandler implements NotificationHandler{
+public class EventRatingRequestHandler implements NotificationHandler{
 	
 	private DataSource ds_;
 	
