@@ -32,7 +32,7 @@ public class EventMetaRequestHandler implements NotificationHandler {
 
 	private DataSource ds_;
 
-	@Override
+
 	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 		
 		if (!(n instanceof EventMetaRequest)){

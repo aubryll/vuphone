@@ -43,7 +43,7 @@ public class EventRequestHandler implements NotificationHandler {
 	//private static final double RADIUS_EARTH = 3963.191; //miles
 
 
-	@Override
+	
 	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 
 		if (!(n instanceof EventRequest)){

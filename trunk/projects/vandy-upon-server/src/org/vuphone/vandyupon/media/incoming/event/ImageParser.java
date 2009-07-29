@@ -55,7 +55,7 @@ public class ImageParser implements NotificationParser {
 		return isValid;
 	}
 
-	@Override
+
 	public Notification parse(HttpServletRequest req) {
 		if (req.getParameter("type").equalsIgnoreCase("eventimagepost")) {
 			//get data from request

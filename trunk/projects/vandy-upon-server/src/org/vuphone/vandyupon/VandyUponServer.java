@@ -47,13 +47,14 @@ import org.vuphone.vandyupon.sql.SqlConstructor;
 public class VandyUponServer {
 
 	private static final String NOTIFICATION_SERVLET = "notificationServlet";
+	private static final String FACEBOOKLOGIN_SERVLET = "facebookLoginServlet";
 
 	private static final String SQL_CONSTRUCTOR = "sqlConstructor";
 	public static final String VANDY_UPON_PATH = "/vandyupon";
 	public static final String VANDY_UPON_EVENT_CHANNEL = "/events";
 	public static final String VANDY_UPON_NOTIFICATIONS_CHANNEL = "/notifications";
 	public static final String VANDY_UPON_BROWSER_AJAX_CHANNEL = "/map";
-	
+	public static final String VANDY_UPON_FACEBOOK = "/facebook";
 	
 
 	private static final Logger logger_ = Logger
@@ -88,7 +89,7 @@ public class VandyUponServer {
 		logger.setLevel(Level.FINEST);
 		
 		
-		int port = 8080;
+		int port = 8081;
 		if (args.length > 0) {
 			try {
 				port = Integer.parseInt(args[0]);
@@ -139,6 +140,8 @@ public class VandyUponServer {
 		context.addServlet(new ServletHolder(notificationServlet), VANDY_UPON_PATH
 				+ VANDY_UPON_EVENT_CHANNEL + "/*");
 		
+		HttpServlet facebookLoginServlet = (HttpServlet)ServerUtils.get().getFactory().getBean(FACEBOOKLOGIN_SERVLET);
+		context.addServlet(new ServletHolder(facebookLoginServlet), VANDY_UPON_PATH + VANDY_UPON_FACEBOOK + "/*");
 		context.setResourceBase("html/");
 
 		ResourceHandler resource_handler = new ResourceHandler();

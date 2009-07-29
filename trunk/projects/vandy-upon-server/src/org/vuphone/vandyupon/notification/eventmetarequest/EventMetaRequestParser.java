@@ -22,7 +22,7 @@ import org.vuphone.vandyupon.notification.NotificationParser;
 
 public class EventMetaRequestParser implements NotificationParser {
 
-	@Override
+
 	public Notification parse(HttpServletRequest req) {
 		
 		if (!req.getParameter("type").equalsIgnoreCase("eventmetarequest"))
