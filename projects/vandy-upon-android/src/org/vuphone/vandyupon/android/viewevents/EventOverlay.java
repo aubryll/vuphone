@@ -3,7 +3,9 @@
  */
 package org.vuphone.vandyupon.android.viewevents;
 
+import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.eventstore.DBAdapter;
+import org.vuphone.vandyupon.android.filters.FilterChangedListener;
 import org.vuphone.vandyupon.android.filters.PositionFilter;
 import org.vuphone.vandyupon.android.filters.TagsFilter;
 import org.vuphone.vandyupon.android.filters.TimeFilter;
@@ -12,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 
@@ -23,19 +26,19 @@ import com.google.android.maps.ItemizedOverlay;
  * @author Hamilton Turner
  * 
  */
-public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
+public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements FilterChangedListener {
 	/** Used for logging */
-//	private static final String tag = Constants.tag;
-//	private static final String pre = "EventOverlay: ";
+	 private static final String tag = Constants.tag;
+	 private static final String pre = "EventOverlay: ";
 
 	/** Used for filtering events */
 	private PositionFilter positionFilter_;
 	private TimeFilter timeFilter_;
 	private TagsFilter tagsFilter_;
-	
+
 	/** Used to get events that match the current filters */
 	private DBAdapter database_;
-	
+
 	/** Used to point to the current row in the database */
 	private Cursor eventCursor_;
 
@@ -47,6 +50,16 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 		defaultDrawable_.setIntrinsicHeight(20);
 	}
 
+	/**
+	 * 
+	 * @param positionFilter
+	 *            Can be NULL.
+	 * @param timeFilter
+	 *            Can be NULL.
+	 * @param tagsFilter
+	 *            Can be NULL.
+	 * @param context
+	 */
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, Context context) {
 		super(boundCenterBottom(defaultDrawable_));
@@ -55,6 +68,9 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 		timeFilter_ = timeFilter;
 		tagsFilter_ = tagsFilter;
 
+		if (positionFilter_ != null)
+			positionFilter_.registerListener(this);
+		
 		database_ = new DBAdapter(context);
 		database_.openReadable();
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
@@ -82,7 +98,10 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 
 	/**
 	 * Used to pass new filters into the overlay. Any of the variables can be
-	 * null to keep the current filter
+	 * null to keep the current filter. The DB is queried and the overlay list
+	 * re-populated every time we call this, so rather than having three
+	 * distinct methods we have one where multiple filters can be updated at
+	 * once.
 	 * 
 	 * @param p
 	 *            a new PositionFilter, or null
@@ -93,16 +112,30 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> {
 	 */
 	protected void receiveNewFilters(PositionFilter p, TimeFilter t,
 			TagsFilter ts) {
-		if (p != null)
-			positionFilter_ = p;
-		if (t != null)
-			timeFilter_ = t;
-		if (ts != null)
-			tagsFilter_ = ts;
+
+		if (positionFilter_ != null)
+			positionFilter_.unregisterListener(this);
 		
+		positionFilter_ = p;
+		if (positionFilter_ != null)
+			positionFilter_.registerListener(this);
+		
+		timeFilter_ = t;
+		tagsFilter_ = ts;
+
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
 
+		populate();
+	}
+
+	/**
+	 * @see org.vuphone.vandyupon.android.filters.FilterChangedListener#filterChanged()
+	 */
+	public void filterChanged() {
+		Log.i(tag, pre + "Filter was updated");
+		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
+				tagsFilter_);
 		populate();
 	}
 

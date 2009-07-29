@@ -24,7 +24,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.google.android.maps.GeoPoint;
@@ -79,8 +78,6 @@ public class PositionActivity extends Activity {
 	private OnItemSelectedListener centerListener_ = new OnItemSelectedListener() {
 		public void onItemSelected(AdapterView<?> parent, View view,
 				int position, long id) {
-			Log.i(tag, pre + "item " + position + " was selected");
-
 			// If they selected other, then start activity for an other result
 			if (position == 1) {
 				Intent i = new Intent(PositionActivity.this,
@@ -106,6 +103,7 @@ public class PositionActivity extends Activity {
 	private DialogInterface.OnClickListener radiusSelectedListener_ = new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface dialog, int which) {
 			radiusButton_.setText(radiusItemStrings_[which]);
+			radius_ = radiusItems_.get(radiusItemStrings_[which]);
 		}
 	};
 
@@ -113,7 +111,7 @@ public class PositionActivity extends Activity {
 	private OnClickListener updateListener_ = new OnClickListener() {
 		public void onClick(View v) {
 			Intent data = new Intent();
-			if (locationName_.equals("My Current Location"))
+			if (locationSpinner_.getSelectedItemPosition() == 0)
 				data.putExtra(EXTRA_LOCATION_IS_CURRENT, true);
 			else
 				data.putExtra(EXTRA_LOCATION_IS_CURRENT, false);
@@ -213,7 +211,7 @@ public class PositionActivity extends Activity {
 		// Set up some defaults that make sense
 		locationName_ = "My Current Position";
 		location_ = Constants.vandyCenter;
-		radius_ = 10000;
+		radius_ = 200;
 
 		// Get handles to all UI elements
 		locationSpinner_ = (Spinner) findViewById(R.id.SPIN_position_filter);
