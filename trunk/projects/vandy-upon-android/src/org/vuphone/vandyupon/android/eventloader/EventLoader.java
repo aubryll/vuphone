@@ -37,12 +37,6 @@ public class EventLoader extends Service {
 	/** Used to insert events into the database */
 	private DBAdapter database_ = null;
 
-	/** Used to instantiate this class and manually force an update */
-	public EventLoader(Context c) {
-		database_ = new DBAdapter(c);
-		database_.openWritable();
-	}
-
 	/** Called when the Service is first started */
 	@Override
 	public void onCreate() {
@@ -63,7 +57,7 @@ public class EventLoader extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		Log.i(tag, pre + "Starting the load - " + System.currentTimeMillis());
-		loadEvents(this);
+		loadEvents(database_, this);
 		Log.i(tag, pre + "Finished the load - " + System.currentTimeMillis());
 	}
 
@@ -78,8 +72,8 @@ public class EventLoader extends Service {
 	/**
 	 * Starts the EventRequestor and the EventHandler
 	 */
-	public void loadEvents(Context c) {
-		long time = database_.getLargestUpdatedTime();
+	protected static void loadEvents(DBAdapter openDatabase, Context c) {
+		long time = openDatabase.getLargestUpdatedTime();
 		ByteArrayOutputStream xmlResponse = EventRequestor.doEventRequest(
 				Constants.vandyCenter, 10000, time, c);
 
@@ -88,10 +82,10 @@ public class EventLoader extends Service {
 			return;
 		}
 
-		EventHandler handler = new EventHandler();
+		EventHandler handler = new EventHandler(openDatabase);
 
 		handler.processXML(new InputSource(new ByteArrayInputStream(xmlResponse
-				.toByteArray())), this);
+				.toByteArray())));
 
 	}
 
@@ -117,9 +111,9 @@ public class EventLoader extends Service {
 	 * @param serverId
 	 *            the unique, server-based id for this event
 	 */
-	protected void handleEvent(String name, double latitude, double longitude,
-			boolean owner, long startTime, long endTime, long updateTime,
-			long serverId) {
+	protected static void handleEvent(DBAdapter openDatabase, String name,
+			double latitude, double longitude, boolean owner, long startTime,
+			long endTime, long updateTime, long serverId) {
 		final int latE6 = (int) (latitude * 1E6);
 		final int lonE6 = (int) (longitude * 1E6);
 		final GeoPoint location = new GeoPoint(latE6, lonE6);
@@ -127,8 +121,8 @@ public class EventLoader extends Service {
 		int count = 0;
 
 		do {
-			handled = database_.insertOrUpdateEvent(name, startTime, endTime,
-					location, updateTime, owner, serverId);
+			handled = openDatabase.insertOrUpdateEvent(name, startTime,
+					endTime, location, updateTime, owner, serverId);
 			++count;
 			if (count > 1)
 				Log.w(tag, pre + "Database appears to be locked");
@@ -136,5 +130,11 @@ public class EventLoader extends Service {
 				Log.e(tag, pre + "Giving up on storing event");
 		} while (handled == false && count < 5);
 		Log.d(tag, pre + "Done handlng event");
+	}
+
+	public static void manualUpdate(Context c) {
+		DBAdapter db = new DBAdapter(c);
+		db.openWritable();
+		loadEvents(db, c);
 	}
 }

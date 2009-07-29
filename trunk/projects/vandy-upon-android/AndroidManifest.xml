@@ -26,7 +26,8 @@
 			android:theme="@android:style/Theme.Dialog" />
 
 		<!-- Used to start the loader service explicitly -->
-		<service android:name=".eventloader.EventLoader" />
+		<service android:name=".eventloader.EventLoader"
+			android:enabled="true" />
 
 	</application>
 	<uses-sdk android:minSdkVersion="3" />

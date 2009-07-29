@@ -3,6 +3,19 @@
  */
 package org.vuphone.vandyupon.android.filters;
 
+import java.util.ArrayList;
+
+import org.vuphone.vandyupon.android.Constants;
+import org.vuphone.vandyupon.android.viewevents.EventViewer;
+
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.google.android.maps.GeoPoint;
 
 /**
@@ -17,21 +30,184 @@ import com.google.android.maps.GeoPoint;
  * the support for trigonometric functions in the query. See
  * http://www.artfulsoftware.com/infotree/queries.php?&bw=1280#109 )
  * 
+ * This is the only Filter that is not strictly immutable, because of the
+ * possibility of it having to update itself when the user moves. If this is a
+ * problem for anyone using this filter, then they can register as a
+ * FilterChangedListener and receive a callback when this filter updates itself
+ * 
  * @author Hamilton Turner
  * 
  */
 public class PositionFilter {
 	/** Used for logging */
-	//private static final String tag = Constants.tag;
-	//private static final String pre = "PositionFilter: ";
+	private static final String tag = Constants.tag;
+	private static final String pre = "PositionFilter: ";
 
-	/** Hold the data */
-	private int lowerLat_;
-	private int lowerLon_;
-	private int upperLat_;
-	private int upperLon_;
+	/** Holds any listeners registered to this filter */
+	private ArrayList<FilterChangedListener> listeners_ = new ArrayList<FilterChangedListener>();
 
+	/** Hold the data. */
+	private GeoPoint bottomLeft_;
+	private GeoPoint topRight_;
+	private int radiusInFeet_;
+
+	/** Holds the time when we first requested GPS data */
+	private long gpsStartTime_;
+	
+	/** Used to fire Toast when GPS first locks */
+	private Context appContext_;
+
+	/** Receives GPS updates */
+	private LocationListener listener_ = new LocationListener() {
+
+		private boolean mentioned_ = false;
+
+		public void onLocationChanged(Location location) {
+			if (mentioned_ == false
+					&& location.getProvider().equals(
+							LocationManager.GPS_PROVIDER)) {
+				mentioned_ = true;
+				long endTime = System.currentTimeMillis();
+				int seconds = (int) ((double) (endTime - gpsStartTime_) / 1000);
+				Log.i(tag, pre + "GPS has fix! Took " + seconds + " seconds");
+				Toast.makeText(appContext_, "GPS has fix! Took " + seconds + " seconds",
+						Toast.LENGTH_SHORT).show();
+			}
+
+			if (shouldTerminate_)
+				manager_.removeUpdates(this);
+
+			updatePosition(location, radiusInFeet_);
+
+			for (FilterChangedListener list : listeners_)
+				list.filterChanged();
+		}
+
+		public void onProviderDisabled(String provider) {
+		}
+
+		public void onProviderEnabled(String provider) {
+		}
+
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+		}
+	};
+
+	/** Used to keep track of current location */
+	private LocationManager manager_;
+
+	/** Used to signal that the updates on this filter should terminate. */
+	private volatile boolean shouldTerminate_ = false;
+
+	/**
+	 * Initializes a PositionFilter that dynamically centers itself around the
+	 * current location
+	 */
+	public PositionFilter(int radiusInFeet, Context c) {
+		appContext_ = c.getApplicationContext();
+		manager_ = (LocationManager) c
+				.getSystemService(Context.LOCATION_SERVICE);
+
+		if (manager_.getProvider(LocationManager.GPS_PROVIDER) == null
+				&& manager_.getProvider(LocationManager.NETWORK_PROVIDER) == null) {
+			Log.e(tag, pre + "There is no GPS provider on this phone!");
+			Toast.makeText(c,
+					"No GPS Providers found," + " cannot use Current location",
+					Toast.LENGTH_LONG).show();
+		}
+
+		gpsStartTime_ = System.currentTimeMillis();
+		manager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+				listener_);
+		manager_.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
+				listener_);
+
+		Location last = manager_
+				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (last == null)
+			last = manager_
+					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+		if (last != null)
+			updatePosition(last, radiusInFeet);
+		else
+			updatePosition(Constants.vandyCenter, radiusInFeet);
+	}
+
+	/** Center the Filter statically around a certain position */
 	public PositionFilter(GeoPoint center, int radiusInFeet) {
+		updatePosition(center, radiusInFeet);
+	}
+
+	/** Returns the current bottom left */
+	public GeoPoint getBottomLeft() {
+		return bottomLeft_;
+	}
+
+	/** Get the lower of the two latitudes */
+	public long getLowerLatitude() {
+		return bottomLeft_.getLatitudeE6();
+	}
+
+	/** Get the lower of the two longitudes */
+	public long getLowerLongitude() {
+		return bottomLeft_.getLongitudeE6();
+	}
+
+	/** Returns the current top right */
+	public GeoPoint getTopRight() {
+		return topRight_;
+	}
+
+	/** Get the upper of the two latitudes */
+	public long getUpperLatitude() {
+		return topRight_.getLatitudeE6();
+	}
+
+	/** Get the upper of the two longitudes */
+	public long getUpperLongitude() {
+		return topRight_.getLongitudeE6();
+	}
+
+	/**
+	 * Adds a FilterChangedListener to be registered when this filter changes.
+	 * Note that this is only useful if this filter dynamically updates itself
+	 * (as in, it is keeping track of the users current location). For top-down
+	 * updates, when this filter is replaced entirely, there are other callback
+	 * methods in other classes (see {@link EventViewer}). This is for bottom-up
+	 * updates only
+	 */
+	public void registerListener(FilterChangedListener listener) {
+		listeners_.add(listener);
+		Log.i(tag, pre + "Added listener");
+	}
+
+	/**
+	 * Flags this filter to stop updating itself, if it is. If this is a current
+	 * location position filter, this will remove GPS updates, hopefully leaving
+	 * this filter unattached to anything and ready to be garbage collected. If
+	 * this is a static filter, this will do nothing
+	 */
+	public void stop() {
+		shouldTerminate_ = true;
+	}
+
+	/** Removes a previously added FilterChangedListener */
+	public void unregisterListener(FilterChangedListener listener) {
+		listeners_.remove(listener);
+	}
+
+	/** Helper method which converts the Location to a GeoPoint */
+	private void updatePosition(Location loc, int radiusInFeet) {
+		final GeoPoint geo = new GeoPoint((int) (loc.getLatitude() * 1E6),
+				(int) (loc.getLongitude() * 1E6));
+		updatePosition(geo, radiusInFeet);
+	}
+
+	/** Calculates the bounding box around the coordinates */
+	private void updatePosition(GeoPoint center, int radiusInFeet) {
+		Log.i(tag, pre + "Updating position to: " + center);
+		radiusInFeet_ = radiusInFeet;
 		double radiusInMeters = (double) radiusInFeet * 0.3048;
 
 		// I have no idea how these calculations work, but I copied them from a
@@ -73,29 +249,8 @@ public class PositionFilter {
 			throw new IllegalArgumentException(
 					"Lower Longitude cannot be >= Upper longitude");
 
-		lowerLat_ = lowerLat;
-		upperLat_ = upperLat;
-		lowerLon_ = lowerLon;
-		upperLon_ = upperLon;
+		topRight_ = new GeoPoint(upperLat, upperLon);
+		bottomLeft_ = new GeoPoint(lowerLat, lowerLon);
 	}
 
-	/** Get the lower of the two latitudes */
-	public long getLowerLatitude() {
-		return lowerLat_;
-	}
-
-	/** Get the lower of the two longitudes */
-	public long getLowerLongitude() {
-		return lowerLon_;
-	}
-
-	/** Get the upper of the two latitudes */
-	public long getUpperLatitude() {
-		return upperLat_;
-	}
-
-	/** Get the upper of the two longitudes */
-	public long getUpperLongitude() {
-		return upperLon_;
-	}
 }

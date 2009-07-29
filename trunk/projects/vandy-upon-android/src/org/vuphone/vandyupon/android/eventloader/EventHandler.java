@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.vuphone.vandyupon.android.Constants;
+import org.vuphone.vandyupon.android.eventstore.DBAdapter;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -56,8 +57,12 @@ public class EventHandler extends DefaultHandler {
 	private long serverId_;
 	private long lastUpdate_;
 
-	/** Receives callbacks whenever an event is ready to be processed */
-	private EventLoader loader_;
+	/** Passed to the Loader so it can insert events into the DB */
+	private DBAdapter database_;
+
+	public EventHandler(DBAdapter openDatabase) {
+		database_ = openDatabase;
+	}
 
 	/** Called every time a new element is entered */
 	@Override
@@ -92,8 +97,8 @@ public class EventHandler extends DefaultHandler {
 			throw new SAXException("Done processing");
 		else if (localname.trim().equalsIgnoreCase("Event")) {
 			// Fire callback here to store current event
-			loader_.handleEvent(name_, latitude_, longitude_, owner_,
-					startTime_, endTime_, lastUpdate_, serverId_);
+			EventLoader.handleEvent(database_, name_, latitude_, longitude_,
+					owner_, startTime_, endTime_, lastUpdate_, serverId_);
 		} else if (localname.trim().equalsIgnoreCase("Name"))
 			inName = false;
 		else if (localname.trim().equalsIgnoreCase("Lat"))
@@ -137,11 +142,10 @@ public class EventHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Given a source of XML, this parses it and calls the loader every time an
-	 * event is ready to be processed
+	 * Given a source of XML, this parses it and calls the static method
+	 * EventHandler.handleEvent() when an event is ready
 	 */
-	public void processXML(InputSource src, EventLoader loader) {
-		loader_ = loader;
+	public void processXML(InputSource src) {
 
 		// Create the reader
 		XMLReader xr = null;

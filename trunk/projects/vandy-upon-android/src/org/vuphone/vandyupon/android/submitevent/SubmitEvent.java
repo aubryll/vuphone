@@ -417,8 +417,7 @@ public class SubmitEvent extends Activity {
 					.toString(), startCalendar_, endCalendar_, location_,
 					descLabel_.getText().toString(), getApplicationContext());
 			if (posted) {
-				EventLoader loader = new EventLoader(this);
-				loader.loadEvents(this);
+				EventLoader.manualUpdate(this);
 
 				Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
 				finish();
