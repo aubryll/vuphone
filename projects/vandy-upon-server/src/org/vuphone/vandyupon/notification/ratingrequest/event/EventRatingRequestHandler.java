@@ -32,7 +32,7 @@ public class EventRatingRequestHandler implements NotificationHandler{
 	
 	private DataSource ds_;
 	
-	@Override
+	
 	public ResponseNotification handle(Notification n)
 			throws HandlerFailedException {
 		
