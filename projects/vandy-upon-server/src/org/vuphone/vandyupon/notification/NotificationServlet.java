@@ -24,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.vuphone.vandyupon.datamine.facebook.FaceBookLoginServlet;
 
 public class NotificationServlet extends HttpServlet {
 
@@ -50,7 +51,7 @@ public class NotificationServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	throws ServletException, IOException {
 		logger_.log(Level.FINER, "Query was " + req.getQueryString());
-
+		
 		Notification note = parsers_.get(req.getParameter("type")).parse(req);
 
 		if (note == null) {
@@ -86,7 +87,6 @@ public class NotificationServlet extends HttpServlet {
 		catch (HandlerFailedException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public Map<String, NotificationHandler> getHandlers() {

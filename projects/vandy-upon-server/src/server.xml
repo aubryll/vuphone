@@ -60,6 +60,9 @@
 		</property> <property name="url">
 		<value>jdbc:sqlite:vandyupon.db</value> </property> </bean>
 	-->
+	
+	<bean name="facebookLoginServlet" class="org.vuphone.vandyupon.datamine.facebook.FaceBookLoginServlet"/>
+	
 	<bean name="notificationServlet" class="org.vuphone.vandyupon.notification.NotificationServlet">
 		<property name="handlers">
 			<map>

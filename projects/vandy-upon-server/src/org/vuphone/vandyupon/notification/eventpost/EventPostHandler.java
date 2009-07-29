@@ -76,7 +76,7 @@ public class EventPostHandler implements NotificationHandler {
 
 	}
 
-	@Override
+
 	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 
 		if (!(n instanceof EventPost)){

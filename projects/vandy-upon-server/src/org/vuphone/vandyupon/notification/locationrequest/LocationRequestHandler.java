@@ -22,7 +22,7 @@ import org.vuphone.vandyupon.notification.ResponseNotification;
 
 public class LocationRequestHandler implements NotificationHandler {
 
-	@Override
+
 	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 		return null;
 	}
