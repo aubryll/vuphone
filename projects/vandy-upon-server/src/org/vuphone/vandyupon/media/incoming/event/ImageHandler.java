@@ -15,6 +15,7 @@
  **************************************************************************/
 package org.vuphone.vandyupon.media.incoming.event;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -142,8 +143,8 @@ public class ImageHandler implements NotificationHandler {
 			writer.close();
 			
 			// Scale the image down and save it
-			//BufferedImage img = ImageManipulator.scaleDown(imageFile);
-			//ImageManipulator.saveImage(img, miniFile);
+			BufferedImage img = ImageManipulator.scaleDown(imageFile);
+			ImageManipulator.saveImage(img, miniFile);
 			
 		} catch (IOException excp) {
 			logger_.log(Level.SEVERE, "Got an IOException: " + excp.getMessage());
