@@ -48,23 +48,31 @@ public class FaceBookLoginServlet extends HttpServlet {
     	String nextPage = request.getRequestURI();
     	nextPage = nextPage.substring(nextPage.indexOf("/", 1) + 1); //cut out the first /, the context path and the 2nd /
     	logger_.log(Level.SEVERE, nextPage); 
+		
     	boolean redirectOccurred = facebook.requireLogin(nextPage);
     	if(redirectOccurred) {
     		logger_.log(Level.SEVERE, "User needs to login");
     		return;
     	}
-    	redirectOccurred = facebook.requireFrame(nextPage);
+    	
+    	try {
+			String auth_token = userClient.auth_createToken();
+			userClient.auth_getSession(auth_token);
+		} catch (FacebookException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	/*redirectOccurred = facebook.requireFrame(nextPage);
     	if(redirectOccurred) {
     		logger_.log(Level.SEVERE, "Facebook requires frames so redirect occurred");
     		return;
     	}
-
+*/
     	long facebookUserID;
     	try {
     		logger_.log(Level.SEVERE, "got here");
-    		facebookUserID = userClient.users_getLoggedInUser();
-    		logger_.log(Level.SEVERE, "got here2");
-    		Document d = userClient.friends_get();
+    //		Document d = userClient.fql_query("SELECT name FROM event WHERE eid IN (SELECT eid FROM event WHERE event_type = 'Party')");
+    		Document d = userClient.fql_query("SELECT name FROM event WHERE eid IN (SELECT eid from event_member WHERE uid IN (SELECT uid2 FROM friend WHERE uid1=" + facebook.getUser() + "))");
     		logger_.log(Level.SEVERE, d.toString());
     	} catch(FacebookException ex) {
     		try {
