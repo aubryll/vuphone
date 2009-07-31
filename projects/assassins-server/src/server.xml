@@ -90,6 +90,18 @@
 					</key>
 					<ref bean="landMineRemoveHandler" />
 				</entry>
+				<entry>
+					<key>
+						<value>gameAreaGet</value>
+					</key>
+					<ref bean="gameAreaHandler" />
+				</entry>
+				<entry>
+					<key>
+						<value>gameAreaPost</value>
+					</key>
+					<ref bean="gameAreaPostHandler" />
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -114,4 +126,14 @@
 	</bean>
 	<bean name="landMineRemoveParser" class="org.vuphone.assassins.landmineremove.LandMineRemoveParser" />
 	
+	<bean name="gameAreaHandler" class="org.vuphone.assassins.gamearearequest.GameAreaHandler">
+		<property name ="parser" ref="gameAreaParser" />
+	</bean>
+	<bean name="gameAreaParser" class="org.vuphone.assassins.gamearearequest.GameAreaParser" />
+	
+	<bean name="gameAreaPostHandler" class="org.vuphone.assassins.gameareapost.GameAreaPostHandler">
+		<property name="parser" ref="gameAreaPostParser" />
+	</bean>
+	<bean name="gameAreaPostParser" class="org.vuphone.assassins.gameareapost.GameAreaPostParser" />
+	 
 </beans>
