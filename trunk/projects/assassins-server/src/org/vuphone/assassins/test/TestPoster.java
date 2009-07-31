@@ -9,11 +9,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.assassins.gamearearequest.ServerGameArea;
 import org.vuphone.assassins.landminerequest.LandMine;
 
 public class TestPoster {
 	
-	private static final String SERVER = "http://129.59.135.147:8080";
+	private static final String SERVER = "http://129.59.135.174:8080";
 	
 	private static final String PATH = "/assassins/notifications";
 	
@@ -85,9 +86,18 @@ public class TestPoster {
 		}
 	}
 	
+	/**
+	 * The game area has to be already created before you can use
+	 * this method.  It doesn't seem to work if you try to simulate
+	 * creating the game area from here.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		//double lat = 36.149 + (0.001 * Math.random());
 		//double lon = -86.800 + (0.001 * Math.random());
+		
+		// Note: The game area must already be set for this to work!
 		
 		// This puts a land mine in the middle of the parking lot
 		// between ISIS and 21st.

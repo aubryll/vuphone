@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.assassins.landminerequest;
+package org.vuphone.assassins.gamearearequest;
 
 import org.vuphone.assassins.notification.Notification;
 
 /**
- * This class represents a container for information related to a land mine
+ * This class represents a container for information related to a game area
  * notification.
  * 
  * @author Chris Thompson
  * 
  */
-public class LandMineRequestNotification extends Notification {
+public class GameAreaNotification extends Notification {
 
 	private String response_;
 
-	public LandMineRequestNotification() {
-		super("landMineGet");
+	public GameAreaNotification() {
+		super("gameAreaGet");
 
 	}
 

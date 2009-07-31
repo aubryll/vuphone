@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package org.vuphone.assassins.landmineremove;
+package org.vuphone.assassins.gamearearequest;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,28 +24,24 @@ import org.vuphone.assassins.notification.InvalidFormatException;
 
 /**
  * This class is used to convert generic notification objects into
- * LandMineNotification objects.
+ * GameAreaNotification objects.
  * 
  * @author jules
  * 
  */
-public class LandMineRemoveParser {
-	private Logger log_ = Logger.getLogger(LandMineRemoveParser.class.getName());
+public class GameAreaParser {
+	private Logger log_ = Logger.getLogger(GameAreaParser.class.getName());
 
-	public LandMineRemoveNotification getLandMine(HttpServletRequest request)
+	public GameAreaNotification getGameArea(HttpServletRequest request)
 			throws InvalidFormatException {
 
 		// Create an AccidentNotification
-		LandMineRemoveNotification lmn = null;
+		GameAreaNotification lmn = null;
 		try {
-			log_.log(Level.FINE, "Processing accident notification");
-			lmn = new LandMineRemoveNotification();
-			lmn.setLatitude(Double.parseDouble(request.getParameter("lat")));
-			log_.log(Level.FINER, "Latitude: " + lmn.getLatitude());
-			lmn.setLongitude(Double.parseDouble(request.getParameter("lon")));
-			log_.log(Level.FINER, "Longitude: " + lmn.getLongitude());
+			log_.log(Level.FINE, "Processing game area notification");
+			lmn = new GameAreaNotification();
 			lmn.setRequest(request);
-			log_.log(Level.FINEST, "Request: " + request.toString());
+			log_.log(Level.FINEST, "Reuest: " + request.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 

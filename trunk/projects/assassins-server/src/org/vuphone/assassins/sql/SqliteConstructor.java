@@ -27,6 +27,12 @@ public class SqliteConstructor implements DatabaseConstructor {
 		Connection db = ds.getConnection();
 		db.setAutoCommit(false);
 
+		/**
+		 * This table is not currently used, but it probably will
+		 * be used in the future to store the list of people currently
+		 * in the game or something like that, so I left it in the
+		 * table definitions.
+		 */
 		String sql = "CREATE TABLE IF NOT EXISTS People ( "
 				+ "id INTEGER PRIMARY KEY ,"
 				+ "AndroidID VARCHAR(20)," + "PhoneNumber VARCHAR(15),"
