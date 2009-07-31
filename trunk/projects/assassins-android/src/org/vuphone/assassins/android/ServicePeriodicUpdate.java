@@ -27,6 +27,14 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * This service will periodically ask the server for any updates to
+ * game objects.  Right now it just asks for new land mines, but
+ * if there are any other objects that all users need to be aware of
+ * later, this is where the individual user should ask for them.
+ * 
+ * @author Scott Campbell
+ */
 public class ServicePeriodicUpdate extends Service {
 
 	/** The time in milliseconds between updates */

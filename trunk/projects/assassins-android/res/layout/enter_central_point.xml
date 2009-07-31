@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="wrap_content"
+  	android:layout_height="wrap_content"
+  	android:orientation="vertical" >
+  	
+  	<TextView android:id="@+id/point_big_title" android:text="Enter your point"
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:layout_gravity="center_horizontal" android:textSize="30px" 
+ 		android:layout_marginTop="20px" android:layout_marginBottom="20px"/>
+ 		
+ 	<TextView android:id="@+id/point_lat_msg" 
+ 		android:text="Enter the latitude of your point, using (-) for degrees S."
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="15px" android:layout_marginLeft="20px" 
+ 		android:layout_marginRight="20px"/>
+ 		
+ 	<EditText android:id="@+id/point_entered_lat"
+   		android:layout_width="fill_parent" android:layout_height="wrap_content"
+   		android:layout_marginLeft="20px" android:layout_marginRight="20px" 
+   		android:inputType="numberSigned|numberDecimal" />
+   		
+   	<TextView android:id="@+id/point_lon_msg" 
+ 		android:text="Enter the longitude of your point, using (-) for degrees W."
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="15px" android:layout_marginLeft="20px" 
+ 		android:layout_marginRight="15px" android:layout_marginTop="30px" />
+ 		
+ 	<EditText android:id="@+id/point_entered_lon"
+   		android:layout_width="fill_parent" android:layout_height="wrap_content"
+   		android:layout_marginLeft="20px" android:layout_marginRight="20px" 
+   		android:inputType="numberSigned|numberDecimal" 
+   		android:layout_marginBottom="30px" />
+   		
+   	<Button android:id="@+id/point_submit"
+   		android:text="Submit " android:layout_width="wrap_content"
+   		android:layout_height="wrap_content" android:textSize="20px"
+   		android:layout_gravity="center_horizontal" android:padding="15px" />
+  	
+</LinearLayout>

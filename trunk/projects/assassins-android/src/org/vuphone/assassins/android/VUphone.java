@@ -28,5 +28,11 @@ public class VUphone {
 	 */
 	public static final String tag = "VUPHONE:ASSASSINS";
 	
-	public static final String SERVER = "http://129.59.135.147:8080";
+	public static final String SERVER = "http://129.59.135.163:8080";
+	
+	/**
+	 * This flag will tell whether the user has entered the playing area,
+	 * as defined in the GameArea class, or not.
+	 */
+	public static boolean IN_GAME_AREA = false;
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent"
+  	android:orientation="vertical">
+  
+  	<TextView android:id="@+id/entry_big_title" android:text="Game On!"
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:layout_gravity="center_horizontal" android:textSize="30px" 
+ 		android:layout_marginTop="20px"/>
+ 		
+ 	<TextView android:id="@+id/entry_main_message" 
+ 		android:text="You have entered the playing area of the Assassins Game!"
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="20px" android:layout_margin="20px" />
+ 		
+ 	<Button android:id="@+id/entry_ok_button" android:text="Okay"
+	 	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	 	android:textSize="20px" android:padding="15px" 
+	 	android:layout_gravity="center_horizontal" />
+	 	
+	 <TextView android:id="@+id/entry_small_message" 
+	 	android:text="You can now kill other players and be killed by them." 
+	 	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	 	android:textSize="15px" android:layout_margin="20px" />
+ 		
+</LinearLayout>

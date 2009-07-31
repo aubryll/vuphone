@@ -29,6 +29,13 @@ import org.vuphone.assassins.android.landmine.LandMine;
 
 import android.util.Log;
 
+/**
+ * This class is responsible for all Post requests to the Assassins server.
+ * It is assumed that most calls to these methods will be threaded, since
+ * they can take a long time to return.
+ * 
+ * @author Scott Campbell
+ */
 public class HTTPPoster {
 	
 	private static final String pre = "HTTPPoster: ";
@@ -82,6 +89,42 @@ public class HTTPPoster {
 		StringBuffer params = new StringBuffer();
 		params.append("type=landMineRemove&lat="+lm.getLatitude()+
 				"&lon="+lm.getLongitude());
+		
+		Log.v(VUphone.tag, pre + "Created parameter string: "+params);
+		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
+
+		// Do it
+		Log.i(VUphone.tag, pre + "Executing post to " + VUphone.SERVER + PATH);
+		
+		HttpResponse resp = null;
+		try {
+			resp = c.execute(post);
+			ByteArrayOutputStream bao = new ByteArrayOutputStream();
+			resp.getEntity().writeTo(bao);
+			Log.d(VUphone.tag, pre + "Response from server: "
+					+ new String(bao.toByteArray()));					
+		} catch (ClientProtocolException e) {
+			Log.e(VUphone.tag, pre+"ClientProtocolException executing post: "
+					+ e.getMessage());
+		} catch (IOException e) {
+			Log.e(VUphone.tag, pre 
+					+ "IOException writing to ByteArrayOutputStream: "
+					+ e.getMessage());
+		} catch (Exception e) {
+			Log.e(VUphone.tag, pre + "Other Exception of type:" 
+					+ e.getClass());
+			Log.e(VUphone.tag, pre + "The message is: "
+					+ e.getMessage());
+		}
+	}
+	
+	public static void doGameAreaPost(double lat, double lon, float rad) {
+		final HttpPost post = new HttpPost(VUphone.SERVER + PATH);
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		
+		StringBuffer params = new StringBuffer();
+		params.append("type=gameAreaPost&lat="+lat+
+				"&lon="+lon+"&radius="+rad);
 		
 		Log.v(VUphone.tag, pre + "Created parameter string: "+params);
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));

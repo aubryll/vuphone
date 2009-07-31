@@ -27,6 +27,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+/**
+ * This Activity should be displayed to the user whenever the die by any
+ * means possible in the game.  It has a TextView that will tell them
+ * something about how they died.  Right now, only deaths by land mine are
+ * supported.
+ * 
+ * @author Scott Campbell
+ */
 public class ActivityDeathNotice extends Activity{
 	
 	private String pre = "ActivityDeathNotice: ";

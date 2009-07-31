@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  	xmlns:android="http://schemas.android.com/apk/res/android"
+  	android:layout_width="fill_parent"
+  	android:layout_height="wrap_content"
+  	android:orientation="vertical">
+  	
+  	<TextView android:id="@+id/godfather_big_title" android:text="Create the Game"
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:layout_gravity="center_horizontal" android:textSize="30px" 
+ 		android:layout_marginTop="20px" android:layout_marginBottom="20px"/>
+ 		
+ 	<TextView android:id="@+id/godfather_location_chooser" 
+ 		android:text="Choose a location to be the center of the playing area."
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="15px" android:layout_marginLeft="20px" />
+ 		
+ 	<RadioGroup
+  		android:layout_width="fill_parent"
+  		android:layout_height="wrap_content"
+  		android:layout_marginLeft="20px"
+  		android:orientation="vertical">
+  
+  		<RadioButton android:id="@+id/godfather_radio_fgh"
+      		android:layout_width="wrap_content"
+      		android:layout_height="wrap_content"
+      		android:text="Featheringill Hall" />
+  
+  		<RadioButton android:id="@+id/godfather_radio_isis"
+      		android:layout_width="wrap_content"
+      		android:layout_height="wrap_content"
+      		android:text="ISIS" />
+      		
+      	<RadioButton android:id="@+id/godfather_radio_other"
+      		android:layout_width="wrap_content"
+      		android:layout_height="wrap_content"
+      		android:text="Other" />
+  
+	</RadioGroup>	
+	
+	<TextView android:id="@+id/godfather_radius_chooser" 
+ 		android:text="Enter a radius to define the playing area."
+ 		android:layout_width="wrap_content" android:layout_height="wrap_content"
+ 		android:textSize="15px" android:layout_marginLeft="20px" 
+ 		android:layout_marginTop="20px"/>
+ 		
+ 	<EditText
+    	android:id="@+id/godfather_edit_radius"
+   		android:layout_width="fill_parent" android:layout_height="wrap_content"
+   		android:layout_marginLeft="20px" android:layout_marginRight="20px" 
+   		android:inputType="numberDecimal" /> <!-- android:digits="0123456789."/>-->
+   		
+   	<Button
+   		android:id="@+id/godfather_submit"
+   		android:text="Submit " android:layout_width="wrap_content"
+   		android:layout_height="wrap_content" android:textSize="20px"
+   		android:layout_gravity="center_horizontal" android:padding="15px" />
+   		
+   	<!--  <android.inputmethodservice.Keyboard
+   		android:keyWidth="10%p"
+        android:keyHeight="50px"
+        android:horizontalGap="2px"
+        android:verticalGap="2px" >
+        <Row android:keyWidth="32px" >
+        	<Key android:keyLabel="0" />
+			<Key android:keyLabel="1" />
+			<Key android:keyLabel="2" />
+			<Key android:keyLabel="3" />
+			<Key android:keyLabel="4" />
+		</Row>
+		<Row android:keyWidth="32px" >
+			<Key android:keyLabel="5" />
+			<Key android:keyLabel="6" />
+			<Key android:keyLabel="7" />
+			<Key android:keyLabel="8" />
+			<Key android:keyLabel="9" />
+			<Key android:keyLabel="." />
+     	</Row>
+   	</android.inputmethodservice.Keyboard>
+ 		-->
+  	
+</LinearLayout>

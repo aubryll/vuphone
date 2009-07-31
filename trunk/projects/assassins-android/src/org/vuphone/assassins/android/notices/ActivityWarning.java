@@ -24,6 +24,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+/**
+ * This Activity is called to warn the user of their impending death
+ * by any means possible in the game.  It has a TextView that can be 
+ * configured to display what the warning is about.  Right now, it 
+ * only warns them about nearby land mines.
+ * 
+ *  @author Scott Campbell
+ */
 public class ActivityWarning extends Activity{
 	
 	private String pre = "ActivityWarning: ";

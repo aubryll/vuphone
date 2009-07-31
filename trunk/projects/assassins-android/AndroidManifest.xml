@@ -5,6 +5,7 @@
 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name">
 
@@ -12,6 +13,14 @@
 
 		<activity android:name=".landmine.ActivityCreateLandMine"
 			android:label="Assassins">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		
+		<activity android:name=".godfather.ActivityGodfather"
+			android:label="Godfather" android:screenOrientation="portrait">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -25,6 +34,18 @@
 		
 		<activity android:name=".notices.ActivityWarning" android:label="Warning"
 			android:screenOrientation="portrait">
+		</activity>
+		
+		<activity android:name=".notices.ActivityGameEntry" android:label="Assassins"
+			android:screenOrientation="portrait">
+		</activity>
+		
+		<activity android:name=".godfather.ActivityChoosePlayers" 
+			android:label="Godfather" android:screenOrientation="portrait">
+		</activity>
+		
+		<activity android:name=".godfather.ActivityEnterCentralPoint"
+			android:label="Godfather" android:screenOrientation="portrait">
 		</activity>
 		
 		<service android:name=".ServicePeriodicUpdate" />
