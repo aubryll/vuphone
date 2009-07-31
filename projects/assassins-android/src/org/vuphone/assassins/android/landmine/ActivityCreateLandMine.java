@@ -15,8 +15,10 @@
  ******************************************************************************/
 package org.vuphone.assassins.android.landmine;
 
+import org.vuphone.assassins.android.GameArea;
 import org.vuphone.assassins.android.GameObjects;
 import org.vuphone.assassins.android.R;
+import org.vuphone.assassins.android.ServicePeriodicUpdate;
 import org.vuphone.assassins.android.VUphone;
 import org.vuphone.assassins.android.http.HTTPPoster;
 
@@ -33,6 +35,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * This class is the one that should be called whenever the user indicates
+ * that he wants to create a land mine.  Right now, it is also the main
+ * launcher for the Assassins application, but this should change in the
+ * future as more functionality is added.
+ * 
+ * @author Scott Campbell
+ */
 public class ActivityCreateLandMine extends Activity implements OnClickListener{
 	
 	Button createMine_;
@@ -91,15 +101,35 @@ public class ActivityCreateLandMine extends Activity implements OnClickListener{
 		
 		activatedMessage_ = (TextView) findViewById(R.id.activated_message);
 		
-		/**
-		 * The following code needs to be called to start the updater
-		 * Service whenever the application is first started.  Right
-		 * now, this is the main launcher activity, but if that changes
-		 * this code will need to go in the new main launcher activity.
-		 */
-		Intent i = new Intent(this, 
-				org.vuphone.assassins.android.ServicePeriodicUpdate.class);
-		startService(i);
+		if (!VUphone.IN_GAME_AREA) {
+			String msg = "You must enter the playing area before you can " +
+					"create a land mine.  Enter the playing area and restart" +
+					" this application to try again.";
+			activatedMessage_.setText(msg);
+			createMine_.setVisibility(View.INVISIBLE);
+		}
+		
+		new Thread(new Runnable() {
+			public void run() {
+				/**
+				 * The following code needs to be called to start the updater
+				 * Service whenever the application is first started.  Right
+				 * now, this is the main launcher activity, but if that changes
+				 * this code will need to go in the new main launcher activity.
+				 */
+				Intent i = new Intent(ActivityCreateLandMine.this, 
+						ServicePeriodicUpdate.class);
+				startService(i);
+				/**
+				 * The following code to initialize the game area needs to be
+				 * in the activity where an individual player registers for 
+				 * the game.
+				 */
+				GameArea.getInstance().activate(ActivityCreateLandMine.this);
+				Log.i(VUphone.tag, pre + "Done starting the periodic updater" +
+						" and retrieving and activating the game area.");
+			}
+		}, "InitialGameSetup").start();
 	}
 
 	@Override

@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.vuphone.assassins.android.landmine;
 
+import org.vuphone.assassins.android.MarkedArea;
 import org.vuphone.assassins.android.VUphone;
 import org.vuphone.assassins.android.notices.ActivityDeathNotice;
 import org.vuphone.assassins.android.notices.ActivityWarning;
@@ -25,7 +26,13 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.util.Log;
 
-public class LandMine {
+/**
+ * This class encapsulates the data necessary to represent a land mine.
+ * It can be activated or deactivated and contains two warning levels.
+ * 
+ * @author Scott Campbell
+ */
+public class LandMine implements MarkedArea{
 
 	private double latitude_;
 	private double longitude_;
