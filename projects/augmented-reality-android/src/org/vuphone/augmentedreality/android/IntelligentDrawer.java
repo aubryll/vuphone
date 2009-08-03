@@ -19,7 +19,6 @@ package org.vuphone.augmentedreality.android;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -27,22 +26,32 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
+
 // TODO - Z ordering
 public class IntelligentDrawer implements ARDrawer {
 
-	private final Paint paint_;
+	private final Paint whitePaint_;
+	private final Paint blackPaint_;
+	
 	private ARSensors sensor_;
 
 	private final ArrayList<ARObject> objList_ = new ArrayList<ARObject>();
 	private Context context_;
-	
+
 	public float azimuth;
-	
 
 	public IntelligentDrawer(Context context) {
 		context_ = context.getApplicationContext();
-		paint_ = new Paint();
-		paint_.setColor(Color.WHITE);
+		
+		whitePaint_ = new Paint();
+		whitePaint_.setColor(Color.WHITE);
+		whitePaint_.setTextSize(12);
+		
+		blackPaint_ = new Paint();
+		blackPaint_.setColor(Color.BLACK);
+		blackPaint_.setTextSize(12);
+		blackPaint_.setStrokeWidth(3);
+		
 		sensor_ = ARSensors.getInstance(context_);
 
 		Location isis = new Location(LocationManager.GPS_PROVIDER);
@@ -50,7 +59,7 @@ public class IntelligentDrawer implements ARDrawer {
 		isis.setLongitude(-86.799634);
 		sensor_.setMockLocation(isis);
 	}
-	
+
 	public void addObject(ARObject obj) {
 		objList_.add(obj);
 	}
@@ -82,15 +91,17 @@ public class IntelligentDrawer implements ARDrawer {
 		// Process the points.
 		float[][] basis = ARCalculator.getBasis(azimuth, data[1]);
 		Location pt = new Location(LocationManager.GPS_PROVIDER);
-		
+
 		for (int i = 0; i < objList_.size(); i++) {
 			ARObject object = objList_.get(i);
-			
+
 			pt.setLatitude(object.getLatitude());
 			pt.setLongitude(object.getLongitude());
-			float[] offset = ARCalculator.getPointVector(sensor_.getLocation(), pt);
-			
+			float[] offset = ARCalculator.getPointVector(sensor_.getLocation(),
+					pt);
+
 			float[] ptVector = ARCalculator.getLinearCombination(basis, offset);
+			drawVector(canvas, ptVector, i);
 
 			float depth = ptVector[2];
 			// Don't bother drawing if object is closer than 1 meter.
@@ -104,7 +115,7 @@ public class IntelligentDrawer implements ARDrawer {
 			float maxUp = ARCalculator.getVerticalSpan(25, depth);
 
 			if (Math.abs(up) <= maxUp && Math.abs(right) <= maxRight) {
-				drawString(canvas, "Point in view", 250, 0);
+				//drawString(canvas, "Point in view", 250, 0);
 
 				float offsetX = w / 2 * (right / maxRight);
 				float offsetY = h / 2 * (up / maxUp);
@@ -112,61 +123,25 @@ public class IntelligentDrawer implements ARDrawer {
 				float x = w / 2 + offsetX;
 				float y = h / 2 - offsetY;
 
-
-				// Log.v("AndroidTests", "Creating bitmap " + imgW + ", " +
-				// imgH);
-
-
-				float scale;
-				
-				if (object.shouldScale()) {
-					scale = object.getDefaultDistance() / -depth;	
-				} else
-					scale = 1;
-
-				int imgW = (int) (object.getImageWidth() * scale);
-				int imgH = (int) (object.getImageHeight() * scale);
-
-				Bitmap bmp = Bitmap.createBitmap(imgW, imgH, Bitmap.Config.ARGB_8888);
-				Canvas objectCanvas = new Canvas(bmp);
-				objectCanvas.scale(scale, scale);					
-				object.draw(objectCanvas);
-
-				canvas.drawBitmap(bmp, x, y, paint_);
-				canvas.drawText(object.getMetaData(), x, y + paint_.getTextSize(), paint_);
-
-				// canvas.drawCircle(x, y, 10, paint_);
-				// canvas.drawRect(x, y, x + 50, y + 20, paint_);
+				canvas.drawCircle(x, y, 10, whitePaint_);
 			}
-
-			drawVector(canvas, ptVector, i);
 		}
 
-		String str = "Azimuth: " + azimuth;
-		drawString(canvas, str, 0, 0);
-		str = "Pitch: " + sensor_.getOrientation()[1];
-		drawString(canvas, str, 0, 45);
-		drawMatrix(canvas, basis);
+		drawBasisMatrix(canvas, basis);
 
 		Location loc = sensor_.getLocation();
 		if (loc == null)
 			return;
-
-		str = "Location: " + loc.getLatitude() + ", " + loc.getLongitude()
-				+ ", " + loc.getAltitude() + " | " + loc.getAccuracy();
-		drawString(canvas, str, 0, (int) paint_.getTextSize());
+		
+		drawStatus(canvas, new float[]{0, 0, 0}, loc);
 	}
 
 	private void drawCrosshair(final Canvas canvas, int w, int h) {
-		paint_.setStrokeWidth(3);
-		paint_.setColor(Color.BLACK);
-		canvas.drawLine(0, h / 2, w, h / 2, paint_);
-		canvas.drawLine(w / 2, 0, w / 2, h, paint_);
+		canvas.drawLine(0, h / 2, w, h / 2, blackPaint_);
+		canvas.drawLine(w / 2, 0, w / 2, h, blackPaint_);
 
-		paint_.setStrokeWidth(1);
-		paint_.setColor(Color.WHITE);
-		canvas.drawLine(0, h / 2, w, h / 2, paint_);
-		canvas.drawLine(w / 2, 0, w / 2, h, paint_);
+		canvas.drawLine(0, h / 2, w, h / 2, whitePaint_);
+		canvas.drawLine(w / 2, 0, w / 2, h, whitePaint_);
 
 		float centerX = w / 2f;
 		float centerY = h / 2f;
@@ -175,81 +150,84 @@ public class IntelligentDrawer implements ARDrawer {
 
 		for (float x = startX; x < w; x += 50) {
 			for (float y = startY; y < h; y += 50) {
-				paint_.setColor(Color.BLACK);
-				canvas.drawCircle(x, y, 3, paint_);
-				paint_.setColor(Color.WHITE);
-				canvas.drawCircle(x, y, 2, paint_);
+				canvas.drawCircle(x, y, 3, blackPaint_);
+				canvas.drawCircle(x, y, 2, whitePaint_);
 			}
 		}
 
 	}
 
-	private void drawString(final Canvas canvas, final String str, int x, int y) {
-		Rect r = new Rect();
-		paint_.setColor(Color.BLACK);
-		paint_.getTextBounds(str, 0, str.length(), r);
-		r.offsetTo(x, y);
-		r.set(r.left, r.top, r.right, r.top + (int) paint_.getTextSize() + 2);
-		canvas.drawRect(r, paint_);
+	private void drawStatus(final Canvas canvas, final float[] o, final Location l) {
+		String loc = l.getLatitude() + ", " + l.getLongitude() + ", " + l.getAltitude();
+		String or = o[0] + ", " + o[1] + ", " + o[2];
+		
+		String noLoc = "Acquiring location";
+		String noOr = "Acquiring orientation";
+		Rect bounds = new Rect();
+		
+		boolean isLoc = true, isOr = true;
+		
+		int sWidth = canvas.getHeight();
+		int sHeight = canvas.getWidth();
+		
+		int locWidth, orWidth;
+		String str;
+		str = isLoc ? loc : noLoc;
+		
+		whitePaint_.getTextBounds(str, 0, str.length(), bounds);
+		locWidth = bounds.width();
 
-		paint_.setColor(Color.WHITE);
-		canvas.drawText(str, x, y + paint_.getTextSize(), paint_);
+		str = isOr ? or : noOr;
+		whitePaint_.getTextBounds(str, 0, str.length(), bounds);
+		orWidth = bounds.width();
+
+		int width = Math.max(orWidth, locWidth);
+		int height = (int) whitePaint_.getTextSize() * 2;
+		canvas.drawRect(sWidth - width, sHeight - height, sWidth, sHeight, blackPaint_);
+		
+		canvas.drawText(isLoc ? loc : noLoc, sWidth - locWidth, sHeight - whitePaint_.getTextSize(), whitePaint_);
+		canvas.drawText(isOr ? or : noOr, sWidth - orWidth, sHeight, whitePaint_);
 	}
 
-	private void drawVector(final Canvas canvas, final float[] v, int c) {
+	private void drawBasisMatrix(final Canvas canvas, final float[][] m) {
 		Rect bounds = new Rect();
-		paint_.getTextBounds("0.123", 0, 5, bounds);
+		whitePaint_.getTextBounds("0.123", 0, 5, bounds);
 		int padding = 5;
 		int width = Math.abs(bounds.width()) + padding;
-		int height = (int) paint_.getTextSize() + padding;
+		int height = (int) whitePaint_.getTextSize() + padding;
 
-		int startX = 0 + c * width;
-		int startY = canvas.getWidth() - 2 * height;
+		int startX = padding;
+		int startY = height;
 
-		paint_.setColor(Color.BLACK);
-		canvas.drawRect(startX - padding, startY - height, startX + width,
-				canvas.getWidth(), paint_);
-		paint_.setColor(Color.WHITE);
-
-		for (int r = 0; r < 3; r++) {
-			String value = "" + v[r];
-			if (value.length() > 4)
-				value = value.substring(0, 5);
-			canvas.drawText(value, startX, startY + r * height, paint_);
-		}
-	}
-
-	private void drawMatrix(final Canvas canvas, final float[][] m) {
-		Rect bounds = new Rect();
-		paint_.getTextBounds("0.123", 0, 5, bounds);
-		int padding = 5;
-		int width = Math.abs(bounds.width()) + padding;
-		int height = (int) paint_.getTextSize() + padding;
-
-		int startX = canvas.getHeight() - 3 * width + padding - 2;
-		int startY = canvas.getWidth() - 2 * height;
-
-		paint_.setColor(Color.BLACK);
-		canvas.drawRect(startX - padding, startY - height, canvas.getHeight(),
-				canvas.getWidth(), paint_);
-		paint_.setColor(Color.WHITE);
-
+		canvas.drawRect(startX, startY - width, startX + 3 * width, startY + 2 * height, blackPaint_);
+		
 		for (int r = 0; r < 3; r++) {
 			for (int c = 0; c < 3; c++) {
-				String value = "" + m[c][r];
+				float val = ((int) (m[c][r] * 1000) / 1000f);
+				String value = "" + val;
 				if (value.length() > 4)
 					value = value.substring(0, 5);
 				canvas.drawText(value, startX + c * width, startY + r * height,
-						paint_);
+						whitePaint_);
 			}
 		}
 	}
 
+	private void drawVector(final Canvas canvas, final float[] v, int i) {
+  		String str = "{" + ((int) (v[0] * 100)) / 100f + ", " + ((int) (v[1] * 100)) / 100f + ", " + ((int) (v[2] * 100)) / 100f + "}";
+		Rect bounds = new Rect();
+		whitePaint_.getTextBounds(str, 0, str.length(), bounds);
+		
+		int bottom = canvas.getWidth() - (int) whitePaint_.getTextSize() * i;
+		
+		canvas.drawRect(0, bottom - whitePaint_.getTextSize(), bounds.width(), bottom, blackPaint_);
+		canvas.drawText(str, 0, bottom, whitePaint_); 
+	}
+	
 	@Override
 	public void surfaceReady(int width, int height) {
 	}
 
-	
 	@Override
 	public void pause() {
 		sensor_.finish();
