@@ -46,7 +46,7 @@ public class AugmentedReality extends Activity {
 		drawer_.addObject(north);
 		drawer_.addObject(east);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
