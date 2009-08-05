@@ -133,7 +133,7 @@ public class IntelligentDrawer implements ARDrawer {
 		if (loc == null)
 			return;
 		
-		drawStatus(canvas, new float[]{0, 0, 0}, loc);
+		drawStatus(canvas, sensor_.getOrientation(), loc);
 	}
 
 	private void drawCrosshair(final Canvas canvas, int w, int h) {
@@ -214,7 +214,7 @@ public class IntelligentDrawer implements ARDrawer {
 	}
 
 	private void drawVector(final Canvas canvas, final float[] v, int i) {
-  		String str = "{" + ((int) (v[0] * 100)) / 100f + ", " + ((int) (v[1] * 100)) / 100f + ", " + ((int) (v[2] * 100)) / 100f + "}";
+  		String str = i + ": {" + ((int) (v[0] * 100)) / 100f + ", " + ((int) (v[1] * 100)) / 100f + ", " + ((int) (v[2] * 100)) / 100f + "}";
 		Rect bounds = new Rect();
 		whitePaint_.getTextBounds(str, 0, str.length(), bounds);
 		

@@ -27,27 +27,40 @@ import android.util.Log;
 
 public class SensorActivity extends Activity implements SensorEventListener {
 
-    float[] R = new float[16];
-    float[] outR = new float[16];
-    float[] I = new float[16];
-    float[] values = new float[3];
+    float azimuth;
+    long time;
     
-    float[] accelVals;
-    float[] magVals;
-
-    Sensor accel, mag;
-	
+    @Override
+    public void onDestroy() {
+    	super.onDestroy();
+    	((SensorManager) getSystemService(Context.SENSOR_SERVICE)).unregisterListener(this);
+    }
+    
 	@Override
 	public void onCreate(Bundle b) {
 		super.onCreate(b);
 		SensorManager man = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		
-		accel = man.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		mag = man.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+		Sensor orientation = man.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 		
-		man.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL);
-		man.registerListener(this, mag, SensorManager.SENSOR_DELAY_NORMAL);
+		man.registerListener(this, orientation, SensorManager.SENSOR_DELAY_NORMAL);
+		
+		FIRAngleFilter filter = new FIRAngleFilter(5);
+		for (int i = 0; i < 5; i++)
+			filter.add(i);
+		Log.v("AndroidTests", filter.toString());
+		Log.v("AndroidTests", filter.dump());
+		
+		
+		for (int i = 5; i < 7; i++)
+			filter.add(i);
+		Log.v("AndroidTests", filter.toString());
+		Log.v("AndroidTests", filter.dump());		
 	}
+	//Fastest ~ 20ms
+	//Normal ~ 200ms
+	//Game ~ 40ms
+	//UI ~ 80ms
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -55,22 +68,13 @@ public class SensorActivity extends Activity implements SensorEventListener {
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if (event.sensor.equals(accel)) {
-			accelVals = event.values;
-		} else if (event.sensor.equals(mag)) {
-			magVals = event.values;
-		}
-		
-		if (accelVals == null || magVals == null)
+		if (event.values == null)
 			return;
 		
-		SensorManager.getRotationMatrix(R, I, accelVals, magVals);
-
-        SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_X, SensorManager.AXIS_Z, outR);
-        SensorManager.getOrientation(outR, values);
-        
-        float angle = values[0] * 180f / (float) Math.PI;
-        Log.v("AndroidTests", "Orientation: " + angle);
-
+		long delta = (event.timestamp - time) / 1000000; // ms
+		time = event.timestamp;
+		
+		azimuth = event.values[0];
+        Log.v("AndroidTests", "Orientation: " + azimuth + " TimeDelta: " + delta);
 	}	
 }
