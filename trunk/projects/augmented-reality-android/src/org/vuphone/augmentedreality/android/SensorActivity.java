@@ -29,7 +29,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,6 +40,8 @@ public class SensorActivity extends Activity {
 	private class GraphView extends View implements SensorEventListener {
 		private static final float FONT_SIZE = 12;
 
+		private FIRAngleFilter filter_ = new FIRAngleFilter(75);
+		
 		private Paint paint_ = new Paint();
 		private Canvas canvas_ = new Canvas();
 		private Bitmap bitmap_;
@@ -55,7 +56,9 @@ public class SensorActivity extends Activity {
 		
 		private float scaleX_, scaleY_;
 		
-		private float[] data_ = new float[domain_];
+		private int[] color_ = {Color.WHITE, Color.RED};
+		private int[] stroke_ = {1, 3};
+		private float[][] data_ = new float[2][domain_];
 		private int dataIndex_ = 0;
 		
 		private float rawAngle_;
@@ -100,7 +103,7 @@ public class SensorActivity extends Activity {
 		}
 		
 		private void calculateScales() {
-			scaleY_ =(float) graphArea_.height() / range_;
+			scaleY_ = (float) graphArea_.height() / range_;
 			scaleX_ = (float) graphArea_.width() / domain_;
 		}
 		
@@ -120,20 +123,22 @@ public class SensorActivity extends Activity {
 		
 		private void drawAngle(int x) {
 			synchronized (this) {
-				float stopX = graphArea_.left + x * scaleX_;
-				float stopY = graphArea_.top + (data_[x] - topAngle_) * scaleY_;
-				
-				paint_.setColor(Color.WHITE);
-				
-				canvas_.drawPoint(stopX, stopY, paint_);
-				
-				if (x == 0)
-					return;
-				
-				float startX = graphArea_.left + (x - 1) * scaleX_;
-				float startY = graphArea_.top + (data_[x - 1] - topAngle_) * scaleY_;
-				
-				canvas_.drawLine(startX, startY, stopX, stopY, paint_);
+				for (int i = 0; i < 2; i++) {
+					float stopX = graphArea_.left + x * scaleX_;
+					float stopY = graphArea_.top + (data_[i][x] - topAngle_) * scaleY_;
+					
+					
+					paint_.setColor(color_[i]);
+					paint_.setStrokeWidth(stroke_[i]);
+					
+					canvas_.drawPoint(stopX, stopY, paint_);
+					
+					if (x != 0) {
+						float startX = graphArea_.left + (x - 1) * scaleX_;
+						float startY = graphArea_.top + (data_[i][x - 1] - topAngle_) * scaleY_;	
+						canvas_.drawLine(startX, startY, stopX, stopY, paint_);
+					}
+				}
 			}
 		}
 
@@ -201,7 +206,9 @@ public class SensorActivity extends Activity {
 					paint_.setColor(Color.WHITE);
 				}
 				
-				data_[dataIndex_] = rawAngle_ = event.values[0];
+				data_[0][dataIndex_] = rawAngle_ = event.values[0];
+				filter_.add(rawAngle_);
+				data_[1][dataIndex_] = filter_.getAngle();
 				
 				drawAngle(dataIndex_);
 				dataIndex_++;
