@@ -90,6 +90,7 @@ public class SensorActivity extends Activity {
 			synchronized (this) {
 				canvas_.drawColor(Color.WHITE);
 				calculateScales();
+				paint_.setColor(Color.BLACK);
 				canvas_.drawRect(graphArea_, paint_);
 				
 				dataIndex_ = 0;
@@ -242,7 +243,6 @@ public class SensorActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.KEYCODE_MENU) {
-			Log.v("AndroidTests", "KEY");
 			graph_.resetView();
 			return true;
 		}
