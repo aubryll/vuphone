@@ -102,6 +102,17 @@ public class SensorActivity extends Activity {
 			}
 		}
 		
+		private void mark(int x, float high, float low) {
+			float ptX = graphArea_.left + x * scaleX_;
+			float ptY1 = graphArea_.top + (high - topAngle_) * scaleY_;
+			float ptY2 = graphArea_.top + (low - topAngle_) * scaleY_;
+			
+			paint_.setStrokeWidth(2);
+			paint_.setColor(Color.BLUE);
+			canvas_.drawPoint(ptX, ptY1, paint_);
+			canvas_.drawPoint(ptX, ptY2, paint_);
+		}
+		
 		private void calculateScales() {
 			scaleY_ = (float) graphArea_.height() / range_;
 			scaleX_ = (float) graphArea_.width() / domain_;
@@ -154,6 +165,8 @@ public class SensorActivity extends Activity {
 				
 				canvas.drawText("TopAngle: " + topAngle_, 70, FONT_SIZE, paint_);
 				canvas.drawText("Range: " + range_, 160, FONT_SIZE, paint_);
+				
+				canvas.drawText("Outliers: " + filter_.getOutlierSize(), 240, FONT_SIZE, paint_);
 				
 				canvas.drawRect(selector_, paint_);
 				
@@ -208,9 +221,12 @@ public class SensorActivity extends Activity {
 				
 				data_[0][dataIndex_] = rawAngle_ = event.values[0];
 				filter_.add(rawAngle_);
-				data_[1][dataIndex_] = filter_.getAngle();
+				float mean;
+				data_[1][dataIndex_] = mean = filter_.getAngle();
 				
+				float dev = FIRAngleFilter.THRESHOLD * filter_.getStdDev();
 				drawAngle(dataIndex_);
+				mark(dataIndex_, mean + dev, mean - dev);
 				dataIndex_++;
 				
 				invalidate();
@@ -232,7 +248,7 @@ public class SensorActivity extends Activity {
 		super.onResume();
 		Sensor or = sensorManager_.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 		sensorManager_.registerListener(graph_, or,
-				SensorManager.SENSOR_DELAY_FASTEST);
+				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 
 	@Override

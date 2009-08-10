@@ -16,20 +16,28 @@
 
 package org.vuphone.augmentedreality.android;
 
+import android.util.Log;
+
 public class FIRAngleFilter {
 
 	private final int capacity_;
 	public int size_; 				// Number of elements (<= capacity_)
 	private int index_; 			// Index of the oldest reading
-	private final float[] buffer_;	// Holds the raw angles
-	private final float[] coeffs_;	// Holds the weights of each angle
+	private final float[] buffer_;	// Holds the angle data
 	private float unfiltered_;
+	
+	private final float[] outliers_;
+	private int outIndex_;
 
+	public static float THRESHOLD = 2.5f;
+	
 	public FIRAngleFilter(int cap) {
 		capacity_ = cap;
 		size_ = index_ = 0;
 		buffer_ = new float[capacity_];
-		coeffs_ = new float[capacity_];
+		
+		outliers_ = new float[15];
+		outIndex_ = 0;
 	}
 
 	public void add(float angle) {
@@ -39,8 +47,23 @@ public class FIRAngleFilter {
 		float mean = getMean();
 		float dev = getStdDev();
 		float z = (angle - mean) / dev;
-		if (z > 1.5 && z < -1.5)
+		//Log.v("AndroidTests", "Z: " + z);
+		
+		
+		if (size_ == capacity_ && Math.abs(z) > THRESHOLD) {
+			outIndex_++;
+			//Log.v("AndroidTests", "Outlier");
+			if (outIndex_ >= outliers_.length) {
+				//Log.v("AndroidTests", "Outlier Limit: Resetting buffer");
+				outIndex_ = 0;
+				size_ = 0;
+			}
+			
 			return;
+		}
+		
+		
+
 		//float c = 1 / z;
 		
 		if (size_ == capacity_) {
@@ -77,7 +100,11 @@ public class FIRAngleFilter {
 		return sum / size_;
 	}
 	
-	private float getStdDev() {
+	public int getOutlierSize() {
+		return outIndex_;
+	}
+	
+	public float getStdDev() {
 		if (size_ == 0)
 			return 0;
 		
