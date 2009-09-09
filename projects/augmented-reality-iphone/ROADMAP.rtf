@@ -1,0 +1,29 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\ql\qnatural\pardirnatural
+
+\f0\b\fs32 \cf0 iPhone AR - Development Roadmap
+\fs26 \
+\
+\ul Long-Term Goal
+\b0\fs24 \
+\ulnone \
+An objective-c framework for augmented reality that combines techniques used in existing solutions and provides a convenient, hack-free interface for writing high-level augmented reality applications. The framework will abstract away the collection and processing of compass and accelerometer data and provide Cocoa Touch views for presenting context-aware OpenGL content on top of the iPhone's camera video. Location-specific rendering will be made possible with GPS and compass data from the phone. NyARToolkit will also provide limited token-recognition and allow OpenGL content to be projected onto a motion-tracked plane in the camera space (at ~ 4fps).\
+
+\b \ul \
+Short Term Objectives & Possible Milestones
+\b0 \
+\ulnone \
+- Write a reusable model for representing GPS and heading information and a controller to obscure sampling functionality and signal processing within the framework.\
+\
+- Write a controller which loads context-sensitive points of interest from data sources. Data sources should implement a consistent protocol so that data can be drawn from the web, from Core Data/SQLLite, etc\'85 The controller should use an observer pattern to notify views when new POIs are available. Do not want to poll controller.\
+\
+- Pull the iPhone's camera feed into an OpenGL texture using standard iPhone OS 3.0 APIs. All existing sample code uses a low-level hack that will not be maintainable, but new APIs in OS 3.1 should make it possible.\
+\
+- Package the C++ NyARToolkit library in an objective-c wrapper and implement a controller to automate the recognition of tokens in the camera image as the app runs. Optimize scanning by recording intermediate information about the first scan and skipping unnecessary steps in subsequent scans. (We know it's not upside down, so don't look for it in that orientation). Figure out what the hell the token data format is so that more tokens can be created.\
+\
+- Do something graphically interesting and possibly interactive when tokens are found (would require binding X,Y coordinates onscreen to locations in the OpenGL coordinate space)\
+\
+- Smooth raw compass data using some basic signal processing. May be able to use the accelerometer to help filter out invalid compass data, since compass will not change without accompanying change in accelerometer readings. (However, there is a cost in polling at high speed both which could make this approach prohibitive. Event flooding is no fun\'85)}
