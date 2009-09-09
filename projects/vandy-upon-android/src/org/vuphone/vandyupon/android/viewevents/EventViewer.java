@@ -39,6 +39,9 @@ public class EventViewer extends MapActivity {
 	/** The map we are using */
 	private EventViewerMap map_;
 
+	/** Handle to the EventDetailsPanel, allowing us to check / update state */
+	EventDetailsPanel eventPanel_;
+
 	/** Constants to identify MenuItems */
 	private static final int MENUITEM_NEW_EVENT = 0;
 	private static final int MENUITEM_FILTER_POS = 1;
@@ -66,6 +69,8 @@ public class EventViewer extends MapActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+		eventPanel_.setVisible(true);
+		
 		switch (requestCode) {
 		case REQUEST_POSITION_FILTER:
 			switch (resultCode) {
@@ -118,6 +123,8 @@ public class EventViewer extends MapActivity {
 	protected void onCreate(Bundle ice) {
 		super.onCreate(ice);
 		setContentView(R.layout.event_map);
+
+		eventPanel_ = new EventDetailsPanel(this);
 
 		map_ = (EventViewerMap) findViewById(R.id.event_map);
 

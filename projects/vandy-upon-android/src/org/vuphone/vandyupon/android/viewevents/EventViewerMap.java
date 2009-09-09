@@ -60,14 +60,14 @@ public class EventViewerMap extends MapView {
 
 	/** Used to turn off the various sensors */
 	protected void disableMyLocation() {
-		currentLocation_.disableCompass();
+		//currentLocation_.disableCompass();
 		currentLocation_.disableMyLocation();
 	}
 
 	/** Used to turn on the various sensors */
 	protected void enableMyLocation() {
 		currentLocation_.enableMyLocation();
-		currentLocation_.enableCompass();
+		//currentLocation_.enableCompass();
 	}
 	
 	/** Request that all Overlays refresh */
