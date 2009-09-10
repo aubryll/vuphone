@@ -10,10 +10,10 @@
 	<!-- Chris="0jkNEKZdvnMwQ2yB7GDUqrWqjgAEsPhREB9YyPQ" -->
 	<!-- Chris2="0jkNEKZdvnMzof7knUDjeLDoLEnEqnnsuXRbdqA" -->
 	
-	<LinearLayout android:id="@+id/event_details" android:layout_width="fill_parent"
+	<LinearLayout android:id="@+id/event_details_pane" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:visibility="gone" >
 
-		<TextView android:text="Some text describing an event" android:id="@+id/TextView02"
+		<TextView android:text="Some text describing an event" android:id="@+id/TV_event_details_title"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
 
 	</LinearLayout>

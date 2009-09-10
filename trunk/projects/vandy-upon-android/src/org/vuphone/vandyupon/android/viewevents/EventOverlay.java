@@ -96,6 +96,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 		Log.i(tag, pre + "Filter was updated");
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
+		
 		populate();
 	}
 

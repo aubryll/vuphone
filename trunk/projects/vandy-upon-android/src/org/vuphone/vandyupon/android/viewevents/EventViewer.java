@@ -19,6 +19,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -41,7 +44,13 @@ public class EventViewer extends MapActivity implements
 
 	/** The map we are using */
 	private EventViewerMap map_;
+	
+	/** Pane that drops down and allows user to see event details */
+	private LinearLayout eventDetailsPane_;
 
+	/** Handle used to invalidate the current view after showing/hiding the details pane */
+	private LinearLayout eventMap_;
+	
 	/** Constants to identify MenuItems */
 	private static final int MENUITEM_NEW_EVENT = 0;
 	private static final int MENUITEM_FILTER_POS = 1;
@@ -122,9 +131,12 @@ public class EventViewer extends MapActivity implements
 		super.onCreate(ice);
 		setContentView(R.layout.event_map);
 
+		eventDetailsPane_ = (LinearLayout) findViewById(R.id.event_details_pane);
+		eventMap_ = (LinearLayout) findViewById(R.id.event_map);
+		
 		map_ = (EventViewerMap) findViewById(R.id.event_viewer_map);
-
 		map_.getEventOverlay().setOnFocusChangeListener(this);
+		
 
 		// Schedule the EventLoader to run, if it has not been scheduled yet
 		Intent loaderIntent = new Intent(getApplicationContext(),
@@ -167,11 +179,16 @@ public class EventViewer extends MapActivity implements
 	public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus) {
 		if (newFocus != null) {
 			EventOverlayItem eoi = (EventOverlayItem) newFocus;
-			Toast.makeText(this, "Focus is " + eoi.getTitle(),
-					Toast.LENGTH_SHORT).show();
+			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
+			tv.setText(eoi.getTitle());
+			eventDetailsPane_.setVisibility(View.VISIBLE);
+			eventMap_.invalidate();
 		}
 		else
-			Toast.makeText(this, "Focus is null", Toast.LENGTH_SHORT).show();
+		{
+			eventDetailsPane_.setVisibility(View.GONE);
+			eventMap_.invalidate();
+		}
 	}
 
 	/** Handles menu item selections */
