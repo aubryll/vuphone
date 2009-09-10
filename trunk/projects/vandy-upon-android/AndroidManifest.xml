@@ -17,14 +17,6 @@
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 		</activity>
-		
-		<activity android:name=".viewevents.test"
-			android:label="test">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
 
 		<!-- Used to start these activities explicitly -->
 		<activity android:name=".submitevent.ChooseLocation" />

@@ -17,6 +17,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.OverlayItem;
 
 /**
  * Contains the {@link EventOverlayItem}s. Holds a handle to the database, and
@@ -87,15 +88,23 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 		eventCursor_.moveToNext();
 		return EventOverlayItem.getItemFromRow(eventCursor_);
 	}
-
+	
 	/**
-	 * @see com.google.android.maps.ItemizedOverlay#size()
+	 * @see org.vuphone.vandyupon.android.filters.FilterChangedListener#filterChanged()
 	 */
-	@Override
-	public int size() {
-		return eventCursor_.getCount();
+	public void filterChanged() {
+		Log.i(tag, pre + "Filter was updated");
+		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
+				tagsFilter_);
+		populate();
 	}
 
+	@Override
+	protected boolean onTap(int index) {
+		Log.d(tag, pre + "onTap called with index " + index);
+		return true;
+	}
+	
 	/**
 	 * Used to pass new filters into the overlay. Any of the variables can be
 	 * null to keep the current filter. The DB is queried and the overlay list
@@ -128,15 +137,12 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 
 		populate();
 	}
-
+	
 	/**
-	 * @see org.vuphone.vandyupon.android.filters.FilterChangedListener#filterChanged()
+	 * @see com.google.android.maps.ItemizedOverlay#size()
 	 */
-	public void filterChanged() {
-		Log.i(tag, pre + "Filter was updated");
-		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
-				tagsFilter_);
-		populate();
+	@Override
+	public int size() {
+		return eventCursor_.getCount();
 	}
-
 }
