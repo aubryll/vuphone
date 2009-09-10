@@ -70,6 +70,11 @@ public class EventViewerMap extends MapView {
 		//currentLocation_.enableCompass();
 	}
 	
+	/** Used to get a handle to the EventOverlay */
+	protected EventOverlay getEventOverlay() {
+		return eventOverlay_;
+	}
+	
 	/** Request that all Overlays refresh */
 	protected void refreshOverlays() {
 		eventOverlay_.receiveNewFilters(positionFilter_, timeFilter_, tagsFilter_);

@@ -22,7 +22,9 @@ import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
+import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.OverlayItem;
 
 /**
  * The main application window that pops up. Allows the user to see the events
@@ -31,16 +33,14 @@ import com.google.android.maps.MapActivity;
  * @author Hamilton Turner
  * 
  */
-public class EventViewer extends MapActivity {
+public class EventViewer extends MapActivity implements
+		ItemizedOverlay.OnFocusChangeListener {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventViewer: ";
 
 	/** The map we are using */
 	private EventViewerMap map_;
-
-	/** Handle to the EventDetailsPanel, allowing us to check / update state */
-	EventDetailsPanel eventPanel_;
 
 	/** Constants to identify MenuItems */
 	private static final int MENUITEM_NEW_EVENT = 0;
@@ -69,8 +69,6 @@ public class EventViewer extends MapActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		eventPanel_.setVisible(true);
-		
 		switch (requestCode) {
 		case REQUEST_POSITION_FILTER:
 			switch (resultCode) {
@@ -124,9 +122,9 @@ public class EventViewer extends MapActivity {
 		super.onCreate(ice);
 		setContentView(R.layout.event_map);
 
-		eventPanel_ = new EventDetailsPanel(this);
+		map_ = (EventViewerMap) findViewById(R.id.event_viewer_map);
 
-		map_ = (EventViewerMap) findViewById(R.id.event_map);
+		map_.getEventOverlay().setOnFocusChangeListener(this);
 
 		// Schedule the EventLoader to run, if it has not been scheduled yet
 		Intent loaderIntent = new Intent(getApplicationContext(),
@@ -158,6 +156,22 @@ public class EventViewer extends MapActivity {
 		SubMenu more = menu.addSubMenu(0, -1, Menu.NONE, "More");
 		more.add(0, MENUITEM_MANUAL_UPDATE, Menu.NONE, "Manual Update");
 		return true;
+	}
+
+	/**
+	 * Used to notify us when the EventOverlayItem in focus is changed
+	 * 
+	 * @see com.google.android.maps.ItemizedOverlay.OnFocusChangeListener#onFocusChanged(com.google.android.maps.ItemizedOverlay,
+	 *      com.google.android.maps.OverlayItem)
+	 */
+	public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus) {
+		if (newFocus != null) {
+			EventOverlayItem eoi = (EventOverlayItem) newFocus;
+			Toast.makeText(this, "Focus is " + eoi.getTitle(),
+					Toast.LENGTH_SHORT).show();
+		}
+		else
+			Toast.makeText(this, "Focus is null", Toast.LENGTH_SHORT).show();
 	}
 
 	/** Handles menu item selections */
