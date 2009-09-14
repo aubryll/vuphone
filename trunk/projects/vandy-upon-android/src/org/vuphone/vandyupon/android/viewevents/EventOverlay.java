@@ -97,6 +97,8 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
 		
+		
+		setLastFocusedIndex(-1);
 		populate();
 	}
 

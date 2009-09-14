@@ -28,6 +28,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.OverlayItem;
+import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
 
 /**
  * The main application window that pops up. Allows the user to see the events
@@ -37,7 +38,7 @@ import com.google.android.maps.OverlayItem;
  * 
  */
 public class EventViewer extends MapActivity implements
-		ItemizedOverlay.OnFocusChangeListener {
+		OnFocusChangeListener {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventViewer: ";
