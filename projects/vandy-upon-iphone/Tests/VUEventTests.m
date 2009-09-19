@@ -42,6 +42,7 @@
 	NSLog(@"Context: %@", context);
 	NSArray *events = [RemoteEventLoader eventsFromServerWithContext:context];
 	STAssertNotNil(events, @"events not nil");
+	STAssertEquals([events count], 5, @"Doesn't have 5 events");
 	NSLog(@"events: %@", events);
 }
 
