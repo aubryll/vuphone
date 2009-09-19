@@ -2,16 +2,16 @@
 {
 	1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {671, 745}}";
+			sepNavIntBoundsRect = "{{0, 0}, {708, 512}}";
 			sepNavSelRange = "{515, 0}";
 			sepNavVisRange = "{0, 579}";
 		};
 	};
 	1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {620, 994}}";
+			sepNavIntBoundsRect = "{{0, 0}, {708, 952}}";
 			sepNavSelRange = "{493, 0}";
-			sepNavVisRange = "{344, 223}";
+			sepNavVisRange = "{0, 801}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* VandyUpon */ = {
@@ -182,8 +182,10 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = 61F779BB1054720F0071CA64 /* VandyUpon */;
+		activeSDKPreference = iphonesimulator3.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* VandyUpon */;
 		addToTargets = (
+			1D6058900D05DD3D006BFB54 /* VandyUpon */,
 		);
 		breakpoints = (
 			615BFD56105DD3E8005497F9 /* VUEditableCellController.m:30 */,
@@ -259,7 +261,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					453,
+					490,
 					60,
 					20,
 					48,
@@ -276,17 +278,391 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 274681175;
-			PBXWorkspaceStateSaveDate = 274681175;
+			PBXPerProjectTemplateStateSaveDate = 275023316;
+			PBXWorkspaceStateSaveDate = 275023316;
 		};
 		perUserProjectItems = {
-			615BFF5E105E09DB005497F9 = 615BFF5E105E09DB005497F9 /* PBXTextBookmark */;
-			615BFF81105F49B9005497F9 = 615BFF81105F49B9005497F9 /* PBXTextBookmark */;
-			615BFF98105F4D6B005497F9 /* PBXTextBookmark */ = 615BFF98105F4D6B005497F9 /* PBXTextBookmark */;
+			61125E5B1064854100247A75 = 61125E5B1064854100247A75 /* PBXTextBookmark */;
+			61125E5F1064854100247A75 = 61125E5F1064854100247A75 /* PBXTextBookmark */;
+			61125E601064854100247A75 = 61125E601064854100247A75 /* XDModelBookmark */;
+			61125E641064858B00247A75 = 61125E641064858B00247A75 /* XDModelBookmark */;
+			61125E651064858B00247A75 = 61125E651064858B00247A75 /* PlistBookmark */;
+			61125E661064858B00247A75 = 61125E661064858B00247A75 /* PlistBookmark */;
+			61125E671064858B00247A75 = 61125E671064858B00247A75 /* XDModelBookmark */;
+			61125E681064858B00247A75 = 61125E681064858B00247A75 /* XDModelBookmark */;
+			61125E6D106485CE00247A75 = 61125E6D106485CE00247A75 /* PlistBookmark */;
+			61125E881064866E00247A75 /* PBXTextBookmark */ = 61125E881064866E00247A75 /* PBXTextBookmark */;
+			61125E8A1064866E00247A75 /* PlistBookmark */ = 61125E8A1064866E00247A75 /* PlistBookmark */;
+			61125E8F1064869200247A75 /* PlistBookmark */ = 61125E8F1064869200247A75 /* PlistBookmark */;
+			61125E911064869300247A75 /* PlistBookmark */ = 61125E911064869300247A75 /* PlistBookmark */;
+			61125E921064869300247A75 /* PlistBookmark */ = 61125E921064869300247A75 /* PlistBookmark */;
+			61125E9D106486FF00247A75 /* PlistBookmark */ = 61125E9D106486FF00247A75 /* PlistBookmark */;
+			61125E9E106486FF00247A75 /* PBXBookmark */ = 61125E9E106486FF00247A75 /* PBXBookmark */;
+			61125E9F106486FF00247A75 /* PlistBookmark */ = 61125E9F106486FF00247A75 /* PlistBookmark */;
+			61125EA0106486FF00247A75 /* PlistBookmark */ = 61125EA0106486FF00247A75 /* PlistBookmark */;
+			61125EA41064877900247A75 /* PlistBookmark */ = 61125EA41064877900247A75 /* PlistBookmark */;
+			61125EA51064877900247A75 /* PlistBookmark */ = 61125EA51064877900247A75 /* PlistBookmark */;
+			61125EA61064877900247A75 /* PlistBookmark */ = 61125EA61064877900247A75 /* PlistBookmark */;
+			61125EAB1064880300247A75 /* PBXTextBookmark */ = 61125EAB1064880300247A75 /* PBXTextBookmark */;
+			61125EAC1064880300247A75 /* PBXTextBookmark */ = 61125EAC1064880300247A75 /* PBXTextBookmark */;
+			61125EAF1064884000247A75 /* PBXTextBookmark */ = 61125EAF1064884000247A75 /* PBXTextBookmark */;
+			61125EB21064885300247A75 /* PBXTextBookmark */ = 61125EB21064885300247A75 /* PBXTextBookmark */;
+			61125EBA106488B900247A75 /* PBXTextBookmark */ = 61125EBA106488B900247A75 /* PBXTextBookmark */;
+			61125EBB106488C900247A75 /* PlistBookmark */ = 61125EBB106488C900247A75 /* PlistBookmark */;
+			61125EBC106488C900247A75 /* PlistBookmark */ = 61125EBC106488C900247A75 /* PlistBookmark */;
+			61125EBD106488C900247A75 /* PBXTextBookmark */ = 61125EBD106488C900247A75 /* PBXTextBookmark */;
+			61125EC3106488E900247A75 /* PBXTextBookmark */ = 61125EC3106488E900247A75 /* PBXTextBookmark */;
+			61125EC5106488F500247A75 /* PBXTextBookmark */ = 61125EC5106488F500247A75 /* PBXTextBookmark */;
+			61125EC8106488FD00247A75 /* PBXTextBookmark */ = 61125EC8106488FD00247A75 /* PBXTextBookmark */;
+			61125ECA1064890D00247A75 /* PBXTextBookmark */ = 61125ECA1064890D00247A75 /* PBXTextBookmark */;
+			61125ECC1064890F00247A75 /* PBXTextBookmark */ = 61125ECC1064890F00247A75 /* PBXTextBookmark */;
+			615BFFBF10601550005497F9 = 615BFFBF10601550005497F9 /* PBXTextBookmark */;
+			615BFFC110601550005497F9 = 615BFFC110601550005497F9 /* PBXTextBookmark */;
+			615BFFD2106032F0005497F9 = 615BFFD2106032F0005497F9 /* PBXTextBookmark */;
+			615BFFD3106032F0005497F9 = 615BFFD3106032F0005497F9 /* PBXTextBookmark */;
+			615BFFD4106032F0005497F9 = 615BFFD4106032F0005497F9 /* PBXTextBookmark */;
+			615BFFD7106032F0005497F9 = 615BFFD7106032F0005497F9 /* PBXTextBookmark */;
+			615BFFD8106032F0005497F9 = 615BFFD8106032F0005497F9 /* PBXTextBookmark */;
+			615BFFD9106032F0005497F9 = 615BFFD9106032F0005497F9 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 61F779D1105472140071CA64 /* Source Control */;
 		userBuildSettings = {
 		};
+	};
+	61125E5B1064854100247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61BBB6AB105770A0009481D6 /* Event.h */;
+		name = "Event.h: 26";
+		rLen = 0;
+		rLoc = 579;
+		rType = 0;
+		vrLen = 579;
+		vrLoc = 0;
+	};
+	61125E5F1064854100247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61BBB6AB105770A0009481D6 /* Event.h */;
+		name = "Event.h: 26";
+		rLen = 0;
+		rLoc = 579;
+		rType = 0;
+		vrLen = 579;
+		vrLoc = 0;
+	};
+	61125E601064854100247A75 /* XDModelBookmark */ = {
+		isa = XDModelBookmark;
+		fRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */;
+		fallbackIsa = PBXBookmark;
+	};
+	61125E641064858B00247A75 /* XDModelBookmark */ = {
+		isa = XDModelBookmark;
+		fRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */;
+		fallbackIsa = PBXBookmark;
+	};
+	61125E651064858B00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E661064858B00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E671064858B00247A75 /* XDModelBookmark */ = {
+		isa = XDModelBookmark;
+		fRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */;
+		fallbackIsa = PBXBookmark;
+	};
+	61125E681064858B00247A75 /* XDModelBookmark */ = {
+		isa = XDModelBookmark;
+		fRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */;
+		fallbackIsa = PBXBookmark;
+	};
+	61125E6D106485CE00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E881064866E00247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Processing /Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/build/Debug-iphonesimulator/VandyUpon.app/Info.plist VandyUpon-Info.plist";
+		fRef = 61125E891064866E00247A75 /* VandyUpon-Info.plist */;
+		rLen = 0;
+		rLoc = 0;
+		rType = 1;
+	};
+	61125E891064866E00247A75 /* VandyUpon-Info.plist */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = text.plist.xml;
+		name = "VandyUpon-Info.plist";
+		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/Resources/VandyUpon-Info.plist";
+		sourceTree = "<absolute>";
+	};
+	61125E8A1064866E00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* VandyUpon-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/Resources/VandyUpon-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E8F1064869200247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61125E901064869200247A75;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E901064869200247A75 = {
+		isa = PBXFileReference;
+		sourceTree = "<group>";
+	};
+	61125E911064869300247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E921064869300247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E9D106486FF00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125E9E106486FF00247A75 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 61125E8C1064868B00247A75 /* VandyUpon-Info.plist */;
+	};
+	61125E9F106486FF00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EA0106486FF00247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61125E8C1064868B00247A75 /* VandyUpon-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/VandyUpon-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EA41064877900247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61125E8C1064868B00247A75 /* VandyUpon-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/VandyUpon-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EA51064877900247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61125E8C1064868B00247A75 /* VandyUpon-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/VandyUpon-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EA61064877900247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EAB1064880300247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: macro \"STAssertEquals\" requires 4 arguments, but only 2 given";
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		rLen = 1;
+		rLoc = 44;
+		rType = 1;
+	};
+	61125EAC1064880300247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 45";
+		rLen = 62;
+		rLoc = 1012;
+		rType = 0;
+		vrLen = 297;
+		vrLoc = 777;
+	};
+	61125EAF1064884000247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 45";
+		rLen = 0;
+		rLoc = 1073;
+		rType = 0;
+		vrLen = 336;
+		vrLoc = 777;
+	};
+	61125EB21064885300247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 45";
+		rLen = 0;
+		rLoc = 1073;
+		rType = 0;
+		vrLen = 330;
+		vrLoc = 777;
+	};
+	61125EBA106488B900247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 45";
+		rLen = 0;
+		rLoc = 1073;
+		rType = 0;
+		vrLen = 330;
+		vrLoc = 777;
+	};
+	61125EBB106488C900247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EBC106488C900247A75 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 61F77A071054D0500071CA64 /* UnitTests-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/UnitTests-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	61125EBD106488C900247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 38";
+		rLen = 0;
+		rLoc = 745;
+		rType = 0;
+		vrLen = 779;
+		vrLoc = 334;
+	};
+	61125EC3106488E900247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 38";
+		rLen = 0;
+		rLoc = 745;
+		rType = 0;
+		vrLen = 779;
+		vrLoc = 334;
+	};
+	61125EC5106488F500247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 45";
+		rLen = 0;
+		rLoc = 1073;
+		rType = 0;
+		vrLen = 330;
+		vrLoc = 777;
+	};
+	61125EC8106488FD00247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 38";
+		rLen = 0;
+		rLoc = 745;
+		rType = 0;
+		vrLen = 779;
+		vrLoc = 334;
+	};
+	61125ECA1064890D00247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 45";
+		rLen = 0;
+		rLoc = 1073;
+		rType = 0;
+		vrLen = 330;
+		vrLoc = 777;
+	};
+	61125ECC1064890F00247A75 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77A911055463C0071CA64 /* VUEventTests.m */;
+		name = "VUEventTests.m: 38";
+		rLen = 0;
+		rLoc = 745;
+		rType = 0;
+		vrLen = 779;
+		vrLoc = 334;
 	};
 	615BFB24105D58B0005497F9 /* EventStore.h */ = {
 		uiCtxt = {
@@ -372,34 +748,84 @@
 		modificationTime = 274597886.574294;
 		state = 1;
 	};
-	615BFF5E105E09DB005497F9 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 61BBB64E10575D45009481D6 /* EventViewController.m */;
-		name = "EventViewController.m: 151";
-		rLen = 0;
-		rLoc = 3906;
-		rType = 0;
-		vrLen = 1478;
-		vrLoc = 3906;
-	};
-	615BFF81105F49B9005497F9 /* PBXTextBookmark */ = {
+	615BFFBF10601550005497F9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 61BBB64E10575D45009481D6 /* EventViewController.m */;
 		name = "EventViewController.m: 20";
 		rLen = 0;
 		rLoc = 389;
 		rType = 0;
-		vrLen = 1216;
+		vrLen = 778;
 		vrLoc = 0;
 	};
-	615BFF98105F4D6B005497F9 /* PBXTextBookmark */ = {
+	615BFFC110601550005497F9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 61BBB64E10575D45009481D6 /* EventViewController.m */;
 		name = "EventViewController.m: 20";
 		rLen = 0;
 		rLoc = 389;
 		rType = 0;
-		vrLen = 1213;
+		vrLen = 778;
+		vrLoc = 0;
+	};
+	615BFFD2106032F0005497F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61BBB820105804E5009481D6 /* VUCellController.h */;
+		name = "VUCellController.h: 15";
+		rLen = 503;
+		rLoc = 520;
+		rType = 0;
+		vrLen = 1023;
+		vrLoc = 0;
+	};
+	615BFFD3106032F0005497F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
+		name = "VandyUponAppDelegate.h: 23";
+		rLen = 0;
+		rLoc = 515;
+		rType = 0;
+		vrLen = 579;
+		vrLoc = 0;
+	};
+	615BFFD4106032F0005497F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */;
+		name = "VandyUponAppDelegate.m: 23";
+		rLen = 0;
+		rLoc = 493;
+		rType = 0;
+		vrLen = 801;
+		vrLoc = 0;
+	};
+	615BFFD7106032F0005497F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61BBB820105804E5009481D6 /* VUCellController.h */;
+		name = "VUCellController.h: 15";
+		rLen = 503;
+		rLoc = 520;
+		rType = 0;
+		vrLen = 1023;
+		vrLoc = 0;
+	};
+	615BFFD8106032F0005497F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
+		name = "VandyUponAppDelegate.h: 23";
+		rLen = 0;
+		rLoc = 515;
+		rType = 0;
+		vrLen = 579;
+		vrLoc = 0;
+	};
+	615BFFD9106032F0005497F9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */;
+		name = "VandyUponAppDelegate.m: 23";
+		rLen = 0;
+		rLoc = 493;
+		rType = 0;
+		vrLen = 801;
 		vrLoc = 0;
 	};
 	61A84233105AA8A60001A6BB /* NSManagedObject-IsNew.h */ = {
@@ -427,15 +853,15 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1056, 2982}}";
 			sepNavSelRange = "{389, 0}";
-			sepNavVisRange = "{0, 1213}";
+			sepNavVisRange = "{0, 778}";
 			sepNavWindowFrame = "{{1629, -76}, {848, 938}}";
 		};
 	};
 	61BBB6AB105770A0009481D6 /* Event.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {660, 511}}";
-			sepNavSelRange = "{130, 0}";
-			sepNavVisRange = "{0, 582}";
+			sepNavIntBoundsRect = "{{0, 0}, {708, 745}}";
+			sepNavSelRange = "{579, 0}";
+			sepNavVisRange = "{0, 579}";
 		};
 	};
 	61BBB6AC105770A0009481D6 /* Event.m */ = {
@@ -504,7 +930,7 @@
 	};
 	61BBB820105804E5009481D6 /* VUCellController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {738, 722}}";
+			sepNavIntBoundsRect = "{{0, 0}, {738, 512}}";
 			sepNavSelRange = "{520, 503}";
 			sepNavVisRange = "{0, 1023}";
 		};
@@ -589,9 +1015,9 @@
 	};
 	61F77A911055463C0071CA64 /* VUEventTests.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {708, 722}}";
-			sepNavSelRange = "{958, 0}";
-			sepNavVisRange = "{0, 1051}";
+			sepNavIntBoundsRect = "{{0, 0}, {708, 700}}";
+			sepNavSelRange = "{745, 0}";
+			sepNavVisRange = "{334, 779}";
 			sepNavWindowFrame = "{{1455, -43}, {848, 938}}";
 		};
 	};
@@ -675,6 +1101,17 @@
 			sepNavIntBoundsRect = "{{0, 0}, {774, 1218}}";
 			sepNavSelRange = "{1249, 0}";
 			sepNavVisRange = "{1008, 1500}";
+		};
+	};
+	8D1107310486CEB800E47090 /* VandyUpon-Info.plist */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = text.plist.xml;
+		name = "VandyUpon-Info.plist";
+		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/Resources/VandyUpon-Info.plist";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavWindowFrame = "{{1400, 0}, {903, 878}}";
 		};
 	};
 }

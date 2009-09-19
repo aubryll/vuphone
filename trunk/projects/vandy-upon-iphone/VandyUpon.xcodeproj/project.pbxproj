@@ -62,11 +62,12 @@
 		1D6058910D05DD3D006BFB54 /* VandyUpon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VandyUpon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = XIBs/MainWindow.xib; sourceTree = "<group>"; };
 		28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = VandyUpon.xcdatamodel; sourceTree = "<group>"; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* VandyUpon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VandyUpon_Prefix.pch; sourceTree = "<group>"; };
+		61125E8C1064868B00247A75 /* VandyUpon-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "VandyUpon-Info.plist"; sourceTree = "<group>"; };
 		615BFB1C105D5863005497F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		615BFB24105D58B0005497F9 /* EventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
 		615BFB25105D58B0005497F9 /* EventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
@@ -79,27 +80,27 @@
 		61A84234105AA8A60001A6BB /* NSManagedObject-IsNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject-IsNew.m"; sourceTree = "<group>"; };
 		61BBB64D10575D45009481D6 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
 		61BBB64E10575D45009481D6 /* EventViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventViewController.m; sourceTree = "<group>"; };
-		61BBB64F10575D45009481D6 /* EventView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EventView.xib; path = Classes/Controller/EventView.xib; sourceTree = "<group>"; };
+		61BBB64F10575D45009481D6 /* EventView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = EventView.xib; path = XIBs/EventView.xib; sourceTree = "<group>"; };
 		61BBB6AB105770A0009481D6 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		61BBB6AC105770A0009481D6 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		61BBB6AD105770A0009481D6 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		61BBB6AE105770A0009481D6 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		61BBB6F8105776E2009481D6 /* VUEditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUEditableCell.h; path = ../Controller/VUEditableCell.h; sourceTree = "<group>"; };
 		61BBB6F9105776E2009481D6 /* VUEditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUEditableCell.m; path = ../Controller/VUEditableCell.m; sourceTree = "<group>"; };
-		61BBB75B1057E7ED009481D6 /* VUEditableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUEditableTableViewCell.xib; sourceTree = "<group>"; };
-		61BBB7DC1057F9D8009481D6 /* VUStartEndDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUStartEndDatePicker.h; path = ../Controller/VUStartEndDatePicker.h; sourceTree = "<group>"; };
-		61BBB7DD1057F9D8009481D6 /* VUStartEndDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUStartEndDatePicker.m; path = ../Controller/VUStartEndDatePicker.m; sourceTree = "<group>"; };
-		61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUStartEndDatePicker.xib; sourceTree = "<group>"; };
-		61BBB7E510580004009481D6 /* VUStartEndDateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUStartEndDateCell.h; path = ../Controller/VUStartEndDateCell.h; sourceTree = "<group>"; };
-		61BBB7E610580004009481D6 /* VUStartEndDateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUStartEndDateCell.m; path = ../Controller/VUStartEndDateCell.m; sourceTree = "<group>"; };
-		61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUStartEndDateCell.xib; sourceTree = "<group>"; };
+		61BBB75B1057E7ED009481D6 /* VUEditableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VUEditableTableViewCell.xib; path = XIBs/VUEditableTableViewCell.xib; sourceTree = "<group>"; };
+		61BBB7DC1057F9D8009481D6 /* VUStartEndDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUStartEndDatePicker.h; sourceTree = "<group>"; };
+		61BBB7DD1057F9D8009481D6 /* VUStartEndDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUStartEndDatePicker.m; sourceTree = "<group>"; };
+		61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VUStartEndDatePicker.xib; path = XIBs/VUStartEndDatePicker.xib; sourceTree = "<group>"; };
+		61BBB7E510580004009481D6 /* VUStartEndDateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUStartEndDateCell.h; sourceTree = "<group>"; };
+		61BBB7E610580004009481D6 /* VUStartEndDateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUStartEndDateCell.m; sourceTree = "<group>"; };
+		61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VUStartEndDateCell.xib; path = XIBs/VUStartEndDateCell.xib; sourceTree = "<group>"; };
 		61BBB820105804E5009481D6 /* VUCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUCellController.h; sourceTree = "<group>"; };
 		61BBB83A10580743009481D6 /* VUEditableCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUEditableCellController.h; sourceTree = "<group>"; };
 		61BBB83B10580743009481D6 /* VUEditableCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUEditableCellController.m; sourceTree = "<group>"; };
 		61F779FE1054CFAC0071CA64 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		61F77A071054D0500071CA64 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		61F77A8C105545F60071CA64 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		61F77A911055463C0071CA64 /* VUEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUEventTests.m; sourceTree = "<group>"; };
+		61F77A911055463C0071CA64 /* VUEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUEventTests.m; path = Tests/VUEventTests.m; sourceTree = "<group>"; };
 		61F77AC310554E640071CA64 /* EventListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListViewController.h; path = ../EventListViewController.h; sourceTree = "<group>"; };
 		61F77AC410554E640071CA64 /* EventListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListViewController.m; path = ../EventListViewController.m; sourceTree = "<group>"; };
 		61F77B011055570A0071CA64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -121,7 +122,6 @@
 		61F77BB0105569120071CA64 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = KissXML/NSStringAdditions.m; sourceTree = "<group>"; };
 		61F77BB610556A860071CA64 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		61F77BB710556A860071CA64 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* VandyUpon-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "VandyUpon-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,11 +177,13 @@
 				61F779D51054CEE00071CA64 /* Tests */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
-				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97317FDCFA39411CA2CEA /* XIBs */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				61F77A071054D0500071CA64 /* UnitTests-Info.plist */,
 				615BFB1C105D5863005497F9 /* libxml2.dylib */,
+				28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */,
+				61125E8C1064868B00247A75 /* VandyUpon-Info.plist */,
+				61F77A071054D0500071CA64 /* UnitTests-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -196,18 +198,16 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
-		29B97317FDCFA39411CA2CEA /* Resources */ = {
+		29B97317FDCFA39411CA2CEA /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				61BBB64F10575D45009481D6 /* EventView.xib */,
-				8D1107310486CEB800E47090 /* VandyUpon-Info.plist */,
 				61BBB75B1057E7ED009481D6 /* VUEditableTableViewCell.xib */,
 				61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */,
 				61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */,
 			);
-			name = Resources;
+			name = XIBs;
 			sourceTree = "<group>";
 		};
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
@@ -544,7 +544,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aaron Thompson";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

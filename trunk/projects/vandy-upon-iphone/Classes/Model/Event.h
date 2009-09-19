@@ -23,6 +23,3 @@
 @property (nonatomic, retain) Location * location;
 
 @end
-
-
-
