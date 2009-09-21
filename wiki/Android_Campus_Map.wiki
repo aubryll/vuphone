@@ -5,6 +5,14 @@
 
 Add your content here.
 
+= Team Leader =
+  * Kyle Prete
+
+= Developers = 
+  * Kyle Liming
+  * Zachary McAnally
+  * Dan Hasday
+  * Rob McColl
 
 = Details =
 
