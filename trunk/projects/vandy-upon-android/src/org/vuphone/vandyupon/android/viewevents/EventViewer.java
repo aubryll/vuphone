@@ -37,21 +37,23 @@ import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
  * @author Hamilton Turner
  * 
  */
-public class EventViewer extends MapActivity implements
-		OnFocusChangeListener {
+public class EventViewer extends MapActivity implements OnFocusChangeListener {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventViewer: ";
 
 	/** The map we are using */
 	private EventViewerMap map_;
-	
+
 	/** Pane that drops down and allows user to see event details */
 	private LinearLayout eventDetailsPane_;
 
-	/** Handle used to invalidate the current view after showing/hiding the details pane */
+	/**
+	 * Handle used to invalidate the current view after showing/hiding the
+	 * details pane
+	 */
 	private LinearLayout eventMap_;
-	
+
 	/** Constants to identify MenuItems */
 	private static final int MENUITEM_NEW_EVENT = 0;
 	private static final int MENUITEM_FILTER_POS = 1;
@@ -134,10 +136,9 @@ public class EventViewer extends MapActivity implements
 
 		eventDetailsPane_ = (LinearLayout) findViewById(R.id.event_details_pane);
 		eventMap_ = (LinearLayout) findViewById(R.id.event_map);
-		
+
 		map_ = (EventViewerMap) findViewById(R.id.event_viewer_map);
 		map_.getEventOverlay().setOnFocusChangeListener(this);
-		
 
 		// Schedule the EventLoader to run, if it has not been scheduled yet
 		Intent loaderIntent = new Intent(getApplicationContext(),
@@ -181,12 +182,14 @@ public class EventViewer extends MapActivity implements
 		if (newFocus != null) {
 			EventOverlayItem eoi = (EventOverlayItem) newFocus;
 			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
-			tv.setText(eoi.getTitle());
+			tv.setText(eoi.getTitle() + "\nStart: " + eoi.getStartTime()
+					+ "\nEnd: " + eoi.getEndTime());
+			if (eoi.getIsOwner()) 
+				tv.setText(tv.getText() + "\nYou are the owner!");
+			
 			eventDetailsPane_.setVisibility(View.VISIBLE);
 			eventMap_.invalidate();
-		}
-		else
-		{
+		} else {
 			eventDetailsPane_.setVisibility(View.GONE);
 			eventMap_.invalidate();
 		}
