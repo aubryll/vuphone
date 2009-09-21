@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Add your content here.
+This should be a general description of the module
 
 = Team Leader = 
   * ?
@@ -14,9 +14,4 @@ Add your content here.
   * Grayson Sharpe
   * Adam Albright
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= User Stories =
