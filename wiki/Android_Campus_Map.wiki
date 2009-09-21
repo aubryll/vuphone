@@ -10,9 +10,9 @@ Add your content here.
 
 = Developers = 
   * Kyle Liming
-  * Zachary McAnally
+  * Zachary McAnally 
   * Dan Hasday
-  * Rob McColl
+  * Rob McColl 
 
 = Details =
 
