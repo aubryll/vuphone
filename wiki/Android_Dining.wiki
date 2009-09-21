@@ -5,6 +5,11 @@
 
 Add your content here.
 
+= Developers =
+  * Russ Amos
+  * Evan Kaiser
+  * Grayson Sharpe
+  * Adam Albright
 
 = Details =
 
