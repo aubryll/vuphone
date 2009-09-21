@@ -1,17 +1,21 @@
 #summary A page for the developers of the Android Dining Module
 #labels Phase-Design
 
-= Introduction =
+== Introduction ==
 
 This should be a general description of the module
 
-= Team Leader = 
+== Team Leader ==
   * ?
 
-= Developers =
+== Developers ==
   * Russ Amos
   * Evan Kaiser
   * Grayson Sharpe
   * Adam Albright
 
-= User Stories =
+== Notes ==
+
+Please see http://vanderbilt.mymenumanager.net/menu.php?date=9,17,2009&location=5 for a way to request dining menus 
+
+== User Stories ==
