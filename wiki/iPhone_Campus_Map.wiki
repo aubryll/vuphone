@@ -3,12 +3,18 @@
 
 = Introduction =
 
-Add your content here.
+This will be a brief overview of the campus map iPhone application
 
+= Team Leader =
+ * TBD within 2 weeks
 
-= Details =
+= Developers =
+ * Grant Brennecke
+ * Guy Kopsombut
+ * Demetri Miller
+ * Joshua Stein
+ * Ben Wibking
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= User Stories =
+
+ * Users will see a map of campus events
