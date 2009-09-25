@@ -216,10 +216,10 @@
 						<key>_historyCapacity</key>
 						<integer>20</integer>
 						<key>bookmark</key>
-						<string>612F82F5106D467B00239F6B</string>
+						<string>612F833F106D6E7B00239F6B</string>
 						<key>history</key>
 						<array>
-							<string>612F82DA106D440C00239F6B</string>
+							<string>612F82F5106D467B00239F6B</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -235,7 +235,7 @@
 				<key>PBXModuleWindowStatusBarHidden2</key>
 				<false/>
 				<key>RubberWindowFrame</key>
-				<string>1093 64 901 717 0 0 1440 878 </string>
+				<string>2773 -18 901 717 1440 -150 1680 1050 </string>
 			</dict>
 		</dict>
 	</array>
@@ -272,6 +272,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -319,8 +321,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>5</integer>
-									<integer>4</integer>
+									<integer>36</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -355,8 +356,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -374,11 +373,10 @@
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>612F82F4106D467B00239F6B</string>
+										<string>612F833E106D6E7B00239F6B</string>
 										<key>history</key>
 										<array>
 											<string>612F8271106D1FA900239F6B</string>
-											<string>612F828B106D256900239F6B</string>
 											<string>612F82B2106D2E6D00239F6B</string>
 											<string>612F82B3106D2E6D00239F6B</string>
 											<string>612F82B4106D2E6D00239F6B</string>
@@ -388,27 +386,20 @@
 											<string>612F82DF106D45D800239F6B</string>
 											<string>612F82E0106D45D800239F6B</string>
 											<string>612F82E1106D45D800239F6B</string>
-											<string>612F82EE106D45D800239F6B</string>
+											<string>612F82F4106D467B00239F6B</string>
 										</array>
 										<key>prevStack</key>
 										<array>
-											<string>612F828E106D256900239F6B</string>
 											<string>612F82BD106D2E6D00239F6B</string>
-											<string>612F82BF106D2E6D00239F6B</string>
 											<string>612F82C0106D2E6D00239F6B</string>
 											<string>612F82C1106D2E6D00239F6B</string>
-											<string>612F82C2106D2E6D00239F6B</string>
 											<string>612F82CB106D2F6300239F6B</string>
 											<string>612F82D2106D2FFD00239F6B</string>
 											<string>612F82D8106D41BF00239F6B</string>
 											<string>612F82E5106D45D800239F6B</string>
 											<string>612F82E6106D45D800239F6B</string>
 											<string>612F82E8106D45D800239F6B</string>
-											<string>612F82E9106D45D800239F6B</string>
 											<string>612F82EA106D45D800239F6B</string>
-											<string>612F82EB106D45D800239F6B</string>
-											<string>612F82EC106D45D800239F6B</string>
-											<string>612F82ED106D45D800239F6B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -466,9 +457,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>612F7E121067BFCF00239F6B</string>
+				<string>612F8337106D6E3400239F6B</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>612F7E131067BFCF00239F6B</string>
+				<string>612F8338106D6E3400239F6B</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -602,15 +593,9 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>61F77A451054D24C0071CA64</string>
-		<string>612F7E5710682ADD00239F6B</string>
-		<string>612F7E5810682ADD00239F6B</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
-		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>61F779DA1054CF330071CA64</string>
 		<string>612F82F1106D45D800239F6B</string>
-		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/vandy-upon-iphone/VandyUpon.xcodeproj</string>
+		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Events.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>45 55 1045 823 0 0 1440 878 </string>
@@ -634,7 +619,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>VUEditableCellController.h</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -692,7 +677,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>61F779DA1054CF330071CA64</string>
-				<string>612F7E151067FFF800239F6B</string>
+				<string>612F833A106D6E3400239F6B</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
