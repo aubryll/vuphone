@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* VandyUponAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* EventsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* EventsAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		28C3AD8A0F43EF2300507BA6 /* VandyUpon.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */; };
+		28C3AD8A0F43EF2300507BA6 /* Events.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F7E22106821AE00239F6B /* VULocationCellController.m */; };
 		612F82DC106D442A00239F6B /* EventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F82DB106D442A00239F6B /* EventStoreTests.m */; };
@@ -63,17 +63,17 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VandyUponAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VandyUponAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* VandyUpon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VandyUpon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D3623240D0F684500981E51 /* EventsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* EventsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventsAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* Events.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Events.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = XIBs/MainWindow.xib; sourceTree = "<group>"; };
-		28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = VandyUpon.xcdatamodel; sourceTree = "<group>"; };
+		28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Events.xcdatamodel; sourceTree = "<group>"; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		32CA4F630368D1EE00C91783 /* VandyUpon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VandyUpon_Prefix.pch; sourceTree = "<group>"; };
-		61125E8C1064868B00247A75 /* VandyUpon-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "VandyUpon-Info.plist"; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Events_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Events_Prefix.pch; sourceTree = "<group>"; };
+		61125E8C1064868B00247A75 /* Events-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Events-Info.plist"; sourceTree = "<group>"; };
 		612F7E21106821AE00239F6B /* VULocationCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VULocationCellController.h; sourceTree = "<group>"; };
 		612F7E22106821AE00239F6B /* VULocationCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VULocationCellController.m; sourceTree = "<group>"; };
 		612F829B106D2C3D00239F6B /* VUCellControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUCellControllerDelegate.h; sourceTree = "<group>"; };
@@ -172,8 +172,8 @@
 				61F77B20105558DC0071CA64 /* Model */,
 				61BBB80A10580222009481D6 /* View */,
 				61F77B27105559660071CA64 /* Controller */,
-				1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */,
-				1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */,
+				1D3623240D0F684500981E51 /* EventsAppDelegate.h */,
+				1D3623250D0F684500981E51 /* EventsAppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -181,7 +181,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* VandyUpon.app */,
+				1D6058910D05DD3D006BFB54 /* Events.app */,
 				61F77A8C105545F60071CA64 /* UnitTests.octest */,
 			);
 			name = Products;
@@ -197,8 +197,8 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				615BFB1C105D5863005497F9 /* libxml2.dylib */,
-				28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */,
-				61125E8C1064868B00247A75 /* VandyUpon-Info.plist */,
+				28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */,
+				61125E8C1064868B00247A75 /* Events-Info.plist */,
 				61F77A071054D0500071CA64 /* UnitTests-Info.plist */,
 			);
 			name = CustomTemplate;
@@ -208,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				61F77BA4105568E10071CA64 /* KissXML */,
-				32CA4F630368D1EE00C91783 /* VandyUpon_Prefix.pch */,
+				32CA4F630368D1EE00C91783 /* Events_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -332,9 +332,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* VandyUpon */ = {
+		1D6058900D05DD3D006BFB54 /* Events */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "VandyUpon" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Events" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -344,9 +344,9 @@
 			);
 			dependencies = (
 			);
-			name = VandyUpon;
-			productName = VandyUpon;
-			productReference = 1D6058910D05DD3D006BFB54 /* VandyUpon.app */;
+			name = Events;
+			productName = Events;
+			productReference = 1D6058910D05DD3D006BFB54 /* Events.app */;
 			productType = "com.apple.product-type.application";
 		};
 		61F77A8B105545F60071CA64 /* UnitTests */ = {
@@ -372,14 +372,14 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "VandyUpon" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Events" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* VandyUpon */,
+				1D6058900D05DD3D006BFB54 /* Events */,
 				61F77A8B105545F60071CA64 /* UnitTests */,
 			);
 		};
@@ -431,8 +431,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* VandyUponAppDelegate.m in Sources */,
-				28C3AD8A0F43EF2300507BA6 /* VandyUpon.xcdatamodel in Sources */,
+				1D3623260D0F684500981E51 /* EventsAppDelegate.m in Sources */,
+				28C3AD8A0F43EF2300507BA6 /* Events.xcdatamodel in Sources */,
 				61F77AC510554E640071CA64 /* EventListViewController.m in Sources */,
 				61F77BA3105568050071CA64 /* RemoteEventLoader.m in Sources */,
 				61F77BB1105569120071CA64 /* DDXMLDocument.m in Sources */,
@@ -493,9 +493,9 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = VandyUpon_Prefix.pch;
-				INFOPLIST_FILE = "VandyUpon-Info.plist";
-				PRODUCT_NAME = VandyUpon;
+				GCC_PREFIX_HEADER = Events_Prefix.pch;
+				INFOPLIST_FILE = "Events-Info.plist";
+				PRODUCT_NAME = Events;
 			};
 			name = Debug;
 		};
@@ -510,9 +510,9 @@
 					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = VandyUpon_Prefix.pch;
-				INFOPLIST_FILE = "VandyUpon-Info.plist";
-				PRODUCT_NAME = VandyUpon;
+				GCC_PREFIX_HEADER = Events_Prefix.pch;
+				INFOPLIST_FILE = "Events-Info.plist";
+				PRODUCT_NAME = Events;
 			};
 			name = Release;
 		};
@@ -603,7 +603,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "VandyUpon" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Events" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -621,7 +621,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "VandyUpon" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Events" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

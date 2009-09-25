@@ -1,26 +1,26 @@
 // !$*UTF8*$!
 {
-	1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */ = {
+	1D3623240D0F684500981E51 /* EventsAppDelegate.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {709, 766}}";
 			sepNavSelRange = "{578, 0}";
 			sepNavVisRange = "{0, 578}";
 		};
 	};
-	1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */ = {
+	1D3623250D0F684500981E51 /* EventsAppDelegate.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {709, 980}}";
 			sepNavSelRange = "{415, 0}";
 			sepNavVisRange = "{234, 1080}";
 		};
 	};
-	1D6058900D05DD3D006BFB54 /* VandyUpon */ = {
+	1D6058900D05DD3D006BFB54 /* Events */ = {
 		activeExec = 0;
 		executables = (
-			61F779BB1054720F0071CA64 /* VandyUpon */,
+			61F779BB1054720F0071CA64 /* Events */,
 		);
 	};
-	28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */ = {
+	28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */ = {
 		uiCtxt = {
 			"Xdesign Model Editor Bookmark Key" = {
 				UIContextForDetailArea = {
@@ -181,17 +181,17 @@
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
-		activeExecutable = 61F779BB1054720F0071CA64 /* VandyUpon */;
+		activeExecutable = 61F779BB1054720F0071CA64 /* Events */;
 		activeSDKPreference = iphonesimulator3.0;
-		activeTarget = 1D6058900D05DD3D006BFB54 /* VandyUpon */;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* Events */;
 		addToTargets = (
-			1D6058900D05DD3D006BFB54 /* VandyUpon */,
+			1D6058900D05DD3D006BFB54 /* Events */,
 		);
 		breakpoints = (
 		);
 		codeSenseManager = 61F779D2105472140071CA64 /* Code sense */;
 		executables = (
-			61F779BB1054720F0071CA64 /* VandyUpon */,
+			61F779BB1054720F0071CA64 /* Events */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
@@ -5102,8 +5102,8 @@
 	};
 	612F8227106D158900239F6B /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */;
-		name = "VandyUponAppDelegate.m: 40";
+		fRef = 1D3623250D0F684500981E51 /* EventsAppDelegate.m */;
+		name = "EventsAppDelegate.m: 40";
 		rLen = 0;
 		rLoc = 803;
 		rType = 0;
@@ -5132,8 +5132,8 @@
 	};
 	612F822A106D158900239F6B /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */;
-		name = "VandyUponAppDelegate.m: 25";
+		fRef = 1D3623250D0F684500981E51 /* EventsAppDelegate.m */;
+		name = "EventsAppDelegate.m: 25";
 		rLen = 0;
 		rLoc = 513;
 		rType = 0;
@@ -6941,8 +6941,8 @@
 	};
 	61F112AD1066EF2700AA3F38 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 23";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 23";
 		rLen = 0;
 		rLoc = 515;
 		rType = 0;
@@ -6971,8 +6971,8 @@
 	};
 	61F112B01066EF2700AA3F38 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 23";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 23";
 		rLen = 0;
 		rLoc = 515;
 		rType = 0;
@@ -7010,8 +7010,8 @@
 	};
 	61F112C81067416200AA3F38 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 26";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 26";
 		rLen = 0;
 		rLoc = 578;
 		rType = 0;
@@ -7067,8 +7067,8 @@
 	};
 	61F112CE1067416200AA3F38 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 26";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 26";
 		rLen = 0;
 		rLoc = 578;
 		rType = 0;
@@ -7435,8 +7435,8 @@
 	};
 	61F113011067476700AA3F38 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 26";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 26";
 		rLen = 0;
 		rLoc = 578;
 		rType = 0;
@@ -7553,7 +7553,7 @@
 		vrLen = 551;
 		vrLoc = 0;
 	};
-	61F779BB1054720F0071CA64 /* VandyUpon */ = {
+	61F779BB1054720F0071CA64 /* Events */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -7578,7 +7578,7 @@
 		executableSystemSymbolLevel = 0;
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
-		name = VandyUpon;
+		name = Events;
 		savedGlobals = {
 		};
 		sourceDirectories = (
@@ -7708,8 +7708,8 @@
 	};
 	61F939A51066E8E200C8AAA0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 23";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 23";
 		rLen = 0;
 		rLoc = 515;
 		rType = 0;
@@ -7718,8 +7718,8 @@
 	};
 	61F939A61066E8E200C8AAA0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */;
-		name = "VandyUponAppDelegate.m: 30";
+		fRef = 1D3623250D0F684500981E51 /* EventsAppDelegate.m */;
+		name = "EventsAppDelegate.m: 30";
 		rLen = 0;
 		rLoc = 640;
 		rType = 0;
@@ -7768,8 +7768,8 @@
 	};
 	61F939AB1066E8E200C8AAA0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623240D0F684500981E51 /* VandyUponAppDelegate.h */;
-		name = "VandyUponAppDelegate.h: 23";
+		fRef = 1D3623240D0F684500981E51 /* EventsAppDelegate.h */;
+		name = "EventsAppDelegate.h: 23";
 		rLen = 0;
 		rLoc = 515;
 		rType = 0;
@@ -7778,8 +7778,8 @@
 	};
 	61F939AC1066E8E200C8AAA0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* VandyUponAppDelegate.m */;
-		name = "VandyUponAppDelegate.m: 30";
+		fRef = 1D3623250D0F684500981E51 /* EventsAppDelegate.m */;
+		name = "EventsAppDelegate.m: 30";
 		rLen = 0;
 		rLoc = 640;
 		rType = 0;
