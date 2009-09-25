@@ -148,6 +148,10 @@
 
 - (void)propagateEditingFields
 {
+	if (!tableGroups) {
+		[self constructTableGroups];
+	}
+
 	for (NSArray *group in tableGroups) {
 		for (NSObject<VUCellController> *cell in group) {
 			if ([cell respondsToSelector:@selector(setEditingField:)])

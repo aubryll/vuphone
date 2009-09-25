@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
+#import <CoreData/CoreData.h>
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, NSFetchedResultsControllerDelegate> {
 

@@ -12,32 +12,6 @@
 
 @implementation EventListViewController
 
-- (CLLocationManager *)locationManager
-{
-	if (locationManager != nil) {
-		return locationManager;
-	}
-	
-	locationManager = [[CLLocationManager alloc] init];
-	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-	locationManager.delegate = self;
-	
-	return locationManager;
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-	didUpdateToLocation:(CLLocation *)newLocation
-		   fromLocation:(CLLocation *)oldLocation
-{
-	addButton.enabled = YES;
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-	   didFailWithError:(NSError *)error
-{
-	addButton.enabled = NO;
-}
-
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
@@ -55,16 +29,16 @@
 		[request setEntity:entity];
 		
 		// Sort the request
-		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startTime" ascending:NO];
+		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:VUEntityPropertyNameStartTime ascending:NO];
 		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 		[sortDescriptor release];
 		
 		// Set up the fetched results controller
-		fetchedResultsC = [[NSFetchedResultsController alloc]
+		fetchedResultsC = [[[NSFetchedResultsController alloc]
 							initWithFetchRequest:request
 							managedObjectContext:context
 							sectionNameKeyPath:nil
-						   	cacheName:@"eventsCache"];
+						   	cacheName:@"eventListCache"] retain];
 		[request release];
 		// Set self as the delegate
 		fetchedResultsC.delegate = self;
@@ -115,6 +89,35 @@
 		eventViewController = eventViewC;
 	}
 	return eventViewController;
+}
+
+
+#pragma mark CLLocation methods
+
+- (CLLocationManager *)locationManager
+{
+	if (locationManager != nil) {
+		return locationManager;
+	}
+	
+	locationManager = [[CLLocationManager alloc] init];
+	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+	locationManager.delegate = self;
+	
+	return locationManager;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+	didUpdateToLocation:(CLLocation *)newLocation
+		   fromLocation:(CLLocation *)oldLocation
+{
+	addButton.enabled = YES;
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+	   didFailWithError:(NSError *)error
+{
+	addButton.enabled = NO;
 }
 
 
@@ -247,8 +250,8 @@
 {
 	UITableView *tableView = self.tableView;
 	
-	switch(type) {
-			
+	switch(type)
+	{
 		case NSFetchedResultsChangeInsert:
 			NSLog(@"NSFetchedResultsChangeInsert");
 			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
@@ -281,6 +284,7 @@
 
 
 #pragma mark UISearchDisplayDelegate
+
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
 	NSLog(@"filterContentForSearchText");
 //	[self.fetchedResultsC filterUsingPredicate:[NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", VUEntityPropertyNameName, searchText]];

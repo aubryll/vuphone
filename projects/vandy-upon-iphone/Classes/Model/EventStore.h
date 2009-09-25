@@ -16,7 +16,15 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 }
 
+/**
+ A singleton method to get the shared event store
+ */
 + (EventStore *)sharedEventStore;
+
+/**
+ A convenience method which creates an autoreleased editing context with the shared event store
+ */
+- (NSManagedObjectContext *)editingContext;
 
 /**
  Returns the managed object context for the application.

@@ -72,6 +72,21 @@ static EventStore *eventStore = nil;
 #pragma mark Class methods
 
 /**
+ A convenience method which creates an autoreleased editing context with the shared event store
+ */
+- (NSManagedObjectContext *)editingContext
+{
+	NSManagedObjectContext *context;
+	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+	if (coordinator != nil) {
+		context = [[NSManagedObjectContext alloc] init];
+		[context setPersistentStoreCoordinator:coordinator];
+	}
+
+	return [context autorelease];
+}
+
+/**
  Returns the managed object context for the application.
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */

@@ -15,6 +15,7 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28C3AD8A0F43EF2300507BA6 /* VandyUpon.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
+		612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F7E22106821AE00239F6B /* VULocationCellController.m */; };
 		615BFAF7105CC106005497F9 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AC105770A0009481D6 /* Event.m */; };
 		615BFAF9105CC127005497F9 /* RemoteEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */; };
 		615BFB02105CC453005497F9 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AE105770A0009481D6 /* Location.m */; };
@@ -41,6 +42,10 @@
 		61BBB7E710580004009481D6 /* VUStartEndDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB7E610580004009481D6 /* VUStartEndDateCell.m */; };
 		61BBB7EB10580064009481D6 /* VUStartEndDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */; };
 		61BBB83C10580743009481D6 /* VUEditableCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB83B10580743009481D6 /* VUEditableCellController.m */; };
+		61F112AA1066EF1E00AA3F38 /* LocationListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F112A81066EF1E00AA3F38 /* LocationListViewController.xib */; };
+		61F112B31066EFA200AA3F38 /* LocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F112B21066EFA200AA3F38 /* LocationListViewController.m */; };
+		61F112C61067415600AA3F38 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F112C41067415600AA3F38 /* LocationViewController.m */; };
+		61F112C71067415600AA3F38 /* LocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F112C51067415600AA3F38 /* LocationViewController.xib */; };
 		61F779FF1054CFAC0071CA64 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F779FE1054CFAC0071CA64 /* SenTestingKit.framework */; };
 		61F77A921055463C0071CA64 /* VUEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77A911055463C0071CA64 /* VUEventTests.m */; };
 		61F77AC510554E640071CA64 /* EventListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77AC410554E640071CA64 /* EventListViewController.m */; };
@@ -68,6 +73,9 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* VandyUpon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VandyUpon_Prefix.pch; sourceTree = "<group>"; };
 		61125E8C1064868B00247A75 /* VandyUpon-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "VandyUpon-Info.plist"; sourceTree = "<group>"; };
+		612F7E21106821AE00239F6B /* VULocationCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VULocationCellController.h; sourceTree = "<group>"; };
+		612F7E22106821AE00239F6B /* VULocationCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VULocationCellController.m; sourceTree = "<group>"; };
+		612F829B106D2C3D00239F6B /* VUCellControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUCellControllerDelegate.h; sourceTree = "<group>"; };
 		615BFB1C105D5863005497F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		615BFB24105D58B0005497F9 /* EventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
 		615BFB25105D58B0005497F9 /* EventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
@@ -97,6 +105,12 @@
 		61BBB820105804E5009481D6 /* VUCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUCellController.h; sourceTree = "<group>"; };
 		61BBB83A10580743009481D6 /* VUEditableCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUEditableCellController.h; sourceTree = "<group>"; };
 		61BBB83B10580743009481D6 /* VUEditableCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUEditableCellController.m; sourceTree = "<group>"; };
+		61F112A81066EF1E00AA3F38 /* LocationListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LocationListViewController.xib; path = XIBs/LocationListViewController.xib; sourceTree = "<group>"; };
+		61F112B11066EFA200AA3F38 /* LocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationListViewController.h; sourceTree = "<group>"; };
+		61F112B21066EFA200AA3F38 /* LocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationListViewController.m; sourceTree = "<group>"; };
+		61F112C31067415600AA3F38 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
+		61F112C41067415600AA3F38 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
+		61F112C51067415600AA3F38 /* LocationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LocationViewController.xib; path = XIBs/LocationViewController.xib; sourceTree = "<group>"; };
 		61F779FE1054CFAC0071CA64 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		61F77A071054D0500071CA64 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		61F77A8C105545F60071CA64 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,6 +217,8 @@
 			children = (
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				61BBB64F10575D45009481D6 /* EventView.xib */,
+				61F112A81066EF1E00AA3F38 /* LocationListViewController.xib */,
+				61F112C51067415600AA3F38 /* LocationViewController.xib */,
 				61BBB75B1057E7ED009481D6 /* VUEditableTableViewCell.xib */,
 				61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */,
 				61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */,
@@ -265,21 +281,28 @@
 		61F77B27105559660071CA64 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				61BBB820105804E5009481D6 /* VUCellController.h */,
+				612F829B106D2C3D00239F6B /* VUCellControllerDelegate.h */,
 				615BFBE6105D898C005497F9 /* VUTableViewController.h */,
 				615BFBE7105D898C005497F9 /* VUTableViewController.m */,
-				61BBB820105804E5009481D6 /* VUCellController.h */,
 				61BBB83A10580743009481D6 /* VUEditableCellController.h */,
 				61BBB83B10580743009481D6 /* VUEditableCellController.m */,
+				612F7E21106821AE00239F6B /* VULocationCellController.h */,
+				612F7E22106821AE00239F6B /* VULocationCellController.m */,
 				615BFC7F105DA0DA005497F9 /* VUStartEndDateCellController.h */,
 				615BFC80105DA0DA005497F9 /* VUStartEndDateCellController.m */,
 				61F77AC310554E640071CA64 /* EventListViewController.h */,
 				61F77AC410554E640071CA64 /* EventListViewController.m */,
-				61F77BA1105568050071CA64 /* RemoteEventLoader.h */,
-				61F77BA2105568050071CA64 /* RemoteEventLoader.m */,
-				61F77BB610556A860071CA64 /* MapViewController.h */,
-				61F77BB710556A860071CA64 /* MapViewController.m */,
 				61BBB64D10575D45009481D6 /* EventViewController.h */,
 				61BBB64E10575D45009481D6 /* EventViewController.m */,
+				61F112B11066EFA200AA3F38 /* LocationListViewController.h */,
+				61F112B21066EFA200AA3F38 /* LocationListViewController.m */,
+				61F112C31067415600AA3F38 /* LocationViewController.h */,
+				61F112C41067415600AA3F38 /* LocationViewController.m */,
+				61F77BB610556A860071CA64 /* MapViewController.h */,
+				61F77BB710556A860071CA64 /* MapViewController.m */,
+				61F77BA1105568050071CA64 /* RemoteEventLoader.h */,
+				61F77BA2105568050071CA64 /* RemoteEventLoader.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -369,6 +392,8 @@
 				61BBB75C1057E7ED009481D6 /* VUEditableTableViewCell.xib in Resources */,
 				61BBB7E01057FDD3009481D6 /* VUStartEndDatePicker.xib in Resources */,
 				61BBB7EB10580064009481D6 /* VUStartEndDateCell.xib in Resources */,
+				61F112AA1066EF1E00AA3F38 /* LocationListViewController.xib in Resources */,
+				61F112C71067415600AA3F38 /* LocationViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +449,9 @@
 				615BFB26105D58B0005497F9 /* EventStore.m in Sources */,
 				615BFBE8105D898C005497F9 /* VUTableViewController.m in Sources */,
 				615BFC81105DA0DA005497F9 /* VUStartEndDateCellController.m in Sources */,
+				61F112B31066EFA200AA3F38 /* LocationListViewController.m in Sources */,
+				61F112C61067415600AA3F38 /* LocationViewController.m in Sources */,
+				612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

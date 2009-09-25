@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "Event.h"
 #import "Location.h"
+#import "EntityConstants.h"
 
 @implementation MapViewController
 
@@ -21,17 +22,17 @@
 		NSEntityDescription *entity = [NSEntityDescription entityForName:@"Event" inManagedObjectContext:managedObjectContext];
 		[request setEntity:entity];
 		
-		// Sort the request
-		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startTime" ascending:NO];
-		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-		[sortDescriptor release];
-		
+		// Set the sort descriptor, because NSFetchedResultsController sends messages to freed objects if not
+		NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:VUEntityPropertyNameName ascending:YES];
+		[request setSortDescriptors:[NSArray arrayWithObject:sort]];
+		[sort release];
+
 		// Set up the fetched results controller
 		fetchedResultsC = [[NSFetchedResultsController alloc]
 						   initWithFetchRequest:request
 						   managedObjectContext:managedObjectContext
 						   sectionNameKeyPath:nil
-						   cacheName:@"eventsCache"];
+						   cacheName:@"mapEventsCache"];
 		[request release];
 		// Set self as the delegate
 		fetchedResultsC.delegate = self;
@@ -41,17 +42,19 @@
 		BOOL success = [fetchedResultsC performFetch:&error];
 		if (!success) {
 			NSLog(@"No events found");
+		} else {
+			// Add the annotations
+			for (Event *event in [fetchedResultsC fetchedObjects]) {
+				[mapView addAnnotation:event];
+			}
 		}
-	}
 
-	CLLocationCoordinate2D coordinate;
-	for (Event *event in [fetchedResultsC fetchedObjects]) {
-		coordinate.latitude = [event.location.latitude doubleValue];
-		coordinate.longitude = [event.location.longitude doubleValue];
-		MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
-		[mapView addAnnotation:placemark];
+		// Move the map to VU's campus
+		CLLocationCoordinate2D coords;
+		coords.latitude = 36.146671;
+		coords.longitude = -86.803709;
+		[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 100.0, 100.0)];
 	}
-	[mapView sizeToFit];
 }
 
 // Override to allow orientations other than the default portrait orientation.
@@ -77,8 +80,39 @@
 
 
 - (void)dealloc {
+	[fetchedResultsC release];
     [super dealloc];
 }
+
+#pragma mark NSFetchedResultsControllerDelegate
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
+	   atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
+	  newIndexPath:(NSIndexPath *)newIndexPath
+{
+	switch(type)
+	{
+		case NSFetchedResultsChangeInsert:
+			NSLog(@"NSFetchedResultsChangeInsert with event %@", ((Event *)anObject).name);
+			[mapView addAnnotation:anObject];
+			break;
+			
+		case NSFetchedResultsChangeDelete:
+			NSLog(@"NSFetchedResultsChangeDelete");
+			[mapView removeAnnotation:anObject];
+			break;
+			
+		case NSFetchedResultsChangeUpdate:
+			NSLog(@"NSFetchedResultsChangeUpdate");
+			[mapView removeAnnotation:anObject];
+			[mapView addAnnotation:anObject];
+			break;
+			
+		case NSFetchedResultsChangeMove:
+			break;
+	}
+}
+
 
 @synthesize managedObjectContext;
 @synthesize fetchedResultsC;

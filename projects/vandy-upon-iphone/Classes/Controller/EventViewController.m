@@ -11,6 +11,7 @@
 #import "VUTableViewController.h"
 #import "VUEditableCellController.h"
 #import "VUStartEndDateCellController.h"
+#import "VULocationCellController.h"
 
 #import "EntityConstants.h"
 #import "NSManagedObject-IsNew.h"
@@ -23,6 +24,9 @@
     [super viewDidLoad];
 	
 	dateFormatter = [[NSDateFormatter alloc] init];
+	
+	// Set up KVC for the Event
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -68,29 +72,7 @@
 
 - (IBAction)save:(id)sender
 {
-	// Name
-	[event setName:[self valueForVUEditableTableViewRow:0 inSection:0]];
-
-	// Start/stop time
-	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:1];
-	VUStartEndDateCell *startEndCell = (VUStartEndDateCell *)[self.tableView cellForRowAtIndexPath:path];
-	[event setStartTime:startEndCell.startDate];
-	[event setEndTime:startEndCell.endDate];
-	
-	// Details
-	[event setDetails:[self valueForVUEditableTableViewRow:0 inSection:3]];
-	
-	// URL
-	[event setUrl:[self valueForVUEditableTableViewRow:0 inSection:4]];
-
-	if (!event.location) {
-		Location *location = (Location *)[NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
-															  inManagedObjectContext:context];
-
-		[event setLocation:location];
-	}
-	[event.location setName:[self valueForVUEditableTableViewRow:0 inSection:2]];
-	
+	[self getValuesFromTableIntoEvent:self.event];
 	NSError *error;
 	if (![context save:&error]) {
 		NSLog(@"There was an error saving the event: %@", error);
@@ -130,6 +112,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSLog(@"cellForRowAtIndexPath %i, %i", indexPath.section, indexPath.row);
 	UITableViewCell *cell = [super tableView:aTableView cellForRowAtIndexPath:indexPath];
 	
 	switch (indexPath.section) {
@@ -141,7 +124,9 @@
 			((VUStartEndDateCell *)cell).endDate = event.endTime;
 			break;
 		case 2:	// Location
-			((VUEditableCell *)cell).textField.text = event.location.name;
+			NSLog(@"Setting event's location to %@", event.location.name);
+			cell.detailTextLabel.text = event.location.name;
+//			((VULocationCellController *)[[tableGroups objectAtIndex:2] objectAtIndex:0]).location = event.location;
 			break;
 		case 3:	// Details
 			((VUEditableCell *)cell).textField.text = event.details;
@@ -156,16 +141,30 @@
 
 - (void)constructTableGroups
 {
-	NSArray *nameGroup = [NSArray arrayWithObject:
-						  [[[VUEditableCellController alloc] initWithLabel:@"Name"] autorelease]];
-	NSArray *dateGroup = [NSArray arrayWithObject:
-						  [[[VUStartEndDateCellController alloc] init] autorelease]];
-	NSArray *locationGroup = [NSArray arrayWithObject:
-							  [[[VUEditableCellController alloc] initWithLabel:@"Location"] autorelease]];
-	NSArray *detailsGroup = [NSArray arrayWithObject:
-							 [[[VUEditableCellController alloc] initWithLabel:@"Details"] autorelease]];
-	NSArray *urlGroup = [NSArray arrayWithObject:
-						 [[[VUEditableCellController alloc] initWithLabel:@"URL"] autorelease]];
+	VUEditableCellController *ecc;
+	
+	// Name
+	ecc = [[VUEditableCellController alloc] initWithLabel:@"Name"];
+	ecc.delegate = self;
+	NSArray *nameGroup = [NSArray arrayWithObject:[ecc autorelease]];
+	
+	// Date
+	NSArray *dateGroup = [NSArray arrayWithObject:[[[VUStartEndDateCellController alloc] init] autorelease]];
+
+	// Location
+	VULocationCellController *locationC = [[VULocationCellController alloc] init];
+	locationC.location = self.event.location;
+	NSArray *locationGroup = [NSArray arrayWithObject:[locationC autorelease]];
+
+	// Details
+	ecc = [[VUEditableCellController alloc] initWithLabel:@"Details"];
+	ecc.delegate = self;
+	NSArray *detailsGroup = [NSArray arrayWithObject:[ecc autorelease]];
+	
+	// URL
+	ecc = [[VUEditableCellController alloc] initWithLabel:@"URL"];
+	ecc.delegate = self;
+	NSArray *urlGroup = [NSArray arrayWithObject:[ecc autorelease]];
 
 	tableGroups = [[NSArray arrayWithObjects:nameGroup, dateGroup, locationGroup, detailsGroup, urlGroup, nil] retain];
 }
@@ -177,6 +176,33 @@
 	} else {
 		return 44.0;
 	}
+}
+
+- (void)cellControllerValueChanged:(id)newValue {
+	NSLog(@"cellControllerValueChanged: %@", newValue);
+	[self getValuesFromTableIntoEvent:self.event];
+}
+
+- (void)getValuesFromTableIntoEvent:(Event *)anEvent
+{
+	// Name
+	[anEvent setName:[self valueForVUEditableTableViewRow:0 inSection:0]];
+	
+	// Start/stop time
+	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:1];
+	VUStartEndDateCell *startEndCell = (VUStartEndDateCell *)[self.tableView cellForRowAtIndexPath:path];
+	[anEvent setStartTime:startEndCell.startDate];
+	[anEvent setEndTime:startEndCell.endDate];
+	
+	path = [NSIndexPath indexPathForRow:0 inSection:2];
+	VULocationCellController *locationC = [[tableGroups objectAtIndex:2] objectAtIndex:0];
+	[anEvent setLocation:locationC.location];
+	
+	// Details
+	[anEvent setDetails:[self valueForVUEditableTableViewRow:0 inSection:3]];
+	
+	// URL
+	[anEvent setUrl:[self valueForVUEditableTableViewRow:0 inSection:4]];
 }
 
 - (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section

@@ -12,8 +12,9 @@
 #import "Location.h"
 
 #import "VUTableViewController.h"
+#import "VUCellControllerDelegate.h"
 
-@interface EventViewController : VUTableViewController
+@interface EventViewController : VUTableViewController <VUCellControllerDelegate>
 {
 	IBOutlet UITableView *myTableView;
 	IBOutlet UIBarButtonItem *saveButton;
@@ -30,6 +31,8 @@
 - (IBAction)cancelAdd:(id)sender;
 - (IBAction)beginEditing:(id)sender;
 - (IBAction)cancelEditing:(id)sender;
+
+- (void)getValuesFromTableIntoEvent:(Event *)anEvent;
 - (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section;
 
 @property (nonatomic, retain, setter=setEvent) Event *event;

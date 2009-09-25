@@ -11,11 +11,6 @@
 
 @implementation VUStartEndDateCell
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-	NSLog(@"VUStartEndDateCell setSelected: %i", selected);
-}
-
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 88.0;
