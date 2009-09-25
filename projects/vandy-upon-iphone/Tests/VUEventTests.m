@@ -13,7 +13,6 @@
 #import "EventStore.h"
 
 @interface VUEventTests : SenTestCase {
-	
 }
 
 @end

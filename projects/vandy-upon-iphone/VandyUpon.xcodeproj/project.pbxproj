@@ -16,6 +16,7 @@
 		28C3AD8A0F43EF2300507BA6 /* VandyUpon.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* VandyUpon.xcdatamodel */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F7E22106821AE00239F6B /* VULocationCellController.m */; };
+		612F82DC106D442A00239F6B /* EventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F82DB106D442A00239F6B /* EventStoreTests.m */; };
 		615BFAF7105CC106005497F9 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AC105770A0009481D6 /* Event.m */; };
 		615BFAF9105CC127005497F9 /* RemoteEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */; };
 		615BFB02105CC453005497F9 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AE105770A0009481D6 /* Location.m */; };
@@ -76,6 +77,7 @@
 		612F7E21106821AE00239F6B /* VULocationCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VULocationCellController.h; sourceTree = "<group>"; };
 		612F7E22106821AE00239F6B /* VULocationCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VULocationCellController.m; sourceTree = "<group>"; };
 		612F829B106D2C3D00239F6B /* VUCellControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUCellControllerDelegate.h; sourceTree = "<group>"; };
+		612F82DB106D442A00239F6B /* EventStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventStoreTests.m; path = Tests/EventStoreTests.m; sourceTree = "<group>"; };
 		615BFB1C105D5863005497F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		615BFB24105D58B0005497F9 /* EventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
 		615BFB25105D58B0005497F9 /* EventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 		61F779D51054CEE00071CA64 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				612F82DB106D442A00239F6B /* EventStoreTests.m */,
 				61F77A911055463C0071CA64 /* VUEventTests.m */,
 			);
 			name = Tests;
@@ -274,6 +277,8 @@
 				61A84234105AA8A60001A6BB /* NSManagedObject-IsNew.m */,
 				615BFB24105D58B0005497F9 /* EventStore.h */,
 				615BFB25105D58B0005497F9 /* EventStore.m */,
+				61F77BA1105568050071CA64 /* RemoteEventLoader.h */,
+				61F77BA2105568050071CA64 /* RemoteEventLoader.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,8 +306,6 @@
 				61F112C41067415600AA3F38 /* LocationViewController.m */,
 				61F77BB610556A860071CA64 /* MapViewController.h */,
 				61F77BB710556A860071CA64 /* MapViewController.m */,
-				61F77BA1105568050071CA64 /* RemoteEventLoader.h */,
-				61F77BA2105568050071CA64 /* RemoteEventLoader.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				61F112B31066EFA200AA3F38 /* LocationListViewController.m in Sources */,
 				61F112C61067415600AA3F38 /* LocationViewController.m in Sources */,
 				612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */,
+				612F82DC106D442A00239F6B /* EventStoreTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
