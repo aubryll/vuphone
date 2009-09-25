@@ -18,3 +18,4 @@ This will be a brief overview of the campus map iPhone application
 = User Stories =
 
  * Users will see a map of campus events
+ * Users will be able to pan the map using single- and multi-touch gestures
