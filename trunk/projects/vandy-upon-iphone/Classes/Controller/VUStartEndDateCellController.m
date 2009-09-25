@@ -13,7 +13,6 @@
 
 - (id)init
 {
-	NSLog(@"VUStartEndDateCellController init");
 	self = [super init];
 	if (self != nil) {
 		isEditable = NO;
@@ -29,7 +28,6 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"startEndDateCellController didSelectRowAtIndexPath");
 	if (isEditable)
 	{
 		// Push a start/end date picker

@@ -27,13 +27,9 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"VUEditableCell didSelectRowAtIndexPath, editable: %i", isEditable);
-/*	if (isEditable) {
-		// Begin editing the field
-		VUEditableCell *cell = (VUEditableCell *)[tableView cellForRowAtIndexPath:indexPath];
-		[cell.textField becomeFirstResponder];
-	}
-*/	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[editableTVC setEditing:isEditable animated:YES];
+
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 //
@@ -62,12 +58,13 @@
 - (void)setEditingField:(BOOL)isEditing
 {
 	isEditable = isEditing;
-	editableTVC.textField.enabled = YES;
+	[editableTVC setEditing:isEditing animated:YES];
 }
 
 - (void)dealloc {
 	[label release];
 	[value release];
+	self.delegate = nil;
     [super dealloc];
 }
 
@@ -81,8 +78,10 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-	// Nothing to do
 	NSLog(@"text field ended editing with value: %@", textField.text);
+	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:)]) {
+		[delegate cellControllerValueChanged:textField.text];
+	}
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -93,5 +92,6 @@
 
 @synthesize label;
 @synthesize value;
+@synthesize delegate;
 
 @end

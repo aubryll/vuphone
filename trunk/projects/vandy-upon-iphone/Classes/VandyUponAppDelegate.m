@@ -44,8 +44,8 @@
  Performs the save action for the application, which is to send the save:
  message to the application's managed object context.
  */
-- (IBAction)saveAction:(id)sender {
-	
+- (IBAction)saveAction:(id)sender
+{
 	NSError *error;
 	if (![[[EventStore sharedEventStore] sharedContext] save:&error]) {
 		// Handle error
@@ -67,4 +67,3 @@
 
 
 @end
-

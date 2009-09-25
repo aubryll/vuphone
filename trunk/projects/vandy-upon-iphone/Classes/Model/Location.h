@@ -14,6 +14,8 @@
 {
 }
 
++ (NSArray *)rootLocations:(NSManagedObjectContext *)context;
+
 @property (nonatomic, retain) NSDecimalNumber * longitude;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDecimalNumber * latitude;
