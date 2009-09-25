@@ -73,7 +73,7 @@
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Events_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Events_Prefix.pch; sourceTree = "<group>"; };
-		61125E8C1064868B00247A75 /* Events-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Events-Info.plist"; sourceTree = "<group>"; };
+		61125E8C1064868B00247A75 /* Event-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Event-Info.plist"; sourceTree = "<group>"; };
 		612F7E21106821AE00239F6B /* VULocationCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VULocationCellController.h; sourceTree = "<group>"; };
 		612F7E22106821AE00239F6B /* VULocationCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VULocationCellController.m; sourceTree = "<group>"; };
 		612F829B106D2C3D00239F6B /* VUCellControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUCellControllerDelegate.h; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				615BFB1C105D5863005497F9 /* libxml2.dylib */,
 				28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */,
-				61125E8C1064868B00247A75 /* Events-Info.plist */,
+				61125E8C1064868B00247A75 /* Event-Info.plist */,
 				61F77A071054D0500071CA64 /* UnitTests-Info.plist */,
 			);
 			name = CustomTemplate;
