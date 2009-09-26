@@ -902,6 +902,15 @@
 			612F83E9106ED45F00239F6B /* PBXTextBookmark */ = 612F83E9106ED45F00239F6B /* PBXTextBookmark */;
 			612F83EB106ED52400239F6B /* PBXTextBookmark */ = 612F83EB106ED52400239F6B /* PBXTextBookmark */;
 			612F83EC106ED52400239F6B /* PBXTextBookmark */ = 612F83EC106ED52400239F6B /* PBXTextBookmark */;
+			612F83EE106ED7F800239F6B /* PBXTextBookmark */ = 612F83EE106ED7F800239F6B /* PBXTextBookmark */;
+			612F83EF106ED7F900239F6B /* PBXTextBookmark */ = 612F83EF106ED7F900239F6B /* PBXTextBookmark */;
+			612F83F2106ED83100239F6B /* PBXTextBookmark */ = 612F83F2106ED83100239F6B /* PBXTextBookmark */;
+			612F83F4106ED83100239F6B /* PBXTextBookmark */ = 612F83F4106ED83100239F6B /* PBXTextBookmark */;
+			612F83F6106ED83100239F6B /* PBXTextBookmark */ = 612F83F6106ED83100239F6B /* PBXTextBookmark */;
+			612F83F7106ED83200239F6B /* PBXTextBookmark */ = 612F83F7106ED83200239F6B /* PBXTextBookmark */;
+			612F83F8106ED83200239F6B /* PBXTextBookmark */ = 612F83F8106ED83200239F6B /* PBXTextBookmark */;
+			612F83FA106ED87C00239F6B /* PBXTextBookmark */ = 612F83FA106ED87C00239F6B /* PBXTextBookmark */;
+			612F8402106ED88D00239F6B /* PBXTextBookmark */ = 612F8402106ED88D00239F6B /* PBXTextBookmark */;
 			61F112741066ED4000AA3F38 = 61F112741066ED4000AA3F38 /* PBXTextBookmark */;
 			61F112751066ED4000AA3F38 = 61F112751066ED4000AA3F38 /* PBXTextBookmark */;
 			61F112761066ED4000AA3F38 = 61F112761066ED4000AA3F38 /* PBXTextBookmark */;
@@ -7210,6 +7219,117 @@
 		vrLen = 1023;
 		vrLoc = 0;
 	};
+	612F83EE106ED7F800239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 71";
+		rLen = 13;
+		rLoc = 2552;
+		rType = 0;
+		vrLen = 530;
+		vrLoc = 2304;
+	};
+	612F83EF106ED7F900239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 71";
+		rLen = 13;
+		rLoc = 2552;
+		rType = 0;
+		vrLen = 530;
+		vrLoc = 2304;
+	};
+	612F83F2106ED83100239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Command /Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc-4.2 failed with exit code 1";
+		fRef = 612F83F3106ED83100239F6B /* VUEditableCell.m */;
+		rLen = 0;
+		rLoc = 0;
+		rType = 1;
+	};
+	612F83F3106ED83100239F6B /* VUEditableCell.m */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.objc;
+		name = VUEditableCell.m;
+		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Classes/Controller/TableView/VUEditableCell.m";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {627, 462}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 150}";
+		};
+	};
+	612F83F4106ED83100239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 612F83F5106ED83100239F6B /* VUEditableCell.m */;
+		name = "VUEditableCell.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 150;
+		vrLoc = 0;
+	};
+	612F83F5106ED83100239F6B /* VUEditableCell.m */ = {
+		isa = PBXFileReference;
+		name = VUEditableCell.m;
+		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Classes/Controller/TableView/VUEditableCell.m";
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {627, 462}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 150}";
+		};
+	};
+	612F83F6106ED83100239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 71";
+		rLen = 13;
+		rLoc = 2552;
+		rType = 0;
+		vrLen = 530;
+		vrLoc = 2304;
+	};
+	612F83F7106ED83200239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 612F83F3106ED83100239F6B /* VUEditableCell.m */;
+		name = "VUEditableCell.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 150;
+		vrLoc = 0;
+	};
+	612F83F8106ED83200239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 71";
+		rLen = 13;
+		rLoc = 2552;
+		rType = 0;
+		vrLen = 530;
+		vrLoc = 2304;
+	};
+	612F83FA106ED87C00239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 71";
+		rLen = 13;
+		rLoc = 2552;
+		rType = 0;
+		vrLen = 530;
+		vrLoc = 2304;
+	};
+	612F8402106ED88D00239F6B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 71";
+		rLen = 13;
+		rLoc = 2552;
+		rType = 0;
+		vrLen = 530;
+		vrLoc = 2304;
+	};
 	615BFB24105D58B0005497F9 /* EventStore.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {842, 742}}";
@@ -8315,7 +8435,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -8412,9 +8532,9 @@
 	};
 	61F77BA2105568050071CA64 /* RemoteEventLoader.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {990, 1484}}";
-			sepNavSelRange = "{3826, 0}";
-			sepNavVisRange = "{841, 2992}";
+			sepNavIntBoundsRect = "{{0, 0}, {990, 1442}}";
+			sepNavSelRange = "{2552, 13}";
+			sepNavVisRange = "{2304, 530}";
 			sepNavWindowFrame = "{{1712, -144}, {903, 1018}}";
 		};
 	};
