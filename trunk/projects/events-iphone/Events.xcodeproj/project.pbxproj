@@ -99,8 +99,8 @@
 		61BBB6AC105770A0009481D6 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		61BBB6AD105770A0009481D6 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		61BBB6AE105770A0009481D6 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		61BBB6F8105776E2009481D6 /* VUEditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUEditableCell.h; path = ../Controller/VUEditableCell.h; sourceTree = "<group>"; };
-		61BBB6F9105776E2009481D6 /* VUEditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUEditableCell.m; path = ../Controller/VUEditableCell.m; sourceTree = "<group>"; };
+		61BBB6F8105776E2009481D6 /* VUEditableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUEditableCell.h; sourceTree = "<group>"; };
+		61BBB6F9105776E2009481D6 /* VUEditableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUEditableCell.m; sourceTree = "<group>"; };
 		61BBB75B1057E7ED009481D6 /* VUEditableTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VUEditableTableViewCell.xib; path = XIBs/VUEditableTableViewCell.xib; sourceTree = "<group>"; };
 		61BBB7DC1057F9D8009481D6 /* VUStartEndDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUStartEndDatePicker.h; sourceTree = "<group>"; };
 		61BBB7DD1057F9D8009481D6 /* VUStartEndDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUStartEndDatePicker.m; sourceTree = "<group>"; };
