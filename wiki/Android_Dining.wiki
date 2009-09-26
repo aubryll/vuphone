@@ -19,3 +19,10 @@ This should be a general description of the module
 Please see http://vanderbilt.mymenumanager.net/menu.php?date=9,17,2009&location=5 for a way to request dining menus 
 
 == User Stories ==
+  * User can see dining locations campus in list
+  * User can see dining locations campus in map
+  * User can click dining location to see current
+  * User can click and see menu for a specific time
+  * User can see hours of dining location
+  * User can rate dining location
+  
