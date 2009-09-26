@@ -15,3 +15,12 @@ This should be a general description of the module
   * Rob McColl 
 
 = User Stories =
+  * User can see vanderbilt campus
+  * User can see all paths on vanderbilt campus
+  * User can zoom in and out on campus map
+  * User can pan on campus map
+  * User can see a list of buildings
+  * User can see current location if user has GPS
+  * User can find shortest path between two points on map
+
+  
