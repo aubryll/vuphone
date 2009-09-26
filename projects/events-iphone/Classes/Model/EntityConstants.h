@@ -19,3 +19,6 @@
 #pragma mark Location
 
 #define VUEntityNameLocation @"Location"
+
+#define CAMPUS_CENTER_LATITUDE 36.146671
+#define CAMPUS_CENTER_LONGITUDE -86.803709

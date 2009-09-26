@@ -1,16 +1,16 @@
 //
-//  VandyUponAppDelegate.m
-//  VandyUpon
+//  EventsAppDelegate.m
+//  Events
 //
 //  Created by Aaron Thompson on 9/6/09.
 //  Copyright Iostudio, LLC 2009. All rights reserved.
 //
 
-#import "VandyUponAppDelegate.h"
+#import "EventsAppDelegate.h"
 #import "RemoteEventLoader.h"
 #import "EventStore.h"
 
-@implementation VandyUponAppDelegate
+@implementation EventsAppDelegate
 
 @synthesize window;
 

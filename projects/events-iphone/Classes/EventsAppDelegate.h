@@ -1,6 +1,6 @@
 //
-//  VandyUponAppDelegate.h
-//  VandyUpon
+//  EventsAppDelegate.h
+//  Events
 //
 //  Created by Aaron Thompson on 9/6/09.
 //  Copyright Iostudio, LLC 2009. All rights reserved.
@@ -9,7 +9,7 @@
 #import "EventListViewController.h"
 #import "MapViewController.h"
 
-@interface VandyUponAppDelegate : NSObject <UIApplicationDelegate> {
+@interface EventsAppDelegate : NSObject <UIApplicationDelegate> {
 
     UIWindow *window;
 	IBOutlet UITabBarController *tabBarC;
