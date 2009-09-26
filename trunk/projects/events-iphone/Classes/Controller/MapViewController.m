@@ -51,8 +51,8 @@
 
 		// Move the map to VU's campus
 		CLLocationCoordinate2D coords;
-		coords.latitude = 36.146671;
-		coords.longitude = -86.803709;
+		coords.latitude = CAMPUS_CENTER_LATITUDE;
+		coords.longitude = CAMPUS_CENTER_LONGITUDE;
 		[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 100.0, 100.0)];
 	}
 }

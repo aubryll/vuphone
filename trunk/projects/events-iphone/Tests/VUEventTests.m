@@ -22,17 +22,11 @@
 /* The setUp method is called automatically before each test-case method (methods whose name starts with 'test').
  */
 - (void)setUp {
-	NSLog(@"setUp");
 }
 
 /* The tearDown method is called automatically after each test-case method (methods whose name starts with 'test').
  */
 - (void)tearDown {
-	NSLog(@"tearDown");
-}
-
-- (void)testPass {
-	STAssertTrue(true, @"Pass!");
 }
 
 - (void)testEventsFromServer
@@ -41,8 +35,8 @@
 	NSLog(@"Context: %@", context);
 	NSArray *events = [RemoteEventLoader eventsFromServerWithContext:context];
 	STAssertNotNil(events, @"events not nil");
-	STAssertEquals([events count], 5, @"Doesn't have 5 events");
-	NSLog(@"events: %@", events);
+	NSLog(@"Events: %@", events);
+	STAssertEquals([events count], 2, @"Doesn't have 2 events");
 }
 
 @end
