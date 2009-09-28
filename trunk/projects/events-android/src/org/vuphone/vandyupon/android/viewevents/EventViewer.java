@@ -3,6 +3,8 @@
  */
 package org.vuphone.vandyupon.android.viewevents;
 
+import java.util.GregorianCalendar;
+
 import org.vuphone.vandyupon.android.Constants;
 import org.vuphone.vandyupon.android.R;
 import org.vuphone.vandyupon.android.eventloader.EventLoader;
@@ -182,8 +184,17 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 		if (newFocus != null) {
 			EventOverlayItem eoi = (EventOverlayItem) newFocus;
 			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
-			tv.setText(eoi.getTitle() + "\nStart: " + eoi.getStartTime()
-					+ "\nEnd: " + eoi.getEndTime());
+			
+			
+			long timeInMilliseconds = Long.parseLong(eoi.getStartTime());
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTimeInMillis(timeInMilliseconds);
+			
+			GregorianCalendar gcEnd = new GregorianCalendar();
+			gcEnd.setTimeInMillis(Long.parseLong(eoi.getEndTime()));
+			
+			tv.setText(eoi.getTitle() + "\nStart: " + gc.getTime().toLocaleString()
+					+ "\nEnd: " + gcEnd.getTime().toLocaleString() );
 			if (eoi.getIsOwner()) 
 				tv.setText(tv.getText() + "\nYou are the owner!");
 			
