@@ -12,12 +12,12 @@ import org.vuphone.vandyupon.android.filters.TimeFilter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
 import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.OverlayItem;
 
 /**
  * Contains the {@link EventOverlayItem}s. Holds a handle to the database, and
@@ -27,10 +27,11 @@ import com.google.android.maps.OverlayItem;
  * @author Hamilton Turner
  * 
  */
-public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements FilterChangedListener {
+public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
+		FilterChangedListener {
 	/** Used for logging */
-	 private static final String tag = Constants.tag;
-	 private static final String pre = "EventOverlay: ";
+	private static final String tag = Constants.tag;
+	private static final String pre = "EventOverlay: ";
 
 	/** Used for filtering events */
 	private PositionFilter positionFilter_;
@@ -45,10 +46,14 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 
 	private static ShapeDrawable defaultDrawable_;
 
+	private Rect touchableBounds = new Rect();
+
 	static {
-		defaultDrawable_ = new ShapeDrawable(new OvalShape());
+		defaultDrawable_ = new ShapeDrawable(new RectShape());
+		defaultDrawable_.setBounds(10, 10, 10, 10);
+		defaultDrawable_.setIntrinsicHeight(50);
 		defaultDrawable_.setIntrinsicWidth(20);
-		defaultDrawable_.setIntrinsicHeight(20);
+
 	}
 
 	/**
@@ -71,7 +76,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 
 		if (positionFilter_ != null)
 			positionFilter_.registerListener(this);
-		
+
 		database_ = new DBAdapter(context);
 		database_.openReadable();
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
@@ -88,7 +93,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 		eventCursor_.moveToNext();
 		return EventOverlayItem.getItemFromRow(eventCursor_);
 	}
-	
+
 	/**
 	 * @see org.vuphone.vandyupon.android.filters.FilterChangedListener#filterChanged()
 	 */
@@ -96,8 +101,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 		Log.i(tag, pre + "Filter was updated");
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
-		
-		
+
 		setLastFocusedIndex(-1);
 		populate();
 	}
@@ -107,7 +111,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 		Log.d(tag, pre + "onTap called with index " + index);
 		return true;
 	}
-	
+
 	/**
 	 * Used to pass new filters into the overlay. Any of the variables can be
 	 * null to keep the current filter. The DB is queried and the overlay list
@@ -127,11 +131,11 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 
 		if (positionFilter_ != null)
 			positionFilter_.unregisterListener(this);
-		
+
 		positionFilter_ = p;
 		if (positionFilter_ != null)
 			positionFilter_.registerListener(this);
-		
+
 		timeFilter_ = t;
 		tagsFilter_ = ts;
 
@@ -140,7 +144,34 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements F
 
 		populate();
 	}
+
+	/**
+	 * Used to create a more accurate hittest. The default implementation has a
+	 * minimum marker size of 100x100.
+	 */
 	
+	private static int buffer = 15;
+	
+	@Override
+	protected boolean hitTest(EventOverlayItem item,
+			android.graphics.drawable.Drawable marker, int hitX, int hitY) {
+
+		Rect bounds = marker.getBounds();
+
+		int width = bounds.width();
+		int height = bounds.height();
+		int centerX = bounds.centerX();
+		int centerY = bounds.centerY();
+
+		int touchLeft = centerX - width / 2;
+		int touchTop = centerY - height / 2;
+
+		touchableBounds.set(touchLeft - buffer/2, touchTop - buffer/2, touchLeft + width + buffer/2, touchTop
+				+ height + buffer/2);
+
+		return touchableBounds.contains(hitX, hitY);
+	}
+
 	/**
 	 * @see com.google.android.maps.ItemizedOverlay#size()
 	 */

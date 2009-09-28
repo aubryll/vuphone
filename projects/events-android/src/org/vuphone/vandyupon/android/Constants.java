@@ -21,7 +21,7 @@ public class Constants {
 	public static final String tag = "Vandy Upon";
 
 	/** Server location */
-	public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8080";
+	public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8081";
 
 	/**
 	 * Used to have global constants for various activity results. Note that
