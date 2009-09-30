@@ -19,6 +19,16 @@
 @dynamic endTime;
 @dynamic location;
 
+- (NSString *)startDateString {
+	if (!dateFormatter) {
+		 dateFormatter = [[NSDateFormatter alloc] init];
+		 [dateFormatter setDateFormat:@"eeee, MMMM d"];
+	 }
+	 return [dateFormatter stringFromDate:self.startTime];
+}
+
+#pragma mark MKAnnotation methods
+
 - (NSString *)title {
 	return self.name;
 }
@@ -28,10 +38,18 @@
 }
 
 - (CLLocationCoordinate2D)coordinate {
-	CLLocationCoordinate2D coords;
-	coords.latitude = [self.location.latitude doubleValue];
-	coords.longitude = [self.location.longitude doubleValue];
-	return coords;
+	return [self.location coordinate];
 }
+	
+- (void)dealloc
+{
+	if (dateFormatter) {
+		[dateFormatter release];
+	}
+	[super dealloc];
+}
+
+
+@synthesize startDateString;
 
 @end

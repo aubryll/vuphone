@@ -15,6 +15,7 @@
 	IBOutlet UITextField *latitudeField;
 	IBOutlet UITextField *longitudeField;
 	IBOutlet UIBarButtonItem *saveButton;
+	IBOutlet UIBarButtonItem *editButton;
 	IBOutlet MKMapView *mapView;
 	
 	NSManagedObjectContext *editingContext;
@@ -23,6 +24,7 @@
 }
 
 - (IBAction)save:(id)sender;
+- (IBAction)edit:(id)sender;
 - (void)applyIsEditing;
 
 @property (nonatomic, retain) NSManagedObjectContext *editingContext;

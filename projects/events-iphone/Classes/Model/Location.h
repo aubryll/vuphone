@@ -7,10 +7,11 @@
 //
 
 #import <CoreData/CoreData.h>
+#import <MapKit/MapKit.h>
 
 @class Event;
 
-@interface Location :  NSManagedObject  
+@interface Location :  NSManagedObject <MKAnnotation>
 {
 }
 
@@ -22,6 +23,8 @@
 @property (nonatomic, retain) NSSet* events;
 @property (nonatomic, retain) NSSet* childLocations;
 @property (nonatomic, retain) Location * parentLocation;
+
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 @end
 

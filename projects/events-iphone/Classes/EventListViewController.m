@@ -37,7 +37,7 @@
 		fetchedResultsC = [[[NSFetchedResultsController alloc]
 							initWithFetchRequest:request
 							managedObjectContext:context
-							sectionNameKeyPath:nil
+							sectionNameKeyPath:@"startDateString"
 						   	cacheName:@"eventListCache"] retain];
 		[request release];
 		// Set self as the delegate
@@ -200,11 +200,27 @@
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-	return [fetchedResultsC sectionIndexTitles];
+	NSMutableArray *titles = [NSMutableArray new];
+	for (id<NSFetchedResultsSectionInfo> title in [fetchedResultsC sections]) {
+		// Let the index title be the day number
+		[titles addObject:[title.name substringFromIndex:[title.name length] - 2]];
+	}
+	
+	return titles;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
 	return [fetchedResultsC sectionForSectionIndexTitle:title atIndex:index];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (section >= [[fetchedResultsC sections] count] || [[fetchedResultsC sections] count] == 0) {
+		return nil;
+	}
+
+	id<NSFetchedResultsSectionInfo> info = [[fetchedResultsC sections] objectAtIndex:section];
+	return [info name];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -253,7 +269,6 @@
 	switch(type)
 	{
 		case NSFetchedResultsChangeInsert:
-			NSLog(@"NSFetchedResultsChangeInsert");
 			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
 							 withRowAnimation:UITableViewRowAnimationFade];
 			break;
@@ -285,12 +300,8 @@
 
 #pragma mark UISearchDisplayDelegate
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
-	NSLog(@"filterContentForSearchText");
-//	[self.fetchedResultsC filterUsingPredicate:[NSPredicate predicateWithFormat:@"%K CONTAINS[cd] %@", VUEntityPropertyNameName, searchText]];
-}	
-
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+	[self filterContentForSearchText:searchString scope:nil];
     // Return YES to cause the search result table view to be reloaded.
     return YES;
 }
@@ -301,12 +312,23 @@
 }
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-	[controller setSearchResultsDelegate:self.tableView.delegate];
+	[controller setSearchResultsDelegate:self];
 }
 
 - (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
 }
 
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+	NSPredicate *predicate;
+	if ([searchText length] > 0) {
+		predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
+	} else {
+		predicate = [NSPredicate predicateWithFormat:@"TRUEPREDICATE"];
+	}
+	[self.fetchedResultsC.fetchRequest setPredicate:predicate];
+	NSError *err;
+	[self.fetchedResultsC performFetch:&err];
+}
 
 - (void)dealloc
 {

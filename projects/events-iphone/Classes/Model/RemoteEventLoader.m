@@ -22,7 +22,7 @@
  
  */
 
-#define SAMPLE_EVENT_REQUEST_RESPONSE
+//#define SAMPLE_EVENT_REQUEST_RESPONSE
 
 #import "RemoteEventLoader.h"
 #import "EntityConstants.h"
@@ -38,12 +38,12 @@
 {	// Format the url string
 #ifndef SAMPLE_EVENT_REQUEST_RESPONSE
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	NSMutableString *urlString = [NSMutableString stringWithString:@"http://afrl-gift.dre.vanderbilt.edu:8080/vandyupon/events"];
+	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
 	[urlString appendString:@"?type=eventrequest"];
 	[urlString appendFormat:@"&lat=%f", CAMPUS_CENTER_LATITUDE];
 	[urlString appendFormat:@"&lon=%f", CAMPUS_CENTER_LONGITUDE];
-	[urlString appendFormat:@"&updatetime=%@", (date == nil) ? @"-1" : [dateFormatter stringFromDate:date]];
-	[urlString appendFormat:@"&dist=%i", -1];
+	[urlString appendFormat:@"&updatetime=%@", (date == nil) ? @"0" : [dateFormatter stringFromDate:date]];
+	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -100,6 +100,36 @@
 	event.endTime = [dateFormatter dateFromString:[prop stringValue]];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./eventid" error:&err] objectAtIndex:0];
 //	event.eventId = [prop stringValue];
+}
+
++ (void)submitEvent:(Event *)event
+{
+	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
+	[urlString appendString:@"?type=eventpost"];
+	[urlString appendFormat:@"&locationlat=%f", [event.location.latitude doubleValue]];
+	[urlString appendFormat:@"&locationlon=%f", [event.location.longitude doubleValue]];
+	[urlString appendFormat:@"&eventname=%@", event.name];
+	[urlString appendFormat:@"&starttime=%i", (int)[event.startTime timeIntervalSince1970]];
+	[urlString appendFormat:@"&endtime=%i", (int)[event.endTime timeIntervalSince1970]];
+	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
+	[urlString appendString:@"&resp=xml"];
+	[urlString appendFormat:@"&desc=%@", event.details];
+	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSLog(escapedUrlString);
+	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
+	NSLog(@"Submitting URL: %@", urlString);
+	// Make the request to get the data
+	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
+
+	NSLog(@"submitEvent returned data %@", responseData);
+	// Parse the request
+	NSError *err = nil;
+	DDXMLDocument *responseXml = [[DDXMLDocument alloc] initWithData:responseData options:0 error:&err];
+	NSLog(@"Error loading response XML: %@", err);
+	
+	// Find the first response
+//	NSArray *nodes = [responseXml nodesForXPath:@"./eventrequestresponse/event" error:&err];
+//	NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
 }
 
 @end

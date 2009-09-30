@@ -8,6 +8,7 @@
 
 #import "LocationViewController.h"
 #import "EventViewController.h"
+#import "NSManagedObject-IsNew.h"
 
 @implementation LocationViewController
 
@@ -18,10 +19,9 @@
 	latitudeField.text = [location.latitude stringValue];
 	longitudeField.text = [location.longitude stringValue];
 	
-	CLLocationCoordinate2D coords;
-	coords.latitude = [location.latitude doubleValue];
-	coords.longitude = [location.longitude doubleValue];
-	[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 100.0, 100.0)];
+	[mapView setRegion:MKCoordinateRegionMakeWithDistance(location.coordinate, 200.0, 200.0)];
+	[mapView removeAnnotation:location];
+	[mapView addAnnotation:location];
 	
 	[self applyIsEditing];
 }
@@ -41,15 +41,25 @@
 
 	// Save changes to the location
 	NSError *err;
+	BOOL isNew = [location isNew];
 	[editingContext save:&err];
 	
 	// Pop all the way to the EventViewController
 	for (NSObject *controller in self.navigationController.viewControllers) {
 		if ([controller isKindOfClass:[EventViewController class]]) {
+			if (isNew) {
+				((EventViewController *)controller).event.location = location;
+			}
 			[((EventViewController *)controller).tableView reloadData];
 			[self.navigationController popToViewController:(UIViewController *)controller animated:YES];
 		}
 	}
+}
+
+- (IBAction)edit:(id)sender
+{
+	self.isEditing = YES;
+	[self applyIsEditing];
 }
 
 - (void)applyIsEditing
@@ -67,7 +77,7 @@
 		longitudeField.borderStyle = UITextBorderStyleRoundedRect;
 	} else {
 		self.title = @"Location Details";
-		self.navigationItem.rightBarButtonItem = nil;
+		self.navigationItem.rightBarButtonItem = editButton;
 
 		nameField.borderStyle = UITextBorderStyleNone;
 		latitudeField.borderStyle = UITextBorderStyleNone;
@@ -98,6 +108,9 @@
 	MKCoordinateRegion region = [aMapView region];
 	latitudeField.text = [NSString stringWithFormat:@"%f", region.center.latitude];
 	longitudeField.text = [NSString stringWithFormat:@"%f", region.center.longitude];
+
+	[mapView removeAnnotation:location];
+	[mapView addAnnotation:location];
 }
 
 @synthesize editingContext;

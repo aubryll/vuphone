@@ -12,7 +12,7 @@
 #import "VUEditableCellController.h"
 #import "VUStartEndDateCellController.h"
 #import "VULocationCellController.h"
-
+#import "RemoteEventLoader.h"
 #import "EntityConstants.h"
 #import "NSManagedObject-IsNew.h"
 
@@ -78,6 +78,9 @@
 		NSLog(@"There was an error saving the event: %@", error);
 		return;
 	}
+	// Save the event to the server
+	[RemoteEventLoader submitEvent:self.event];
+	
 	self.navigationItem.leftBarButtonItem = nil;
 	self.navigationItem.rightBarButtonItem = editButton;
 	[self endEditingFields];
@@ -112,27 +115,28 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSLog(@"cellForRowAtIndexPath %i, %i", indexPath.section, indexPath.row);
 	UITableViewCell *cell = [super tableView:aTableView cellForRowAtIndexPath:indexPath];
 	
 	switch (indexPath.section) {
 		case 0:	// Title
 			((VUEditableCell *)cell).textField.text = event.name;
+			((VUEditableCellController *)[[tableGroups objectAtIndex:0] objectAtIndex:0]).value = event.name;
 			break;
 		case 1:	// Start/stop date
 			((VUStartEndDateCell *)cell).startDate = event.startTime;
 			((VUStartEndDateCell *)cell).endDate = event.endTime;
 			break;
 		case 2:	// Location
-			NSLog(@"Setting event's location to %@", event.location.name);
 			cell.detailTextLabel.text = event.location.name;
-//			((VULocationCellController *)[[tableGroups objectAtIndex:2] objectAtIndex:0]).location = event.location;
+			((VULocationCellController *)[[tableGroups objectAtIndex:2] objectAtIndex:0]).location = event.location;
 			break;
 		case 3:	// Details
 			((VUEditableCell *)cell).textField.text = event.details;
+			((VUEditableCellController *)[[tableGroups objectAtIndex:3] objectAtIndex:0]).value = event.details;
 			break;
 		case 4:	// URL
 			((VUEditableCell *)cell).textField.text = event.url;
+			((VUEditableCellController *)[[tableGroups objectAtIndex:4] objectAtIndex:0]).value = event.url;
 			break;
 	}
 
@@ -142,7 +146,6 @@
 - (void)constructTableGroups
 {
 	VUEditableCellController *ecc;
-	
 	// Name
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Name"];
 	ecc.delegate = self;
@@ -179,7 +182,6 @@
 }
 
 - (void)cellControllerValueChanged:(id)newValue {
-	NSLog(@"cellControllerValueChanged: %@", newValue);
 	[self getValuesFromTableIntoEvent:self.event];
 }
 
@@ -194,10 +196,6 @@
 	[anEvent setStartTime:startEndCell.startDate];
 	[anEvent setEndTime:startEndCell.endDate];
 	
-	path = [NSIndexPath indexPathForRow:0 inSection:2];
-	VULocationCellController *locationC = [[tableGroups objectAtIndex:2] objectAtIndex:0];
-	[anEvent setLocation:locationC.location];
-	
 	// Details
 	[anEvent setDetails:[self valueForVUEditableTableViewRow:0 inSection:3]];
 	
@@ -207,9 +205,8 @@
 
 - (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section
 {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-	VUEditableCell *cell = (VUEditableCell *)[myTableView cellForRowAtIndexPath:indexPath];
-	return cell.textField.text;
+	VUEditableCellController *controller = (VUEditableCellController *)[[tableGroups objectAtIndex:section] objectAtIndex:row];
+	return controller.value;
 }
 
 - (void)setEvent:(Event *)newEvent

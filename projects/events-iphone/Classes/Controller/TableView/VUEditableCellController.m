@@ -78,6 +78,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+	self.value = textField.text;
 	NSLog(@"text field ended editing with value: %@", textField.text);
 	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:)]) {
 		[delegate cellControllerValueChanged:textField.text];

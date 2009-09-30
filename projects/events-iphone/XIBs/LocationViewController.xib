@@ -179,6 +179,10 @@
 				<int key="IBUIStyle">1</int>
 				<int key="IBUISystemItemIdentifier">3</int>
 			</object>
+			<object class="IBUIBarButtonItem" id="598829883">
+				<int key="IBUIStyle">1</int>
+				<int key="IBUISystemItemIdentifier">2</int>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -246,6 +250,22 @@
 						<reference key="destination" ref="502259857"/>
 					</object>
 					<int key="connectionID">23</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">editButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="598829883"/>
+					</object>
+					<int key="connectionID">25</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">edit:</string>
+						<reference key="source" ref="598829883"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">26</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -324,6 +344,13 @@
 						<int key="objectID">21</int>
 						<reference key="object" ref="502259857"/>
 						<reference key="parent" ref="317526666"/>
+						<string key="objectName">Save button</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">24</int>
+						<reference key="object" ref="598829883"/>
+						<reference key="parent" ref="317526666"/>
+						<string key="objectName">Edit button</string>
 					</object>
 				</object>
 			</object>
@@ -337,6 +364,7 @@
 					<string>1.IBPluginDependency</string>
 					<string>17.IBPluginDependency</string>
 					<string>21.IBPluginDependency</string>
+					<string>24.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
@@ -348,7 +376,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>LocationViewController</string>
 					<string>UIResponder</string>
-					<string>{{203, 84}, {320, 480}}</string>
+					<string>{{157, 18}, {320, 480}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -380,7 +409,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">26</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -389,13 +418,23 @@
 					<string key="className">LocationViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">save:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>edit:</string>
+							<string>save:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>editButton</string>
 							<string>latitudeField</string>
 							<string>longitudeField</string>
 							<string>mapView</string>
@@ -404,6 +443,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIBarButtonItem</string>
 							<string>UITextField</string>
 							<string>UITextField</string>
 							<string>MKMapView</string>
@@ -419,7 +459,7 @@
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../VandyUpon.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../Events.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">3.0</string>
 	</data>

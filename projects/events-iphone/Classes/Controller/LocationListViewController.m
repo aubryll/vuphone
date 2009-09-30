@@ -20,7 +20,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	// If locations is nil, load all root-level locations
-	self.locations = [Location rootLocations:[[EventStore sharedEventStore] sharedContext]];
+	if (!self.locations) {
+		self.locations = [Location rootLocations:[[EventStore sharedEventStore] sharedContext]];
+	}
 	self.tableView.editing = NO;
 }
 
@@ -42,12 +44,13 @@
 
 - (IBAction)addLocation:(id)sender
 {
-	// Create a new managed object context for this location
-	NSManagedObjectContext *context = [[EventStore sharedEventStore] editingContext];
+	// Get the shared managed object context
+	NSManagedObjectContext *context = [[EventStore sharedEventStore] sharedContext];
 
 	// Create a new location in the shared event store
 	Location *location = (Location *)[NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
 																   inManagedObjectContext:context];
+	
 	location.parentLocation = self.parentLocation;
 	if (self.parentLocation != nil) {
 		location.latitude = self.parentLocation.latitude;
@@ -107,7 +110,7 @@
 	Location *location = (Location *)[locations objectAtIndex:indexPath.row];
 	UITableViewController *tvc = (UITableViewController *)tableView.dataSource;
 
-	if ([location.childLocations count] > 0) {
+	if ([location.childLocations count] > 0 || self.isEditing) {
 		// Push a new LocationListViewController with this location as the parent
 		LocationListViewController *llvc = [[LocationListViewController alloc] initWithNibName:@"LocationListViewController" bundle:nil];
 		llvc.locations = [location.childLocations allObjects];
@@ -127,6 +130,7 @@
 		}
 		[tvc.navigationController pushViewController:lvc animated:YES];
 	}
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
