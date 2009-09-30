@@ -13,6 +13,7 @@
 
 @interface Event :  NSManagedObject <MKAnnotation>
 {
+	NSDateFormatter *dateFormatter;
 }
 
 @property (nonatomic, retain) NSString * ownerAndroidId;
@@ -25,6 +26,8 @@
 
 - (NSString *)title;
 - (NSString *)subtitle;
+
+@property (nonatomic, readonly, getter=startDateString) NSString *startDateString;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 @end

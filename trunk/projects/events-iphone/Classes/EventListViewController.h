@@ -26,6 +26,7 @@
 - (IBAction)addEvent:(id)sender;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (EventViewController *)eventViewController;
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;
 
 @property (nonatomic, retain) NSManagedObjectContext *context;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsC;

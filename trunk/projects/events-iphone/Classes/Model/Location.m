@@ -32,6 +32,23 @@
 	return locations;
 }
 
+#pragma mark MKAnnotation methods
+
+- (NSString *)title {
+	return self.name;
+}
+
+- (NSString *)subtitle {
+	return nil;
+}
+
+- (CLLocationCoordinate2D)coordinate {
+	CLLocationCoordinate2D coords;
+	coords.latitude = [self.latitude doubleValue];
+	coords.longitude = [self.longitude doubleValue];
+	return coords;
+}
+
 @dynamic longitude;
 @dynamic name;
 @dynamic latitude;
