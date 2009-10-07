@@ -19,14 +19,14 @@ This will be a brief overview of the campus map iPhone application
 
  * Users will see a map of campus
  * Users will be able to pan the map using single- and multi-touch gestures
- * User will be able to select layers to display on the map
+ * User will be able to select layers to display on the map => Ben
  * User will be able to tap a location to see details
  * User will be able to search for a location by name
  * User will be able to browse a list of locations
  * User will be able to add to the campus-wide list of locations
  * User will see context-sensitive details for supported locations
- * User will be able to find the shortest path between any two points or buildings
- * User will be able to find the shortest path from their current location to a location at or near Vanderbilt
+ * User will be able to find the shortest path between any two points or buildings => Joshua
+ * User will be able to find the shortest path from their current location to a location at or near Vanderbilt => Joshua
  * User will see the locations of their courses on the map
  * User will see the locations of specific friends who are also using the app on the map
  * User will be able to see the estimated occupancy of a building or rooms within a building
