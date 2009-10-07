@@ -18,26 +18,31 @@ This will be a brief overview of the campus map iPhone application
 = User Stories =
 
 Users can:
+Map: Guy
  * see a map of campus
- * see a help layer when the app is first launched
  * pan and zoom the map using single- and multi-touch gestures
+Layers: Ben
  * tap a button from the map view that will display the list of layers
  * select a layer from a list of layers to display on the map
- * see the location markers on a layer => Ben
+ * see the location markers on a layer
  * hide or show multiple layers from a list of layers
+Handles marker taps: Demetri
  * tap a location's marker to see title
  * tap a location marker's title to see details
- * rotate the device to reorient the map into portrait or landscape orientation
- * see a compass rose that always points north
+Locations: Joshua
  * see a search interface for the location
  * search for a location by name
  * browse a list of locations
+NOTE: somebody needs to work on the data model while others work on the UI separately, and they need to be merged
 
 Users would love to eventually at some distant point in the future:
+ * rotate the device to reorient the map into portrait or landscape orientation
+ * see a compass rose that always points north
+ * see a help layer when the app is first launched
  * add to the campus-wide list of locations
  * see context-sensitive details for supported locations
- * find the shortest path between any two points or buildings => Joshua
- * find the shortest path from their current location to a location at or near Vanderbilt => Joshua
+ * find the shortest path between any two points or buildings
+ * find the shortest path from their current location to a location at or near Vanderbilt
  * see the locations of their courses on the map
  * see the locations of specific friends who are also using the app on the map
  * see the estimated occupancy of a building or rooms within a building
