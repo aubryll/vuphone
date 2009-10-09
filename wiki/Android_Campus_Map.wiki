@@ -13,6 +13,10 @@ This should be a general description of the module
   * Zachary McAnally 
   * Dan Hasday
   * Rob McColl 
+  * Adam Albright
+  * Jason Zack
+  * Matt Lavin
+  * Daniel Cash
 
 = User Stories =
 User can: 
