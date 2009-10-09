@@ -9,10 +9,13 @@ This should be a general description of the module
   * ?
 
 == Developers ==
-  * Russ Amos
   * Evan Kaiser
   * Grayson Sharpe
-  * Adam Albright
+  * Zach McAnally
+  * Austin Conner
+  * Peter Holly
+  * James Gillin
+  * Robert Hanlin
 
 == Notes ==
 
