@@ -19,10 +19,19 @@ This should be a general description of the module
 Please see http://vanderbilt.mymenumanager.net/menu.php?date=9,17,2009&location=5 for a way to request dining menus 
 
 == User Stories ==
-  * User can see dining locations campus in list
-  * User can see dining locations campus in map
-  * User can click dining location to see current
-  * User can click and see menu for a specific time
-  * User can see hours of dining location
+User can: 
+  * See campus dining locations in list upon starting the app
+  * See sorted list(open vs not, then time till closed) of campus dining locations upon starting the app
+  * Hit the menu button to bring up a menu
+  * Choose to see all dining locations on a map from a menu
+  * See pins on map representing all dining locations
+
+  * Click dining location and bring up details pane for that location
+  * See hours, menu, and location on location details pane
+  * Click a button on location details pane that allows them to open a map
+  * See a pin on the map representing the dining location they chose
+
+Future User Stories: 
+  * User can see 'specials' aka Rand birthday dinner, etc
   * User can rate dining location
-  
+  * User can see nutrition facts on location
