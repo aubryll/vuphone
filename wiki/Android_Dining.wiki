@@ -23,12 +23,17 @@ Please see http://vanderbilt.mymenumanager.net/menu.php?date=9,17,2009&location=
 
 == User Stories ==
 User can: 
+
+Grayson:
   * See campus dining locations in list upon starting the app
   * See sorted list(open vs not, then time till closed) of campus dining locations upon starting the app
+
+Peter: 
   * Hit the menu button to bring up a menu
   * Choose to see all dining locations on a map from a menu
   * See pins on map representing all dining locations
 
+Austin:
   * Click dining location and bring up details pane for that location
   * See hours, menu, and location on location details pane
   * Click a button on location details pane that allows them to open a map
