@@ -20,24 +20,31 @@ This should be a general description of the module
 
 = User Stories =
 User can: 
-  * Open app and see menu asking what they want to do
+
+Kyle Liming: 
   * See Vanderbilt campus
+  * Push Menu button on device to open menu
+  * Pan on campus map  
+  * Zoom in and out on campus map
+  * Choose to see list of buildings from menu
+  * Choose to see all buildings as pins on the map, from the menu
+
+Rob:
   * See line drawn on top of map
   * See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
-  * Zoom in and out on campus map
-  * Pan on campus map  
+ 
+
+Adam:
   * See a pin on the map
   * See current location on map if user has GPS
-  * Open menu using menu button
-  * Choose to see all buildings as pins on the map
-  * Choose to see list of buildings from menu
+  * Show all buildings as pins on the map when user clicks menu item
+
+Dan:
   * See a list of buildings
   * See a search box above the list
   * Type into the search box to filter the list
   * Click a building to drop a pin on the map
   
-
-
 Future User Stories:
   * See user's path usage
   * See total user base path usage
