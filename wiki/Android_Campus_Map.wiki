@@ -15,12 +15,24 @@ This should be a general description of the module
   * Rob McColl 
 
 = User Stories =
-  * User can see vanderbilt campus
-  * User can see all paths on vanderbilt campus
-  * User can zoom in and out on campus map
-  * User can pan on campus map
-  * User can see a list of buildings
-  * User can see current location if user has GPS
-  * User can find shortest path between two points on map
+User can: 
+  * Open app and see menu asking what they want to do
+  * See Vanderbilt campus
+  * See line drawn on top of map
+  * See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
+  * Zoom in and out on campus map
+  * Pan on campus map  
+  * See current location on map if user has GPS
+  * Open menu using menu button
+  * Choose to see list of buildings from menu
+  * See a list of buildings
 
+
+Future User Stories:
+  * See user's path usage
+  * See total user base path usage
+  * See how long it takes to walk to class (and / or preferred path) (based off of user's normal speed)
+  * See all paths on vanderbilt campus
+  * Find shortest path between two points on map
+  
   
