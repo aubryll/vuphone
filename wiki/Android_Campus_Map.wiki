@@ -22,10 +22,16 @@ User can:
   * See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
   * Zoom in and out on campus map
   * Pan on campus map  
+  * See a pin on the map
   * See current location on map if user has GPS
   * Open menu using menu button
+  * Choose to see all buildings as pins on the map
   * Choose to see list of buildings from menu
   * See a list of buildings
+  * See a search box above the list
+  * Type into the search box to filter the list
+  * Click a building to drop a pin on the map
+  
 
 
 Future User Stories:
