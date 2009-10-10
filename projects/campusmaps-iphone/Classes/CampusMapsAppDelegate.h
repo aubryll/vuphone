@@ -6,6 +6,8 @@
 //  Copyright __MyCompanyName__ 2009. All rights reserved.
 //
 
+#import "MapViewController.h"
+
 @interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate> {
 
     NSManagedObjectModel *managedObjectModel;
@@ -13,6 +15,7 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
     UIWindow *window;
+	IBOutlet MapViewController *mapViewController;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
