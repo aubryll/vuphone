@@ -18,13 +18,11 @@ public class Main extends MapActivity {
 	MapController mc;
 	GeoPoint p;
 	
-    /** Called when the activity is first created. */	
-    @Override
-    /**
-     * Enables user to zoom in/out of the center of the screen.
-     * 
+    /** Called when the activity is first created. 
+     *  Enables user to zoom in/out of the center of the screen.
      * Also sets the map to open while viewing Vanderbilt Campus.  
      */
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -32,7 +30,8 @@ public class Main extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         
         mc = mapView.getController();
-        String coordinates[] = {"36.142830", "-86.804437"};
+        String coordinates[] = {"36.142830", "-86.804437"}; 
+        //Vanderbilt GPS coordinates, used to start the map at a Vanderbilt Location.
         double lat = Double.parseDouble(coordinates[0]);
         double lng = Double.parseDouble(coordinates[1]);
  
@@ -58,6 +57,8 @@ public class Main extends MapActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add("Map Mode");
+		menu.add("List Buildings");
+		menu.add("Show Buildings");
 		return true;
 	}
 	
