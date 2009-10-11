@@ -44,7 +44,10 @@
 	}
 	else
 	{
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit  target:self action:@selector(beginEditing:)];
+		// If the user may edit this event
+		if ([event isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
+			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit  target:self action:@selector(beginEditing:)];
+		}
 	}
 }
 
@@ -73,17 +76,27 @@
 - (IBAction)save:(id)sender
 {
 	[self getValuesFromTableIntoEvent:self.event];
+
+	// If this is a new event, set the device ID
+	if ([event isNew]) {
+		event.ownerAndroidId = [[UIDevice currentDevice] uniqueIdentifier];
+	}
+
+	// Save the event to the persistent store
 	NSError *error;
 	if (![context save:&error]) {
 		NSLog(@"There was an error saving the event: %@", error);
 		return;
 	}
+
 	// Save the event to the server
 	[RemoteEventLoader submitEvent:self.event];
 	
 	self.navigationItem.leftBarButtonItem = nil;
 	self.navigationItem.rightBarButtonItem = editButton;
 	[self endEditingFields];
+
+	self.navigationItem.title = event.name;
 }
 
 - (IBAction)cancelAdd:(id)sender

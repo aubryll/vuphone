@@ -133,6 +133,7 @@
 	if (count == 0) {
 		count = 1;
 	}
+	NSLog(@"EventList numberOfSectionsInTableView: %i", count);
 	
 	return count;
 }

@@ -23,7 +23,9 @@
 @property (nonatomic, retain) NSString * details;
 @property (nonatomic, retain) NSDate * endTime;
 @property (nonatomic, retain) Location * location;
+@property (nonatomic, retain) NSString * serverId;
 
+- (BOOL)isEditableByDeviceWithId:(NSString *)deviceId;
 - (NSString *)title;
 - (NSString *)subtitle;
 

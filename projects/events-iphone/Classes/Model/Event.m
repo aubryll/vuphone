@@ -18,6 +18,7 @@
 @dynamic details;
 @dynamic endTime;
 @dynamic location;
+@dynamic serverId;
 
 - (NSString *)startDateString {
 	if (!dateFormatter) {
@@ -25,6 +26,10 @@
 		 [dateFormatter setDateFormat:@"eeee, MMMM d"];
 	 }
 	 return [dateFormatter stringFromDate:self.startTime];
+}
+
+- (BOOL)isEditableByDeviceWithId:(NSString *)deviceId {
+	return [self.ownerAndroidId isEqualToString:deviceId];
 }
 
 #pragma mark MKAnnotation methods
@@ -48,8 +53,5 @@
 	}
 	[super dealloc];
 }
-
-
-@synthesize startDateString;
 
 @end

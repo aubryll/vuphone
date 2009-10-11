@@ -113,6 +113,16 @@
 	[mapView addAnnotation:location];
 }
 
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[textField resignFirstResponder];
+	return YES;
+}
+
+
+
 @synthesize editingContext;
 @synthesize location;
 @synthesize isEditing;

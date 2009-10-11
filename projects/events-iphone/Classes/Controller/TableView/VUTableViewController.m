@@ -65,6 +65,7 @@
 //
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+	NSLog(@"numberOfSectionsInTableView: %i", [tableGroups count]);
 	if (!tableGroups)
 	{
 		[self constructTableGroups];

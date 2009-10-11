@@ -28,6 +28,8 @@
 	if (error) {
 		NSLog(@"Error upon fetching root locations: %@, %@", error, [error userInfo]);
 	}
+	
+	[request release];
 
 	return locations;
 }

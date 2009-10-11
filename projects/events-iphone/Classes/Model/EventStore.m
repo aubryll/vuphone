@@ -76,12 +76,10 @@ static EventStore *eventStore = nil;
  */
 - (NSManagedObjectContext *)editingContext
 {
-	NSManagedObjectContext *context;
+	
 	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-	if (coordinator != nil) {
-		context = [[NSManagedObjectContext alloc] init];
-		[context setPersistentStoreCoordinator:coordinator];
-	}
+	NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
+	[context setPersistentStoreCoordinator:coordinator];
 
 	return [context autorelease];
 }
