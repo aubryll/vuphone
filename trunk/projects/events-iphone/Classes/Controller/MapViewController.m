@@ -7,11 +7,17 @@
 //
 
 #import "MapViewController.h"
+#import "EventViewController.h"
 #import "Event.h"
 #import "Location.h"
 #import "EntityConstants.h"
 
 @implementation MapViewController
+
+- (IBAction)showFilterSheet:(id)sender
+{
+	[self presentModalViewController:mapFilterVC animated:YES];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -82,6 +88,34 @@
 - (void)dealloc {
 	[fetchedResultsC release];
     [super dealloc];
+}
+
+#pragma mark MKMapViewDelegate
+
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>) annotation
+{
+    MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
+    annotationView.pinColor = MKPinAnnotationColorGreen;
+    annotationView.canShowCallout = YES;
+    annotationView.calloutOffset = CGPointMake(-5, 5);
+	annotationView.userInteractionEnabled = YES;
+	annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+
+    return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+	Event *event = (Event *)view.annotation;
+	
+	// Push the event detail view controller
+	EventViewController *eventVC = [[EventViewController alloc] initWithNibName:@"EventView" bundle:nil];
+	eventVC.event = event;
+	eventVC.context = managedObjectContext;
+	eventVC.title = event.name;
+
+	[self.navigationController pushViewController:eventVC animated:YES];
+	[eventVC release];
 }
 
 #pragma mark NSFetchedResultsControllerDelegate

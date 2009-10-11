@@ -30,6 +30,7 @@
 		controller.isEditing = YES;
 		controller.title = @"Locations";
 		[tvc.navigationController pushViewController:controller animated:YES];
+		[controller release];
 	}
 	else
 	{
@@ -38,6 +39,7 @@
 		controller.location = self.location;
 		controller.isEditing = NO;
 		[tvc.navigationController pushViewController:controller animated:YES];
+		[controller release];
 	}
 
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -57,7 +59,7 @@
 	
 	cell = (VUEditableCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier] autorelease];
 	}
 
 	cell.textLabel.text = @"Location";

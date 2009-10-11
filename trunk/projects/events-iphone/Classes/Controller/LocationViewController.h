@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "Location.h"
 
-@interface LocationViewController : UIViewController <MKMapViewDelegate> {
+@interface LocationViewController : UIViewController <MKMapViewDelegate, UITextFieldDelegate> {
 	IBOutlet UITextField *nameField;
 	IBOutlet UITextField *latitudeField;
 	IBOutlet UITextField *longitudeField;

@@ -10,13 +10,18 @@
 #import <MapKit/MapKit.h>
 #import <CoreData/CoreData.h>
 
+#import "MapFilterViewController.h"
+
 @interface MapViewController : UIViewController <MKMapViewDelegate, NSFetchedResultsControllerDelegate> {
 
 	NSManagedObjectContext *managedObjectContext;
 	NSFetchedResultsController *fetchedResultsC;
 	IBOutlet MKMapView *mapView;
+	IBOutlet MapFilterViewController *mapFilterVC;
 
 }
+
+- (IBAction)showFilterSheet:(id)sender;
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsC;

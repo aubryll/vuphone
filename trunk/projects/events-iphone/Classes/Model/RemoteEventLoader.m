@@ -22,7 +22,7 @@
  
  */
 
-//#define SAMPLE_EVENT_REQUEST_RESPONSE
+//#define SAMPLE_EVENT_REQUEST_RESPONSE 1
 
 #import "RemoteEventLoader.h"
 #import "EntityConstants.h"
@@ -47,13 +47,15 @@
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSLog(escapedUrlString);
+//	NSLog(escapedUrlString);
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	// Make the request to get the data
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
 #else
 	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/sampleEventRequestResponse.xml"];
 #endif
+	
+	[dateFormatter release];
 
 	// Parse the request
 	NSError *err = nil;
@@ -79,8 +81,10 @@
 	{
 		NSLog(@"No nodes found: %@", responseXml);
 	}
+	
+	[responseXml release];
 
-	return events;
+	return [events autorelease];
 }
 
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event
@@ -91,15 +95,17 @@
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./name" error:&err] objectAtIndex:0];
 	event.name = [prop stringValue];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./loc/lat" error:&err] objectAtIndex:0];
-//	event.location.lat = [prop stringValue];
+	event.location.latitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./loc/lng" error:&err] objectAtIndex:0];
-//	event.location.lng = [prop stringValue];
+	event.location.longitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./start" error:&err] objectAtIndex:0];
 	event.startTime = [dateFormatter dateFromString:[prop stringValue]];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./end" error:&err] objectAtIndex:0];
 	event.endTime = [dateFormatter dateFromString:[prop stringValue]];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./eventid" error:&err] objectAtIndex:0];
-//	event.eventId = [prop stringValue];
+	event.serverId = [prop stringValue];
+	
+	[dateFormatter release];
 }
 
 + (void)submitEvent:(Event *)event
@@ -109,27 +115,36 @@
 	[urlString appendFormat:@"&locationlat=%f", [event.location.latitude doubleValue]];
 	[urlString appendFormat:@"&locationlon=%f", [event.location.longitude doubleValue]];
 	[urlString appendFormat:@"&eventname=%@", event.name];
-	[urlString appendFormat:@"&starttime=%i", (int)[event.startTime timeIntervalSince1970]];
-	[urlString appendFormat:@"&endtime=%i", (int)[event.endTime timeIntervalSince1970]];
-	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
+	[urlString appendFormat:@"&starttime=%i000", (int)[event.startTime timeIntervalSince1970]];
+	[urlString appendFormat:@"&endtime=%i000", (int)[event.endTime timeIntervalSince1970]];
+	/** @todo Remove the substring limit on the device unique identifier */
+	[urlString appendFormat:@"&userid=%@", [[[UIDevice currentDevice] uniqueIdentifier] substringFromIndex:24]];
 	[urlString appendString:@"&resp=xml"];
 	[urlString appendFormat:@"&desc=%@", event.details];
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSLog(escapedUrlString);
+	NSLog(@"%@", escapedUrlString);
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	NSLog(@"Submitting URL: %@", urlString);
 	// Make the request to get the data
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
 
-	NSLog(@"submitEvent returned data %@", responseData);
+	NSLog(@"submitEvent returned data %@", [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease]);
 	// Parse the request
 	NSError *err = nil;
 	DDXMLDocument *responseXml = [[DDXMLDocument alloc] initWithData:responseData options:0 error:&err];
-	NSLog(@"Error loading response XML: %@", err);
+	NSLog(@"response: %@", [responseXml stringValue]);
+	if (err) {
+		NSLog(@"Error loading response XML: %@", err);
+	} else {
+		// Get the event ID from the server's response
+		NSArray *nodes = [responseXml nodesForXPath:@"./EventPostResponse/eventid" error:&err];
+		if ([nodes count] > 0) {
+			NSLog(@"Setting server ID to %@", [[nodes objectAtIndex:0] stringValue]);
+			event.serverId = [[nodes objectAtIndex:0] stringValue];
+			[[event managedObjectContext] save:&err];
+		}
+	}
 	
-	// Find the first response
-//	NSArray *nodes = [responseXml nodesForXPath:@"./eventrequestresponse/event" error:&err];
-//	NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
 }
 
 @end
