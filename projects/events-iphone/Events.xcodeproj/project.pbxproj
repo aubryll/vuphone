@@ -47,10 +47,13 @@
 		61BBB7E710580004009481D6 /* VUStartEndDateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB7E610580004009481D6 /* VUStartEndDateCell.m */; };
 		61BBB7EB10580064009481D6 /* VUStartEndDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */; };
 		61BBB83C10580743009481D6 /* VUEditableCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB83B10580743009481D6 /* VUEditableCellController.m */; };
-		61F112AA1066EF1E00AA3F38 /* LocationListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F112A81066EF1E00AA3F38 /* LocationListViewController.xib */; };
+		61DF568110813D15000A7B1D /* Icons in Resources */ = {isa = PBXBuildFile; fileRef = 61DF567D10813D14000A7B1D /* Icons */; };
+		61DF569A108141A2000A7B1D /* MapFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61DF5698108141A2000A7B1D /* MapFilterViewController.m */; };
+		61DF569B108141A2000A7B1D /* MapFilterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61DF5699108141A2000A7B1D /* MapFilterView.xib */; };
+		61F112AA1066EF1E00AA3F38 /* LocationListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F112A81066EF1E00AA3F38 /* LocationListView.xib */; };
 		61F112B31066EFA200AA3F38 /* LocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F112B21066EFA200AA3F38 /* LocationListViewController.m */; };
 		61F112C61067415600AA3F38 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F112C41067415600AA3F38 /* LocationViewController.m */; };
-		61F112C71067415600AA3F38 /* LocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F112C51067415600AA3F38 /* LocationViewController.xib */; };
+		61F112C71067415600AA3F38 /* LocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F112C51067415600AA3F38 /* LocationView.xib */; };
 		61F779FF1054CFAC0071CA64 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F779FE1054CFAC0071CA64 /* SenTestingKit.framework */; };
 		61F77AC510554E640071CA64 /* EventListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77AC410554E640071CA64 /* EventListViewController.m */; };
 		61F77B021055570A0071CA64 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F77B011055570A0071CA64 /* CoreLocation.framework */; };
@@ -113,12 +116,16 @@
 		61BBB820105804E5009481D6 /* VUCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUCellController.h; path = TableView/VUCellController.h; sourceTree = "<group>"; };
 		61BBB83A10580743009481D6 /* VUEditableCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUEditableCellController.h; path = TableView/VUEditableCellController.h; sourceTree = "<group>"; };
 		61BBB83B10580743009481D6 /* VUEditableCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUEditableCellController.m; path = TableView/VUEditableCellController.m; sourceTree = "<group>"; };
-		61F112A81066EF1E00AA3F38 /* LocationListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LocationListViewController.xib; path = XIBs/LocationListViewController.xib; sourceTree = "<group>"; };
+		61DF567D10813D14000A7B1D /* Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Icons; sourceTree = "<group>"; };
+		61DF5697108141A2000A7B1D /* MapFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapFilterViewController.h; sourceTree = "<group>"; };
+		61DF5698108141A2000A7B1D /* MapFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapFilterViewController.m; sourceTree = "<group>"; };
+		61DF5699108141A2000A7B1D /* MapFilterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapFilterView.xib; path = XIBs/MapFilterView.xib; sourceTree = "<group>"; };
+		61F112A81066EF1E00AA3F38 /* LocationListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LocationListView.xib; path = XIBs/LocationListView.xib; sourceTree = "<group>"; };
 		61F112B11066EFA200AA3F38 /* LocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationListViewController.h; sourceTree = "<group>"; };
 		61F112B21066EFA200AA3F38 /* LocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationListViewController.m; sourceTree = "<group>"; };
 		61F112C31067415600AA3F38 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
 		61F112C41067415600AA3F38 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
-		61F112C51067415600AA3F38 /* LocationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LocationViewController.xib; path = XIBs/LocationViewController.xib; sourceTree = "<group>"; };
+		61F112C51067415600AA3F38 /* LocationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LocationView.xib; path = XIBs/LocationView.xib; sourceTree = "<group>"; };
 		61F779FE1054CFAC0071CA64 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		61F77A071054D0500071CA64 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		61F77A8C105545F60071CA64 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,6 +207,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* XIBs */,
+				61DF567D10813D14000A7B1D /* Icons */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				615BFB1C105D5863005497F9 /* libxml2.dylib */,
@@ -223,10 +231,11 @@
 		29B97317FDCFA39411CA2CEA /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
+				61DF5699108141A2000A7B1D /* MapFilterView.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				61BBB64F10575D45009481D6 /* EventView.xib */,
-				61F112A81066EF1E00AA3F38 /* LocationListViewController.xib */,
-				61F112C51067415600AA3F38 /* LocationViewController.xib */,
+				61F112A81066EF1E00AA3F38 /* LocationListView.xib */,
+				61F112C51067415600AA3F38 /* LocationView.xib */,
 				61BBB75B1057E7ED009481D6 /* VUEditableTableViewCell.xib */,
 				61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */,
 				61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */,
@@ -323,6 +332,8 @@
 				61F112C41067415600AA3F38 /* LocationViewController.m */,
 				61F77BB610556A860071CA64 /* MapViewController.h */,
 				61F77BB710556A860071CA64 /* MapViewController.m */,
+				61DF5697108141A2000A7B1D /* MapFilterViewController.h */,
+				61DF5698108141A2000A7B1D /* MapFilterViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -412,9 +423,11 @@
 				61BBB75C1057E7ED009481D6 /* VUEditableTableViewCell.xib in Resources */,
 				61BBB7E01057FDD3009481D6 /* VUStartEndDatePicker.xib in Resources */,
 				61BBB7EB10580064009481D6 /* VUStartEndDateCell.xib in Resources */,
-				61F112AA1066EF1E00AA3F38 /* LocationListViewController.xib in Resources */,
-				61F112C71067415600AA3F38 /* LocationViewController.xib in Resources */,
+				61F112AA1066EF1E00AA3F38 /* LocationListView.xib in Resources */,
+				61F112C71067415600AA3F38 /* LocationView.xib in Resources */,
 				612F84A2106F071800239F6B /* MapView.xib in Resources */,
+				61DF569B108141A2000A7B1D /* MapFilterView.xib in Resources */,
+				61DF568110813D15000A7B1D /* Icons in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,6 +488,7 @@
 				61F112C61067415600AA3F38 /* LocationViewController.m in Sources */,
 				612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */,
 				612F82DC106D442A00239F6B /* EventStoreTests.m in Sources */,
+				61DF569A108141A2000A7B1D /* MapFilterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +617,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphonesimulator3.0;
 			};
 			name = Debug;
