@@ -82,6 +82,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 
 		// convert GeoPoint to screen pixels
 		Point screenPts = new Point();
+		mapView.getProjection().toPixels(p_, screenPts);
 
 		// drop a random colored pin
 		Bitmap bmp = BitmapFactory.decodeResource(resources_, marker_image_);
