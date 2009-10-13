@@ -1,6 +1,11 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -23,7 +28,6 @@ public class Main extends MapActivity {
 	ZoomControls mZoom_;
 	MapController mc_;
 	GeoPoint p_;
-	
 
 	/**
 	 * Called when the activity is first created. Enables user to zoom in/out of
@@ -49,11 +53,47 @@ public class Main extends MapActivity {
 		mc_.animateTo(p_);
 		mc_.setZoom(17);
 		mapView_.invalidate();
+
+		// Set the GPS Listener
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		try {
+			onPositionChange(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+		}catch(Exception e){}
+		
+		LocationListener ll = new LocationListener() {
+			public void onLocationChanged(Location location) {
+				onPositionChange(location);
+			}
+
+			public void onProviderDisabled(String provider) {
+				Log.d("vandy","GPS Disabled");
+			}
+
+			public void onProviderEnabled(String provider) {
+				Log.d("vandy","GPS Enabled");
+			}
+
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				if(extras != null){
+					Log.d("vandy", "# of satellites:" + extras.getInt("satellites"));
+				}
+			}
+		};
+		
+		// Request to be notified whenever the user moves
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 2, ll);
+	}
+
+	/*
+	 * Called by the GPS service to inform us of the current position
+	 */
+	private void onPositionChange(Location l) {
+		echo("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> " + l.getAccuracy() + "m");
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -77,22 +117,21 @@ public class Main extends MapActivity {
 		super.onMenuItemSelected(featureId, item);
 
 		switch (item.getItemId()) {
-		
+
 		case (MENU_MAP_MODE):
 			echo("Map Mode");
 			break;
-		
+
 		case (MENU_BUILDING_LIST):
 			echo("Building list");
 			break;
-		
+
 		case (MENU_SHOW_BUILDINGS):
 			echo("Show Buildings");
 			break;
-		
+
 		case (MENU_DROP_PIN):
-			// TODO: Drop the pin at center-screen
-			drop_pin(p_);
+			drop_pin(mapView_.getMapCenter());
 			break;
 		}
 		return true;
