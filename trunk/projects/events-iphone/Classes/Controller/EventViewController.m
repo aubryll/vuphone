@@ -75,6 +75,7 @@
 
 - (IBAction)save:(id)sender
 {
+	NSLog(@"save");
 	[self getValuesFromTableIntoEvent:self.event];
 
 	// If this is a new event, set the device ID

@@ -9,14 +9,17 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+#import "SourcesViewController.h"
 #import "EventViewController.h"
 #import "Event.h"
 
-@interface EventListViewController : UITableViewController <CLLocationManagerDelegate, NSFetchedResultsControllerDelegate, UISearchBarDelegate> {
+@interface EventListViewController : UITableViewController <CLLocationManagerDelegate, NSFetchedResultsControllerDelegate, UISearchBarDelegate, SourcesViewDelegate> {
 
 	NSManagedObjectContext *context;
 	NSFetchedResultsController *fetchedResultsC;
 	CLLocationManager *locationManager;
+	
+	NSArray *sectionIndexTitles;
 	
 	IBOutlet EventViewController *eventViewController;
 	IBOutlet UIBarButtonItem *addButton;
@@ -24,6 +27,7 @@
 }
 
 - (IBAction)addEvent:(id)sender;
+- (IBAction)showSourcesSheet:(id)sender;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (EventViewController *)eventViewController;
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;

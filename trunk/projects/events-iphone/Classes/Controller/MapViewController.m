@@ -14,9 +14,45 @@
 
 @implementation MapViewController
 
-- (IBAction)showFilterSheet:(id)sender
+- (IBAction)toggleFilterSheet:(id)sender
 {
-	[self presentModalViewController:mapFilterVC animated:YES];
+	if (showingFilterSheet)
+	{
+		// Hide the filter sheet
+		[UIView beginAnimations:@"filterSheet" context:nil];
+		mapFilterVC.view.frame = CGRectMake(0.0f,
+											-FILTER_SHEET_HEIGHT,
+											mapFilterVC.view.frame.size.width,
+											FILTER_SHEET_HEIGHT);
+		[UIView commitAnimations];
+	}
+	else
+	{
+		// Add the filter sheet
+		[UIView beginAnimations:@"filterSheet" context:nil];
+		[UIView setAnimationTransition:UIViewAnimationCurveEaseInOut forView:mapFilterVC.view cache:NO];
+		mapFilterVC.view.frame = CGRectMake(0.0f,
+											0.0f,
+											mapFilterVC.view.frame.size.width,
+											FILTER_SHEET_HEIGHT);
+		
+		[UIView commitAnimations];
+	}
+	
+	showingFilterSheet = !showingFilterSheet;
+}
+
+- (void)viewDidLoad
+{
+	showingFilterSheet = NO;
+
+	// Set up the filter sheet
+	mapFilterVC.view.frame = CGRectMake(0.0f,
+										-FILTER_SHEET_HEIGHT,
+										mapFilterVC.view.frame.size.width,
+										FILTER_SHEET_HEIGHT);
+
+	[self.view addSubview:mapFilterVC.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -101,7 +137,7 @@
 	annotationView.userInteractionEnabled = YES;
 	annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 
-    return annotationView;
+    return [annotationView autorelease];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control

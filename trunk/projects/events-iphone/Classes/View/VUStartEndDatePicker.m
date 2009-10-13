@@ -104,6 +104,12 @@
 - (void)setStartDate:(NSDate *)newDate {
 	[startDate autorelease];
 	startDate = [newDate retain];
+
+	// If the new start date is greater than the end date, move the end date
+	if ([newDate compare:endDate] == NSOrderedDescending) {
+		[self setEndDate:[newDate copy]];
+	}
+	
 	[myTableView reloadData];
 	
 	// Also notify the delegate
@@ -115,6 +121,12 @@
 - (void)setEndDate:(NSDate *)newDate {
 	[endDate autorelease];
 	endDate = [newDate retain];
+
+	// If the new start date is greater than the end date, move the end date
+	if ([newDate compare:startDate] == NSOrderedAscending) {
+		[self setStartDate:[newDate copy]];
+	}
+	
 	[myTableView reloadData];
 
 	// Also notify the delegate

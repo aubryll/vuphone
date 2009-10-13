@@ -27,17 +27,19 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+/*	Why am I doing this???
 	// Populate the location from the fields
 	location.name = nameField.text;
 	location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
 	location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];
+*/
 }
 
 - (IBAction)save:(id)sender
 {
 	location.name = nameField.text;
-	location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
-	location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];
+//	location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
+//	location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];
 
 	// Save changes to the location
 	NSError *err;
@@ -106,11 +108,16 @@
 
 - (void)mapView:(MKMapView *)aMapView regionDidChangeAnimated:(BOOL)animated {
 	MKCoordinateRegion region = [aMapView region];
-	latitudeField.text = [NSString stringWithFormat:@"%f", region.center.latitude];
-	longitudeField.text = [NSString stringWithFormat:@"%f", region.center.longitude];
+	
+	if (isEditing) {
+		latitudeField.text = [NSString stringWithFormat:@"%f", region.center.latitude];
+		longitudeField.text = [NSString stringWithFormat:@"%f", region.center.longitude];
 
-	[mapView removeAnnotation:location];
-	[mapView addAnnotation:location];
+		[mapView removeAnnotation:location];
+		location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
+		location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];	
+		[mapView addAnnotation:location];
+	}
 }
 
 #pragma mark UITextFieldDelegate

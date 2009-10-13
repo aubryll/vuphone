@@ -35,7 +35,7 @@
 - (void)getValuesFromTableIntoEvent:(Event *)anEvent;
 - (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section;
 
-@property (nonatomic, retain, setter=setEvent) Event *event;
+@property (nonatomic, retain, setter=setEvent:) Event *event;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 
 @end

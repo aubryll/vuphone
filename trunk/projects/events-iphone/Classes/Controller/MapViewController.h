@@ -19,9 +19,10 @@
 	IBOutlet MKMapView *mapView;
 	IBOutlet MapFilterViewController *mapFilterVC;
 
+	BOOL showingFilterSheet;
 }
 
-- (IBAction)showFilterSheet:(id)sender;
+- (IBAction)toggleFilterSheet:(id)sender;
 
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsC;
