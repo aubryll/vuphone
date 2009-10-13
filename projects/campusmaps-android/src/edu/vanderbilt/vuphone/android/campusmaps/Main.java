@@ -29,7 +29,7 @@ public class Main extends MapActivity {
 	MapController mc_;
 	GeoPoint p_;
 
-	/**
+	/*
 	 * Called when the activity is first created. Enables user to zoom in/out of
 	 * the center of the screen. Also sets the map to open while viewing
 	 * Vanderbilt Campus.
@@ -42,11 +42,11 @@ public class Main extends MapActivity {
 		mapView_.setBuiltInZoomControls(true);
 
 		mc_ = mapView_.getController();
-		String coordinates[] = { "36.142830", "-86.804437" };
+
 		// Vanderbilt GPS coordinates, used to start the map at a Vanderbilt
 		// Location.
-		double lat = Double.parseDouble(coordinates[0]);
-		double lng = Double.parseDouble(coordinates[1]);
+		double lat = 36.142830;
+		double lng = -86.804437;
 
 		p_ = new GeoPoint((int) (lat * 1000000), (int) (lng * 1000000));
 
@@ -58,29 +58,34 @@ public class Main extends MapActivity {
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		try {
-			onPositionChange(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-		}catch(Exception e){}
-		
+			onPositionChange(lm
+					.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+		} catch (Exception e) {
+			// TODO(corespace): Handle specific errors.
+		}
+
 		LocationListener ll = new LocationListener() {
 			public void onLocationChanged(Location location) {
 				onPositionChange(location);
 			}
 
 			public void onProviderDisabled(String provider) {
-				Log.d("vandy","GPS Disabled");
+				Log.d("vandy", "GPS Disabled");
 			}
 
 			public void onProviderEnabled(String provider) {
-				Log.d("vandy","GPS Enabled");
+				Log.d("vandy", "GPS Enabled");
 			}
 
-			public void onStatusChanged(String provider, int status, Bundle extras) {
-				if(extras != null){
-					Log.d("vandy", "# of satellites:" + extras.getInt("satellites"));
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+				if (extras != null) {
+					Log.d("vandy", "# of satellites:"
+							+ extras.getInt("satellites"));
 				}
 			}
 		};
-		
+
 		// Request to be notified whenever the user moves
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 2, ll);
 	}
@@ -89,7 +94,8 @@ public class Main extends MapActivity {
 	 * Called by the GPS service to inform us of the current position
 	 */
 	private void onPositionChange(Location l) {
-		echo("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> " + l.getAccuracy() + "m");
+		echo("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> "
+				+ l.getAccuracy() + "m");
 	}
 
 	@Override
@@ -141,7 +147,8 @@ public class Main extends MapActivity {
 	 * Used to set a marker image on the map
 	 */
 	public void drop_pin(GeoPoint p) {
-		MapMarker m = new MapMarker(getBaseContext(), getResources(), mapView_, p);
+		MapMarker m = new MapMarker(getBaseContext(), getResources(), mapView_,
+				p);
 		m.drop_pin();
 	}
 
