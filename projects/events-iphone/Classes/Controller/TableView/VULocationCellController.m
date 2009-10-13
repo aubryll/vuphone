@@ -25,7 +25,7 @@
 	if (isEditable)
 	{
 		// Push a LocationListViewController
-		LocationListViewController *controller = [[LocationListViewController alloc] initWithNibName:@"LocationListViewController" bundle:nil];
+		LocationListViewController *controller = [[LocationListViewController alloc] initWithNibName:@"LocationListView" bundle:nil];
 		controller.parentLocation = self.location.parentLocation;
 		controller.isEditing = YES;
 		controller.title = @"Locations";
@@ -35,7 +35,7 @@
 	else
 	{
 		// Push a LocationViewController
-		LocationViewController *controller = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
+		LocationViewController *controller = [[LocationViewController alloc] initWithNibName:@"LocationView" bundle:nil];
 		controller.location = self.location;
 		controller.isEditing = NO;
 		[tvc.navigationController pushViewController:controller animated:YES];

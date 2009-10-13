@@ -22,7 +22,7 @@
 
 - (IBAction)didChangeDate:(id)sender;
 
-@property (nonatomic, retain, setter=setStartDate) NSDate *startDate;
-@property (nonatomic, retain, setter=setEndDate) NSDate *endDate;
+@property (nonatomic, retain, setter=setStartDate:) NSDate *startDate;
+@property (nonatomic, retain, setter=setEndDate:) NSDate *endDate;
 
 @end

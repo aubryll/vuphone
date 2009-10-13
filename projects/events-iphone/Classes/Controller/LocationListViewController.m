@@ -62,11 +62,12 @@
 	}
 
 	// Push a new location view controller
-	LocationViewController *lvc = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
+	LocationViewController *lvc = [[LocationViewController alloc] initWithNibName:@"LocationView" bundle:nil];
 	lvc.location = location;
 	lvc.editingContext = context;
 	lvc.isEditing = YES;
 	[self.navigationController pushViewController:lvc animated:YES];
+	[lvc release];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -112,23 +113,26 @@
 
 	if ([location.childLocations count] > 0 || self.isEditing) {
 		// Push a new LocationListViewController with this location as the parent
-		LocationListViewController *llvc = [[LocationListViewController alloc] initWithNibName:@"LocationListViewController" bundle:nil];
+		LocationListViewController *llvc = [[LocationListViewController alloc] initWithNibName:@"LocationListView" bundle:nil];
 		llvc.locations = [location.childLocations allObjects];
 		llvc.parentLocation = location;
 		llvc.title = location.name;
 		llvc.isEditing = self.isEditing;
 		
 		[tvc.navigationController pushViewController:llvc animated:YES];
+		[llvc release];
 	} else {
 		// Show the location
-		LocationViewController *lvc = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
+		LocationViewController *lvc = [[LocationViewController alloc] initWithNibName:@"LocationView" bundle:nil];
 		lvc.location = location;
 		lvc.isEditing = self.isEditing;
 		if (isEditing) {
 			// Give it an editing context
 			lvc.editingContext = [[EventStore sharedEventStore] editingContext];
 		}
+
 		[tvc.navigationController pushViewController:lvc animated:YES];
+		[lvc release];
 	}
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

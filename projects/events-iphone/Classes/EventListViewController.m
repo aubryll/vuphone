@@ -7,6 +7,7 @@
 //
 
 #import "EventListViewController.h"
+#import "SourcesViewController.h"
 #import "EntityConstants.h"
 #import "EventStore.h"
 
@@ -91,6 +92,32 @@
 	return eventViewController;
 }
 
+#pragma mark Sources
+
+- (IBAction)showSourcesSheet:(id)sender
+{
+	SourcesViewController *sourcesVC = [[SourcesViewController alloc] initWithNibName:@"SourcesView" bundle:nil];
+	sourcesVC.delegate = self;
+
+	NSArray *sources = [NSArray arrayWithObjects:@"Official Calendar", @"Commons", @"Athletics", @"Facebook", nil];
+	sourcesVC.sources = sources;
+	NSMutableSet *set = [NSMutableSet setWithCapacity:[sources count]];
+	[set addObject:[sources objectAtIndex:0]];
+	[set addObject:[sources objectAtIndex:2]];
+	[set addObject:[sources objectAtIndex:3]];
+	
+	sourcesVC.chosenSources = set;
+	[self presentModalViewController:sourcesVC animated:YES];
+
+	[sourcesVC release];
+}
+
+- (void)sourcesViewController:(SourcesViewController *)sourcesVC
+		didDismissWithChoices:(NSSet *)choices
+{
+	// Adjust the query to include these choices
+	NSLog(@"DidDismissWithChoices: %@", choices);
+}
 
 #pragma mark CLLocation methods
 
@@ -201,17 +228,23 @@
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
-	NSMutableArray *titles = [NSMutableArray new];
-	for (id<NSFetchedResultsSectionInfo> title in [fetchedResultsC sections]) {
-		// Let the index title be the day number
-		[titles addObject:[title.name substringFromIndex:[title.name length] - 2]];
+	if (!sectionIndexTitles) {
+		NSMutableArray *titles = [NSMutableArray new];
+		
+		for (id<NSFetchedResultsSectionInfo> title in [fetchedResultsC sections]) {
+			// Let the index title be the day number
+			[titles addObject:[title.name substringFromIndex:[title.name length] - 2]];
+		}
+		sectionIndexTitles = titles;
 	}
-	
-	return titles;
+
+	NSLog(@"sectionIndexTitlesForTableView: %@", sectionIndexTitles);
+	return sectionIndexTitles;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-	return [fetchedResultsC sectionForSectionIndexTitle:title atIndex:index];
+	NSLog(@"sectionForSectionIndexTitle: %@ atIndex: %i", title, index);
+	return index;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -240,6 +273,8 @@
 #pragma mark NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+	NSLog(@"willChangeContent");
+	
 	[self.tableView beginUpdates];
 }
 
@@ -247,6 +282,8 @@
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
 		   atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
+	NSLog(@"didChangeSection");
+	
 	switch(type) {
 		case NSFetchedResultsChangeInsert:
 			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
@@ -265,6 +302,12 @@
 	   atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
 {
+	NSLog(@"didChangeObject");
+
+	// Invalidate the sectionIndexTitles
+//	[sectionIndexTitles release];
+//	sectionIndexTitles = nil;
+	
 	UITableView *tableView = self.tableView;
 	
 	switch(type)
@@ -295,6 +338,8 @@
 
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	NSLog(@"didChangeContent");
+	
 	[self.tableView endUpdates];
 }
 
@@ -335,6 +380,8 @@
 {
 	[fetchedResultsC release];
 	[locationManager release];
+	[context release];
+	[sectionIndexTitles release];
 	
 	[super dealloc];
 }
