@@ -82,7 +82,6 @@ public class MapMarker extends com.google.android.maps.Overlay {
 
 		// convert GeoPoint to screen pixels
 		Point screenPts = new Point();
-		mapView.getProjection().toPixels(p_, screenPts);
 
 		// drop a random colored pin
 		Bitmap bmp = BitmapFactory.decodeResource(resources_, marker_image_);
@@ -106,7 +105,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 			if (diff_lat < 800 && diff_lat > -50 && diff_long < 700 && diff_long > -150) {
 				dragging_ = true;
 				// TODO: Disable the map from panning while the user drags the marker
-				// mapView.setEnabled(false);
+				mapView_.getController().stopPanning();
 			} else
 				dragging_ = false;
 		}
