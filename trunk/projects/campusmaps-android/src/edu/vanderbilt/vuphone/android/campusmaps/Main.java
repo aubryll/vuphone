@@ -28,6 +28,7 @@ public class Main extends MapActivity {
 	ZoomControls mZoom_;
 	MapController mc_;
 	GeoPoint p_;
+	PathOverlay poLayer_ = null;
 
 	/*
 	 * Called when the activity is first created. Enables user to zoom in/out of
@@ -40,6 +41,17 @@ public class Main extends MapActivity {
 		setContentView(R.layout.main);
 		mapView_ = (MapView) findViewById(R.id.mapview);
 		mapView_.setBuiltInZoomControls(true);
+		
+		poLayer_ = new PathOverlay(mapView_);
+		
+		// Just some demo paths to test for now
+		poLayer_.StartNewPath(new GeoPoint(36144875,-86806723));
+		poLayer_.AddPoint(new GeoPoint(36146071,-86804298));
+		poLayer_.StartNewPath(new GeoPoint(36143411,-86806401));
+		poLayer_.AddPoint(new GeoPoint(36143238,-86804727));
+		poLayer_.AddPoint(new GeoPoint(36143143,-86803257));
+		poLayer_.AddPoint(new GeoPoint(36143429,-86802624));
+		poLayer_.AddPoint(new GeoPoint(36143935,-86802587));
 
 		mc_ = mapView_.getController();
 
