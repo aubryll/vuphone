@@ -1,0 +1,503 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* iPhoneARAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* iPhoneARAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2899E5220DE3E06400AC0155 /* iPhoneARViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* iPhoneARViewController.xib */; };
+		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		28D7ACF80DDB3853001CB0EB /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* ARViewController.m */; };
+		4304B06B1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B04F1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.m */; };
+		4304B06C1084EA0900CF9AD8 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0511084EA0900CF9AD8 /* CXMLNode_CreationExtensions.m */; };
+		4304B06D1084EA0900CF9AD8 /* CXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0531084EA0900CF9AD8 /* CXMLDocument.m */; };
+		4304B06E1084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0551084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.m */; };
+		4304B06F1084EA0900CF9AD8 /* CXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0571084EA0900CF9AD8 /* CXMLElement.m */; };
+		4304B0701084EA0900CF9AD8 /* CXMLElement_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0591084EA0900CF9AD8 /* CXMLElement_CreationExtensions.m */; };
+		4304B0711084EA0900CF9AD8 /* CXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B05B1084EA0900CF9AD8 /* CXMLNode.m */; };
+		4304B0721084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B05D1084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.m */; };
+		4304B0731084EA0900CF9AD8 /* CXMLNode_XPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B05F1084EA0900CF9AD8 /* CXMLNode_XPathExtensions.m */; };
+		4304B0741084EA0900CF9AD8 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0621084EA0900CF9AD8 /* CTidy.m */; };
+		4304B0751084EA0900CF9AD8 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = 4304B0651084EA0900CF9AD8 /* Makefile.am */; };
+		4304B0761084EA0900CF9AD8 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = 4304B0661084EA0900CF9AD8 /* Makefile.in */; };
+		4304B0A910853A4100CF9AD8 /* POILayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B0A810853A4100CF9AD8 /* POILayer.m */; };
+		4304B1241085403600CF9AD8 /* WikipediaPOIProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B1231085403600CF9AD8 /* WikipediaPOIProvider.m */; };
+		4304B1EF10855ECB00CF9AD8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4304B1EE10855ECB00CF9AD8 /* MapKit.framework */; };
+		4304B2E410856D7A00CF9AD8 /* QuadrantAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 4304B2E310856D7A00CF9AD8 /* QuadrantAnnotation.png */; };
+		4322F2DD10681354006D98F8 /* POIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F2DC10681354006D98F8 /* POIManager.m */; };
+		4322F2E21068135B006D98F8 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F2E11068135B006D98F8 /* POI.m */; };
+		433E7AAB10837C8200C2C2F2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433E7AAA10837C8200C2C2F2 /* CoreLocation.framework */; };
+		433E7ABA10837DC800C2C2F2 /* POIQuadrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 433E7AB910837DC800C2C2F2 /* POIQuadrant.m */; };
+		43564100108440D700C958D4 /* SensorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 435640FD108440D700C958D4 /* SensorMock.m */; };
+		43564101108440D700C958D4 /* SensorMockDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 435640FF108440D700C958D4 /* SensorMockDelegate.m */; };
+		435641111084418800C958D4 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 435641101084418800C958D4 /* MethodSwizzle.m */; };
+		4356412E1084421800C958D4 /* libtidy.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4356412D1084421800C958D4 /* libtidy.dylib */; };
+		439EE6E1107576B60053A1AB /* WebPOIProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 439EE6E0107576B60053A1AB /* WebPOIProvider.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* iPhoneARAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneARAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* iPhoneARAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPhoneARAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* iPhoneAR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPhoneAR.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2899E5210DE3E06400AC0155 /* iPhoneARViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = iPhoneARViewController.xib; sourceTree = "<group>"; };
+		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28D7ACF60DDB3853001CB0EB /* ARViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* ARViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* iPhoneAR_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhoneAR_Prefix.pch; sourceTree = "<group>"; };
+		4304B04E1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_CreationExtensions.h; sourceTree = "<group>"; };
+		4304B04F1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_CreationExtensions.m; sourceTree = "<group>"; };
+		4304B0501084EA0900CF9AD8 /* CXMLNode_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_CreationExtensions.h; sourceTree = "<group>"; };
+		4304B0511084EA0900CF9AD8 /* CXMLNode_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode_CreationExtensions.m; sourceTree = "<group>"; };
+		4304B0521084EA0900CF9AD8 /* CXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument.h; sourceTree = "<group>"; };
+		4304B0531084EA0900CF9AD8 /* CXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument.m; sourceTree = "<group>"; };
+		4304B0541084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_PrivateExtensions.h; sourceTree = "<group>"; };
+		4304B0551084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_PrivateExtensions.m; sourceTree = "<group>"; };
+		4304B0561084EA0900CF9AD8 /* CXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLElement.h; sourceTree = "<group>"; };
+		4304B0571084EA0900CF9AD8 /* CXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLElement.m; sourceTree = "<group>"; };
+		4304B0581084EA0900CF9AD8 /* CXMLElement_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLElement_CreationExtensions.h; sourceTree = "<group>"; };
+		4304B0591084EA0900CF9AD8 /* CXMLElement_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLElement_CreationExtensions.m; sourceTree = "<group>"; };
+		4304B05A1084EA0900CF9AD8 /* CXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode.h; sourceTree = "<group>"; };
+		4304B05B1084EA0900CF9AD8 /* CXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode.m; sourceTree = "<group>"; };
+		4304B05C1084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_PrivateExtensions.h; sourceTree = "<group>"; };
+		4304B05D1084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode_PrivateExtensions.m; sourceTree = "<group>"; };
+		4304B05E1084EA0900CF9AD8 /* CXMLNode_XPathExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_XPathExtensions.h; sourceTree = "<group>"; };
+		4304B05F1084EA0900CF9AD8 /* CXMLNode_XPathExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLNode_XPathExtensions.m; sourceTree = "<group>"; };
+		4304B0611084EA0900CF9AD8 /* CTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTidy.h; sourceTree = "<group>"; };
+		4304B0621084EA0900CF9AD8 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
+		4304B0641084EA0900CF9AD8 /* buffio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buffio.h; sourceTree = "<group>"; };
+		4304B0651084EA0900CF9AD8 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		4304B0661084EA0900CF9AD8 /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
+		4304B0671084EA0900CF9AD8 /* platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		4304B0681084EA0900CF9AD8 /* tidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tidy.h; sourceTree = "<group>"; };
+		4304B0691084EA0900CF9AD8 /* tidyenum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tidyenum.h; sourceTree = "<group>"; };
+		4304B06A1084EA0900CF9AD8 /* TouchXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchXML.h; sourceTree = "<group>"; };
+		4304B0A710853A4100CF9AD8 /* POILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POILayer.h; sourceTree = "<group>"; };
+		4304B0A810853A4100CF9AD8 /* POILayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POILayer.m; sourceTree = "<group>"; };
+		4304B0E710853F6400CF9AD8 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		4304B1221085403600CF9AD8 /* WikipediaPOIProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WikipediaPOIProvider.h; path = ../WikipediaPOIProvider.h; sourceTree = "<group>"; };
+		4304B1231085403600CF9AD8 /* WikipediaPOIProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WikipediaPOIProvider.m; path = ../WikipediaPOIProvider.m; sourceTree = "<group>"; };
+		4304B1EE10855ECB00CF9AD8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		4304B2E310856D7A00CF9AD8 /* QuadrantAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QuadrantAnnotation.png; sourceTree = "<group>"; };
+		4322F2DB10681354006D98F8 /* POIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIManager.h; sourceTree = "<group>"; };
+		4322F2DC10681354006D98F8 /* POIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIManager.m; sourceTree = "<group>"; };
+		4322F2E01068135B006D98F8 /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POI.h; sourceTree = "<group>"; };
+		4322F2E11068135B006D98F8 /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POI.m; sourceTree = "<group>"; };
+		4322F2E510681368006D98F8 /* POIProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIProvider.h; sourceTree = "<group>"; };
+		433E7AAA10837C8200C2C2F2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = /System/Library/Frameworks/CoreLocation.framework; sourceTree = "<absolute>"; };
+		433E7AB810837DC800C2C2F2 /* POIQuadrant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIQuadrant.h; sourceTree = "<group>"; };
+		433E7AB910837DC800C2C2F2 /* POIQuadrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIQuadrant.m; sourceTree = "<group>"; };
+		435640FC108440D700C958D4 /* SensorMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMock.h; sourceTree = "<group>"; };
+		435640FD108440D700C958D4 /* SensorMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorMock.m; sourceTree = "<group>"; };
+		435640FE108440D700C958D4 /* SensorMockDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMockDelegate.h; sourceTree = "<group>"; };
+		435640FF108440D700C958D4 /* SensorMockDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorMockDelegate.m; sourceTree = "<group>"; };
+		4356410F1084418800C958D4 /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
+		435641101084418800C958D4 /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
+		4356412D1084421800C958D4 /* libtidy.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtidy.dylib; path = Libraries/libtidy.dylib; sourceTree = "<group>"; };
+		439EE6DF107576B60053A1AB /* WebPOIProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPOIProvider.h; sourceTree = "<group>"; };
+		439EE6E0107576B60053A1AB /* WebPOIProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPOIProvider.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* iPhoneAR-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iPhoneAR-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				433E7AAB10837C8200C2C2F2 /* CoreLocation.framework in Frameworks */,
+				4356412E1084421800C958D4 /* libtidy.dylib in Frameworks */,
+				4304B1EF10855ECB00CF9AD8 /* MapKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4304B0E710853F6400CF9AD8 /* Constants.h */,
+				4304B04C1084EA0900CF9AD8 /* CXML */,
+				43564102108440D900C958D4 /* SensorMock */,
+				4322F2F9106813BE006D98F8 /* POI */,
+				1D3623240D0F684500981E51 /* iPhoneARAppDelegate.h */,
+				1D3623250D0F684500981E51 /* iPhoneARAppDelegate.m */,
+				28D7ACF60DDB3853001CB0EB /* ARViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* ARViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* iPhoneAR.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32CA4F630368D1EE00C91783 /* iPhoneAR_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4304B2E210856D7A00CF9AD8 /* Images */,
+				4356412D1084421800C958D4 /* libtidy.dylib */,
+				2899E5210DE3E06400AC0155 /* iPhoneARViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* iPhoneAR-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				433E7AAA10837C8200C2C2F2 /* CoreLocation.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				4304B1EE10855ECB00CF9AD8 /* MapKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4304B04C1084EA0900CF9AD8 /* CXML */ = {
+			isa = PBXGroup;
+			children = (
+				4304B04D1084EA0900CF9AD8 /* Creation */,
+				4304B0521084EA0900CF9AD8 /* CXMLDocument.h */,
+				4304B0531084EA0900CF9AD8 /* CXMLDocument.m */,
+				4304B0541084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.h */,
+				4304B0551084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.m */,
+				4304B0561084EA0900CF9AD8 /* CXMLElement.h */,
+				4304B0571084EA0900CF9AD8 /* CXMLElement.m */,
+				4304B0581084EA0900CF9AD8 /* CXMLElement_CreationExtensions.h */,
+				4304B0591084EA0900CF9AD8 /* CXMLElement_CreationExtensions.m */,
+				4304B05A1084EA0900CF9AD8 /* CXMLNode.h */,
+				4304B05B1084EA0900CF9AD8 /* CXMLNode.m */,
+				4304B05C1084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.h */,
+				4304B05D1084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.m */,
+				4304B05E1084EA0900CF9AD8 /* CXMLNode_XPathExtensions.h */,
+				4304B05F1084EA0900CF9AD8 /* CXMLNode_XPathExtensions.m */,
+				4304B0601084EA0900CF9AD8 /* Tidy */,
+				4304B06A1084EA0900CF9AD8 /* TouchXML.h */,
+			);
+			path = CXML;
+			sourceTree = "<group>";
+		};
+		4304B04D1084EA0900CF9AD8 /* Creation */ = {
+			isa = PBXGroup;
+			children = (
+				4304B04E1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.h */,
+				4304B04F1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.m */,
+				4304B0501084EA0900CF9AD8 /* CXMLNode_CreationExtensions.h */,
+				4304B0511084EA0900CF9AD8 /* CXMLNode_CreationExtensions.m */,
+			);
+			path = Creation;
+			sourceTree = "<group>";
+		};
+		4304B0601084EA0900CF9AD8 /* Tidy */ = {
+			isa = PBXGroup;
+			children = (
+				4304B0611084EA0900CF9AD8 /* CTidy.h */,
+				4304B0621084EA0900CF9AD8 /* CTidy.m */,
+				4304B0631084EA0900CF9AD8 /* include */,
+			);
+			path = Tidy;
+			sourceTree = "<group>";
+		};
+		4304B0631084EA0900CF9AD8 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				4304B0641084EA0900CF9AD8 /* buffio.h */,
+				4304B0651084EA0900CF9AD8 /* Makefile.am */,
+				4304B0661084EA0900CF9AD8 /* Makefile.in */,
+				4304B0671084EA0900CF9AD8 /* platform.h */,
+				4304B0681084EA0900CF9AD8 /* tidy.h */,
+				4304B0691084EA0900CF9AD8 /* tidyenum.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		4304B0BC10853B8D00CF9AD8 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				4322F2E510681368006D98F8 /* POIProvider.h */,
+				439EE6DF107576B60053A1AB /* WebPOIProvider.h */,
+				439EE6E0107576B60053A1AB /* WebPOIProvider.m */,
+				4304B1221085403600CF9AD8 /* WikipediaPOIProvider.h */,
+				4304B1231085403600CF9AD8 /* WikipediaPOIProvider.m */,
+			);
+			name = Providers;
+			sourceTree = "<group>";
+		};
+		4304B2E210856D7A00CF9AD8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				4304B2E310856D7A00CF9AD8 /* QuadrantAnnotation.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		4322F2F9106813BE006D98F8 /* POI */ = {
+			isa = PBXGroup;
+			children = (
+				4322F2DB10681354006D98F8 /* POIManager.h */,
+				4322F2DC10681354006D98F8 /* POIManager.m */,
+				4304B0A710853A4100CF9AD8 /* POILayer.h */,
+				4304B0A810853A4100CF9AD8 /* POILayer.m */,
+				433E7AB810837DC800C2C2F2 /* POIQuadrant.h */,
+				433E7AB910837DC800C2C2F2 /* POIQuadrant.m */,
+				4322F2E01068135B006D98F8 /* POI.h */,
+				4322F2E11068135B006D98F8 /* POI.m */,
+				4304B0BC10853B8D00CF9AD8 /* Providers */,
+			);
+			name = POI;
+			sourceTree = "<group>";
+		};
+		43564102108440D900C958D4 /* SensorMock */ = {
+			isa = PBXGroup;
+			children = (
+				4356410F1084418800C958D4 /* MethodSwizzle.h */,
+				435641101084418800C958D4 /* MethodSwizzle.m */,
+				435640FC108440D700C958D4 /* SensorMock.h */,
+				435640FD108440D700C958D4 /* SensorMock.m */,
+				435640FE108440D700C958D4 /* SensorMockDelegate.h */,
+				435640FF108440D700C958D4 /* SensorMockDelegate.m */,
+			);
+			name = SensorMock;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* iPhoneAR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iPhoneAR" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iPhoneAR;
+			productName = iPhoneAR;
+			productReference = 1D6058910D05DD3D006BFB54 /* iPhoneAR.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iPhoneAR" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* iPhoneAR */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				2899E5220DE3E06400AC0155 /* iPhoneARViewController.xib in Resources */,
+				4304B0751084EA0900CF9AD8 /* Makefile.am in Resources */,
+				4304B0761084EA0900CF9AD8 /* Makefile.in in Resources */,
+				4304B2E410856D7A00CF9AD8 /* QuadrantAnnotation.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* iPhoneARAppDelegate.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* ARViewController.m in Sources */,
+				4322F2DD10681354006D98F8 /* POIManager.m in Sources */,
+				4322F2E21068135B006D98F8 /* POI.m in Sources */,
+				439EE6E1107576B60053A1AB /* WebPOIProvider.m in Sources */,
+				433E7ABA10837DC800C2C2F2 /* POIQuadrant.m in Sources */,
+				43564100108440D700C958D4 /* SensorMock.m in Sources */,
+				43564101108440D700C958D4 /* SensorMockDelegate.m in Sources */,
+				435641111084418800C958D4 /* MethodSwizzle.m in Sources */,
+				4304B06B1084EA0900CF9AD8 /* CXMLDocument_CreationExtensions.m in Sources */,
+				4304B06C1084EA0900CF9AD8 /* CXMLNode_CreationExtensions.m in Sources */,
+				4304B06D1084EA0900CF9AD8 /* CXMLDocument.m in Sources */,
+				4304B06E1084EA0900CF9AD8 /* CXMLDocument_PrivateExtensions.m in Sources */,
+				4304B06F1084EA0900CF9AD8 /* CXMLElement.m in Sources */,
+				4304B0701084EA0900CF9AD8 /* CXMLElement_CreationExtensions.m in Sources */,
+				4304B0711084EA0900CF9AD8 /* CXMLNode.m in Sources */,
+				4304B0721084EA0900CF9AD8 /* CXMLNode_PrivateExtensions.m in Sources */,
+				4304B0731084EA0900CF9AD8 /* CXMLNode_XPathExtensions.m in Sources */,
+				4304B0741084EA0900CF9AD8 /* CTidy.m in Sources */,
+				4304B0A910853A4100CF9AD8 /* POILayer.m in Sources */,
+				4304B1241085403600CF9AD8 /* WikipediaPOIProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iPhoneAR_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					/usr/include/tidy,
+				);
+				INFOPLIST_FILE = "iPhoneAR-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ltidy",
+					"-lxml2",
+				);
+				PRODUCT_NAME = iPhoneAR;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iPhoneAR_Prefix.pch;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					/usr/include/tidy,
+				);
+				INFOPLIST_FILE = "iPhoneAR-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Libraries\"",
+				);
+				OTHER_LDFLAGS = (
+					"-ltidy",
+					"-lxml2",
+				);
+				PRODUCT_NAME = iPhoneAR;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/usr/include/libxml2,
+					/usr/include/libxml2,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/libidn/**",
+					"$(SRCROOT)/Libraries/libidn",
+				);
+				PREBINDING = NO;
+				SDKROOT = iphoneos3.1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iPhoneAR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iPhoneAR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
