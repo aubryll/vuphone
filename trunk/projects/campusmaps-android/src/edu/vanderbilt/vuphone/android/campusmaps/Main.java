@@ -41,17 +41,46 @@ public class Main extends MapActivity {
 		setContentView(R.layout.main);
 		mapView_ = (MapView) findViewById(R.id.mapview);
 		mapView_.setBuiltInZoomControls(true);
-		
+
 		poLayer_ = new PathOverlay(mapView_);
-		
+
 		// Just some demo paths to test for now
-		poLayer_.StartNewPath(new GeoPoint(36144875,-86806723));
-		poLayer_.AddPoint(new GeoPoint(36146071,-86804298));
-		poLayer_.StartNewPath(new GeoPoint(36143411,-86806401));
-		poLayer_.AddPoint(new GeoPoint(36143238,-86804727));
-		poLayer_.AddPoint(new GeoPoint(36143143,-86803257));
-		poLayer_.AddPoint(new GeoPoint(36143429,-86802624));
-		poLayer_.AddPoint(new GeoPoint(36143935,-86802587));
+		poLayer_.StartNewPath(new GeoPoint(36144875, -86806723));
+		poLayer_.AddPoint(new GeoPoint(36146071, -86804298));
+		poLayer_.StartNewPath(new GeoPoint(36143411, -86806401));
+		poLayer_.AddPoint(new GeoPoint(36143238, -86804727));
+		poLayer_.AddPoint(new GeoPoint(36143143, -86803257));
+		poLayer_.AddPoint(new GeoPoint(36143429, -86802624));
+		poLayer_.AddPoint(new GeoPoint(36143935, -86802587));
+
+		// Attempt to draw Wesley Place from GML data in EPSG900913 format from
+		// vu.gml, just testing / demoing.
+		poLayer_.StartNewPath(EPSG900913ToGeoPoint(-9662429.695230,
+				4320719.417812));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662420.185221, 4320683.476196));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662417.200911, 4320672.193037));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662417.071184, 4320672.178321));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662395.440964, 4320669.572643));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662395.711297, 4320667.316003));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662386.352760, 4320666.189571));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662386.082410, 4320668.444238));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662346.924362, 4320663.727702));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662359.954998, 4320711.017158));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662381.825093, 4320713.650537));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662389.499083, 4320714.573825));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662429.695230, 4320719.417812));
 
 		mc_ = mapView_.getController();
 
@@ -169,6 +198,26 @@ public class Main extends MapActivity {
 	 */
 	public void echo(String s) {
 		Toast.makeText(getBaseContext(), s, Toast.LENGTH_SHORT).show();
+	}
+
+	/**
+	 * Method for converting from EPSG900913 format used by vu.gml to latitude
+	 * and longitude. Based on reversing a C# function from
+	 * http://www.cadmaps.com/gisblog/?cat=10
+	 * 
+	 * @param x
+	 *            - 1st EPSG900913 coordinate
+	 * @param y
+	 *            - 2nd EPSG900913 coordinate
+	 * @return GeoPoint at input location
+	 */
+	public GeoPoint EPSG900913ToGeoPoint(double x, double y) {
+		double longitude = x / (6378137.0 * Math.PI / 180);
+		double latitude = ((Math.atan(Math.pow(Math.E, (y / 6378137.0))))
+				/ (Math.PI / 180) - 45) * 2.0;
+		Log.d("LatLong", "Lat = " + latitude + " Long = " + longitude);
+		return new GeoPoint((int) (latitude * 1E6),
+				(int) (longitude * 1E6));
 	}
 
 }
