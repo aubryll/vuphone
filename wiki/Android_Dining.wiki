@@ -7,6 +7,8 @@ This should be a general description of the module
 
 == Team Leader ==
   * ?
+== Meeting Time ==
+ TBD, waiting for one more reply on [http://whenisgood.net/b4cq8z/results/iz7e4i WhenIsGood results]
 
 == Developers ==
   * Evan Kaiser
