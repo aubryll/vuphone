@@ -1,10 +1,184 @@
 // !$*UTF8*$!
 {
+	1D3623240D0F684500981E51 /* CampusMapsAppDelegate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 532}}";
+			sepNavSelRange = "{473, 0}";
+			sepNavVisRange = "{0, 905}";
+			sepNavWindowFrame = "{{19, 315}, {750, 558}}";
+		};
+	};
+	1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {845, 2002}}";
+			sepNavSelRange = "{441, 0}";
+			sepNavVisRange = "{0, 250}";
+			sepNavWindowFrame = "{{19, 315}, {750, 558}}";
+		};
+	};
 	1D6058900D05DD3D006BFB54 /* CampusMaps */ = {
 		activeExec = 0;
 		executables = (
 			6F0DEA38108824DE0022127A /* CampusMaps */,
 		);
+	};
+	28C3AD890F43EF2300507BA6 /* CampusMaps.xcdatamodel */ = {
+		uiCtxt = {
+			"Xdesign Model Editor Bookmark Key" = {
+				UIContextForDetailArea = {
+					_indexOfSelectedPane = 0;
+					_indexOfSelectedView = 1;
+				};
+				UIContextForEntityArea = {
+					_indexOfSelectedView = 0;
+					chosenTableColumnns = (
+						"ET Entity",
+						"ET Abstract",
+						"ET Class",
+					);
+					chosenTableColumnns_sortDirections = (
+						YES,
+					);
+					chosenTableColumnns_sortKeys = (
+						name,
+					);
+					chosenTableColumnns_sortSelectors = (
+						"_xdcaseInsensitiveNumericCompare:",
+					);
+					chosenTableWidths = (
+						103.000000,
+						22.000000,
+						32.080078,
+					);
+				};
+				UIContextForLayoutManager = {
+					detailSplitGeometry = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {376, 218}}",
+							"{{381, 0}, {197, 218}}",
+						);
+					};
+					diagramSplitGeometry = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {578, 220}}",
+							"{{0, 225}, {578, 9}}",
+						);
+					};
+					tableSplitGeometry = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {121, 218}}",
+							"{{126, 0}, {250, 218}}",
+						);
+					};
+				};
+				UIContextForPropertyArea = {
+					_indexOfSelectedView = 0;
+					chosenTableColumnnFRTs = (
+						"FT Fetch Request",
+						"FT Predicate",
+					);
+					chosenTableColumnnFRTs_sortDirections = (
+						YES,
+					);
+					chosenTableColumnnFRTs_sortKeys = (
+						name,
+					);
+					chosenTableColumnnFRTs_sortSelectors = (
+						"_xdcaseInsensitiveNumericCompare:",
+					);
+					chosenTableColumnnsAT = (
+						"AT Attribute",
+						"AT Type",
+					);
+					chosenTableColumnnsAT_sortDirections = (
+						YES,
+					);
+					chosenTableColumnnsAT_sortKeys = (
+						name,
+					);
+					chosenTableColumnnsAT_sortSelectors = (
+						"_xdcaseInsensitiveNumericCompare:",
+					);
+					chosenTableColumnnsFPT = (
+						"FP FetchedProperty",
+						"FP Destination",
+						"FP Predicate",
+					);
+					chosenTableColumnnsFPT_sortDirections = (
+						YES,
+					);
+					chosenTableColumnnsFPT_sortKeys = (
+						name,
+					);
+					chosenTableColumnnsFPT_sortSelectors = (
+						"_xdcaseInsensitiveNumericCompare:",
+					);
+					chosenTableColumnnsPT = (
+						"PT Property",
+						"PT Kind",
+						"PT SharedKeyOne",
+					);
+					chosenTableColumnnsPT_sortDirections = (
+						YES,
+					);
+					chosenTableColumnnsPT_sortKeys = (
+						name,
+					);
+					chosenTableColumnnsPT_sortSelectors = (
+						"_xdcaseInsensitiveNumericCompare:",
+					);
+					chosenTableColumnnsRT = (
+						"RT Relationship",
+						"RT Destination",
+					);
+					chosenTableColumnnsRT_sortDirections = (
+						YES,
+					);
+					chosenTableColumnnsRT_sortKeys = (
+						name,
+					);
+					chosenTableColumnnsRT_sortSelectors = (
+						"_xdcaseInsensitiveNumericCompare:",
+					);
+					chosenTableWidthsAT = (
+						128.000000,
+						64.000000,
+					);
+					chosenTableWidthsFPT = (
+						128.000000,
+						64.000000,
+						144.764160,
+					);
+					chosenTableWidthsFRT = (
+						128.000000,
+						249.764160,
+					);
+					chosenTableWidthsPT = (
+						128.000000,
+						108.110840,
+						96.570801,
+					);
+					chosenTableWidthsRT = (
+						128.000000,
+						64.000000,
+					);
+				};
+				"xdesign model browser state key - shown/hidden" = 1;
+				"xdesign model diagram view visible rect key" = "{{0, 0}, {563, 0}}";
+			};
+		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
@@ -23,9 +197,9 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					341,
+					989,
 					20,
-					48.16259765625,
+					48,
 					43,
 					43,
 					20,
@@ -40,11 +214,55 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 277357790;
-			PBXWorkspaceStateSaveDate = 277357790;
+			PBXPerProjectTemplateStateSaveDate = 277362622;
+			PBXWorkspaceStateSaveDate = 277362622;
+		};
+		perUserProjectItems = {
+			6F4F78AF108837FD0087BC5A /* PBXTextBookmark */ = 6F4F78AF108837FD0087BC5A /* PBXTextBookmark */;
+			6F9F4DFD10882A3F0073F75D /* PlistBookmark */ = 6F9F4DFD10882A3F0073F75D /* PlistBookmark */;
+			6FAE52441088333900CC5995 /* PBXTextBookmark */ = 6FAE52441088333900CC5995 /* PBXTextBookmark */;
+			6FAE52451088333900CC5995 /* PBXTextBookmark */ = 6FAE52451088333900CC5995 /* PBXTextBookmark */;
+			6FAE52471088333900CC5995 /* PBXTextBookmark */ = 6FAE52471088333900CC5995 /* PBXTextBookmark */;
+			6FAE5272108835B300CC5995 /* PBXTextBookmark */ = 6FAE5272108835B300CC5995 /* PBXTextBookmark */;
+			6FAE5274108835B300CC5995 /* PBXTextBookmark */ = 6FAE5274108835B300CC5995 /* PBXTextBookmark */;
+			6FAE5281108836A000CC5995 /* PBXTextBookmark */ = 6FAE5281108836A000CC5995 /* PBXTextBookmark */;
+			6FAE5282108836A000CC5995 /* PBXTextBookmark */ = 6FAE5282108836A000CC5995 /* PBXTextBookmark */;
+			6FAE5283108836A000CC5995 /* PBXTextBookmark */ = 6FAE5283108836A000CC5995 /* PBXTextBookmark */;
+			6FAE5291108837A300CC5995 /* PBXTextBookmark */ = 6FAE5291108837A300CC5995 /* PBXTextBookmark */;
+			6FAE5293108837A300CC5995 /* PBXTextBookmark */ = 6FAE5293108837A300CC5995 /* PBXTextBookmark */;
+			6FEE96FE10882DE900DB56FE /* XDModelBookmark */ = 6FEE96FE10882DE900DB56FE /* XDModelBookmark */;
 		};
 		sourceControlManager = 6F0DEA47108824FD0022127A /* Source Control */;
 		userBuildSettings = {
+		};
+	};
+	337049661082E17B00E0520A /* MapLayerController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 745}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 481}";
+			sepNavWindowFrame = "{{42, 294}, {750, 558}}";
+		};
+	};
+	337049671082E17B00E0520A /* MapLayerController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 745}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 439}";
+		};
+	};
+	338387CA1081479400F56AEB /* MapViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 745}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 569}";
+		};
+	};
+	338387CB1081479400F56AEB /* MapViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 1391}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{609, 1473}";
 		};
 	};
 	6F0DEA38108824DE0022127A /* CampusMaps */ = {
@@ -63,6 +281,7 @@
 		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -87,5 +306,161 @@
 	6F0DEA48108824FD0022127A /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
+	};
+	6F4F78AF108837FD0087BC5A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6FF14B6910882752006A9C5B /* BaseViewController.m */;
+		name = "BaseViewController.m: 26";
+		rLen = 0;
+		rLoc = 713;
+		rType = 0;
+		vrLen = 1414;
+		vrLoc = 574;
+	};
+	6F9F4DD5108829790073F75D /* ListViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 745}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 241}";
+		};
+	};
+	6F9F4DD6108829790073F75D /* ListViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 2054}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{1585, 1955}";
+		};
+	};
+	6F9F4DFD10882A3F0073F75D /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D1107310486CEB800E47090 /* CampusMaps-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/joshuastein/Documents/campusmaps-iphone/CampusMaps-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	6FAE52441088333900CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* CampusMapsAppDelegate.h */;
+		name = "CampusMapsAppDelegate.h: 19";
+		rLen = 0;
+		rLoc = 473;
+		rType = 0;
+		vrLen = 905;
+		vrLoc = 0;
+	};
+	6FAE52451088333900CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */;
+		name = "CampusMapsAppDelegate.m: 14";
+		rLen = 0;
+		rLoc = 248;
+		rType = 0;
+		vrLen = 1365;
+		vrLoc = 0;
+	};
+	6FAE52471088333900CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 338387CA1081479400F56AEB /* MapViewController.h */;
+		name = "MapViewController.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 569;
+		vrLoc = 0;
+	};
+	6FAE5272108835B300CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 337049671082E17B00E0520A /* MapLayerController.m */;
+		name = "MapLayerController.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 439;
+		vrLoc = 0;
+	};
+	6FAE5274108835B300CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 338387CB1081479400F56AEB /* MapViewController.m */;
+		name = "MapViewController.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1473;
+		vrLoc = 609;
+	};
+	6FAE5281108836A000CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6F9F4DD6108829790073F75D /* ListViewController.m */;
+		name = "ListViewController.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1955;
+		vrLoc = 1585;
+	};
+	6FAE5282108836A000CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6F9F4DD5108829790073F75D /* ListViewController.h */;
+		name = "ListViewController.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 241;
+		vrLoc = 0;
+	};
+	6FAE5283108836A000CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 337049661082E17B00E0520A /* MapLayerController.h */;
+		name = "MapLayerController.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 481;
+		vrLoc = 0;
+	};
+	6FAE5291108837A300CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6FF14B6810882752006A9C5B /* BaseViewController.h */;
+		name = "BaseViewController.h: 23";
+		rLen = 0;
+		rLoc = 445;
+		rType = 0;
+		vrLen = 452;
+		vrLoc = 0;
+	};
+	6FAE5293108837A300CC5995 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6FF14B6910882752006A9C5B /* BaseViewController.m */;
+		name = "BaseViewController.m: 59";
+		rLen = 0;
+		rLoc = 1655;
+		rType = 0;
+		vrLen = 1414;
+		vrLoc = 574;
+	};
+	6FEE96FE10882DE900DB56FE /* XDModelBookmark */ = {
+		isa = XDModelBookmark;
+		fRef = 28C3AD890F43EF2300507BA6 /* CampusMaps.xcdatamodel */;
+		fallbackIsa = PBXBookmark;
+	};
+	6FF14B6810882752006A9C5B /* BaseViewController.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 745}}";
+			sepNavSelRange = "{445, 0}";
+			sepNavVisRange = "{0, 452}";
+			sepNavWindowFrame = "{{19, 315}, {750, 558}}";
+		};
+	};
+	6FF14B6910882752006A9C5B /* BaseViewController.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1167, 1183}}";
+			sepNavSelRange = "{713, 0}";
+			sepNavVisRange = "{574, 1414}";
+			sepNavWindowFrame = "{{42, 294}, {750, 558}}";
+		};
 	};
 }
