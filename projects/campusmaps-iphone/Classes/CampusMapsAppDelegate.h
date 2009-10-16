@@ -7,6 +7,7 @@
 //
 
 #import "MapViewController.h"
+#import "BaseViewController.h"
 
 @interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate> {
 
@@ -15,7 +16,8 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
     UIWindow *window;
-	IBOutlet MapViewController *mapViewController;
+	IBOutlet BaseViewController *baseViewController;
+	
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;

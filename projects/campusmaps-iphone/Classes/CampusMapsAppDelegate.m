@@ -20,7 +20,7 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
     // Override point for customization after app launch    
-	[window addSubview:mapViewController.view];
+	[window addSubview:baseViewController.view];
 	[window makeKeyAndVisible];
 }
 
