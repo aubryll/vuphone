@@ -2,16 +2,17 @@
 //  MapViewController.m
 //  CampusMaps
 //
-//  Created by Aaron Thompson on 10/10/09.
+//  Created by Ben Wibking on 10/10/09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
 #import "MapViewController.h"
+#import "MapLayerController.h"
 
 
 @implementation MapViewController
 
-/*
+
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
@@ -19,18 +20,41 @@
     }
     return self;
 }
-*/
+
+
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {	
+- (void)viewDidLoad {
     [super viewDidLoad];
+	// mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
 	
-	// Center the map on VU's campus
-	CLLocationCoordinate2D coords;
-	coords.latitude = CAMPUS_CENTER_LATITUDE;
-	coords.longitude = CAMPUS_CENTER_LONGITUDE;
-	[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 800.0, 800.0)];
+	//mapView.showsUserLocation = TRUE;
+	//mapView.mapType = MKMapTypeStandard;
+	// mapView.delegate = self;
+	
+	MKCoordinateRegion region;
+	MKCoordinateSpan span;
+	span.longitudeDelta = 0.01;
+	span.latitudeDelta = 0.01;
+	
+	CLLocationCoordinate2D location;
+	
+	location.latitude = CAMPUS_CENTER_LATITUDE;
+	location.longitude = CAMPUS_CENTER_LONGITUDE;
+	
+	exampleLayer = [[MapLayerController alloc] initWithCoordinate:location];
+	
+	region.span = span;
+	region.center = location;
+
+	[mapView setRegion:region animated:TRUE];
+	[mapView regionThatFits:region];
+	[mapView addAnnotation:exampleLayer];
+	
+	//[self.view insertSubview:mapView atIndex:0];
+
 }
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -53,7 +77,27 @@
 }
 
 
+- (IBAction)changeType:(id)sender {
+	NSLog(@"Button pushed.");
+	
+	if (mapType.selectedSegmentIndex == 0) {
+		mapView.mapType = MKMapTypeStandard;
+	} else if (mapType.selectedSegmentIndex == 1) {
+		mapView.mapType = MKMapTypeSatellite;
+	} else if (mapType.selectedSegmentIndex == 2) {
+		mapView.mapType = MKMapTypeHybrid;
+	}
+}
+
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
+	annView.animatesDrop = YES;
+	return annView;
+}
+
 - (void)dealloc {
+	[mapView autorelease];
+	[exampleLayer autorelease];
     [super dealloc];
 }
 
