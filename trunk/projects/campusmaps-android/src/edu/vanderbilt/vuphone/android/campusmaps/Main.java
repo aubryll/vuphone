@@ -56,19 +56,32 @@ public class Main extends MapActivity {
 
 		// Attempt to draw Wesley Place from GML data in EPSG900913 format from
 		// vu.gml, just testing / demoing.
-		poLayer_.StartNewPath(EPSG900913ToGeoPoint(-9662429.695230, 4320719.417812));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662420.185221, 4320683.476196));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662417.200911, 4320672.193037));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662417.071184, 4320672.178321));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662395.440964, 4320669.572643));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662395.711297, 4320667.316003));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662386.352760, 4320666.189571));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662386.082410, 4320668.444238));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662346.924362, 4320663.727702));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662359.954998, 4320711.017158));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662381.825093, 4320713.650537));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662389.499083, 4320714.573825));
-		poLayer_.AddPoint(EPSG900913ToGeoPoint(-9662429.695230, 4320719.417812));
+		poLayer_.StartNewPath(EPSG900913ToGeoPoint(-9662429.695230,
+				4320719.417812));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662420.185221, 4320683.476196));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662417.200911, 4320672.193037));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662417.071184, 4320672.178321));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662395.440964, 4320669.572643));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662395.711297, 4320667.316003));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662386.352760, 4320666.189571));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662386.082410, 4320668.444238));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662346.924362, 4320663.727702));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662359.954998, 4320711.017158));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662381.825093, 4320713.650537));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662389.499083, 4320714.573825));
+		poLayer_
+				.AddPoint(EPSG900913ToGeoPoint(-9662429.695230, 4320719.417812));
 
 		mc_ = mapView_.getController();
 
@@ -84,7 +97,8 @@ public class Main extends MapActivity {
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		try {
-			onPositionChange(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+			onPositionChange(lm
+					.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 		} catch (Exception e) {
 			// TODO(corespace): Handle specific errors.
 		}
@@ -102,7 +116,8 @@ public class Main extends MapActivity {
 				trace("GPS Enabled");
 			}
 
-			public void onStatusChanged(String provider, int status, Bundle extras) {
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
 				if (extras != null) {
 					trace("# of satellites:" + extras.getInt("satellites"));
 				}
@@ -120,9 +135,15 @@ public class Main extends MapActivity {
 	 * Called by the GPS service to inform us of the current position
 	 */
 	private void onPositionChange(Location l) {
-		trace("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> " + l.getAccuracy() + "m");
+		trace("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> "
+				+ l.getAccuracy() + "m");
 	}
 
+	/**
+	 * Singleton accessor
+	 * 
+	 * @return running instance
+	 */
 	public static Main getInstance() {
 		return instance_;
 	}
@@ -159,7 +180,6 @@ public class Main extends MapActivity {
 		case (MENU_BUILDING_LIST):
 			Intent i = new Intent(this, BuildingList.class);
 			startActivity(i);
-
 			break;
 
 		case (MENU_SHOW_BUILDINGS):
@@ -173,10 +193,11 @@ public class Main extends MapActivity {
 	 * Used to set a marker image on the map
 	 * 
 	 * @param p
-	 *          - location to place marker
+	 *            - location to place marker
 	 */
 	public void drop_pin(GeoPoint p) {
-		MapMarker m = new MapMarker(getBaseContext(), getResources(), mapView_, p);
+		MapMarker m = new MapMarker(getBaseContext(), getResources(), mapView_,
+				p);
 		m.drop_pin();
 		centerMapAt(p);
 	}
@@ -189,19 +210,20 @@ public class Main extends MapActivity {
 	}
 
 	/**
-	 * Method for converting from EPSG900913 format used by vu.gml to latitude and
-	 * longitude. Based on reversing a C# function from
+	 * Method for converting from EPSG900913 format used by vu.gml to latitude
+	 * and longitude. Based on reversing a C# function from
 	 * http://www.cadmaps.com/gisblog/?cat=10
 	 * 
 	 * @param x
-	 *          - 1st EPSG900913 coordinate
+	 *            - 1st EPSG900913 coordinate
 	 * @param y
-	 *          - 2nd EPSG900913 coordinate
+	 *            - 2nd EPSG900913 coordinate
 	 * @return GeoPoint at input location
 	 */
 	public GeoPoint EPSG900913ToGeoPoint(double x, double y) {
 		double longitude = x / (6378137.0 * Math.PI / 180);
-		double latitude = ((Math.atan(Math.pow(Math.E, (y / 6378137.0)))) / (Math.PI / 180) - 45) * 2.0;
+		double latitude = ((Math.atan(Math.pow(Math.E, (y / 6378137.0))))
+				/ (Math.PI / 180) - 45) * 2.0;
 		Log.d("LatLong", "Lat = " + latitude + " Long = " + longitude);
 		return new GeoPoint((int) (latitude * 1E6), (int) (longitude * 1E6));
 	}
@@ -211,7 +233,8 @@ public class Main extends MapActivity {
 	 */
 	public void populateBuildings() {
 
-		ArrayList<Building> buildingList = SharedData.getInstance().getBuildingList();
+		ArrayList<Building> buildingList = SharedData.getInstance()
+				.getBuildingList();
 		buildingList.add(new Building(new GeoPoint((int) (36.14476 * 1000000),
 				(int) (-86.803189 * 1000000)), "Featheringill"));
 	}
@@ -220,7 +243,7 @@ public class Main extends MapActivity {
 	 * Moves the map position to show a specified point at center screen
 	 * 
 	 * @param p
-	 *          - coordinates to center on
+	 *            - coordinates to center on
 	 */
 	public void centerMapAt(GeoPoint p) {
 		mc_.animateTo(p);
@@ -231,9 +254,9 @@ public class Main extends MapActivity {
 	 * Moves the map position to show a specified point at center screen
 	 * 
 	 * @param p
-	 *          - coordinates to center on
+	 *            - coordinates to center on
 	 * @param zoomLevel
-	 *          - level to set zoom
+	 *            - level to set zoom
 	 */
 	public void centerMapAt(GeoPoint p, int zoomLevel) {
 		mc_.setZoom(17);
@@ -244,7 +267,7 @@ public class Main extends MapActivity {
 	 * Prints a message to LogCat with tag='mad'
 	 * 
 	 * @param s
-	 *          String to print
+	 *            String to print
 	 */
 	public static void trace(String s) {
 		Log.d("mad", s);

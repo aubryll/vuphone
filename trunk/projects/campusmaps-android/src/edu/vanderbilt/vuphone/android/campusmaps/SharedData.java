@@ -2,7 +2,7 @@ package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.util.ArrayList;
 
-/*
+/**
  * Singleton for holding data passed between activities
  */
 public class SharedData {
@@ -22,14 +22,15 @@ public class SharedData {
 		return instance_;
 	}
 
+	/**
+	 * Accessor for building data
+	 * 
+	 * @return list of buildings array
+	 */
 	public ArrayList<Building> getBuildingList() {
-		if(buildingList_ == null)
+		if (buildingList_ == null)
 			buildingList_ = new ArrayList<Building>();
-		
-//		ArrayList<Building > b = new ArrayList<Building>();
-//		b.add(new Building(null,"fgh"));
-//		return b;
-//		
+
 		return buildingList_;
 	}
 
