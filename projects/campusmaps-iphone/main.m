@@ -6,8 +6,6 @@
 //  Copyright VUMAD 2009. All rights reserved.
 //
 
-//  Joshua Stein
-
 #import <UIKit/UIKit.h>
 
 int main(int argc, char *argv[]) {
