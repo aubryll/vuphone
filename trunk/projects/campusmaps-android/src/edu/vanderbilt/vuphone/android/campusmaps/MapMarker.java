@@ -1,5 +1,6 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -32,6 +33,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	Context context_;
 	Resources resources_;
 	Boolean dragging_ = false;
+	long lastTap_ = 0;
 
 	public MapMarker(Context context, Resources resources, MapView mapView, GeoPoint p) {
 		mapView_ = mapView;
@@ -91,37 +93,56 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	}
 
 	/**
-	 * Called when the user taps or drags the screen
+	 * Called when this marker is double-clicked
+	 */
+	public void onDoubleTap() {
+		echo("You double tapped a marker!");
+
+	}
+
+	/**
+	 * Called when the user taps anywhere on the screen
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
+		super.onTouchEvent(event, mapView);
+
 		GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
 
 		// are they are starting or stopping a drag?
-		if (event.getAction() != MotionEvent.ACTION_MOVE) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			long curTime = Calendar.getInstance().getTimeInMillis();
+
 			int diff_lat = p.getLatitudeE6() - p_.getLatitudeE6();
 			int diff_long = p.getLongitudeE6() - p_.getLongitudeE6();
 
 			// Hit test
 			if (diff_lat < 800 && diff_lat > -50 && diff_long < 700 && diff_long > -150) {
-				dragging_ = true;
-				// TODO: Disable the map from panning while the user drags the marker
-				mapView_.getController().stopPanning();
-			} else
-				dragging_ = false;
+				if ((curTime - lastTap_) < 1500) {
+					onDoubleTap();
+					lastTap_ = 0;
+					return true;
+				} else {
+					lastTap_ = curTime;
+				}
+			}
 		}
-
-		// update the marker's position to that of the user's finger
-		if (dragging_)
-			p_ = p;
-
 		return false;
 	}
 
-	/*
+	/**
 	 * Prints a message to the screen for a few seconds
+	 * @param s String to print
 	 */
 	public void echo(String s) {
 		Toast.makeText(context_, s, Toast.LENGTH_SHORT).show();
+	}
+
+	/**
+	 * Prints a message to LogCat with tag='mad'
+	 * @param s String to print
+	 */
+	public void trace(String s) {
+		Log.d("mad", s);
 	}
 }
