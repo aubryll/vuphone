@@ -27,28 +27,27 @@
     [super viewDidLoad];
 	
 	[self.view addSubview:mapViewController.view];
+	mapViewRunning = YES;	
+	
 	[self instantiateFlipViewButton];
-	
-	
 }
 	
-	
-	
-	
+
 - (void)instantiateFlipViewButton {
+	
 	flipViewButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
 	
 	CGRect buttonRect = flipViewButton.frame;
 	
 	// calculate the bottom right corner
 	buttonRect.origin.x = buttonRect.size.width - 8;
-	buttonRect.origin.y = buttonRect.size.height - 8; 
+	buttonRect.origin.y = buttonRect.size.height - 8;
 	[flipViewButton setFrame:buttonRect];
 	
 	[flipViewButton addTarget:self action:@selector(didPressFlipViewButton) forControlEvents:UIControlEventTouchUpInside];
-	[flipViewButton setEnabled:TRUE];
+	[flipViewButton setEnabled:YES];
 	
-	[self.view addSubview:flipViewButton];
+	[mapViewController.view addSubview:flipViewButton];
 }
 
 
@@ -63,10 +62,30 @@
 
 - (void)didPressFlipViewButton {
 	
-	//switch boolean to check which subview is loaded
-	//unload subview
-	//load the other view
+	[UIView beginAnimations:@"Flipping" context:nil];
+	[UIView setAnimationDuration:1.0f];
 	
+	[flipViewButton removeFromSuperview];
+	
+	if(mapViewRunning) {
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:NO];
+		[mapViewController.view removeFromSuperview];
+		[self.view addSubview:listViewController.view];
+		[listViewController.view addSubview:flipViewButton];
+		mapViewRunning = NO;
+		
+	}
+	else {
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:NO];
+		[listViewController.view removeFromSuperview];
+		[self.view addSubview:mapViewController.view];
+		[mapViewController.view addSubview:flipViewButton];
+		mapViewRunning = YES;
+		
+	}
+		
+	[UIView commitAnimations];
+
 }
 
 - (void)didReceiveMemoryWarning {

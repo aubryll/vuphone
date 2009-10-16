@@ -17,6 +17,7 @@
 	IBOutlet ListViewController *listViewController;
 	
 	UIButton * flipViewButton;
+	BOOL mapViewRunning;
 	
 }
 
