@@ -22,7 +22,7 @@ Saturday, 4-5PM (FGH 308)
 User can: 
 
 Kyle Liming: 
-  * See Vanderbilt campus 
+  * <img src='http://1sync.ontuet.com/images/layout/check_mark.gif'/> See Vanderbilt campus 
   * Push Menu button on device to open menu
   * Pan on campus map  
   * Zoom in and out on campus map
