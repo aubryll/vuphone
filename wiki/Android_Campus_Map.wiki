@@ -21,10 +21,23 @@ Saturday, 4-5PM (FGH 308)
 = User Stories =
 User can: 
 
+  * Show all buildings as pins on the map when user clicks menu item
+  * See a search box above the list
+  * Type into the search box to filter the list
+  * Click a building to drop a pin on the map
   * See comprehensive list of Vandy buildings
   * Click buildings
   * See menu after clicking: drop pin, get directions, info
   * See all walking paths
+  * Click on "settings"
+  * See a separate "Location Sharing" menu
+  * Click on "map details" & see map overlays (trees, buildings, etc)
+  * Keep Location Sharing on
+  * Set frequency of location sharing updates (per minute(s), hour, manual update, etc, background run)
+  * Set different icons to represent friends
+  * Set display priority for friends
+  * Add new friends as contacts in phonebook
+  * See & accept notification of friend request
   
 Future User Stories:
   * See user's path usage
@@ -37,7 +50,7 @@ Future User Stories:
 === 10/17/09 ===
 
 Kyle Liming: 
-
+  * See current location on map if user has GPS
 
 Rob:
 
