@@ -13,13 +13,10 @@ Saturday, 4-5PM (FGH 308)
 
 = Developers = 
   * Kyle Liming
-  * Zachary McAnally 
   * Dan Hasday
   * Rob McColl 
   * Adam Albright
-  * Jason Zack
-  * Matt Lavin
-  * Daniel Cash
+
 
 = User Stories =
 User can: 
