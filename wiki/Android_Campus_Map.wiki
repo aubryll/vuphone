@@ -23,9 +23,9 @@ User can:
 
 Kyle Liming: 
   * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See Vanderbilt campus 
-  * Push Menu button on device to open menu
-  * Pan on campus map  
-  * Zoom in and out on campus map
+  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Push Menu button on device to open menu
+  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Pan on campus map  
+  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Zoom in and out on campus map
   * Choose to see list of buildings from menu
   * Choose to see all buildings as pins on the map, from the menu
 
