@@ -21,6 +21,15 @@ Saturday, 4-5PM (FGH 308)
 = User Stories =
 User can: 
 
+  
+Future User Stories:
+  * See user's path usage
+  * See total user base path usage
+  * See how long it takes to walk to class (and / or preferred path) (based off of user's normal speed)
+  * See all paths on vanderbilt campus
+  * Find shortest path between two points on map
+
+
 === 10/17/09 ===
 
 Kyle Liming: 
@@ -63,12 +72,3 @@ Dan:
   * See a search box above the list
   * Type into the search box to filter the list
   * Click a building to drop a pin on the map
-  
-Future User Stories:
-  * See user's path usage
-  * See total user base path usage
-  * See how long it takes to walk to class (and / or preferred path) (based off of user's normal speed)
-  * See all paths on vanderbilt campus
-  * Find shortest path between two points on map
-  
-  
