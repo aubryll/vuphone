@@ -21,6 +21,10 @@ Saturday, 4-5PM (FGH 308)
 = User Stories =
 User can: 
 
+  * See comprehensive list of Vandy buildings
+  * Click buildings
+  * See menu after clicking: drop pin, get directions, info
+  * See all walking paths
   
 Future User Stories:
   * See user's path usage
