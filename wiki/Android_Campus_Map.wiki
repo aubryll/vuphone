@@ -21,7 +21,7 @@ Saturday, 4-5PM (FGH 308)
 = User Stories =
 User can: 
 
-= 10/17/09 =
+=== 10/17/09 ===
 
 Kyle Liming: 
 
@@ -38,7 +38,7 @@ Dan:
   * Type into the search box to filter the list
   * Click a building to drop a pin on the map
 
-= 10/8/09-10/17/09 =
+=== 10/8/09-10/17/09 ===
 
 Kyle Liming: 
   * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See Vanderbilt campus 
