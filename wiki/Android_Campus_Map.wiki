@@ -9,7 +9,7 @@ This should be a general description of the module
   * Kyle Prete
 
 = Meeting Time = 
-Saturday, 4-5PM
+Saturday, 4-5PM (FGH 308)
 
 = Developers = 
   * Kyle Liming
