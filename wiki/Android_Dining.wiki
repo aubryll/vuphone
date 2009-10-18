@@ -16,8 +16,7 @@ This should be a general description of the module
   * Zach McAnally
   * Austin Conner
   * Peter Holly
-  * James Gillin
-  * Robert Hanlin
+  * Nikhil Goel
 
 == Notes ==
 
