@@ -29,6 +29,7 @@ User can:
   * Click buildings
   * See menu after clicking: drop pin, get directions, info
   * See all walking paths
+  * See current location on map if user has GPS
   * See a separate "Location Sharing" menu
   * Click on "map details" & see map overlays (trees, buildings, etc)
   * Keep Location Sharing on
@@ -49,8 +50,10 @@ Future User Stories:
 === 10/17/09 ===
 
 Kyle Liming: 
-  * See current location on map if user has GPS
+
   * Click on "settings"
+  * Sees map modes displayed when selected on the menu.
+  * Menu selections have associated standard images
 
 Rob:
 
