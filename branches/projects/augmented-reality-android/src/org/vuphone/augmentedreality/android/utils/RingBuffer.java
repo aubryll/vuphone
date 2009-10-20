@@ -101,6 +101,10 @@ public class RingBuffer<E> {
 		return count_ == buffer_.length;
 	}
 	
+	public int size() {
+		return count_;
+	}
+	
 	public String toString() {
 		if (isEmpty())
 			return "{}";
