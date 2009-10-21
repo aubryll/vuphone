@@ -44,3 +44,4 @@ Future User Stories:
   * User can see 'specials' aka Rand birthday dinner, etc
   * User can rate dining location
   * User can see nutrition facts on location
+  * User can see how much longer remains in current meal period and til the next meal period
