@@ -4,24 +4,17 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content"
   android:orientation="vertical">
-  	<LinearLayout 
- 	  android:layout_width="fill_parent"
-  	  android:layout_height="wrap_content"
-  	  android:orientation="horizontal"
-  	  android:layout_gravity="top|right">
-  	  	<TextView android:id="@+restaurantDetailsPage/restaurantName"
-      	android:layout_width="fill_parent"
+  	  <TextView android:id="@+restaurantDetailsPage/restaurantName"
+      	android:layout_width="wrap_content"
       	android:layout_height="wrap_content"
       	android:text="name" />
-		<Button android:id="@+restaurantDetailsPage/to_map_button"
-        	  android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="M" 
-              android:layout_gravity="top|right"/>
-  	  
-  	 </LinearLayout>
   	  <TextView android:id="@+restaurantDetailsPage/restaurantHours"
-  	  android:layout_width="fill_parent"
-  	  android:layout_height="wrap_content">
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="times">
   	  </TextView>
+  	  <Button android:id="@+restaurantDetailsPage/to_map_button"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Map"/>
 </LinearLayout>
