@@ -4,6 +4,8 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,7 +25,10 @@ public class Main extends ListActivity {
 		getListView().setTextFilterEnabled(true);
 
 	}
-
+	
+	private static final int VIEW_MAP = 0;
+	private static final int ETC = 1;
+	
 	static final String[] RESTAURANTS = { 
 		"Rand Dining Center", "The Commons Food Gallery", "The Common Grounds",
 			"Chef James Bistro", "Center Smoothie", "Pub at Overcup Oak", "C.T. West", "Quiznos Sub - Towers",
@@ -65,6 +70,10 @@ public class Main extends ListActivity {
 	static final String[] SATURDAY_START = {"10:00 A.M.", "11:00 A.M.", "Closed", "4:00 P.M.", "Closed"};
 	static final String[] SATURDAY_END = {"2:00 P.M.", "7:00 P.M.", "", "7:00 P.M.", ""};
 	
+	/*I've only added the GPS locations for first two locations but the code can easily scale*/
+	private static final int[] LOCATION_LONGITUDES= {36146344 ,36141717};
+	private static final int[] LOCATION_LATITUDES = {-86802968,-86797094};
+	
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
@@ -75,5 +84,28 @@ public class Main extends ListActivity {
 
 		startActivity(toDetails);
 	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		 menu.add(0, VIEW_MAP, 0, "View Map");
+	     menu.add(0, ETC, 0, "Etc..");
+	     return true;
+    }
+	    
+	public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+    	switch (item.getItemId()) {
+        case VIEW_MAP:
+        	Intent i = new Intent(this, Map.class);
+        	i.putExtra("longitudes", LOCATION_LONGITUDES);
+        	i.putExtra("latitudes", LOCATION_LATITUDES);
+        	i.putExtra("locations", RESTAURANTS);
+        	startActivity(i);
+            return true;
+        case ETC:
+            return true;
+        }
+        return false;
+    }
+
 	
 }
