@@ -71,8 +71,8 @@ public class Main extends ListActivity {
 	static final String[] SATURDAY_END = {"2:00 P.M.", "7:00 P.M.", "", "7:00 P.M.", ""};
 	
 	/*I've only added the GPS locations for first two locations but the code can easily scale*/
-	private static final int[] LOCATION_LONGITUDES= {36146344 ,36141717};
-	private static final int[] LOCATION_LATITUDES = {-86802968,-86797094};
+	static final int[] LOCATION_LONGITUDES= {36146344 ,36141717};
+	static final int[] LOCATION_LATITUDES = {-86802968,-86797094};
 	
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
