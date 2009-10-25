@@ -3,6 +3,7 @@ package edu.vanderbilt.vuphone.android.dining;
 import java.util.Calendar;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -22,9 +23,15 @@ public class RestaurantDetails extends Activity {
 	
 	private OnClickListener mapListener = new OnClickListener() {
 		public void onClick(View v) {
-			
-			// TODO
-			
+			if (Main.DEBUG) Log.i("Dining", "Map button for restaurant " + Main.RESTAURANTS[restaurant] + " clicked.");
+			Intent startMapView = new Intent(RestaurantDetails.this , Map.class);
+			int[] longitude = {Main.LOCATION_LONGITUDES[restaurant]};
+			int[] latitude = {Main.LOCATION_LATITUDES[restaurant]};
+			String[] location = {Main.RESTAURANTS[restaurant]};
+			startMapView.putExtra("longitudes", longitude);
+			startMapView.putExtra("latitudes", latitude);
+			startMapView.putExtra("locations", location);
+			startActivity(startMapView);
 		}
 	};
 
@@ -59,7 +66,7 @@ public class RestaurantDetails extends Activity {
 		"W\t" + Main.WEDNESDAY_START[restaurant] + " - " + Main.WEDNESDAY_END[restaurant] + '\n' + 
 		"T\t" + Main.THURSDAY_START[restaurant] + " - " + Main.THURSDAY_END[restaurant] + '\n' + 
 		"F\t" + Main.FRIDAY_START[restaurant] + " - " + Main.FRIDAY_END[restaurant] + '\n' + 
-		"M\t" + Main.SATURDAY_START[restaurant] + " - " + Main.SATURDAY_END[restaurant] + '\n');
+		"S\t" + Main.SATURDAY_START[restaurant] + " - " + Main.SATURDAY_END[restaurant] + '\n');
 		
 		int i = 0;
 		for (int day = 1;day<=7;day++) {
