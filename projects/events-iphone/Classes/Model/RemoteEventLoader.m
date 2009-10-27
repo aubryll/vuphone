@@ -46,8 +46,8 @@
 	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
+	
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//	NSLog(escapedUrlString);
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	// Make the request to get the data
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
@@ -121,11 +121,13 @@
 	[urlString appendFormat:@"&userid=%@", [[[UIDevice currentDevice] uniqueIdentifier] substringFromIndex:24]];
 	[urlString appendString:@"&resp=xml"];
 	[urlString appendFormat:@"&desc=%@", event.details];
+
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSLog(@"%@", escapedUrlString);
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
-	NSLog(@"Submitting URL: %@", urlString);
+
 	// Make the request to get the data
+	NSLog(@"Submitting URL: %@", urlString);
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
 
 	NSLog(@"submitEvent returned data %@", [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease]);

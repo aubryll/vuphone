@@ -17,17 +17,33 @@
 {
 	[super viewDidLoad];
 
-	[[self locationManager] startUpdatingLocation];
+//	[[self locationManager] startUpdatingLocation];
+	NSArray *sources = [Event allSources];
+
+	// Hard-coding the list of chosen source for now
+	NSMutableArray *tempChosenSources = [[NSMutableArray alloc] init];
+	[tempChosenSources addObject:[sources objectAtIndex:0]];
+	[tempChosenSources addObject:[sources objectAtIndex:1]];
+	[tempChosenSources addObject:[sources objectAtIndex:4]];
+	chosenSources = tempChosenSources;
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{
+{	
 	if (!fetchedResultsC)
 	{
-		// Set up the fetch request
+		// Set up the initial fetch request
 		NSFetchRequest *request = [[NSFetchRequest alloc] init];
 		NSEntityDescription *entity = [NSEntityDescription entityForName:VUEntityNameEvent inManagedObjectContext:context];
 		[request setEntity:entity];
+		
+		// Set the starting sources predicate
+		[self setSourcesPredicate:[NSPredicate predicateWithFormat:@"source IN %@", chosenSources]];
+		
+		// Set the filter predicate to true
+		[self setFilterPredicate:[NSPredicate predicateWithFormat:@"TRUEPREDICATE"]];
+		
+		[request setPredicate:[self predicate]];
 		
 		// Sort the request
 		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:VUEntityPropertyNameStartTime ascending:NO];
@@ -51,6 +67,8 @@
 			NSLog(@"No events found");
 		}
 	}
+
+	// If an event was modified, update it
 	if ([self.tableView indexPathForSelectedRow]) {
 		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[self.tableView indexPathForSelectedRow]]
 							  withRowAnimation:UITableViewRowAnimationFade];
@@ -74,6 +92,7 @@
 {
 	Event *event = (Event *)[NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
 														  inManagedObjectContext:context];
+	event.source = VUEventSourceUser;
 	
 	EventViewController *eventViewC = [self eventViewController];
 	eventViewC.event = event;
@@ -98,55 +117,20 @@
 {
 	SourcesViewController *sourcesVC = [[SourcesViewController alloc] initWithNibName:@"SourcesView" bundle:nil];
 	sourcesVC.delegate = self;
-
-	NSArray *sources = [NSArray arrayWithObjects:@"Official Calendar", @"Commons", @"Athletics", @"Facebook", nil];
-	sourcesVC.sources = sources;
-	NSMutableSet *set = [NSMutableSet setWithCapacity:[sources count]];
-	[set addObject:[sources objectAtIndex:0]];
-	[set addObject:[sources objectAtIndex:2]];
-	[set addObject:[sources objectAtIndex:3]];
-	
-	sourcesVC.chosenSources = set;
+	sourcesVC.sources = [Event allSources];
+	sourcesVC.chosenSources = [[NSSet setWithArray:chosenSources] mutableCopy];
 	[self presentModalViewController:sourcesVC animated:YES];
 
 	[sourcesVC release];
 }
 
 - (void)sourcesViewController:(SourcesViewController *)sourcesVC
-		didDismissWithChoices:(NSSet *)choices
+		didDismissWithChoices:(NSArray *)choices
 {
 	// Adjust the query to include these choices
 	NSLog(@"DidDismissWithChoices: %@", choices);
+	[self setChosenSources:choices];
 }
-
-#pragma mark CLLocation methods
-
-- (CLLocationManager *)locationManager
-{
-	if (locationManager != nil) {
-		return locationManager;
-	}
-	
-	locationManager = [[CLLocationManager alloc] init];
-	locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-	locationManager.delegate = self;
-	
-	return locationManager;
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-	didUpdateToLocation:(CLLocation *)newLocation
-		   fromLocation:(CLLocation *)oldLocation
-{
-	addButton.enabled = YES;
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-	   didFailWithError:(NSError *)error
-{
-	addButton.enabled = NO;
-}
-
 
 #pragma mark Table view methods
 
@@ -160,7 +144,6 @@
 	if (count == 0) {
 		count = 1;
 	}
-	NSLog(@"EventList numberOfSectionsInTableView: %i", count);
 	
 	return count;
 }
@@ -191,7 +174,7 @@
 	static NSString *CellIdentifier = @"Cell";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
 	[self configureCell:cell atIndexPath:indexPath];
@@ -209,8 +192,7 @@
 	if (dateFormatter == nil)
 	{
 		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-		[dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+		[dateFormatter setDateFormat:@"h:mm a"];
 	}
 	
 	// Set up the latitude/longitude formatter
@@ -238,12 +220,10 @@
 		sectionIndexTitles = titles;
 	}
 
-	NSLog(@"sectionIndexTitlesForTableView: %@", sectionIndexTitles);
 	return sectionIndexTitles;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-	NSLog(@"sectionForSectionIndexTitle: %@ atIndex: %i", title, index);
 	return index;
 }
 
@@ -272,31 +252,14 @@
 
 #pragma mark NSFetchedResultsControllerDelegate
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-	NSLog(@"willChangeContent");
-	
-	[self.tableView beginUpdates];
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+	NSLog(@"didChangeContent");
+	[self.tableView reloadData];
+	// Reload the section index titles
+	[sectionIndexTitles release];
+	sectionIndexTitles = nil;
+	[self.tableView reloadSectionIndexTitles];
 }
-
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-		   atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-	NSLog(@"didChangeSection");
-	
-	switch(type) {
-		case NSFetchedResultsChangeInsert:
-			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-			 withRowAnimation:UITableViewRowAnimationFade];
-			break;
-			
-		case NSFetchedResultsChangeDelete:
-			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-			 withRowAnimation:UITableViewRowAnimationFade];
-			break;
-	}
-}
-
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
 	   atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
@@ -304,45 +267,12 @@
 {
 	NSLog(@"didChangeObject");
 
-	// Invalidate the sectionIndexTitles
-//	[sectionIndexTitles release];
-//	sectionIndexTitles = nil;
-	
-	UITableView *tableView = self.tableView;
-	
-	switch(type)
-	{
-		case NSFetchedResultsChangeInsert:
-			[tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
-							 withRowAnimation:UITableViewRowAnimationFade];
-			break;
-			
-		case NSFetchedResultsChangeDelete:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-							 withRowAnimation:UITableViewRowAnimationFade];
-			break;
-			
-		case NSFetchedResultsChangeUpdate:
-			[self configureCell:[tableView cellForRowAtIndexPath:indexPath]
-					atIndexPath:indexPath];
-			break;
-			
-		case NSFetchedResultsChangeMove:
-			[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-							 withRowAnimation:UITableViewRowAnimationFade];
-			[tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section]
-					 withRowAnimation:UITableViewRowAnimationFade];
-			break;
-	}
-}
-
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-	NSLog(@"didChangeContent");
-	
-	[self.tableView endUpdates];
-}
-
+	[self.tableView reloadData];
+	// Reload the section index titles
+	[sectionIndexTitles release];
+	sectionIndexTitles = nil;
+	[self.tableView reloadSectionIndexTitles];
+}	
 
 #pragma mark UISearchDisplayDelegate
 
@@ -361,19 +291,72 @@
 	[controller setSearchResultsDelegate:self];
 }
 
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+#pragma mark Filtration
+
+// Takes an array of the currently chosen sources, then updates the results controller predicate and refetches
+- (void)setChosenSources:(NSArray *)sources
+{
+	// Release the current filter predicate if it exists
+	if (chosenSources != sources)
+	{
+		[chosenSources release];
+		chosenSources = [sources retain];
+		
+		if ([sources count]) {
+			[self setSourcesPredicate:[NSPredicate predicateWithFormat:@"source IN %@", chosenSources]];
+		} else {
+			[self setSourcesPredicate:[NSPredicate predicateWithFormat:@"TRUEPREDICATE"]];
+		}
+	}
+	
+	[self refetch];
 }
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
-	NSPredicate *predicate;
+// Takes a string of the chosen filter text, then sets the results controller predicate and refetches
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
 	if ([searchText length] > 0) {
-		predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
+		[self setFilterPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText]];
 	} else {
-		predicate = [NSPredicate predicateWithFormat:@"TRUEPREDICATE"];
+		[self setFilterPredicate:[NSPredicate predicateWithFormat:@"TRUEPREDICATE"]];
 	}
-	[self.fetchedResultsC.fetchRequest setPredicate:predicate];
+	
+	[self refetch];
+}
+
+- (void)setSourcesPredicate:(NSPredicate *)pred {
+	// Release the current filter predicate if it exists
+	if (sourcesPredicate != pred) {
+		[sourcesPredicate release];
+		sourcesPredicate = [pred retain];
+	}
+}
+
+- (void)setFilterPredicate:(NSPredicate *)pred {
+	// Release the current filter predicate if it exists
+	if (filterPredicate != pred) {
+		[filterPredicate release];
+		filterPredicate = [pred retain];
+	}
+}
+
+- (NSPredicate *)predicate {
+	return [NSCompoundPredicate andPredicateWithSubpredicates:
+			[NSArray arrayWithObjects:sourcesPredicate, filterPredicate, nil]];
+}
+
+- (void)refetch
+{	
+	[self.fetchedResultsC.fetchRequest setPredicate:[self predicate]];
+	
+	// Refetch
 	NSError *err;
 	[self.fetchedResultsC performFetch:&err];
+	[self.tableView reloadData];
+
+	[sectionIndexTitles release];
+	sectionIndexTitles = nil;
+	[self.tableView reloadSectionIndexTitles];
 }
 
 - (void)dealloc
@@ -382,6 +365,7 @@
 	[locationManager release];
 	[context release];
 	[sectionIndexTitles release];
+	[chosenSources release];
 	
 	[super dealloc];
 }

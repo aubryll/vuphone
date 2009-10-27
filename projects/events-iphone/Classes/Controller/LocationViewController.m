@@ -16,8 +16,8 @@
 {
 	// Populate the fields from the location
 	nameField.text = location.name;
-	latitudeField.text = [location.latitude stringValue];
-	longitudeField.text = [location.longitude stringValue];
+	latitudeLabel.text = [location.latitude stringValue];
+	longitudeLabel.text = [location.longitude stringValue];
 	
 	[mapView setRegion:MKCoordinateRegionMakeWithDistance(location.coordinate, 200.0, 200.0)];
 	[mapView removeAnnotation:location];
@@ -26,20 +26,9 @@
 	[self applyIsEditing];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-/*	Why am I doing this???
-	// Populate the location from the fields
-	location.name = nameField.text;
-	location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
-	location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];
-*/
-}
-
 - (IBAction)save:(id)sender
 {
 	location.name = nameField.text;
-//	location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
-//	location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];
 
 	// Save changes to the location
 	NSError *err;
@@ -67,23 +56,19 @@
 - (void)applyIsEditing
 {
 	nameField.enabled = isEditing;
-	latitudeField.enabled = isEditing;
-	longitudeField.enabled = isEditing;
 	
 	if (isEditing) {
 		self.title = @"Edit Location";
 		self.navigationItem.rightBarButtonItem = saveButton;
 
 		nameField.borderStyle = UITextBorderStyleRoundedRect;
-		latitudeField.borderStyle = UITextBorderStyleRoundedRect;
-		longitudeField.borderStyle = UITextBorderStyleRoundedRect;
+		nameField.font = [UIFont boldSystemFontOfSize:12.0f];
 	} else {
 		self.title = @"Location Details";
 		self.navigationItem.rightBarButtonItem = editButton;
 
 		nameField.borderStyle = UITextBorderStyleNone;
-		latitudeField.borderStyle = UITextBorderStyleNone;
-		longitudeField.borderStyle = UITextBorderStyleNone;
+		nameField.font = [UIFont boldSystemFontOfSize:17.0f];
 	}
 }
 
@@ -110,12 +95,16 @@
 	MKCoordinateRegion region = [aMapView region];
 	
 	if (isEditing) {
-		latitudeField.text = [NSString stringWithFormat:@"%f", region.center.latitude];
-		longitudeField.text = [NSString stringWithFormat:@"%f", region.center.longitude];
+		latitudeLabel.text = [NSString stringWithFormat:@"%f", region.center.latitude];
+		longitudeLabel.text = [NSString stringWithFormat:@"%f", region.center.longitude];
 
 		[mapView removeAnnotation:location];
-		location.latitude = [NSDecimalNumber decimalNumberWithString:latitudeField.text];
-		location.longitude = [NSDecimalNumber decimalNumberWithString:longitudeField.text];	
+
+		location.latitude = [NSDecimalNumber decimalNumberWithDecimal:
+							 [[NSNumber numberWithFloat:region.center.latitude] decimalValue]];
+		location.longitude = [NSDecimalNumber decimalNumberWithDecimal:
+							  [[NSNumber numberWithFloat:region.center.longitude] decimalValue]];
+
 		[mapView addAnnotation:location];
 	}
 }

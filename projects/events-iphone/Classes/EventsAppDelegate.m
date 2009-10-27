@@ -20,6 +20,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+	NSLog(@"applicationDidFinishLaunching");
 	NSManagedObjectContext *context = [[EventStore sharedEventStore] sharedContext];
 	if (!context) {
 		NSLog(@"Failed to get managed object context!");

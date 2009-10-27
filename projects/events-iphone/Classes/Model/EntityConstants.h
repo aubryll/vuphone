@@ -14,7 +14,9 @@
 #define VUEntityPropertyNameDescription @"description"
 #define VUEntityPropertyNameStartTime @"startTime"
 #define VUEntityPropertyNameEndTime @"endTime"
+#define VUEntityPropertyNameSource @"source"
 
+#define VUEventSourceUser @"My Events"
 
 #pragma mark Location
 

@@ -14,7 +14,7 @@
 @protocol SourcesViewDelegate
 
 - (void)sourcesViewController:(SourcesViewController *)sourcesVC
-		didDismissWithChoices:(NSSet *)choices;
+		didDismissWithChoices:(NSArray *)choices;
 
 @end
 

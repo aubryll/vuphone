@@ -13,7 +13,7 @@
 
 - (IBAction)dismissSheet:(id)sender
 {
-	[delegate sourcesViewController:self didDismissWithChoices:chosenSources];
+	[delegate sourcesViewController:self didDismissWithChoices:[chosenSources allObjects]];
 	[self dismissModalViewControllerAnimated:YES];
 }
 
