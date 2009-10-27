@@ -17,6 +17,7 @@
 }
 
 @property (nonatomic, retain) NSString * ownerAndroidId;
+@property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * startTime;
@@ -25,6 +26,7 @@
 @property (nonatomic, retain) Location * location;
 @property (nonatomic, retain) NSString * serverId;
 
++ (NSArray *)allSources;
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId;
 - (NSString *)title;
 - (NSString *)subtitle;

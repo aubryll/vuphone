@@ -14,6 +14,8 @@
 
 @implementation MapViewController
 
+
+// Shows or hides the filter sheet
 - (IBAction)toggleFilterSheet:(id)sender
 {
 	if (showingFilterSheet)
@@ -42,17 +44,67 @@
 	showingFilterSheet = !showingFilterSheet;
 }
 
+// Responds to the VU_MAPFILTER_CHANGED_NOTIFICATION, sets the new filter predicate, and refetches
+- (void)filterPredicateChanged:(NSNotification *)notification
+{
+	self.filterPredicate = [notification object];
+	[fetchedResultsC.fetchRequest setPredicate:self.filterPredicate];
+
+	[self refetch];
+}
+
+// (Re-)executes the fetch in the fetched results controller, then refreshes the annotations
+- (void)refetch
+{
+	if (fetchedResultsC)
+	{
+		// Execute the request
+		NSError *error;
+		BOOL success = [fetchedResultsC performFetch:&error];
+		if (!success) {
+			NSLog(@"No events found");
+		} else {
+			// Remove any old annotations
+			[mapView removeAnnotations:[mapView annotations]];
+			
+			// Add the annotations
+			for (Event *event in [fetchedResultsC fetchedObjects]) {
+				[mapView addAnnotation:event];
+			}
+		}
+	}
+}
+
+
+// Scrolls the map to center on the user's location
+- (IBAction)centerOnUserLocation:(id)sender
+{
+	MKUserLocation *userLocation = [mapView userLocation];
+	[mapView setCenterCoordinate:userLocation.coordinate animated:YES];
+}
+
 - (void)viewDidLoad
 {
-	showingFilterSheet = NO;
-
+	// Subscribe to the filter changed notification
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(filterPredicateChanged:)
+												 name:VU_MAPFILTER_CHANGED_NOTIFICATION
+											   object:nil];
+	
 	// Set up the filter sheet
+	showingFilterSheet = NO;
 	mapFilterVC.view.frame = CGRectMake(0.0f,
 										-FILTER_SHEET_HEIGHT,
 										mapFilterVC.view.frame.size.width,
 										FILTER_SHEET_HEIGHT);
 
 	[self.view addSubview:mapFilterVC.view];
+
+	// Move the map to VU's campus
+	CLLocationCoordinate2D coords;
+	coords.latitude = CAMPUS_CENTER_LATITUDE;
+	coords.longitude = CAMPUS_CENTER_LONGITUDE;
+	[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 400.0, 400.0)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,25 +131,10 @@
 		// Set self as the delegate
 		fetchedResultsC.delegate = self;
 		
-		// Execute the request
-		NSError *error;
-		BOOL success = [fetchedResultsC performFetch:&error];
-		if (!success) {
-			NSLog(@"No events found");
-		} else {
-			// Add the annotations
-			for (Event *event in [fetchedResultsC fetchedObjects]) {
-				[mapView addAnnotation:event];
-			}
-		}
-
-		// Move the map to VU's campus
-		CLLocationCoordinate2D coords;
-		coords.latitude = CAMPUS_CENTER_LATITUDE;
-		coords.longitude = CAMPUS_CENTER_LONGITUDE;
-		[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 400.0, 400.0)];
+		[self refetch];
 	}
 }
+
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -128,15 +165,25 @@
 
 #pragma mark MKMapViewDelegate
 
-- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>) annotation
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
-    MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
-    annotationView.pinColor = MKPinAnnotationColorGreen;
-    annotationView.canShowCallout = YES;
-    annotationView.calloutOffset = CGPointMake(-5, 5);
-	annotationView.userInteractionEnabled = YES;
-	annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	MKPinAnnotationView *annotationView;
 
+	// Special case for the current location
+	if ([annotation isKindOfClass:[MKUserLocation class]]) {
+		annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"userLocation"];
+		annotationView.pinColor = MKPinAnnotationColorRed;
+		annotationView.canShowCallout = NO;
+		annotationView.userInteractionEnabled = NO;
+	} else {
+		annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"eventLocation"];
+		annotationView.pinColor = MKPinAnnotationColorGreen;
+		annotationView.canShowCallout = YES;
+		annotationView.calloutOffset = CGPointMake(-5, 5);
+		annotationView.userInteractionEnabled = YES;
+		annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	}
+	
     return [annotationView autorelease];
 }
 
@@ -186,5 +233,6 @@
 
 @synthesize managedObjectContext;
 @synthesize fetchedResultsC;
+@synthesize filterPredicate;
 
 @end

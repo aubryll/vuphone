@@ -51,6 +51,14 @@
 	}
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	if (isEditingFields) {
+		[self beginEditingFields];
+	} else {
+		[self endEditingFields];
+	}
+}
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -155,6 +163,19 @@
 	}
 
 	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	switch (indexPath.section) {
+		case 4: // URL
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:event.url]];
+			break;
+		default:
+			break;
+	}
+
+	[super tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
 
 - (void)constructTableGroups

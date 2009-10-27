@@ -16,15 +16,21 @@
 
 	NSManagedObjectContext *managedObjectContext;
 	NSFetchedResultsController *fetchedResultsC;
+	NSPredicate *filterPredicate;
+	
 	IBOutlet MKMapView *mapView;
 	IBOutlet MapFilterViewController *mapFilterVC;
-
+	
 	BOOL showingFilterSheet;
 }
 
 - (IBAction)toggleFilterSheet:(id)sender;
+- (void)filterPredicateChanged:(NSNotification *)notification;
+- (void)refetch;
+- (IBAction)centerOnUserLocation:(id)sender;
 
-@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsC;
+@property (retain) NSManagedObjectContext *managedObjectContext;
+@property (retain) NSFetchedResultsController *fetchedResultsC;
+@property (retain) NSPredicate *filterPredicate;
 
 @end

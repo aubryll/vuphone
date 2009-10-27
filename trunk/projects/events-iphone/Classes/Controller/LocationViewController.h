@@ -12,8 +12,8 @@
 
 @interface LocationViewController : UIViewController <MKMapViewDelegate, UITextFieldDelegate> {
 	IBOutlet UITextField *nameField;
-	IBOutlet UITextField *latitudeField;
-	IBOutlet UITextField *longitudeField;
+	IBOutlet UILabel *latitudeLabel;
+	IBOutlet UILabel *longitudeLabel;
 	IBOutlet UIBarButtonItem *saveButton;
 	IBOutlet UIBarButtonItem *editButton;
 	IBOutlet MKMapView *mapView;

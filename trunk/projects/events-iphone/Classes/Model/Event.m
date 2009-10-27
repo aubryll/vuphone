@@ -8,10 +8,12 @@
 
 #import "Event.h"
 #import "Location.h"
+#import "EntityConstants.h"
 
 @implementation Event 
 
 @dynamic ownerAndroidId;
+@dynamic source;
 @dynamic url;
 @dynamic name;
 @dynamic startTime;
@@ -19,6 +21,10 @@
 @dynamic endTime;
 @dynamic location;
 @dynamic serverId;
+
++ (NSArray *)allSources {
+	return [NSArray arrayWithObjects:@"Official Calendar", @"Commons", @"Athletics", @"Facebook", VUEventSourceUser, nil];
+}
 
 - (NSString *)startDateString {
 	if (!dateFormatter) {
