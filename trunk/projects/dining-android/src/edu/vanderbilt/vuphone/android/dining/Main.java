@@ -14,20 +14,10 @@ public class Main extends ListActivity {
 	
 	public static final boolean DEBUG = true; // austin added this to toggle the more inane log statements
 	
-	
-	/** Called when the activity is first created. */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, RESTAURANTS));
-		getListView().setTextFilterEnabled(true);
-
-	}
-	
-	private static final int VIEW_MAP = 0;
-	private static final int ETC = 1;
+	/**The first case in the menu*/
+	private static final int MENU_ITEM_VIEW_MAP = 0;
+	/**The second case in the menu*/
+	private static final int MENU_ITEM_ETC = 1;
 	
 	static final String[] RESTAURANTS = { 
 		"Rand Dining Center", "The Commons Food Gallery", "The Common Grounds",
@@ -71,8 +61,21 @@ public class Main extends ListActivity {
 	static final String[] SATURDAY_END = {"2:00 P.M.", "7:00 P.M.", "", "7:00 P.M.", ""};
 	
 	/*I've only added the GPS locations for first two locations but the code can easily scale*/
-	static final int[] LOCATION_LONGITUDES= {36146344 ,36141717};
-	static final int[] LOCATION_LATITUDES = {-86802968,-86797094};
+	/**the longitude of each location in same order as the list RESTURANTS*/
+	static final int[] LOCATION_LONGITUDES= {36146524, 36141917, 36141676, 36146366};
+	/**the latitude of each location in the same order as the list RESTURANTS*/
+	static final int[] LOCATION_LATITUDES = {-86803354,-86797198, -86796949, -86802954};
+	
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		setListAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, RESTAURANTS));
+		getListView().setTextFilterEnabled(true);
+
+	}
 	
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -85,23 +88,25 @@ public class Main extends ListActivity {
 		startActivity(toDetails);
 	}
 	
+	/**Creates list of actions for user when the menu button is clicked*/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		 menu.add(0, VIEW_MAP, 0, "View Map");
-	     menu.add(0, ETC, 0, "Etc..");
+		 menu.add(0, MENU_ITEM_VIEW_MAP, 0, "View Map");
+	     menu.add(0, MENU_ITEM_ETC, 0, "Etc..");
 	     return true;
     }
-	    
+	
+	/**Handles what happens when each menu item is clicked*/
 	public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
     	switch (item.getItemId()) {
-        case VIEW_MAP:
+        case MENU_ITEM_VIEW_MAP:
         	Intent i = new Intent(this, Map.class);
         	i.putExtra("longitudes", LOCATION_LONGITUDES);
         	i.putExtra("latitudes", LOCATION_LATITUDES);
         	i.putExtra("locations", RESTAURANTS);
         	startActivity(i);
             return true;
-        case ETC:
+        case MENU_ITEM_ETC:
             return true;
         }
         return false;
