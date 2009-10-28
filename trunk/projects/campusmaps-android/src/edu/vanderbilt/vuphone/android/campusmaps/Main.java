@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -19,10 +20,14 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 public class Main extends MapActivity {
-
+	
+	private static final int SUBMENU_STREET_VIEW = 6;
+	private static final int SUBMENU_TRAFFIC = 5;
+	private static final int SUBMENU_SATELLITE = 4;
+	private static final int MENU_SETTINGS = 3;
 	private static final int MENU_SHOW_BUILDINGS = 2;
 	private static final int MENU_BUILDING_LIST = 1;
-	private static final int MENU_MAP_MODE = 0;
+	private static final int MENU_MAP_MODE_GROUP = 0;
 	private MapView mapView_;
 	private MapController mc_;
 	private GeoPoint p_;
@@ -154,13 +159,26 @@ public class Main extends MapActivity {
 	}
 
 	/**
-	 * Creates a "Map Mode" option when menu is clicked.
+	 * Creates a "Map Mode" checkable submenu option when menu is clicked.
+	 * 		Options: Map, Satellite, Traffic, Street View.
+	 * Creates a "List Buildings" option when menu is clicked.
+	 * Creates a "Show Buildings" option when menu is clicked.
+	 * Creates a "Settings" option when menu is clicked. 
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, MENU_MAP_MODE, "Map Mode");
-		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings");
-		menu.add(0, 2, MENU_SHOW_BUILDINGS, "Show Buildings");
+		SubMenu mapModes = menu.addSubMenu("More Map Modes")
+			.setIcon(android.R.drawable.ic_menu_mapmode);
+			mapModes.add(MENU_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
+			mapModes.add(MENU_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
+			mapModes.add(MENU_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
+			mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
+		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings")
+			.setIcon(android.R.drawable.ic_menu_agenda);
+		menu.add(0, 2, MENU_SHOW_BUILDINGS, "Show Buildings")
+			.setIcon(android.R.drawable.ic_menu_view);
+		menu.add(0, 3, MENU_SETTINGS, "Settings")
+			.setIcon(android.R.drawable.ic_menu_preferences);
 		return true;
 	}
 
@@ -172,11 +190,45 @@ public class Main extends MapActivity {
 		super.onMenuItemSelected(featureId, item);
 
 		switch (item.getItemId()) {
-
-		case (MENU_MAP_MODE):
-			echo("Map Mode");
-			break;
-
+		
+		
+		//If the mapView lines are uncommented, why doesn't they work?
+		case (SUBMENU_SATELLITE):
+			if(item.isChecked()) {
+				item.setChecked(false);
+			}else{
+				item.setChecked(true);
+			}
+			if(item.isChecked()) {
+				mapView_.setSatellite(true);
+			}else{
+				mapView_.setSatellite(false);
+			}break;
+			
+		case (SUBMENU_TRAFFIC):
+			if(item.isChecked()) {
+				item.setChecked(false);
+			}else{
+				item.setChecked(true);
+			}
+			if(item.isChecked()) {
+				mapView_.setTraffic(true);
+			}else{
+				mapView_.setTraffic(false);
+			}break;
+		
+		case (SUBMENU_STREET_VIEW):
+			if(item.isChecked()) {
+				item.setChecked(false);
+			}else{
+				item.setChecked(true);
+			}
+			if(item.isChecked()) {
+				mapView_.setStreetView(true);
+			}else{
+				mapView_.setStreetView(false);
+			}break;
+		
 		case (MENU_BUILDING_LIST):
 			Intent i = new Intent(this, BuildingList.class);
 			startActivity(i);
@@ -184,6 +236,10 @@ public class Main extends MapActivity {
 
 		case (MENU_SHOW_BUILDINGS):
 			echo("Show Buildings");
+			break;
+			
+		case (MENU_SETTINGS):
+			echo ("Settings");
 			break;
 		}
 		return true;
