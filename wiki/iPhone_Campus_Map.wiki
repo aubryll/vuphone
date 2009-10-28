@@ -37,7 +37,8 @@ Layers: Ben
 Handles marker taps: Demetri
  * tap a location's marker to see title
  * tap a location marker's title to see the following details: title, description, coordinate
- * See an image related to annotation selected when viewing the annotation's details
+ * see the annotation's details formatted as a list
+ * see an image related to annotation selected when viewing the annotation's details
 
 Locations: Joshua
  * see a search interface for the location
