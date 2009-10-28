@@ -52,7 +52,7 @@ Future User Stories:
 Kyle Liming: 
 
   * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Click on "settings"
-  * Sees map modes displayed when selected on the menu.
+  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Sees map modes displayed when selected on the menu.
   * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Menu selections have associated standard images
 
 Rob:
