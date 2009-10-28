@@ -36,7 +36,9 @@ Layers: Ben
  * hide or show multiple layers from a list of layers
 Handles marker taps: Demetri
  * tap a location's marker to see title
- * tap a location marker's title to see details
+ * tap a location marker's title to see the following details: title, description, coordinate
+ * See an image related to annotation selected when viewing the annotation's details
+
 Locations: Joshua
  * see a search interface for the location
  * search for a location by name
