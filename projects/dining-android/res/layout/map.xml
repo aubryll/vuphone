@@ -10,15 +10,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:clickable="true"
-        android:apiKey="0ehkwS3-BX5V9FDSJHiPda2ygqEiNEHHUnLU06g"
+        android:apiKey="@string/maps_api_key"
     />
-    
-    <LinearLayout
-    android:id="@+id/zoomview"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignBottom="@id/mapview"
-    android:layout_centerHorizontal="true"
-	/>
 
 </RelativeLayout>
