@@ -9,12 +9,15 @@ import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
-import android.util.Log;
 
-public class GLView extends GLSurfaceView implements Renderer {
+public class GLView extends GLSurfaceView implements Renderer, SensorEventListener {
 
 	private FloatBuffer data_;
 	private long time_; 
@@ -32,15 +35,26 @@ public class GLView extends GLSurfaceView implements Renderer {
 		getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		
 		
-		data_ = ByteBuffer.allocateDirect(12 * 4).order(
+		data_ = ByteBuffer.allocateDirect(18 * 4).order(
 				ByteOrder.nativeOrder()).asFloatBuffer();
-		data_.put(-1).put(1).put(0)
-			.put(1).put(1).put(0)
-			.put(-1).put(-1).put(0)
-			.put(1).put(-1).put(0);
+		data_.put(0).put(-.25f).put(-4)
+			.put(-2).put(-.25f).put(2)
+			.put(2).put(-.25f).put(2)
+			
+			.put(0).put(.25f).put(-4)
+			.put(-2).put(.25f).put(2)
+			.put(2).put(.25f).put(2);
+		
 		data_.position(0);
 		
 		time_ = System.currentTimeMillis();
+		
+		SensorManager sMan = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+		Sensor orientation = sMan.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+
+		sMan.registerListener(this, orientation, SensorManager.SENSOR_DELAY_FASTEST);
+
+		
 	}
 
 	@Override
@@ -55,35 +69,15 @@ public class GLView extends GLSurfaceView implements Renderer {
 		gl.glVertexPointer(3, GL10.GL_FLOAT, 0, data_);
 		gl.glPointSize(5);
 		
-
-		float dt = (System.currentTimeMillis() - time_) / 1000f;
-		angle_ += 100 * dt;
-		angle_ %= 360;
-		
 		//Log.v("GLView", "Angle: " + angle_);
 		
 		gl.glPushMatrix();
-			gl.glTranslatef(0, -5, 0);
-			gl.glRotatef(angle_, 0, 0, 1);
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
-		gl.glPopMatrix();
-		gl.glPushMatrix();
-			gl.glTranslatef(0, 5, 0);
-			gl.glRotatef(angle_, 1, 0, 0);
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
-		gl.glPopMatrix();
-		gl.glPushMatrix();
-			gl.glTranslatef(-5, 0, 0);
+			//gl.glTranslatef(0, -5, 0);
+			gl.glRotatef(20, 1, 0, 0);
 			gl.glRotatef(angle_, 0, 1, 0);
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
+			gl.glDrawArrays(GL10.GL_LINE_LOOP, 0, 3);
+			gl.glDrawArrays(GL10.GL_LINE_LOOP, 3, 3);
 		gl.glPopMatrix();
-
-		gl.glPushMatrix();
-			gl.glTranslatef(5, 0, 0);
-			gl.glRotatef(angle_, 1, 1, 0);
-			gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, 4);
-		gl.glPopMatrix();
-
 		
 		time_ = System.currentTimeMillis();
 }
@@ -109,6 +103,17 @@ public class GLView extends GLSurfaceView implements Renderer {
 		gl.glEnable(GL10.GL_DEPTH_TEST);
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		// TODO - Handle this somehow.
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		
+		angle_ = event.values[0];
 	}
 
 }
