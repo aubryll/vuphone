@@ -40,6 +40,9 @@ Austin:
   * [done] Click a button on location details pane that allows them to open a map
   * [done] See a pin on the map representing the dining location they chose
 
+Zachary:
+  * In XML, add Mapview for restaurants. Buttons on bottom left and right.
+
 Future User Stories: 
   * User can see all dining locations on map, with their own logo's (right now all logos are the same)
 
@@ -47,3 +50,11 @@ Future User Stories:
   * User can rate dining location
   * User can see nutrition facts on location
   * User can see how much longer remains in current meal period and til the next meal period
+  * Locations on list are sorted- User can pick a sorting option for restaurants(distance, time to close, alphabetical, custom, allow stars to sticky to top etc.)
+  * Include logo along with name of restaurant
+  * Autozoom the map upon entry
+  * Each icon on the map should be correct
+  * Button on restaurant page to switch to menu
+  * If restaurant is about to close(within one hour) include an extra line of text that tells how long before it closes
+  * Include a divider between favorited and non-favorited restaurants
+  * On right side, include time restaurant closes, or time until closing
