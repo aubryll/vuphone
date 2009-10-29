@@ -62,7 +62,7 @@ public class GLView extends GLSurfaceView implements Renderer, SensorEventListen
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		
 		gl.glLoadIdentity();
-		GLU.gluLookAt(gl, 0, 0, 10, 0, 0, 0, 0, 1, 0);
+		GLU.gluLookAt(gl, 0, 0, 10, 0, 0, 0, 1, 0, 0);
 		
 		gl.glColor4f(1, 1, 1, 1);
 		
