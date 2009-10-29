@@ -22,7 +22,15 @@ This should be a general description of the module
 
 Please see http://vanderbilt.mymenumanager.net/menu.php?date=9,17,2009&location=5 for a way to request dining menus 
 
-== User Stories ==
+== 2nd Build User Stories ==
+
+Grayson: sql database
+Nikhil: Dining details screen, top half. Title, left button, day / hours, right button, see menu button
+Zachary: Dining details screen, bottom half. map, bottom left / right buttons
+Austin: custom list adapter, the list dividers
+Peter: favorites selection list, including blank stars on left of items
+
+== 1st Build User Stories ==
 User can: 
 
 Grayson:
@@ -42,6 +50,7 @@ Austin:
 
 Zachary:
   * In XML, add Mapview for restaurants. Buttons on bottom left and right.
+
 
 Future User Stories: 
   * User can see all dining locations on map, with their own logo's (right now all logos are the same)
