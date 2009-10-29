@@ -17,11 +17,13 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 
-public class GLView extends GLSurfaceView implements Renderer, SensorEventListener {
+public class GLView extends GLSurfaceView implements Renderer {
 
 	private FloatBuffer data_;
 	private long time_; 
 	private float angle_ = 0;
+	
+	private ARSensors sensors_;
 	
 	public GLView(Context context) {
 		super(context);
@@ -31,7 +33,7 @@ public class GLView extends GLSurfaceView implements Renderer, SensorEventListen
 		setEGLConfigChooser(5, 6, 5, 8, 16, 0);
 		setRenderer(this);
 		
-        // The following line makes things be draw twice at weird offsets
+        // The following line makes things be drawn twice at weird offsets
 		getHolder().setFormat(PixelFormat.TRANSLUCENT);
 		
 		
@@ -49,16 +51,18 @@ public class GLView extends GLSurfaceView implements Renderer, SensorEventListen
 		
 		time_ = System.currentTimeMillis();
 		
-		SensorManager sMan = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-		Sensor orientation = sMan.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-
-		sMan.registerListener(this, orientation, SensorManager.SENSOR_DELAY_FASTEST);
-
 		
+		sensors_ = ARSensors.getSensors(context);
+		sensors_.startOrientationSensor();
 	}
 
 	@Override
 	public void onDrawFrame(GL10 gl) {
+		
+		float[] data = sensors_.getOrientation();
+		if (data != null)
+			angle_ = data[0];
+		
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 		
 		gl.glLoadIdentity();
@@ -70,6 +74,8 @@ public class GLView extends GLSurfaceView implements Renderer, SensorEventListen
 		gl.glPointSize(5);
 		
 		//Log.v("GLView", "Angle: " + angle_);
+		
+		
 		
 		gl.glPushMatrix();
 			//gl.glTranslatef(0, -5, 0);
@@ -104,16 +110,4 @@ public class GLView extends GLSurfaceView implements Renderer, SensorEventListen
 		
 		gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO - Handle this somehow.
-	}
-
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		
-		angle_ = event.values[0];
-	}
-
 }
