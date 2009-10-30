@@ -1,6 +1,6 @@
 //
 //  RemoteEventLoader.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/7/09.
 //

@@ -1,6 +1,6 @@
 //
 //  VUStartEndDateCellController.h
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.

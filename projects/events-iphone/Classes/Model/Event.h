@@ -1,6 +1,6 @@
 //
 //  Event.h
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.
@@ -13,7 +13,6 @@
 
 @interface Event :  NSManagedObject <MKAnnotation>
 {
-	NSDateFormatter *dateFormatter;
 }
 
 @property (nonatomic, retain) NSString * ownerAndroidId;

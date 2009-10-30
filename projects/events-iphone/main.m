@@ -1,6 +1,6 @@
 //
 //  main.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/6/09.
 //  Copyright Iostudio, LLC 2009. All rights reserved.

@@ -1,6 +1,6 @@
 // 
 //  Event.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.
@@ -9,6 +9,8 @@
 #import "Event.h"
 #import "Location.h"
 #import "EntityConstants.h"
+
+static NSDateFormatter *dateFormatter;
 
 @implementation Event 
 
@@ -23,15 +25,27 @@
 @dynamic serverId;
 
 + (NSArray *)allSources {
-	return [NSArray arrayWithObjects:@"Official Calendar", @"Commons", @"Athletics", @"Facebook", VUEventSourceUser, nil];
+	return [NSArray arrayWithObjects:
+			@"Official Calendar",
+			@"Commons",
+			@"Athletics",
+			@"Facebook",
+			VUEventSourceUser,
+			nil];
 }
 
 - (NSString *)startDateString {
 	if (!dateFormatter) {
-		 dateFormatter = [[NSDateFormatter alloc] init];
-		 [dateFormatter setDateFormat:@"eeee, MMMM d"];
-	 }
-	 return [dateFormatter stringFromDate:self.startTime];
+		dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setDateFormat:@"eeee, MMMM d"];
+	}
+	
+	if (self.startTime) {
+		return [dateFormatter stringFromDate:self.startTime];
+	} else {
+		// There is some sort of error, so just return today's date
+		return [dateFormatter stringFromDate:[NSDate date]];
+	}
 }
 
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId {

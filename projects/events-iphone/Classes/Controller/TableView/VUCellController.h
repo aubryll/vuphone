@@ -1,6 +1,6 @@
 //
 //  VUCellController.h (taken from CellController.h)
-//  VandyUpon
+//  Events
 //
 //  Created by Matt Gallagher on 27/12/08.
 //  Copyright 2008 Matt Gallagher. All rights reserved.

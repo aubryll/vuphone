@@ -1,6 +1,6 @@
 //
 //  RemoteEventLoader.h
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.
@@ -12,8 +12,8 @@
 #import "Event.h"
 #import "Location.h"
 
-#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/vandyupon/events"
-#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/vandyupon/events"
+#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
+#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
 
 @interface RemoteEventLoader : NSObject {
 
