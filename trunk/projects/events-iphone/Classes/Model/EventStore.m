@@ -1,6 +1,6 @@
 //
 //  EventStore.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/13/09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
@@ -129,7 +129,7 @@ static EventStore *eventStore = nil;
 		return persistentStoreCoordinator;
 	}
 	
-	NSURL *storeUrl = [NSURL fileURLWithPath:[[self documentsDirectory] stringByAppendingPathComponent:@"VandyUpon.sqlite"]];
+	NSURL *storeUrl = [NSURL fileURLWithPath:[[self documentsDirectory] stringByAppendingPathComponent:@"Events.sqlite"]];
 	
 	NSError *error;
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];

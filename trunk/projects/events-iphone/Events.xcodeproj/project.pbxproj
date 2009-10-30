@@ -20,6 +20,8 @@
 		612F8385106ECC8600239F6B /* EventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F82DB106D442A00239F6B /* EventStoreTests.m */; };
 		612F83B5106ED31600239F6B /* VULocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F83B4106ED31600239F6B /* VULocationTests.m */; };
 		612F84A2106F071800239F6B /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 612F84A1106F071800239F6B /* MapView.xib */; };
+		614876F3109A76B400A6A6EE /* VUEventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 614876F2109A76B400A6A6EE /* VUEventListCell.m */; };
+		614876F5109A76D800A6A6EE /* VUEventListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 614876F4109A76D800A6A6EE /* VUEventListCell.xib */; };
 		615BFAF7105CC106005497F9 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AC105770A0009481D6 /* Event.m */; };
 		615BFAF9105CC127005497F9 /* RemoteEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */; };
 		615BFB02105CC453005497F9 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AE105770A0009481D6 /* Location.m */; };
@@ -90,6 +92,9 @@
 		612F8358106EBEB200239F6B /* sampleEventRequestResponse.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sampleEventRequestResponse.xml; sourceTree = "<group>"; };
 		612F83B4106ED31600239F6B /* VULocationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VULocationTests.m; path = Tests/VULocationTests.m; sourceTree = "<group>"; };
 		612F84A1106F071800239F6B /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapView.xib; path = XIBs/MapView.xib; sourceTree = "<group>"; };
+		614876F1109A76B400A6A6EE /* VUEventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUEventListCell.h; sourceTree = "<group>"; };
+		614876F2109A76B400A6A6EE /* VUEventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUEventListCell.m; sourceTree = "<group>"; };
+		614876F4109A76D800A6A6EE /* VUEventListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUEventListCell.xib; sourceTree = "<group>"; };
 		615BFB1C105D5863005497F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		615BFB24105D58B0005497F9 /* EventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
 		615BFB25105D58B0005497F9 /* EventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
@@ -251,6 +256,7 @@
 				61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */,
 				61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */,
 				612F84A1106F071800239F6B /* MapView.xib */,
+				614876F4109A76D800A6A6EE /* VUEventListCell.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -298,6 +304,8 @@
 				61BBB7E510580004009481D6 /* VUStartEndDateCell.h */,
 				61BBB7E610580004009481D6 /* VUStartEndDateCell.m */,
 				615BFEC7105DFE1E005497F9 /* VUStartEndDatePickerDelegate.h */,
+				614876F1109A76B400A6A6EE /* VUEventListCell.h */,
+				614876F2109A76B400A6A6EE /* VUEventListCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -444,6 +452,7 @@
 				61DF569B108141A2000A7B1D /* MapFilterView.xib in Resources */,
 				61DF568110813D15000A7B1D /* Icons in Resources */,
 				6160F5921082EDAE00C7C3F8 /* SourcesView.xib in Resources */,
+				614876F5109A76D800A6A6EE /* VUEventListCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +516,7 @@
 				61DF569A108141A2000A7B1D /* MapFilterViewController.m in Sources */,
 				6160F5911082EDAE00C7C3F8 /* SourcesViewController.m in Sources */,
 				6160F63C10838FE900C7C3F8 /* VUSourceTableViewCell.m in Sources */,
+				614876F3109A76B400A6A6EE /* VUEventListCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,6 @@
 //
 //  VULocationCellController.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 21/9/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.

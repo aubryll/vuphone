@@ -1,6 +1,6 @@
 //
 //  EventListViewController.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.
@@ -192,7 +192,7 @@
 	if (dateFormatter == nil)
 	{
 		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateFormat:@"h:mm a"];
+		[dateFormatter setDateFormat:@"h:mm"];
 	}
 	
 	// Set up the latitude/longitude formatter
@@ -204,8 +204,15 @@
 		[numberFormatter setMaximumFractionDigits:3];
 	}
 	
+	// Add a shorter name label
+	UILabel *shorterTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 3.0, 216.0, 40.0)];
+	shorterTextLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]+4.0];
+	shorterTextLabel.text = [event name];
+	[cell addSubview:shorterTextLabel];
+	[shorterTextLabel release];
+	
 	// Set the cell labels
-	cell.textLabel.text = [event name];
+//	cell.textLabel.text = [event name];
 	cell.detailTextLabel.text = [dateFormatter stringFromDate:[event startTime]];
 }
 
@@ -215,7 +222,9 @@
 		
 		for (id<NSFetchedResultsSectionInfo> title in [fetchedResultsC sections]) {
 			// Let the index title be the day number
-			[titles addObject:[title.name substringFromIndex:[title.name length] - 2]];
+			if ([title.name length] != 0) {
+				[titles addObject:[title.name substringFromIndex:[title.name length] - 2]];
+			}
 		}
 		sectionIndexTitles = titles;
 	}

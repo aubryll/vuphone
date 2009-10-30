@@ -1,6 +1,6 @@
 //
 //  VUEventTestCase.m
-//  VandyUpon
+//  Events
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Iostudio, LLC. All rights reserved.
