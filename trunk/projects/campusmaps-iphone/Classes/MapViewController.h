@@ -20,8 +20,11 @@
 	
 	IBOutlet UISegmentedControl* mapType;
 	IBOutlet MKMapView* mapView;
+	NSManagedObjectContext* managedObjectContext;
 }
 
 - (IBAction)changeType:(id) sender;
+
+@property (retain) NSManagedObjectContext* managedObjectContext;
 
 @end
