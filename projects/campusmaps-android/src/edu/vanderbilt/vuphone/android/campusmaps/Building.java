@@ -5,6 +5,7 @@ import com.google.android.maps.GeoPoint;
 public class Building {
 	private GeoPoint point_;
 	private String name_;
+	private String desc_;
 	
 	public Building(GeoPoint point, String name){
 		point_ = point;
@@ -17,6 +18,10 @@ public class Building {
 	
 	public String getName(){
 		return name_;
+	}
+	
+	public void setDescription(String desc){
+		desc_ = desc;
 	}
 	
 	public String toString(){

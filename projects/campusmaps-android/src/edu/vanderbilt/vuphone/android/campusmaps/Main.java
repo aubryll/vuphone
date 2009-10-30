@@ -1,6 +1,21 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
+import java.io.StringReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +35,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
 public class Main extends MapActivity {
-	
+
 	private static final int SUBMENU_STREET_VIEW = 6;
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
@@ -160,19 +175,18 @@ public class Main extends MapActivity {
 
 	/**
 	 * Creates a "Map Mode" checkable submenu option when menu is clicked.
-	 * 		Options: Map, Satellite, Traffic, Street View.
-	 * Creates a "List Buildings" option when menu is clicked.
-	 * Creates a "Show Buildings" option when menu is clicked.
-	 * Creates a "Settings" option when menu is clicked. 
+	 * Options: Map, Satellite, Traffic, Street View. Creates a "List Buildings"
+	 * option when menu is clicked. Creates a "Show Buildings" option when menu
+	 * is clicked. Creates a "Settings" option when menu is clicked.
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		SubMenu mapModes = menu.addSubMenu("More Map Modes")
-			.setIcon(android.R.drawable.ic_menu_mapmode);
-			mapModes.add(MENU_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
-			mapModes.add(MENU_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
-			mapModes.add(MENU_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
-			mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
+		.setIcon(android.R.drawable.ic_menu_mapmode);
+		mapModes.add(MENU_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
+		mapModes.add(MENU_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
+		mapModes.add(MENU_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
+		mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
 		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings")
 			.setIcon(android.R.drawable.ic_menu_agenda);
 		menu.add(0, 2, MENU_SHOW_BUILDINGS, "Show Buildings")
@@ -190,45 +204,47 @@ public class Main extends MapActivity {
 		super.onMenuItemSelected(featureId, item);
 
 		switch (item.getItemId()) {
-		
-		
-		//If the mapView lines are uncommented, why doesn't they work?
+
+		// If the mapView lines are uncommented, why doesn't they work?
 		case (SUBMENU_SATELLITE):
-			if(item.isChecked()) {
+			if (item.isChecked()) {
 				item.setChecked(false);
-			}else{
+			} else {
 				item.setChecked(true);
 			}
-			if(item.isChecked()) {
+			if (item.isChecked()) {
 				mapView_.setSatellite(true);
-			}else{
+			} else {
 				mapView_.setSatellite(false);
-			}break;
-			
+			}
+			break;
+
 		case (SUBMENU_TRAFFIC):
-			if(item.isChecked()) {
+			if (item.isChecked()) {
 				item.setChecked(false);
-			}else{
+			} else {
 				item.setChecked(true);
 			}
-			if(item.isChecked()) {
+			if (item.isChecked()) {
 				mapView_.setTraffic(true);
-			}else{
+			} else {
 				mapView_.setTraffic(false);
-			}break;
-		
+			}
+			break;
+
 		case (SUBMENU_STREET_VIEW):
-			if(item.isChecked()) {
+			if (item.isChecked()) {
 				item.setChecked(false);
-			}else{
+			} else {
 				item.setChecked(true);
 			}
-			if(item.isChecked()) {
+			if (item.isChecked()) {
 				mapView_.setStreetView(true);
-			}else{
+			} else {
 				mapView_.setStreetView(false);
-			}break;
-		
+			}
+			break;
+
 		case (MENU_BUILDING_LIST):
 			Intent i = new Intent(this, BuildingList.class);
 			startActivity(i);
@@ -237,9 +253,9 @@ public class Main extends MapActivity {
 		case (MENU_SHOW_BUILDINGS):
 			echo("Show Buildings");
 			break;
-			
+
 		case (MENU_SETTINGS):
-			echo ("Settings");
+			echo("Settings");
 			break;
 		}
 		return true;
@@ -285,14 +301,121 @@ public class Main extends MapActivity {
 	}
 
 	/**
-	 * Parses in the building data
+	 * Parses in the building data to populate BuildingList
 	 */
 	public void populateBuildings() {
+		try {
+			ArrayList<Building> buildingList = SharedData.getInstance()
+					.getBuildingList();
 
-		ArrayList<Building> buildingList = SharedData.getInstance()
-				.getBuildingList();
-		buildingList.add(new Building(new GeoPoint((int) (36.14476 * 1000000),
-				(int) (-86.803189 * 1000000)), "Featheringill"));
+			// make sure this STATIC list isn't populated multiple times
+			if (buildingList.size() > 0)
+				return;
+
+			Document doc = parseXML("buildings.xml");
+			if (doc == null)
+				return;
+
+			trace("Populating building list");
+			NodeList list_ = doc.getElementsByTagName("feature");
+			for (int i = 0; i < list_.getLength(); i++) {
+				Properties attrib = NodeList2Array(list_.item(i)
+						.getChildNodes());
+
+				if (attrib == null)
+					continue;
+
+				String name = titleCase(attrib.getProperty("FACILITY_NAME"));
+				String loc[] = attrib.getProperty("coordinates").split(" ");
+				String latlong[] = loc[0].split(",");
+				GeoPoint gp = EPSG900913ToGeoPoint(Double
+						.parseDouble(latlong[0]), Double
+						.parseDouble(latlong[1]));
+				
+				Building b = new Building(gp, name);
+				b.setDescription(attrib.getProperty("FACILITY_REMARKS"));
+				buildingList.add(b);
+			}
+
+		} catch (Exception e) {
+			trace("Unable to populate build list! " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Converts a list of nodes into a (NodeName -> NodeValue) hashmap
+	 * 
+	 * @param list
+	 *            - the NodeList to be converted
+	 * @return
+	 */
+	private static Properties NodeList2Array(NodeList list) {
+		if (list == null)
+			return null;
+
+		Properties p = new Properties();
+
+		try {
+			for (int i = 0; i < list.getLength(); i++) {
+				Node n = list.item(i);
+				if (n == null || n.getNodeType() != 1)
+					continue;
+
+				Node x = n.getFirstChild();
+				if (x == null)
+					continue;
+
+				p.setProperty(n.getNodeName(), x.getNodeValue());
+
+			}
+		} catch (Exception e) {
+			trace("Couldn't parse XML! " + e.getMessage());
+			return null;
+		}
+
+		return p;
+	}
+
+	/**
+	 * Format a string to titleCase (FOO BAR -> Foo Bar)
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String titleCase(String s) {
+		Pattern p = Pattern.compile("(^|\\W)([a-z])");
+		Matcher m = p.matcher(s.toLowerCase());
+
+		StringBuffer sb = new StringBuffer(s.length());
+
+		while (m.find())
+			m.appendReplacement(sb, m.group(1) + m.group(2).toUpperCase());
+
+		m.appendTail(sb);
+		return sb.toString();
+	}
+
+	/**
+	 * Download a webpage to a string
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public static String downloadWebpage(String url) {
+
+		StringBuilder content = new StringBuilder();
+		URLConnection connection = null;
+		try {
+			connection = new URL(url).openConnection();
+			Scanner scanner = new Scanner(connection.getInputStream());
+			scanner.useDelimiter("\\Z");
+			while (scanner.hasNext()) {
+				content.append(scanner.next());
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return content.toString();
 	}
 
 	/**
@@ -326,7 +449,37 @@ public class Main extends MapActivity {
 	 *            String to print
 	 */
 	public static void trace(String s) {
+		if (s == null)
+			return;
+
 		Log.d("mad", s);
+	}
+
+	public static Document parseXML(String path) {
+		try {
+			// TODO Allow local android file to be loaded vs getting from URL
+			/*
+			 * BufferedReader reader = new BufferedReader(new FileReader(path));
+			 */
+
+			trace("Downloading the buildings list");
+			String p = downloadWebpage("http://adam-albright.com/android/buildings.xml");
+			trace("List downloaded! " + p.length() + " bytes");
+
+			StringReader reader = new StringReader(p);
+			InputSource in = new InputSource(reader);
+
+			DocumentBuilder db = DocumentBuilderFactory.newInstance()
+					.newDocumentBuilder();
+			trace("Parsing XML");
+			Document d = db.parse(in);
+			reader.close();
+			return d;
+
+		} catch (Exception e) {
+			trace("Could not parse XML!" + e.getMessage());
+			return null;
+		}
 	}
 
 }
