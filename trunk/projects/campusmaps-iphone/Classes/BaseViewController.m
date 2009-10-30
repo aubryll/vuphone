@@ -26,6 +26,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	//shifted the center of the base view up 10 pixels
+	
+	self.view.center = CGPointMake(160.0, 230.0);
+	
 	[self.view addSubview:mapViewController.view];
 	mapViewRunning = YES;	
 	
