@@ -21,7 +21,6 @@ Saturday, 4-5PM (FGH 308)
 = User Stories =
 User can: 
 
-  * Show all buildings as pins on the map when user clicks menu item
   * See a search box above the list
   * Type into the search box to filter the list
   * Click a building to drop a pin on the map
