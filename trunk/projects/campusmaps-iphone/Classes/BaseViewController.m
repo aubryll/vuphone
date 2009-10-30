@@ -39,9 +39,12 @@
 	
 	CGRect buttonRect = flipViewButton.frame;
 	
-	// calculate the bottom right corner
-	buttonRect.origin.x = buttonRect.size.width - 8;
-	buttonRect.origin.y = buttonRect.size.height - 8;
+	// calculate the distance of the flip-button from the upper left corner
+	
+	int buttonDistanceFromUpperLeftCorner = 8;
+	
+	buttonRect.origin.x = buttonRect.size.width - buttonDistanceFromUpperLeftCorner;
+	buttonRect.origin.y = buttonRect.size.height - buttonDistanceFromUpperLeftCorner;
 	[flipViewButton setFrame:buttonRect];
 	
 	[flipViewButton addTarget:self action:@selector(didPressFlipViewButton) forControlEvents:UIControlEventTouchUpInside];
@@ -76,6 +79,7 @@
 		
 	}
 	else {
+		
 		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:NO];
 		[listViewController.view removeFromSuperview];
 		[self.view addSubview:mapViewController.view];
