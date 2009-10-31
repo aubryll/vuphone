@@ -1,13 +1,13 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Singleton for holding data passed between activities
  */
 public class SharedData {
 	private static SharedData instance_ = null;
-	private static ArrayList<Building> buildingList_ = null;
+	private static HashMap<Integer, Building> buildingList_ = null;
 
 	protected SharedData() {
 	}
@@ -27,9 +27,9 @@ public class SharedData {
 	 * 
 	 * @return list of buildings array
 	 */
-	public ArrayList<Building> getBuildingList() {
+	public HashMap<Integer, Building> getBuildingList() {
 		if (buildingList_ == null)
-			buildingList_ = new ArrayList<Building>();
+			buildingList_ = new HashMap<Integer, Building>();
 
 		return buildingList_;
 	}
