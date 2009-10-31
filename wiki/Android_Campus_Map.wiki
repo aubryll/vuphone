@@ -49,19 +49,19 @@ Future User Stories:
 
 Kyle Liming:
 
-  * <img src='http://tinyurl.com/ydcxnlu'/> Click on "settings"
-  * <img src='http://tinyurl.com/ydcxnlu'/> Sees map modes displayed when selected on the menu.
-  * <img src='http://tinyurl.com/ydcxnlu'/> Menu selections have associated standard images
+  * <img src='http://ni2.in/tb/.png'/> Click on "settings"
+  * <img src='http://ni2.in/tb/.png'/> Sees map modes displayed when selected on the menu.
+  * <img src='http://ni2.in/tb/.png'/> Menu selections have associated standard images
 
 Rob:
 
 
 Adam:
-  *  <img src='http://tinyurl.com/ydcxnlu'/> See current location on map if user has GPS
-  *  <img src='http://tinyurl.com/ydcxnlu'/> Set map to be centered on their location
-  *  <img src='http://tinyurl.com/ydcxnlu'/> See picture and description of buildings
-  *  <img src='http://tinyurl.com/ydcxnlu'/> See comprehensive list of Vandy buildings
-  *  <img src='http://tinyurl.com/ydcxnlu'/> Double-tap a marker for information
+  *  <img src='http://ni2.in/tb/.png'/> See current location on map if user has GPS
+  *  <img src='http://ni2.in/tb/.png'/> Set map to be centered on their location
+  *  <img src='http://ni2.in/tb/.png'/> See picture and description of buildings
+  *  <img src='http://ni2.in/tb/.png'/> See comprehensive list of Vandy buildings
+  *  <img src='http://ni2.in/tb/.png'/> Double-tap a marker for information
   * Show all buildings as pins on the map when user clicks menu item
 
 Dan:
@@ -72,21 +72,21 @@ Dan:
 === Oct 8, 2009 - Oct 17, 2009 ===
 
 Kyle Liming:
-  * <img src='http://tinyurl.com/ydcxnlu'/> See Vanderbilt campus
-  * <img src='http://tinyurl.com/ydcxnlu'/> Push Menu button on device to open menu
-  * <img src='http://tinyurl.com/ydcxnlu'/> Pan on campus map
-  * <img src='http://tinyurl.com/ydcxnlu'/> Zoom in and out on campus map
-  * <img src='http://tinyurl.com/ydcxnlu'/> Choose to see list of buildings from menu
-  * <img src='http://tinyurl.com/ydcxnlu'/> Choose to see all buildings as pins on the map, from the menu
+  * <img src='http://ni2.in/tb/.png'/> See Vanderbilt campus
+  * <img src='http://ni2.in/tb/.png'/> Push Menu button on device to open menu
+  * <img src='http://ni2.in/tb/.png'/> Pan on campus map
+  * <img src='http://ni2.in/tb/.png'/> Zoom in and out on campus map
+  * <img src='http://ni2.in/tb/.png'/> Choose to see list of buildings from menu
+  * <img src='http://ni2.in/tb/.png'/> Choose to see all buildings as pins on the map, from the menu
 
 Rob:
-  * <img src='http://tinyurl.com/ydcxnlu'/> See line drawn on top of map
-  * <img src='http://tinyurl.com/ydcxnlu'/> See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
+  * <img src='http://ni2.in/tb/.png'/> See line drawn on top of map
+  * <img src='http://ni2.in/tb/.png'/> See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
 
 
 Adam:
-  * <img src='http://tinyurl.com/ydcxnlu'/> See a pin on the map
-  * <img src='http://tinyurl.com/ydcxnlu'/> See current location on map if user has GPS
+  * <img src='http://ni2.in/tb/.png'/> See a pin on the map
+  * <img src='http://ni2.in/tb/.png'/> See current location on map if user has GPS
   * Show all buildings as pins on the map when user clicks menu item
 
 Dan:
