@@ -36,12 +36,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 /**
- * 
- * @author Adam Albright
- * 
- *         This class implements a marker/pin that can be placed and drug around
- *         on the map
- * 
+ * This class implements a marker/pin that can be placed and drug around on the
+ * map
  */
 public class MapMarker extends com.google.android.maps.Overlay {
 	GeoPoint p_;
