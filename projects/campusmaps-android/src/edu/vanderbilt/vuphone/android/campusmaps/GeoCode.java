@@ -30,28 +30,25 @@ import com.google.android.maps.GeoPoint;
 
 public class GeoCode {
 
-	public static String getAddress(Context context, GeoPoint p){
-		
+	public static String getAddress(Context context, GeoPoint p) {
+
 		Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
-    try {
-        List<Address> addresses = geoCoder.getFromLocation(
-            p.getLatitudeE6()  / 1E6, 
-            p.getLongitudeE6() / 1E6, 1);
+		try {
+			List<Address> addresses = geoCoder.getFromLocation(p
+					.getLatitudeE6() / 1E6, p.getLongitudeE6() / 1E6, 1);
 
-        String add = "";
-        if (addresses.size() > 0) 
-        {
-            for (int i=0; i<addresses.get(0).getMaxAddressLineIndex(); 
-                 i++)
-               add += addresses.get(0).getAddressLine(i) + "\n";
-        }
+			StringBuilder add = new StringBuilder();
+			if (addresses.size() > 0) {
+				for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++)
+					add.append(addresses.get(0).getAddressLine(i));
+				add.append("\n");
+			}
 
-        return add;
-    }
-    catch (IOException e) {                
-        e.printStackTrace();
-    }
-    
-    return null;
+			return add.toString();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }
