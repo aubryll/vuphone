@@ -19,9 +19,9 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -30,7 +30,6 @@ import android.graphics.Point;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
-
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
@@ -47,9 +46,6 @@ import com.google.android.maps.Overlay;
  * 
  * Each path in the HashMap has a unique int ID number so you can select a path
  * and add points to it later. You can also remove paths by ID.
- * 
- * @author el guapo
- * 
  */
 public class PathOverlay extends Overlay {
 
@@ -176,7 +172,6 @@ public class PathOverlay extends Overlay {
 	 * converting each into a drawable Path of screen coordinates and drawing
 	 * the path before moving to the next path. This is called by the MapView.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean draw(Canvas canv, MapView mvMap, boolean b, long when) {
 		super.draw(canv, mvMap, b, when);
@@ -189,20 +184,19 @@ public class PathOverlay extends Overlay {
 		paintPath_.setStyle(Paint.Style.STROKE);
 
 		// Drawing loop
-		Iterator itMap = hmPathList_.entrySet().iterator();
+		Iterator<Entry<Integer, ArrayList<GeoPoint>>> itMap = hmPathList_
+				.entrySet().iterator();
 		while (itMap.hasNext()) {
 			Path curPath = new Path();
-			Map.Entry<Integer, ArrayList> curPair = (Map.Entry) itMap.next();
-			Iterator itCurGeoPoint = curPair.getValue().iterator();
+			Entry<Integer, ArrayList<GeoPoint>> curPair = itMap.next();
+			Iterator<GeoPoint> itCurGeoPoint = curPair.getValue().iterator();
 			Point curPoint = new Point();
 			if (itCurGeoPoint.hasNext()) {
-				mvMap.getProjection().toPixels((GeoPoint) itCurGeoPoint.next(),
-						curPoint);
+				mvMap.getProjection().toPixels(itCurGeoPoint.next(), curPoint);
 				curPath.moveTo(curPoint.x, curPoint.y);
 			}
 			while (itCurGeoPoint.hasNext()) {
-				mvMap.getProjection().toPixels((GeoPoint) itCurGeoPoint.next(),
-						curPoint);
+				mvMap.getProjection().toPixels(itCurGeoPoint.next(), curPoint);
 				curPath.lineTo(curPoint.x, curPoint.y);
 			}
 			canv.drawPath(curPath, paintPath_);
