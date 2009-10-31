@@ -45,7 +45,20 @@ Future User Stories:
   * Find shortest path between two points on map
 
 
-=== Oct 17, 2009 - ?===
+=== Oct 31, 2009 - ?===
+Kyle Liming:
+ * See a settings menu with options
+ * See a menu when selecting a building
+
+
+Adam:
+ * Tap a building to see building information
+ * See a search box above the list
+ * Type into the search box to filter the list
+ * Send location to location-sharing server
+ 
+
+=== Oct 17, 2009 - Oct 31, 2009===
 
 Kyle Liming:
 
@@ -57,16 +70,14 @@ Rob:
 
 
 Adam:
-  *  <img src='http://ni2.in/tb/.png'/> See current location on map if user has GPS
-  *  <img src='http://ni2.in/tb/.png'/> Set map to be centered on their location
-  *  <img src='http://ni2.in/tb/.png'/> See picture and description of buildings
-  *  <img src='http://ni2.in/tb/.png'/> See comprehensive list of Vandy buildings
-  *  <img src='http://ni2.in/tb/.png'/> Double-tap a marker for information
+  * <img src='http://ni2.in/tb/.png'/> See current location on map if user has GPS
+  * <img src='http://ni2.in/tb/.png'/> Set map to be centered on their location
+  * <img src='http://ni2.in/tb/.png'/> See picture and description of buildings
+  * <img src='http://ni2.in/tb/.png'/> See comprehensive list of Vandy buildings
+  * <img src='http://ni2.in/tb/.png'/> Double-tap a marker for information
   * Show all buildings as pins on the map when user clicks menu item
-
+  
 Dan:
-  * See a search box above the list
-  * Type into the search box to filter the list
   * Click a building to drop a pin on the map
 
 === Oct 8, 2009 - Oct 17, 2009 ===
