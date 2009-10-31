@@ -5,7 +5,7 @@ import com.google.android.maps.GeoPoint;
 public class Building {
 	private GeoPoint point_;
 	private String name_;
-	private String desc_ = "";
+	private String desc_;
 	private String url_ = null;
 
 	public Building(GeoPoint point, String name) {
@@ -30,7 +30,7 @@ public class Building {
 	}
 
 	public void setImageURL(String url) {
-		url_ = "http://www.vanderbilt.edu/map/" + url.toLowerCase();
+		url_ = R.string.building_image_url + url.toLowerCase();
 	}
 
 	public String getImageURL() {
