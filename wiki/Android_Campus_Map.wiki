@@ -8,36 +8,35 @@ This should be a general description of the module
 = Team Leader =
   * Kyle Prete
 
-= Meeting Time = 
+= Meeting Time =
 Saturday, 4-5PM (FGH 308)
 
-= Developers = 
+= Developers =
   * Kyle Liming
   * Dan Hasday
-  * Rob McColl 
+  * Rob McColl
   * Adam Albright
 
 
 = User Stories =
-User can: 
+User can:
 
-  * See a search box above the list
-  * Type into the search box to filter the list
+  * See a search box above the building list to filter list
   * Click a building to drop a pin on the map
-  * See comprehensive list of Vandy buildings
   * Click buildings
   * See menu after clicking: drop pin, get directions, info
   * See all walking paths
-  * See current location on map if user has GPS
-  * See a separate "Location Sharing" menu
   * Click on "map details" & see map overlays (trees, buildings, etc)
+
+  --------
+  * See a separate "Location Sharing" menu
   * Keep Location Sharing on
   * Set frequency of location sharing updates (per minute(s), hour, manual update, etc, background run)
   * Set different icons to represent friends
   * Set display priority for friends
   * Add new friends as contacts in phonebook
   * See & accept notification of friend request
-  
+
 Future User Stories:
   * See user's path usage
   * See total user base path usage
@@ -46,19 +45,23 @@ Future User Stories:
   * Find shortest path between two points on map
 
 
-=== 10/17/09 ===
+=== Oct 17, 2009 - ?===
 
-Kyle Liming: 
+Kyle Liming:
 
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Click on "settings"
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Sees map modes displayed when selected on the menu.
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Menu selections have associated standard images
+  * <img src='http://tinyurl.com/ydcxnlu'/> Click on "settings"
+  * <img src='http://tinyurl.com/ydcxnlu'/> Sees map modes displayed when selected on the menu.
+  * <img src='http://tinyurl.com/ydcxnlu'/> Menu selections have associated standard images
 
 Rob:
 
 
 Adam:
-  * See current location on map if user has GPS
+  *  <img src='http://tinyurl.com/ydcxnlu'/> See current location on map if user has GPS
+  *  <img src='http://tinyurl.com/ydcxnlu'/> Set map to be centered on their location
+  *  <img src='http://tinyurl.com/ydcxnlu'/> See picture and description of buildings
+  *  <img src='http://tinyurl.com/ydcxnlu'/> See comprehensive list of Vandy buildings
+  *  <img src='http://tinyurl.com/ydcxnlu'/> Double-tap a marker for information
   * Show all buildings as pins on the map when user clicks menu item
 
 Dan:
@@ -66,28 +69,27 @@ Dan:
   * Type into the search box to filter the list
   * Click a building to drop a pin on the map
 
-=== 10/8/09-10/17/09 ===
+=== Oct 8, 2009 - Oct 17, 2009 ===
 
-Kyle Liming: 
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See Vanderbilt campus 
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Push Menu button on device to open menu
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Pan on campus map  
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Zoom in and out on campus map
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Choose to see list of buildings from menu
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> Choose to see all buildings as pins on the map, from the menu
+Kyle Liming:
+  * <img src='http://tinyurl.com/ydcxnlu'/> See Vanderbilt campus
+  * <img src='http://tinyurl.com/ydcxnlu'/> Push Menu button on device to open menu
+  * <img src='http://tinyurl.com/ydcxnlu'/> Pan on campus map
+  * <img src='http://tinyurl.com/ydcxnlu'/> Zoom in and out on campus map
+  * <img src='http://tinyurl.com/ydcxnlu'/> Choose to see list of buildings from menu
+  * <img src='http://tinyurl.com/ydcxnlu'/> Choose to see all buildings as pins on the map, from the menu
 
 Rob:
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See line drawn on top of map
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
- 
+  * <img src='http://tinyurl.com/ydcxnlu'/> See line drawn on top of map
+  * <img src='http://tinyurl.com/ydcxnlu'/> See line drawn representing single path (figure out how to represent a 'path' and read from that representation)
+
 
 Adam:
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See a pin on the map
-  * See current location on map if user has GPS
+  * <img src='http://tinyurl.com/ydcxnlu'/> See a pin on the map
+  * <img src='http://tinyurl.com/ydcxnlu'/> See current location on map if user has GPS
   * Show all buildings as pins on the map when user clicks menu item
 
 Dan:
-  * <img src='http://www.home-air-purifier-expert.com/images/green-check-mark.png'/> See a list of buildings
   * See a search box above the list
   * Type into the search box to filter the list
   * Click a building to drop a pin on the map
