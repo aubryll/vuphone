@@ -12,6 +12,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BuildingList"></activity>
+        <activity android:name=".BuildingInfo"></activity>
 	<uses-library android:name="com.google.android.maps" />
     </application>
     <uses-sdk android:minSdkVersion="3" />

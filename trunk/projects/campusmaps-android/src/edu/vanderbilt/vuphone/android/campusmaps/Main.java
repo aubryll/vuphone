@@ -1,11 +1,8 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
-import java.io.StringReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,12 +12,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,14 +36,17 @@ public class Main extends MapActivity {
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
 	private static final int MENU_SETTINGS = 3;
-	private static final int MENU_SHOW_BUILDINGS = 2;
+	private static final int MENU_CENTER_GPS = 2;
 	private static final int MENU_BUILDING_LIST = 1;
 	private static final int MENU_MAP_MODE_GROUP = 0;
-	private MapView mapView_;
-	private MapController mc_;
+	public static MapView mapView_;
+	private static MapController mc_;
 	private GeoPoint p_;
 	private PathOverlay poLayer_ = null;
 	private static Main instance_;
+	public static Context context_;
+	public static Resources resources_;
+	public GPS gps_;
 
 	/**
 	 * Called when the activity is first created. Enables user to zoom in/out of
@@ -58,6 +57,8 @@ public class Main extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		instance_ = this;
+		context_ = getBaseContext();
+		resources_ = getResources();
 
 		setContentView(R.layout.main);
 		mapView_ = (MapView) findViewById(R.id.mapview);
@@ -115,48 +116,15 @@ public class Main extends MapActivity {
 
 		// Set the GPS Listener
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		gps_ = GPS.getInstance();
+		gps_.initialize(lm);
+		gps_.showMarker();
 
-		try {
-			onPositionChange(lm
-					.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-		} catch (Exception e) {
-			// TODO(corespace): Handle specific errors.
-		}
-
-		LocationListener ll = new LocationListener() {
-			public void onLocationChanged(Location location) {
-				onPositionChange(location);
-			}
-
-			public void onProviderDisabled(String provider) {
-				trace("GPS Disabled");
-			}
-
-			public void onProviderEnabled(String provider) {
-				trace("GPS Enabled");
-			}
-
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-				if (extras != null) {
-					trace("# of satellites:" + extras.getInt("satellites"));
-				}
-			}
-		};
-
-		// Request to be notified whenever the user moves
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 2, ll);
+		// Pseudo splash screen
+		echo("Loading. Please wait...");
 
 		// Start populating the building list
 		populateBuildings();
-	}
-
-	/**
-	 * Called by the GPS service to inform us of the current position
-	 */
-	private void onPositionChange(Location l) {
-		trace("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> "
-				+ l.getAccuracy() + "m");
 	}
 
 	/**
@@ -181,18 +149,19 @@ public class Main extends MapActivity {
 	 */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		SubMenu mapModes = menu.addSubMenu("More Map Modes")
-		.setIcon(android.R.drawable.ic_menu_mapmode);
+		SubMenu mapModes = menu.addSubMenu("More Map Modes").setIcon(
+				android.R.drawable.ic_menu_mapmode);
 		mapModes.add(MENU_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
 		mapModes.add(MENU_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
-		mapModes.add(MENU_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
+		mapModes
+				.add(MENU_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
 		mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
-		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings")
-			.setIcon(android.R.drawable.ic_menu_agenda);
-		menu.add(0, 2, MENU_SHOW_BUILDINGS, "Show Buildings")
-			.setIcon(android.R.drawable.ic_menu_view);
-		menu.add(0, 3, MENU_SETTINGS, "Settings")
-			.setIcon(android.R.drawable.ic_menu_preferences);
+		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings").setIcon(
+				android.R.drawable.ic_menu_agenda);
+		menu.add(0, 2, MENU_CENTER_GPS, "Center on GPS").setIcon(
+				android.R.drawable.ic_menu_view);
+		menu.add(0, 3, MENU_SETTINGS, "Settings").setIcon(
+				android.R.drawable.ic_menu_preferences);
 		return true;
 	}
 
@@ -250,8 +219,8 @@ public class Main extends MapActivity {
 			startActivity(i);
 			break;
 
-		case (MENU_SHOW_BUILDINGS):
-			echo("Show Buildings");
+		case (MENU_CENTER_GPS):
+			gps_.centerOnGPS(!gps_.centerOnGPS_);
 			break;
 
 		case (MENU_SETTINGS):
@@ -268,8 +237,18 @@ public class Main extends MapActivity {
 	 *            - location to place marker
 	 */
 	public void drop_pin(GeoPoint p) {
-		MapMarker m = new MapMarker(getBaseContext(), getResources(), mapView_,
-				p);
+		drop_pin(p, null);
+	}
+
+	/**
+	 * Used to set a marker image on the map
+	 * 
+	 * @param p
+	 * @param building
+	 *            - location to place marker
+	 */
+	public void drop_pin(GeoPoint p, Building building) {
+		MapMarker m = new MapMarker(p, building);
 		m.drop_pin();
 		centerMapAt(p);
 	}
@@ -277,8 +256,8 @@ public class Main extends MapActivity {
 	/**
 	 * Prints a message to the screen for a few seconds
 	 */
-	public void echo(String s) {
-		Toast.makeText(getBaseContext(), s, Toast.LENGTH_SHORT).show();
+	public static void echo(String s) {
+		Toast.makeText(context_, s, Toast.LENGTH_SHORT).show();
 	}
 
 	/**
@@ -305,7 +284,7 @@ public class Main extends MapActivity {
 	 */
 	public void populateBuildings() {
 		try {
-			ArrayList<Building> buildingList = SharedData.getInstance()
+			HashMap<Integer, Building> buildingList = SharedData.getInstance()
 					.getBuildingList();
 
 			// make sure this STATIC list isn't populated multiple times
@@ -331,10 +310,12 @@ public class Main extends MapActivity {
 				GeoPoint gp = EPSG900913ToGeoPoint(Double
 						.parseDouble(latlong[0]), Double
 						.parseDouble(latlong[1]));
-				
+
 				Building b = new Building(gp, name);
 				b.setDescription(attrib.getProperty("FACILITY_REMARKS"));
-				buildingList.add(b);
+				b.setImageURL(attrib.getProperty("FACILITY_URL"));
+
+				buildingList.put(b.hashCode(), b);
 			}
 
 		} catch (Exception e) {
@@ -396,35 +377,12 @@ public class Main extends MapActivity {
 	}
 
 	/**
-	 * Download a webpage to a string
-	 * 
-	 * @param url
-	 * @return
-	 */
-	public static String downloadWebpage(String url) {
-
-		StringBuilder content = new StringBuilder();
-		URLConnection connection = null;
-		try {
-			connection = new URL(url).openConnection();
-			Scanner scanner = new Scanner(connection.getInputStream());
-			scanner.useDelimiter("\\Z");
-			while (scanner.hasNext()) {
-				content.append(scanner.next());
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return content.toString();
-	}
-
-	/**
 	 * Moves the map position to show a specified point at center screen
 	 * 
 	 * @param p
 	 *            - coordinates to center on
 	 */
-	public void centerMapAt(GeoPoint p) {
+	public static void centerMapAt(GeoPoint p) {
 		mc_.animateTo(p);
 		mapView_.invalidate();
 	}
@@ -457,25 +415,18 @@ public class Main extends MapActivity {
 
 	public static Document parseXML(String path) {
 		try {
-			// TODO Allow local android file to be loaded vs getting from URL
-			/*
-			 * BufferedReader reader = new BufferedReader(new FileReader(path));
-			 */
+			// TODO Allow local Android file to be loaded vs getting from URL
+			trace("Loading building list");
 
-			trace("Downloading the buildings list");
-			String p = downloadWebpage("http://adam-albright.com/android/buildings.xml");
-			trace("List downloaded! " + p.length() + " bytes");
-
-			StringReader reader = new StringReader(p);
-			InputSource in = new InputSource(reader);
+			AssetManager assetManager = resources_.getAssets();
+			InputStream in = assetManager.open(path);
 
 			DocumentBuilder db = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
 			trace("Parsing XML");
 			Document d = db.parse(in);
-			reader.close();
+			in.close();
 			return d;
-
 		} catch (Exception e) {
 			trace("Could not parse XML!" + e.getMessage());
 			return null;

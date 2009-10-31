@@ -4,15 +4,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-import android.content.Context;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -28,22 +27,28 @@ import com.google.android.maps.Overlay;
  */
 public class MapMarker extends com.google.android.maps.Overlay {
 	GeoPoint p_;
-	MapView mapView_;
 	int marker_image_;
-	Context context_;
-	Resources resources_;
 	Boolean dragging_ = false;
 	long lastTap_ = 0;
+	Building building_ = null;
 
-	public MapMarker(Context context, Resources resources, MapView mapView, GeoPoint p) {
-		mapView_ = mapView;
+	public MapMarker(GeoPoint p) {
 		p_ = p;
-		context_ = context;
-		resources_ = resources;
 
 		// Select a random pin color
-		int images[] = { R.drawable.marker_yellow, R.drawable.marker_blue, R.drawable.marker_red,
-				R.drawable.marker_black };
+		int images[] = { R.drawable.marker_yellow, R.drawable.marker_blue,
+				R.drawable.marker_red, R.drawable.marker_black };
+		Random generator = new Random();
+		marker_image_ = images[generator.nextInt(4)];
+	}
+
+	public MapMarker(GeoPoint p, Building building) {
+		p_ = p;
+		building_ = building;
+
+		// Select a random pin color
+		int images[] = { R.drawable.marker_yellow, R.drawable.marker_blue,
+				R.drawable.marker_red, R.drawable.marker_black };
 		Random generator = new Random();
 		marker_image_ = images[generator.nextInt(4)];
 	}
@@ -52,34 +57,34 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	 * Used to place the pin on the map
 	 */
 	public void drop_pin() {
-		List<Overlay> listOfOverlays = mapView_.getOverlays();
+		List<Overlay> listOfOverlays = Main.mapView_.getOverlays();
 		listOfOverlays.add(this);
 
-		mapView_.invalidate();
+		Main.mapView_.invalidate();
 	}
 
 	/**
 	 * Used to remove the pin from the map
 	 */
 	public void remove_pin() {
-		List<Overlay> listOfOverlays = mapView_.getOverlays();
+		List<Overlay> listOfOverlays = Main.mapView_.getOverlays();
 		listOfOverlays.remove(this);
-		mapView_.invalidate();
-
+		Main.mapView_.invalidate();
 	}
 
 	public void remove_all_overlays() {
-		List<Overlay> listOfOverlays = mapView_.getOverlays();
+		List<Overlay> listOfOverlays = Main.mapView_.getOverlays();
 		listOfOverlays.clear();
 
-		mapView_.invalidate();
+		Main.mapView_.invalidate();
 	}
 
 	/**
 	 * Called several times per second when the screen refreshes
 	 */
 	@Override
-	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
+	public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
+			long when) {
 		super.draw(canvas, mapView, shadow);
 
 		// convert GeoPoint to screen pixels
@@ -87,8 +92,20 @@ public class MapMarker extends com.google.android.maps.Overlay {
 		mapView.getProjection().toPixels(p_, screenPts);
 
 		// drop a random colored pin
-		Bitmap bmp = BitmapFactory.decodeResource(resources_, marker_image_);
+		Bitmap bmp = BitmapFactory.decodeResource(Main.resources_,
+				marker_image_);
 		canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 50, null);
+
+		// Does this marker represent a building?
+		if (building_ != null) {
+			Paint paint = new Paint();
+			paint.setStrokeWidth(2);
+			paint.setARGB(200, 0, 0, 0);
+			paint.setStyle(Paint.Style.FILL);
+			canvas.drawText(building_.getName(), screenPts.x - 20, screenPts.y,
+					paint);
+		}
+
 		return true;
 	}
 
@@ -96,8 +113,10 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	 * Called when this marker is double-clicked
 	 */
 	public void onDoubleTap() {
-		echo("You double tapped a marker!");
+		Intent i = new Intent(Main.context_, BuildingInfo.class);
+		i.putExtra("building_id", building_.hashCode());
 
+		Main.getInstance().startActivity(i);
 	}
 
 	/**
@@ -107,7 +126,8 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
 		super.onTouchEvent(event, mapView);
 
-		GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+		GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(),
+				(int) event.getY());
 
 		// are they are starting or stopping a drag?
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -117,7 +137,8 @@ public class MapMarker extends com.google.android.maps.Overlay {
 			int diff_long = p.getLongitudeE6() - p_.getLongitudeE6();
 
 			// Hit test
-			if (diff_lat < 800 && diff_lat > -50 && diff_long < 700 && diff_long > -150) {
+			if (diff_lat < 800 && diff_lat > -50 && diff_long < 700
+					&& diff_long > -150) {
 				if ((curTime - lastTap_) < 1500) {
 					onDoubleTap();
 					lastTap_ = 0;
@@ -132,15 +153,19 @@ public class MapMarker extends com.google.android.maps.Overlay {
 
 	/**
 	 * Prints a message to the screen for a few seconds
-	 * @param s String to print
+	 * 
+	 * @param s
+	 *            String to print
 	 */
 	public void echo(String s) {
-		Toast.makeText(context_, s, Toast.LENGTH_SHORT).show();
+		Main.echo(s);
 	}
 
 	/**
 	 * Prints a message to LogCat with tag='mad'
-	 * @param s String to print
+	 * 
+	 * @param s
+	 *            String to print
 	 */
 	public void trace(String s) {
 		Log.d("mad", s);
