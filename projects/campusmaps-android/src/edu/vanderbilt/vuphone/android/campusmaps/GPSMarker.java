@@ -21,8 +21,6 @@ package edu.vanderbilt.vuphone.android.campusmaps;
 import java.util.Calendar;
 import java.util.List;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -35,12 +33,8 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 /**
- * 
- * @author Adam Albright
- * 
- *         This class implements a marker/pin that can be placed and drug around
- *         on the map
- * 
+ * This class implements a marker/pin that can be placed and drug around on the
+ * map
  */
 public class GPSMarker extends com.google.android.maps.Overlay {
 	GeoPoint location_;
@@ -56,9 +50,9 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 	 * Used to place the marker on the map
 	 */
 	public void showMarker() {
-		if(showing_)
+		if (showing_)
 			return;
-		
+
 		List<Overlay> listOfOverlays = Main.mapView_.getOverlays();
 		listOfOverlays.add(this);
 
@@ -70,28 +64,29 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 	 * Used to remove the marker from the map
 	 */
 	public void hideMarker() {
-		if(!showing_)
+		if (!showing_)
 			return;
-		
+
 		List<Overlay> listOfOverlays = Main.mapView_.getOverlays();
 		listOfOverlays.remove(this);
-		
+
 		Main.mapView_.invalidate();
 		showing_ = false;
 	}
 
-	public void setLocation(GeoPoint p){
+	public void setLocation(GeoPoint p) {
 		location_ = p;
 	}
-	
+
 	/**
 	 * Called several times per second when the screen refreshes
 	 */
 	@Override
-	public boolean draw(Canvas canvas, MapView mapView, boolean shadow, long when) {
-		if(location_ == null || showing_ == false)
+	public boolean draw(Canvas canvas, MapView mapView, boolean shadow,
+			long when) {
+		if (location_ == null || showing_ == false)
 			return false;
-		
+
 		super.draw(canvas, mapView, shadow);
 
 		// convert GeoPoint to screen pixels
@@ -99,7 +94,8 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 		mapView.getProjection().toPixels(location_, screenPts);
 
 		// drop a random colored pin
-		Bitmap bmp = BitmapFactory.decodeResource(Main.resources_, R.drawable.blue_dot);
+		Bitmap bmp = BitmapFactory.decodeResource(Main.resources_,
+				R.drawable.blue_dot);
 		canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 10, null);
 		return true;
 	}
@@ -116,12 +112,13 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-		if(location_ == null || showing_ ==false)
+		if (location_ == null || showing_ == false)
 			return false;
-		
+
 		super.onTouchEvent(event, mapView);
 
-		GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+		GeoPoint p = mapView.getProjection().fromPixels((int) event.getX(),
+				(int) event.getY());
 
 		// are they are starting or stopping a drag?
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -132,7 +129,8 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 
 			// Hit test
 			// TODO update the hit-test ranges
-			if (diff_lat < 800 && diff_lat > -50 && diff_long < 700 && diff_long > -150) {
+			if (diff_lat < 800 && diff_lat > -50 && diff_long < 700
+					&& diff_long > -150) {
 				if ((curTime - lastTap_) < 1500) {
 					onDoubleTap();
 					lastTap_ = 0;
@@ -147,7 +145,9 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 
 	/**
 	 * Prints a message to the screen for a few seconds
-	 * @param s String to print
+	 * 
+	 * @param s
+	 *            String to print
 	 */
 	public void echo(String s) {
 		Main.echo(s);
@@ -155,7 +155,9 @@ public class GPSMarker extends com.google.android.maps.Overlay {
 
 	/**
 	 * Prints a message to LogCat with tag='mad'
-	 * @param s String to print
+	 * 
+	 * @param s
+	 *            String to print
 	 */
 	public void trace(String s) {
 		Log.d("mad", s);
