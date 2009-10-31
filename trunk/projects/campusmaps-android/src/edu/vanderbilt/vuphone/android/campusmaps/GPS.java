@@ -45,53 +45,51 @@ public class GPS implements LocationListener {
 
 		return instance_;
 	}
-	
+
 	/**
 	 * Initializes the GPS component
 	 */
-	public void initialize(LocationManager lm){
+	public void initialize(LocationManager lm) {
 		marker_ = new GPSMarker();
-		
-		try {
-			// Set the last known location
-			onLocationChanged(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-		} catch (Exception e) {
-			// TODO(corespace): Handle specific errors.
-		}
+
+		// Set the last known location
+		onLocationChanged(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
 
 		// Request to be notified whenever the user moves
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 2, this);	
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 2, this);
 	}
 
-	public void centerOnGPS(boolean t){
+	public void centerOnGPS(boolean t) {
 		centerOnGPS_ = t;
-		if(t && loc_ != null){
-			Main.centerMapAt(new GeoPoint((int) (loc_.getLatitude() * 1E6), (int) (loc_.getLongitude() * 1E6)));
+		if (t && loc_ != null) {
+			Main.centerMapAt(new GeoPoint((int) (loc_.getLatitude() * 1E6),
+					(int) (loc_.getLongitude() * 1E6)));
 		}
-		
+
 	}
+
 	/**
 	 * Called by the GPS service to inform us of the current position
 	 */
 
 	public void onLocationChanged(Location l) {
-		if(!l.equals(loc_)){
-			GeoPoint g = new GeoPoint((int) (l.getLatitude() * 1E6), (int) (l.getLongitude() * 1E6));
+		if (!l.equals(loc_)) {
+			GeoPoint g = new GeoPoint((int) (l.getLatitude() * 1E6), (int) (l
+					.getLongitude() * 1E6));
 			marker_.setLocation(g);
-			
-			if(centerOnGPS_)
+
+			if (centerOnGPS_)
 				Main.centerMapAt(g);
 			trace(l.getProvider());
-			
+
 			trace("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> "
-				+ l.getAccuracy() + "m");
-		}else{
+					+ l.getAccuracy() + "m");
+		} else {
 			trace("You haven't moved");
 		}
 
 		loc_ = l;
 	}
-
 
 	public void onProviderDisabled(String provider) {
 		trace("Provider Disabled" + provider);
@@ -107,21 +105,21 @@ public class GPS implements LocationListener {
 			trace("# of satellites:" + extras.getInt("satellites"));
 		}
 	}
-	
+
 	/**
 	 * Shows GPS maker on the map
 	 */
 	public void showMarker() {
 		marker_.showMarker();
 	}
-	
+
 	/**
 	 * Removes GPS maker from the map
 	 */
 	public void hideMarker() {
 		marker_.hideMarker();
 	}
-	
+
 	/**
 	 * Prints a message to LogCat with tag='mad'
 	 * 
@@ -131,5 +129,5 @@ public class GPS implements LocationListener {
 	public static void trace(String s) {
 		Main.trace(s);
 	}
-		
+
 }
