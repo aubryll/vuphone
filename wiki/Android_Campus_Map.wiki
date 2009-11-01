@@ -47,7 +47,7 @@ Future User Stories:
 
 === Oct 31, 2009 - ?===
 Kyle Liming:
- * See a settings menu with options
+ * <img src='http://ni2.in/tb/.png'/> See a settings menu with options
  * See a menu when selecting a building
 
 
