@@ -1,4 +1,4 @@
-#summary This page provides instructions for installing WreckWatch from using the APK
+#summary This page provides instructions for installing WreckWatch using the APK
 #labels Featured
 
 To install, download the APK file to your local machine and with the Android device connected, execute
