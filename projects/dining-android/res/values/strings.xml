@@ -2,5 +2,4 @@
 <resources>
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">Dining</string>
-    <string name="maps_api_key">0ehkwS3-BX5V9FDSJHiPda2ygqEiNEHHUnLU06g</string>
 </resources>
