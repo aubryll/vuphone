@@ -14,14 +14,11 @@
 
 
 @interface MapLayerController : NSObject {
-	//CLLocationCoordinate2D coordinate;
 	NSManagedObjectContext* managedObjectContext;
 	Layer *layer;
 }
 
--(id) initWithCoordinate: (CLLocationCoordinate2D) inputCoordinate objectContext: (NSManagedObjectContext*) context;
+- (id)initWithObjectContext:(NSManagedObjectContext *)context;
 - (void) addAnnotationsToMapView:(MKMapView*) mapView;
-
-//@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 @end

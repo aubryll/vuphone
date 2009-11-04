@@ -11,18 +11,19 @@
 
 @implementation MapLayerController
 
--(id) initWithCoordinate: (CLLocationCoordinate2D) inputCoordinate objectContext: (NSManagedObjectContext*) context {
+- (id)initWithObjectContext:(NSManagedObjectContext *)context
+{
 	if (self = [super init]) {
-		managedObjectContext = context;
+		managedObjectContext = [context retain];
+
+		POI *point = (POI *)[NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:managedObjectContext];
+		point.latitude = [NSNumber numberWithDouble:CAMPUS_CENTER_LATITUDE];
+		point.longitude = [NSNumber numberWithDouble:CAMPUS_CENTER_LONGITUDE];
 	
-		POI *point = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:managedObjectContext];
-		point.latitude = [NSNumber numberWithDouble:inputCoordinate.latitude];
-		point.longitude = [NSNumber numberWithDouble:inputCoordinate.longitude];
-	
-		layer = [NSEntityDescription insertNewObjectForEntityForName:@"Layer" inManagedObjectContext:managedObjectContext];
+		layer = (Layer *)[NSEntityDescription insertNewObjectForEntityForName:@"Layer" inManagedObjectContext:managedObjectContext];
 		[layer addPOIsObject:point];
-	
 	}
+
 	return self;
 }
 
@@ -36,6 +37,7 @@
 }
 
 - (void) dealloc {
+	[managedObjectContext release];
 	[super dealloc];
 }
 

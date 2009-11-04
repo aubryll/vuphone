@@ -7,7 +7,7 @@
 //
 
 #import "MapViewController.h"
-#import "MapLayerController.h"
+#import "POI.h"
 
 
 @implementation MapViewController
@@ -20,8 +20,6 @@
     }
     return self;
 }
-
-
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -41,18 +39,15 @@
 	
 	location.latitude = CAMPUS_CENTER_LATITUDE;
 	location.longitude = CAMPUS_CENTER_LONGITUDE;
-	
-	exampleLayer = [[MapLayerController alloc] initWithCoordinate:location objectContext:managedObjectContext];
-	
+	exampleLayer = [[MapLayerController alloc] initWithObjectContext:managedObjectContext];
+
 	region.span = span;
 	region.center = location;
 
 	[mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
 	[exampleLayer addAnnotationsToMapView:mapView];
-	
 	//[self.view insertSubview:mapView atIndex:0];
-
 }
 
 
@@ -92,7 +87,7 @@
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
 	annView.animatesDrop = YES;
-	return annView;
+	return [annView autorelease];
 }
 
 - (void)dealloc {

@@ -11,9 +11,6 @@
 #import <MapKit/MKAnnotation.h>
 #import "MapLayerController.h"
 
-#define CAMPUS_CENTER_LATITUDE 36.146671
-#define CAMPUS_CENTER_LONGITUDE -86.803709
-
 @interface MapViewController : UIViewController <MKMapViewDelegate> {
 
 	MapLayerController* exampleLayer;
@@ -25,6 +22,6 @@
 
 - (IBAction)changeType:(id) sender;
 
-@property (retain) NSManagedObjectContext* managedObjectContext;
+@property (retain) NSManagedObjectContext *managedObjectContext;
 
 @end
