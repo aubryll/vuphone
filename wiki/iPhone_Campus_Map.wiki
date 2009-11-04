@@ -27,8 +27,8 @@ You can come to either meeting
 
 Users can:
 Map: Guy
- * see a map of campus
- * pan and zoom the map using single- and multi-touch gestures
+ * see a map of campus -c
+ * pan and zoom the map using single- and multi-touch gestures -c
  * see the app decked out with a Vanderbilt color scheme
 Layers: Ben, AJ
  * tap a button from the map view that will display the list of layers
