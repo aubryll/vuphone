@@ -19,8 +19,12 @@
 	UIButton * flipViewButton;
 	BOOL mapViewRunning;
 	
+	NSManagedObjectContext *managedObjectContext;	    
+
 }
 
 -(void)instantiateFlipViewButton;
+
+@property (retain) NSManagedObjectContext *managedObjectContext;
 
 @end

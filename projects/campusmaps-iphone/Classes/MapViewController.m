@@ -42,14 +42,14 @@
 	location.latitude = CAMPUS_CENTER_LATITUDE;
 	location.longitude = CAMPUS_CENTER_LONGITUDE;
 	
-	exampleLayer = [[MapLayerController alloc] initWithCoordinate:location];
+	exampleLayer = [[MapLayerController alloc] initWithCoordinate:location objectContext:managedObjectContext];
 	
 	region.span = span;
 	region.center = location;
 
 	[mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
-	[mapView addAnnotation:exampleLayer];
+	[exampleLayer addAnnotationsToMapView:mapView];
 	
 	//[self.view insertSubview:mapView atIndex:0];
 
@@ -101,5 +101,7 @@
     [super dealloc];
 }
 
+
+@synthesize managedObjectContext;
 
 @end

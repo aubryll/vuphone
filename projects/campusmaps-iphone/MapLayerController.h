@@ -9,14 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <MapKit/MKAnnotation.h>
+#import "POI.h"
+#import "Layer.h"
 
 
-@interface MapLayerController : NSObject <MKAnnotation> {
-	CLLocationCoordinate2D coordinate;
+@interface MapLayerController : NSObject {
+	//CLLocationCoordinate2D coordinate;
+	NSManagedObjectContext* managedObjectContext;
+	Layer *layer;
 }
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D) inputCoordinate;
+-(id) initWithCoordinate: (CLLocationCoordinate2D) inputCoordinate objectContext: (NSManagedObjectContext*) context;
+- (void) addAnnotationsToMapView:(MKMapView*) mapView;
 
-@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+//@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 @end

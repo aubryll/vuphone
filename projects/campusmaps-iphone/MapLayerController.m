@@ -11,19 +11,33 @@
 
 @implementation MapLayerController
 
-- (MapLayerController*)initWithCoordinate:(CLLocationCoordinate2D)inputCoordinate {
-	[super init];
+-(id) initWithCoordinate: (CLLocationCoordinate2D) inputCoordinate objectContext: (NSManagedObjectContext*) context {
+	if (self = [super init]) {
+		managedObjectContext = context;
 	
-	coordinate = inputCoordinate;
+		POI *point = [NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:managedObjectContext];
+		point.latitude = [NSNumber numberWithDouble:inputCoordinate.latitude];
+		point.longitude = [NSNumber numberWithDouble:inputCoordinate.longitude];
+	
+		layer = [NSEntityDescription insertNewObjectForEntityForName:@"Layer" inManagedObjectContext:managedObjectContext];
+		[layer addPOIsObject:point];
+	
+	}
 	return self;
 }
 
+- (void) addAnnotationsToMapView:(MKMapView*) mapView {
+	NSEnumerator *enumerator = [layer.POIs objectEnumerator];
+	POI* point;
+	
+	while (point = [enumerator nextObject]) {
+		[mapView addAnnotation:point];
+	}
+}
 
 - (void) dealloc {
 	[super dealloc];
 }
-
-@synthesize coordinate;
 
 
 @end

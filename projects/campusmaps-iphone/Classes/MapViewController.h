@@ -16,7 +16,7 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate> {
 
-	MapLayerController *exampleLayer;
+	MapLayerController* exampleLayer;
 	
 	IBOutlet UISegmentedControl* mapType;
 	IBOutlet MKMapView* mapView;
