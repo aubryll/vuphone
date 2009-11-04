@@ -19,7 +19,9 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
-    // Override point for customization after app launch    
+    // Override point for customization after app launch   
+	baseViewController.managedObjectContext = [self managedObjectContext];
+	
 	[window addSubview:baseViewController.view];
 	[window makeKeyAndVisible];
 }

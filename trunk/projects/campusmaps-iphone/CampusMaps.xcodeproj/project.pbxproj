@@ -14,6 +14,8 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28C3AD8A0F43EF2300507BA6 /* CampusMaps.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* CampusMaps.xcdatamodel */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
+		3332F9D410A13B89003D35B8 /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D110A13B89003D35B8 /* Layer.m */; };
+		3332F9D510A13B89003D35B8 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D310A13B89003D35B8 /* POI.m */; };
 		337049681082E17B00E0520A /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337049671082E17B00E0520A /* MapLayerController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
@@ -35,6 +37,10 @@
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* CampusMaps_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampusMaps_Prefix.pch; sourceTree = "<group>"; };
+		3332F9D010A13B89003D35B8 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
+		3332F9D110A13B89003D35B8 /* Layer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Layer.m; sourceTree = "<group>"; };
+		3332F9D210A13B89003D35B8 /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POI.h; sourceTree = "<group>"; };
+		3332F9D310A13B89003D35B8 /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POI.m; sourceTree = "<group>"; };
 		337049661082E17B00E0520A /* MapLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapLayerController.h; path = ../MapLayerController.h; sourceTree = "<group>"; };
 		337049671082E17B00E0520A /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapLayerController.m; path = ../MapLayerController.m; sourceTree = "<group>"; };
 		338387CA1081479400F56AEB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -69,6 +75,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3332F9CF10A13B89003D35B8 /* Model */,
 				6FF14B6810882752006A9C5B /* BaseViewController.h */,
 				6FF14B6910882752006A9C5B /* BaseViewController.m */,
 				337049661082E17B00E0520A /* MapLayerController.h */,
@@ -132,6 +139,17 @@
 				28D801B30F44B63D00FB423F /* CoreData.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3332F9CF10A13B89003D35B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3332F9D010A13B89003D35B8 /* Layer.h */,
+				3332F9D110A13B89003D35B8 /* Layer.m */,
+				3332F9D210A13B89003D35B8 /* POI.h */,
+				3332F9D310A13B89003D35B8 /* POI.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		6F211BDD10884E4A003F009F /* XIBs */ = {
@@ -206,6 +224,8 @@
 				337049681082E17B00E0520A /* MapLayerController.m in Sources */,
 				6FF14B6B10882752006A9C5B /* BaseViewController.m in Sources */,
 				6F9F4DD8108829790073F75D /* ListViewController.m in Sources */,
+				3332F9D410A13B89003D35B8 /* Layer.m in Sources */,
+				3332F9D510A13B89003D35B8 /* POI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -30,6 +30,8 @@
 	
 	self.view.center = CGPointMake(160.0, 230.0);
 	
+	mapViewController.managedObjectContext = [self managedObjectContext];
+	
 	[self.view addSubview:mapViewController.view];
 	mapViewRunning = YES;	
 	
@@ -113,5 +115,6 @@
     [super dealloc];
 }
 
+@synthesize managedObjectContext;
 
 @end
