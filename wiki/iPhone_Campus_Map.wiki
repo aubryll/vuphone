@@ -67,5 +67,4 @@ Users would love to eventually at some distant point in the future:
  * Parking
  * Trees
  * Wi-Fi strength
- * Sprint signal strength
  * VandyVan routes
