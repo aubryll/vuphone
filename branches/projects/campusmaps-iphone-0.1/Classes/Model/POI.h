@@ -22,6 +22,8 @@
 @property (nonatomic, retain) NSDecimalNumber * latitude;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) Layer * layer;
+@property (nonatomic, retain) NSString * subtitle;
+@property (nonatomic, retain) NSString * details;
 
 //@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 

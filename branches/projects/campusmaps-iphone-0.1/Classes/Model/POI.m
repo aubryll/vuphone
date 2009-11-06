@@ -16,6 +16,8 @@
 @dynamic latitude;
 @dynamic layer;
 @dynamic name;
+@dynamic subtitle;
+@dynamic details;
 
 -(CLLocationCoordinate2D)coordinate {
 	CLLocationCoordinate2D coord;
