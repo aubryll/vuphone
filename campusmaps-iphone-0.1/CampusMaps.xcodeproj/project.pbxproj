@@ -16,6 +16,8 @@
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		3332F9D410A13B89003D35B8 /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D110A13B89003D35B8 /* Layer.m */; };
 		3332F9D510A13B89003D35B8 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D310A13B89003D35B8 /* POI.m */; };
+		3335285610A3EA3300D4F1A2 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */; };
+		3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */; };
 		337049681082E17B00E0520A /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337049671082E17B00E0520A /* MapLayerController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
@@ -41,6 +43,9 @@
 		3332F9D110A13B89003D35B8 /* Layer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Layer.m; sourceTree = "<group>"; };
 		3332F9D210A13B89003D35B8 /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POI.h; sourceTree = "<group>"; };
 		3332F9D310A13B89003D35B8 /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POI.m; sourceTree = "<group>"; };
+		3335285310A3EA3300D4F1A2 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
+		3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
+		3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultViewController.xib; sourceTree = "<group>"; };
 		337049661082E17B00E0520A /* MapLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapLayerController.h; path = ../MapLayerController.h; sourceTree = "<group>"; };
 		337049671082E17B00E0520A /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapLayerController.m; path = ../MapLayerController.m; sourceTree = "<group>"; };
 		338387CA1081479400F56AEB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
@@ -75,6 +80,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3335285310A3EA3300D4F1A2 /* SearchResultViewController.h */,
+				3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */,
 				3332F9CF10A13B89003D35B8 /* Model */,
 				6FF14B6810882752006A9C5B /* BaseViewController.h */,
 				6FF14B6910882752006A9C5B /* BaseViewController.m */,
@@ -158,6 +165,7 @@
 				6F211BCB10884D90003F009F /* ListViewController.xib */,
 				6F211BCC10884D90003F009F /* MainWindow.xib */,
 				6F211BCD10884D90003F009F /* MapViewController.xib */,
+				3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -207,6 +215,7 @@
 				6F211BCE10884D90003F009F /* ListViewController.xib in Resources */,
 				6F211BCF10884D90003F009F /* MainWindow.xib in Resources */,
 				6F211BD010884D90003F009F /* MapViewController.xib in Resources */,
+				3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +235,7 @@
 				6F9F4DD8108829790073F75D /* ListViewController.m in Sources */,
 				3332F9D410A13B89003D35B8 /* Layer.m in Sources */,
 				3332F9D510A13B89003D35B8 /* POI.m in Sources */,
+				3335285610A3EA3300D4F1A2 /* SearchResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +282,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -286,6 +297,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
