@@ -42,9 +42,9 @@ Handles marker taps: Demetri
  * see an image related to annotation selected when viewing the annotation's details
 
 Locations: Joshua
+ * browse a list of locations
  * see a search interface for the location
  * search for a location by name
- * browse a list of locations
 NOTE: somebody needs to work on the data model while others work on the UI separately, and they need to be merged
 
 Users would love to eventually at some distant point in the future:
