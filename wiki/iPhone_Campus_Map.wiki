@@ -29,6 +29,7 @@ Users can:
 Map: Guy
  * _see a map of campus_
  * _pan and zoom the map using single- and multi-touch gestures_
+ * tap a button that will move the map view to the center of campus and zoom to fit campus
  * see the app decked out with a Vanderbilt color scheme
 Layers: Ben, AJ
  * tap a button from the map view that will display the list of layers
