@@ -32,20 +32,20 @@ Map: Guy
  * tap a button that will move the map view to the center of campus and zoom to fit campus
  * see the app decked out with a Vanderbilt color scheme
 Layers: Ben, AJ
- * tap a button from the map view that will display the list of layers
- * select a layer from a list of layers to display on the map
+ * tap a button that will display the list of layers
+ * select a layer from a list of layers to display that one layer on the map
  * see the location markers on a layer
- * hide or show multiple layers from a list of layers
 Handles marker taps: Demetri
  * tap a location's marker to see title
  * tap a location marker's title to see the following details: title, description, coordinate
  * see the annotation's details formatted as a list
  * see an image related to annotation selected when viewing the annotation's details
-
 Locations: Joshua
- * browse a list of locations
  * see a search interface for the location
- * search for a location by name
+ * search for a location by name, hiding all locations that don't match
+ * cancel the search, restoring all previously shown locations
+ * swipe through search results
+ * be panned to the annotation of the currently shown search result
 NOTE: somebody needs to work on the data model while others work on the UI separately, and they need to be merged
 
 Users would love to eventually at some distant point in the future:
