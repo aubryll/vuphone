@@ -26,27 +26,27 @@ You can come to either meeting
 = User Stories =
 
 Users can:
+
 Map: Guy
  * _see a map of campus_
  * _pan and zoom the map using single- and multi-touch gestures_
- * tap a button that will move the map view to the center of campus and zoom to fit campus
- * see the app decked out with a Vanderbilt color scheme
+ * *tap a button that will move the map view to the center of campus and zoom to fit campus*
+ * *see the app decked out with a Vanderbilt color scheme*
 Layers: Ben, AJ
- * tap a button that will display the list of layers
+ * *see the markers from the currently chosen layer*
+ * *tap a button that will display the list of layers*
  * select a layer from a list of layers to display that one layer on the map
- * see the location markers on a layer
 Handles marker taps: Demetri
- * tap a location's marker to see title
- * tap a location marker's title to see the following details: title, description, coordinate
+ * *tap a location's marker to see its title and subtitle*
+ * tap a location marker's title to see the following details: title, details, coordinate
  * see the annotation's details formatted as a list
  * see an image related to annotation selected when viewing the annotation's details
 Locations: Joshua
- * see a search interface for the location
+ * *see a search interface to search for POIs on the currently selected layer*
  * search for a location by name, hiding all locations that don't match
  * cancel the search, restoring all previously shown locations
  * swipe through search results
  * be panned to the annotation of the currently shown search result
-NOTE: somebody needs to work on the data model while others work on the UI separately, and they need to be merged
 
 Users would love to eventually at some distant point in the future:
  * rotate the device to reorient the map into portrait or landscape orientation
