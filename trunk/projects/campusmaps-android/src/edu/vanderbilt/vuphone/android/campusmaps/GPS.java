@@ -73,7 +73,7 @@ public class GPS implements LocationListener {
 	 */
 
 	public void onLocationChanged(Location l) {
-		if (!l.equals(loc_)) {
+		if (l != null && !l.equals(loc_)) {
 			GeoPoint g = new GeoPoint((int) (l.getLatitude() * 1E6), (int) (l
 					.getLongitude() * 1E6));
 			marker_.setLocation(g);
@@ -84,11 +84,11 @@ public class GPS implements LocationListener {
 
 			trace("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> "
 					+ l.getAccuracy() + "m");
+		
+			loc_ = l;
 		} else {
 			trace("You haven't moved");
 		}
-
-		loc_ = l;
 	}
 
 	public void onProviderDisabled(String provider) {
