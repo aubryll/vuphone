@@ -54,17 +54,16 @@ public class Main extends MapActivity {
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
 	private static final int MENU_SETTINGS = 3;
-	private static final int MENU_CENTER_GPS = 2;
 	private static final int MENU_BUILDING_LIST = 1;
 	private static final int MENU_MAP_MODE_GROUP = 0;
 	public static MapView mapView_;
 	private static MapController mc_;
 	private GeoPoint p_;
 	private PathOverlay poLayer_ = null;
-	private static Main instance_;
-	public static Context context_;
-	public static Resources resources_;
-	public GPS gps_;
+	private static Main instance_ = null;
+	public static Context context_ = null;
+	public static Resources resources_ = null;
+	public static GPS gps_ = null;
 
 	/**
 	 * Called when the activity is first created. Enables user to zoom in/out of
@@ -80,7 +79,7 @@ public class Main extends MapActivity {
 
 		setContentView(R.layout.main);
 		mapView_ = (MapView) findViewById(R.id.mapview);
-		mapView_.setBuiltInZoomControls(true);
+		mapView_.setBuiltInZoomControls(false);
 
 		poLayer_ = new PathOverlay(mapView_);
 
@@ -176,9 +175,7 @@ public class Main extends MapActivity {
 		mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
 		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings").setIcon(
 				android.R.drawable.ic_menu_agenda);
-		menu.add(0, 2, MENU_CENTER_GPS, "Center on GPS").setIcon(
-				android.R.drawable.ic_menu_view);
-		menu.add(0, 3, MENU_SETTINGS, "Settings").setIcon(
+		menu.add(0, 2, MENU_SETTINGS, "Settings").setIcon(
 				android.R.drawable.ic_menu_preferences);
 		return true;
 	}
@@ -235,10 +232,6 @@ public class Main extends MapActivity {
 		case (MENU_BUILDING_LIST):
 			Intent i = new Intent(this, BuildingList.class);
 			startActivity(i);
-			break;
-
-		case (MENU_CENTER_GPS):
-			gps_.centerOnGPS(!gps_.centerOnGPS_);
 			break;
 
 		case (MENU_SETTINGS):
