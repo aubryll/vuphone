@@ -28,8 +28,8 @@ You can come to either meeting
 Users can:
 
 Map: Guy
- * _see a map of campus_
- * _pan and zoom the map using single- and multi-touch gestures_
+ * <img src='http://ni2.in/tb/.png'/> see a map of campus
+ * <img src='http://ni2.in/tb/.png'/> pan and zoom the map using single- and multi-touch gestures
  * *tap a button that will move the map view to the center of campus and zoom to fit campus*
  * *see the app decked out with a Vanderbilt color scheme*
 Layers: Ben, AJ
