@@ -11,13 +11,14 @@ Aaron Thompson
 
 Users can:
 1st Build (Sept. 9 – Sept. 19)
- * Submit events using the Events module View a map overlay of events matching their current filters
- * Filter events based on location Ex: My location, Featheringill, Commons
- * View a list of events matching their current filters
- * View / Modify their current filters
+ * <img src='http://ni2.in/tb/.png'/> Submit events using the Events module
+ * <img src='http://ni2.in/tb/.png'/> View a map overlay of events matching their current filters
+ * <img src='http://ni2.in/tb/.png'/> Filter events based on location Ex: My location, Featheringill, Commons
+ * <img src='http://ni2.in/tb/.png'/> View a list of events matching their current filters
+ * <img src='http://ni2.in/tb/.png'/> View / Modify their current filters
 Sept 21 – group check in with mentor 2nd Build (Sept. 20 – Oct. 3)
  * Filter events based on meta data provided (tags). Ex: free food, live music
- * Filter events based on time Ex: right now, tonight, tomorrow, this weekend
+ * <img src='http://ni2.in/tb/.png'/> Filter events based on time Ex: right now, tonight, tomorrow, this weekend
 Oct. 4 – group check in with mentor 3rd Build (Oct. 4 – Oct. 17)
  * Submit events through web interface with information such as location (building name, possibly room, translated to lat/lon upon reaching the server), date, time, target audience and other meta data.
  * Access information pulled from university sites like Common Place and the Calendar.
@@ -32,12 +33,6 @@ Nov. 1 – group check in with mentor 5th Build (Nov. 1 – Nov. 14)
 device
  * Add the event to the device calendar
 Nov. 15 – group check in with mentor 6th Build (Nov. 15 – Nov. 28)
- * Edit events which they created
+ * <img src='http://ni2.in/tb/.png'/> Edit events which they created
  * Edit events using a web interface
  * Invite others to be able to edit events
-
-Map:
- * <img src='http://ni2.in/tb/.png'/> see a map of campus
- * <img src='http://ni2.in/tb/.png'/> pan and zoom the map using single- and multi-touch gestures
- * *tap a button that will move the map view to the center of campus and zoom to fit campus*
- * *see the app decked out with a Vanderbilt color scheme*
