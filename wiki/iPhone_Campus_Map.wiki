@@ -45,7 +45,8 @@ Locations: Joshua
  * *see a search interface to search for POIs on the currently selected layer*
  * search for a location by name, hiding all locations that don't match
  * cancel the search, restoring all previously shown locations
- * swipe through search results
+ * see the first search result in a view that slides up at the bottom of the window
+ * swipe to see more search results
  * be panned to the annotation of the currently shown search result
 
 Users would love to eventually at some distant point in the future:
