@@ -20,7 +20,6 @@ Sept 21 – group check in with mentor 2nd Build (Sept. 20 – Oct. 3)
  * Filter events based on meta data provided (tags). Ex: free food, live music
  * <img src='http://ni2.in/tb/.png'/> Filter events based on time Ex: right now, tonight, tomorrow, this weekend
 Oct. 4 – group check in with mentor 3rd Build (Oct. 4 – Oct. 17)
- * Submit events through web interface with information such as location (building name, possibly room, translated to lat/lon upon reaching the server), date, time, target audience and other meta data.
  * Access information pulled from university sites like Common Place and the Calendar.
  * Access events pulled from Social Media Services such as Facebook and Twitter
 Oct. 18 – group check in with mentor 4th Build (Oct. 18 – Oct. 31)
