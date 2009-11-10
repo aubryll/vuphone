@@ -30,7 +30,6 @@ Nov. 1 – group check in with mentor 5th Build (Nov. 1 – Nov. 14)
  * Associate an event with a Facebook event
  * Invite other students to the event through the app, displaying a push-type notification on the receiving students
 device
- * Add the event to the device calendar
 Nov. 15 – group check in with mentor 6th Build (Nov. 15 – Nov. 28)
  * <img src='http://ni2.in/tb/.png'/> Edit events which they created
  * Edit events using a web interface
