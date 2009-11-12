@@ -42,8 +42,8 @@ Handles marker taps: Demetri
  * see the annotation's details formatted as a list
  * see an image related to annotation selected when viewing the annotation's details
 Locations: Joshua
- * *see a search interface to search for POIs on the currently selected layer*
- * search for a location by name, hiding all locations that don't match
+ * <img src='http://ni2.in/tb/.png'/> see a search interface to search for POIs on the currently selected layer
+ * *search for a location by name, hiding all locations that don't match*
  * cancel the search, restoring all previously shown locations
  * see the first search result in a view that slides up at the bottom of the window
  * swipe to see more search results
