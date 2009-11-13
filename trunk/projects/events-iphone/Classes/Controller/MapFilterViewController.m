@@ -18,6 +18,9 @@
 	[dateFormatter setDateFormat:@"MMM d"];
 
 	// Set the default filter parameters
+	startDayNumber = -1;
+	endDayNumber = -1;
+	
 	self.startDayNumber = 0;
 	self.endDayNumber = 30;
 	self.tags = [NSMutableArray array];

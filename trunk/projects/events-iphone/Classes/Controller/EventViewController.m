@@ -11,7 +11,8 @@
 #import "VUTableViewController.h"
 #import "VUEditableCellController.h"
 #import "VUStartEndDateCellController.h"
-#import "VULocationCellController.h"
+#import "LocationCellController.h"
+#import "EventRatingsCellController.h"
 #import "RemoteEventLoader.h"
 #import "EntityConstants.h"
 #import "NSManagedObject-IsNew.h"
@@ -24,9 +25,6 @@
     [super viewDidLoad];
 	
 	dateFormatter = [[NSDateFormatter alloc] init];
-	
-	// Set up KVC for the Event
-	
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -150,15 +148,17 @@
 			break;
 		case 2:	// Location
 			cell.detailTextLabel.text = event.location.name;
-			((VULocationCellController *)[[tableGroups objectAtIndex:2] objectAtIndex:0]).location = event.location;
+			((LocationCellController *)[[tableGroups objectAtIndex:2] objectAtIndex:0]).location = event.location;
 			break;
 		case 3:	// Details
 			((VUEditableCell *)cell).textField.text = event.details;
 			((VUEditableCellController *)[[tableGroups objectAtIndex:3] objectAtIndex:0]).value = event.details;
 			break;
-		case 4:	// URL
-			((VUEditableCell *)cell).textField.text = event.url;
-			((VUEditableCellController *)[[tableGroups objectAtIndex:4] objectAtIndex:0]).value = event.url;
+		case 4: // Ratings
+			((EventRatingsCellController *)[[tableGroups objectAtIndex:4] objectAtIndex:0]).ratings = event.ratings;
+		case 5:	// URL
+//			((VUEditableCell *)cell).textField.text = event.url;
+			((VUEditableCellController *)[[tableGroups objectAtIndex:5] objectAtIndex:0]).value = event.url;
 			break;
 	}
 
@@ -168,8 +168,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	switch (indexPath.section) {
-		case 4: // URL
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:event.url]];
+		case 5: // URL
+			if (event.url != nil) {
+				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:event.url]];
+			}
 			break;
 		default:
 			break;
@@ -190,7 +192,7 @@
 	NSArray *dateGroup = [NSArray arrayWithObject:[[[VUStartEndDateCellController alloc] init] autorelease]];
 
 	// Location
-	VULocationCellController *locationC = [[VULocationCellController alloc] init];
+	LocationCellController *locationC = [[LocationCellController alloc] init];
 	locationC.location = self.event.location;
 	NSArray *locationGroup = [NSArray arrayWithObject:[locationC autorelease]];
 
@@ -199,21 +201,16 @@
 	ecc.delegate = self;
 	NSArray *detailsGroup = [NSArray arrayWithObject:[ecc autorelease]];
 	
+	// Ratings
+	EventRatingsCellController *ercc = [[EventRatingsCellController alloc] init];
+	NSArray *ratingsGroup = [NSArray arrayWithObject:[ercc autorelease]];
+	
 	// URL
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"URL"];
 	ecc.delegate = self;
 	NSArray *urlGroup = [NSArray arrayWithObject:[ecc autorelease]];
 
-	tableGroups = [[NSArray arrayWithObjects:nameGroup, dateGroup, locationGroup, detailsGroup, urlGroup, nil] retain];
-}
-
-- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (indexPath.section == 1) {
-		return 88.0;
-	} else {
-		return 44.0;
-	}
+	tableGroups = [[NSArray arrayWithObjects:nameGroup, dateGroup, locationGroup, detailsGroup, ratingsGroup, urlGroup, nil] retain];
 }
 
 - (void)cellControllerValueChanged:(id)newValue {
@@ -235,7 +232,7 @@
 	[anEvent setDetails:[self valueForVUEditableTableViewRow:0 inSection:3]];
 	
 	// URL
-	[anEvent setUrl:[self valueForVUEditableTableViewRow:0 inSection:4]];
+	[anEvent setUrl:[self valueForVUEditableTableViewRow:0 inSection:5]];
 }
 
 - (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section

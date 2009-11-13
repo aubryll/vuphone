@@ -13,7 +13,7 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	return 88.0;
+	return VUStartEndDateCellHeight;
 }
 
 - (void)setStartDate:(NSDate *)date {

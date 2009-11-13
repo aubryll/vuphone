@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "VUCellController.h"
-#import "Location.h"
+#import "EventRating.h"
 
-@interface VULocationCellController : UIViewController <VUCellController> {
+@interface VUURLCellController : UIViewController <VUCellController> {
 
-	Location *location;
-	
-	BOOL isEditable;
+	NSURL *url;
 }
 
-@property (nonatomic, retain) Location *location;
+@property (nonatomic, retain) NSURL *url;
 
 @end

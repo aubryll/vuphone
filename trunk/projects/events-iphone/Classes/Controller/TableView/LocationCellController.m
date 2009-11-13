@@ -6,12 +6,12 @@
 //  Copyright 2009 Iostudio, LLC. All rights reserved.
 //
 
-#import "VULocationCellController.h"
+#import "LocationCellController.h"
 #import "LocationListViewController.h"
 #import "LocationViewController.h"
 #import "VUEditableCell.h"
 
-@implementation VULocationCellController
+@implementation LocationCellController
 
 //
 // tableView:didSelectRowAtIndexPath:
