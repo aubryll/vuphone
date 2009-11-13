@@ -238,7 +238,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					20,
-					488,
+					468,
 					20,
 					48,
 					43,
@@ -282,21 +282,19 @@
 			PBXWorkspaceStateSaveDate = 279833542;
 		};
 		perUserProjectItems = {
-			6122505710ACD52D0074B05D = 6122505710ACD52D0074B05D /* PBXTextBookmark */;
-			6122507110ACE1FC0074B05D = 6122507110ACE1FC0074B05D /* PBXTextBookmark */;
-			6122509210ACE4550074B05D = 6122509210ACE4550074B05D /* PBXTextBookmark */;
-			612250DE10AD24310074B05D = 612250DE10AD24310074B05D /* PBXTextBookmark */;
-			612250FC10AD282A0074B05D = 612250FC10AD282A0074B05D /* PBXTextBookmark */;
-			612250FD10AD282A0074B05D = 612250FD10AD282A0074B05D /* PBXTextBookmark */;
-			6122510210AD28710074B05D = 6122510210AD28710074B05D /* PBXTextBookmark */;
-			6122510310AD28710074B05D = 6122510310AD28710074B05D /* PBXTextBookmark */;
-			6122510910AD28DE0074B05D = 6122510910AD28DE0074B05D /* PBXTextBookmark */;
-			6122510A10AD28DE0074B05D = 6122510A10AD28DE0074B05D /* PBXTextBookmark */;
-			6122511710AD29730074B05D = 6122511710AD29730074B05D /* PBXTextBookmark */;
-			6122518410ADEBC20074B05D = 6122518410ADEBC20074B05D /* PBXTextBookmark */;
-			6122518510ADEBC20074B05D = 6122518510ADEBC20074B05D /* PBXBookmark */;
-			6122518710ADEBC20074B05D = 6122518710ADEBC20074B05D /* PBXBookmark */;
-			6122519310ADEBD10074B05D /* PBXTextBookmark */ = 6122519310ADEBD10074B05D /* PBXTextBookmark */;
+			6122505710ACD52D0074B05D /* PBXTextBookmark */ = 6122505710ACD52D0074B05D /* PBXTextBookmark */;
+			6122507110ACE1FC0074B05D /* PBXTextBookmark */ = 6122507110ACE1FC0074B05D /* PBXTextBookmark */;
+			6122509210ACE4550074B05D /* PBXTextBookmark */ = 6122509210ACE4550074B05D /* PBXTextBookmark */;
+			612250DE10AD24310074B05D /* PBXTextBookmark */ = 612250DE10AD24310074B05D /* PBXTextBookmark */;
+			612250FC10AD282A0074B05D /* PBXTextBookmark */ = 612250FC10AD282A0074B05D /* PBXTextBookmark */;
+			612250FD10AD282A0074B05D /* PBXTextBookmark */ = 612250FD10AD282A0074B05D /* PBXTextBookmark */;
+			6122510210AD28710074B05D /* PBXTextBookmark */ = 6122510210AD28710074B05D /* PBXTextBookmark */;
+			6122510310AD28710074B05D /* PBXTextBookmark */ = 6122510310AD28710074B05D /* PBXTextBookmark */;
+			6122510910AD28DE0074B05D /* PBXTextBookmark */ = 6122510910AD28DE0074B05D /* PBXTextBookmark */;
+			6122510A10AD28DE0074B05D /* PBXTextBookmark */ = 6122510A10AD28DE0074B05D /* PBXTextBookmark */;
+			6122511710AD29730074B05D /* PBXTextBookmark */ = 6122511710AD29730074B05D /* PBXTextBookmark */;
+			6122518410ADEBC20074B05D /* PBXTextBookmark */ = 6122518410ADEBC20074B05D /* PBXTextBookmark */;
+			612251A510ADEED90074B05D /* PBXTextBookmark */ = 612251A510ADEED90074B05D /* PBXTextBookmark */;
 		};
 		sourceControlManager = 61F779D1105472140071CA64 /* Source Control */;
 		userBuildSettings = {
@@ -489,29 +487,7 @@
 		vrLen = 1875;
 		vrLoc = 1052;
 	};
-	6122518510ADEBC20074B05D /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 6122518610ADEBC20074B05D /* star.png */;
-	};
-	6122518610ADEBC20074B05D /* star.png */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = image.png;
-		name = star.png;
-		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Icons/star.png";
-		sourceTree = "<absolute>";
-	};
-	6122518710ADEBC20074B05D /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 6122518810ADEBC20074B05D /* star.png */;
-	};
-	6122518810ADEBC20074B05D /* star.png */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = image.png;
-		name = star.png;
-		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Icons/star.png";
-		sourceTree = "<absolute>";
-	};
-	6122519310ADEBD10074B05D /* PBXTextBookmark */ = {
+	612251A510ADEED90074B05D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 6122504710ACD3740074B05D /* EventRatingsCellController.m */;
 		name = "EventRatingsCellController.m: 66";
@@ -1037,8 +1013,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {501, 220}}",
-							"{{506, 0}, {264, 220}}",
+							"{{0, 0}, {474, 220}}",
+							"{{479, 0}, {250, 220}}",
 						);
 					};
 					diagramSplitGeometry = {
@@ -1047,8 +1023,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {770, 220}}",
-							"{{0, 225}, {770, 556}}",
+							"{{0, 0}, {729, 220}}",
+							"{{0, 225}, {729, 556}}",
 						);
 					};
 					tableSplitGeometry = {
@@ -1057,8 +1033,8 @@
 						_percentageOfCollapsedView = 0;
 						isCollapsed = yes;
 						sizes = (
-							"{{0, 0}, {163, 220}}",
-							"{{168, 0}, {331, 220}}",
+							"{{0, 0}, {155, 220}}",
+							"{{160, 0}, {314, 220}}",
 						);
 					};
 				};
@@ -1155,7 +1131,7 @@
 					);
 				};
 				"xdesign model browser state key - shown/hidden" = 1;
-				"xdesign model diagram view visible rect key" = "{{-18, -15}, {755, 541}}";
+				"xdesign model diagram view visible rect key" = "{{0, -15}, {714, 541}}";
 			};
 			sepNavWindowFrame = "{{2387, 186}, {719, 701}}";
 		};
