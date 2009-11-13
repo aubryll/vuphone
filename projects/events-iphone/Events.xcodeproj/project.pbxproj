@@ -14,13 +14,17 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
-		612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F7E22106821AE00239F6B /* VULocationCellController.m */; };
+		6122504810ACD3740074B05D /* EventRatingsCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6122504710ACD3740074B05D /* EventRatingsCellController.m */; };
+		6122505510ACD5150074B05D /* EventRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 6122505410ACD5150074B05D /* EventRating.m */; };
+		6122505610ACD5150074B05D /* EventRating.m in Sources */ = {isa = PBXBuildFile; fileRef = 6122505410ACD5150074B05D /* EventRating.m */; };
+		612250C210ACEA150074B05D /* VUURLCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612250C110ACEA150074B05D /* VUURLCellController.m */; };
+		612250C310ACEA150074B05D /* VUURLCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612250C110ACEA150074B05D /* VUURLCellController.m */; };
+		612F7E23106821AE00239F6B /* LocationCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F7E22106821AE00239F6B /* LocationCellController.m */; };
 		612F82DC106D442A00239F6B /* EventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F82DB106D442A00239F6B /* EventStoreTests.m */; };
 		612F8359106EBEB200239F6B /* sampleEventRequestResponse.xml in Resources */ = {isa = PBXBuildFile; fileRef = 612F8358106EBEB200239F6B /* sampleEventRequestResponse.xml */; };
 		612F8385106ECC8600239F6B /* EventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F82DB106D442A00239F6B /* EventStoreTests.m */; };
 		612F83B5106ED31600239F6B /* VULocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F83B4106ED31600239F6B /* VULocationTests.m */; };
 		612F84A2106F071800239F6B /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 612F84A1106F071800239F6B /* MapView.xib */; };
-		614876F3109A76B400A6A6EE /* VUEventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 614876F2109A76B400A6A6EE /* VUEventListCell.m */; };
 		614876F5109A76D800A6A6EE /* VUEventListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 614876F4109A76D800A6A6EE /* VUEventListCell.xib */; };
 		615BFAF7105CC106005497F9 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AC105770A0009481D6 /* Event.m */; };
 		615BFAF9105CC127005497F9 /* RemoteEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */; };
@@ -85,15 +89,19 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Events_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Events_Prefix.pch; sourceTree = "<group>"; };
 		61125E8C1064868B00247A75 /* Events-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Events-Info.plist"; sourceTree = "<group>"; };
-		612F7E21106821AE00239F6B /* VULocationCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VULocationCellController.h; path = TableView/VULocationCellController.h; sourceTree = "<group>"; };
-		612F7E22106821AE00239F6B /* VULocationCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VULocationCellController.m; path = TableView/VULocationCellController.m; sourceTree = "<group>"; };
+		6122504610ACD3740074B05D /* EventRatingsCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventRatingsCellController.h; path = TableView/EventRatingsCellController.h; sourceTree = "<group>"; };
+		6122504710ACD3740074B05D /* EventRatingsCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventRatingsCellController.m; path = TableView/EventRatingsCellController.m; sourceTree = "<group>"; };
+		6122505310ACD5150074B05D /* EventRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventRating.h; sourceTree = "<group>"; };
+		6122505410ACD5150074B05D /* EventRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventRating.m; sourceTree = "<group>"; };
+		612250C010ACEA150074B05D /* VUURLCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUURLCellController.h; path = TableView/VUURLCellController.h; sourceTree = "<group>"; };
+		612250C110ACEA150074B05D /* VUURLCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUURLCellController.m; path = TableView/VUURLCellController.m; sourceTree = "<group>"; };
+		612F7E21106821AE00239F6B /* LocationCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocationCellController.h; path = TableView/LocationCellController.h; sourceTree = "<group>"; };
+		612F7E22106821AE00239F6B /* LocationCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocationCellController.m; path = TableView/LocationCellController.m; sourceTree = "<group>"; };
 		612F829B106D2C3D00239F6B /* VUCellControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUCellControllerDelegate.h; path = TableView/VUCellControllerDelegate.h; sourceTree = "<group>"; };
 		612F82DB106D442A00239F6B /* EventStoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventStoreTests.m; path = Tests/EventStoreTests.m; sourceTree = "<group>"; };
 		612F8358106EBEB200239F6B /* sampleEventRequestResponse.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sampleEventRequestResponse.xml; sourceTree = "<group>"; };
 		612F83B4106ED31600239F6B /* VULocationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VULocationTests.m; path = Tests/VULocationTests.m; sourceTree = "<group>"; };
 		612F84A1106F071800239F6B /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapView.xib; path = XIBs/MapView.xib; sourceTree = "<group>"; };
-		614876F1109A76B400A6A6EE /* VUEventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUEventListCell.h; sourceTree = "<group>"; };
-		614876F2109A76B400A6A6EE /* VUEventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUEventListCell.m; sourceTree = "<group>"; };
 		614876F4109A76D800A6A6EE /* VUEventListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUEventListCell.xib; sourceTree = "<group>"; };
 		615BFB1C105D5863005497F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		615BFB24105D58B0005497F9 /* EventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
@@ -103,8 +111,6 @@
 		615BFC7F105DA0DA005497F9 /* VUStartEndDateCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUStartEndDateCellController.h; path = TableView/VUStartEndDateCellController.h; sourceTree = "<group>"; };
 		615BFC80105DA0DA005497F9 /* VUStartEndDateCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUStartEndDateCellController.m; path = TableView/VUStartEndDateCellController.m; sourceTree = "<group>"; };
 		615BFEC7105DFE1E005497F9 /* VUStartEndDatePickerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUStartEndDatePickerDelegate.h; sourceTree = "<group>"; };
-		615DABCA1088374400566919 /* Events 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Events 2.xcdatamodel"; sourceTree = "<group>"; };
-		615DABCD1088374800566919 /* Events 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Events 3.xcdatamodel"; sourceTree = "<group>"; };
 		6160F58E1082EDAE00C7C3F8 /* SourcesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourcesViewController.h; sourceTree = "<group>"; };
 		6160F58F1082EDAE00C7C3F8 /* SourcesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourcesViewController.m; sourceTree = "<group>"; };
 		6160F5901082EDAE00C7C3F8 /* SourcesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SourcesView.xib; path = Classes/Controller/SourcesView.xib; sourceTree = "<group>"; };
@@ -145,8 +151,8 @@
 		61F77A071054D0500071CA64 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
 		61F77A8C105545F60071CA64 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61F77A911055463C0071CA64 /* VUEventTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUEventTests.m; path = Tests/VUEventTests.m; sourceTree = "<group>"; };
-		61F77AC310554E640071CA64 /* EventListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListViewController.h; path = ../EventListViewController.h; sourceTree = "<group>"; };
-		61F77AC410554E640071CA64 /* EventListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListViewController.m; path = ../EventListViewController.m; sourceTree = "<group>"; };
+		61F77AC310554E640071CA64 /* EventListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventListViewController.h; sourceTree = "<group>"; };
+		61F77AC410554E640071CA64 /* EventListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventListViewController.m; sourceTree = "<group>"; };
 		61F77B011055570A0071CA64 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		61F77B0A105557400071CA64 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		61F77B4410555B040071CA64 /* EntityConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityConstants.h; sourceTree = "<group>"; };
@@ -166,6 +172,7 @@
 		61F77BB0105569120071CA64 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringAdditions.m; path = KissXML/NSStringAdditions.m; sourceTree = "<group>"; };
 		61F77BB610556A860071CA64 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		61F77BB710556A860071CA64 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Events 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,10 +291,14 @@
 				615BFBE7105D898C005497F9 /* VUTableViewController.m */,
 				61BBB83A10580743009481D6 /* VUEditableCellController.h */,
 				61BBB83B10580743009481D6 /* VUEditableCellController.m */,
-				612F7E21106821AE00239F6B /* VULocationCellController.h */,
-				612F7E22106821AE00239F6B /* VULocationCellController.m */,
+				612F7E21106821AE00239F6B /* LocationCellController.h */,
+				612F7E22106821AE00239F6B /* LocationCellController.m */,
+				6122504610ACD3740074B05D /* EventRatingsCellController.h */,
+				6122504710ACD3740074B05D /* EventRatingsCellController.m */,
 				615BFC7F105DA0DA005497F9 /* VUStartEndDateCellController.h */,
 				615BFC80105DA0DA005497F9 /* VUStartEndDateCellController.m */,
+				612250C010ACEA150074B05D /* VUURLCellController.h */,
+				612250C110ACEA150074B05D /* VUURLCellController.m */,
 				6160F63A10838FE900C7C3F8 /* VUSourceTableViewCell.h */,
 				6160F63B10838FE900C7C3F8 /* VUSourceTableViewCell.m */,
 			);
@@ -304,8 +315,6 @@
 				61BBB7E510580004009481D6 /* VUStartEndDateCell.h */,
 				61BBB7E610580004009481D6 /* VUStartEndDateCell.m */,
 				615BFEC7105DFE1E005497F9 /* VUStartEndDatePickerDelegate.h */,
-				614876F1109A76B400A6A6EE /* VUEventListCell.h */,
-				614876F2109A76B400A6A6EE /* VUEventListCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -326,6 +335,8 @@
 			children = (
 				61BBB6AB105770A0009481D6 /* Event.h */,
 				61BBB6AC105770A0009481D6 /* Event.m */,
+				6122505310ACD5150074B05D /* EventRating.h */,
+				6122505410ACD5150074B05D /* EventRating.m */,
 				61BBB6AD105770A0009481D6 /* Location.h */,
 				61BBB6AE105770A0009481D6 /* Location.m */,
 				61F77B4410555B040071CA64 /* EntityConstants.h */,
@@ -511,12 +522,14 @@
 				615BFC81105DA0DA005497F9 /* VUStartEndDateCellController.m in Sources */,
 				61F112B31066EFA200AA3F38 /* LocationListViewController.m in Sources */,
 				61F112C61067415600AA3F38 /* LocationViewController.m in Sources */,
-				612F7E23106821AE00239F6B /* VULocationCellController.m in Sources */,
+				612F7E23106821AE00239F6B /* LocationCellController.m in Sources */,
 				612F82DC106D442A00239F6B /* EventStoreTests.m in Sources */,
 				61DF569A108141A2000A7B1D /* MapFilterViewController.m in Sources */,
 				6160F5911082EDAE00C7C3F8 /* SourcesViewController.m in Sources */,
 				6160F63C10838FE900C7C3F8 /* VUSourceTableViewCell.m in Sources */,
-				614876F3109A76B400A6A6EE /* VUEventListCell.m in Sources */,
+				6122504810ACD3740074B05D /* EventRatingsCellController.m in Sources */,
+				6122505510ACD5150074B05D /* EventRating.m in Sources */,
+				612250C210ACEA150074B05D /* VUURLCellController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +549,8 @@
 				615BFB27105D58B0005497F9 /* EventStore.m in Sources */,
 				612F8385106ECC8600239F6B /* EventStoreTests.m in Sources */,
 				612F83B5106ED31600239F6B /* VULocationTests.m in Sources */,
+				6122505610ACD5150074B05D /* EventRating.m in Sources */,
+				612250C310ACEA150074B05D /* VUURLCellController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -700,10 +715,9 @@
 			isa = XCVersionGroup;
 			children = (
 				28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */,
-				615DABCA1088374400566919 /* Events 2.xcdatamodel */,
-				615DABCD1088374800566919 /* Events 3.xcdatamodel */,
+				61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */,
 			);
-			currentVersion = 28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */;
+			currentVersion = 61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */;
 			path = Events.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

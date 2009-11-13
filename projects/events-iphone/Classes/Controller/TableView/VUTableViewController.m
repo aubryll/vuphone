@@ -65,7 +65,6 @@
 //
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	NSLog(@"numberOfSectionsInTableView: %i", [tableGroups count]);
 	if (!tableGroups)
 	{
 		[self constructTableGroups];
@@ -137,6 +136,19 @@
 	
 	return UITableViewCellEditingStyleNone;
 }
+
+- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	NSObject<VUCellController> *cell = [[tableGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	if ([cell respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)])
+	{
+		return [cell tableView:aTableView heightForRowAtIndexPath:indexPath];
+	}
+	
+	return 44.0f;
+}
+
+
 
 - (void)beginEditingFields {
 	isEditingFields = YES;

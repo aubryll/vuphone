@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define VUStartEndDateCellHeight 74.0f
+
 @interface VUStartEndDateCell : UITableViewCell
 {
 	IBOutlet UILabel *startTextLabel;

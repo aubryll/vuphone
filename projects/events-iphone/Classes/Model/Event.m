@@ -10,8 +10,6 @@
 #import "Location.h"
 #import "EntityConstants.h"
 
-static NSDateFormatter *dateFormatter;
-
 @implementation Event 
 
 @dynamic ownerAndroidId;
@@ -23,6 +21,7 @@ static NSDateFormatter *dateFormatter;
 @dynamic endTime;
 @dynamic location;
 @dynamic serverId;
+@dynamic ratings;
 
 + (NSArray *)allSources {
 	return [NSArray arrayWithObjects:
@@ -35,10 +34,8 @@ static NSDateFormatter *dateFormatter;
 }
 
 - (NSString *)startDateString {
-	if (!dateFormatter) {
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateFormat:@"eeee, MMMM d"];
-	}
+	NSDateFormatter	*dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	[dateFormatter setDateFormat:@"eeee, MMMM d"];
 	
 	if (self.startTime) {
 		return [dateFormatter stringFromDate:self.startTime];
@@ -68,9 +65,6 @@ static NSDateFormatter *dateFormatter;
 	
 - (void)dealloc
 {
-	if (dateFormatter) {
-		[dateFormatter release];
-	}
 	[super dealloc];
 }
 

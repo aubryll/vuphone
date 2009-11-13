@@ -24,13 +24,24 @@
 @property (nonatomic, retain) NSDate * endTime;
 @property (nonatomic, retain) Location * location;
 @property (nonatomic, retain) NSString * serverId;
+@property (nonatomic, retain) NSSet* ratings;
 
 + (NSArray *)allSources;
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId;
 - (NSString *)title;
 - (NSString *)subtitle;
 
+
 @property (nonatomic, readonly, getter=startDateString) NSString *startDateString;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+
+@end
+
+@interface Event (CoreDataGeneratedAccessors)
+
+- (void)addEventsObject:(Event *)value;
+- (void)removeEventsObject:(Event *)value;
+- (void)addEvents:(NSSet *)value;
+- (void)removeEvents:(NSSet *)value;
 
 @end
