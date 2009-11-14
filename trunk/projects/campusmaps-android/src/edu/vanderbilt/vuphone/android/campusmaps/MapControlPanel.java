@@ -1,3 +1,21 @@
+/**
+ * Android Campus Maps
+ *  http://code.google.com/p/vuphone/
+ * 
+ * @author Adam Albright
+ * @date Nov 07, 2009
+ * 
+ * Copyright 2009 VUPhone Team
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License. 
+ *  You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *  Unless required by applicable law or agreed to in writing, software 
+ *  distributed under the License is distributed on an "AS IS" BASIS, 
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+ *  implied. See the License for the specific language governing 
+ *  permissions and limitations under the License. 
+ */
+
 package edu.vanderbilt.vuphone.android.campusmaps;
 
 import android.content.Context;
@@ -10,21 +28,31 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-public class TransparentPanel extends LinearLayout {
+/*
+ * This class provides an overlay panel to control the MapView
+ */
+public class MapControlPanel extends LinearLayout {
 	private Paint innerPaint, borderPaint;
-	private boolean init = false;
 
-	public TransparentPanel(Context context, AttributeSet attrs) {
+	/*
+	 * init: used to indicate if the panel buttons have been configured
+	 */
+	private boolean buttonsInitialized = false;
+
+	public MapControlPanel(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init();
+		initializeCanvas();
 	}
 
-	public TransparentPanel(Context context) {
+	public MapControlPanel(Context context) {
 		super(context);
-		init();
+		initializeCanvas();
 	}
 
-	private void init() {
+	/*
+	 * Initializes the overlay panel for the map
+	 */
+	private void initializeCanvas() {
 		innerPaint = new Paint();
 		innerPaint.setARGB(225, 75, 75, 75); // gray
 		innerPaint.setAntiAlias(true);
@@ -36,8 +64,11 @@ public class TransparentPanel extends LinearLayout {
 		borderPaint.setStrokeWidth(2);
 	}
 
-	public void setupButtons() {
-		init = true;
+	/*
+	 * Configures the panel buttons once the canvas has been initialized
+	 */
+	public void initializeButtons() {
+		buttonsInitialized = true;
 
 		ImageButton zoomIn = (ImageButton) findViewById(R.id.button_zoom_in);
 		ImageButton zoomOut = (ImageButton) findViewById(R.id.button_zoom_out);
@@ -65,10 +96,13 @@ public class TransparentPanel extends LinearLayout {
 		});
 	}
 
+	/*
+	 * Called whenever the panel is to be redrawn
+	 */
 	@Override
 	protected void dispatchDraw(Canvas canvas) {
-		if (!init)
-			setupButtons();
+		if (!buttonsInitialized)
+			initializeButtons();
 
 		RectF drawRect = new RectF();
 		drawRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());

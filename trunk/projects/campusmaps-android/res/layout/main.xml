@@ -13,7 +13,7 @@
 		android:gravity="bottom" android:paddingLeft="5px" android:paddingTop="5px"
 		android:paddingRight="5px">
 
-		<edu.vanderbilt.vuphone.android.campusmaps.TransparentPanel
+		<edu.vanderbilt.vuphone.android.campusmaps.MapControlPanel
 			android:id="@+id/transparent_panel" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:paddingTop="5px"
 			android:paddingLeft="5px" android:paddingBottom="5px"
@@ -29,6 +29,6 @@
 			<ImageButton android:id="@+id/button_zoom_in"
 				android:layout_height="wrap_content" android:layout_width="80px" />
 
-		</edu.vanderbilt.vuphone.android.campusmaps.TransparentPanel>
+		</edu.vanderbilt.vuphone.android.campusmaps.MapControlPanel>
 	</LinearLayout>
 </RelativeLayout>
