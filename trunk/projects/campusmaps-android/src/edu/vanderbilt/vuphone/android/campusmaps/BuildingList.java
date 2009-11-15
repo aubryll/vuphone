@@ -24,9 +24,12 @@ import java.util.Iterator;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,18 +41,28 @@ public class BuildingList extends ListActivity {
 	private HashMap<Integer, Building> buildings_ = null;
 	private HashMap<Integer, Integer> indexToHash_ = null;
 
+	private EditText filterText = null;
+	ArrayAdapter<String> adapter = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.buildinglist);
+
+		filterText = (EditText) findViewById(R.building_list.search_box);
+		filterText.addTextChangedListener(filterTextWatcher);
+		
 		buildings_ = SharedData.getInstance().getBuildingList();
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, getBuildingList(null));
 		if (buildings_ == null || buildings_.size() < 1) {
 			echo("Building list not found!");
 		} else {
 			// TODO Create custom adapter so we can show more than just the
 			// building name
-			setListAdapter(new ArrayAdapter<String>(this,
-					android.R.layout.simple_list_item_1, getBuildingList(null)));
+
+			setListAdapter(adapter);
 		}
 
 		Log.d("mad", "Buildings loaded: " + buildings_.size());
@@ -68,6 +81,29 @@ public class BuildingList extends ListActivity {
 		Main.getInstance().drop_pin(b.getLocation(), b);
 
 		super.finish();
+	}
+	
+	private TextWatcher filterTextWatcher = new TextWatcher() {
+
+		public void afterTextChanged(Editable s) {
+		}
+
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+		}
+
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			String str = filterText.getText().toString();
+			Log.d("list", "Text is " + str);
+			adapter.getFilter().filter(s);
+		}
+		
+	};
+
+	@Override
+	protected void onDestroy() {
+		filterText.removeTextChangedListener(filterTextWatcher);
 	}
 
 	/**
