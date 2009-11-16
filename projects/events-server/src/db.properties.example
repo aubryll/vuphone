@@ -1,0 +1,3 @@
+db.host=jdbc:mysql://localhost/your_database_name
+db.username=normally root. Can be any mysql user with full access to the database
+db.password=users password
