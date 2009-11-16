@@ -10,6 +10,7 @@
 #import "VUStartEndDatePicker.h"
 #import "VUTableViewController.h"
 #import "VUEditableCellController.h"
+#import "VUURLCellController.h"
 #import "VUStartEndDateCellController.h"
 #import "LocationCellController.h"
 #import "EventRatingsCellController.h"
@@ -81,12 +82,28 @@
 
 - (IBAction)save:(id)sender
 {
-	NSLog(@"save");
+	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.rightBarButtonItem = editButton;
+	[self endEditingFields];
+	
 	[self getValuesFromTableIntoEvent:self.event];
+
+	if (event.location == nil)
+	{
+		// If the location is not set, show an alert message and bail
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"You must choose a location"
+															message:nil
+														   delegate:nil
+												  cancelButtonTitle:@"OK"
+												  otherButtonTitles:nil];
+		[alertView show];
+		[alertView release];
+		return;
+	}
 
 	// If this is a new event, set the device ID
 	if ([event isNew]) {
-		event.ownerAndroidId = [[UIDevice currentDevice] uniqueIdentifier];
+		event.ownerDeviceId = [[UIDevice currentDevice] uniqueIdentifier];
 	}
 
 	// Save the event to the persistent store
@@ -99,10 +116,6 @@
 	// Save the event to the server
 	[RemoteEventLoader submitEvent:self.event];
 	
-	self.navigationItem.leftBarButtonItem = nil;
-	self.navigationItem.rightBarButtonItem = editButton;
-	[self endEditingFields];
-
 	self.navigationItem.title = event.name;
 }
 
@@ -132,64 +145,21 @@
 
 #pragma mark Table view methods
 
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	UITableViewCell *cell = [super tableView:aTableView cellForRowAtIndexPath:indexPath];
-	
-	switch (indexPath.section) {
-		case 0:	// Title
-			((VUEditableCell *)cell).textField.text = event.name;
-			((VUEditableCellController *)[[tableGroups objectAtIndex:0] objectAtIndex:0]).value = event.name;
-			break;
-		case 1:	// Start/stop date
-			((VUStartEndDateCell *)cell).startDate = event.startTime;
-			((VUStartEndDateCell *)cell).endDate = event.endTime;
-			break;
-		case 2:	// Location
-			cell.detailTextLabel.text = event.location.name;
-			((LocationCellController *)[[tableGroups objectAtIndex:2] objectAtIndex:0]).location = event.location;
-			break;
-		case 3:	// Details
-			((VUEditableCell *)cell).textField.text = event.details;
-			((VUEditableCellController *)[[tableGroups objectAtIndex:3] objectAtIndex:0]).value = event.details;
-			break;
-		case 4: // Ratings
-			((EventRatingsCellController *)[[tableGroups objectAtIndex:4] objectAtIndex:0]).ratings = event.ratings;
-		case 5:	// URL
-//			((VUEditableCell *)cell).textField.text = event.url;
-			((VUEditableCellController *)[[tableGroups objectAtIndex:5] objectAtIndex:0]).value = event.url;
-			break;
-	}
-
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	switch (indexPath.section) {
-		case 5: // URL
-			if (event.url != nil) {
-				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:event.url]];
-			}
-			break;
-		default:
-			break;
-	}
-
-	[super tableView:tableView didSelectRowAtIndexPath:indexPath];
-}
-
 - (void)constructTableGroups
 {
 	VUEditableCellController *ecc;
 	// Name
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Name"];
 	ecc.delegate = self;
+	ecc.value = event.name;
 	NSArray *nameGroup = [NSArray arrayWithObject:[ecc autorelease]];
 	
 	// Date
-	NSArray *dateGroup = [NSArray arrayWithObject:[[[VUStartEndDateCellController alloc] init] autorelease]];
+	VUStartEndDateCellController *sedcc = [[[VUStartEndDateCellController alloc] init] autorelease];
+	sedcc.startDate = event.startTime;
+	sedcc.endDate = event.endTime;
+	
+	NSArray *dateGroup = [NSArray arrayWithObject:sedcc];
 
 	// Location
 	LocationCellController *locationC = [[LocationCellController alloc] init];
@@ -199,15 +169,18 @@
 	// Details
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Details"];
 	ecc.delegate = self;
+	ecc.value = event.details;
 	NSArray *detailsGroup = [NSArray arrayWithObject:[ecc autorelease]];
 	
 	// Ratings
 	EventRatingsCellController *ercc = [[EventRatingsCellController alloc] init];
+	ercc.ratings = event.ratings;
 	NSArray *ratingsGroup = [NSArray arrayWithObject:[ercc autorelease]];
 	
 	// URL
-	ecc = [[VUEditableCellController alloc] initWithLabel:@"URL"];
+	ecc = [[VUURLCellController alloc] initWithLabel:@"URL"];
 	ecc.delegate = self;
+	ecc.value = event.url;
 	NSArray *urlGroup = [NSArray arrayWithObject:[ecc autorelease]];
 
 	tableGroups = [[NSArray arrayWithObjects:nameGroup, dateGroup, locationGroup, detailsGroup, ratingsGroup, urlGroup, nil] retain];
@@ -246,7 +219,8 @@
 	if (event != newEvent) {
 		[event release];
 		event = [newEvent retain];
-		[myTableView reloadData];
+
+		[self updateAndReload];
 	}
 }
 

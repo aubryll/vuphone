@@ -120,6 +120,8 @@
 		NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:VUEntityPropertyNameName ascending:YES];
 		[request setSortDescriptors:[NSArray arrayWithObject:sort]];
 		[sort release];
+		
+		[request setPredicate:[mapFilterVC predicate]];
 
 		// Set up the fetched results controller
 		fetchedResultsC = [[NSFetchedResultsController alloc]

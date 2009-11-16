@@ -31,6 +31,20 @@
 
 	[window addSubview:[tabBarC view]];
 	[window makeKeyAndVisible];
+	
+	[self performSelectorInBackground:@selector(getEventsSinceLastUpdate:) withObject:context];
+}
+
+- (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+	// Get events from the server
+	[RemoteEventLoader getEventsFromServerSince:[NSDate date] intoContext:context];
+	NSError *err = nil;
+	[context save:&err];
+	
+	[pool release];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

@@ -27,14 +27,21 @@
 #import "RemoteEventLoader.h"
 #import "EntityConstants.h"
 
+@interface RemoteEventLoader (PrivateMethods)
+
++ (void)doSubmitEvent:(Event *)event;
+
+@end
+
+
 @implementation RemoteEventLoader
 
 + (NSArray *)eventsFromServerWithContext:(NSManagedObjectContext *)context
 {
-	return [RemoteEventLoader eventsFromServerSince:nil withContext:context];
+	return [RemoteEventLoader getEventsFromServerSince:nil intoContext:context];
 }
 
-+ (NSArray *)eventsFromServerSince:(NSDate *)date withContext:(NSManagedObjectContext *)context
++ (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context
 {	// Format the url string
 #ifndef SAMPLE_EVENT_REQUEST_RESPONSE
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -110,6 +117,13 @@
 
 + (void)submitEvent:(Event *)event
 {
+	[NSThread detachNewThreadSelector:@selector(doSubmitEvent:) toTarget:self withObject:event];
+}
+
++ (void)doSubmitEvent:(Event *)event
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
 	[urlString appendString:@"?type=eventpost"];
 	[urlString appendFormat:@"&locationlat=%f", [event.location.latitude doubleValue]];
@@ -147,6 +161,7 @@
 		}
 	}
 	
+	[pool release];
 }
 
 @end

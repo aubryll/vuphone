@@ -12,15 +12,17 @@
 #import "Event.h"
 #import "Location.h"
 
-#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
-#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
+//#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
+//#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
+#define EVENT_REQUEST_URL_STRING @"http://129.59.82.65:8080/vandyupon/events"
+#define EVENT_SUBMIT_URL_STRING @"http://129.59.82.65:8080/vandyupon/events"
 
 @interface RemoteEventLoader : NSObject {
 
 }
 
 + (NSArray *)eventsFromServerWithContext:(NSManagedObjectContext *)context;
-+ (NSArray *)eventsFromServerSince:(NSDate *)date withContext:(NSManagedObjectContext *)context;
++ (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event;
 + (void)submitEvent:(Event *)event;
 

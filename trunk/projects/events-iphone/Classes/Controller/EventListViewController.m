@@ -20,7 +20,7 @@
 //	[[self locationManager] startUpdatingLocation];
 	NSArray *sources = [Event allSources];
 
-	// Hard-coding the list of chosen source for now
+	// Hard-coding the list of chosen sources for now
 	NSMutableArray *tempChosenSources = [[NSMutableArray alloc] init];
 	[tempChosenSources addObject:[sources objectAtIndex:0]];
 	[tempChosenSources addObject:[sources objectAtIndex:1]];
@@ -195,25 +195,23 @@
 		[dateFormatter setDateFormat:@"h:mm"];
 	}
 	
-	// Set up the latitude/longitude formatter
-	static NSNumberFormatter *numberFormatter = nil;
-	if (numberFormatter == nil)
-	{
-		numberFormatter = [[NSNumberFormatter alloc] init];
-		[numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[numberFormatter setMaximumFractionDigits:3];
-	}
-	
 	// Add a shorter name label
-	UILabel *shorterTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 3.0, 216.0, 40.0)];
+	UILabel *shorterTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 3.0, 236.0, 40.0)];
 	shorterTextLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]+4.0];
 	shorterTextLabel.text = [event name];
 	[cell addSubview:shorterTextLabel];
 	[shorterTextLabel release];
 	
-	// Set the cell labels
-//	cell.textLabel.text = [event name];
-	cell.detailTextLabel.text = [dateFormatter stringFromDate:[event startTime]];
+	// Add a shorter time label
+	shorterTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(256.0, 3.0, 54.0, 40.0)];
+	shorterTextLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]+4.0];
+	shorterTextLabel.text = [dateFormatter stringFromDate:[event startTime]];
+	shorterTextLabel.textColor = [UIColor colorWithRed:56.0/255.0
+												 green:84.0/255.0
+												  blue:135.0/255.0
+												 alpha:1.0];
+	[cell addSubview:shorterTextLabel];
+	[shorterTextLabel release];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -300,6 +298,11 @@
 	[controller setSearchResultsDelegate:self];
 }
 
+- (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView
+{
+	[self filterContentForSearchText:@"" scope:@""];
+}
+
 #pragma mark Filtration
 
 // Takes an array of the currently chosen sources, then updates the results controller predicate and refetches
@@ -322,7 +325,7 @@
 }
 
 // Takes a string of the chosen filter text, then sets the results controller predicate and refetches
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+ - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
 {
 	if ([searchText length] > 0) {
 		[self setFilterPredicate:[NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText]];

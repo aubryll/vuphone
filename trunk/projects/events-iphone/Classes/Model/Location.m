@@ -34,6 +34,10 @@
 	return locations;
 }
 
+- (BOOL)isEditableByDeviceWithId:(NSString *)deviceId {
+	return [self.ownerDeviceId isEqualToString:deviceId];
+}
+
 #pragma mark MKAnnotation methods
 
 - (NSString *)title {
@@ -51,6 +55,7 @@
 	return coords;
 }
 
+@dynamic ownerDeviceId;
 @dynamic longitude;
 @dynamic name;
 @dynamic latitude;

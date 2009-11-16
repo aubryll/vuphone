@@ -14,6 +14,8 @@
 	IBOutlet UITextField *textField;
 }
 
+- (void)setEditable:(BOOL)editable;
+
 @property (nonatomic, retain) UILabel *textLabel;
 @property (nonatomic, retain) UITextField *textField;
 

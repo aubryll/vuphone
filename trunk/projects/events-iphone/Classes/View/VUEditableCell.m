@@ -10,10 +10,10 @@
 
 @implementation VUEditableCell
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+- (void)setEditable:(BOOL)editable
 {
-	textField.enabled = editing;
-	if (!editing) {
+	textField.enabled = editable;
+	if (!editable) {
 		[textField resignFirstResponder];
 	}
 }

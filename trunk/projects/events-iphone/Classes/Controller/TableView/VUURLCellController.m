@@ -20,16 +20,16 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-/*	UITableViewController *tvc = (UITableViewController *)tableView.dataSource;
-
-	// Push a LocationViewController
-	LocationViewController *controller = [[LocationViewController alloc] initWithNibName:@"LocationView" bundle:nil];
-	controller.location = self.location;
-	controller.isEditing = NO;
-	[tvc.navigationController pushViewController:controller animated:YES];
-	[controller release];
-*/
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	if (isEditable)
+	{
+		[super tableView:tableView didSelectRowAtIndexPath:indexPath];
+	}
+	else
+	{
+		if (url != nil) {
+			[[UIApplication sharedApplication] openURL:url];
+		}
+	}
 }
 
 //

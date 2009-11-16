@@ -22,5 +22,6 @@
 
 - (void)beginEditingFields;
 - (void)endEditingFields;
+- (void)updateAndReload;
 
 @end

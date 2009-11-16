@@ -72,7 +72,8 @@
 			[imageView release];
 		}
 	}
-
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"Rating";
 	
 	// Set up my own detailTextLabel

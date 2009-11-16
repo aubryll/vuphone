@@ -19,6 +19,7 @@
 }
 
 - (IBAction)saveAction:(id)sender;
+- (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
