@@ -1,0 +1,1561 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+X-WR-CALNAME:VU Calendar
+PRODID:-//Sitemason, Inc//Sitemason Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/78833
+SUMMARY:International Education Week\, Nov. 16-20
+DESCRIPTION:International Education Week (IEW) 2009 will be celebrated at Vanderbilt from Monday\, November 16th through Friday\, November 20th.  IEW is an opportunity to celebrate the benefits of international education and exchange worldwide. This joint initiative of the U.S. Department of State and the U.S. Department of Education is part of our efforts to promote programs that prepare Americans for a global environment and attract future leaders from abroad to study\, learn\, and exchange experiences in the United States. To read further about IEW\, go to\: http\://www.iew.state.gov/ [http\://www.iew.state.gov/]\nVisit International Student & Scholar Services online\, or call 322-2753 for other useful information.\n
+URL;VALUE=URI:http://www.registrar.vanderbilt.edu
+CATEGORIES:academic-calendar,dean-of-students,students
+CLASS:PUBLIC
+SEQUENCE:7
+DTSTAMP:20091116T135217
+CREATED:20090430T074244
+LAST-MODIFIED:20091112T142920
+ORGANIZER;CN=University Registrar:MAILTO:university.registrar@vanderbilt.edu
+DTSTART;VALUE=DATE:20091116
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/85087
+SUMMARY:Change Management
+DESCRIPTION:Nov. 16-18\nIn this three-day program\, Dr. Daft  [http\://www.owen.vanderbilt.edu/vanderbilt/About/faculty-research/f_profile.cfm?id=96] will present a hands-on\, action workshop draws the best insights and newest techniques from change research. Learn the frameworks\, models\, and strategies that will make your change project succeed. Learn to avoid the mistakes that foil other projects. Teaching methods include cases\, videos\, exercises\, simulation\, feedback questionnaires and mini-lectures. Attendees are encouraged to bring a change project about which to strategize and receive feedback from others.\nFee - Online Registration\, click here [http\://www.owen.vanderbilt.edu/vanderbilt/Programs/exec-ed/exec-registration/index.cfm]. Vanderbilt employees receive a 15% discount.\nFor additional information\, please contact Maureen Writesman @ 615-322-2513 or maureen.writesman@owen.vanderbilt.edu [javascript\:location.href='mailto\:'+String.fromCharCode(109\,97\,117\,114\,101\,101\,110\,46\,119\,114\,105\,116\,101\,115\,109\,97\,110\,64\,111\,119\,101\,110\,46\,118\,97\,110\,100\,101\,114\,98\,105\,108\,116\,46\,101\,100\,117)+'?']
+URL;VALUE=URI:http://www.owen.vanderbilt.edu
+LOCATION:Owen Graduate School of Management\, Room 204
+CATEGORIES:academics,conferencesmeetingsseminarstrainingworkshops,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20090724T060100
+LAST-MODIFIED:20091103T083511
+ORGANIZER;CN=Maureen Writesman:MAILTO:maureen.writesman@owen.vanderbilt.edu
+DTSTART:20091116T080000
+DTEND:20091116T163000
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20091118
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/84148
+SUMMARY:Intramural Pocket Billiards
+DESCRIPTION:How good are you at billiards?  Show off your skills and register.  Registration begins Nov. 16 thru Nov. 20.  Games begin Dec. 1.  You may register in the office of Campus Recreation located on the 2nd floor of the Student Rec. Center.  Office Hours are Monday thru Friday 9 a.m.-5 p.m.\n
+URL;VALUE=URI:http://www.vanderbilt.edu/campusrecreation/intramurals/calendar.html
+LOCATION:Student Recreation Center\, Room Office of Campus Recreation
+CATEGORIES:dean-of-students,student-recreationalintramural-schedules,students
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090710T140307
+LAST-MODIFIED:20090710T141034
+ORGANIZER;CN=Carla Mahlberg:MAILTO:carla.m.mahlberg@vanderbilt.edu
+DTSTART:20091116T090000
+DTEND:20091116T170000
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20091120
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95465
+SUMMARY:World Market Fair
+DESCRIPTION:Come do your holiday shopping at this market with international artisans selling their crafts including Ten Thousand Villages\, Scarritt Bennett Center\, and the Lost Boys of Sudan Foundation of Nashville.\nThis event is part of the ISSS [http\://www.vanderbilt.edu/isss/] International Education Week. 
+URL;VALUE=URI:http://www.vanderbilt.edu/isss/
+LOCATION:Sarratt Student Center\, Room Promenade
+CATEGORIES:arts,campus-life,ceremoniesfundraisingspecial-events,isss,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091102T114407
+LAST-MODIFIED:20091103T083248
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091116T100000
+DTEND:20091116T160000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95269
+SUMMARY:Senior Monday AND Ms. Cheap Dollar Day at the Frist
+DESCRIPTION:Want more for your money and a day of bargains and fun? Join us as we celebrate two important events\: Senior Monday AND Ms. Cheap Dollar Day.\nAdmission for everyone is $1.00 or free with the donation of non-perishable food items to Second Harvest [http\://www.secondharvestmidtn.org/].\nIn honor of Nashville&#39\;s own Ms. Cheap who offers great advice on value and penny pinching\, we&#39\;ve designated this day as Ms. Cheap Dollar Day. Look for Ms. Cheap one-day specials in the Frist Center Cafe and Gift Shop.\nSchedule of events\:\n11\:30 a.m. Docent tour of Georgia O&iacute\;Keeffe and Her Times exhibition\nNoon-1\:00 p.m. Live remote broadcast from the Grand Lobby with Harry Stephenson of WAMB Radio\n1\:00-2\:00 p.m. Live music in the Grand Lobby with Snappy Pappy\nNoon-1\:30 p.m. Ms. Cheap book signing in the Frist Center Gift Shop "99 Things to Save Money in Your Household Budget" (available for purchase in Frist Center Gift Shop)\n1\:30 p.m. Docent tour of Georgia O&iacute\;Keeffe and Her Times exhibition 
+URL;VALUE=URI:http://www.fristcenter.org
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091030T121834
+LAST-MODIFIED:20091112T084229
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091116T100000
+DTEND:20091116T173000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92471
+SUMMARY:Therapeutic Yoga for Fibromyalgia and Arthritis Pain
+DESCRIPTION:This class was designed with the close guidance of Roy Elam\, MD\; Tobi Fishel\, PhD\; and Chad Boomershine\, MD\, PhD. It will be taught with care focusing on each individual's needs. The series will begin very slowly focusing on breath and relaxation\, then moving into gentle stretching. Chairs\, cushions\, and yoga props will be used to help clients be as comfortable as possible.\nCost\: $54 for 6 Weeks / One class a week\nFor more information\: Call 615-322-7395
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090928T133022
+LAST-MODIFIED:20091002T094129
+ORGANIZER;CN=Emily Epstein:MAILTO:emily.epstein@vanderbilt.edu
+DTSTART:20091116T110000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96137
+SUMMARY:Guest Artist Master Class\: Bill Ludwig\, Bassoon
+DESCRIPTION:GUEST ARTIST MASTER CLASS\nInternationally renowned bassoonist Bill Ludwig\, Professor of Bassoon\, Indiana University
+URL;VALUE=URI:http://www.vanderbilt.edu/blair/calevents/index.html
+LOCATION:Blair\, Room 2190
+CATEGORIES:arts,blair,music,myvuf
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20091109T171559
+LAST-MODIFIED:20091112T113431
+ORGANIZER;CN=Chrissy Smith:MAILTO:christine.m.smith.3@vanderbilt.edu
+DTSTART:20091116T120000
+DTEND:20091116T140000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/93841
+SUMMARY:Pediatric Research Conference\: Dr. Christine E. L. Dammann
+DESCRIPTION:"Type II cell plasticity"\nChristine E. L. Dammann\, MD\nAssociate Professor of Pediatrics\nDirector\, Neonatal-Perinatal Fellowship Program\,\nDivision of Newborn Medicine\nFloating Hospital for Children\nTufts Medical Center\, Boston\, MD\n
+URL;VALUE=URI:
+LOCATION:Children's Hospital - Wadlington Conference Room\, Room A+B
+CATEGORIES:medical-center,vanderbilt-childrens-hospital,vch-faculty-and-staff
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091015T101218
+LAST-MODIFIED:20091015T113358
+ORGANIZER;CN=Mette Smith:MAILTO:mette.smith@vanderbilt.edu
+DTSTART:20091116T120000
+DTEND:20091116T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95675
+SUMMARY:Center in Molecular Toxicology Seminar\: Dr. Brandt Eichman
+DESCRIPTION:Dr. Brandt Eichman will present "Structural Insights Into Protection Against DNA Alkylation Damage"
+URL;VALUE=URI:http://www.toxicology.mc.vanderbilt.edu
+LOCATION:Light Hall (School of Medicine)\, Room 512
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091104T121717
+LAST-MODIFIED:20091104T140246
+ORGANIZER;CN=Wil Comstock:MAILTO:wil.comstock@vanderbilt.edu
+DTSTART:20091116T120000
+DTEND:20091116T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96904
+SUMMARY:Memorial for Peabody staff member Judy Piner Nov. 16
+DESCRIPTION:A memorial service will be held for Judy Piner\, a Plant Operations employee\, Nov. 16 at 1\:30 p.m. in the Wyatt Center Rotunda. All members of the Vanderbilt community and the public are welcome to attend.\nPiner was beloved by the students\, faculty and staff with whom she worked as housekeeper in the Peabody Administration Building\, and was known to bring holiday-themed treats to all those who worked in the building every holiday. She had been a Vanderbilt employee since 1996.\nPiner died Nov. 6.\n [mailto\:melanie.moran@vanderbilt.edu]
+URL;VALUE=URI:
+LOCATION:Wyatt Center (Faye and Joe B. Wyatt Center for Education)\, Room Wyatt Center Rotund
+CATEGORIES:ceremoniesfundraisingspecial-events,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:1
+DTSTAMP:20091116T135217
+CREATED:20091112T084617
+LAST-MODIFIED:20091112T084621
+DTSTART:20091116T133000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95749
+SUMMARY:Bonnie Kae Surmi - Dissertation Defense
+DESCRIPTION:"The Role of Macrophage Inflammatory Protein-1· in Leukocyte Infiltration of White Adipose Tissue"\nBonnie Kae Surmi\, Molecular Physiology & Biophysics (Professor Owen P. McGuinness\, Chair of the Ph.D. Committee)
+URL;VALUE=URI:
+LOCATION:Medical Research Building II (Preston Research Building)\, Room 206
+CATEGORIES:academics,dissertation-defense-notices,graduate-school
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091105T084207
+LAST-MODIFIED:20091105T103238
+ORGANIZER;CN=Graduate School:MAILTO:linda.harris@vanderbilt.edu
+DTSTART:20091116T140000
+DTEND:20091116T160000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/81475
+SUMMARY:Therapeutic Yoga
+DESCRIPTION:Presenter\: Emily Epstein\nTherapeutic yoga classes include a slow and easy pace to help aid the body in relaxation and the healing process. This class is appropriate for anyone with chronic pain or a condition that limits physical mobility. Chairs\, cushions\, blankets\, and other yoga props will be used to make each pose appropriate for the individual. Breathing techniques and meditation will also be a part of the classes. *Therapeutic Yoga Basics Series recommended if no prior yoga experience*\n  $10 Drop-in / $54 6 Class Card / $108 12 Class Card\n  Schedule of Classes [http\://staging.vanderbilthealth.com/integrativehealth/calendar/calendar_events.html]\n  For information\, call 615-322-7395 or email Emily Epstein\, emily.lange@vanderbilt.edu [mailto\:emily.lange@vanderbilt.edu].\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090601T103137
+LAST-MODIFIED:20090827T144900
+ORGANIZER;CN=Emily Epstein :MAILTO:emily.lange@vanderbilt.edu
+DTSTART:20091116T160000
+DTEND:20091116T170000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95597
+SUMMARY:Jane Landers\: "The Material Culture of Maroons\: Case Studies from 17th-Century Ecuador\, Colombia\, and Mexico"
+DESCRIPTION:\nThis presentation is part of the 2009-2010 Vanderbilt History Seminar\: The Historical Life of Things.\nReception to follow seminar.\nDiscussion at each event will be based on a pre-circulated paper available in the Department of History\, Benson 227. For questions\, or to be added to the email distribution list\, please contact Monte Holman at 322-6323 or monte.holman@vanderbilt.edu [mailto\:monte.holman@vanderbilt.edu].\nGary Gerstle is the Director of the Vanderbilt History Seminar. Please visit http\://www.vanderbilt.edu/historydept/seminar.html [http\://www.vanderbilt.edu/historydept/seminar.html] to view a complete list of this year&#39\;s presenters.\n
+URL;VALUE=URI:http://www.vanderbilt.edu/historydept/seminar.html
+LOCATION:Sarratt Student Center\, Room 216/220
+CATEGORIES:academics,colloquiumslecturesmeetingssymposiums,myvuf,programsspeakers,university
+CLASS:PUBLIC
+SEQUENCE:7
+DTSTAMP:20091116T135217
+CREATED:20091103T143119
+LAST-MODIFIED:20091111T143155
+ORGANIZER;CN=Monte Holman:MAILTO:monte.holman@vanderbilt.edu
+DTSTART:20091116T161000
+DTEND:20091116T174500
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/86106
+SUMMARY:Teaching Workshop\: Writing a Teaching Statement
+DESCRIPTION:Teaching workshops\, facilitated by CFT Graduate Teaching Fellows\, focus on issues particularly relevant to first-time teachers and are intended for graduate and professional students and post-doctoral fellows. Drawing on research-based approaches\, workshop facilitators will enable participants to identify and address common challenges and opportunities in their teaching practice.\nSince going on the job market often enough includes that you will have to be able to articulate your principle teaching values for a search committee of some kind\, this session will help you identify your core teaching principles and how they influence your teaching practice (current and anticipated). You will engage in questions such as &#39\;What is a teaching statement? What purpose does it serve on the job market and beyond?&#39\;  And finally\, &#39\;How can I create an effective teaching statement tailored to my specific purposes?&#39\;\n
+URL;VALUE=URI:http://www.vanderbilt.edu/cft/programs/workshops/index.htm
+LOCATION:Center for Teaching (1114 19th Avenue South)\, Room CFT Experimental Classroom
+CATEGORIES:academics,as,center-for-teaching,conferencesmeetingsseminarstrainingworkshops,myvuf
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20090806T101250
+LAST-MODIFIED:20091103T083800
+ORGANIZER;CN=Melissa Krasnove:MAILTO:melissa.s.krasnove@vanderbilt.edu
+DTSTART:20091116T161000
+DTEND:20091116T173000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95466
+SUMMARY:Professor Michael Newton discusses International Humanitarian Law
+DESCRIPTION:The Vanderbilt Chapter of the American Red Cross welcomes Michael Newton\, Vanderbilt Professor of Law to discuss International Humanitarian Law and the Geneva Convention.\nDid you know that International Humanitarian Law is an important part of the Red Cross mission? Dr. Michael Newton\, a world expert on International Humanitarian Law (IHL)\, will be holding a talk on behalf of the American Red Cross and ISSS about IHL and Geneva Conventions as a way to celebrate International Education Week.\nThis is an excellent opportunity to learn more about international issues and policies from someone who has traveled the globe and done a great deal of research. You definitely need to take advantage of this opportunity!\nThis event is part of ISSS [http\://www.vanderbilt.edu/isss/] International Education Week 
+URL;VALUE=URI:http://www.vanderbilt.edu/isss/
+LOCATION:Stevenson Science Center\, Room 4309
+CATEGORIES:campus-life,dean-of-students,isss,myvuf,student-organizations,student-organizations-grouped-calendar,students
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20091102T114955
+LAST-MODIFIED:20091116T090300
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091116T170000
+DTEND:20091116T180000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95498
+SUMMARY:Comparative International Health Care Panel Discussion
+DESCRIPTION:Discuss the pros and cons of a public health care option with students from countries where this type of health care system is already a reality.\nThis event is part of the ISSS [http\://www.vanderbilt.edu/isss/] International Education Week 
+URL;VALUE=URI:http://www.vanderbilt.edu/isss/
+LOCATION:Law School Building\, Room The Hyatt Room
+CATEGORIES:campus-life,conferencesmeetingsseminarstrainingworkshops,dean-of-students,isss,students
+CLASS:PUBLIC
+SEQUENCE:7
+DTSTAMP:20091116T135217
+CREATED:20091102T150006
+LAST-MODIFIED:20091103T125907
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091116T170000
+DTEND:20091116T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92492
+SUMMARY:Tai Chi\:  For Beginning Students
+DESCRIPTION:Presenter\: LiJun Ma\, MD\, PhD\nTai Chi is a special Chinese martial art that includes a series of slow movements\, requires the coordination of your mind and body that focuses on the cultivation of internal energy and development of balance. Tai Chi has been referred to as a moving meditation and a powerful key to relaxation\, reducing stress\, increasing strength and concentration. This form of Tai Chi is from the Yang style. It is appropriate for those with chronic pain or illness or those just looking for a relaxing form of movement. This class is designed for beginners\, see also Tai Chi for Continuing Practice on the same night right after this class.\nCost\: $54 6 Week Series / one class a week\nFor more information\: Call 615-322-7395
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090928T141516
+LAST-MODIFIED:20091002T100414
+ORGANIZER;CN=Emily Epstein:MAILTO:emily.epstein@vanderbilt.edu
+DTSTART:20091116T173000
+DTEND:20091116T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94857
+SUMMARY:3rd Annual Dialogue & Friendship Dinner
+DESCRIPTION:The Society of Universal Dialogue hosts its 3rd Annual Dialogue & Friendship Dinner where people of diverse faiths\, cultures and various communities in Middle Tennessee come together at a friendly dinner to share and promote “Who is My Neighbor?"\nThe dinner program features the following prominent keynote speakers\:\nDavid J. Wasserstein\, Professor of History\, Vanderbilt University\nEugene Greener\, Jr. Professor of Jewish Studies\, Vanderbilt University\nEmre Celik\, President\, Rumi Forum\, Washington\, DC\, Vanderbilt University\nThe dinner program will also include a demonstration of a leading Turkish Ebruzen (Marbling Artist) on the traditional Turkish Art of Marbling.\nNovember 16\, 2009 at 6\:00 PM\nVanderbilt University\nStudent Life Center - The Commodore Ballroom\n310 25th Ave. South\, Nashville\, TN 37240\nFor more information\, and/or invitation for the event\, please contact Halit Akturk with the Society of Universal Dialogue at halit.akturk@vanderbilt.edu [mailto\:halit.akturk@vanderbilt.edu]\, 615-973-2798. 
+URL;VALUE=URI:http://www.universaldialog.org/Forms/Default.asp
+LOCATION:Student Life Center\, Room Commodore Ballroom
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:6
+DTSTAMP:20091116T135217
+CREATED:20091026T182059
+LAST-MODIFIED:20091028T130803
+ORGANIZER;CN=Halit Akturk:MAILTO:halit.akturk@vanderbilt.edu
+DTSTART:20091116T180000
+DTEND:20091116T210000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/85444
+SUMMARY:The Ann and Monroe Carell Jr. Families First Program\: Enhancing Interactions\, A Parent Education Course to Improve Social Interaction\, Communication\, and Behavior for Young Children With ASD
+DESCRIPTION:An 8-week workshop series\, September 21 and 28\; October 5\, 12\, and 26\; November 2\, 9\, and 16. Registration is required at http\://kc.vanderbilt.edu/registration This class has limited enrollment. On-site childcare available with advance registration. Parents are expected to attend all 8 sessions. For more information\, contact familiesfirst@vanderbilt.edu [javascript\:location.href='mailto\:'+String.fromCharCode(102\,97\,109\,105\,108\,105\,101\,115\,102\,105\,114\,115\,116\,64\,118\,97\,110\,100\,101\,114\,98\,105\,108\,116\,46\,101\,100\,117)+'?'] or 322-6027\, or visit  http\://kc.vanderbilt.edu/famfirst  [http\://kc.vanderbilt.edu/famfirst]\n Target Audience\: Parents of children ages 2-5 diagnosed with an autism spectrum  disorder\nHosted by\: Monroe Carell Jr. Children's Hospital at Vanderbilt [http\://www.vanderbiltchildrens.org/] and Vanderbilt Kennedy  Center TRIAD  [http\://kc.vanderbilt.edu/triad/default.aspx]
+URL;VALUE=URI:http://kc.vanderbilt.edu/famfirst
+LOCATION:Vanderbilt Kennedy Center/MRL Building \, Room 241 
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center,vanderbilt-childrens-hospital,vch-outreach
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090729T144505
+LAST-MODIFIED:20090730T143757
+ORGANIZER;CN=Families First :MAILTO:familiesfirst@vanderbilt.edu
+DTSTART:20091116T180000
+DTEND:20091116T190000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92491
+SUMMARY:Tai Chi\:  For Continuing Practice
+DESCRIPTION:Tai Chi is a special Chinese martial art that includes a series of slow movements\, requires the coordination of your mind and body that focuses on the cultivation of internal energy and development of balance. Tai Chi has been referred to as a moving meditation and a powerful key to relaxation\, reducing stress\, increasing strength and concentration. This form of Tai Chi is from the Yang style. It is appropriate for those with chronic pain or illness or those just looking for a relaxing form of movement. This class is for students who have some Tai Chi experience\, see also Tai Chi\: for Beginners on the same night just before this class.\nCost\: $54 6 Week Series / one class per week\nFor more information\: Call 615-322-7395
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090928T141514
+LAST-MODIFIED:20091002T101146
+ORGANIZER;CN=Emily Epstein:MAILTO:emily.epstein@vanderbilt.edu
+DTSTART:20091116T183000
+DTEND:20091116T191500
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91165
+SUMMARY:Dramatic Reading\:  "Young Messiahs Fly\," by Frank E. Dobson\, Jr.
+DESCRIPTION:Young Messiahs Fly [http\://africanamericanplaywrightsexchange.blogspot.com/2009/08/dr-frank-dobson-jrs-young-messiahs-fly.html] is a play written by Dr. Frank E. Dobson\, Jr.\, and directed by Shawn Whitsell
+URL;VALUE=URI:http://vanderbilt.edu/bcc
+LOCATION:Scarritt Bennett Center\, Gallery F\, 1000 19th Ave. S
+CATEGORIES:arts,dancetheatre-other-performances,dean-of-students,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20090911T200045
+LAST-MODIFIED:20091112T113409
+ORGANIZER;CN=Jeff King:MAILTO:jeff.s.king@vanderbilt.edu
+DTSTART:20091116T190000
+DTEND:20091116T203000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/84892
+SUMMARY:The 11th Hour\: Making the Most of Last Minute Work on Writing
+DESCRIPTION:We don't want to encourage last-minute work on writing\, but we do recognize that students have busy schedules\, and that even the most diligent among us do sometimes find ourselves working right up to our deadlines. This workshop offers strategies for making the most of a situation that may otherwise seem dire. *Note - Students should bring a paper assignment to this workshop.\n
+URL;VALUE=URI:http://www.vanderbilt.edu/writing/events/
+LOCATION:The Commons Center\, Room 235
+CATEGORIES:as,commons,students,student-workshops
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090722T123637
+LAST-MODIFIED:20090827T132915
+ORGANIZER;CN=Amanda Middagh:MAILTO:amanda.middagh@vanderbilt.edu
+DTSTART:20091116T190000
+DTEND:20091116T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95698
+SUMMARY:Transgender Day of Remembrance
+DESCRIPTION:In the wake of the passage of the Matthew Shepard and James Byrd Hate Crimes Prevention Act\, join us for an event to commemorate and celebrate the Transgender community in Nashville. Community members will share stories followed by a candle light vigil.\nSponsored by Tennessee Vals\, Tennessee Equality Project\, Vanderbilt University-Office of LGBTQI Life\, VU Med School GSA\, Outlaw\, Human Rights Campaign Vanderbilt\, and Vanderbilt Lambda Association
+URL;VALUE=URI:http://www.vanderbilt.edu/lgbtqi/
+LOCATION:Sarratt Cinema
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,dean-of-students,lgbtqi,medical-center,medical-students,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20091104T154308
+LAST-MODIFIED:20091109T074400
+ORGANIZER;CN=Michael Brown:MAILTO:michael.brown@vanderbilt.edu
+DTSTART:20091116T190000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95119
+SUMMARY:Young Messiahs Fly\, a dramatic reading of the new play by Dr. Frank Dobson
+DESCRIPTION:This event is free and open to the public. Please note that seating is limited. For reservations\, please call gallery F at (615) 320-4651. Visit www.scarrittbennett.org [http\://www.scarrittbennett.org] for more information.\nThe African American Playwrights Exchange and gallery F @ Scarritt-Bennett Center will host a dramatic reading of the new play by Dr. Frank Dobson\, executive director of Vanderbilt&#39\;s Bishop Joseph Johnson Black Cultural Center\, Young Messiahs Fly on Monday\, Nov. 16\, at 7 p.m.\nThis timely new play is a story about the rise and fall of a gifted young black athlete - another young black millionaire in the making - who faces tragedy from the aftermath of a chance encounter with the law. This thought-provoking play asks its audience to consider the realities of young black celebrity\, money\, fame\, family ties and tragedy\, in a story straight out of today&#39\;s headlines.\nThe play will be read by Rashad Rayford\, Molly Breen\, Roman Bryant\, Scott Russell\, and other actors\, and will be directed by Shawn Whitsell\, artistic director of The Destiny Theatre Experience. The artwork of Channing Bailey\, a resident artist at gallery F and currently a senior at TSU\, will be featured. 
+URL;VALUE=URI:http://www.scarrittbennett.org
+LOCATION:Scarritt-Bennett Center's gallery F
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:6
+DTSTAMP:20091116T135217
+CREATED:20091029T132228
+LAST-MODIFIED:20091103T083927
+ORGANIZER;CN=Becca Stinson:MAILTO:Bstinson@scarrittbennett.org
+DTSTART:20091116T190000
+DTEND:20091116T210000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/88005
+SUMMARY:VU Men's Basketball vs. Lipscomb
+DESCRIPTION: vs. \nLocation\: Memorial Gymnasium (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.00000113455cd3bbfe865&z=19])\nTicket required.\n
+URL;VALUE=URI:http://vucommodores.cstv.com/sports/m-baskbl/sched/vand-m-baskbl-sched.html
+LOCATION:Memorial Gymnasium
+CATEGORIES:athletics,dean-of-students,mens-basketball,myvuf
+CLASS:PUBLIC
+SEQUENCE:6
+DTSTAMP:20091116T135217
+CREATED:20090831T154325
+LAST-MODIFIED:20091016T092236
+ORGANIZER;CN=Greg McMillin:MAILTO:gregory.d.mcmillin@vanderbilt.edu
+DTSTART:20091116T190000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95467
+SUMMARY:International Game Night
+DESCRIPTION:Every student organization of the Multicultural Leadership Council will bring a different board or card game that is a reflection of their culture and background. Students will learn about games that are being played all around the world\, and will be able to participate and play the games too! Prizes will be given to those students who perform the best at these diverse and exciting games!\nAll Vanderbilt students welcome!\nThis event is part of the ISSS [http\://www.vanderbilt.edu/isss/] International Education Week 
+URL;VALUE=URI:http://www.vanderbilt.edu/isss/
+LOCATION:Sarratt Student Center\, Room 325/327
+CATEGORIES:campus-life,isss,students
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091102T115230
+LAST-MODIFIED:20091112T113352
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091116T200000
+DTEND:20091116T213000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/82995
+SUMMARY:Blair Signatures Series\: Blair Brass Quintet
+DESCRIPTION:Free and Open to the Public\nComplimentary Valet Parking\n8\:00 p.m. Steve and Judy Turner Recital Hall (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.000001134553304d884b1&z=19])\nFree parking for all listed events in South Garage (adjacent to the Vanderbilt Children&#39\;s Hospital on Children&#39\;s Way)
+URL;VALUE=URI:http://www.vanderbilt.edu/Blair/calevents/index.html
+LOCATION:Blair School of Music - Steve and Judy Turner Recital Hall
+CATEGORIES:arts,blair,music,myvuf
+CLASS:PUBLIC
+SEQUENCE:9
+DTSTAMP:20091116T135217
+CREATED:20090620T141216
+LAST-MODIFIED:20091111T082340
+ORGANIZER;CN=Christine Smith:MAILTO:marimbamaiden18@gmail.com
+DTSTART:20091116T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/81474
+SUMMARY:Gentle Yoga
+DESCRIPTION:  Presenters\: Emily Epstein/Clyde Lee\n  With its origins in Indian philosophy\, yoga is an ancient system of relaxation\, exercise and healing. Yoga is fundamentally about creating balance in the body through physical movements called asanas or poses\, simple breathing techniques\, and meditation. Yoga can be an important tool in creating a healthy body\, decreasing anxiety and nurturing a sense of well-being.\n  $10 Drop-in / $54 6 Class Card / $108 12 Class Card\n  Schedule of Classes [http\://staging.vanderbilthealth.com/integrativehealth/calendar/calendar_events.html]\n  For information\, call 615-322-7395 or email Emily Lange\, emily.lange@vanderbilt.edu [mailto\:emily.lange@vanderbilt.edu].\n  Hosted by\: Vanderbilt Center for Integrative Health [http\://www.vanderbilthealth.com/integrativehealth/]\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090601T103136
+LAST-MODIFIED:20090827T144909
+ORGANIZER;CN=Emily Lange:MAILTO:emily.lange@vanderbilt.edu
+DTSTART:20091117T070000
+DTEND:20091117T080000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95471
+SUMMARY:GEO Study Abroad Fair
+DESCRIPTION:Where will you go? Learn about opportunities to study abroad with Vanderbilt during Summer 2010!!\nThe event is part of the ISSS  [http\://www.vanderbilt.edu/isss/]- International Education Week
+URL;VALUE=URI:http://www.vanderbilt.edu/geo
+LOCATION:Sarratt Student Center\, Room Promenade
+CATEGORIES:campus-life,dean-of-students,isss,students
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091102T121559
+LAST-MODIFIED:20091102T155157
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091117T100000
+DTEND:20091117T140000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96905
+SUMMARY:Memorial service for Lawrence J. Schaad\, longtime chemistry professor
+DESCRIPTION:A Vanderbilt memorial service will be held at 11\:45 a.m. in Benton Chapel on Tuesday\, Nov. 17\, for Lawrence J. Schaad\, professor of chemistry\, emeritus. He died last week at 79 after a long illness.\nSchaad published more than 150 scientific papers and coauthored a book\, Hydrogen Bonding\, with Melvin D. Joesten\, professor of chemistry\, emeritus. After attending Harvard University on a Westinghouse Scholarship\, Schaad received his Ph.D. from MIT\, and was a postdoctoral fellow with one of the most famous quantum chemists of the 20th century\, Charles Coulson at Oxford University.\nSchaad\, together with his Ph.D. adviser C. G. Swain (MIT)\, derived the Swain-Schaad equation for the relationship between deuterium and tritium kinetic isotope effects.  The equation is widely cited in textbooks on chemical kinetics. In 1971\, at Vanderbilt\, Schaad and Hess together published a classic paper on the theory of aromaticity\,  which continues to be extensively cited in the literature.\nMemorial contributions may be made to the Department of Chemistry at Vanderbilt\, in care of Chair Mike Stone\, 7330 Stevenson Center\, Station B 351822\, Nashville\, TN\, 37235.\nSurvivors include wife Nancy Schaad and sister\, Sister Elizabeth Anne Schaad.
+URL;VALUE=URI:
+LOCATION:Benton Chapel
+CATEGORIES:ceremoniesfundraisingspecial-events,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091112T085139
+LAST-MODIFIED:20091112T094307
+DTSTART:20091117T113000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94886
+SUMMARY:VUSOM Department EM Grand Rounds\: Dr. Rita K. Cydulka
+DESCRIPTION:Asthma Update 2009\nRita K. Cydulka\, MD\, MS Vice-Chair and Professor Department of Emergency Medicine Case Western Reserve University Medical School / MetroHealth Medical Center Secondary appointment\, Department of Epidemiology and Biostatistics Cleveland Ohio rcydulka@metrohealth.org [http\://rcydulka@metrohealth.org]\nObjectives\:\n1. Discuss the state-of-the-art management of acute asthma\n2. Discuss NAEPP Expert Panel 3 Report\n3. Describe the role of treatment regimens and their application during acute exacerbation\n4. Discuss the issues associated with maintaining control after exacerbation 
+URL;VALUE=URI:
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20091027T083005
+LAST-MODIFIED:20091112T100604
+ORGANIZER;CN=Joyce Barnett:MAILTO:joyce.barnett@Vanderbilt.Edu
+DTSTART:20091117T120000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96927
+SUMMARY:Free Online Chat\: "School Choice & School Improvement\: What have we learned?"
+DESCRIPTION:\nWith the Obama administration highlighting school choice as a likely reform strategy\, interest in how parents choose a school is more intense than ever. What are the primary motivations of families for switching schools? How good is their information? And what are the broader – and often unintended – consequences of these kitchen-table decisions about education?\nEducation experts will discuss these issues and more in a free\, online chat\, “School Choice & School Improvement\: What have we learned?” hosted by the National Center on School Choice at Vanderbilt University  [http\://www.vanderbilt.edu/schoolchoice/]and Education Week Nov. 17 at 2 p.m. ET.\nTo participate\, visit www.edweek.org/go/ncsc [http\://www.edweek.org/go/ncsc]. Questions can be sent to Marisa Cannata at schoolchoiceconference@vanderbilt.edu [schoolchoiceconference@vanderbilt.edu] until Nov. 16. The chat window will open at 8 a.m. on Nov. 17\, at which time questions can also be submitted.\nNo special equipment other than Internet access is needed to participate in this text-based chat.\nMarisa Cannata\, associate director of the National Center on School Choice\, will moderate the chat. Panelists are David Figlio\, Orrington Lunt Professor of Education\, Social Policy and Economics at Northwestern University and National Bureau of Economic Research\, research associate\; Helen F. Ladd\, Edgar Thompson Professor of Public Policy Studies and professor of economics at Duke University\; and Kristie J. R. Phillips\, assistant professor of sociology at Brigham Young University.\nThe chat will revisit key issues raised at the National Center on School Choice Conference held Oct. 25 to 27 at Vanderbilt\, which brought together 130 scholars\, graduate students and practitioners from 22 states as well as Australia\, Ecuador and The Netherlands. Practitioners included teachers\, school administrators\, state education officials\, foundation officers and representatives of advocacy groups.\nAt the conference\, school choice and school improvement issues were put under the microscope as researchers discussed school choice in its expanding array of forms\, including charter schools\, magnet schools and vouchers and inter- and intra-district choice programs. Read a summary of the conference here\: http\://ow.ly/Bm3J [http\://ow.ly/Bm3J].\nConference papers\, presentations\, and video segments are available on the conference Web site\: http\://www.vanderbilt.edu/schoolchoice/conference [http\://www.vanderbilt.edu/schoolchoice/conference]. Featured videos are\:  Effectiveness of vouchers and scholarships\: http\://www.vanderbilt.edu/schoolchoice/conference/video/panel1.html [http\://www.vanderbilt.edu/schoolchoice/conference/video/panel1.html]\nKeynote Speaker\: Paul Vallas\, Superintendent of the Recovery School District\, New Orleans\: http\://www.vanderbilt.edu/schoolchoice/conference/video/dinner.html [http\://www.vanderbilt.edu/schoolchoice/conference/video/dinner.html].\nFor more information about the National Center on School Choice\, visit http\://www.vanderbilt.edu/schoolchoice [http\://www.vanderbilt.edu/schoolchoice]. For more information about Peabody College\, visit http\://peabody.vanderbilt.edu [http\://peabody.vanderbilt.edu].\n
+URL;VALUE=URI:http://www.vanderbilt.edu/schoolchoice
+CATEGORIES:academics,colloquiumslecturesmeetingssymposiums,myvuf,programsspeakers,students
+CLASS:PUBLIC
+SEQUENCE:6
+DTSTAMP:20091116T135217
+CREATED:20091112T134151
+LAST-MODIFIED:20091112T134928
+ORGANIZER;CN=Marisa Cannata:MAILTO:schoolchoiceconference@vanderbilt.edu
+DTSTART:20091117T140000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96878
+SUMMARY:Challenges in Assessment\: Real-Life Dilemmas and Solutions
+DESCRIPTION:Vanderbilt Kennedy Center Participant Recruitment and Assessment Core Training Series - "Challenges in Assessment\: Real-Life Dilemmas and Solutions."\nEvon Batey Lee\, Ph.D.\, Associate Professor of Pediatrics\; Psychological Assessment Coordinator\, Vanderbilt Kennedy Center\nFour panelists will participate in discussion.\nEveryone is welcome\, but this session will be especially useful to graduate students and research assistants in psychology\, special education\, speech-language pathology\, and other related disciplines who are considering a career path that will involve assessment of infants\, young children\, or teenagers.
+URL;VALUE=URI:http://kc.vanderbilt.edu
+LOCATION:Vanderbilt Kennedy Center/MRL Building\, Room 241
+CATEGORIES:medical-center,vanderbilt-childrens-hospital,vch-faculty-and-staff
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091111T163710
+LAST-MODIFIED:20091113T150241
+ORGANIZER;CN=Amy Pottier:MAILTO:amy.pottier@vanderbilt.edu
+DTSTART:20091117T143000
+DTEND:20091117T160000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95472
+SUMMARY:International Career Panel Discussion
+DESCRIPTION:Interested in having an international career? Not sure where to start? Come get some ideas for your future from a Foreign Service Officer from the Department of State\, a Peace Corps Representative\, English as a Second Language Teachers\, and others.\nThis is event is part of ISSS [http\://www.vanderbilt.edu/isss/] International Education Week 
+URL;VALUE=URI:http://www.vanderbilt.edu/isss/
+LOCATION:Sarratt Student Center\, Room 189
+CATEGORIES:campus-life,conferencesmeetingsseminarstrainingworkshops,dean-of-students,isss,students
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20091102T121816
+LAST-MODIFIED:20091103T153221
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091117T143000
+DTEND:20091117T160000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94941
+SUMMARY:Art Makes Place Talk with Contemporary Critic Chen Tamir
+DESCRIPTION:Contemporary critic/curator and executive director of NYC Flux Factory Chen Tamir will give a talk as part of ART MAKES PLACE. Encouraging partnership between artists and the public.\nArt Makes Place is a year-long project featuring 7 artists who made 7 temporary community and performance-based artworks for public spaces in Nashville. Each project began with a lecture/workshop with Metro Nashville Public School students\, continued with participation from Vanderbilt University [http\://www.vanderbilt.edu]\, Frist Center for the Visual Arts\, and the larger Nashville community\, and resulted in a temporary artwork presented in public spaces throughout Nashville.\nThe project culminates with this exhibition of artwork from the project.\nhttp\://www.n-cap.org [http\://www.n-cap.org] 
+URL;VALUE=URI:http://www.library.nashville.gov
+LOCATION:Nashville Public Library\, Room Auditorium
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091027T140814
+LAST-MODIFIED:20091113T132847
+ORGANIZER;CN=Dorothy Boleyjack:MAILTO:dorothy.boleyjack@nashville.gov
+DTSTART:20091117T163000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94821
+SUMMARY:Rock Band developer to speak\, followed by Rock Band competition
+DESCRIPTION:Eran Egozy\, a developer of the video game Rock Band\, will speak at the Student Life Center about creativity\, video games and the cultural influence of interactive music-inspired games. A Rock Band competition for Vanderbilt faculty\, staff and students will follow.\nThe lecture is free and open to the public and will be followed by a Rock Band competition that is open to students\, faculty and staff as participants. The Rock Band competition will be held at 8 p.m. in the Student Life Center Ballroom. The competition will benefit the W.O. Smith Nashville Community Music School\, which provides music lessons to children from low-income families.\nThis event is part of the Curb Creative Leadership Series offering students and the community the opportunity to engage in intimate\, informal conversations around contemporary issues related to creativity\, culture\, expressive life\, leadership\, enterprise and the public interest. The series is part of the Creative Campus initiative at Vanderbilt\, which aims to make creative engagement and expression a core aspect of campus experience. For more information about Vanderbilt’s Creative Campus and the Curb Creative Leadership Series\, http\://www.vanderbiltcreativecampus.org [http\://www.vanderbiltcreativecampus.org]/.\nAs the co-founder and chief technical officer of Harmonix Music Systems\, Egozy has built one of the leading game development studios in the world. Harmonix Music Systems has developed over a dozen critically acclaimed music-based video games\, including Rock Band. Egozy was listed in Time magazine’s 2008 list of the most influential people for his work on Rock Band. For more information about Egozy and Harmonix\, visit http\://www.harmonixmusic.com/ [http\://www.harmonixmusic.com/].
+URL;VALUE=URI:http://sitemason.vanderbilt.edu/news/releases/2009/10/26/rock-band-creator-to-speak-at-vanderbilt.94813
+LOCATION:Student Life Center
+CATEGORIES:colloquiumslecturesmeetingssymposiums,dean-of-students,myvuf,programsspeakers,students,university
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091026T125159
+LAST-MODIFIED:20091106T080937
+ORGANIZER;CN=Jim Patterson:MAILTO:jim.patterson@vanderbilt.edu
+DTSTART:20091117T163000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95473
+SUMMARY:The Death Penalty\: International View Points
+DESCRIPTION:Come voice your opinion on the Death Penalty and discuss this controversial topic with students from around the world studying law at Vanderbilt. All students\, faculty and staff welcome!\nThis event is part of ISSS [http\://www.vanderbilt.edu/isss] International Education Week\nSponsored by\: International Student and Scholar Services\n [http\://www.vanderbilt.edu/isss ]
+URL;VALUE=URI:http://www.vanderbilt.edu/isss
+LOCATION:Law School Building\, Room 2nd Floor\, The Covington Room
+CATEGORIES:campus-life,dean-of-students,isss,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091102T122055
+LAST-MODIFIED:20091103T102203
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091117T170000
+DTEND:20091117T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92480
+SUMMARY:Mindfulness-Based Stress Reduction
+DESCRIPTION:Presenter\: Gordon Peerman\, D.Min.\nCost\: $200 6 week series / one class a week\nMindfulness is a way of relating directly to whatever is happening in your life\, meeting your experience skillfully and with an open heart. Participants in the program begin to develop the capacity to be present\, awake and aware of the preciousness of life as it unfolds moment to moment. Whether they come to class to manage physical challenges\, to support medical treatments and enhance opportunities for healing\, to deal with difficulties in work or relationships\, or to enhance capacities for happiness\, mindfulness is the master skill we teach.\nFor more information\: Call 615-322-7395
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center,myvuf
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090928T140014
+LAST-MODIFIED:20091112T140530
+ORGANIZER;CN=Emily Epstein:MAILTO:emily.epstein@vanderbilt.edu
+DTSTART:20091117T173000
+DTEND:20091117T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94883
+SUMMARY:Take Back the Night
+DESCRIPTION:Take Back the Night at Vanderbilt\, has a rich history of giving voice to individuals and advocating for social change to end violence. Join us this year as we build on that history and create spaces for all of our experiences and ideas.\nKeynoting the event\, Dr. Dorothy Edwards [http\://www.uky.edu/StudentAffairs/VIPCenter/team_dorothy.html] of the Violence Intervention and Prevention Center at the University of Kentucky will speak about power-based personal violence and the steps each of us can take to create a safer campus for everyone.\n6-7\:00 p.m.\: Resource Fair\n7-8\:30 p.m.\: Program
+URL;VALUE=URI:http://www.vanderbilt.edu/WomensCenter
+LOCATION:Benton Chapel
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,dean-of-students,myvuf,programsspeakers,university
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20091027T075457
+LAST-MODIFIED:20091102T134714
+ORGANIZER;CN=Anna Guest-Jelley:MAILTO:anna.guest-jelley@vanderbilt.edu
+DTSTART:20091117T180000
+DTEND:20091117T203000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/84918
+SUMMARY:International Lens Film Series\: "Gate of Flesh\: (Nikutai no mon)"
+DESCRIPTION:Free and open to the public\nPresented as part of The New Age of the New Wave\nPresented by\: Todd Hughes\, Director\, Language Center\nJapan (1964) Dir\: Seijun Suzuki.\nSet immediately after WWII\, this film explores the desperate lengths a devastated community must go to in order to survive. A group of prostitutes live and work in the basement of a bombed-out building in Tokyo\, governing themselves with a strict code of conduct. The women&#39\;s solidarity breaks down when they shelter a wounded man as each woman claims him for herself. Originally intended as a gritty erotic tale\, Suzuki uses his wartime experiences to depict the depths to which post-war urban centers fell.\nIn Japanese with English subtitles. 90 minutes. DVD.\nFunded in part by the Language Center. Held in conjunction with International Education Week [http\://www.vanderbilt.edu/isss].\nPresenters will provide an introduction and facilitate post-screening discussion for each film.\nSarratt Cinema is located on the first floor of the Sarratt Student Center [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=h&om=1&msa=0&msid=116711405185838456107.00045456b6aed3033da26&ll=36.147856\,-86.803156&spn=0.003665\,0.004774&z=18] at Vanderbilt University.\nFor additional information and parking maps\, visit the International Lens web site (http\://www.vanderbilt.edu/internationallens [http\://www.vanderbilt.edu/internationallens]) or call 322-6400.\nINTERNATIONAL LENS is sponsored by the Office of the Dean of Students and coordinated by the Office of Arts & Creative Engagement and the Office of International Student & Scholar Services in collaboration with Vanderbilt University academic departments\, programs\, and centers.
+URL;VALUE=URI:http://www.vanderbilt.edu/internationallenshttps://sitemason.vanderbilt.edu/members/interface/bzrandu#
+LOCATION:Sarratt Cinema
+CATEGORIES:arts,dean-of-students,films,international-lens-film-series,isss,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:7
+DTSTAMP:20091116T135217
+CREATED:20090722T174559
+LAST-MODIFIED:20091111T140633
+ORGANIZER;CN=Joel Logiudice:MAILTO:joel.logiudice@vanderbilt.edu
+DTSTART:20091117T190000
+DTEND:20091117T210000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95568
+SUMMARY:Parthenon Symposium - James Cowan\, Gentleman Collector
+DESCRIPTION:Parthenon Symposium - James Cowan\, Gentleman Collector\nIn 1927 and &#39\;29\, Nashville received an anonymous gift of 63 paintings by American artists\; the name of the donor\, James Cowan\, was revealed upon his death in December of 1930. American painting was not particularly in vogue among collectors in the early part of the 20th century\, but in the decades since Cowan&#39\;s death these artists and their works have grown both in art historical importance and in aesthetic esteem.\nWho was James Cowan and why did he give part of his art collection to Nashville&#39\;s Parthenon? What was his connection to Nashville and why did he insist that his gift remain anonymous until his death? What motivated him to collect in the first place? How does he fit into the grand tradition of philanthropy that spawned a wave of museum building across the country during his lifetime?\nIn the symposium lecture on Tuesday\, November 17\, Jim Womack\, head of the Visual and Performing Arts Department at Montgomery Bell Academy\, will take a look at the man and his development as an art collector and philanthropist. He will explore Cowan&#39\;s idea of himself\, his reasons for collecting art\, his membership in New York&iacute\;s Grand Central Galleries and the significance of his choice to collect American paintings\, rather than European works.\nWomack holds an MA in art history from Virginia Commonwealth University. He has curated numerous art shows and is a frequent lecturer at the Frist Center for the Visual Arts. He has taught art history at MBA since 1979.
+URL;VALUE=URI:http://www.nashville.gov/parthenon/
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091103T105715
+LAST-MODIFIED:20091103T153613
+ORGANIZER;CN=Wesley Paine:MAILTO:wesley.paine@nashville.gov
+DTSTART:20091117T190000
+DTEND:20091117T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/82989
+SUMMARY:Blair presents Vanderbilt Steel Drum Ensembles
+DESCRIPTION:***This concert was originally scheduled for Nov. 5***\nFree and Open to the Public\nTuesday\, November 17\, 2009\n8\:00 p.m. Ingram Hall (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.000001134553304d884b1&z=19])\nFree parking\: South Garage (adjacent to the Vanderbilt Children&#39\;s Hospital on Children&#39\;s Way)\nVANDERBILT STEEL DRUM ENSEMBLES\nMat Britain\, director
+URL;VALUE=URI:http://www.vanderbilt.edu/Blair/calevents/index.html
+LOCATION:Blair School of Music - Ingram Hall
+CATEGORIES:arts,blair,music,myvuf
+CLASS:PUBLIC
+SEQUENCE:6
+DTSTAMP:20091116T135217
+CREATED:20090620T135139
+LAST-MODIFIED:20091019T083506
+ORGANIZER;CN=Christine Smith:MAILTO:marimbamaiden18@gmail.com
+DTSTART:20091117T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95559
+SUMMARY:Atlanta Vanderbilt Chapter Event\: Networking Breakfast
+DESCRIPTION:Atlanta - November Networking Breakfast\nNovember 18\, 2009 7\:15 AM\nLocation\:  Maggiano&#39\;s Buckhead\, 3368 Peachtree Road\, Atlanta\n"Vanderbilt at Guantanamo" \nGuest Speaker\: John A. Chandler\nPartner\, King & Spalding.  (See full bio below.)  \nBreakfast at 7\:15 a.m.\, Speaker at 8\:00 a.m.\n$16 (includes continental breakfast)\nQuestions or suggestions for upcoming breakfast topics? Contact Justin Wood [mailto\:justin.wood@troutmansanders.com?subject=June%20Networking%20Breakfast].\nBeginning in 2004\, John Chandler and his wife\, King and Spalding Partner Beth Tanis\, have represented six Guantanamo detainees from Yemen on a pro bono basis in an effort to obtain a review of the constitutionality of their imprisonment by a U.S. Federal Court.  Chandler\, a litigator at King and Spalding\, has served as President of the Atlanta Bar Association\, the Atlanta Council of Younger Lawyers\, the Atlanta Legal Aid Society\, The Atlanta Volunteer Lawyers Foundation\, Travelers Aid of Metropolitan Atlanta\, Chair of the Fulton County Ethics Board and Chair of the City of Atlanta Board of Ethics. He was a member of the Board of Governors of the State Bar of Georgia for 20 years.  Chandler is the recipient of the Atlanta Bar Association’s Charles E. Watkins\, Jr.\, Distinguished and Sustained Service Award\; the Atlanta Bar Association’s Leadership Award and the Anti-Defamation League’s Lifetime Achievement Award.\nhttps\://secure.www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6275 [https\://secure.www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6275]
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/atlanta
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091103T103711
+LAST-MODIFIED:20091103T134536
+ORGANIZER;CN=Kristy Sherrill:MAILTO:kristy.l.sherrill@vanderbilt.edu
+DTSTART:20091118T071500
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95610
+SUMMARY:Exercise Motivation Workshop Starts Nov 18
+DESCRIPTION:Exercise Motivation Class Starts Nov 18 at Noon\nGet a Jump Start on your New Year&#39\;s Resolution!\nPrevent holiday weight gain!\nThe JumpStart Exercise Motivation Workshop focuses on strategies for increasing motivation and preventing dropout from exercise\; participants will also be introduced to how to engage in safe and appropriate forms of exercise.\nThe workshop consists of a free orientation session with no obligation to enroll\, followed by weekly lecture/discussion class sessions. This workshop is for adults only.\nInstructors\:\nColin Armstrong\, Ph.D.\: Clinical Health Psychologist and Health & Wellness Coach)\n&\nAngel Bachuss\, M.S.\: Exercise Physiologist & Personal Trainer).\nDay/Time\: Wednesdays 12-1 p.m. starting with FREE orientation Nov. 18 and meeting Dec 2\, 9 & 16 and Jan 6.\nLocation\: Vanderbilt Dayani Center for Health & Wellness\nTopics Include\:\n- Becoming & Staying Motivated For Exercise\n- Getting Started With Safe And Appropriate Exercise\n- Making Exercise More Enjoyable\n- Fitting Exercise Into A Busy Schedule\n- Preventing Boredom\, Frustration & Dropout From Exercise\nFee\:\n$45 for current Dayani Center Members & Patients\;\n$95 for Vanderbilt employees and their adult family members\;\n$145 for all others.\nPayable by cash\, check\, or credit card. Payroll deduction spread over up to 12 months ($7.92 per month) is available for Vanderbilt employees.\nPlease note that JumpStart is a proprietary program and all workshop materials are protected by copyright and intellectual property laws. This workshop is not available as a continuing education or professional development class for healthcare or fitness professionals (e.g.\, personal trainers\, psychologists\, dietitians) who wish to learn how to motivate their own clients.\nFor more information or to reserve a spot at the orientation session\, contact Colin at colin.armstrong@vanderbilt.edu [mailto\:colin.armstrong@vanderbilt.edu].
+URL;VALUE=URI:http://www.DayaniCenter.org
+LOCATION:Dayani Center\, Room Conference Room
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091103T161227
+LAST-MODIFIED:20091104T095110
+ORGANIZER;CN=Colin Armstrong\, Ph.D.:MAILTO:colin.armstrong@vanderbilt.edu
+DTSTART:20091118T120000
+DTEND:20091118T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91502
+SUMMARY:Frist Center - Gallery Talk\: Thomas Hart Benton in Story and Song
+DESCRIPTION:Join Katie Delmez\, Curator at the Frist Center\, for a tour of this exhibition.\n  Location\: Frist Center (Directions [http\://www.fristcenter.org/site/visit/])\n
+URL;VALUE=URI:http://www.fristcenter.org
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway\, Room Meet at the information desk
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090916T112156
+LAST-MODIFIED:20090917T074032
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091118T120000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96863
+SUMMARY:GIS Day
+DESCRIPTION:The Library&#39\;s Geographic Information Systems service is hosting its second annual GIS Day event in the Peabody Library Learning Commons from 12-1\:30 p.m. Several Vanderbilt faculty\, staff\, and students from various disciplines will speak about how they use GIS. More information\, including a printable flier and a schedule of speakers\, is available on the Library GIS website at http\://www.library.vanderbilt.edu/gis/ [http\://www.library.vanderbilt.edu/gis/].\nAll are welcome and refreshments will be served. 
+URL;VALUE=URI:http://www.library.vanderbilt.edu/gis/
+LOCATION:Peabody Library\, Room Learning Commons\, room 304
+CATEGORIES:dean-of-students,programsspeakers,students,university
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091111T150641
+LAST-MODIFIED:20091111T162159
+ORGANIZER;CN=Jacob Thornton:MAILTO:Jacob.thornton@vanderbilt.edu
+DTSTART:20091118T120000
+DTEND:20091118T133000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95474
+SUMMARY:World On Wednesdays\: Songs of Reconciliation in Present Day Rwanda
+DESCRIPTION:Presented by Professor Gregory Barz\, Blair School of Music.\nLunch Provided.\nThis event is part of ISSS [http\://www.vanderbilt.edu/isss] International Education Week
+URL;VALUE=URI:http://www.vanderbilt.edu/isss
+LOCATION:Student Life Center - Lower Level Meeting Rooms\, Room 1 & 2
+CATEGORIES:campus-life,conferencesmeetingsseminarstrainingworkshops,dean-of-students,isss,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091102T122508
+LAST-MODIFIED:20091103T101552
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091118T121000
+DTEND:20091118T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/98449
+SUMMARY:Vanderbilt Institute of Chemical Biology 2009 Seminar Series\: Dr. Jens Meiler
+DESCRIPTION:The Vanderbilt Institute of Chemical Biology (VICB) presents Dr. Jens Meiler\, Vanderbilt University\: "Cheminformatics\: Methods for Drug Discovery and Probe Development Applied to Allosteric Modulators of Metabotropic Glutamate Receptors"
+URL;VALUE=URI:http://www.vanderbilt.edu/vicb/seminars2009-10.htm
+LOCATION:Medical Research Building III (Biological Sciences/Medical Research Building III)\, Room 1220
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091116T092714
+LAST-MODIFIED:20091116T101815
+ORGANIZER;CN=Mary Veazey:MAILTO:mary.d.veazey@vanderbilt.edu
+DTSTART:20091118T121500
+DTEND:20091118T131500
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96270
+SUMMARY:Department of Biostatistics Seminar/Workshop
+DESCRIPTION:"Reproducible Research with R\, LaTeX\, & Sweave"\nPresenter\: Theresa A Scott\, M.S.\nHosted by\: Biostatistics
+URL;VALUE=URI:http://biostat.mc.vanderbilt.edu/TScottNov18
+LOCATION:MRBIII Conference Room 1220
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091111T101516
+LAST-MODIFIED:20091111T164043
+ORGANIZER;CN=Eve Anderson:MAILTO:eve.a.anderson@vanderbilt.edu
+DTSTART:20091118T133000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/81473
+SUMMARY:Therapeutic Yoga
+DESCRIPTION:Presenter\: Emily Epstein\nTherapeutic yoga classes include a slow and easy pace to help aid the body in relaxation and the healing process. This class is appropriate for anyone with chronic pain or a condition that limits physical mobility. Chairs\, cushions\, blankets\, and other yoga props will be used to make each pose appropriate for the individual. Breathing techniques and meditation will also be a part of the classes. *Therapeutic Yoga Basics Series recommended if no prior yoga experience*\n  $10 Drop-in / $54 6 Class Card / $108 12 Class Card\n  Schedule of Classes [http\://staging.vanderbilthealth.com/integrativehealth/calendar/calendar_events.html]\n  For information\, call 615-322-7395 or email Emily Epstein\, emily.lange@vanderbilt.edu [mailto\:emily.lange@vanderbilt.edu].\n  Hosted by\: Vanderbilt Center for Integrative Health [http\://www.vanderbilthealth.com/integrativehealth/]\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090601T103135
+LAST-MODIFIED:20090827T144918
+ORGANIZER;CN=Emily Epstein :MAILTO:emily.lange@vanderbilt.edu
+DTSTART:20091118T160000
+DTEND:20091118T170000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/61852
+SUMMARY:Neuroscience Graduate Seminar Series\: Dr. Jay Gingrich
+DESCRIPTION:  Formerly scheduled for Sept. 16\nJay Gingrich\, M.D.\, Ph.D.\, Associate Professor of Clinical Psychiatry\, Columbia University Medical Center\; Director\, Sackler Laboratory of Basic Science\, New York State Psychiatric Institute\n    “Serotonin Modulation of Brain Development\:  Impact on Affective- and Anxiety-Related Adult Phenotypes”\nCo-sponsored by the Vanderbilt Kennedy Center and the Vanderbilt Brain Institute.\nRefreshments will be served at 4 p.m.\n
+URL;VALUE=URI:http://kc.vanderbilt.edu
+LOCATION:Medical Research Building III (Biological Sciences/Medical Research Building III)\, Room 1220
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:9
+DTSTAMP:20091116T135217
+CREATED:20080724T154305
+LAST-MODIFIED:20090916T065049
+ORGANIZER;CN=Amy Pottier:MAILTO:amy.pottier@vanderbilt.edu
+DTSTART:20091118T161000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95570
+SUMMARY:Denver Vanderbilt Chapter Event\: Networking Event
+DESCRIPTION:Denver - Business Networking Mixer\nNovember 18\, 2009 5\:00 PM - 7\:00 PM\nLocation\:  The Tavern Tech Center\, 5336 DTC Blvd.\, Greenwood Village\, CO 80111\,\n(located on DTC Blvd. just south of Bellview\, in the Village Plaza shopping center)\nEnjoy an evening of mixing and mingling with fellow Vanderbilt alumni\, parents\, and friends.\nWe will be looking for suggestions and requests for future networking events\, so please bring your ideas to share!\nCash food/bar\nQuestions and RSVP\: Contact Jennifer Mayes\, jennifermayes2003@yahoo.com [mailto\:jennifermayes2003@yahoo.com].\nhttps\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6281 [https\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6281]
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/denver
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20091103T110638
+LAST-MODIFIED:20091103T155416
+ORGANIZER;CN=Kristy Sherrill:MAILTO:kristy.l.sherrill@vanderbilt.edu
+DTSTART:20091118T170000
+DTEND:20091118T190000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94265
+SUMMARY:Holiday Presence\: Mindful Eating *Special Class*
+DESCRIPTION:Presenter\: Tobi Fishel\, Ph.D.\nThis special holiday class is on Mindful Eating\, learn about "FOOD FOR THE SOUL" F - be like the French O - one moment at a time O - only what your body really wants and needs D - be daring\, delicious\, discriminating Come join this class where you will eat\, share\, and learn new ways to enjoy food\, your body\, and your self.\nCost\: $10 Drop-in\nFor more information\: Call 615-322-7395\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:The Vanderbilt Center for Integrative Health
+CATEGORIES:health-wellness,medical-center,myvuf
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091020T153005
+LAST-MODIFIED:20091023T081627
+ORGANIZER;CN=Emily Epstein:MAILTO:emily.epstein@vanderbilt.edu
+DTSTART:20091118T173000
+DTEND:20091118T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96929
+SUMMARY:Health Care Panel - Winning Health Care Reform
+DESCRIPTION:What is Single Payer? Public Option? Insurance Reform? Who Pays? Who Profits? What is the most financially conservative\, cost effective and fair way to cover everyone?\nCome hear experts in the field of health care\: Dr. James Hudson\, ret.\, Johns Hopkins health policy advisor & World Health Organization consultant\; William Towle\, Hospital Administrator\, Johns Hopkins\, Vanderbilt\, HMO&#39\;s\; Kathy McGregor\, RN\, National Nurses Organizing Committee\; Warren Duzak\, Healthcare-Now!
+URL;VALUE=URI:http://www.nashvillepeacejustice.org
+LOCATION:Friends Meeting House\, 530 26th Ave. N. (off Charlotte)\, Nashville\, TN\, 37209 
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091112T144015
+LAST-MODIFIED:20091112T152812
+ORGANIZER;CN=Jane Steinfels Hussain:MAILTO:janehussain2@aol.com
+DTSTART:20091118T180000
+DTEND:20091118T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92681
+SUMMARY:"Picking Cotton"
+DESCRIPTION: [http\://www.pickingcottonbook.com/home.html]\nA presentation featuring Jennifer Thompson and Ronald Cotton.  This program will illustrate the ramifications and injustice of a wrongful conviction and the redemption that is possible.\nFlynn Auditorium - Law School Building (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.00000113456edf40464c6&ll=36.148014\,-86.800347&spn=0.000981\,0.001808&z=19])\n The event is co-sponsored by\: Bishop Joseph Johnson Black Cultural Center\, Trevecca Nazarene University\, The Vanderbilt Law School Hyatt Fund through the efforts of the Women Law Students Association\, Black Law Students Association and the Law Students for Social Justice\, Vanderbilt University Office of the Provost\, Vanderbilt University Undergraduate Speakers Bureau. Vanderbilt University Sociology Department.\n
+URL;VALUE=URI:
+LOCATION:Flynn Auditorium - Law School Building
+CATEGORIES:academics,colloquiumslecturesmeetingssymposiums,myvuf,vlsosa
+CLASS:PUBLIC
+SEQUENCE:10
+DTSTAMP:20091116T135217
+CREATED:20090930T151041
+LAST-MODIFIED:20091028T111922
+ORGANIZER;CN=Erica Rubinsky:MAILTO:erica.rubinsky@vanderbilt.edu
+DTSTART:20091118T180000
+DTEND:20091118T210000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91644
+SUMMARY:Writing Down Your Soul
+DESCRIPTION:When\:          Wednesday\, November 18\nTime\:           6\:30 p.m.\nWhere\:         Sanctuary\nAuthor\:        Janet Conner\nCost\:            Love Offering\nWhat would happen if that "Still Small  Voice" came in loud and clear? Guess what? That "Still Small Voice" isn't still or small. It can be vibrant\, loud\, and crystal clear. You just have to know how to activate it. And that's what Janet Conner\, author of Writing Down Your Soul is going to share with you.  You'll learn what deep soul writing is and is not. (hint\, not journaling)\, You'll hear the astonishing story of what the mystery man said at Janet's first book signing\, You'll learn the seven steps to the all-important theta brain wave state\, And you'll fall in love with Hafiz\, the great Sufi master.\nWhen you leave\, you'll be on your way to a vibrant\, living conversation with the wise and loving Voice of Spirit within.\n
+URL;VALUE=URI:http://www.firstchurchunity.org
+LOCATION:First Church Unity
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090917T132748
+LAST-MODIFIED:20090917T153818
+ORGANIZER;CN=David Gumina:MAILTO:office@firstchurchunity.org
+DTSTART:20091118T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95475
+SUMMARY:Film\: The Other Side of Immigration
+DESCRIPTION:Based on over 700 interviews in Mexican towns where half the population has left to work in the United States\, The Other Side of Immigration asks why so many Mexicans come to the U.S. illegally and what happens to the families and communities they leave behind. Through an approach that is both subtle and thought-provoking\, director Roy Germano provides a perspective on undocumented immigration rarely witnessed by American eyes\, challenging audiences to imagine more creative and effective solutions to our illegal immigration problem. 55 minutes.\nDiscussion led by Dr. Katherine Donato\, Chair of the Department of Sociology\, after the film screening.\nThis event is part of ISSS [http\://www.vanderbilt.edu/isss] International Education Week
+URL;VALUE=URI:http://theothersideofimmigration.com
+LOCATION:Sarratt Cinema
+CATEGORIES:arts,campus-life,dean-of-students,films,isss,students
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20091102T122903
+LAST-MODIFIED:20091103T102300
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091118T190000
+DTEND:20091118T203000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/88007
+SUMMARY:VU Women's Basketball at Southern Illinois
+DESCRIPTION:at\nTicket required.
+URL;VALUE=URI:http://vucommodores.com
+LOCATION:Carbondale\, Illinois
+CATEGORIES:athletics,womens-basketball
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20090831T160547
+LAST-MODIFIED:20091113T101404
+ORGANIZER;CN=Greg McMillin:MAILTO:gregory.d.mcmillin@vanderbilt.edu
+DTSTART:20091118T190500
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/82996
+SUMMARY:CANCELLED-  Blair Faculty Recital\: An Evening of Jazz
+DESCRIPTION:Free and Open to the Public\nWednesday\, November 18\, 2009\n7\:30 p.m. Steve and Judy Turner Recital Hall (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.000001134553304d884b1&z=19])\nFree parking for all listed events in South Garage (adjacent to the Vanderbilt Children&#39\;s Hospital on Children&#39\;s Way)\nFACULTY RECITAL\nAn Evening of Jazz with members of the Blair jazz faculty\n
+URL;VALUE=URI:http://www.vanderbilt.edu/Blair/calevents/index.html
+LOCATION:Blair School of Music - Steve and Judy Turner Recital Hall
+CATEGORIES:arts,blair,music,myvuf
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20090620T141328
+LAST-MODIFIED:20091116T091642
+ORGANIZER;CN=Christine Smith:MAILTO:marimbamaiden18@gmail.com
+DTSTART:20091118T193000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94926
+SUMMARY:Bruce Springsteen and the E Street Band
+DESCRIPTION:Bruce Springsteen & The E Street Band\non Wed\, November 18th at 7\:30 p.m. 
+URL;VALUE=URI:http://www.sommetcenter.com/event.php?event_id=185
+LOCATION:Sommet Center
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091027T124653
+LAST-MODIFIED:20091029T093240
+ORGANIZER;CN=David Kells:MAILTO:dkells@sommetcenter.com
+DTSTART:20091118T193000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/77466
+SUMMARY:Fall Board of Trust Meeting\, Nov. 19-20
+DESCRIPTION:Schedule of Meetings [http\://www.vanderbilt.edu/boardoftrust/schedule.html]\n  Visit Board of Trust online\, http\://www.vanderbilt.edu/boardoftrus [http\://www.vanderbilt.edu/boardoftrus]t\, or call 322-8333 for other useful information.\n
+URL;VALUE=URI:http://www.registrar.vanderbilt.edu
+CATEGORIES:academic-calendar,conferencesmeetingsseminarstrainingworkshops,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20090410T142754
+LAST-MODIFIED:20090708T082212
+ORGANIZER;CN=University Registrar:MAILTO:university.registrar@vanderbilt.edu
+DTSTART;VALUE=DATE:20091119
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/81472
+SUMMARY:Gentle Yoga
+DESCRIPTION:  Presenters\: Emily Epstein/Clyde Lee\n  With its origins in Indian philosophy\, yoga is an ancient system of relaxation\, exercise and healing. Yoga is fundamentally about creating balance in the body through physical movements called asanas or poses\, simple breathing techniques\, and meditation. Yoga can be an important tool in creating a healthy body\, decreasing anxiety and nurturing a sense of well-being.\n  $10 Drop-in / $54 6 Class Card / $108 12 Class Card\n  Schedule of Classes [http\://staging.vanderbilthealth.com/integrativehealth/calendar/calendar_events.html]\n  For information\, call 615-322-7395 or email Emily Lange\, emily.lange@vanderbilt.edu [mailto\:emily.lange@vanderbilt.edu].\n  Hosted by\: Vanderbilt Center for Integrative Health [http\://www.vanderbilthealth.com/integrativehealth/]\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090601T103134
+LAST-MODIFIED:20090827T145011
+ORGANIZER;CN=Emily Lange emily.lange@vanderbilt.edu:MAILTO:emily.lange@vanderbilt.edu
+DTSTART:20091119T070000
+DTEND:20091119T080000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/82629
+SUMMARY:"The Glutamate Homeostasis Hypothesis of Addiction"
+DESCRIPTION:Peter Kalivas\, Ph.D.\nDistinguished University Professor\nProfessor\, Department of Neurosciences\nProfessor\, Department of Psychiatry and Behavioral Sciences\nMedical University of South Carolina\nhttp\://www.muschealth.com/cdap/kalivas.htm  [http\://www.muschealth.com/cdap/kalivas.htm ]\n
+URL;VALUE=URI:http://www.mc.vanderbilt.edu/root/vumc.php?site=psychiatry
+LOCATION:Medical Research Building II (Preston Research Building)\, Room 898 J-B
+CATEGORIES:grand-rounds-and-presentations,medical-center,myvuf
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20090615T170036
+LAST-MODIFIED:20091116T095240
+ORGANIZER;CN=Philip Wesley :MAILTO:philip.l.wesley@vanderbilt.edu
+DTSTART:20091119T080000
+DTEND:20091119T090000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92391
+SUMMARY:'Tis the Season Holiday Marketplace
+DESCRIPTION:The third annual 'Tis the Season presented by the Junior League of Nashville is a three-day shopping extravaganza featuring approximately 80 unique merchants from across the country. It is a juried marketplace to ensure a wide variety of quality merchandise including home d&Egrave\;cor\, food\, clothing\, toys\, jewelry and much more. &iacute\;Tis the Season also includes several special events open to the public such as Candy Cane Cocktails and Santa Snaps.  Funds generated from Tis the Season Holiday Marketplace support the community projects of the Junior League of Nashville.
+URL;VALUE=URI:http://www.jlnashville.org
+LOCATION:The Factory at Franklin\, 230 Franklin Road\, Franklin\, TN 37064
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090927T170749
+LAST-MODIFIED:20090928T090122
+ORGANIZER;CN=Lauren Fulton:MAILTO:laurenfulton@comcast.net
+DTSTART:20091119T110000
+DTEND:20091119T170000
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20091121
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95748
+SUMMARY:VICC Brooks Lectureship Seminar\: Gerard I. Evan
+DESCRIPTION:Presenter\: Gerard I. Evan\, Ph.D.\nGerard I. Evan\, Ph.D.\, the Gerson and Barbara Bass Bakar Distinguished Professor\; Department of Pathology\, Department of Cellular and Molecular Pharmacology at the University of California\, San Francisco in the Helen Diller Family Comprehensive Cancer Center presents "Modeling the Ideal Cancer Therapy". The endowment for the George Daniel Brooks Lectureship was established in December 1991 with a gift from Frances Brooks Corzine. She made the gift in memory of her father\, George Daniel Brooks\, to support an annual lecture at the Henry-Joyce Cancer Clinic related to the field of oncology.\nTarget Audience\: Professional and Student\nHosted by\: Vanderbilt-Ingram Cancer Center/Dr. Stephen Fesik
+URL;VALUE=URI:http://www.vicc.org/
+LOCATION:898 I - J PRB
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091105T083005
+LAST-MODIFIED:20091105T114706
+ORGANIZER;CN=Krista Chavarria:MAILTO:Krista.Chavarria@vanderbilt.edu
+DTSTART:20091119T120000
+DTEND:20091119T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/93967
+SUMMARY:Dean's Lecture Series\: Stephen Bergman\, M.D.\, Ph.D.
+DESCRIPTION:Dean&#39\;s Lecture Series in conjunction with AMSA&#39\;s National Primary Care Week\nStephen Bergman [http\://www.samuelshem.com/v2/]\, M.D.\, Ph.D. (aka Samuel Shem)\nAuthor\, The House of God\nHosted by\: Vanderbilt University School of Medicine\n
+URL;VALUE=URI:https://medschool.vanderbilt.edu/events/node/80
+LOCATION:Light Hall (School of Medicine) 208
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center,myvuf
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091016T110013
+LAST-MODIFIED:20091021T092646
+ORGANIZER;CN=Janelle Owens :MAILTO:janelle.owens@vanderbilt.edu
+DTSTART:20091119T120000
+DTEND:20091119T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/80310
+SUMMARY:Department of Psychology Neuroscience Seminar (Brown Bag)
+DESCRIPTION:Matt Nelson\nVanderbilt University\nDepartment of Psychology/Schall Lab\nTitle\nThursday\, November 19\, 2009\n12\:10 p.m.\n316 Wilson Hall\nAbstract\nDepartment of Psychology NEUROSCIENCE SEMINAR SERIES\nFor additional information\, contact Carol Wiley@carol.wiley@vanderbilt.edu [javascript\:location.href='mailto\:'+String.fromCharCode(99\,97\,114\,111\,108\,46\,119\,105\,108\,101\,121\,64\,118\,97\,110\,100\,101\,114\,98\,105\,108\,116\,46\,101\,100\,117)+'?']\n
+URL;VALUE=URI:http://www.vanderbilt.edu/psychological_sciences/
+LOCATION:Wilson Hall\, Room 316
+CATEGORIES:academics,as,colloquiumslecturesmeetingssymposiums,conferencesmeetingsseminarstrainingworkshops,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090519T140001
+LAST-MODIFIED:20090917T081920
+ORGANIZER;CN=Cheryl Weeks:MAILTO:cheryl.b.weeks@vanderbilt.edu
+DTSTART:20091119T121000
+DTEND:20091119T131000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95477
+SUMMARY:Immigration Attorney David Ware
+DESCRIPTION:Attorney David Ware will discuss the legal steps necessary to transition from international student status in the U.S.\, to an employer sponsored visa\, to permanent residency.\nThis event is part of ISSS [http\://www.vanderbilt.edu/isss/] International Education Week
+URL;VALUE=URI:http://www.vanderbilt.edu/isss/
+LOCATION:Light Hall (School of Medicine)\, Room 214
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,dean-of-students,isss,students
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091102T123221
+LAST-MODIFIED:20091103T091945
+ORGANIZER;CN=Marci Angevine:MAILTO:marci.angevine@vanderbilt.edu
+DTSTART:20091119T140000
+DTEND:20091119T153000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/81471
+SUMMARY:Healing QiGong
+DESCRIPTION:  Presenter\: Michelle Pearce\, LPC\, RN\, D.Min.\n  Healing qigong is an hour of gentle movement\, breathe\, and stillness that nurtures non-judgmental awareness and a kind relationship with body and self. This class will focus on qigong practices that still the mind\, connect with the body\, and soothe the heart. Practices induce a relaxation response that may positively impact the immune system\, inner strength\, and vital energies. Holding the body and self in compassionate loving-kindness is an important aspect of creating the conditions needed to optimize the body’s natural healing ability.\n  $10 Drop-in / $54 6 Class Card / $108 12 Class Card\n  For information\, call 615-322-7395 or email Emily Epstein\, emily.lange@vanderbilt.edu [mailto\:emily.lange@vanderbilt.edu].\n  Hosted by the Vanderbilt Center for Integrative Health [http\://www.vanderbilthealth.com/integrativehealth/]\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090601T103133
+LAST-MODIFIED:20090827T145028
+ORGANIZER;CN=Emily Epstein :MAILTO:emily.lange@vanderbilt.edu
+DTSTART:20091119T160000
+DTEND:20091119T170000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94267
+SUMMARY:Balancing on the Financial Edge? Get Control
+DESCRIPTION:Ralph Topham\, LPC\, a clinical counselor at Work/Life Connections-EAP is offering a one hour course to help you create a personal spending plan. Financial security comes with practice. You may not believe that you will ever be financially secure\; but\, this program can be that first step.\nYou will learn\:\n- To take responsibility for your budget.\n- To identify how much money comes in and decide where your money goes.\n- To use tools that can help you develop a personal cash flow monitoring program.\nThis 1 hour class is open to faculty/staff and their significant others.\nOffered in the Medical Arts Building\, Suite 029\, EAP Training Room (in the basement)\nCall Work/Life Connections-EAP at 936-1327 to register\; limited to 10 people. Participants will receive a certificate of successful participation. 
+URL;VALUE=URI:http://www.worklifeconnections.vanderbilt.edu/
+LOCATION:Medical Arts Building\, Room Suite 029
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20091020T154210
+LAST-MODIFIED:20091021T123746
+ORGANIZER;CN=Kimberly Tromatore:MAILTO:Kimberly.a.tromatore@vanderbilt.edu
+DTSTART:20091119T160000
+DTEND:20091119T170000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/87032
+SUMMARY:Discovery Lecture Series\: Tyler Jacks
+DESCRIPTION:Presenter\: Tyler Jacks [http\://web.mit.edu/ki/faculty/jacks.html]\, Director\, Koch Institute for Integrative Cancer Research at MIT  David H. Koch Professor of BiologyInvestigator\, HHMI\nVanderbilt Medical Center has launched the Discovery Lecture Series featuring  the nation’s most eminent scientists\, who will speak on the highest-impact  research and policy issues in science and medicine today. \nReception to  follow\nThursday November 19\, 4\:00 p.m. (Central)\n208 Light Hall (Google  map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.000001134559956bd62d4&z=19])\nPlease click here\: www.VanderbiltDiscoverySeries.com [http\://www.vanderbiltdiscoveryseries.com/]  for additional information and archives.\n
+URL;VALUE=URI:http://www.mc.vanderbilt.edu/discoveryseries/
+LOCATION:Light Hall (School of Medicine) 208 
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center,myvuf
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20090819T121512
+LAST-MODIFIED:20090821T145141
+ORGANIZER;CN=Shana Hartman:MAILTO:shana.hartman@vanderbilt.edu
+DTSTART:20091119T160000
+DTEND:20091119T170000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94846
+SUMMARY:"The Translator-Practitioner's Visibility? Lope de Vega and Garcia Lorca in English"
+DESCRIPTION:David Johnston [http\://www.qub.ac.uk/schools/SchoolofLanguagesLiteraturesandPerformingArts/SubjectAreas/SpanishandPortugueseStudies/StaffDetails/ProfessorDavidJohnston/]\, Head of the School of Languages\, Literatures and Performing Arts and Professor of Hispanic Studies at Queen&#39\;s University\, Belfast\, will present a talk\, "The Translator-Practitioner&#39\;s Visibility? Lope de Vega and Garc&iacute\;a Lorca in English."\nFree and Open to the Public\nLocation\: Furman Hall (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=h&msa=0&msid=113431634774154206230.000446c13d1aa3cabac8c&ll=36.147936\,-86.801257&spn=0.001068\,0.001499&z=19])\nSponsored by the Robert Penn Warren Center for the Humanities  [http\://www.vanderbilt.edu/rpw_center/]
+URL;VALUE=URI:http://www.vanderbilt.edu/rpw_center/
+LOCATION:Furman Hall\, Room 311
+CATEGORIES:academics,colloquiumslecturesmeetingssymposiums,myvuf,programsspeakers,university
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091026T155550
+LAST-MODIFIED:20091029T131532
+ORGANIZER;CN=Polly Case:MAILTO:polly.case@vanderbilt.edu
+DTSTART:20091119T161000
+DTEND:20091119T170000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95779
+SUMMARY:The ART in VISAGE MedArt Event
+DESCRIPTION:The ART in VISAGE MedArt\: European Art Show & Sale\nLocation\: VISAGE MedArt Medical Aesthetics\, 7835 Old Harding Pike\, Nashville\, TN 37221\nDate\: Thursday\, November 19th\, 2009\nTime\: 5\:00-7\:30 p.m.\nCost\: No charge\; reservations not necessary\nContact\: 615-646-9770 - Debbie Mathieu or Bethany Cope\nYou are invited to join us for a special evening celebrating beauty through visual arts. In his art filled medical aesthetic office\, Dr. Marek Kacki focuses on the unique beauty within each of his patients.\nKacki\, who has had work shown on three continents\, is joined for this special evening by French artist Elisa Cossonnet and Mohammed Lekhleti as well as Mihail Chemiakin and Zamy Steynovitz.\nMore than 100 pieces are available for purchase at one-night-only special prices starting as low as $15 and up to $2000.\nComplimentary wine and hors d&#39\; oeuvres.\nGuests will also have the opportunity to tap into savings to perfect their own visual presentation! Pre-purchase Active FX and Deep FX Laser Resurfacing at special event pricing.
+URL;VALUE=URI:http://www.visagemedart.com
+LOCATION:VISAGE MedArt\, 7835 Old Harding Pike\, Nashville\, TN 37221
+CATEGORIES:arts
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091105T113240
+LAST-MODIFIED:20091105T113811
+ORGANIZER;CN=Bethany Cope:MAILTO:visagemedart@gmail.com
+DTSTART:20091119T170000
+DTEND:20091119T193000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/81470
+SUMMARY:Mindful Living
+DESCRIPTION:  Presenter\: Michelle Pearce\, LPC\, RN\, D.Min.\n  Mindful Living consists of an hour of deepening mindfulness practice through standing\, sitting\, and qigong meditative movement. This group will include brief didactic discussions of qualities of a deepening practice and the opportunity to share hindrances and obstacles to the application of mindfulness both as a meditation practice and as a way of life. Appropriate for individuals already practicing meditation who want to go deeper and nurture their practice in community as well as for those new to mindfulness but ready to dive in.\n   $10 Drop-in / $54 6 Class Card / $108 12 Class Card\n  For information\, call 615-322-7395 or email Emily Epstein\, emily.lange@vanderbilt.edu [mailto\:emily.lange@vanderbilt.edu].\n  Hosted by the Vanderbilt Center for Integrative Health [http\://www.vanderbilthealth.com/integrativehealth/]\n
+URL;VALUE=URI:http://www.vanderbilthealth.com/integrativehealth/
+LOCATION:Vanderbilt Center for Integrative Health
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,health-wellness,medical-center
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090601T103132
+LAST-MODIFIED:20090827T145037
+ORGANIZER;CN=Emily Epstein :MAILTO:emily.lange@vanderbilt.edu
+DTSTART:20091119T173000
+DTEND:20091119T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95270
+SUMMARY:At the Frist\: Music in the Grand Lobby\: John Danley (solo guitar and paint brush)
+DESCRIPTION:John Danley is an experimental\, fingerstyle guitarist who composes and performs his own blend of acoustic\, instrumental music. His 8th CD\, Acoustic Dimorphism\, has just been released. He has performed at the Kennedy Center\, college universities\, festivals and art galleries across the country\, and has shared the stage with such artists as David Gray\, Iris DeMent\, Gove Scrivenor\, Reese Wynans\, Cheryl Wheeler\, Peppino D&#39\;Agostino and the Nashville Symphony Orchestra.\nVisitors are welcome to purchase beverages and snacks in the Frist Center Cafe to bring into the Grand Lobby.
+URL;VALUE=URI:http://www.fristcenter.org
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway\, Room Grand Lobby
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091030T122217
+LAST-MODIFIED:20091030T132555
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091119T180000
+DTEND:20091119T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/88258
+SUMMARY:Chattanooga Vanderbilt Chapter Event\: An Artful Evening
+DESCRIPTION:Chattanooga - An Artful Evening\nNovember 19\, 2009 6\:00 PM\nLocation\: Hunter Art Museum\, 10 Bluff View\, Chattanooga\, TN 37403\n6\:00pm – Tour begins\, Social hour to follow tour\n Cost\: $9.95 per person (cost of Museum admission)\; Free for Museum members\n Come for a night of conversation about art and life with the Hunter. The Chattanooga Vanderbilt Chapter is partnering with the Hunter to offer this curator-led gallery experience.  Guests will tour selected works from the permanent collection and visiting galleries.  Afterwards\, you can catch up with old friends and make new ones with a social hour.  Cash food/bar at the Museum Caf&eacute\;. \n RSVP by Monday\, November 16\, 2009 to Maury Nicely at mnicely@millermartin.com [mailto\:mnicely@millermartin.com]\n Questions?  Contact Maury Nicely\, A&S’93\, at mnicely@millermartin.com [mailto\:mnicely@millermartin.com]\nhttps\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=5113 [https\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=5113]\n
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/chattanooga
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090902T094215
+LAST-MODIFIED:20091014T130512
+ORGANIZER;CN=Kristy Sherrill:MAILTO:kristy.l.sherrill@vanderbilt.edu
+DTSTART:20091119T180000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94386
+SUMMARY:At the Frist\: Music in the Grand Lobby\: OTTO
+DESCRIPTION:Jim Hoke may be the hardest working musician in Nashville. The multi-instrumentalist is a composer\, arranger\, in-demand studio player and also fronts a number of highly regarded ensembles. He brings one of them\, Otto\, to the Frist Center [http\://www.fristcenter.org] for the second time. Otto\, comprising cello\, woodwinds\, vibraphone\, and pedal steel\, features a repertoire ranging from Faure and Milhaud to Zappa and the Beach Boys.
+URL;VALUE=URI:http://www.fristcenter.org
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway\, Room Grand Lobby
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091021T103601
+LAST-MODIFIED:20091021T123047
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091119T180000
+DTEND:20091119T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91503
+SUMMARY:Off the Wall Lecture Series\: "RE-ASSEMBLING REALITY\: Surrealism and Surrealist Film in 1920s and 1930s Paris"
+DESCRIPTION:You have seen Twilight Visions\: Surrealism\, Photography\, and Paris and delved into the minds of the Surrealists. Now learn more about the tumultuous yet edifying times they lived in by attending the Frist Center's three part Off the Wall lecture series being held in conjunction with the exhibition. Kelli Shay Hix\, moving image archivist at the Country Music Hall of Fame and Museum\, will discuss the techniques and goals of the creators of selected early Parisian Surrealist films\, as well as the history behind their works.\n  Location\: Frist Center (Directions [http\://www.fristcenter.org/site/visit/])\nThe postÂWorld War I Parisian Surrealists used the mediums of writing\, painting\, and photography to expose the "superior reality of certain forms of previously neglected associations." But it was the medium of moving image film which gave the Surrealists the opportunity to create a nearly complete parallel world in which reason took a backseat to dreams\, and in which traditional editing processes were used to confuse\, rather than to clarify\, normal patterns of reason. Though entertaining\, these films are far from escapist. Much of the meaning in the films relies on the viewers' expectations\, reactions\, and interpretations of the films. This cinema is not meant to re-enact dreams or to tell a narrative\, but to acknowledge a reality "outside of all aesthetic and moral preoccupation."\n*Quotes are from The Surrealist Manifesto\, Andr&eacute\; Breton\, 1924\n
+URL;VALUE=URI:http://www.fristcenter.org
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway\, Room Auditorium
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090916T112331
+LAST-MODIFIED:20090917T074208
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091119T183000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94476
+SUMMARY:Twin Cities Vanderbilt Chapter Event\: Museum Tour
+DESCRIPTION:Twin Cities - 2009 Minneapolis Institute of Arts Tour\nNovember 19\, 2009 7\:00 PM - 8\:00 PM\nLocation\:  Minneapolis Institute of Arts\, 2400 Third Avenue South\, Minneapolis\, MN  55404\, (888) MIA ARTS (642-2787)\nPlease join us on the "It&#39\;s a Classic" tour.  Discover artists&#39\; fascination with stories of ancient Greek and Roman gods and heroes throughout the centuries.  See classical elements in the museum\, the period rooms\, and the decorative arts that were inspired by the golden age of Greek and Roman art and architecture.\nWe will meet in the Central Lobby\, next to the benches by the security desk.\nQuestions?  For more information contact Solange Guillaume [mailto\:sol-angel@usa.net?subject=Vanderbilt%20MIA%20tour]\, Blair &#39\;00.\nhttps\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6084 [https\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6084]\n
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/twincities
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091022T090627
+LAST-MODIFIED:20091023T083955
+ORGANIZER;CN=Kristy Sherrill:MAILTO:kristy.l.sherrill@vanderbilt.edu
+DTSTART:20091119T190000
+DTEND:20091119T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/84919
+SUMMARY:International Lens Film Series\: "Tokyo Drifter  (Tokyo nagaremono)"
+DESCRIPTION:Free and open to the public\nPresented by\: Todd Hughes\, Director\, Language Center.\nJapan (1966) Dir\: Seijun Suzuki.\nIn this free-jazz gangster film\, reformed killer "Phoenix" Tetsu drifts around Japan\, awaiting his own execution\, until he&#39\;s called back to Tokyo to help battle a rival gang by his boss\, who is trying to give up his life of crime. But both men have a hard time sticking to a virtuous path when associates are blackmailed\, loves threatened\, and deceit and treachery abound. Suzuki&#39\;s aestheticised violence\, visual gags\, and mind-warping color effects got him in trouble with his studio heads\, who had ordered him to "play it straight this time."\nIn Japanese with English subtitles. 90 minutes. DVD.\nFunded in part by the Language Center.\nHeld in conjunction with International Education Week [http\://www.vanderbilt.edu/isss/].\nPresenters will provide an introduction and facilitate post-screening discussion for each film.\nSarratt Cinema is located on the first floor of the Sarratt Student Center [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=h&om=1&msa=0&msid=116711405185838456107.00045456b6aed3033da26&ll=36.147856\,-86.803156&spn=0.003665\,0.004774&z=18] at Vanderbilt University.\nFor additional information and parking maps\, visit the International Lens web site (http\://www.vanderbilt.edu/internationallens [http\://www.vanderbilt.edu/internationallens]) or call 322-6400.\nINTERNATIONAL LENS is sponsored by the Office of the Dean of Students and coordinated by the Office of Arts & Creative Engagement and the Office of International Student & Scholar Services in collaboration with Vanderbilt University academic departments\, programs\, and centers.\n
+URL;VALUE=URI:http://www.vanderbilt.edu/internationallens
+LOCATION:Sarratt Cinema
+CATEGORIES:arts,dean-of-students,films,international-lens-film-series,isss,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:7
+DTSTAMP:20091116T135217
+CREATED:20090722T175149
+LAST-MODIFIED:20091105T153400
+ORGANIZER;CN= Joel Logiudice:MAILTO:joel.logiudice@vanderbilt.edu
+DTSTART:20091119T190000
+DTEND:20091119T210000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/82997
+SUMMARY:Cancelled - Blair presents Vanderbilt Chamber Orchestra
+DESCRIPTION:Free and Open to the Public\nThursday\, November 19\, 2009\n8\:00 p.m. Ingram Hall (Google map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.000001134553304d884b1&z=19])\nFree parking for all listed events in South Garage (adjacent to the Vanderbilt Children's Hospital on Children's Way)\nVANDERBILT CHAMBER ORCHESTRA\nRobin Fountain\, conductor\n
+URL;VALUE=URI:http://www.vanderbilt.edu/Blair/calevents/index.html
+LOCATION:Blair School of Music - Ingram Hall
+CATEGORIES:arts,blair,music,myvuf
+CLASS:PUBLIC
+SEQUENCE:7
+DTSTAMP:20091116T135217
+CREATED:20090620T141506
+LAST-MODIFIED:20090818T061331
+ORGANIZER;CN=Christine Smith:MAILTO:marimbamaiden18@gmail.com
+DTSTART:20091119T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/88317
+SUMMARY:VU Women's Swimming\: Hilltopper Invitational
+DESCRIPTION:Hilltopper Invitational\, Nov. 20-22\n
+URL;VALUE=URI:http://vucommodores.cstv.com/sports/w-swim/sched/vand-w-swim-sched.html
+LOCATION:Bowling Green\, Ky.
+CATEGORIES:athletics,womens-swimming
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090902T145455
+LAST-MODIFIED:20090916T153043
+ORGANIZER;CN=Maya Benayoun:MAILTO:maya.benayoun@vanderbilt.edu
+DTSTART;VALUE=DATE:20091120
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20091122
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95303
+SUMMARY:The George W. Holcomb\, Jr. Lecture in Pediatric Surgery
+DESCRIPTION:The Seventeenth Annual George W. Holcomb\, Jr. Lecture in Pediatric Surgery guest lecturer\nEdward M. Barksdale\, M.D.\nDivision Chief\, Pediatric Surgery\, UHCMC\nProfessor Robert J. Izant\, Jr.\, M.D. Professor of Pediatric Surgery\, Case Western Reserve University\n"Neuroblastoma Immunotherapy with Dendritic Cells\: Evidence from the Bench (...of a Surgeon)"
+URL;VALUE=URI:http://www.vanderbiltchildrens.org/interior.php?mid=6581
+LOCATION:Light Hall (School of Medicine)\, Room 208
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center,myvuf,vanderbilt-childrens-hospital,vch-conferences
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091030T152119
+LAST-MODIFIED:20091104T140409
+ORGANIZER;CN=Jennifer Wilkins:MAILTO:jennifer.wilkins@vanderbilt.edu
+DTSTART:20091120T070000
+DTEND:20091120T090000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/71425
+SUMMARY:Web Spiders Meeting
+DESCRIPTION:Monthly meeting of Vanderbilt Web Developers Group.\nThis month&#39\;s guest speaker is Ben Stucki [http\://blog.benstucki.net]. Ben is an independent Flex developer and consultant with a background in standards-based web development.  \nThe Art and Science of Rich Internet Applications As web development grows more complex\, Application Architecture and User Experience Design have become even more important. So\, what are the real-life lessons you need to master these skills? In this session Ben will explore what’s uniquely challenging about building internet applications\, how to feel your way through the development process\, and how a few golden rules can make or break your design.\n
+URL;VALUE=URI:http://www.vanderbilt.edu/spiders
+LOCATION:Kennedy Center/MRL Building\, Room 241
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,myvuf,university
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20090123T124143
+LAST-MODIFIED:20091116T122827
+ORGANIZER;CN=Melanie Moran:MAILTO:melanie.s.moran@vanderbilt.edu
+DTSTART:20091120T100000
+DTEND:20091120T110000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/96211
+SUMMARY:Kim Marie Unertl - Dissertation Defense
+DESCRIPTION:"Understanding the Impact of Health Information Exchange Technology\: Workflow Elements\, Patterns of Use\, and Information Ecologies"\nKim Marie Unertl\, Biomedical Informatics (Professor Nancy M. Lorenzi\, Chair of the Ph.D. Committee)
+URL;VALUE=URI:
+LOCATION:Medical Center North (MCN)\, Room C2209
+CATEGORIES:academics,dissertation-defense-notices,graduate-school
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20091110T155616
+LAST-MODIFIED:20091111T090351
+ORGANIZER;CN=Graduate School:MAILTO:linda.harris@vanderbilt.edu
+DTSTART:20091120T110000
+DTEND:20091120T130000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/95594
+SUMMARY:Shanshan Jiang - Dissertation Defense
+DESCRIPTION:"Network and Service Failure Restoration and Prevention in Multi-hop Wireless and Mobile Networks"\nShanshan Jiang\, Computer Science (Professor Yuan Xue\, Chair of the Ph.D. Committee)
+URL;VALUE=URI:
+LOCATION:Featheringill Hall\, Room 308
+CATEGORIES:academics,dissertation-defense-notices,graduate-school
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091103T135617
+LAST-MODIFIED:20091104T093035
+ORGANIZER;CN=Graduate School:MAILTO:linda.harris@vanderbilt.edu
+DTSTART:20091120T120000
+DTEND:20091120T140000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/88008
+SUMMARY:VU Women's Basketball vs. UC Riverside
+DESCRIPTION:at\nLocation\: Memorial Gymnasium (Google  map of this location [http\://maps.google.com/maps/ms?ie=UTF8&hl=en&t=k&om=1&msa=0&msid=101764828845341185184.00000113455cd3bbfe865&z=19])\nTicket required.\n
+URL;VALUE=URI:http://vucommodores.com
+LOCATION:Memorial Gymnasium
+CATEGORIES:athletics,dean-of-students,myvuf,womens-basketball
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090831T160722
+LAST-MODIFIED:20090904T091136
+ORGANIZER;CN=Greg McMillin:MAILTO:gregory.d.mcmillin@vanderbilt.edu
+DTSTART:20091120T140000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91505
+SUMMARY:Frist Center - Music in the Grand Lobby \:The Contrarian Ensemble
+DESCRIPTION:The Contrarian Ensemble is widely known and sought after by folk and contra dancers in Middle Tennessee. This delightful community band\, comprising guitar\, mandolin\, accordion\, fiddle\, recorder and percussion\, plays music of and by the folk. From contemporary reels\, jigs\, and waltzes\, to music of the early 17th century\, the Contrarians will inspire you to rise and dance. And visitors are welcome to do just that.  Location\: Frist Center (Directions [http\://www.fristcenter.org/site/visit/])\n
+URL;VALUE=URI:http://www.fristcenter.org
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway\, Room Grand Lobby
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090916T112626
+LAST-MODIFIED:20090917T074516
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091120T180000
+DTEND:20091120T200000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91392
+SUMMARY:San Francisco - Vanderbilt vs. St. Mary's Men's Basketball Game and Social
+DESCRIPTION:San Francisco - Vanderbilt vs. St. Mary&#39\;s Men&#39\;s Basketball Game and Social\nNovember 20\, 2009 6\:00 PM\nLocations\: Pre-game social\: Casey Sproul&#39\;s House\, 373 Birchwood Drive\, Moraga\, CA 94556\nThe Game\: St. Mary&#39\;s College\, McKeon Pavilion\, 1928 St. Mary&#39\;s Road\, Moraga\, CA 94556\nThe Commodores are coming to California!  Join fellow Vanderbilt alumni and friends for a pre-game social followed by a night at the Vandy vs. St. Mary&#39\;s Men&#39\;s Basketball game.  We will meet for drinks and appetizers at the home of Casey Sproul\, Pbdy&#39\;05\, and then we&#39\;ll head to the game to cheer our &#39\;Dores on to victory.\nCost\: $27 (includes game ticket and appetizers/drinks at the social)\nPlease register by November 4 to ensure that we can reserve ample seating at the game.\nhttps\://secure.www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6205 [https\://secure.www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6205] 
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/sanfrancisco
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:4
+DTSTAMP:20091116T135217
+CREATED:20090915T103157
+LAST-MODIFIED:20091030T132046
+ORGANIZER;CN=Kristy Sherrill:MAILTO:kristy.l.sherrill@vanderbilt.edu
+DTSTART:20091120T180000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/94471
+SUMMARY:Atlanta Vanderbilt Chapter Event\: Martinis and IMAX
+DESCRIPTION:Atlanta - 2009 Martinis & IMAX\nNovember 20\, 2009 6\:30 PM - 10\:00 PM\nLocation\:  Fernbank Museum of Natural History\, 767 Clifton Road\, Atlanta\, GA 30307\nCome join us for an evening of Martinis & IMAX! We&#39\;ll be viewing the IMAX film "Wild Safari\: A South African Adventure."  Meet us at 6\:30pm to pick up your ticket and mingle before the film at 8 p.m.  Food and drinks available for purchase. \nCost\: $10 per person (includes IMAX ticket)\nRegister by Sunday\, November 15\, 2009.\nQuestions? Please contact Sarah Watson\, A&S &#39\;05 @ sew0283@yahoo.com [mailto\:sew0283@yahoo.com]\nhttps\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6083  [https\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=6083 ]
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/atlanta
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091022T085925
+LAST-MODIFIED:20091022T121751
+ORGANIZER;CN=Kristy Sherrill:MAILTO:kristy.l.sherrill@vanderbilt.edu
+DTSTART:20091120T183000
+DTEND:20091120T220000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91504
+SUMMARY:Frist Center - ARTini\: Oliver Herring\: Common Threads
+DESCRIPTION:Join Susan Edwards\, Ph.D.\, Director and CEO of the Frist Center\, as she leads an informal conversation about one or two works of art in this exhibition. Complete your evening by relaxing in the Grand Lobby with beverages from the cash bar or caf&eacute\; and visiting with friends.\n
+URL;VALUE=URI:
+LOCATION:Frist Center for the Visual Arts\, 919 Broadway\, Room Meet at the information desk
+CATEGORIES:nashville,nashville-events
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090916T112506
+LAST-MODIFIED:20090917T074333
+ORGANIZER;CN=Emily Harper:MAILTO:eharper@fristcenter.org
+DTSTART:20091120T190000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/88733
+SUMMARY:VU Men's Basketball at Saint Mary's
+DESCRIPTION:at\nTicket Required\nLocation\: Moraga\, Calif. 
+URL;VALUE=URI:http://vucommodores.cstv.com/sports/m-baskbl/sched/vand-m-baskbl-sched.html
+LOCATION:Moraga\, Calif.
+CATEGORIES:athletics,mens-basketball
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090903T085404
+LAST-MODIFIED:20091113T094110
+ORGANIZER;CN=Greg McMillin:MAILTO:gregory.d.mcmillin@vanderbilt.edu
+DTSTART:20091120T223000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/63891
+SUMMARY:Thanksgiving holidays in most schools except Medicine\, Nov. 21-29
+DESCRIPTION:Visit University Registrar online\, http\://www.registrar.vanderbilt.edu [http\://www.registrar.vanderbilt.edu]\, or call 322-7701 for other useful information. \nNote to parents\: Please direct all questions concerning academic breaks and exam schedules to theUniversity Registrar's office [http\://www.registrar.vanderbilt.edu/]\, http\://www.registrar.vanderbilt.edu [http\://www.registrar.vanderbilt.edu/]\, or call 322-7701 for other useful information.\n
+URL;VALUE=URI:http://www.registrar.vanderbilt.edu
+CATEGORIES:academic-calendar,dean-of-students,key-dates,myvuf,students
+CLASS:PUBLIC
+SEQUENCE:6
+DTSTAMP:20091116T135217
+CREATED:20080912T082847
+LAST-MODIFIED:20091002T070620
+ORGANIZER;CN=University Registrar:MAILTO:university.registrar@vanderbilt.edu
+DTSTART;VALUE=DATE:20091121
+RRULE:FREQ=DAILY;INTERVAL=1;UNTIL=20091129
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/78841
+SUMMARY:Thanksgiving holiday for Management\, Nov. 21-29
+DESCRIPTION:  Visit Owen Graduate School of Management online\, http\://www.owen.vanderbilt.edu\, or call 322-6469 for more information.\n
+URL;VALUE=URI:http://www.owen.vanderbilt.edu
+CATEGORIES:academic-calendar,students
+CLASS:PUBLIC
+SEQUENCE:1
+DTSTAMP:20091116T135217
+CREATED:20090430T075833
+LAST-MODIFIED:20090430T075833
+ORGANIZER;CN=University Registrar:MAILTO:university.registrar@vanderbilt.edu
+DTSTART;VALUE=DATE:20091121
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/75092
+SUMMARY:VU Football at Tennessee
+DESCRIPTION:Ticket required.\n
+URL;VALUE=URI:http://vucommodores.com
+LOCATION:Knoxville\, Tenn.
+CATEGORIES:athletics,football
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090310T142420
+LAST-MODIFIED:20090310T153941
+ORGANIZER;CN=Greg McMillin:MAILTO:gregory.d.mcmillin@vanderbilt.edu
+DTSTART;VALUE=DATE:20091121
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/78840
+SUMMARY:Thanksgiving holidays for MLI\, SLP\, MDE\, AUD (1-3rd yr)\, Nov. 21-29
+DESCRIPTION:  Visit Medical School online\, http\://www.mc.vanderbilt.edu/medschool [http\://www.mc.vanderbilt.edu/medschool]\, or call 343-6311 for other useful information.\n
+URL;VALUE=URI:http://www.registrar.vanderbilt.edu
+CATEGORIES:academic-calendar,medical-center,medical-students
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20090430T075542
+LAST-MODIFIED:20090430T075603
+ORGANIZER;CN=University Registrar:MAILTO:university.registrar@vanderbilt.edu
+DTSTART;VALUE=DATE:20091121
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/91602
+SUMMARY:VU Women's Bowling\: UMES Hawk Classic
+DESCRIPTION:Nov. 21-23\nMillsboro\, Del.\n
+URL;VALUE=URI:http://vucommodores.cstv.com/sports/w-bowl/sched/vand-w-bowl-sched.html
+LOCATION:Millsboro\, Del.
+CATEGORIES:athletics,womens-bowling
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090917T113006
+LAST-MODIFIED:20090917T142147
+ORGANIZER;CN=Maricus Jones:MAILTO:maricus.d.jones@vanderbilt.edu
+DTSTART;VALUE=DATE:20091121
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92734
+SUMMARY:The Ann and Monroe Carell Jr. Families First Program - Promoting Peer and Sibling Play
+DESCRIPTION:Registration required at http\:/kc.vanderbilt.edu/registration [http\://http\:/kc.vanderbilt.edu/registration] 8-9 Breakfast and  networking 8\:15-8\:45 Brief presentation on the core deficits in autism (for  interested parents) 9-12 Workshop For more information contact 322-6027. On-site  childcare available with registration.\nFor Parents of children (ages 2-5) diagnosed with an autism spectrum disorder\nHosted by\: Monroe Carell Jr. Children's Hospital at Vanderbilt and Vanderbilt Kennedy  Center [http\://http\:/kc.vanderbilt.edu]
+URL;VALUE=URI:http://kc.vanderbilt.edu/famfirst
+LOCATION:Room 241 Vanderbilt Kennedy Center/MRL Building
+CATEGORIES:conferencesmeetingsseminarstrainingworkshops,medical-center,myvuf,vanderbilt-childrens-hospital,vch-outreach
+CLASS:PUBLIC
+SEQUENCE:2
+DTSTAMP:20091116T135217
+CREATED:20091001T090009
+LAST-MODIFIED:20091006T152936
+ORGANIZER;CN=Families First:MAILTO:familiesfirst@vanderbilt.edu
+DTSTART:20091121T080000
+DTEND:20091121T120000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/92299
+SUMMARY:The Ann and Monroe Carell Jr. Families First Program\: Promoting Peer and Sibling Play
+DESCRIPTION:A free monthly workshop series for parents of children (ages 2-5) diagnosed with an autism spectrum disorder.\nRegistration required at http\:/kc.vanderbilt.edu/registration [http\://http\:/kc.vanderbilt.edu/registration]\n8-9 a.m. \: Breakfast and networking\n8\:15-8\:45 a.m.\: Brief presentation on the core deficits in autism (for interested parents)\n9 a.m.-12\:00 p.m.\: Workshop\nFor more information contact 322-6027.\n
+URL;VALUE=URI:http://kc.vanderbilt.edu/famfirst
+LOCATION:Vanderbilt Kennedy Center/MRL Building\, Room 241
+CATEGORIES:medical-center,myvuf,vanderbilt-childrens-hospital,vch-outreach
+CLASS:PUBLIC
+SEQUENCE:3
+DTSTAMP:20091116T135217
+CREATED:20090925T135233
+LAST-MODIFIED:20090925T141158
+ORGANIZER;CN=Amy Pottier:MAILTO:amy.pottier@vanderbilt.edu
+DTSTART:20091121T080000
+DTEND:20091121T120000
+END:VEVENT
+BEGIN:VEVENT
+UID:http://sitemason.vanderbilt.edu/element/bzrandu/id/87958
+SUMMARY:San Antonio Vanderbilt Chapter Event\: Days of Caring
+DESCRIPTION:San Antonio - Days of Caring\nNov. 21\, 2009 9\:00 AM  - 12\:30 PM\nLocation\: Pittman-Sullivan Community Garden\, 1101 Iowa Street\,  San Antonio\, TX  78202 \nDays of Caring is a city-wide program\, out of the United Way\, which encourages companies and organizations to come together in the spirit of giving back to the community.\nPittman-Sullivan Community Garden is on the city&#39\;s east side and serves the surrounding neighborhood.  It is our goal to provide the neighborhood with an outdoor meeting place for community members\, organically grown food\, and a venue for public art.  In addition\, the community garden will help develop and sustain a sense of community pride.  We will be working on a pathway surrounding the garden\, planting previously prepared beds\, and continuing bed preparation for future planting.\nTools will be available on site (volunteers are free to bring their own tools if they choose).\nVolunteers should wear close-toed shoes and bring gloves.\nFamily and friends of all ages are welcome!\nLunch will be provided on site.\nOn-street parking will be available in the vicinity of S. Palmetto and Dakota.\nTo reserve your spot\: contact Ankita Rakhe [mailto\:ankitarakhe@hotmail.com?subject=Vanderbilt%20Days%20of%20Caring]\, Pbdy &#39\;03 by Friday\, September 11\, 2009.  **Please include phone number and t-shirt size for all volunteers.\nhttps\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=5081\n [https\://www.alumniconnections.com/olc/pub/VDT/event/showEventForm.jsp?form_id=5081]\n
+URL;VALUE=URI:http://www.vanderbilt.edu/alumni/sanantonio
+CATEGORIES:alumni,alumni-events
+CLASS:PUBLIC
+SEQUENCE:5
+DTSTAMP:20091116T135217
+CREATED:20090831T140500
+LAST-MODIFIED:20091110T142456
+ORGANIZER;CN=Carolyn Dunlap:MAILTO:carolyn.dunlap@vanderbilt.edu
+DTSTART:20091121T090000
+DTEND:20091121T123000
+END:VEVENT
+END:VCALENDAR

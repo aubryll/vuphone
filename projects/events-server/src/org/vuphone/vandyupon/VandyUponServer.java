@@ -35,6 +35,7 @@ import org.mortbay.jetty.handler.HandlerList;
 import org.mortbay.jetty.handler.ResourceHandler;
 import org.mortbay.jetty.servlet.Context;
 import org.mortbay.jetty.servlet.ServletHolder;
+import org.vuphone.vandyupon.datamine.vandycal.RequestICal;
 import org.vuphone.vandyupon.sql.SqlConstructor;
 
 /**
@@ -83,26 +84,27 @@ public class VandyUponServer {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		Logger logger = Logger.getLogger("org.vuphone.wwatch"); 
-		ConsoleHandler ch = new ConsoleHandler();
-		ch.setLevel(Level.FINEST);
-		logger.addHandler(ch);
-		logger.setLevel(Level.FINEST);
-		
-		
-		int port = 8080;
-		if (args.length > 0) {
-			try {
-				port = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				// Need to modify this to print the correct usage...
-				logger_.log(Level.SEVERE, "Probably an invalid port number:"
-						+ args[0], e);
-				return;
-			}
-		}
-
-		(new VandyUponServer()).start(port);
+//		Logger logger = Logger.getLogger("org.vuphone.wwatch"); 
+//		ConsoleHandler ch = new ConsoleHandler();
+//		ch.setLevel(Level.FINEST);
+//		logger.addHandler(ch);
+//		logger.setLevel(Level.FINEST);
+//		
+//		
+//		int port = 8080;
+//		if (args.length > 0) {
+//			try {
+//				port = Integer.parseInt(args[0]);
+//			} catch (Exception e) {
+//				// Need to modify this to print the correct usage...
+//				logger_.log(Level.SEVERE, "Probably an invalid port number:"
+//						+ args[0], e);
+//				return;
+//			}
+//		}
+//
+//		(new VandyUponServer()).start(port);
+		RequestICal.doIt();
 	}
 
 	/**
