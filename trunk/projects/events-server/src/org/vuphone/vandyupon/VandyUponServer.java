@@ -51,6 +51,7 @@ public class VandyUponServer {
 
 	private static final String SQL_CONSTRUCTOR = "sqlConstructor";
 	public static final String VANDY_UPON_PATH = "/vandyupon";
+	
 	public static final String VANDY_UPON_EVENT_CHANNEL = "/events";
 	public static final String VANDY_UPON_NOTIFICATIONS_CHANNEL = "/notifications";
 	public static final String VANDY_UPON_BROWSER_AJAX_CHANNEL = "/map";
