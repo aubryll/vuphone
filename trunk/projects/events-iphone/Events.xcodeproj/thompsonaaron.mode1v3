@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -277,8 +279,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>22</integer>
-									<integer>2</integer>
+									<integer>32</integer>
+									<integer>29</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -315,14 +317,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>EventsAppDelegate.m</string>
+								<string>Events 3.xcdatamodel</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -330,11 +330,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>EventsAppDelegate.m</string>
+										<string>Events 3.xcdatamodel</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>615CA0EA10B1EF1500E310F2</string>
+										<string>615CA0F210B1F32800E310F2</string>
 										<key>history</key>
 										<array>
 											<string>615C9F3F10B0817600E310F2</string>
@@ -348,7 +348,9 @@
 											<string>615CA0B710B1E17000E310F2</string>
 											<string>615CA0C910B1EE3700E310F2</string>
 											<string>615CA0CA10B1EE3700E310F2</string>
-											<string>615CA0E910B1EF1500E310F2</string>
+											<string>615CA0EF10B1F32800E310F2</string>
+											<string>615CA0F010B1F32800E310F2</string>
+											<string>615CA0F110B1F32800E310F2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
