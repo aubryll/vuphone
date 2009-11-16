@@ -19,9 +19,20 @@
 	latitudeLabel.text = [location.latitude stringValue];
 	longitudeLabel.text = [location.longitude stringValue];
 	
+	// Add or remove the editable button
+	if ([location isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
+		self.navigationItem.rightBarButtonItem = editButton;
+	} else {
+		self.navigationItem.rightBarButtonItem = nil;
+	}
+	
+	// Set up the map
 	[mapView setRegion:MKCoordinateRegionMakeWithDistance(location.coordinate, 200.0, 200.0)];
 	[mapView removeAnnotation:location];
-	[mapView addAnnotation:location];
+	
+	if (location != nil) {
+		[mapView addAnnotation:location];
+	}
 	
 	[self applyIsEditing];
 }
@@ -41,7 +52,7 @@
 			if (isNew) {
 				((EventViewController *)controller).event.location = location;
 			}
-			[((EventViewController *)controller).tableView reloadData];
+			[((EventViewController *)controller) updateAndReload];
 			[self.navigationController popToViewController:(UIViewController *)controller animated:YES];
 		}
 	}

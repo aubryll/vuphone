@@ -19,19 +19,6 @@
 	return self;
 }
 
-
-//
-// tableView:didSelectRowAtIndexPath:
-//
-// Handle row selection
-//
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	[editableTVC setEditing:isEditable animated:YES];
-
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
 //
 // tableView:cellForRowAtIndexPath:
 //
@@ -55,10 +42,25 @@
 	return cell;
 }
 
+//
+// tableView:didSelectRowAtIndexPath:
+//
+// Handle row selection
+//
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[editableTVC setEditing:isEditable];
+	
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
 - (void)setEditingField:(BOOL)isEditing
 {
 	isEditable = isEditing;
-	[editableTVC setEditing:isEditing animated:YES];
+	[editableTVC setEditable:isEditing];
+	
+	editableTVC.textField.placeholder = (isEditable) ? @"(tap to edit)" : nil;
 }
 
 - (void)dealloc {

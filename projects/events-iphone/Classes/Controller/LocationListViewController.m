@@ -50,7 +50,7 @@
 	// Create a new location in the shared event store
 	Location *location = (Location *)[NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
 																   inManagedObjectContext:context];
-	
+	location.ownerDeviceId = [[UIDevice currentDevice] uniqueIdentifier];
 	location.parentLocation = self.parentLocation;
 	if (self.parentLocation != nil) {
 		location.latitude = self.parentLocation.latitude;
@@ -146,7 +146,7 @@
 		{
 			EventViewController *evc = (EventViewController *)controller;
 			evc.event.location = [self.locations objectAtIndex:indexPath.row];
-			[evc.tableView reloadData];
+			[evc updateAndReload];
 			[self.navigationController popToViewController:evc animated:YES];
 		}
 	}

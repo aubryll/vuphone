@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "VUCellController.h"
+#import "VUEditableCellController.h"
 #import "EventRating.h"
 
-@interface VUURLCellController : UIViewController <VUCellController> {
+@interface VUURLCellController : VUEditableCellController <VUCellController> {
 
 	NSURL *url;
 }

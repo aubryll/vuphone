@@ -62,6 +62,7 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier] autorelease];
 	}
 
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"Location";
 	cell.detailTextLabel.text = location.name;
 	

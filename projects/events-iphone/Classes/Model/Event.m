@@ -12,7 +12,7 @@
 
 @implementation Event 
 
-@dynamic ownerAndroidId;
+@dynamic ownerDeviceId;
 @dynamic source;
 @dynamic url;
 @dynamic name;
@@ -46,7 +46,7 @@
 }
 
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId {
-	return [self.ownerAndroidId isEqualToString:deviceId];
+	return [self.ownerDeviceId isEqualToString:deviceId];
 }
 
 #pragma mark MKAnnotation methods

@@ -17,6 +17,11 @@
 	IBOutlet VUStartEndDatePicker *picker;
 
 	BOOL isEditable;
+	NSDate *startDate;
+	NSDate *endDate;
 }
+
+@property (retain, setter=setStartDate:) NSDate *startDate;
+@property (retain, setter=setEndDate:) NSDate *endDate;
 
 @end

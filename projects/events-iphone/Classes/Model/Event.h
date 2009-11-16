@@ -15,7 +15,7 @@
 {
 }
 
-@property (nonatomic, retain) NSString * ownerAndroidId;
+@property (nonatomic, retain) NSString * ownerDeviceId;
 @property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) NSString * name;
