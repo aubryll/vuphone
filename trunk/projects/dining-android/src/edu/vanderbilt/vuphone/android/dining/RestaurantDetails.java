@@ -25,12 +25,12 @@ public class RestaurantDetails extends Activity {
 		public void onClick(View v) {
 			if (Main.DEBUG) Log.i("Dining", "Map button for restaurant " + Main.RESTAURANTS[restaurant] + " clicked.");
 			Intent startMapView = new Intent(RestaurantDetails.this , Map.class);
-			int[] longitude = {Main.LOCATION_LONGITUDES[restaurant]};
-			int[] latitude = {Main.LOCATION_LATITUDES[restaurant]};
-			String[] location = {Main.RESTAURANTS[restaurant]};
-			startMapView.putExtra("longitudes", longitude);
-			startMapView.putExtra("latitudes", latitude);
-			startMapView.putExtra("locations", location);
+			int longitude = Main.LOCATION_LONGITUDES[restaurant];
+			int latitude = Main.LOCATION_LATITUDES[restaurant];
+			String location = Main.RESTAURANTS[restaurant];
+			startMapView.putExtra("longitude", longitude);
+			startMapView.putExtra("latitude", latitude);
+			startMapView.putExtra("location", location);
 			startActivity(startMapView);
 		}
 	};

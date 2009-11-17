@@ -36,12 +36,16 @@ public class MarkFavs extends ListActivity {
 
 		Bundle extras = getIntent().getExtras();
 		int[] favorites = extras.getIntArray("favorites");
-
-		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_multiple_choice,
+		
+		this.
+		
+		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,
 				Main.RESTAURANTS));
+		getListView().addFooterView(findViewById(R.id.hello));
 		getListView().setTextFilterEnabled(true);
 		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		
+		
 
 		for (int x = 0; x < favorites.length; ++x) {
 			getListView().setItemChecked(favorites[x], true);
@@ -92,13 +96,13 @@ public class MarkFavs extends ListActivity {
 		case DIALOG_ITEM_START:
 			builder.setMessage("Press menu key when done making selections");
 			dialog = builder.create();
-			dialog.setButton(BUTTON_START,"OK", listener);
+			dialog.setButton(BUTTON_START, "OK", listener);
 			break;
 
 		default:
 			return null;
 		}
-		
+
 		return dialog;
 	}
 

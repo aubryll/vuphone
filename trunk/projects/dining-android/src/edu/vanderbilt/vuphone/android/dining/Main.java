@@ -130,7 +130,7 @@ public class Main extends ListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case MENU_ITEM_VIEW_MAP:
-			Intent i = new Intent(this, Map.class);
+			Intent i = new Intent(this, MapAllResturaunts.class);
 			i.putExtra("longitudes", LOCATION_LONGITUDES);
 			i.putExtra("latitudes", LOCATION_LATITUDES);
 			i.putExtra("locations", RESTAURANTS);
