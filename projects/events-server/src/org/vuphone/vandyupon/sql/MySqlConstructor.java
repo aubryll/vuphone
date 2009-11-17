@@ -30,7 +30,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		String sql = "CREATE TABLE IF NOT EXISTS people ( "
 				+ "userid INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "deviceid VARCHAR(20) unique)";
+				+ "deviceid VARCHAR(20) unique)"
+				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		PreparedStatement prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -39,18 +40,21 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "name varchar(100) not null,"
 				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
 				+ "Date BIGINT NOT NULL," + "userid int not null references people(userid)," +
-						"lastupdate bigint not null)";
+						"lastupdate bigint not null)"
+				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
 		sql = "CREATE TABLE IF NOT EXISTS events ( "
 				+ "eventid INTEGER PRIMARY KEY AUTO_INCREMENT,"
+				+ "sourceuid varchar(255)"
 				+ "name varchar(100) not null,"
 				+ "locationid integer not null references locations(locationid),"
 				+ "userid integer not null references people(userid)," 
 				+ "starttime bigint not null," 
 				+ "endtime bigint not null," +
-						"lastupdate bigint not null)";
+						"lastupdate bigint not null)"
+				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -60,7 +64,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "eventid INTEGER REFERENCES events(eventid), "
 				+ "comment text," 
 				+ "userid integer not null references people (userid),"
-				+ "submissiondate BIGINT NOT NULL)" ;
+				+ "submissiondate BIGINT NOT NULL)"
+				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -70,7 +75,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "locationid integer not null references locations(locationid),"
 				+ "userid integer not null references people(userid),"
 				+ "comment text, "
-				+ "submissiondate bigint not null)";
+				+ "submissiondate bigint not null)"
+				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
@@ -78,14 +84,16 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "facebookid integer primary key auto_increment,"
 			+ "userid integer not null, "
 			+ "login varchar(100) not null,"
-			+ "password varchar(100) not null)";
+			+ "password varchar(100) not null)"
+			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
 		sql = "create table if not exists metatypes ("
 			+ "typeid integer not null primary key auto_increment,"
-			+ "typename varchar(100) not null)";
+			+ "typename varchar(100) not null)"
+			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
@@ -94,7 +102,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "eventid integer not null references events(eventid),"
 			+ "value text not null,"
 			+ "metatype integer references metatypes(typeid)," +
-					"submissiontime bigint not null)";
+					"submissiontime bigint not null)"
+			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
@@ -103,7 +112,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "locationid integer not null references locations(locationid),"
 			+ "value text not null,"
 			+ "metatype integer references metatypes(typeid)," +
-					"submissiontime bigint not null)";
+					"submissiontime bigint not null)"
+			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
