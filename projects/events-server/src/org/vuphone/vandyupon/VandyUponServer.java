@@ -19,6 +19,8 @@ package org.vuphone.vandyupon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,6 +86,30 @@ public class VandyUponServer {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
+<<<<<<< .mine
+		Logger logger = Logger.getLogger("org.vuphone.wwatch"); 
+		ConsoleHandler ch = new ConsoleHandler();
+		ch.setLevel(Level.FINEST);
+		logger.addHandler(ch);
+		logger.setLevel(Level.FINEST);
+		
+		
+		int port = 8080;
+		if (args.length > 0) {
+			try {
+				port = Integer.parseInt(args[0]);
+			} catch (Exception e) {
+				// Need to modify this to print the correct usage...
+				logger_.log(Level.SEVERE, "Probably an invalid port number:"
+						+ args[0], e);
+				return;
+			}
+		}
+				
+		(new VandyUponServer()).start(port);
+		
+		
+=======
 		Logger logger = Logger.getLogger("org.vuphone.vandyupon"); 
 		ConsoleHandler ch = new ConsoleHandler();
 		ch.setLevel(Level.FINEST);
@@ -104,6 +130,7 @@ public class VandyUponServer {
 		}
 
 		(new VandyUponServer()).start(port);
+>>>>>>> .r665
 	}
 
 	/**
