@@ -8,23 +8,18 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
 /**
- * Creates the map that displays the location of one dining facilities
+ * Creates the map that displays the location of all dining facilities
  * 
  * @author Peter
  */
-public class Map extends MapActivity {
+public class MapAllResturaunts extends MapActivity {
 
 	@Override
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
 
 		MapView mapView;
-		DiningLocationOverlay diningOverlay;
-
-		Bundle extras = getIntent().getExtras();
-		int longitude = extras.getInt("longitude");
-		int latitude = extras.getInt("latitude");
-		String location = extras.getString("location");
+		AllDiningLocationOverlay diningOverlay;
 
 		// start map view and enable zoom controls
 		setContentView(R.layout.map);
@@ -32,13 +27,12 @@ public class Map extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 		mapView.setClickable(true);
 
-		mapView.getController().setZoom(18);
-		GeoPoint point = new GeoPoint(longitude, latitude);
+		mapView.getController().setZoom(16);
+		GeoPoint point = new GeoPoint(36143299, -86802464);
 		mapView.getController().setCenter(point);
 
 		// add the icons for dining locations
-		diningOverlay = new DiningLocationOverlay(this, longitude, latitude,
-				location);
+		diningOverlay = new AllDiningLocationOverlay(this);
 
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 				mapView);
