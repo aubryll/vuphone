@@ -33,8 +33,7 @@ public class NotificationServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1895167101514191256L;
 
-	private static final Logger logger_ = Logger
-	.getLogger(NotificationServlet.class.getName());
+	private static final Logger logger_ = Logger.getLogger(NotificationServlet.class.getName());
 
 	private Map<String, NotificationHandler> handlers_;
 	private Map<String, NotificationParser> parsers_;
