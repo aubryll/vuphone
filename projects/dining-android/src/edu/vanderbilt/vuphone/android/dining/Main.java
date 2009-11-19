@@ -1,5 +1,7 @@
 package edu.vanderbilt.vuphone.android.dining;
 
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -101,9 +103,14 @@ public class Main extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, RESTAURANTS));
-		getListView().setTextFilterEnabled(true);
+		RestaurantHours rh = new RestaurantHours();
+		DBAdapter adapt = new DBAdapter(this);
+		adapt.openWritable();
+		adapt.createRestaurant("poo", 12.1, 1.1, "poopo", false, rh);
+		
+//		setListAdapter(new ArrayAdapter<String>(this,
+//				android.R.layout.simple_list_item_1, RESTAURANTS));
+//		getListView().setTextFilterEnabled(true);
 
 	}
 

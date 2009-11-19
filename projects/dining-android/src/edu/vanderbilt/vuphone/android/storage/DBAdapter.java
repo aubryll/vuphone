@@ -1,14 +1,15 @@
 package edu.vanderbilt.vuphone.android.storage;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 
 public class DBAdapter {
 
@@ -35,13 +36,7 @@ public class DBAdapter {
 	public static final String COLUMN_DESCRIPTION = "description";
 	public static final String COLUMN_FAVORITE = "favorite";
 
-	protected static final String COLUMN_MONDAYID = "mondayID";
-	protected static final String COLUMN_TUESDAYID = "tuesdayID";
-	protected static final String COLUMN_WEDNESDAYID = "wednesdayID";
-	protected static final String COLUMN_THURSDAYID = "thursdayID";
-	protected static final String COLUMN_FRIDAYID = "fridayID";
-	protected static final String COLUMN_SATURDAYID = "saturdayID";
-	protected static final String COLUMN_SUNDAYID = "sundayID";
+	protected static final String COLUMN_HOUR = "hour";
 
 	public static final String COLUMN_STARTTIME = "startTime";
 	public static final String COLUMN_ENDTIME = "endTime";
@@ -80,47 +75,23 @@ public class DBAdapter {
 	 *            the restaurant description
 	 * @param favorite
 	 *            1 indicates a favorite, and 0 if otherwise
-	 * @param mondayId
-	 *            mondayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
-	 * @param tuesdayId
-	 *            tuesdayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
-	 * @param wednesdayId
-	 *            wednesdayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
-	 * @param thursdayId
-	 *            thursdayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
-	 * @param fridayId
-	 *            fridayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
-	 * @param saturdayId
-	 *            saturdayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
-	 * @param sundayId
-	 *            sundayId is rowId for restaurant's respective startTime,
-	 *            endTime, startTime2 and endTime2 in the hours table
+	 * 
 	 * @return rowId or -1 if failed
 	 */
 	public long createRestaurant(String name, double latitude,
-			double longitude, String description, int favorite, int mondayID,
-			int tuesdayID, int wednesdayID, int thursdayID, int fridayID,
-			int saturdayID, int sundayID) {
-		ContentValues initialValues = new ContentValues(12);
+			double longitude, String description, boolean favorite,
+			RestaurantHours hours) {
+
+		ContentValues initialValues = new ContentValues(5);
 		initialValues.put(COLUMN_NAME, name);
 		initialValues.put(COLUMN_LATITUDE, latitude);
 		initialValues.put(COLUMN_LONGITUDE, longitude);
 		initialValues.put(COLUMN_DESCRIPTION, description);
 		initialValues.put(COLUMN_FAVORITE, favorite);
 
-		initialValues.put(COLUMN_MONDAYID, mondayID);
-		initialValues.put(COLUMN_TUESDAYID, tuesdayID);
-		initialValues.put(COLUMN_WEDNESDAYID, wednesdayID);
-		initialValues.put(COLUMN_THURSDAYID, thursdayID);
-		initialValues.put(COLUMN_FRIDAYID, fridayID);
-		initialValues.put(COLUMN_SATURDAYID, saturdayID);
-		initialValues.put(COLUMN_SUNDAYID, sundayID);
+		XStream xstream = new XStream(new DomDriver());
+		String hoursStr = xstream.toXML(hours);
+		initialValues.put(COLUMN_HOUR, hoursStr);
 
 		return database_.insert(RESTAURANT_TABLE_NAME, null, initialValues);
 
@@ -215,87 +186,6 @@ public class DBAdapter {
 				+ rowId, null) > 0;
 	}
 
-	public boolean isRestaurantOpen(long rowId) {
-		Calendar rightNow = new GregorianCalendar();
-		int dayOfWeek = rightNow.get(Calendar.DAY_OF_WEEK);
-
-		String dayColumn = COLUMN_MONDAYID;
-
-		switch (dayOfWeek) {
-		case Calendar.MONDAY:
-			dayColumn = COLUMN_MONDAYID;
-			break;
-		case Calendar.TUESDAY:
-			dayColumn = COLUMN_TUESDAYID;
-			break;
-		case Calendar.WEDNESDAY:
-			dayColumn = COLUMN_WEDNESDAYID;
-			break;
-		case Calendar.THURSDAY:
-			dayColumn = COLUMN_THURSDAYID;
-			break;
-		case Calendar.FRIDAY:
-			dayColumn = COLUMN_FRIDAYID;
-			break;
-		case Calendar.SATURDAY:
-			dayColumn = COLUMN_SATURDAYID;
-			break;
-		case Calendar.SUNDAY:
-			dayColumn = COLUMN_SUNDAYID;
-			break;
-
-		}
-
-		Cursor c = database_.query(RESTAURANT_TABLE_NAME,
-				new String[] { dayColumn }, COLUMN_ID + "=" + rowId, null,
-				null, null, null);
-		// if (c.moveToNext() == false) {
-		// return false;
-		// }
-		long hourId = 5; // c.getLong(0);
-
-		c.close();
-		StringBuilder query = new StringBuilder();
-
-		// We want to get back a 1 or 0
-		// This gets the current local time,
-		// formatted correctly
-		query.append("SELECT strftime('%H%M', 'now', 'localtime') ");
-
-		// Is now within the 1st open range
-		query.append("BETWEEN ");
-		query.append(COLUMN_STARTTIME);
-		query.append(" AND ");
-		query.append(COLUMN_ENDTIME);
-
-		// Is now within the 2nd open range
-		query.append(" OR ");
-		query.append("strftime('%H%M', 'now', 'localtime') ");
-		query.append("BETWEEN ");
-		query.append(COLUMN_STARTTIME2);
-		query.append(" AND ");
-		query.append(COLUMN_ENDTIME2);
-
-		// From the hours table
-		query.append(" FROM ");
-		query.append(HOUR_TABLE_NAME);
-
-		// We only care about one row, the
-		// one for the current day and restaurant of interest
-		query.append(" WHERE ");
-		query.append(COLUMN_ID);
-		query.append("=");
-		query.append(hourId);
-		query.append("");
-
-		Log.e("info", query.toString());
-
-		Cursor a = database_.rawQuery(query.toString(), null);
-
-		// TODO - more here
-		return true;
-	}
-
 	/** Used to open a readable database */
 	public DBAdapter openReadable() throws SQLException {
 		database_ = openHelper_.getReadableDatabase();
@@ -308,4 +198,23 @@ public class DBAdapter {
 		return this;
 	}
 
+	public boolean isRestaurantOpen(long rowId) {
+		Cursor c = database_.query(RESTAURANT_TABLE_NAME,
+				new String[] { COLUMN_HOUR }, COLUMN_ID + "=" + rowId, null,
+				null, null, null);
+
+		// check to make sure we could move to first aka this row existed
+		if (c.moveToFirst()) {
+			String xml = c.getString(c.getColumnIndex(COLUMN_HOUR));
+			XStream xs = new XStream(new DomDriver());
+			RestaurantHours hours = (RestaurantHours) xs.fromXML(xml);
+			// Move the isOpen call to the hours class
+			// be sure to leave it accessible from the restaurant class as well
+			return hours.isOpen();
+		} else {
+			String errorMessage = "Restaurant does not exist at that row.";
+			IllegalArgumentException error = new IllegalArgumentException(errorMessage);
+			throw error;
+		}
+	}
 }
