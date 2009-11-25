@@ -7,22 +7,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-<<<<<<< .mine
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-=======
-import java.util.Iterator;
-import java.util.List;
->>>>>>> .r665
-
-import org.vuphone.vandyupon.notification.eventpost.EventPost;
-import org.vuphone.vandyupon.notification.eventpost.EventPostHandler;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
-<<<<<<< .mine
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.property.DtEnd;
@@ -37,149 +28,93 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.vandyupon.notification.eventpost.EventPost;
-=======
-import net.fortuna.ical4j.model.DateTime;
-import net.fortuna.ical4j.model.Dur;
-import net.fortuna.ical4j.model.ParameterList;
-import net.fortuna.ical4j.model.Period;
->>>>>>> .r665
-import net.fortuna.ical4j.model.Property;
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.DtEnd;
-import net.fortuna.ical4j.model.property.DtStart;
-import net.fortuna.ical4j.model.property.Location;
-import net.fortuna.ical4j.model.property.Name;
-import net.fortuna.ical4j.model.property.Uid;
-import net.fortuna.ical4j.model.property.Url;
 
 /**
  * @author Hamilton Turner
  * 
  */
 public class RequestICal {
+	// Some book-keeping variables
+	private static int missing = 0;
+	private static int unable_to_code = 0;
+	private static int other = 0;
+
 	public static void main(String[] argv) throws Exception {
 		RequestICal.doIt();
 	}
-	
-	public static void loadEventsWithin1Week() {
-		CompatibilityHints.setHintEnabled(
-				CompatibilityHints.KEY_RELAXED_PARSING, true);
-		CompatibilityHints.setHintEnabled(
-				CompatibilityHints.KEY_RELAXED_UNFOLDING, true);
-		CompatibilityHints.setHintEnabled(
-				CompatibilityHints.KEY_RELAXED_VALIDATION, true);
+
+	public static void doIt() {
 
 		FileInputStream fin = null;
 		try {
 			fin = new FileInputStream("vu-calendar.ics");
 		} catch (FileNotFoundException e) {
-			System.err.println("Could not read sample input file vu-calendar.ics");
+			System.err
+					.println("Could not read sample input file vu-calendar.ics");
 			e.printStackTrace();
 			return;
 		}
 
+		// Read in the ICAL file
 		CalendarBuilder builder = new CalendarBuilder();
-
 		Calendar calendar = null;
-<<<<<<< .mine
-
 		try {
 			calendar = builder.build(fin);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-=======
-		
-		try {
-			calendar = builder.build(fin);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		} catch (ParserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
-		
-		
->>>>>>> .r665
-		java.util.Calendar today = java.util.Calendar.getInstance();
-		today.set(java.util.Calendar.HOUR_OF_DAY, 0);
-		today.clear(java.util.Calendar.MINUTE);
-		today.clear(java.util.Calendar.SECOND);
 
-<<<<<<< .mine
+		// Get all of the events from the calendar
 		ComponentList events = calendar.getComponents(Component.VEVENT);
 
+		// Used in the loop to store a single event
 		Component c = null;
-		int missing = 0;
-		int unable_to_code = 0;
-		int other = 0;
-		// public EventPost(Location loc, String name, String user, long start,
-		// long end,
-		// String callback, String responseType){
 		for (int i = 0; i < events.size(); ++i) {
 			EventPost ep = new EventPost();
 
 			c = (Component) events.get(i);
 
-			Property location = c.getProperty(Property.LOCATION);
-
-			if (location != null) {
-
-				String startStr = location.getValue();
-				if (startStr.indexOf(",") != -1)
-					startStr.substring(0, startStr.indexOf(","));
-				if (startStr.indexOf("-") != -1)
-					startStr.substring(0, startStr.indexOf("-"));
-
-				startStr += ", Vanderbilt University, Nashville, TN";
-				System.out.println("" + i + ": " + startStr);
-
-				try {
-					ep.setLocation(Geocoder.getLocation(startStr));
-				} catch (IOException e) {
-					++unable_to_code;
-					continue;
-				}
-			} else {
-				++missing;
+			// get location
+			org.vuphone.vandyupon.datastructs.Location location = getLocation(c);
+			if (location == null)
 				continue;
-			}
+			ep.setLocation(location);
 
+			// get name
 			Summary name = (Summary) c.getProperty(Property.SUMMARY);
+			if (name == null)
+				continue;
 			ep.setName(name.getValue());
 
+			// get user
 			ep.setUser("vandy calendar datamine");
 
+			// get end time
 			DtEnd end = (DtEnd) c.getProperty(Property.DTEND);
-			if (end != null) {
+			if (end == null) {
+				++missing;
+				continue;
+			} else
 				ep.setEndTime(end.getDate().getTime());
-			} else {
-				++missing;
-				continue;
-			}
 
+			// get start time
 			DtStart start = (DtStart) c.getProperty(Property.DTSTART);
-			if (start != null) {
-				ep.setEndTime(start.getDate().getTime());
-			} else {
+			if (start == null) {
 				++missing;
 				continue;
-			}
+			} else
+				ep.setEndTime(start.getDate().getTime());
 
-			if (false == doEventPost(ep.getName(), ep.getStartTime(), ep
-					.getEndTime(), ep.getLocation().getLat(), ep.getLocation()
-					.getLon(), "no desc for now"))
+			boolean postWorked = doEventPost(ep.getName(), ep.getStartTime(),
+					ep.getEndTime(), ep.getLocation().getLat(), ep
+							.getLocation().getLon(), "no desc for now");
+
+			if (postWorked == false)
 				++other;
-
 		}
 
 		System.out.println("Missing " + missing);
@@ -190,8 +125,6 @@ public class RequestICal {
 
 	}
 
-	private static final String tag = "";
-	private static final String pre = "EventPoster: ";
 	private static final String PATH = "/vandyupon/events/";
 
 	private static String lastError_ = "";
@@ -283,13 +216,7 @@ public class RequestICal {
 			lastError_ = "General HTTP Error";
 		} catch (IOException e) {
 			e.printStackTrace();
-=======
-		// create a period starting now with a duration of seven days
-		Period period = new Period(new DateTime(today.getTime()), new Dur(7, 0, 0, 0));
-		Filter filter = new Filter(new PeriodRule(period));
->>>>>>> .r665
 
-<<<<<<< .mine
 			lastError_ = "Unable to access server response. Is Internet available?";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -310,28 +237,57 @@ public class RequestICal {
 				lastError_ += ". ";
 			lastError_ += "Server did not acknowledge";
 			return false;
-=======
-		List<VEvent> eventsToday = (List) filter.filter(calendar.getComponents(Component.VEVENT));
-		EventPost post = new EventPost();
-		
-		for (VEvent event : eventsToday) {
-			System.out.println(event.getLocation());
-			
->>>>>>> .r665
-			Uid uid = event.getUid();
-			post.setName(event.getName());
-			post.setDescription(event.getDescription().getValue());
-			Url url = event.getUrl();
-			post.setStartTime(event.getStartDate().getDate().getTime());
-			post.setEndTime(event.getEndDate().getDate().getTime());
-			Location location = event.getLocation();
-			Property categories = event.getProperty("CATEGORIES");
-			ParameterList pl = categories.getParameters();
-			System.out.println(pl);
 		}
 
 		else
 			return true;
+	}
+
+	private static org.vuphone.vandyupon.datastructs.Location getLocation(
+			Component c) {
+		Property location = c.getProperty(Property.LOCATION);
+
+		org.vuphone.vandyupon.datastructs.Location geoLocation = null;
+
+		// Check to make sure there was a location
+		if (location == null) {
+			++missing;
+			return null;
+		}
+
+		// Remove the extra Room info and what not, and add Vandy, Nashville, TN
+		String startStr = location.getValue();
+		if (startStr.indexOf(",") != -1)
+			startStr = startStr.substring(0, startStr.indexOf(","));
+		if (startStr.indexOf("-") != -1)
+			startStr = startStr.substring(0, startStr.indexOf("-"));
+		startStr += ", Nashville, TN";
+
+		// Get a Lat / Lon from the string
+		try {
+			System.out.println("Coding: " + startStr);
+			geoLocation = Geocoder.getLocation(startStr);
+			if ((geoLocation.getLat() == 36.1419303)
+					&& (geoLocation.getLon() == -86.8044586))
+				System.out.println("Got: Vandy");
+			else if ((geoLocation.getLat() == 36.1658899)
+					&& (geoLocation.getLon() == -86.7844432))
+				System.out.println("Got: Nash");
+			else
+				System.out.println("Got: " + geoLocation.getLat() + ", "
+						+ geoLocation.getLon());
+
+		} catch (IOException e) {
+			++unable_to_code;
+			return null;
+		}
+
+		if ((geoLocation.getLat() == 0) || (geoLocation.getLon() == 0)) {
+			++unable_to_code;
+			return null;
+		}
+
+		return geoLocation;
 	}
 
 	public static String getLastError() {
