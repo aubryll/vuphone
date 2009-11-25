@@ -26,34 +26,21 @@
 	}
 	else
 	{
-		if (url != nil) {
-			[[UIApplication sharedApplication] openURL:url];
+		if (value != nil) {
+			// If it doesn't start with http, add http://
+			NSString *URLString = self.value;
+
+			if ([self.value compare:@"http" options:NSCaseInsensitiveSearch range:NSMakeRange(0, 3)] != 0) {
+				URLString = [@"http://" stringByAppendingString:self.value];
+			}
+
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
 		}
 	}
 }
 
-//
-// tableView:cellForRowAtIndexPath:
-//
-// Returns the cell for a given indexPath.
-//
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (cell == nil) {
-		cell = [[VUEditableCell alloc] initWithController:self];
-	}
-	
-	cell.textLabel.text = @"URL";
-	cell.detailTextLabel.text = [url relativeString];
-	
-	return cell;
-}
-
 - (void)dealloc {
-	[url release];
     [super dealloc];
 }
-
-@synthesize url;
 
 @end

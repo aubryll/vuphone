@@ -11,11 +11,7 @@
 #import "VUEditableCellController.h"
 #import "EventRating.h"
 
-@interface VUURLCellController : VUEditableCellController <VUCellController> {
-
-	NSURL *url;
+@interface VUURLCellController : VUEditableCellController {
 }
-
-@property (retain) NSURL *url;
 
 @end

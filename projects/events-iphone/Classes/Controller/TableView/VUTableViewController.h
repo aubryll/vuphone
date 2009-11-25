@@ -23,6 +23,7 @@
 - (NSArray *)tableGroups;
 - (void)beginEditingFields;
 - (void)endEditingFields;
+- (void)clearTableGroups;
 - (void)updateAndReload;
 
 @end

@@ -32,37 +32,9 @@
 {
 	[super viewWillAppear:animated];
 
-	if (isEditingFields)
-	{
-		if ([event isNew]) {
-			self.navigationItem.leftBarButtonItem = cancelAddButton;
-		} else {
-			self.navigationItem.leftBarButtonItem = cancelButton;
-		}
-		self.navigationItem.rightBarButtonItem = saveButton;
-	}
-	else
-	{
-		// If the user may edit this event
-		if ([event isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
-			self.navigationItem.rightBarButtonItem =
-				[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-															  target:self
-															  action:@selector(beginEditing:)];
-		} else {
-			self.navigationItem.rightBarButtonItem = nil;
-		}
-	}
+	[self.tableView reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	if (isEditingFields) {
-		[self beginEditingFields];
-	} else {
-		[self endEditingFields];
-	}
-}
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -88,6 +60,7 @@
 	self.navigationItem.leftBarButtonItem = nil;
 	self.navigationItem.rightBarButtonItem = editButton;
 	[self endEditingFields];
+	[self.tableView reloadData];
 	
 	if (event.location == nil)
 	{
@@ -130,6 +103,9 @@
 - (IBAction)beginEditing:(id)sender
 {
 	[self beginEditingFields];
+
+	[self.tableView reloadData];
+
 	self.navigationItem.leftBarButtonItem = cancelButton;
 	self.navigationItem.rightBarButtonItem = saveButton;
 }
@@ -137,10 +113,13 @@
 - (IBAction)cancelEditing:(id)sender
 {
 	[self endEditingFields];
+	
+	[context rollback];
+	
+	[myTableView reloadData];
+	
 	self.navigationItem.leftBarButtonItem = nil;
 	self.navigationItem.rightBarButtonItem = editButton;
-	[context rollback];
-	[myTableView reloadData];
 }
 
 
@@ -148,13 +127,21 @@
 
 - (void)constructTableGroups
 {
+	if (tableGroups) {
+		[tableGroups release];
+		tableGroups = nil;
+	}
+
+	NSMutableArray *mTableGroups = [[NSMutableArray alloc] init];
+	
 	VUEditableCellController *ecc;
+
 	// Name
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Name"];
 	ecc.key = @"name";
 	ecc.delegate = self;
 	ecc.value = event.name;
-	NSArray *nameGroup = [NSArray arrayWithObject:[ecc autorelease]];
+	[mTableGroups addObject:[NSArray arrayWithObject:[ecc autorelease]]];
 	
 	// Date
 	VUStartEndDateCellController *sedcc = [[[VUStartEndDateCellController alloc] init] autorelease];
@@ -163,36 +150,39 @@
 	sedcc.delegate = self;
 	sedcc.startDate = event.startTime;
 	sedcc.endDate = event.endTime;
-	
-	NSArray *dateGroup = [NSArray arrayWithObject:sedcc];
+	[mTableGroups addObject:[NSArray arrayWithObject:sedcc]];
 
 	// Location
 	LocationCellController *locationC = [[LocationCellController alloc] init];
 	locationC.key = @"location";
 	locationC.delegate = self;
 	locationC.location = self.event.location;
-	NSArray *locationGroup = [NSArray arrayWithObject:[locationC autorelease]];
+	[mTableGroups addObject:[NSArray arrayWithObject:[locationC autorelease]]];
 
 	// Details
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Details"];
 	ecc.key = @"details";
 	ecc.delegate = self;
 	ecc.value = event.details;
-	NSArray *detailsGroup = [NSArray arrayWithObject:[ecc autorelease]];
+	[mTableGroups addObject:[NSArray arrayWithObject:[ecc autorelease]]];
 	
-	// Ratings
-	EventRatingsCellController *ercc = [[EventRatingsCellController alloc] init];
-	ercc.ratings = event.ratings;
-	NSArray *ratingsGroup = [NSArray arrayWithObject:[ercc autorelease]];
+	// Ratings – don't show if editing
+	if (!isEditingFields) {
+		EventRatingsCellController *ercc = [[EventRatingsCellController alloc] init];
+		ercc.ratings = event.ratings;
+		[mTableGroups addObject:[NSArray arrayWithObject:[ercc autorelease]]];
+	}
 	
-	// URL
-	ecc = [[VUURLCellController alloc] initWithLabel:@"URL"];
-	ecc.key = @"url";
-	ecc.delegate = self;
-	ecc.value = event.url;
-	NSArray *urlGroup = [NSArray arrayWithObject:[ecc autorelease]];
-
-	tableGroups = [[NSArray arrayWithObjects:nameGroup, dateGroup, locationGroup, detailsGroup, ratingsGroup, urlGroup, nil] retain];
+	// URL – show if not editing or URL is set
+	if (event.url != nil || isEditingFields) {
+		ecc = [[VUURLCellController alloc] initWithLabel:@"URL"];
+		ecc.key = @"url";
+		ecc.delegate = self;
+		ecc.value = event.url;
+		[mTableGroups addObject:[NSArray arrayWithObject:[ecc autorelease]]];
+	}
+	
+	tableGroups = mTableGroups;
 }
 
 
@@ -209,7 +199,17 @@
 		[event release];
 		event = [newEvent retain];
 
-		[self updateAndReload];
+		[self clearTableGroups];
+
+		// If the user may edit this event
+		if ([event isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
+			self.navigationItem.rightBarButtonItem =
+			[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+														  target:self
+														  action:@selector(beginEditing:)];
+		} else {
+			self.navigationItem.rightBarButtonItem = nil;
+		}
 	}
 }
 

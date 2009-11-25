@@ -55,7 +55,7 @@
 					postNotificationName:LocationChosenNotification
 					object:self.location];
 			}
-//			[((EventViewController *)controller) updateAndReload];
+
 			[self.navigationController popToViewController:(UIViewController *)controller animated:YES];
 		}
 	}
