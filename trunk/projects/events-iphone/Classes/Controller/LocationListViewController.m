@@ -148,10 +148,7 @@
 			[[NSNotificationCenter defaultCenter]
 				postNotificationName:LocationChosenNotification
 							  object:[self.locations objectAtIndex:indexPath.row]];
-//			EventViewController *evc = (EventViewController *)controller;
-//			evc.event.location = [self.locations objectAtIndex:indexPath.row];
-//			[evc updateAndReload];
-//			[self.navigationController popToViewController:evc animated:YES];
+
 			[self.navigationController popToViewController:(UIViewController *)controller animated:YES];
 			return;
 		}

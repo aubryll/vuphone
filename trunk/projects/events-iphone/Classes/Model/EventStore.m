@@ -19,7 +19,7 @@ static EventStore *eventStore = nil;
 {
 	@synchronized(self) {
 		if (eventStore == nil) {
-			[[self alloc] init];
+			eventStore = [[self alloc] init];
 		}
 	}
 	

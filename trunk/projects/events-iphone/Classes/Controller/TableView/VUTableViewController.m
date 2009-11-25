@@ -142,16 +142,23 @@
 
 
 - (void)beginEditingFields {
-	isEditingFields = YES;
-	[self propagateEditingFields];
+	if (!isEditingFields) {
+		isEditingFields = YES;
+		[self propagateEditingFields];
+	}
 }
+
 - (void)endEditingFields {
-	isEditingFields = NO;
-	[self propagateEditingFields];
+	if (isEditingFields) {
+		isEditingFields = NO;
+		[self propagateEditingFields];
+	}
 }
 
 - (void)propagateEditingFields
 {
+	[self clearTableGroups];
+
 	for (NSArray *group in [self tableGroups]) {
 		for (NSObject<VUCellController> *cell in group) {
 			if ([cell respondsToSelector:@selector(setEditingField:)])
@@ -174,6 +181,7 @@
 	
 	[self clearTableGroups];
 }
+
 //
 // dealloc
 //
