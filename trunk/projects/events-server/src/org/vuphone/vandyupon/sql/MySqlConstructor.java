@@ -47,7 +47,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		sql = "CREATE TABLE IF NOT EXISTS events ( "
 				+ "eventid INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "sourceuid varchar(255)"
+				+ "sourceuid varchar(255),"
 				+ "name varchar(100) not null,"
 				+ "locationid integer not null references locations(locationid),"
 				+ "userid integer not null references people(userid)," 

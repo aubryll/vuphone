@@ -86,8 +86,7 @@ public class VandyUponServer {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-<<<<<<< .mine
-		Logger logger = Logger.getLogger("org.vuphone.wwatch"); 
+		Logger logger = Logger.getLogger("org.vuphone.vandyupon"); 
 		ConsoleHandler ch = new ConsoleHandler();
 		ch.setLevel(Level.FINEST);
 		logger.addHandler(ch);
@@ -105,32 +104,8 @@ public class VandyUponServer {
 				return;
 			}
 		}
-				
-		(new VandyUponServer()).start(port);
-		
-		
-=======
-		Logger logger = Logger.getLogger("org.vuphone.vandyupon"); 
-		ConsoleHandler ch = new ConsoleHandler();
-		ch.setLevel(Level.FINEST);
-		logger.addHandler(ch);
-		logger.setLevel(Level.FINEST);
-		
-		
-		int port = 8081;
-		if (args.length > 0) {
-			try {
-				port = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				// Need to modify this to print the correct usage...
-				logger_.log(Level.SEVERE, "Probably an invalid port number:"
-						+ args[0], e);
-				return;
-			}
-		}
 
 		(new VandyUponServer()).start(port);
->>>>>>> .r665
 	}
 
 	/**
@@ -184,9 +159,6 @@ public class VandyUponServer {
 			server_.start();
 			SqlConstructor sql = (SqlConstructor)ServerUtils.get().getFactory().getBean(SQL_CONSTRUCTOR);
 			sql.prepareDatabase();
-
-			// Load events within a week
-			RequestICal.loadEventsWithin1Week();
 		} catch (Exception e) {
 			logger_.log(Level.SEVERE, "Something went horribly wrong and we have no idea why", e);
 		}

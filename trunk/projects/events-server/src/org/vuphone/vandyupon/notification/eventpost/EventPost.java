@@ -15,6 +15,9 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventpost;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.Notification;
 
@@ -103,6 +106,7 @@ public class EventPost extends Notification {
 	
 	public void setEndTime(long end){
 		end_ = end;
+		
 	}
 	/**
 	 * @param loc the loc_ to set
