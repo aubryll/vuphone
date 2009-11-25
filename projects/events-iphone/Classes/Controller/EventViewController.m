@@ -45,7 +45,12 @@
 	{
 		// If the user may edit this event
 		if ([event isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
-			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit  target:self action:@selector(beginEditing:)];
+			self.navigationItem.rightBarButtonItem =
+				[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+															  target:self
+															  action:@selector(beginEditing:)];
+		} else {
+			self.navigationItem.rightBarButtonItem = nil;
 		}
 	}
 }
@@ -62,8 +67,6 @@
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload {
@@ -86,8 +89,6 @@
 	self.navigationItem.rightBarButtonItem = editButton;
 	[self endEditingFields];
 	
-	[self getValuesFromTableIntoEvent:self.event];
-
 	if (event.location == nil)
 	{
 		// If the location is not set, show an alert message and bail
@@ -150,12 +151,16 @@
 	VUEditableCellController *ecc;
 	// Name
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Name"];
+	ecc.key = @"name";
 	ecc.delegate = self;
 	ecc.value = event.name;
 	NSArray *nameGroup = [NSArray arrayWithObject:[ecc autorelease]];
 	
 	// Date
 	VUStartEndDateCellController *sedcc = [[[VUStartEndDateCellController alloc] init] autorelease];
+	sedcc.startKey = @"startTime";
+	sedcc.endKey = @"endTime";
+	sedcc.delegate = self;
 	sedcc.startDate = event.startTime;
 	sedcc.endDate = event.endTime;
 	
@@ -163,11 +168,14 @@
 
 	// Location
 	LocationCellController *locationC = [[LocationCellController alloc] init];
+	locationC.key = @"location";
+	locationC.delegate = self;
 	locationC.location = self.event.location;
 	NSArray *locationGroup = [NSArray arrayWithObject:[locationC autorelease]];
 
 	// Details
 	ecc = [[VUEditableCellController alloc] initWithLabel:@"Details"];
+	ecc.key = @"details";
 	ecc.delegate = self;
 	ecc.value = event.details;
 	NSArray *detailsGroup = [NSArray arrayWithObject:[ecc autorelease]];
@@ -179,6 +187,7 @@
 	
 	// URL
 	ecc = [[VUURLCellController alloc] initWithLabel:@"URL"];
+	ecc.key = @"url";
 	ecc.delegate = self;
 	ecc.value = event.url;
 	NSArray *urlGroup = [NSArray arrayWithObject:[ecc autorelease]];
@@ -186,33 +195,13 @@
 	tableGroups = [[NSArray arrayWithObjects:nameGroup, dateGroup, locationGroup, detailsGroup, ratingsGroup, urlGroup, nil] retain];
 }
 
-- (void)cellControllerValueChanged:(id)newValue {
-	[self getValuesFromTableIntoEvent:self.event];
+
+- (void)cellControllerValueChanged:(id)newValue forKey:(NSString *)key
+{
+	[self.event setValue:newValue forKey:key];
+	[self.tableView reloadData];
 }
 
-- (void)getValuesFromTableIntoEvent:(Event *)anEvent
-{
-	// Name
-	[anEvent setName:[self valueForVUEditableTableViewRow:0 inSection:0]];
-	
-	// Start/stop time
-	NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:1];
-	VUStartEndDateCell *startEndCell = (VUStartEndDateCell *)[self.tableView cellForRowAtIndexPath:path];
-	[anEvent setStartTime:startEndCell.startDate];
-	[anEvent setEndTime:startEndCell.endDate];
-	
-	// Details
-	[anEvent setDetails:[self valueForVUEditableTableViewRow:0 inSection:3]];
-	
-	// URL
-	[anEvent setUrl:[self valueForVUEditableTableViewRow:0 inSection:5]];
-}
-
-- (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section
-{
-	VUEditableCellController *controller = (VUEditableCellController *)[[tableGroups objectAtIndex:section] objectAtIndex:row];
-	return controller.value;
-}
 
 - (void)setEvent:(Event *)newEvent
 {

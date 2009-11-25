@@ -6,6 +6,7 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#import "LocationCellController.h"
 #import "LocationViewController.h"
 #import "EventViewController.h"
 #import "NSManagedObject-IsNew.h"
@@ -50,9 +51,11 @@
 	for (NSObject *controller in self.navigationController.viewControllers) {
 		if ([controller isKindOfClass:[EventViewController class]]) {
 			if (isNew) {
-				((EventViewController *)controller).event.location = location;
+				[[NSNotificationCenter defaultCenter]
+					postNotificationName:LocationChosenNotification
+					object:self.location];
 			}
-			[((EventViewController *)controller) updateAndReload];
+//			[((EventViewController *)controller) updateAndReload];
 			[self.navigationController popToViewController:(UIViewController *)controller animated:YES];
 		}
 	}

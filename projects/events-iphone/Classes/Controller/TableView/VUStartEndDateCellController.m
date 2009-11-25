@@ -84,10 +84,18 @@
 
 - (void)startDateChanged:(NSDate *)newDate {
 	self.startDate = newDate;
+
+	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:forKey:)]) {
+		[delegate cellControllerValueChanged:newDate forKey:startKey];
+	}
 }
 
 - (void)endDateChanged:(NSDate *)newDate {
 	self.endDate = newDate;
+
+	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:forKey:)]) {
+		[delegate cellControllerValueChanged:newDate forKey:endKey];
+	}
 }
 
 - (void)setStartDate:(NSDate *)start {
@@ -118,5 +126,8 @@
 
 @synthesize startDate;
 @synthesize endDate;
+@synthesize startKey;
+@synthesize endKey;
+@synthesize delegate;
 
 @end

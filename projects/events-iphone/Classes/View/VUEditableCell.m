@@ -7,8 +7,30 @@
 //
 
 #import "VUEditableCell.h"
+#import "VUEditableCellController.h"
 
 @implementation VUEditableCell
+
+- (id)initWithController:(VUEditableCellController *)owningController
+{
+	self = [[[NSBundle mainBundle] loadNibNamed:@"VUEditableTableViewCell" owner:self options:nil] lastObject];
+	controller = [owningController retain];
+	self.textField.delegate = self;
+
+	return [self retain];
+}
+
+- (void)dealloc
+{
+	[controller release];
+	self.textField = nil;
+	self.textLabel = nil;
+	[super dealloc];
+}
+
+@synthesize textLabel;
+@synthesize textField;
+
 
 - (void)setEditable:(BOOL)editable
 {
@@ -25,7 +47,23 @@
 	}
 }
 
-@synthesize textLabel;
-@synthesize textField;
+#pragma mark UITextFieldDelegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)aTextField
+{
+	// Nothing to do
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)aTextField
+{
+	[controller textFieldValueChanged:self.textField.text];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)aTextField
+{
+	[self.textField resignFirstResponder];
+	return YES;
+}
+
 
 @end

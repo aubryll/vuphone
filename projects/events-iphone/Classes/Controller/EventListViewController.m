@@ -128,7 +128,6 @@
 		didDismissWithChoices:(NSArray *)choices
 {
 	// Adjust the query to include these choices
-	NSLog(@"DidDismissWithChoices: %@", choices);
 	[self setChosenSources:choices];
 }
 
@@ -260,7 +259,6 @@
 #pragma mark NSFetchedResultsControllerDelegate
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-	NSLog(@"didChangeContent");
 	[self.tableView reloadData];
 	// Reload the section index titles
 	[sectionIndexTitles release];
@@ -272,8 +270,6 @@
 	   atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
 	  newIndexPath:(NSIndexPath *)newIndexPath
 {
-	NSLog(@"didChangeObject");
-
 	[self.tableView reloadData];
 	// Reload the section index titles
 	[sectionIndexTitles release];

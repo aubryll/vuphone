@@ -10,6 +10,7 @@
 #import "VUCellController.h"
 #import "VUStartEndDateCell.h"
 #import "VUStartEndDatePicker.h"
+#import "VUCellControllerDelegate.h"
 
 @interface VUStartEndDateCellController : UIViewController <VUCellController, VUStartEndDatePickerDelegate, UITextFieldDelegate> {
 
@@ -19,9 +20,15 @@
 	BOOL isEditable;
 	NSDate *startDate;
 	NSDate *endDate;
+	NSString *startKey;
+	NSString *endKey;
+	id delegate;
 }
 
 @property (retain, setter=setStartDate:) NSDate *startDate;
 @property (retain, setter=setEndDate:) NSDate *endDate;
+@property (copy) NSString *startKey;
+@property (copy) NSString *endKey;
+@property (retain) id delegate;
 
 @end

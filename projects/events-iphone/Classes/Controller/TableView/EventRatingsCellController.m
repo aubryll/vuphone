@@ -25,7 +25,6 @@
 	self = [super initWithNibName:name bundle:bundle];
 	if (self != nil) {
 		NSString *path = [[NSBundle mainBundle] pathForResource:@"star" ofType:@"png" inDirectory:@"Icons"];
-		NSLog(@"initWithNibName path = %@", path);
 		starImage = [[UIImage alloc] initWithContentsOfFile:path];
 	}
 	return self;

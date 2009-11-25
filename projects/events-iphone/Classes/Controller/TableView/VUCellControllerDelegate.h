@@ -10,6 +10,6 @@
 
 @protocol VUCellControllerDelegate
 
-- (void)cellControllerValueChanged:(id)newValue;
+- (void)cellControllerValueChanged:(id)newValue forKey:(NSString *)key;
 
 @end

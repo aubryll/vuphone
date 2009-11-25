@@ -32,8 +32,8 @@
 - (IBAction)beginEditing:(id)sender;
 - (IBAction)cancelEditing:(id)sender;
 
-- (void)getValuesFromTableIntoEvent:(Event *)anEvent;
-- (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section;
+//- (void)getValuesFromTableIntoEvent:(Event *)anEvent;
+//- (id)valueForVUEditableTableViewRow:(NSUInteger)row inSection:(NSUInteger)section;
 
 @property (nonatomic, retain, setter=setEvent:) Event *event;
 @property (nonatomic, retain) NSManagedObjectContext *context;

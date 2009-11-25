@@ -18,11 +18,22 @@
 @interface VUTableViewController (private)
 
 - (void)propagateEditingFields;
+- (void)constructTableGroups;
 
 @end
 
 
 @implementation VUTableViewController
+
+- (NSArray *)tableGroups
+{
+	if (!tableGroups)
+	{
+		[self constructTableGroups];
+	}
+	
+	return tableGroups;
+}
 
 //
 // constructTableGroups
@@ -65,12 +76,7 @@
 //
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (!tableGroups)
-	{
-		[self constructTableGroups];
-	}
-	
-	return [tableGroups count];
+	return [[self tableGroups] count];
 }
 
 //
@@ -80,12 +86,7 @@
 //
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (!tableGroups)
-	{
-		[self constructTableGroups];
-	}
-	
-	return [[tableGroups objectAtIndex:section] count];
+	return [[[self tableGroups] objectAtIndex:section] count];
 }
 
 //
@@ -95,13 +96,8 @@
 //
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (!tableGroups)
-	{
-		[self constructTableGroups];
-	}
-	
 	return
-		[[[tableGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]
+		[[[[self tableGroups] objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]
 			tableView:(UITableView *)tableView
 			cellForRowAtIndexPath:indexPath];
 }
@@ -113,11 +109,6 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (!tableGroups)
-	{
-		[self constructTableGroups];
-	}
-	
 	NSObject<VUCellController> *cellData =
 		[[tableGroups objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	if ([cellData respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)])
@@ -161,11 +152,7 @@
 
 - (void)propagateEditingFields
 {
-	if (!tableGroups) {
-		[self constructTableGroups];
-	}
-
-	for (NSArray *group in tableGroups) {
+	for (NSArray *group in [self tableGroups]) {
 		for (NSObject<VUCellController> *cell in group) {
 			if ([cell respondsToSelector:@selector(setEditingField:)])
 			{

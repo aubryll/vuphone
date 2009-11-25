@@ -13,6 +13,18 @@
 
 @implementation LocationCellController
 
+- (id) init
+{
+	self = [super init];
+	if (self != nil) {
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(locationChanged:)
+													 name:LocationChosenNotification
+												   object:nil];
+	}
+	return self;
+}
+
 //
 // tableView:didSelectRowAtIndexPath:
 //
@@ -55,7 +67,7 @@
 	// Set up the cell
 	static NSString *identifier = @"location";
 	
-	UITableViewCell *cell;
+	VUEditableCell *cell;
 	
 	cell = (VUEditableCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
@@ -64,7 +76,13 @@
 
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"Location";
-	cell.detailTextLabel.text = location.name;
+	if (location.name == nil) {
+		cell.detailTextLabel.text = @"(tap to choose a location)";
+		cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+	} else {
+		cell.detailTextLabel.text = location.name;
+		cell.detailTextLabel.textColor = [UIColor darkTextColor];
+	}
 	
 	return cell;
 }
@@ -74,11 +92,22 @@
 	isEditable = isEditing;
 }
 
+- (void)locationChanged:(NSNotification *)notification
+{
+	self.location = [notification object];
+
+	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:forKey:)]) {
+		[delegate cellControllerValueChanged:self.location forKey:key];
+	}	
+}
+
 - (void)dealloc {
 	[location release];
     [super dealloc];
 }
 
 @synthesize location;
+@synthesize key;
+@synthesize delegate;
 
 @end
