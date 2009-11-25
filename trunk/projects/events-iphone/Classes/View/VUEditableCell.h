@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VUEditableCell : UITableViewCell {
+@class VUEditableCellController;
+
+
+@interface VUEditableCell : UITableViewCell <UITextFieldDelegate> {
 
 	IBOutlet UILabel *textLabel;
 	IBOutlet UITextField *textField;
+	
+	VUEditableCellController *controller;
 }
 
+- (id)initWithController:(VUEditableCellController *)owningController;
 - (void)setEditable:(BOOL)editable;
 
 @property (nonatomic, retain) UILabel *textLabel;

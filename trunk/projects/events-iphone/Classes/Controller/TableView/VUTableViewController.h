@@ -20,6 +20,7 @@
 	BOOL isEditingFields;
 }
 
+- (NSArray *)tableGroups;
 - (void)beginEditingFields;
 - (void)endEditingFields;
 - (void)updateAndReload;

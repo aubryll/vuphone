@@ -16,6 +16,6 @@
 	NSURL *url;
 }
 
-@property (nonatomic, retain) NSURL *url;
+@property (retain) NSURL *url;
 
 @end

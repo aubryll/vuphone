@@ -39,16 +39,10 @@
 //
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Set up the cell
-	static NSString *identifier = @"url";
-	
-	UITableViewCell *cell;
-	
-	cell = (VUEditableCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:identifier] autorelease];
+		cell = [[VUEditableCell alloc] initWithController:self];
 	}
-
+	
 	cell.textLabel.text = @"URL";
 	cell.detailTextLabel.text = [url relativeString];
 	

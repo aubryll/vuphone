@@ -19,6 +19,13 @@
 	return self;
 }
 
+- (void)dealloc {
+//	[cell release];
+	self.delegate = nil;
+    [super dealloc];
+}
+
+
 //
 // tableView:cellForRowAtIndexPath:
 //
@@ -26,18 +33,12 @@
 //
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Set up the cell
-	static NSString *identifier = @"editable";
-	
-	VUEditableCell *cell;
-	
-	cell = (VUEditableCell *)[tableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
-		[[NSBundle mainBundle] loadNibNamed:@"VUEditableTableViewCell" owner:self options:nil];
-		cell = editableTVC;
+		cell = [[VUEditableCell alloc] initWithController:self];
 	}
-	cell.textLabel.text = label;
-	cell.textField.text = value;
+	cell.textLabel.text = self.label;
+	cell.textField.text = self.value;
+	[cell setEditable:isEditable];
 	
 	return cell;
 }
@@ -49,7 +50,7 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[editableTVC setEditing:isEditable];
+	[cell setEditing:isEditable];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -58,43 +59,23 @@
 - (void)setEditingField:(BOOL)isEditing
 {
 	isEditable = isEditing;
-	[editableTVC setEditable:isEditing];
+	[cell setEditable:isEditing];
 	
-	editableTVC.textField.placeholder = (isEditable) ? @"(tap to edit)" : nil;
-}
-
-- (void)dealloc {
-	[label release];
-	[value release];
-	self.delegate = nil;
-    [super dealloc];
+	cell.textField.placeholder = (isEditable) ? @"(tap to edit)" : nil;
 }
 
 
-#pragma mark UITextFieldDelegate
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
+- (void)textFieldValueChanged:(NSString *)newValue
 {
-	// Nothing to do
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-	self.value = textField.text;
-	NSLog(@"text field ended editing with value: %@", textField.text);
-	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:)]) {
-		[delegate cellControllerValueChanged:textField.text];
+	self.value = newValue;
+	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:forKey:)]) {
+		[delegate cellControllerValueChanged:self.value forKey:key];
 	}
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-	[textField resignFirstResponder];
-	return YES;
 }
 
 @synthesize label;
 @synthesize value;
+@synthesize key;
 @synthesize delegate;
 
 @end
