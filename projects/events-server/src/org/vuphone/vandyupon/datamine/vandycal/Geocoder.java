@@ -1,6 +1,8 @@
 package org.vuphone.vandyupon.datamine.vandycal;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -26,24 +28,38 @@ public class Geocoder {
 	/**
 	 *  @todo Externalize this property
 	 */
+	
+//	private static final String googleApiKey = "";
 	private static final String whitePagesApiKey = "338334e34d7ffb4451f48def3b88fa6b";
 
 	public static Location getLocation(String address) throws IOException {
 		try {
-			/* Relevant XML in response:
-			<wp:wp xmlns:wp="http://api.whitepages.com/schema/">
-			  <wp:result wp:type="success" wp:message=" " wp:code="Found Data"/>
-			  <wp:listings>
-			    <wp:listing>
-			      <wp:geodata>
-			        <wp:latitude>36.158181</wp:latitude>
-			        <wp:longitude>-86.783578</wp:longitude>
-			      </wp:geodata>
-			    </wp:listing>
-			  </wp:listings>
-			</wp:wp>
-			 */
+			BufferedReader in = new BufferedReader(new InputStreamReader(new URL(
+					"http://maps.google.com/maps/geo?output=csv&sensor=false&q="
+							+ URLEncoder.encode(address+ ",Nashville,TN", ENCODING)).openStream()));
+			String line;
+			int statusCode = -1;
+			while ((line = in.readLine()) != null) {
+				// Format: 200,6,42.730070,-73.690570
+				statusCode = Integer.parseInt(line.substring(0, 3));
+				if (statusCode == 200) {
+					line = line.substring(6);
+					final String lat = line.substring(0, line.indexOf(","));
+					final String lon = line.substring(line.indexOf(",") + 1);
 
+					if (lat.equals("36.1419303") && lon.equals("-86.8044586")) {
+						// Got the entire VU campus
+						break;
+					} else if (lat.equals("36.1658899") && lon.equals("-86.7844432")) {
+						// Got all of Nashville
+						break;
+					}
+					
+					return new Location(Double.parseDouble(lat), Double.parseDouble(lon));
+				}
+			}
+
+			// Google failed to find it, so try WhitePages
 			String uriString = "http://api.whitepages.com/find_business/1.0/"
 				+ "?businessname=" + URLEncoder.encode(address, ENCODING)
 				+ "&zip=37235"
@@ -55,6 +71,10 @@ public class Geocoder {
 			// Get the latitude and longitude from the XML response
 			SAXBuilder builder = new SAXBuilder("org.apache.xerces.parsers.SAXParser");
 			Document doc = (Document)builder.build(new URL(uriString));
+
+			// Wait 1/2 second between requests because the geocoding service doesn't allow more than 2 requests/second
+			Thread.sleep(500);
+
 			Iterator descendants = doc.getDescendants(new ElementFilter());
 
 			// Iterate through the descendants until we've found a latitude and longitude
@@ -74,6 +94,10 @@ public class Geocoder {
 			}
 		} catch (JDOMException e) {
 			throw new IOException("Error when parsing geocoding server response");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 }

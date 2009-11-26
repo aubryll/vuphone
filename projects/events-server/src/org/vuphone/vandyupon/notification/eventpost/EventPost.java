@@ -20,6 +20,7 @@ import org.vuphone.vandyupon.notification.Notification;
 
 public class EventPost extends Notification {
 	
+	private String locationName_;
 	private Location loc_;
 	private String name_;
 	private String user_;
@@ -141,9 +142,14 @@ public class EventPost extends Notification {
 	public int getDbUserId(){
 		return dbUserId_;
 	}
+
+	public void setLocationName(String locationName) {
+		locationName_ = locationName;
+	}
 	
-	
-	
+	public String getLocationName() {
+		return locationName_;
+	}
 	
 
 }
