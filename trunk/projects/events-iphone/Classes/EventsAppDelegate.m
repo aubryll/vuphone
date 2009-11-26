@@ -20,7 +20,6 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-	NSLog(@"applicationDidFinishLaunching");
 	NSManagedObjectContext *context = [[EventStore sharedEventStore] sharedContext];
 	if (!context) {
 		NSLog(@"Failed to get managed object context!");
@@ -38,9 +37,11 @@
 - (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSLog(@"Getting events");
 
 	// Get events from the server
 	[RemoteEventLoader getEventsFromServerSince:[NSDate date] intoContext:context];
+	NSLog(@"RemoteEventLoader returned");
 	NSError *err = nil;
 	[context save:&err];
 	
