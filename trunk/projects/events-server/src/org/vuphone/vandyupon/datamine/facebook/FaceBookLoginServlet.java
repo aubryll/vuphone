@@ -68,7 +68,7 @@ public class FaceBookLoginServlet extends HttpServlet {
     		return;
     	}
 */
-    	long facebookUserID;
+//    	long facebookUserID;
     	try {
     		logger_.log(Level.SEVERE, "got here");
     //		Document d = userClient.fql_query("SELECT name FROM event WHERE eid IN (SELECT eid FROM event WHERE event_type = 'Party')");

@@ -19,7 +19,6 @@ import net.fortuna.ical4j.model.Property;
 import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Summary;
-import net.fortuna.ical4j.util.CompatibilityHints;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -43,7 +42,7 @@ public class RequestICal {
 		RequestICal.doIt();
 	}
 
-	public static void doIt() {
+	public static void doIt() throws InterruptedException {
 
 		FileInputStream fin = null;
 		try {
@@ -80,6 +79,8 @@ public class RequestICal {
 
 			// get location
 			org.vuphone.vandyupon.datastructs.Location location = getLocation(c);
+			// Wait 1/2 second between requests because the geocoding service doesn't allow more than 2 requests/second
+			Thread.sleep(500);
 			if (location == null)
 				continue;
 			ep.setLocation(location);
@@ -115,6 +116,7 @@ public class RequestICal {
 
 			if (postWorked == false)
 				++other;
+			
 		}
 
 		System.out.println("Missing " + missing);
@@ -239,12 +241,10 @@ public class RequestICal {
 			return false;
 		}
 
-		else
-			return true;
+		return true;
 	}
 
-	private static org.vuphone.vandyupon.datastructs.Location getLocation(
-			Component c) {
+	private static org.vuphone.vandyupon.datastructs.Location getLocation(Component c) {
 		Property location = c.getProperty(Property.LOCATION);
 
 		org.vuphone.vandyupon.datastructs.Location geoLocation = null;
@@ -255,13 +255,13 @@ public class RequestICal {
 			return null;
 		}
 
-		// Remove the extra Room info and what not, and add Vandy, Nashville, TN
+		// Remove the extra Room info and what not, and add ", Nashville, TN"
 		String startStr = location.getValue();
 		if (startStr.indexOf(",") != -1)
 			startStr = startStr.substring(0, startStr.indexOf(","));
 		if (startStr.indexOf("-") != -1)
 			startStr = startStr.substring(0, startStr.indexOf("-"));
-		startStr += ", Nashville, TN";
+//		startStr += ", Nashville, TN";
 
 		// Get a Lat / Lon from the string
 		try {
