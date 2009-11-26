@@ -42,18 +42,19 @@
 }
 
 + (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context
-{	// Format the url string
+{
 #ifndef SAMPLE_EVENT_REQUEST_RESPONSE
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	// Format the url string
 	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
 	[urlString appendString:@"?type=eventrequest"];
 	[urlString appendFormat:@"&lat=%f", CAMPUS_CENTER_LATITUDE];
 	[urlString appendFormat:@"&lon=%f", CAMPUS_CENTER_LONGITUDE];
-	[urlString appendFormat:@"&updatetime=%@", (date == nil) ? @"0" : [dateFormatter stringFromDate:date]];
+//	[urlString appendFormat:@"&updatetime=%d", (date == nil) ? 0 : [date timeIntervalSince1970]];
+	[urlString appendString:@"&updatetime=0"];
 	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
-	
+	NSLog(@"Requesting URL: %@", urlString);
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	// Make the request to get the data
@@ -61,16 +62,18 @@
 #else
 	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/sampleEventRequestResponse.xml"];
 #endif
-	
-	[dateFormatter release];
 
 	// Parse the request
 	NSError *err = nil;
 	DDXMLDocument *responseXml = [[DDXMLDocument alloc] initWithData:responseData options:0 error:&err];
-	NSLog(@"Error loading response XML: %@", err);
+	if (err) {
+		NSLog(@"Error loading response XML: %@", err);
+		[responseXml release];
+		return nil;
+	}
 	
 	// Find the first response
-	NSArray *nodes = [responseXml nodesForXPath:@"./eventrequestresponse/event" error:&err];
+	NSArray *nodes = [responseXml nodesForXPath:@"./EventRequestResponse/Event" error:&err];
 	NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
 	if ([nodes count] > 0)
 	{
@@ -79,10 +82,22 @@
 			// Create an event and load data into it
 			Event *event = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
 														 inManagedObjectContext:context];
-			[RemoteEventLoader getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event];
+			Location *location = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
+														 inManagedObjectContext:context];
+			[RemoteEventLoader getDataFromXMLNode:node intoEvent:event];
+			[RemoteEventLoader getDataFromXMLNode:node intoLocation:location];
+			event.location = location;
 			[events addObject:event];
 		}
+
 		[context save:&err];
+		if (err) {
+			NSLog(@"Error saving events: %@", err);
+			[responseXml release];
+			[events release];
+			return nil;
+		}
+		
 	}
 	else
 	{
@@ -98,21 +113,30 @@
 {
 	DDXMLNode *prop;
 	NSError *err;
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./name" error:&err] objectAtIndex:0];
+
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Name" error:&err] objectAtIndex:0];
 	event.name = [prop stringValue];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./loc/lat" error:&err] objectAtIndex:0];
-	event.location.latitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./loc/lng" error:&err] objectAtIndex:0];
-	event.location.longitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./start" error:&err] objectAtIndex:0];
-	event.startTime = [dateFormatter dateFromString:[prop stringValue]];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./end" error:&err] objectAtIndex:0];
-	event.endTime = [dateFormatter dateFromString:[prop stringValue]];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./eventid" error:&err] objectAtIndex:0];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Start" error:&err] objectAtIndex:0];
+	event.startTime = [NSDate dateWithTimeIntervalSince1970:[[prop stringValue] intValue]];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./End" error:&err] objectAtIndex:0];
+	event.endTime = [NSDate dateWithTimeIntervalSince1970:[[prop stringValue] intValue]];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./EventId" error:&err] objectAtIndex:0];
 	event.serverId = [prop stringValue];
-	
-	[dateFormatter release];
+	// Hard-coding the source for now
+	event.source = @"Official Calendar";
+}
+
++ (void)getDataFromXMLNode:(DDXMLNode *)node intoLocation:(Location *)location
+{
+	DDXMLNode *prop;
+	NSError *err;
+
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Name" error:&err] objectAtIndex:0];
+	location.name = [prop stringValue];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lat" error:&err] objectAtIndex:0];
+	location.latitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lon" error:&err] objectAtIndex:0];
+	location.longitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
 }
 
 + (void)submitEvent:(Event *)event
@@ -129,8 +153,8 @@
 	[urlString appendFormat:@"&locationlat=%f", [event.location.latitude doubleValue]];
 	[urlString appendFormat:@"&locationlon=%f", [event.location.longitude doubleValue]];
 	[urlString appendFormat:@"&eventname=%@", event.name];
-	[urlString appendFormat:@"&starttime=%i000", (int)[event.startTime timeIntervalSince1970]];
-	[urlString appendFormat:@"&endtime=%i000", (int)[event.endTime timeIntervalSince1970]];
+	[urlString appendFormat:@"&starttime=%i", (int)[event.startTime timeIntervalSince1970]];
+	[urlString appendFormat:@"&endtime=%i", (int)[event.endTime timeIntervalSince1970]];
 	/** @todo Remove the substring limit on the device unique identifier */
 	[urlString appendFormat:@"&userid=%@", [[[UIDevice currentDevice] uniqueIdentifier] substringFromIndex:24]];
 	[urlString appendString:@"&resp=xml"];
