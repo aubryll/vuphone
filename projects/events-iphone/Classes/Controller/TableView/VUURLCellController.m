@@ -3,7 +3,7 @@
 //  Events
 //
 //  Created by Aaron Thompson on 21/9/09.
-//  Copyright 2009 Iostudio, LLC. All rights reserved.
+//  Copyright 2009 Vanderbilt University. All rights reserved.
 //
 
 #import "VUURLCellController.h"
