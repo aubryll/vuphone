@@ -16,6 +16,7 @@ import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Summary;
@@ -77,19 +78,29 @@ public class RequestICal {
 
 			c = (Component) events.get(i);
 
-			// get location
+			Property locName = c.getProperty(Property.LOCATION);
+			if (locName != null) {
+				ep.setLocationName(locName.getValue());
+			}
+			
+			// get geolocation
 			org.vuphone.vandyupon.datastructs.Location location = getLocation(c);
-			// Wait 1/2 second between requests because the geocoding service doesn't allow more than 2 requests/second
-			Thread.sleep(500);
 			if (location == null)
 				continue;
 			ep.setLocation(location);
 
 			// get name
 			Summary name = (Summary) c.getProperty(Property.SUMMARY);
-			if (name == null)
+			if (name == null) {
 				continue;
+			}
 			ep.setName(name.getValue());
+			
+			// get description
+			Description desc = (Description)c.getProperty(Property.DESCRIPTION);
+			if (desc != null) {
+				ep.setDescription(desc.getValue());
+			}
 
 			// get user
 			ep.setUser("vandy calendar datamine");
@@ -107,12 +118,13 @@ public class RequestICal {
 			if (start == null) {
 				++missing;
 				continue;
-			} else
+			} else {
 				ep.setEndTime(start.getDate().getTime());
+			}
 
-			boolean postWorked = doEventPost(ep.getName(), ep.getStartTime(),
-					ep.getEndTime(), ep.getLocation().getLat(), ep
-							.getLocation().getLon(), "no desc for now");
+			boolean postWorked = doEventPost(ep.getName(), ep.getStartTime(), ep.getEndTime(),
+					ep.getLocationName(), ep.getLocation().getLat(), ep.getLocation().getLon(),
+					ep.getDescription());
 
 			if (postWorked == false)
 				++other;
@@ -150,7 +162,7 @@ public class RequestICal {
 	 *         otherwise
 	 */
 	public static boolean doEventPost(String name, long start, long end,
-			double lat, double lon, String desc) {
+			String locName, double lat, double lon, String desc) {
 
 		lastError_ = "";
 
@@ -164,6 +176,7 @@ public class RequestICal {
 			name = URLEncoder.encode(name, "UTF-8");
 			startTime = URLEncoder.encode(startTime, "UTF-8");
 			endTime = URLEncoder.encode(endTime, "UTF-8");
+			locName = URLEncoder.encode(locName, "UTF-8");
 			latitude = URLEncoder.encode(latitude, "UTF-8");
 			longitude = URLEncoder.encode(longitude, "UTF-8");
 			androidID = URLEncoder.encode(androidID, "UTF-8");
@@ -184,6 +197,8 @@ public class RequestICal {
 		// Create the parameter string
 		StringBuffer params = new StringBuffer();
 		params.append("type=eventpost");
+		params.append("&locationname=");
+		params.append(locName);
 		params.append("&locationlat=");
 		params.append(latitude);
 		params.append("&locationlon=");
@@ -255,13 +270,12 @@ public class RequestICal {
 			return null;
 		}
 
-		// Remove the extra Room info and what not, and add ", Nashville, TN"
+		// Remove the extra Room info and what not
 		String startStr = location.getValue();
 		if (startStr.indexOf(",") != -1)
 			startStr = startStr.substring(0, startStr.indexOf(","));
 		if (startStr.indexOf("-") != -1)
 			startStr = startStr.substring(0, startStr.indexOf("-"));
-//		startStr += ", Nashville, TN";
 
 		// Get a Lat / Lon from the string
 		try {

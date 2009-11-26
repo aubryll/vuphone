@@ -52,8 +52,6 @@ public class Location {
 	 */
 	public void setLon(double lon) {
 		lon_ = lon;
-	}
-	
-	
+	}	
 	
 }

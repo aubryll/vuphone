@@ -123,11 +123,11 @@ public class EventPostHandler implements NotificationHandler {
 		try {
 			id = rs.getInt("locationid");
 			rs.close();
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) " +
 					"values (?, ?, ?, ?, ?, ?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prep.setString(1, "unknown");
+			prep.setString(1, ep.getLocationName());
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
 			prep.setLong(4, System.currentTimeMillis());

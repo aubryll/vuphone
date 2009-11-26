@@ -29,6 +29,7 @@ public class EventPostParser implements NotificationParser {
 		}
 		
 		EventPost ep = new EventPost();
+		ep.setLocationName(req.getParameter("locationname"));
 		ep.setLocation(new Location(Double.parseDouble(req.getParameter("locationlat")), 
 				Double.parseDouble(req.getParameter("locationlon"))));
 		
