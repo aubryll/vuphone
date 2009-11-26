@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wp:wp xmlns:wp="http://api.whitepages.com/schema/">
+  <wp:result wp:type="success" wp:message=" " wp:code="Found Data"/>
+  <wp:meta>
+    <wp:linkexpiration>2009-11-30</wp:linkexpiration>
+    <wp:recordrange wp:lastrecord="1" wp:firstrecord="1" wp:totalavailable="1"/>
+    <wp:apiversion>1.0</wp:apiversion>
+    <wp:searchid>72251340536669990959</wp:searchid>
+    <wp:searchlinks>
+      <wp:link wp:linktext="Whitepages.com" wp:type="homepage">http://www.whitepages.com/16176/</wp:link>
+      <wp:link wp:linktext="Link to this api call" wp:type="self">http://api.whitepages.com/find_business/1.0/?businessname=Frist+Center+for+the+Visual+Arts&amp;zip=37235&amp;api_key=338334e34d7ffb4451f48def3b88fa6b</wp:link>
+    </wp:searchlinks>
+  </wp:meta>
+  <wp:listings>
+    <wp:listing>
+      <wp:business wp:rank="primary">
+        <wp:businessname>Frist Center For The Visual Arts</wp:businessname>
+      </wp:business>
+      <wp:displayname>Frist Center For The Visual Arts</wp:displayname>
+      <wp:phonenumbers>
+        <wp:phone wp:type="work" wp:rank="primary">
+          <wp:fullphone>(615) 244-3340</wp:fullphone>
+          <wp:areacode>615</wp:areacode>
+          <wp:exchange>244</wp:exchange>
+          <wp:linenumber>3340</wp:linenumber>
+        </wp:phone>
+      </wp:phonenumbers>
+      <wp:address wp:deliverable="true">
+        <wp:fullstreet>919 Broadway</wp:fullstreet>
+        <wp:house>919</wp:house>
+        <wp:street>Broadway</wp:street>
+        <wp:city>Nashville</wp:city>
+        <wp:state>TN</wp:state>
+        <wp:zip>37203</wp:zip>
+        <wp:zip4>3822</wp:zip4>
+        <wp:country>US</wp:country>
+      </wp:address>
+      <wp:geodata>
+        <wp:latitude>36.158181</wp:latitude>
+        <wp:longitude>-86.783578</wp:longitude>
+      </wp:geodata>
+      <wp:listingmeta>
+        <wp:lastvalidated>03/2009</wp:lastvalidated>
+        <wp:type>work</wp:type>
+        <wp:moreinfolinks>
+          <wp:link wp:linktext="Find Neighbors" wp:type="findneighbors">http://www.whitepages.com/16176/track/10214/search/FindNeighbors?addr_research=1&amp;tmpl=search_research_neighbors&amp;search_id=72251340536669990959&amp;rarl=&amp;element_id=0</wp:link>
+          <wp:link wp:linktext="View Map" wp:type="viewmap">http://www.whitepages.com/16176/track/10213/map_provider?full_address=919+Broadway&amp;city=Nashville&amp;state=TN&amp;zip=37203&amp;country=US&amp;lat=36.158181&amp;long=-86.783578&amp;name=Frist+Center+For+The+Visual+Arts&amp;firstname=&amp;show_form=false</wp:link>
+          <wp:link wp:linktext="Driving Directions" wp:type="drivingdirections">http://www.whitepages.com/16176/track/10216/map_provider?=&amp;show_form=true&amp;full_address=919+Broadway&amp;city=Nashville&amp;state=TN&amp;zip=37203&amp;country=US&amp;lat=36.158181&amp;long=-86.783578&amp;name=Frist+Center+For+The+Visual+Arts&amp;firstname=</wp:link>
+          <wp:link wp:linktext="View Listing Detail" wp:type="viewdetails">http://www.whitepages.com/16176/track/10215/search/Replay?search_id=72251340536669990959&amp;lower=1&amp;more_info=1</wp:link>
+        </wp:moreinfolinks>
+      </wp:listingmeta>
+    </wp:listing>
+  </wp:listings>
+</wp:wp>
