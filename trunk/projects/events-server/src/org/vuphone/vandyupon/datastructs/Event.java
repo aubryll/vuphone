@@ -23,9 +23,10 @@ public class Event {
 	private boolean owner_;
 	private long startTime_;
 	private long endTime_;
+	private String sourceUid_;
 	private int id_;
 	private long lastUpdate_;
-	
+	private String description_;
 	
 	public Event(){
 		
@@ -65,6 +66,14 @@ public class Event {
 		return startTime_;
 	}
 	
+	public String getSourceUid() {
+		return sourceUid_;
+	}
+	
+	public String getDescription() {
+		return "<![CDATA[" + description_ + "]]>";
+	}
+	
 	public boolean isOwner(){
 		return owner_;
 	}
@@ -95,5 +104,13 @@ public class Event {
 	
 	public void setIsOwner(boolean owner){
 		owner_ = owner;
+	}
+
+	public void setSourceUid(String sourceUid) {
+		sourceUid_ = sourceUid;
+	}
+
+	public void setDescription(String description) {
+		description_ = description;
 	}
 }

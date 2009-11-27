@@ -32,14 +32,14 @@ import com.thoughtworks.xstream.XStream;
 
 public class EventRequestResponseHandler extends NotificationResponseHandler {
 
-	public EventRequestResponseHandler(){
+	public EventRequestResponseHandler() {
 		super("eventrequestresponse");
 	}
 
 	@Override
 	public void handle(HttpServletResponse resp, ResponseNotification nr)
 	throws HandlerFailedException {
-		if (!(nr instanceof EventRequestResponse)){
+		if (!(nr instanceof EventRequestResponse)) {
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(new InvalidFormatException());
 			throw hfe;
@@ -47,9 +47,9 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		EventRequestResponse err = (EventRequestResponse)nr;
 
 		XStream emitter;
-		if (err.getResponseType().equalsIgnoreCase("json")){
+		if (err.getResponseType().equalsIgnoreCase("json")) {
 			emitter = EmitterFactory.createXStream(EmitterFactory.ResponseType.JSON);
-		}else{
+		} else {
 			emitter = EmitterFactory.createXStream(EmitterFactory.ResponseType.XML);
 		}
 		
@@ -75,15 +75,17 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		emitter.aliasField("EventId", Event.class, "id_");
 		emitter.aliasField("Owner", Event.class, "owner_");
 		emitter.aliasField("LastUpdate", Event.class, "lastUpdate_");
+		emitter.aliasField("Description", Event.class, "description");
+		emitter.omitField(Event.class, "sourceUid_");
 		
 		String response = emitter.toXML(err);
 		
 		if (err.getResponseType().equalsIgnoreCase("json"))
 			response = err.getCallback() + " (" + response + ") ";
 		
-		try{
+		try {
 			resp.getWriter().write(response);
-		}catch(IOException e){
+		} catch(IOException e) {
 			e.printStackTrace();
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(e);

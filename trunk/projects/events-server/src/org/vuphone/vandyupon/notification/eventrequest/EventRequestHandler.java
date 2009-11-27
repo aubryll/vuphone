@@ -56,7 +56,7 @@ public class EventRequestHandler implements NotificationHandler {
 
 
 		try {
-			EventRequestResponse err = new EventRequestResponse(req.getResponseType(), req.getCallback());
+			EventRequestResponse response = new EventRequestResponse(req.getResponseType(), req.getCallback());
 			HashMap<Integer, Event> events = new HashMap<Integer, Event>(); 
 			Connection db = ds_.getConnection();
 			
@@ -68,9 +68,10 @@ public class EventRequestHandler implements NotificationHandler {
 			 * 4: Latitude of the anchor point
 			 * 5: Longitude of the anchor point
 			 * 6: Radius requested
+			 * 7: UID used by the caller to identify the event 
 			 */
-			String sql = "create temporary table evtstmp select eventid as id, events.name as name, " +
-			"starttime, endtime, events.userid as user, lat, lon, events.lastupdate as lastupdate " +
+			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, " +
+			"events.userid as user, lat, lon, events.lastupdate as lastupdate, events.sourceuid as sourceuid " +
 			"from events inner join locations on events.locationid = locations.locationid " +
 			"where endtime > ?  and events.lastupdate >= ? and ? * ACOS( (SIN( PI() * ? / 180) * " +
 			"SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
@@ -79,7 +80,7 @@ public class EventRequestHandler implements NotificationHandler {
 
 			PreparedStatement prep = db.prepareStatement(sql);
 
-			prep.setLong(1, System.currentTimeMillis());
+			prep.setLong(1, System.currentTimeMillis() / 1000);
 			prep.setLong(2, req.getUpdateTime());
 			prep.setDouble(3, RADIUS_EARTH);
 			prep.setDouble(4,req.getAnchor().getLat());
@@ -89,8 +90,10 @@ public class EventRequestHandler implements NotificationHandler {
 
 			prep.executeUpdate();
 			
-			sql = "select id, name, starttime, endtime, deviceid, lat, lon, lastupdate " +
-					"from evtstmp inner join people on user = userid";
+			sql = "select id, name, starttime, endtime, deviceid, lat, lon, lastupdate, sourceuid, eventmeta.value as description " +
+					"from evtstmp inner join people on user = userid " +
+					"left join eventmeta on id = eventmeta.eventid " +
+					"where metatype = 1";
 			
 			prep = db.prepareStatement(sql);
 			ResultSet rs = prep.executeQuery();
@@ -102,26 +105,28 @@ public class EventRequestHandler implements NotificationHandler {
 				e.setStartTime(rs.getLong("starttime"));
 				e.setEndTime(rs.getLong("endtime"));
 				e.setLocation(new Location(rs.getDouble("lat"), rs.getDouble("lon")));
-				if (rs.getString("deviceid").equalsIgnoreCase(req.getUserId())){
+				if (rs.getString("deviceid").equalsIgnoreCase(req.getUserId())) {
 					//this user owns this event
 					e.setIsOwner(true);
-				}else {
+				} else {
 					e.setIsOwner(false);
 				}
 				e.setLastUpdate(rs.getLong("lastupdate"));
-				err.addEvent(e);
+				e.setSourceUid(rs.getString("sourceuid"));
+				e.setDescription(rs.getString("description"));
+				response.addEvent(e);
 				events.put(e.getID(), e);
 			}
 
 			rs.close();
-			return err;
+			return response;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(e);
 			throw hfe;
-		}		
+		}
 
 	}
 

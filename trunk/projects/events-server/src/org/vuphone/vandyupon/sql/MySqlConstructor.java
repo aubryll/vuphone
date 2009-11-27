@@ -52,9 +52,9 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "locationid integer not null references locations(locationid),"
 				+ "userid integer not null references people(userid)," 
 				+ "starttime bigint not null," 
-				+ "endtime bigint not null," +
-						"lastupdate bigint not null)"
-				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
+				+ "endtime bigint not null,"
+				+ "lastupdate bigint not null"
+				+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 

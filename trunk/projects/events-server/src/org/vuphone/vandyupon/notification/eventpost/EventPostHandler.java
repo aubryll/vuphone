@@ -41,21 +41,22 @@ public class EventPostHandler implements NotificationHandler {
 	 * @return
 	 * @throws SQLException
 	 */
-	private int createEvent(EventPost ep, int locationId) throws SQLException{
+	private int createEvent(EventPost ep, int locationId) throws SQLException {
 		Connection conn = ds_.getConnection();
-		String sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate)" +
-				" values (?, ?, ?, ?, ?, ?)";
+		String sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate, sourceuid)" +
+				" values (?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
 		prep.setLong(3, ep.getDbUserId());
 		prep.setLong(4, ep.getStartTime());
 		prep.setLong(5, ep.getEndTime());
-		prep.setLong(6, System.currentTimeMillis());
+		prep.setLong(6, System.currentTimeMillis() / 1000);
+		prep.setString(7, ep.getSourceUid());
 
-		if (prep.executeUpdate() == 0){
+		if (prep.executeUpdate() == 0) {
 			throw new SQLException("Insertion into vandyupon.events failed for an unknown reason");
-		}else{
+		} else {
 			//Everything worked
 			ResultSet rs = prep.getGeneratedKeys();
 			rs.next();
@@ -73,33 +74,32 @@ public class EventPostHandler implements NotificationHandler {
 			return id;
 		}
 
-
 	}
 
 
 	public ResponseNotification handle(Notification n) throws HandlerFailedException {
 
-		if (!(n instanceof EventPost)){
+		if (!(n instanceof EventPost)) {
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(new InvalidFormatException());
 			throw hfe;
 		}
 
 		EventPost ep = (EventPost) n;
-		try{
-			if (verifyUserID(ep)){
+		try {
+			if (verifyUserID(ep)) {
 				int locationid = getLocationId(ep);
 				return new EventPostResponse(createEvent(ep, locationid), 
 						ep.getResponseType(), ep.getCallback());
 			}
-		}catch (SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
 		return null;
 	}
 
-	public DataSource getDataConnection(){
+	public DataSource getDataConnection() {
 		return ds_;
 	}
 
@@ -108,7 +108,7 @@ public class EventPostHandler implements NotificationHandler {
 	 * at a given point.  If no location is currently at that point a new one is created.
 	 * @return
 	 */
-	private int getLocationId(EventPost ep) throws SQLException{
+	private int getLocationId(EventPost ep) throws SQLException {
 		String sql;
 		Connection conn;
 		conn = ds_.getConnection();
@@ -130,9 +130,9 @@ public class EventPostHandler implements NotificationHandler {
 			prep.setString(1, ep.getLocationName());
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
-			prep.setLong(4, System.currentTimeMillis());
+			prep.setLong(4, System.currentTimeMillis() / 1000);
 			prep.setLong(5, ep.getDbUserId());
-			prep.setLong(6, System.currentTimeMillis());
+			prep.setLong(6, System.currentTimeMillis() / 1000);
 
 			prep.execute();
 			rs = prep.getGeneratedKeys();
@@ -140,12 +140,11 @@ public class EventPostHandler implements NotificationHandler {
 			id = rs.getInt(1);
 		}
 
-
 		return id;
 
 	}
 
-	public void setDataConnection(DataSource ds){
+	public void setDataConnection(DataSource ds) {
 		ds_ = ds;
 	}
 
@@ -156,43 +155,40 @@ public class EventPostHandler implements NotificationHandler {
 	 * @return boolean - Whether the id is a valid user or not
 	 * @throws SQLException
 	 */
-	private boolean verifyUserID(EventPost ep) throws SQLException{
+	private boolean verifyUserID(EventPost ep) throws SQLException {
 		String sql;
 		Connection conn = ds_.getConnection();
 		sql = "select * from people where deviceid like ?";
 		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getUser());
 		ResultSet rs = prep.executeQuery();
-		try{
+		try {
 			rs.next();
 			int id = rs.getInt(1);
-			if (id != 0){
+			if (id != 0) {
 				ep.setDbUserId(id);
 				rs.close();
 				return true;
-			}else{
+			} else {
 				rs.close();
 				return false;
 			}
-		}catch (SQLException e){
+		} catch (SQLException e) {
 			sql = "insert into people (deviceid) values (?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			prep.setString(1, ep.getUser());
 
-			if (prep.executeUpdate() != 0){
+			if (prep.executeUpdate() != 0) {
 				ResultSet rs2 = prep.getGeneratedKeys();
 				rs2.next();
 				ep.setDbUserId(rs2.getInt(1));
 				return true;
-			}else {
+			} else {
 				return false;
 			}
 
 		}
 
 	}
-
-
-
 
 }
