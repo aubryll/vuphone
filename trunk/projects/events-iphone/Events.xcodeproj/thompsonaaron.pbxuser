@@ -182,7 +182,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = 61F779BB1054720F0071CA64 /* Events */;
-		activeSDKPreference = iphonesimulator3.0;
+		activeSDKPreference = iphoneos3.0;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* Events */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* Events */,
@@ -359,6 +359,8 @@
 			611743D110BEFA6A00ED04B3 /* PBXTextBookmark */ = 611743D110BEFA6A00ED04B3 /* PBXTextBookmark */;
 			611743D510BEFAE500ED04B3 /* PBXTextBookmark */ = 611743D510BEFAE500ED04B3 /* PBXTextBookmark */;
 			611743D610BEFB4600ED04B3 /* PBXTextBookmark */ = 611743D610BEFB4600ED04B3 /* PBXTextBookmark */;
+			611743DC10BF722B00ED04B3 /* PBXTextBookmark */ = 611743DC10BF722B00ED04B3 /* PBXTextBookmark */;
+			611743E010BF726100ED04B3 /* PBXTextBookmark */ = 611743E010BF726100ED04B3 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 61F779D1105472140071CA64 /* Source Control */;
 		userBookmarkGroup = 61173FDD10BB577A00ED04B3 /* PBXBookmarkGroup */;
@@ -397,7 +399,7 @@
 		ignoreCount = 0;
 		lineNumber = 178;
 		location = Events;
-		modificationTime = 280951406.058478;
+		modificationTime = 280982118.681545;
 		originalNumberOfMultipleMatches = 1;
 		state = 2;
 	};
@@ -864,7 +866,7 @@
 		isa = PBXTextBookmark;
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		rLen = 0;
-		rLoc = 5362;
+		rLoc = 5366;
 		rType = 0;
 	};
 	611743B410BEE98F00ED04B3 /* PBXTextBookmark */ = {
@@ -872,7 +874,7 @@
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		name = "RemoteEventLoader.m: 159";
 		rLen = 0;
-		rLoc = 5412;
+		rLoc = 5416;
 		rType = 0;
 		vrLen = 1006;
 		vrLoc = 5124;
@@ -949,7 +951,7 @@
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		name = "RemoteEventLoader.m: 155";
 		rLen = 0;
-		rLoc = 5412;
+		rLoc = 5416;
 		rType = 0;
 		vrLen = 855;
 		vrLoc = 5193;
@@ -959,7 +961,7 @@
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		name = "RemoteEventLoader.m: 136";
 		rLen = 0;
-		rLoc = 4585;
+		rLoc = 4589;
 		rType = 0;
 		vrLen = 1909;
 		vrLoc = 2873;
@@ -969,7 +971,7 @@
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		name = "RemoteEventLoader.m: 136";
 		rLen = 0;
-		rLoc = 4585;
+		rLoc = 4589;
 		rType = 0;
 		vrLen = 1909;
 		vrLoc = 2873;
@@ -979,7 +981,7 @@
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		name = "RemoteEventLoader.m: 136";
 		rLen = 0;
-		rLoc = 4585;
+		rLoc = 4589;
 		rType = 0;
 		vrLen = 1909;
 		vrLoc = 2873;
@@ -989,10 +991,30 @@
 		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
 		name = "RemoteEventLoader.m: 155";
 		rLen = 0;
-		rLoc = 5412;
+		rLoc = 5416;
 		rType = 0;
 		vrLen = 855;
 		vrLoc = 5193;
+	};
+	611743DC10BF722B00ED04B3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 157";
+		rLen = 0;
+		rLoc = 5416;
+		rType = 0;
+		vrLen = 1020;
+		vrLoc = 4960;
+	};
+	611743E010BF726100ED04B3 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */;
+		name = "RemoteEventLoader.m: 157";
+		rLen = 0;
+		rLoc = 5416;
+		rType = 0;
+		vrLen = 1019;
+		vrLoc = 4960;
 	};
 	6122504610ACD3740074B05D /* EventRatingsCellController.h */ = {
 		uiCtxt = {
@@ -1099,7 +1121,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 24;
-		modificationTime = 280951406.058381;
+		modificationTime = 280982118.681474;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -1623,9 +1645,9 @@
 	};
 	61F77BA2105568050071CA64 /* RemoteEventLoader.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {943, 2288}}";
-			sepNavSelRange = "{5339, 0}";
-			sepNavVisRange = "{5193, 855}";
+			sepNavIntBoundsRect = "{{0, 0}, {796, 2353}}";
+			sepNavSelRange = "{5416, 0}";
+			sepNavVisRange = "{4960, 1019}";
 			sepNavWindowFrame = "{{1712, -144}, {903, 1018}}";
 		};
 	};

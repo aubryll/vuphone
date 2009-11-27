@@ -131,7 +131,7 @@
 	DDXMLNode *prop;
 	NSError *err;
 
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./Name" error:&err] objectAtIndex:0];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Name" error:&err] objectAtIndex:0];
 	location.name = [prop stringValue];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lat" error:&err] objectAtIndex:0];
 	location.latitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
