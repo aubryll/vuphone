@@ -17,17 +17,32 @@ package org.vuphone.vandyupon.datastructs;
 
 public class Location {
 
+	private String name_;
 	private double lat_;
 	private double lon_;
 	
-	public Location(){
+	public Location() {
 		
 	}
 	
-	public Location(double lat, double lon){
+	public Location(double lat, double lon) {
 		lat_ = lat;
 		lon_ = lon;
 	}
+	
+	public Location(String name, double lat, double lon) {
+		name_ = name;
+		lat_ = lat;
+		lon_ = lon;
+	}
+	
+	/**
+	 * @return the name_
+	 */
+	public String getName() {
+		return name_;
+	}
+
 	/**
 	 * @return the lat_
 	 */
@@ -41,6 +56,13 @@ public class Location {
 		return lon_;
 	}
 	
+	/**
+	 * @param name the name_ to set
+	 */
+	public void setName(String name) {
+		name_ = name;
+	}
+
 	/**
 	 * @param lat the lat_ to set
 	 */

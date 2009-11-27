@@ -71,7 +71,7 @@ public class EventRequestHandler implements NotificationHandler {
 			 * 7: UID used by the caller to identify the event 
 			 */
 			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, " +
-			"events.userid as user, lat, lon, events.lastupdate as lastupdate, events.sourceuid as sourceuid " +
+			"events.userid as user, locations.name as locname, lat, lon, events.lastupdate as lastupdate, events.sourceuid as sourceuid " +
 			"from events inner join locations on events.locationid = locations.locationid " +
 			"where endtime > ?  and events.lastupdate >= ? and ? * ACOS( (SIN( PI() * ? / 180) * " +
 			"SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
@@ -90,7 +90,7 @@ public class EventRequestHandler implements NotificationHandler {
 
 			prep.executeUpdate();
 			
-			sql = "select id, name, starttime, endtime, deviceid, lat, lon, lastupdate, sourceuid, eventmeta.value as description " +
+			sql = "select id, name, starttime, endtime, deviceid, locname, lat, lon, lastupdate, sourceuid, eventmeta.value as description " +
 					"from evtstmp inner join people on user = userid " +
 					"left join eventmeta on id = eventmeta.eventid " +
 					"where metatype = 1";
@@ -98,13 +98,13 @@ public class EventRequestHandler implements NotificationHandler {
 			prep = db.prepareStatement(sql);
 			ResultSet rs = prep.executeQuery();
 			
-			while (rs.next()){
+			while (rs.next()) {
 				Event e = new Event();
 				e.setName(rs.getString("name"));
 				e.setID(rs.getInt("id"));
 				e.setStartTime(rs.getLong("starttime"));
 				e.setEndTime(rs.getLong("endtime"));
-				e.setLocation(new Location(rs.getDouble("lat"), rs.getDouble("lon")));
+				e.setLocation(new Location(rs.getString("locname"), rs.getDouble("lat"), rs.getDouble("lon")));
 				if (rs.getString("deviceid").equalsIgnoreCase(req.getUserId())) {
 					//this user owns this event
 					e.setIsOwner(true);
