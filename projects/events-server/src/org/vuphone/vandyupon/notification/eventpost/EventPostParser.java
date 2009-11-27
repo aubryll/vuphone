@@ -40,6 +40,7 @@ public class EventPostParser implements NotificationParser {
 		ep.setReponseType(req.getParameter("resp"));
 		ep.setCallback(req.getParameter("callback"));
 		ep.setDescription(req.getParameter("desc"));
+		ep.setSourceUid(req.getParameter("sourceuid"));
 		
 		return ep;
 	}

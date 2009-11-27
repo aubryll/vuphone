@@ -76,11 +76,12 @@ public class RequestICal {
 		for (int i = 0; i < events.size(); ++i) {
 			EventPost ep = new EventPost();
 
-			c = (Component) events.get(i);
+			c = (Component)events.get(i);
 
 			Property locName = c.getProperty(Property.LOCATION);
 			if (locName != null) {
-				ep.setLocationName(locName.getValue());
+				// Strip backslashes before colons that occur in the ics file
+				ep.setLocationName(locName.getValue().replaceAll("\\\\", ""));
 			}
 			
 			// get geolocation
@@ -90,28 +91,22 @@ public class RequestICal {
 			ep.setLocation(location);
 
 			// get name
-			Summary name = (Summary) c.getProperty(Property.SUMMARY);
+			Summary name = (Summary)c.getProperty(Property.SUMMARY);
 			if (name == null) {
 				continue;
 			}
-			ep.setName(name.getValue());
+			// Strip backslashes before colons that occur in the ics file
+			ep.setName(name.getValue().replaceAll("\\\\", ""));
 			
 			// get description
 			Description desc = (Description)c.getProperty(Property.DESCRIPTION);
 			if (desc != null) {
-				ep.setDescription(desc.getValue());
+				// Strip backslashes before colons that occur in the ics file
+				ep.setDescription(desc.getValue().replaceAll("\\\\", ""));
 			}
 
 			// get user
 			ep.setUser("vandy calendar datamine");
-
-			// get end time
-			DtEnd end = (DtEnd) c.getProperty(Property.DTEND);
-			if (end == null) {
-				++missing;
-				continue;
-			} else
-				ep.setEndTime(end.getDate().getTime());
 
 			// get start time
 			DtStart start = (DtStart) c.getProperty(Property.DTSTART);
@@ -119,12 +114,23 @@ public class RequestICal {
 				++missing;
 				continue;
 			} else {
-				ep.setEndTime(start.getDate().getTime());
+				ep.setStartTime(start.getDate().getTime() / 1000);
 			}
+
+			// get end time
+			DtEnd end = (DtEnd) c.getProperty(Property.DTEND);
+			if (end == null) {
+				ep.setEndTime(ep.getStartTime());
+			} else {
+				ep.setEndTime(end.getDate().getTime() / 1000);
+			}
+			
+			// get UID
+			ep.setSourceUid(c.getProperty(Property.UID).getValue());
 
 			boolean postWorked = doEventPost(ep.getName(), ep.getStartTime(), ep.getEndTime(),
 					ep.getLocationName(), ep.getLocation().getLat(), ep.getLocation().getLon(),
-					ep.getDescription());
+					ep.getDescription(), ep.getSourceUid());
 
 			if (postWorked == false)
 				++other;
@@ -156,13 +162,14 @@ public class RequestICal {
 	 *            event location
 	 * @param desc
 	 *            event description
+	 * @param sourceUid 
 	 * @param context
 	 *            application context used to fetch the android ID
 	 * @return true if the server was contacted, and returned 200 OK, false
 	 *         otherwise
 	 */
 	public static boolean doEventPost(String name, long start, long end,
-			String locName, double lat, double lon, String desc) {
+			String locName, double lat, double lon, String desc, String sourceUid) {
 
 		lastError_ = "";
 
@@ -181,6 +188,7 @@ public class RequestICal {
 			longitude = URLEncoder.encode(longitude, "UTF-8");
 			androidID = URLEncoder.encode(androidID, "UTF-8");
 			desc = URLEncoder.encode(desc, "UTF-8");
+			sourceUid = URLEncoder.encode(sourceUid, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
 			use.printStackTrace();
 		}
@@ -211,6 +219,8 @@ public class RequestICal {
 		params.append(endTime);
 		params.append("&userid=");
 		params.append(androidID);
+		params.append("&sourceuid=");
+		params.append(sourceUid);
 		params.append("&resp=xml");
 		params.append("&desc=");
 		params.append(desc);

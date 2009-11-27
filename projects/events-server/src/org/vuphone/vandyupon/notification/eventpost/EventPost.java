@@ -26,6 +26,7 @@ public class EventPost extends Notification {
 	private String user_;
 	private long start_;
 	private long end_;
+	private String sourceUid_;
 	private String callback_;
 	private String responseType_;
 	private String description_;
@@ -149,6 +150,14 @@ public class EventPost extends Notification {
 	
 	public String getLocationName() {
 		return locationName_;
+	}
+
+	public void setSourceUid(String sourceUid) {
+		sourceUid_ = sourceUid;
+	}
+
+	public String getSourceUid() {
+		return sourceUid_;
 	}
 	
 
