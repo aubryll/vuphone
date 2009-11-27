@@ -55,7 +55,7 @@ public class Geocoder {
 						break;
 					}
 					
-					return new Location(Double.parseDouble(lat), Double.parseDouble(lon));
+					return new Location(address, Double.parseDouble(lat), Double.parseDouble(lon));
 				}
 			}
 
@@ -88,7 +88,7 @@ public class Geocoder {
 			}
 			
 			if (lat != null && lon != null) {
-				return new Location(Double.parseDouble(lat), Double.parseDouble(lon));
+				return new Location(address, Double.parseDouble(lat), Double.parseDouble(lon));
 			} else {
 				throw new IOException("Could not find location");
 			}

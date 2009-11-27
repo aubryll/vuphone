@@ -64,6 +64,7 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		emitter.addImplicitCollection(EventRequestResponse.class, "events_");
 		
 		emitter.alias("Loc", Location.class);
+		emitter.aliasField("Name", Location.class, "name_");
 		emitter.aliasField("Lat", Location.class, "lat_");
 		emitter.aliasField("Lon", Location.class, "lon_");
 		
