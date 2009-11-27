@@ -75,7 +75,8 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		emitter.aliasField("EventId", Event.class, "id_");
 		emitter.aliasField("Owner", Event.class, "owner_");
 		emitter.aliasField("LastUpdate", Event.class, "lastUpdate_");
-		emitter.aliasField("Description", Event.class, "description");
+//		emitter.aliasField("Description", Event.class, "description_");
+		emitter.omitField(Event.class, "description_");
 		emitter.omitField(Event.class, "sourceUid_");
 		
 		String response = emitter.toXML(err);
