@@ -1,10 +1,11 @@
-package com.zienkikk.android.grapher;
+package org.vuphone.grapher.android;
+
+import org.vuphone.grapher.android.GraphView.ScrollMode;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.zienkikk.android.grapher.GraphView.ScrollMode;
 
 public class GraphActivity extends Activity {
 	
@@ -30,7 +31,7 @@ public class GraphActivity extends Activity {
         graph_ = new GraphView(this);
         setContentView(graph_);
         
-        int id = graph_.addDataSource(data);
+        graph_.addDataSource(data);
         
         graph_.setScrollMode(ScrollMode.MANUAL);
         //graph_.setScrollMode(ScrollMode.SYNC);

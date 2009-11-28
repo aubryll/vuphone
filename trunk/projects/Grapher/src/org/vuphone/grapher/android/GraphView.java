@@ -1,4 +1,4 @@
-package com.zienkikk.android.grapher;
+package org.vuphone.grapher.android;
 
 import android.content.Context;
 import android.util.Log;
