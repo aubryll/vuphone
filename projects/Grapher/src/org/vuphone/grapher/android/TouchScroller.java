@@ -1,6 +1,6 @@
-package com.zienkikk.android.grapher;
+package org.vuphone.grapher.android;
 
-import com.zienkikk.android.grapher.GraphView.ScrollMode;
+import org.vuphone.grapher.android.GraphView.ScrollMode;
 
 import android.view.MotionEvent;
 

@@ -1,4 +1,4 @@
-package com.zienkikk.android.grapher;
+package org.vuphone.grapher.android;
 
 /**
  * This is a test class that concurrently generates data points to populate a GraphDataSource 

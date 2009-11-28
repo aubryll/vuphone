@@ -1,4 +1,4 @@
-package com.zienkikk.android.grapher;
+package org.vuphone.grapher.android;
 
 import android.graphics.PointF;
 

@@ -1,8 +1,10 @@
-package com.zienkikk.android.grapher;
+package org.vuphone.grapher.android;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.vuphone.grapher.android.GraphView.ScrollMode;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,7 +14,6 @@ import android.graphics.Paint.Style;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.zienkikk.android.grapher.GraphView.ScrollMode;
 
 
 
