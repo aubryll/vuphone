@@ -4,7 +4,7 @@
 
 This page is a store for information about the Events application for the Android platform. This application has been developed as part of an independent study at Vanderbilt University. 
 
-= Developer =
+== Developer ==
 Hamilton Turner [mailto:hamiltont@gmail.com hamiltont@gmail.com]
 
 = Beta Release Features =
