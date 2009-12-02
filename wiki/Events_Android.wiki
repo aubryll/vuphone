@@ -1,13 +1,22 @@
-#summary One-sentence summary of this page.
+#summary Details for the Android Events application
 
 = Introduction =
 
-Add your content here.
+This page is a store for information about the Events application for the Android platform. This application has been developed as part of an independent study at Vanderbilt University. 
+
+= Developer =
+Hamilton Turner [mailto:hamiltont@gmail.com hamiltont@gmail.com]
+
+= Beta Release Features =
 
 
-= Details =
+== Beta Release To-Do ==
+  * Add time filter
+  * Pretty up event icons
+  * Debug event database updates
+  * Change timestamp (server times are now / 1000)
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== Future Features ==
+  * Event list view
+  * searching events
+  * updating an event if you are the owner
