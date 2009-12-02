@@ -8,7 +8,6 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -24,23 +23,26 @@ public class MarkFavs extends ListActivity {
 
 	/** Indicates what dialog is displayed when showDialog is called */
 	private static final int DIALOG_ITEM_DISPLAY_CHECKED = 1;
-	/** List of the position in list of the restaurants that are selected */
+	public static final String EXTRA_FAVORITES = "favorites";
+	/**
+	 * The position in list Main.RESTAURANTS of the restaurants that are
+	 * currently marked as favorites
+	 */
 	private ArrayList<Integer> clickedPositions;
 
 	@Override
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
 
+		setContentView(R.layout.mark_favs);
+
 		Bundle extras = getIntent().getExtras();
-		int[] favorites = extras.getIntArray("favorites");
+		int[] favorites = extras.getIntArray(EXTRA_FAVORITES);
 
 		// This section creates the buttons at the bottom of the list.
-		LayoutInflater inflater = (LayoutInflater) this
-				.getSystemService(MarkFavs.LAYOUT_INFLATER_SERVICE);
-		View footer = inflater.inflate(R.layout.mark_favs_footer, null);
-		getListView().addFooterView(footer);
-		((Button) findViewById(R.id.Done)).setOnClickListener(listener);
-		((Button) findViewById(R.id.Cancel)).setOnClickListener(listener);
+		((Button) findViewById(R.mark_favs.done)).setOnClickListener(listener);
+		((Button) findViewById(R.mark_favs.cancel))
+				.setOnClickListener(listener);
 
 		setListAdapter(new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_multiple_choice,
@@ -48,8 +50,10 @@ public class MarkFavs extends ListActivity {
 		getListView().setTextFilterEnabled(true);
 		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-		for (int x = 0; x < favorites.length; ++x) {
-			getListView().setItemChecked(favorites[x], true);
+		if (favorites.length != 0) {
+			for (int x = 0; x < favorites.length; ++x) {
+				getListView().setItemChecked(favorites[x], true);
+			}
 		}
 
 	}
@@ -72,7 +76,7 @@ public class MarkFavs extends ListActivity {
 
 		@Override
 		public void onClick(View v) {
-			if (v == findViewById(R.id.Done)) {
+			if (v.equals(findViewById(R.mark_favs.done))) {
 				getClickedPositions();
 			}
 			finish();

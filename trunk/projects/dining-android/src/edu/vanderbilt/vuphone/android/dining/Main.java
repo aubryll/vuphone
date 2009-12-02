@@ -1,7 +1,5 @@
 package edu.vanderbilt.vuphone.android.dining;
 
-import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
-import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import edu.vanderbilt.vuphone.android.map.AllLocations;
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 public class Main extends ListActivity {
 
@@ -22,7 +23,7 @@ public class Main extends ListActivity {
 	/** The second case in the menu */
 	private static final int MENU_ITEM_MARK_FAVS = 1;
 
-	/**Indicates which locations are favorites*/
+	/** Indicates which locations are favorites */
 	private static final int[] FAVORITES = { 3, 4, 5 };
 
 	static final String[] RESTAURANTS = { "Rand Dining Center",
@@ -107,10 +108,10 @@ public class Main extends ListActivity {
 		DBAdapter adapt = new DBAdapter(this);
 		adapt.openWritable();
 		adapt.createRestaurant("poo", 12.1, 1.1, "poopo", false, rh);
-		
-//		setListAdapter(new ArrayAdapter<String>(this,
-//				android.R.layout.simple_list_item_1, RESTAURANTS));
-//		getListView().setTextFilterEnabled(true);
+
+		setListAdapter(new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, RESTAURANTS));
+		getListView().setTextFilterEnabled(true);
 
 	}
 
@@ -137,15 +138,15 @@ public class Main extends ListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case MENU_ITEM_VIEW_MAP:
-			Intent i = new Intent(this, MapAllResturaunts.class);
-			i.putExtra("longitudes", LOCATION_LONGITUDES);
-			i.putExtra("latitudes", LOCATION_LATITUDES);
-			i.putExtra("locations", RESTAURANTS);
+			Intent i = new Intent(this, AllLocations.class);
+			i.putExtra(AllLocations.EXTRA_LONGITUDES, LOCATION_LONGITUDES);
+			i.putExtra(AllLocations.EXTRA_LATITUDES, LOCATION_LATITUDES);
+			i.putExtra(AllLocations.EXTRA_LOCATIONS, RESTAURANTS);
 			startActivity(i);
 			return true;
 		case MENU_ITEM_MARK_FAVS:
 			Intent i2 = new Intent(this, MarkFavs.class);
-			i2.putExtra("favorites", FAVORITES);
+			i2.putExtra(MarkFavs.EXTRA_FAVORITES, FAVORITES);
 			startActivity(i2);
 			return true;
 		default:
