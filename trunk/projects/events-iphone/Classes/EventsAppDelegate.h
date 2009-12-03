@@ -9,6 +9,8 @@
 #import "EventListViewController.h"
 #import "MapViewController.h"
 
+#define DefaultsLastUpdateKey @"lastUpdate"
+
 @interface EventsAppDelegate : NSObject <UIApplicationDelegate> {
 
     UIWindow *window;

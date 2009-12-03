@@ -39,8 +39,15 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSLog(@"Getting events");
 
-	// Get events from the server
-	[RemoteEventLoader getEventsFromServerSince:[NSDate date] intoContext:context];
+	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
+	if (lastUpdate == nil) {
+		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
+	}
+
+	// Store that now was the last update
+	[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
+	
+	[RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
 	NSLog(@"RemoteEventLoader returned");
 	NSError *err = nil;
 	[context save:&err];

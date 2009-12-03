@@ -22,7 +22,7 @@
  
  */
 
-//#define SAMPLE_EVENT_REQUEST_RESPONSE 1
+#define SAMPLE_EVENT_REQUEST_RESPONSE 0
 
 #import "RemoteEventLoader.h"
 #import "EntityConstants.h"
@@ -43,14 +43,16 @@
 
 + (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context
 {
-#ifndef SAMPLE_EVENT_REQUEST_RESPONSE
+#if SAMPLE_EVENT_REQUEST_RESPONSE
+	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/sampleEventRequestResponse.xml"];
+#else
 	// Format the url string
 	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
 	[urlString appendString:@"?type=eventrequest"];
 	[urlString appendFormat:@"&lat=%f", CAMPUS_CENTER_LATITUDE];
 	[urlString appendFormat:@"&lon=%f", CAMPUS_CENTER_LONGITUDE];
-//	[urlString appendFormat:@"&updatetime=%d", (date == nil) ? 0 : [date timeIntervalSince1970]];
-	[urlString appendString:@"&updatetime=0"];
+	[urlString appendFormat:@"&updatetime=%i", (date == nil) ? 0 : (int)[date timeIntervalSince1970]];
+//	[urlString appendString:@"&updatetime=0"];
 	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
@@ -59,8 +61,6 @@
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	// Make the request to get the data
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
-#else
-	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/sampleEventRequestResponse.xml"];
 #endif
 
 	// Parse the request
@@ -79,25 +79,30 @@
 	{
 		for (DDXMLNode *node in nodes)
 		{
-			// Create an event and load data into it
-			Event *event = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
-														 inManagedObjectContext:context];
-			Location *location = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
-														 inManagedObjectContext:context];
-			[RemoteEventLoader getDataFromXMLNode:node intoEvent:event];
-			[RemoteEventLoader getDataFromXMLNode:node intoLocation:location];
-			event.location = location;
-			[events addObject:event];
-		}
+			NSString *serverId = [(DDXMLNode *)[[node nodesForXPath:@"./EventId" error:&err] objectAtIndex:0] stringValue];
+			Event *event = [Event eventWithServerId:serverId inContext:context];
 
-		[context save:&err];
-		if (err) {
-			NSLog(@"Error saving events: %@", err);
-			[responseXml release];
-			[events release];
-			return nil;
-		}
-		
+			if (!event) {
+				// Create a new event and location
+				event = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
+															 inManagedObjectContext:context];
+				Location *location = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
+																   inManagedObjectContext:context];
+				event.location = location;
+			}
+
+			[RemoteEventLoader getDataFromXMLNode:node intoEvent:event];
+			[RemoteEventLoader getDataFromXMLNode:node intoLocation:event.location];
+			
+			[context save:&err];
+			if (err) {
+				NSLog(@"Error saving event: %@", err);
+				// Get rid of this event
+				[context rollback];
+			} else {
+				[events addObject:event];
+			}
+		}		
 	}
 	else
 	{
@@ -123,7 +128,7 @@
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./EventId" error:&err] objectAtIndex:0];
 	event.serverId = [prop stringValue];
 	// Hard-coding the source for now
-	event.source = @"Official Calendar";
+	event.source = VUEventSourceOfficialCalendar;
 }
 
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoLocation:(Location *)location

@@ -39,6 +39,17 @@
 	}
 }
 
+// Overriden in order to set up the text field
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	VUEditableCell *cell = (VUEditableCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
+	cell.textField.keyboardType = UIKeyboardTypeURL;
+	cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+	cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+	
+	return cell;
+}
+
 - (void)dealloc {
     [super dealloc];
 }
