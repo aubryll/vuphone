@@ -23,7 +23,7 @@ public class MapAllResturaunts extends MapActivity {
 
 		// start map view and enable zoom controls
 		setContentView(R.layout.map);
-		mapView = (MapView) findViewById(R.id.mapview);
+		mapView = (MapView) findViewById(R.map.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setClickable(true);
 

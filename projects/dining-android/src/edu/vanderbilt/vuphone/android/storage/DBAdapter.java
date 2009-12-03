@@ -1,5 +1,8 @@
 package edu.vanderbilt.vuphone.android.storage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import edu.vanderbilt.vuphone.android.objects.Restaurant;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 
 public class DBAdapter {
@@ -23,8 +27,7 @@ public class DBAdapter {
 	private static final String DB_NAME = "dining.db";
 
 	/** The main table name */
-	protected static final String RESTAURANT_TABLE_NAME = "restaurants";
-	protected static final String HOUR_TABLE_NAME = "hours";
+	protected static final String RESTAURANT_TABLE = "restaurants";
 
 	/** The index column */
 	public static final String COLUMN_ID = "_id";
@@ -36,12 +39,14 @@ public class DBAdapter {
 	public static final String COLUMN_DESCRIPTION = "description";
 	public static final String COLUMN_FAVORITE = "favorite";
 
+	/**
+	 * Variable to indicate the Hour column. As the rest of the application
+	 * should never use the hour column, this variable is hidden from anyone.
+	 * The rest of the application uses the RestaurantHours object to interface
+	 * with this column. The data stored in this column is simply an XML
+	 * representation of the data in a single RestaurantHours object.
+	 */
 	protected static final String COLUMN_HOUR = "hour";
-
-	public static final String COLUMN_STARTTIME = "startTime";
-	public static final String COLUMN_ENDTIME = "endTime";
-	public static final String COLUMN_STARTTIME2 = "startTime2";
-	public static final String COLUMN_ENDTIME2 = "endTime2";
 
 	/** Handle to the database instance */
 	private SQLiteDatabase database_;
@@ -74,7 +79,10 @@ public class DBAdapter {
 	 * @param description
 	 *            the restaurant description
 	 * @param favorite
-	 *            1 indicates a favorite, and 0 if otherwise
+	 *            true indicates this restaurant is a favorite
+	 * @param hours
+	 *            the RestaurantHours object that represents the hours this
+	 *            Restaurant is open
 	 * 
 	 * @return rowId or -1 if failed
 	 */
@@ -82,7 +90,7 @@ public class DBAdapter {
 			double longitude, String description, boolean favorite,
 			RestaurantHours hours) {
 
-		ContentValues initialValues = new ContentValues(5);
+		ContentValues initialValues = new ContentValues(6);
 		initialValues.put(COLUMN_NAME, name);
 		initialValues.put(COLUMN_LATITUDE, latitude);
 		initialValues.put(COLUMN_LONGITUDE, longitude);
@@ -93,8 +101,7 @@ public class DBAdapter {
 		String hoursStr = xstream.toXML(hours);
 		initialValues.put(COLUMN_HOUR, hoursStr);
 
-		return database_.insert(RESTAURANT_TABLE_NAME, null, initialValues);
-
+		return database_.insert(RESTAURANT_TABLE, null, initialValues);
 	}
 
 	/**
@@ -106,52 +113,87 @@ public class DBAdapter {
 	 */
 	public boolean deleteRestaurant(long rowId) {
 
-		return database_.delete(RESTAURANT_TABLE_NAME, COLUMN_ID + "=" + rowId,
-				null) > 0;
+		return database_
+				.delete(RESTAURANT_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
 	}
 
 	/**
-	 * Return a Cursor over the list of all restaurants in the database
+	 * Get a list of all Restaurant IDs in the database
 	 * 
-	 * @return This cursor allows you to reference these columns COLUMN_ID,
-	 *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-	 *         COLUMN_DESCRIPTION, COLUMN_FAVORITE
+	 * @return A List of Longs, where each Long is the ID of one of the
+	 *         restaurants in the database. Use the fetchRestaurant() call to
+	 *         get the Restaurant object
+	 * 
+	 * @see DBAdapter.fetchRestaurant(long rowId)
 	 */
+	public List<Long> fetchAllRestaurantIDs() {
+		Cursor c = database_.query(RESTAURANT_TABLE,
+				new String[] { COLUMN_ID }, null, null, null, null, null);
 
-	public Cursor fetchAllRestaurants() {
+		ArrayList<Long> restaurantIds = new ArrayList<Long>();
 
-		return database_.query(RESTAURANT_TABLE_NAME, new String[] { COLUMN_ID,
-				COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-				COLUMN_DESCRIPTION, COLUMN_FAVORITE }, null, null, null, null,
-				null);
+		// If there are no restaurants, return empty list
+		if (c.moveToFirst() == false)
+			return restaurantIds;
+
+		do {
+			restaurantIds.add(c.getLong(c.getColumnIndex(COLUMN_ID)));
+		} while (c.moveToNext());
+
+		return restaurantIds;
 	}
 
 	/**
-	 * Return a Cursor positioned at the restaurant that matches the given rowId
+	 * Return a Restaurant object for the given restaurant id.
 	 * 
 	 * @param rowId
 	 *            id of restaurant to retrieve
-	 * @return Cursor positioned to matching restaurant which lists COLUMN_ID,
-	 *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-	 *         COLUMN_DESCRIPTION, COLUMN_FAVORITE, if found
+	 * @return Restaurant that that ID represents in the database
+	 * 
 	 * @throws SQLException
 	 *             if restaurant could not be found/retrieved
+	 * 
+	 * @TODO - Create a RestaurantNotFound exception, and throw that instead
 	 */
-
-	public Cursor fetchRestaurant(long rowId) throws SQLException {
-		Cursor mCursor =
-
-		database_.query(true, RESTAURANT_TABLE_NAME, new String[] { COLUMN_ID,
-				COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-				COLUMN_DESCRIPTION, COLUMN_FAVORITE }, COLUMN_ID + "=" + rowId,
+	public Restaurant fetchRestaurant(long rowId) throws SQLException {
+		Cursor c = database_.query(true, RESTAURANT_TABLE, new String[] {
+				COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+				COLUMN_DESCRIPTION, COLUMN_FAVORITE, COLUMN_HOUR }, COLUMN_ID + "=" + rowId,
 				null, null, null, null, null);
-		if (mCursor.moveToFirst()) {
-			return mCursor;
-		} else {
-			SQLException sqlException = new SQLException();
-			throw sqlException;
-		}
+		
+		if (c.moveToFirst() == false) 
+			throw new SQLException("Restaurant was not found");
+			
+		String xml = c.getString(c.getColumnIndex(COLUMN_HOUR));
+		XStream xs = new XStream(new DomDriver());
+		RestaurantHours hours = (RestaurantHours) xs.fromXML(xml);
+
+		String name = c.getString(c.getColumnIndex(COLUMN_NAME));
+		int latitude = c.getInt(c.getColumnIndex(COLUMN_LATITUDE));
+		int longitude = c.getInt(c.getColumnIndex(COLUMN_LONGITUDE));
+		boolean fav = (c.getInt(c.getColumnIndex(COLUMN_FAVORITE)) == 1);
+		
+		Restaurant r = new Restaurant(name, hours, latitude, longitude, fav);
+		return r;
 	}
+	
+    /**
+     * Return a Cursor over the list of all restaurants in the database
+     * 
+     * @return This cursor allows you to reference these columns COLUMN_ID,
+     *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+     *         COLUMN_DESCRIPTION, COLUMN_FAVORITE. Note that this does not
+     *         allow you to reference the restaurant hours information
+     */
+
+    public Cursor fetchAllRestaurantsCursor() {
+
+            return database_.query(RESTAURANT_TABLE, new String[] { COLUMN_ID,
+                            COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+                            COLUMN_DESCRIPTION, COLUMN_FAVORITE }, null, null, null, null,
+                            null);
+    }
+
 
 	/**
 	 * Update the restaurant using the details provided. The restaurant to be
@@ -182,8 +224,8 @@ public class DBAdapter {
 		args.put(COLUMN_DESCRIPTION, description);
 		args.put(COLUMN_FAVORITE, favorite);
 
-		return database_.update(RESTAURANT_TABLE_NAME, args, COLUMN_ID + "="
-				+ rowId, null) > 0;
+		return database_.update(RESTAURANT_TABLE, args,
+				COLUMN_ID + "=" + rowId, null) > 0;
 	}
 
 	/** Used to open a readable database */
@@ -199,7 +241,7 @@ public class DBAdapter {
 	}
 
 	public boolean isRestaurantOpen(long rowId) {
-		Cursor c = database_.query(RESTAURANT_TABLE_NAME,
+		Cursor c = database_.query(RESTAURANT_TABLE,
 				new String[] { COLUMN_HOUR }, COLUMN_ID + "=" + rowId, null,
 				null, null, null);
 
@@ -213,7 +255,8 @@ public class DBAdapter {
 			return hours.isOpen();
 		} else {
 			String errorMessage = "Restaurant does not exist at that row.";
-			IllegalArgumentException error = new IllegalArgumentException(errorMessage);
+			IllegalArgumentException error = new IllegalArgumentException(
+					errorMessage);
 			throw error;
 		}
 	}
