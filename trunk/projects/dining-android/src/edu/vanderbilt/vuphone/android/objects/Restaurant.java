@@ -11,13 +11,20 @@ public class Restaurant {
 		_name = name;
 	}
 
-	public Restaurant(String name, RestaurantHours hours) {
+	public Restaurant(String name, RestaurantHours hours, int latitude, int longitude, boolean favorite) {
 		_name = name;
 		_hours = hours;
+		_latitude = latitude;
+		_longitude = longitude;
+		_favorite = favorite;
 	}
 
 	public boolean isOpen() {
 		return _hours.isOpen();
 	}
 
+	public void setFavorite(boolean fav)
+	{
+		_favorite = fav;
+	}
 }

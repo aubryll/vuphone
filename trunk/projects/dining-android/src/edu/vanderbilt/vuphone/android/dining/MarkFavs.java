@@ -74,7 +74,6 @@ public class MarkFavs extends ListActivity {
 	/** ends activity when button is clicked */
 	private OnClickListener listener = new OnClickListener() {
 
-		@Override
 		public void onClick(View v) {
 			if (v.equals(findViewById(R.mark_favs.done))) {
 				getClickedPositions();

@@ -12,7 +12,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	private static final String pre = "DBOpenHelper: ";
 
 	/** Used for CREATE TABLE */
-	protected static final String RESTAURANT_TABLE_NAME = DBAdapter.RESTAURANT_TABLE_NAME;
+	protected static final String RESTAURANT_TABLE_NAME = DBAdapter.RESTAURANT_TABLE;
 	
 	/** The index column */
 	public static final String COLUMN_ID = DBAdapter.COLUMN_ID;
@@ -26,10 +26,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 	protected static final String COLUMN_HOUR = DBAdapter.COLUMN_HOUR;
 
-	public static final String COLUMN_STARTTIME = DBAdapter.COLUMN_STARTTIME;
-	public static final String COLUMN_ENDTIME = DBAdapter.COLUMN_ENDTIME;
-	public static final String COLUMN_STARTTIME2 = DBAdapter.COLUMN_STARTTIME2;
-	public static final String COLUMN_ENDTIME2 = DBAdapter.COLUMN_ENDTIME2;
 
 	/** Used to create database */
 	private static final String RESTAURANT_CREATE = "CREATE TABLE IF NOT EXISTS "

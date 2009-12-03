@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
@@ -109,8 +110,15 @@ public class Main extends ListActivity {
 		adapt.openWritable();
 		adapt.createRestaurant("poo", 12.1, 1.1, "poopo", false, rh);
 
-		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, RESTAURANTS));
+		String[] from = new String[] { DBAdapter.COLUMN_NAME };
+		int[] to = new int[] { android.R.id.text1 };
+
+		SimpleCursorAdapter sca = new SimpleCursorAdapter(
+				getApplicationContext(),
+				android.R.layout.simple_expandable_list_item_1, adapt
+						.fetchAllRestaurantsCursor(), from, to);
+
+		setListAdapter(sca);
 		getListView().setTextFilterEnabled(true);
 
 	}
