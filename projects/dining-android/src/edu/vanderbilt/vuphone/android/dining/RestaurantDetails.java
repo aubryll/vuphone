@@ -1,7 +1,7 @@
 package edu.vanderbilt.vuphone.android.dining;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,22 +15,26 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.OneLocation;
+import edu.vanderbilt.vuphone.android.objects.Restaurant;
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 public class RestaurantDetails extends Activity {
 
-	private int restaurant;
+	private long restaurantID;
 	private Calendar rightNow;
+	private Restaurant restaurant;
 
 	private OnClickListener mapListener = new OnClickListener() {
 		public void onClick(View v) {
 			if (Main.DEBUG)
 				Log.i("Dining", "Map button for restaurant "
-						+ Main.RESTAURANTS[restaurant] + " clicked.");
+						+ restaurant.getName() + " clicked.");
 			Intent startMapView = new Intent(RestaurantDetails.this,
 					OneLocation.class);
-			int longitude = Main.LOCATION_LONGITUDES[restaurant];
-			int latitude = Main.LOCATION_LATITUDES[restaurant];
-			String location = Main.RESTAURANTS[restaurant];
+			int longitude = restaurant.getLon();
+			int latitude = restaurant.getLat();
+			String location = restaurant.getName();
 			startMapView.putExtra(OneLocation.EXTRA_LONGITUDES, longitude);
 			startMapView.putExtra(OneLocation.EXTRA_LATITUDES, latitude);
 			startMapView.putExtra(OneLocation.EXTRA_LOCATIONS, location);
@@ -47,10 +51,15 @@ public class RestaurantDetails extends Activity {
 		setContentView(R.layout.restaurant_details);
 
 		rightNow = Calendar.getInstance();
-		restaurant = getIntent().getExtras().getInt("restaurant");
+		restaurantID = getIntent().getExtras().getLong("restaurant");
+		
+		DBAdapter adapter = new DBAdapter(this);
+		adapter.openReadable();
+		
+		restaurant = adapter.fetchRestaurant(restaurantID);
 
 		SpannableString title = new SpannableString(
-				Main.RESTAURANTS[restaurant]);
+				restaurant.getName());
 		title.setSpan(new RelativeSizeSpan((float) 2.2), 0, title.length(), 0);
 		((TextView) findViewById(R.restaurantDetailsPage.restaurantName))
 				.setText(title);
@@ -67,32 +76,62 @@ public class RestaurantDetails extends Activity {
 	CharSequence WeeklySchedule() {
 		SpannableStringBuilder out = new SpannableStringBuilder();
 
-		out.append("S\t" + Main.SUNDAY_START[restaurant] + " - "
-				+ Main.SUNDAY_END[restaurant] + '\n' + "M\t"
-				+ Main.MONDAY_START[restaurant] + " - "
-				+ Main.MONDAY_END[restaurant] + '\n' + "T\t"
-				+ Main.TUESDAY_START[restaurant] + " - "
-				+ Main.TUESDAY_END[restaurant] + '\n' + "W\t"
-				+ Main.WEDNESDAY_START[restaurant] + " - "
-				+ Main.WEDNESDAY_END[restaurant] + '\n' + "T\t"
-				+ Main.THURSDAY_START[restaurant] + " - "
-				+ Main.THURSDAY_END[restaurant] + '\n' + "F\t"
-				+ Main.FRIDAY_START[restaurant] + " - "
-				+ Main.FRIDAY_END[restaurant] + '\n' + "S\t"
-				+ Main.SATURDAY_START[restaurant] + " - "
-				+ Main.SATURDAY_END[restaurant] + '\n');
-
-		int i = 0;
-		for (int day = 1; day <= 7; day++) {
-
-			int next = out.toString().indexOf('\n', i);
-			next = (next != -1 ? next : out.length());
-
-			if (day == rightNow.get(Calendar.DAY_OF_WEEK))
-				// trying to find way to do bold but had to settle for this
-				out.setSpan(new RelativeSizeSpan((float) 1.6), i, next, 0);
-			i = next + 1;
+		RestaurantHours hours = restaurant.getHours();
+		
+		for (int i = 0; i < hours.getMondayRangeCount(); i++)
+		{
+			ArrayList<Range> ranges = hours.getMondayRanges();
+			Range r = ranges.get(i);
+			out.append(Integer.toString(r.getStart().getHour()));
+			out.append(":");
+			out.append(Integer.toString(r.getStart().getMinute()));
+			out.append(" TO ");
+			out.append(Integer.toString(r.getEnd().getHour()));
+			out.append(":");
+			out.append(Integer.toString(r.getEnd().getMinute()));
+			out.append("\n");
 		}
+		
+		for (int i = 0; i < hours.getTuesdayRangeCount(); i++)
+		{
+			ArrayList<Range> ranges = hours.getMondayRanges();
+			Range r = ranges.get(i);
+			out.append(Integer.toString(r.getStart().getHour()));
+			out.append(":");
+			out.append(Integer.toString(r.getStart().getMinute()));
+			out.append(" TO ");
+			out.append(Integer.toString(r.getEnd().getHour()));
+			out.append(":");
+			out.append(Integer.toString(r.getEnd().getMinute()));
+			out.append("\n");
+		}
+		
+//		out.append("S\t" + Main.SUNDAY_START[restaurant] + " - "
+//				+ Main.SUNDAY_END[restaurant] + '\n' + "M\t"
+//				+ Main.MONDAY_START[restaurant] + " - "
+//				+ Main.MONDAY_END[restaurant] + '\n' + "T\t"
+//				+ Main.TUESDAY_START[restaurant] + " - "
+//				+ Main.TUESDAY_END[restaurant] + '\n' + "W\t"
+//				+ Main.WEDNESDAY_START[restaurant] + " - "
+//				+ Main.WEDNESDAY_END[restaurant] + '\n' + "T\t"
+//				+ Main.THURSDAY_START[restaurant] + " - "
+//				+ Main.THURSDAY_END[restaurant] + '\n' + "F\t"
+//				+ Main.FRIDAY_START[restaurant] + " - "
+//				+ Main.FRIDAY_END[restaurant] + '\n' + "S\t"
+//				+ Main.SATURDAY_START[restaurant] + " - "
+//				+ Main.SATURDAY_END[restaurant] + '\n');
+
+//		int i = 0;
+//		for (int day = 1; day <= 7; day++) {
+//
+//			int next = out.toString().indexOf('\n', i);
+//			next = (next != -1 ? next : out.length());
+//
+//			if (day == rightNow.get(Calendar.DAY_OF_WEEK))
+//				// trying to find way to do bold but had to settle for this
+//				out.setSpan(new RelativeSizeSpan((float) 1.6), i, next, 0);
+//			i = next + 1;
+//		}
 
 		return out;
 	}

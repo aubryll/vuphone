@@ -44,9 +44,9 @@ public class MarkFavs extends ListActivity {
 		((Button) findViewById(R.mark_favs.cancel))
 				.setOnClickListener(listener);
 
-		setListAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_multiple_choice,
-				Main.RESTAURANTS));
+//		setListAdapter(new ArrayAdapter<String>(this,
+//				android.R.layout.simple_list_item_multiple_choice,
+//				Main.RESTAURANTS));
 		getListView().setTextFilterEnabled(true);
 		getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
@@ -63,11 +63,11 @@ public class MarkFavs extends ListActivity {
 		SparseBooleanArray allPositions = getListView()
 				.getCheckedItemPositions();
 		clickedPositions = new ArrayList<Integer>();
-		for (int x = 0; x < Main.RESTAURANTS.length; ++x) {
-			if (allPositions.get(x)) {
-				clickedPositions.add(x);
-			}
-		}
+//		for (int x = 0; x < Main.RESTAURANTS.length; ++x) {
+//			if (allPositions.get(x)) {
+//				clickedPositions.add(x);
+//			}
+//		}
 		showDialog(DIALOG_ITEM_DISPLAY_CHECKED);
 	}
 

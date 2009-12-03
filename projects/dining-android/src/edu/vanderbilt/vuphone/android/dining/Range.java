@@ -4,6 +4,9 @@ public class Range {
 	private Time start_;
 	private Time end_;
 
+	// Needed for XStream!
+	public Range() {};
+	
 	public Range(Time start, Time end) {
 		if (end.getHour() < start.getHour())
 			throw new RuntimeException("oops");

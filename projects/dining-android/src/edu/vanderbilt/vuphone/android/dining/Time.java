@@ -4,6 +4,10 @@ public class Time {
 	private int hour_;
 	private int minute_;
 
+	// Needed for XStream
+	public Time() {}
+	
+	
 	public Time(int hour, int minute) {
 		if (hour > 23)
 			throw new RuntimeException("hour must be < 24");
