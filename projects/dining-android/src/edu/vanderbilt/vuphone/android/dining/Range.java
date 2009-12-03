@@ -5,17 +5,17 @@ public class Range {
 	private Time end_;
 
 	// Needed for XStream!
-	public Range() {};
+	public Range() {
+		start_=new Time();
+		end_=new Time();
+	};
 	
 	public Range(Time start, Time end) {
-		if (end.getHour() < start.getHour())
-			throw new RuntimeException("oops");
-		if ((end.getHour() == start.getHour())
-				&& (end.getMinute() <= start.getMinute()))
-			throw new RuntimeException("oops");
+		if (end.before(start))
+			throw new RuntimeException("Range end time before start time");
 
-		start_ = start;
-		end_ = end;
+		start_ = new Time(start);
+		end_ = new Time(end);
 	}
 
 	public Time getStart() {
@@ -27,13 +27,16 @@ public class Range {
 	}
 
 	public boolean inRange(Time t) {
-
-		if (t.getHour() > end_.getHour() || t.getHour() < start_.getHour())
-			return false;
-		else if ((t.getMinute() > end_.getMinute())
-				|| (t.getMinute() < start_.getMinute()))
-			return false;
-		else
-			return true;
+		return t.before(end_) && start_.before(t);
+	}
+	
+	// returns a negative number if start_ is after t
+	public int minutesUntilStart(Time t) {
+		return start_.totalMinutes() - t.totalMinutes();
+	}
+	
+	// returns a negative number if end_ is after t
+	public int minutesUntilEnd(Time t) {
+		return start_.totalMinutes() - t.totalMinutes();
 	}
 }
