@@ -75,6 +75,8 @@
 		61F77BB4105569120071CA64 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BAD105569120071CA64 /* DDXMLNode.m */; };
 		61F77BB5105569120071CA64 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BB0105569120071CA64 /* NSStringAdditions.m */; };
 		61F77BB810556A860071CA64 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BB710556A860071CA64 /* MapViewController.m */; };
+		61FD061010C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */; };
+		61FD061110C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +177,8 @@
 		61F77BB610556A860071CA64 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		61F77BB710556A860071CA64 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Events 2.xcdatamodel"; sourceTree = "<group>"; };
+		61FD060E10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
+		61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext-Convenience.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -348,6 +352,8 @@
 				615BFB25105D58B0005497F9 /* EventStore.m */,
 				61F77BA1105568050071CA64 /* RemoteEventLoader.h */,
 				61F77BA2105568050071CA64 /* RemoteEventLoader.m */,
+				61FD060E10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.h */,
+				61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -533,6 +539,7 @@
 				6122505510ACD5150074B05D /* EventRating.m in Sources */,
 				612250C210ACEA150074B05D /* VUURLCellController.m in Sources */,
 				615C9F0D10B076B100E310F2 /* Events 3.xcdatamodel in Sources */,
+				61FD061110C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,6 +561,7 @@
 				612F83B5106ED31600239F6B /* VULocationTests.m in Sources */,
 				6122505610ACD5150074B05D /* EventRating.m in Sources */,
 				612250C310ACEA150074B05D /* VUURLCellController.m in Sources */,
+				61FD061010C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
