@@ -29,7 +29,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{	
+{
+	// Set the table view header color, which for whatever reason can't be set in IB
+	
+	self.tableView.separatorColor = self.navigationController.navigationBar.tintColor;
+	
 	if (!fetchedResultsC)
 	{
 		// Set up the initial fetch request
@@ -254,7 +258,19 @@
 	[self.navigationController pushViewController:eventViewC animated:YES];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+/*
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 30.0f;
+}
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	UIView *view = [[UIView alloc] init];
+	view.backgroundColor = self.navigationController.navigationBar.tintColor;
+	return [view autorelease];
+}
+*/
 
 #pragma mark NSFetchedResultsControllerDelegate
 

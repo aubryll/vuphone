@@ -9,6 +9,7 @@
 #import "Event.h"
 #import "Location.h"
 #import "EntityConstants.h"
+#import "NSManagedObjectContext-Convenience.h"
 
 @implementation Event 
 
@@ -25,7 +26,7 @@
 
 + (NSArray *)allSources {
 	return [NSArray arrayWithObjects:
-			@"Official Calendar",
+			VUEventSourceOfficialCalendar,
 			@"Commons",
 			@"Athletics",
 			@"Facebook",
@@ -48,6 +49,55 @@
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId {
 	return [self.ownerDeviceId isEqualToString:deviceId];
 }
+
+
+- (BOOL)validateServerId:(id *)value error:(NSError **)error
+{
+	// Allow a nil server ID
+	if (*value == nil) {
+		return YES;
+	}
+	
+	// Don't allow empty strings
+	if ([*value length] == 0) {
+		if (error != NULL)
+			*error = [[[NSError alloc] initWithDomain:EVENT_ERROR_DOMAIN
+												 code:SERVER_ID_INVALID_CODE
+											 userInfo:nil] autorelease];
+		return NO;
+	}
+	
+	// Don't allow duplicate server IDs
+	if ([Event duplicateServerId:self.serverId existsInContext:[self managedObjectContext]])
+	{
+		if (error != NULL)
+			*error = [[[NSError alloc] initWithDomain:EVENT_ERROR_DOMAIN
+												 code:SERVER_ID_EXISTS_CODE
+											 userInfo:nil] autorelease];
+		return NO;
+	}
+	
+	// This is a unique server ID
+	return YES;
+}
+
++ (BOOL)duplicateServerId:(NSString *)anId existsInContext:(NSManagedObjectContext *)context {
+	NSSet *duplicates = [context
+						 fetchObjectsForEntityName:VUEntityNameEvent
+						 withPredicateString:@"serverId = %@", anId];
+
+	return [duplicates count] > 1;
+}
+
++ (Event *)eventWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context {
+	NSSet *events = [context
+						 fetchObjectsForEntityName:VUEntityNameEvent
+						 withPredicateString:@"serverId = %@", anId];
+	
+	return [events anyObject];
+}
+
+
 
 #pragma mark MKAnnotation methods
 

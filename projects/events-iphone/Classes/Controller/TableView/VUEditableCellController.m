@@ -20,11 +20,22 @@
 }
 
 - (void)dealloc {
-//	[cell release];
+	[editableCell release];
 	self.delegate = nil;
     [super dealloc];
 }
 
+- (UITableViewCell *)cell
+{
+	if (editableCell == nil) {
+		editableCell = [[[VUEditableCell alloc] initWithController:self] retain];
+	}
+	editableCell.textLabel.text = self.label;
+	editableCell.textField.text = self.value;
+	[editableCell setEditable:isEditable];
+	
+	return editableCell;
+}
 
 //
 // tableView:cellForRowAtIndexPath:
@@ -33,14 +44,7 @@
 //
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (cell == nil) {
-		cell = [[VUEditableCell alloc] initWithController:self];
-	}
-	cell.textLabel.text = self.label;
-	cell.textField.text = self.value;
-	[cell setEditable:isEditable];
-	
-	return cell;
+	return [self cell];
 }
 
 //
@@ -50,7 +54,7 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[cell setEditing:isEditable];
+	[(VUEditableCell *)[self cell] setEditing:isEditable];
 	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -59,9 +63,7 @@
 - (void)setEditingField:(BOOL)isEditing
 {
 	isEditable = isEditing;
-	[cell setEditable:isEditing];
-	
-	cell.textField.placeholder = (isEditable) ? @"(tap to edit)" : nil;
+	[(VUEditableCell *)[self cell] setEditable:isEditing];
 }
 
 

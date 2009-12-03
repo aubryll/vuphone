@@ -31,6 +31,24 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	
+	if ([event isNew])
+	{
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		self.navigationItem.rightBarButtonItem = saveButton;
+	}
+	// If the user may edit this event
+	else if ([event isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]])
+	{
+		self.navigationItem.rightBarButtonItem =
+		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+													  target:self
+													  action:@selector(beginEditing:)];
+	}
+	else
+	{
+		self.navigationItem.rightBarButtonItem = nil;
+	}	
 
 	[self.tableView reloadData];
 }
@@ -96,7 +114,6 @@
 - (IBAction)cancelAdd:(id)sender
 {
 	[context rollback];
-	self.navigationItem.leftBarButtonItem = nil;
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -112,6 +129,12 @@
 
 - (IBAction)cancelEditing:(id)sender
 {
+	// If we are canceling a new event
+	if ([event isNew]) {
+		[self cancelAdd:sender];
+		return;
+	}
+
 	[self endEditingFields];
 	
 	[context rollback];
@@ -119,7 +142,7 @@
 	[myTableView reloadData];
 	
 	self.navigationItem.leftBarButtonItem = nil;
-	self.navigationItem.rightBarButtonItem = editButton;
+	self.navigationItem.rightBarButtonItem = editButton;	
 }
 
 
@@ -165,14 +188,14 @@
 	ecc.delegate = self;
 	ecc.value = event.details;
 	[mTableGroups addObject:[NSArray arrayWithObject:[ecc autorelease]]];
-	
+/*	
 	// Ratings – don't show if editing
 	if (!isEditingFields) {
 		EventRatingsCellController *ercc = [[EventRatingsCellController alloc] init];
 		ercc.ratings = event.ratings;
 		[mTableGroups addObject:[NSArray arrayWithObject:[ercc autorelease]]];
 	}
-	
+*/	
 	// URL – show if not editing or URL is set
 	if (event.url != nil || isEditingFields) {
 		ecc = [[VUURLCellController alloc] initWithLabel:@"URL"];
@@ -200,16 +223,6 @@
 		event = [newEvent retain];
 
 		[self clearTableGroups];
-
-		// If the user may edit this event
-		if ([event isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
-			self.navigationItem.rightBarButtonItem =
-			[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-														  target:self
-														  action:@selector(beginEditing:)];
-		} else {
-			self.navigationItem.rightBarButtonItem = nil;
-		}
 	}
 }
 

@@ -35,9 +35,11 @@
 - (void)setEditable:(BOOL)editable
 {
 	textField.enabled = editable;
+	textField.placeholder = (editable) ? @"(tap to edit)" : nil;
+
 	if (!editable) {
 		[textField resignFirstResponder];
-	}
+	}	
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

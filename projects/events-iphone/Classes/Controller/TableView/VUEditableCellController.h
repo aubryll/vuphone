@@ -13,7 +13,7 @@
 
 @interface VUEditableCellController : UIViewController <VUCellController, UITextFieldDelegate> {
 
-	VUEditableCell *cell;
+	VUEditableCell *editableCell;
 	NSString *key;
 	id delegate;
 
@@ -25,6 +25,7 @@
 
 - (id)initWithLabel:(NSString *)aLabel;
 - (void)textFieldValueChanged:(NSString *)newValue;
+- (UITableViewCell *)cell;
 
 @property (readonly, copy) NSString *label;
 @property (copy) NSString *value;

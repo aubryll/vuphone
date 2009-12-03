@@ -10,7 +10,8 @@
 
 #define VU_MAPFILTER_CHANGED_NOTIFICATION @"mapFilterChangedNotification"
 
-#define FILTER_SHEET_HEIGHT 140.0
+//#define FILTER_SHEET_HEIGHT 140.0
+#define FILTER_SHEET_HEIGHT 70.0
 
 
 @interface MapFilterViewController : UIViewController {
