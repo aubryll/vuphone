@@ -11,17 +11,6 @@
 
 @implementation BaseViewController
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,30 +22,6 @@
 	mapViewController.managedObjectContext = [self managedObjectContext];
 	
 	[self.view addSubview:mapViewController.view];
-	mapViewRunning = YES;	
-	
-	[self instantiateFlipViewButton];
-}
-	
-
-- (void)instantiateFlipViewButton {
-	
-	flipViewButton = [UIButton buttonWithType:UIButtonTypeInfoDark];
-	
-	CGRect buttonRect = flipViewButton.frame;
-	
-	// calculate the distance of the flip-button from the upper left corner
-	
-	int buttonDistanceFromUpperLeftCorner = 8;
-	
-	buttonRect.origin.x = buttonRect.size.width - buttonDistanceFromUpperLeftCorner;
-	buttonRect.origin.y = buttonRect.size.height - buttonDistanceFromUpperLeftCorner;
-	[flipViewButton setFrame:buttonRect];
-	
-	[flipViewButton addTarget:self action:@selector(didPressFlipViewButton) forControlEvents:UIControlEventTouchUpInside];
-	[flipViewButton setEnabled:YES];
-	
-	[mapViewController.view addSubview:flipViewButton];
 }
 
 
@@ -68,35 +33,6 @@
 }
 */
 
-
-- (void)didPressFlipViewButton {
-	
-	[UIView beginAnimations:@"Flipping" context:nil];
-	[UIView setAnimationDuration:1.0f];
-	
-	[flipViewButton removeFromSuperview];
-	
-	if(mapViewRunning) {
-		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:NO];
-		[mapViewController.view removeFromSuperview];
-		[self.view addSubview:listViewController.view];
-		[listViewController.view addSubview:flipViewButton];
-		mapViewRunning = NO;
-		
-	}
-	else {
-		
-		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.view cache:NO];
-		[listViewController.view removeFromSuperview];
-		[self.view addSubview:mapViewController.view];
-		[mapViewController.view addSubview:flipViewButton];
-		mapViewRunning = YES;
-		
-	}
-		
-	[UIView commitAnimations];
-
-}
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.

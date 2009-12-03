@@ -7,27 +7,20 @@
 //
 
 #import "MapLayerController.h"
-
+#import "POI.h"
 
 @implementation MapLayerController
 
-- (id)initWithObjectContext:(NSManagedObjectContext *)context
+- (id)initWithLayer:(Layer *)aLayer
 {
 	if (self = [super init]) {
-		managedObjectContext = [context retain];
-
-		POI *point = (POI *)[NSEntityDescription insertNewObjectForEntityForName:@"POI" inManagedObjectContext:managedObjectContext];
-		point.latitude = [NSNumber numberWithDouble:CAMPUS_CENTER_LATITUDE];
-		point.longitude = [NSNumber numberWithDouble:CAMPUS_CENTER_LONGITUDE];
-	
-		layer = (Layer *)[NSEntityDescription insertNewObjectForEntityForName:@"Layer" inManagedObjectContext:managedObjectContext];
-		[layer addPOIsObject:point];
+		layer = [aLayer retain];
 	}
 
 	return self;
 }
 
-- (void) addAnnotationsToMapView:(MKMapView*) mapView {
+- (void)addAnnotationsToMapView:(MKMapView *)mapView {
 	NSEnumerator *enumerator = [layer.POIs objectEnumerator];
 	POI* point;
 	
@@ -36,8 +29,17 @@
 	}
 }
 
-- (void) dealloc {
-	[managedObjectContext release];
+- (void)removeAnnotationsFromMapView:(MKMapView *)mapView {
+	NSEnumerator *enumerator = [layer.POIs objectEnumerator];
+	POI* point;
+	
+	while (point = [enumerator nextObject]) {
+		[mapView removeAnnotation:point];
+	}
+}
+
+- (void)dealloc {
+	[layer release];
 	[super dealloc];
 }
 

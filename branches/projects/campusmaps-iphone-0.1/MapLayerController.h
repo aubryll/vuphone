@@ -9,16 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <MapKit/MKAnnotation.h>
-#import "POI.h"
 #import "Layer.h"
 
 
 @interface MapLayerController : NSObject {
-	NSManagedObjectContext* managedObjectContext;
 	Layer *layer;
 }
 
-- (id)initWithObjectContext:(NSManagedObjectContext *)context;
-- (void) addAnnotationsToMapView:(MKMapView*) mapView;
+- (id)initWithLayer:(Layer *)aLayer;
+- (void)addAnnotationsToMapView:(MKMapView *)mapView;
+- (void)removeAnnotationsFromMapView:(MKMapView *)mapView;
 
 @end

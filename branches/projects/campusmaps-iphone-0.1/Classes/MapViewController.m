@@ -8,7 +8,7 @@
 
 #import "MapViewController.h"
 #import "POI.h"
-
+#import "Layer.h"
 
 @implementation MapViewController
 
@@ -39,15 +39,15 @@
 	
 	location.latitude = CAMPUS_CENTER_LATITUDE;
 	location.longitude = CAMPUS_CENTER_LONGITUDE;
-	exampleLayer = [[MapLayerController alloc] initWithObjectContext:managedObjectContext];
+	Layer *anyLayer = [[Layer allLayers:managedObjectContext] anyObject];
+	currentLayerController = [[MapLayerController alloc] initWithLayer:anyLayer];
 
 	region.span = span;
 	region.center = location;
 
 	[mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
-	[exampleLayer addAnnotationsToMapView:mapView];
-	//[self.view insertSubview:mapView atIndex:0];
+	[currentLayerController addAnnotationsToMapView:mapView];
 }
 
 
@@ -84,6 +84,30 @@
 	}
 }
 
+
+#pragma mark Layers
+
+- (IBAction)showLayersSheet:(id)sender
+{
+	LayersListViewController *layersVC = [[LayersListViewController alloc] initWithNibName:@"LayersListViewController" bundle:nil];
+	layersVC.delegate = self;
+	layersVC.layers = [[Layer allLayers:managedObjectContext] allObjects];
+	[self presentModalViewController:layersVC animated:YES];
+	
+	[layersVC release];
+}
+
+- (void)layersListViewController:(LayersListViewController *)layersListVC
+				  didChooseLayer:(Layer *)layer
+{
+	// Adjust the query to include these choices
+	[currentLayerController removeAnnotationsFromMapView:mapView];
+	[currentLayerController release];
+	currentLayerController = [[MapLayerController alloc] initWithLayer:layer];
+	[currentLayerController addAnnotationsToMapView:mapView];
+}
+
+
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
 	annView.animatesDrop = YES;
@@ -92,7 +116,7 @@
 
 - (void)dealloc {
 	[mapView autorelease];
-	[exampleLayer autorelease];
+	[currentLayerController autorelease];
     [super dealloc];
 }
 

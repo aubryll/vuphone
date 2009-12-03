@@ -7,9 +7,17 @@
 //
 
 #import "Layer.h"
-
+#import "NSManagedObjectContext-Convenience.h"
 
 @implementation Layer 
+
++ (NSSet *)allLayers:(NSManagedObjectContext *)context
+{
+	NSSet *result = [context fetchObjectsForEntityName:ENTITY_NAME_LAYER
+								   withPredicateString:@"TRUEPREDICATE"];
+
+	return result;
+}
 
 @dynamic name;
 @dynamic POIs;

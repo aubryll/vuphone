@@ -8,6 +8,7 @@
 
 #import <CoreData/CoreData.h>
 
+#define ENTITY_NAME_LAYER @"Layer"
 
 @interface Layer :  NSManagedObject  
 {
@@ -15,6 +16,8 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSSet* POIs;
+
++ (NSSet *)allLayers:(NSManagedObjectContext *)context;
 
 @end
 
