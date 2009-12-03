@@ -9,6 +9,8 @@
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 
+#define ENTITY_NAME_POI @"POI"
+
 #define CAMPUS_CENTER_LATITUDE 36.146671
 #define CAMPUS_CENTER_LONGITUDE -86.803709
 
@@ -24,10 +26,13 @@
 @property (nonatomic, retain) Layer * layer;
 @property (nonatomic, retain) NSString * subtitle;
 @property (nonatomic, retain) NSString * details;
+@property (nonatomic, retain) NSString * serverId;
+@property (nonatomic, retain) NSString * url;
 
-//@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+
++ (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context;
+- (void)setEPSG900913CoordinatesLat:(double)x andLon:(double)y;
 
 @end
-
-
 

@@ -7,7 +7,8 @@
 //
 
 #import "CampusMapsAppDelegate.h"
-
+#import "RemotePOILoader.h"
+#import "Layer.h"
 
 @implementation CampusMapsAppDelegate
 
@@ -22,8 +23,38 @@
     // Override point for customization after app launch   
 	baseViewController.managedObjectContext = [self managedObjectContext];
 	
+	// Add a layer if none exist
+	NSSet *allLayers = [Layer allLayers:[self managedObjectContext]];
+	if ([allLayers count] == 0) {
+		Layer *layer = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_LAYER
+													 inManagedObjectContext:[self managedObjectContext]];
+		layer.name = @"Default Layer";
+		NSError *err = nil;
+		[[self managedObjectContext] save:&err];
+		if (err) {
+			NSLog(@"Error upon adding a default POI: %@", err);
+		}
+	}
+	
 	[window addSubview:baseViewController.view];
 	[window makeKeyAndVisible];
+	
+	[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
+}
+
+- (void)loadRemotePOIs:(NSManagedObjectContext *)context
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	[RemotePOILoader getPOIsFromServerIntoContext:context];
+
+	NSError *err = nil;
+	[context save:&err];
+	if (err) {
+		NSLog(@"Error upon loading POIs: %@", err);
+	}
+	
+	[pool release];
 }
 
 /**
@@ -93,14 +124,21 @@
     }
 	
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"CampusMaps.sqlite"]];
-	
+
+	// Set options to automatically perform a lightweight migration
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
 	NSError *error = nil;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		/*
 		 Replace this implementation with code to handle the error appropriately.
 		 
-		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+		 abort() causes the application to generate a crash log and terminate.
+		 You should not use this function in a shipping application, although it may be useful during development.
+		 If it is not possible to recover from the error, display an alert panel that instructs the user
+		 to quit the application by pressing the Home button.
 		 
 		 Typical reasons for an error here include:
 		 * The persistent store is not accessible

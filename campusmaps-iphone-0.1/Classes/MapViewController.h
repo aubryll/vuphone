@@ -10,17 +10,19 @@
 #import <MapKit/MapKit.h>
 #import <MapKit/MKAnnotation.h>
 #import "MapLayerController.h"
+#import "LayersListViewController.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate> {
+@interface MapViewController : UIViewController <MKMapViewDelegate, LayersListViewDelegate> {
 
-	MapLayerController* exampleLayer;
+	MapLayerController* currentLayerController;
 	
 	IBOutlet UISegmentedControl* mapType;
 	IBOutlet MKMapView* mapView;
 	NSManagedObjectContext* managedObjectContext;
 }
 
-- (IBAction)changeType:(id) sender;
+- (IBAction)changeType:(id)sender;
+- (IBAction)showLayersSheet:(id)sender;
 
 @property (retain) NSManagedObjectContext *managedObjectContext;
 
