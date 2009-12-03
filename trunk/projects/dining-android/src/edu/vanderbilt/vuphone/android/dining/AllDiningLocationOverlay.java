@@ -18,16 +18,16 @@ public class AllDiningLocationOverlay extends ItemizedOverlay<OverlayItem> {
 	public AllDiningLocationOverlay(MapAllResturaunts map) {
 		super(null);
 
-		for (int x = 0; x < Main.LOCATION_LATITUDES.length; ++x) {
-			GeoPoint point = new GeoPoint(Main.LOCATION_LONGITUDES[x],
-					Main.LOCATION_LATITUDES[x]);
-			OverlayItem overlayItem = new OverlayItem(point,
-					Main.RESTAURANTS[x], "");
-			overlayItem.setMarker(boundCenterBottom(map.getResources()
-					.getDrawable(R.drawable.dining)));
-			locationOverlay.add(overlayItem);
-			populate();
-		}
+//		for (int x = 0; x < Main.LOCATION_LATITUDES.length; ++x) {
+//			GeoPoint point = new GeoPoint(Main.LOCATION_LONGITUDES[x],
+//					Main.LOCATION_LATITUDES[x]);
+//			OverlayItem overlayItem = new OverlayItem(point,
+//					Main.RESTAURANTS[x], "");
+//			overlayItem.setMarker(boundCenterBottom(map.getResources()
+//					.getDrawable(R.drawable.dining)));
+//			locationOverlay.add(overlayItem);
+//			populate();
+//		}
 	}
 
 	@Override

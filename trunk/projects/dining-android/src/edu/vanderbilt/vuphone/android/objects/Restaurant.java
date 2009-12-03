@@ -22,6 +22,28 @@ public class Restaurant {
 	public boolean isOpen() {
 		return _hours.isOpen();
 	}
+	
+	public String getName()
+	{
+		return _name;
+	}
+	
+	public int getLat() 
+	{
+		return _latitude;
+	}
+	
+	public int getLon() {
+		return _longitude;
+	}
+	
+	public RestaurantHours getHours() {
+		return _hours;
+	}
+	
+	public boolean getFav() {
+		return _favorite;
+	}
 
 	public void setFavorite(boolean fav)
 	{
