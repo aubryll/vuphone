@@ -3,8 +3,8 @@ package edu.vanderbilt.vuphone.android.objects;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
+
+import android.util.Log;
 
 // TODO sort ranges before saving, and check for overlay
 
@@ -21,7 +21,11 @@ public class RestaurantHours {
 			_openRanges.add(new ArrayList<Range>());
 		}
 	}
-	public RestaurantHours (ArrayList<ArrayList<Range>> hours) {_openRanges = hours;	}
+	public RestaurantHours (ArrayList<ArrayList<Range>> hours) {
+		_openRanges = hours;
+		for (int i = Calendar.SUNDAY; i<=Calendar.SATURDAY; i++) 
+			sortAndMerge(i);
+	}
 	
 	// returns an ArrayList of ranges for the indicated day, 
 	// as defined by the Calendar class
@@ -32,23 +36,25 @@ public class RestaurantHours {
 	// sets the ArrayList of ranges for a particular day
 	public void setRanges(int calendarDay, ArrayList<Range> ranges) {
 		_openRanges.set(calendarDay-1, ranges);
+		sortAndMerge(calendarDay);
 	}
 	
 	// adds a range to a particular day in sorted order, concatenating with currently
 	// existing ranges if necessary
 	public void addRange(int calendarDay, Range newRange) {
 		ArrayList<Range> ranges = getRanges(calendarDay);
-		for (int i = 0; i < ranges.size(); i++) {
-			if (newRange.before(ranges.get(i))) {
+		for (int i = ranges.size(); i>0; i--) {
+			if (newRange.after(ranges.get(i-1))) {
 				ranges.add(i,newRange);
 				return;
 			}
-			else if (ranges.get(i).overlap(newRange)) {
-				ranges.get(i).concat(newRange);
+			if (ranges.get(i-1).overlap(newRange)) {
+				ranges.get(i-1).concat(newRange);
+				mergeAll(ranges);
 				return;
-			}
+			}				
 		}
-		ranges.add(newRange);
+		ranges.add(0,newRange);
 	}
 	
 	// returns the number of ranges in the day
@@ -59,7 +65,7 @@ public class RestaurantHours {
 	// returns ArrayList of today's ranges
 	public ArrayList<Range> getTodayRanges() {
 		Calendar now = new GregorianCalendar();
-		return getRanges(now.DAY_OF_WEEK);
+		return getRanges(now.get(Calendar.DAY_OF_WEEK));
 	}
 	
 	// returns true if restaurant is open now
@@ -97,6 +103,84 @@ public class RestaurantHours {
 		return -1;
 	}
 	
+	// puts the ranges for a particular day in the correct order, and merges overlapping ranges
+	public void sortAndMerge(int calendarDay) {
+		ArrayList<Range> ranges = getRanges(calendarDay);
+		quickSort(ranges, 0, ranges.size()-1);
+		mergeAll(ranges);
+	}
+	
+	// implementation of quicksort
+	private void quickSort(ArrayList<Range> toSort, int start, int end) {
+		if (end<=start)
+			return;
+		int first=start;
+		int pivotIndex = end--;
+		for (;start<end;) {
+			if (!toSort.get(start).after(toSort.get(pivotIndex)))
+				start++;
+			else
+				swap(toSort, start, end--);
+		}
+		if (toSort.get(start).before(toSort.get(pivotIndex))) 
+				swap(toSort, ++start, pivotIndex);
+		else swap(toSort, start, pivotIndex);
+		
+		quickSort(toSort, first, start-1);
+		quickSort(toSort, start+1, pivotIndex);
+		
+	}
+	
+	// swaps elements in an ArrayList<Range> array
+	private void swap(ArrayList<Range> toSwap, int first, int second) {
+		Range temp = toSwap.get(second);
+		toSwap.set(second, toSwap.get(first));
+		toSwap.set(first, temp);
+	}
+	
+	// merges all overlapping Ranges
+	private void mergeAll(ArrayList<Range> ranges) {
+		for (int i = ranges.size()-2;i>=0;i--) {
+			if (ranges.get(i).overlap(ranges.get(i+1))) {
+				ranges.get(i).concat(ranges.remove(i+1));
+			}
+		}
+	}
+	
+	public String toString() {
+		StringBuilder out = new StringBuilder();
+		for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
+			ArrayList<Range> ranges = getRanges(i);
+			switch (i) {
+			case Calendar.SUNDAY:
+				out.append("S ");
+				break;
+			case Calendar.MONDAY:
+				out.append("M ");
+				break;
+			case Calendar.TUESDAY:
+				out.append("T ");
+				break;
+			case Calendar.WEDNESDAY:
+				out.append("W ");
+				break;
+			case Calendar.THURSDAY:
+				out.append("T ");
+				break;
+			case Calendar.FRIDAY:
+				out.append("F ");
+				break;
+			case Calendar.SATURDAY:
+				out.append("S ");
+				break;
+			}
+			for (int j = 0; j < ranges.size(); j++) {
+				out.append(ranges.get(j).toString()).append(" ");
+			}
+			out.append("\n");
+		}
+		return out.toString();
+	}
 	
 	
 	// methods to support old interface

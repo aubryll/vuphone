@@ -132,12 +132,12 @@ public class Time {
 	// returns a string representation of the contained time in set or default format (12 or 24 hour time);
 	public String toString() {		
 		if (display24) {
-			return ((getHour()<10 ? "0":"") + getHour() + ":" + (getMinute()==0?"00":getMinute()));
+			return ((getHour()<10 ? "0":"") + getHour() + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())));
 		} else {
 			int hr = (getHour() + 12 - 1)%12 + 1; 	// turns hour to 12 hour format (the + 12 simply 
 													// makes the modulus operator behave as it is 
 													// mathematically defined)
-			return (hr + ":" + (getMinute()==0?"00":getMinute()) + " " + (getHour()>=11 ? "p.m." : "a.m."));
+			return (hr + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())) + " " + (getHour()>=11 ? "p.m." : "a.m."));
 		}
 	}
 	
