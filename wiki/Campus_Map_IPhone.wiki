@@ -37,7 +37,7 @@ Layers: Ben, AJ
  * <img src='http://ni2.in/tb/.png'/> tap a button that will display the list of layers
  * <img src='http://ni2.in/tb/.png'/> select a layer from a list of a layer to display that one layer on the map
  * allow user to select one layer from a list of *multiple* layers
-   - see ImplementationIssues
+   - see iPhone_CampusMaps_Implementation_Details
 
 Handles marker taps: Demetri
  * <img src='http://ni2.in/tb/.png'/> tap a location's marker to see its title and subtitle
