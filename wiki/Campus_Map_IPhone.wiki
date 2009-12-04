@@ -29,14 +29,14 @@ Users can:
 Map: Guy
  * <img src='http://ni2.in/tb/.png'/> see a map of campus
  * <img src='http://ni2.in/tb/.png'/> pan and zoom the map using single- and multi-touch gestures
- * *tap a button that will move the map view to the center of campus and zoom to fit campus*
- * *see the app decked out with a Vanderbilt color scheme*
+ * <img src='http://ni2.in/tb/.png'/> tap a button that will move the map view to the center of campus and zoom to fit campus
+ * *see the app decked out with the _official_ Vanderbilt color scheme*
 Layers: Ben, AJ
  * *see the markers from the currently chosen layer*
  * *tap a button that will display the list of layers*
  * select a layer from a list of layers to display that one layer on the map
 Handles marker taps: Demetri
- * *tap a location's marker to see its title and subtitle*
+ * <img src='http://ni2.in/tb/.png'/> tap a location's marker to see its title and subtitle
  * tap a location marker's title to see the following details: title, details, coordinate
  * see the annotation's details formatted as a list
  * see an image related to annotation selected when viewing the annotation's details
