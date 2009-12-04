@@ -72,3 +72,4 @@ Users would love to eventually at some distant point in the future:
  * Trees
  * Wi-Fi strength
  * VandyVan routes
+ * Taste of Nashville restaurants
