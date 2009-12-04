@@ -23,6 +23,7 @@
 
 - (IBAction)changeType:(id)sender;
 - (IBAction)showLayersSheet:(id)sender;
+- (IBAction)centerOnCampus:(id)sender;
 
 @property (retain) NSManagedObjectContext *managedObjectContext;
 
