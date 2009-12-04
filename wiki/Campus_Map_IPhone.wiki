@@ -31,13 +31,14 @@ Map: Guy
  * <img src='http://ni2.in/tb/.png'/> pan and zoom the map using single- and multi-touch gestures
  * <img src='http://ni2.in/tb/.png'/> tap a button that will move the map view to the center of campus and zoom to fit campus
  * *see the app decked out with the _official_ Vanderbilt color scheme*
+ * rotate the device to reorient the map into portrait or landscape orientation
 Layers: Ben, AJ
- * *see the markers from the currently chosen layer*
- * *tap a button that will display the list of layers*
- * select a layer from a list of layers to display that one layer on the map
+ * <img src='http://ni2.in/tb/.png'/> see the markers from the currently chosen layer
+ * <img src='http://ni2.in/tb/.png'/> tap a button that will display the list of layers
+ * <img src='http://ni2.in/tb/.png'/> select a layer from a list of layers to display that one layer on the map
 Handles marker taps: Demetri
  * <img src='http://ni2.in/tb/.png'/> tap a location's marker to see its title and subtitle
- * tap a location marker's title to see the following details: title, details, coordinate
+ * <img src='http://ni2.in/tb/.png'/> tap a location marker's title to see the following details: title, details
  * see the annotation's details formatted as a list
  * see an image related to annotation selected when viewing the annotation's details
 Locations: Joshua
@@ -49,7 +50,6 @@ Locations: Joshua
  * be panned to the annotation of the currently shown search result
 
 Users would love to eventually at some distant point in the future:
- * rotate the device to reorient the map into portrait or landscape orientation
  * see a compass rose that always points north
  * see a help layer when the app is first launched
  * add to the campus-wide list of locations
