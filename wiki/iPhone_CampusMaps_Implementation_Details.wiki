@@ -1,0 +1,10 @@
+#summary Gives an overview of the implementation/data model to keep all team members up to date
+
+= Introduction =
+
+This page should explain the general structure of the data and class model.
+
+= Data Model =
+
+ * Layers
+ * POIs
