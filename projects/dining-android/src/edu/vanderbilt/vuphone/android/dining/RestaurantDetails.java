@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.OneLocation;
+import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;

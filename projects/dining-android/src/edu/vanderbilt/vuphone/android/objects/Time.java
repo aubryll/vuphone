@@ -1,4 +1,7 @@
-package edu.vanderbilt.vuphone.android.dining;
+package edu.vanderbilt.vuphone.android.objects;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 // So I (Austin) happened to have a more full featured Time class implementation 
@@ -22,12 +25,14 @@ public class Time {
 	
 	
 	// constructors based on setTime methods defined below, and sets display
-	// mode to 12 hour format
-	public Time() 				{setTime(0,0);		display24=false;}
+	// mode to 12 hour format, default constructor sets to the current time
+	public Time() 				{Calendar now = new GregorianCalendar();
+								 setTime(now);		display24=false;}
 	public Time(int hr,int min) {setTime(hr,min);	display24=false;}
 	public Time(int hr) 		{setTime(hr);		display24=false;}
 	public Time(String time)	{setTime(time);		display24=false;}
 	public Time(Time time)		{setTime(time);		display24=false;}
+	public Time(Calendar c) 	{setTime(c);		display24=false;}
 	
 	
 	
@@ -66,6 +71,9 @@ public class Time {
 	// sets the time contained in the referenced Time object
 	public void setTime(Time time) {
 		setTime(time.getHour(),time.getMinute());
+	}
+	public void setTime(Calendar c) {
+		setTime(c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
 	}
 	
 	
@@ -132,4 +140,5 @@ public class Time {
 			return (hr + ":" + (getMinute()==0?"00":getMinute()) + " " + (getHour()>=11 ? "p.m." : "a.m."));
 		}
 	}
+	
 }

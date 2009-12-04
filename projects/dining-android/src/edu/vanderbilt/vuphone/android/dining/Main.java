@@ -1,7 +1,6 @@
 package edu.vanderbilt.vuphone.android.dining;
 
 import java.util.ArrayList;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,15 +12,17 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
+import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.objects.Time;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 public class Main extends ListActivity {
-
-	public static final boolean DEBUG = true; // austin added this to toggle the
-	// more inane log statements
-
-	/** The first case in the menu */
+	
+	// austin added this to toggle the more inane log statements
+	public static final boolean DEBUG = true; 
+	
+	/**The first case in the menu*/
 	private static final int MENU_ITEM_VIEW_MAP = 0;
 	/** The second case in the menu */
 	private static final int MENU_ITEM_MARK_FAVS = 1;
@@ -31,6 +32,7 @@ public class Main extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		
 		RestaurantHours rh = new RestaurantHours();
 		ArrayList<Range> monday = new ArrayList<Range>();
 		Range st = new Range(new Time(3,30), new Time(4,45));
@@ -49,6 +51,7 @@ public class Main extends ListActivity {
 		adapt.openWritable();
 		adapt.createRestaurant("poo", 12.1, 1.1, "poopo", false, rh);
 
+
 		String[] from = new String[] { DBAdapter.COLUMN_NAME,
 				DBAdapter.COLUMN_ID };
 		int[] to = new int[] { android.R.id.text1, R.list_view.restaurantID };
@@ -60,6 +63,11 @@ public class Main extends ListActivity {
 		setListAdapter(sca);
 		getListView().setTextFilterEnabled(true);
 
+/*//		populateWithStaticData();
+		setListAdapter( 
+				new RestaurantAdapter(this)
+				);
+		getListView().setTextFilterEnabled(true);*/
 	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -70,6 +78,7 @@ public class Main extends ListActivity {
 		long h_id = 0;
 		h_id = Long.parseLong(hiddenID.getText().toString());
 		
+		// starts restaurant details page and sends index of restaurant
 		Intent toDetails = new Intent(this, RestaurantDetails.class);
 		toDetails.putExtra("restaurant", h_id);
 
@@ -77,7 +86,7 @@ public class Main extends ListActivity {
 	}
 
 	/** Creates list of actions for user when the menu button is clicked */
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) { // do we need to call the super here?
 		menu.add(0, MENU_ITEM_VIEW_MAP, 0, "View Map");
 		menu.add(0, MENU_ITEM_MARK_FAVS, 0, "Mark Favorites");
 		return true;

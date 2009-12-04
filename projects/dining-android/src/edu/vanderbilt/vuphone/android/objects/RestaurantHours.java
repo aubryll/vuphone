@@ -3,172 +3,126 @@ package edu.vanderbilt.vuphone.android.objects;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
+import java.util.List;
 
-import edu.vanderbilt.vuphone.android.dining.Range;
-import edu.vanderbilt.vuphone.android.dining.Time;
+// TODO sort ranges before saving, and check for overlay
 
 public class RestaurantHours {
-
-	private ArrayList<Range> mondayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getMondayRanges() {
-		return mondayRanges;
+	
+	// array of 7 arrays (one for each day), each of which contains the ranges that the Restaurant is 
+	// open for that day
+	private ArrayList<ArrayList<Range>> _openRanges;
+	
+	// default constructor initializes the array and each of its elements
+	public RestaurantHours () {
+		_openRanges = new ArrayList<ArrayList<Range>>();
+		for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
+			_openRanges.add(new ArrayList<Range>());
+		}
+	}
+	public RestaurantHours (ArrayList<ArrayList<Range>> hours) {_openRanges = hours;	}
+	
+	// returns an ArrayList of ranges for the indicated day, 
+	// as defined by the Calendar class
+	public ArrayList<Range> getRanges(int calendarDay) {
+		return _openRanges.get(calendarDay-1);
 	}
 	
-	public void setMondayRanges(ArrayList<Range> newMondayRange)
-	{
-		mondayRanges = newMondayRange;
-	}
-
-	public int getMondayRangeCount() {
-		return mondayRanges.size();
-	}
-
-	private ArrayList<Range> tuesdayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getTuesdayRanges() {
-		return tuesdayRanges;
+	// sets the ArrayList of ranges for a particular day
+	public void setRanges(int calendarDay, ArrayList<Range> ranges) {
+		_openRanges.set(calendarDay-1, ranges);
 	}
 	
-	public void setTuesdayRanges(ArrayList<Range> newTuesdayRange)
-	{
-		tuesdayRanges = newTuesdayRange;
-	}
-
-	public int getTuesdayRangeCount() {
-		return tuesdayRanges.size();
-	}
-
-	private ArrayList<Range> wednesdayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getWednesdayRanges() {
-		return wednesdayRanges;
-	}
-
-	public void setWednesdayRanges(ArrayList<Range> newWednesdayRange)
-	{
-		wednesdayRanges = newWednesdayRange;
+	// adds a range to a particular day in sorted order, concatenating with currently
+	// existing ranges if necessary
+	public void addRange(int calendarDay, Range newRange) {
+		ArrayList<Range> ranges = getRanges(calendarDay);
+		for (int i = 0; i < ranges.size(); i++) {
+			if (newRange.before(ranges.get(i))) {
+				ranges.add(i,newRange);
+				return;
+			}
+			else if (ranges.get(i).overlap(newRange)) {
+				ranges.get(i).concat(newRange);
+				return;
+			}
+		}
+		ranges.add(newRange);
 	}
 	
-	public int getWednesdayRangeCount() {
-		return wednesdayRanges.size();
-	}
-
-	private ArrayList<Range> thursdayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getThursdayRanges() {
-		return thursdayRanges;
+	// returns the number of ranges in the day
+	public int getRangeCount(int calendarDay) {
+		return getRanges(calendarDay).size();
 	}
 	
-	public void setThursdayRanges(ArrayList<Range> newThursdayRange)
-	{
-		thursdayRanges = newThursdayRange;
-	}
-
-	public int getThursdayRangeCount() {
-		return thursdayRanges.size();
-	}
-
-	private ArrayList<Range> fridayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getFridayRanges() {
-		return fridayRanges;
-	}
-
-	public void setFridayRanges(ArrayList<Range> newFridayRange)
-	{
-		fridayRanges = newFridayRange;
+	// returns ArrayList of today's ranges
+	public ArrayList<Range> getTodayRanges() {
+		Calendar now = new GregorianCalendar();
+		return getRanges(now.DAY_OF_WEEK);
 	}
 	
-	public int getFridayRangeCount() {
-		return fridayRanges.size();
-	}
-
-	private ArrayList<Range> saturdayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getSaturdayRanges() {
-		return saturdayRanges;
-	}
-
-	public void setSaturdayRanges(ArrayList<Range> newSaturdayRange)
-	{
-		saturdayRanges = newSaturdayRange;
-	}
-	
-	public int getSaturdayRangeCount() {
-		return saturdayRanges.size();
-	}
-
-	private ArrayList<Range> sundayRanges = new ArrayList<Range>();
-
-	public ArrayList<Range> getSundayRanges() {
-		return sundayRanges;
-	}
-
-	public void setSundayRanges(ArrayList<Range> newSundayRange)
-	{
-		sundayRanges = newSundayRange;
-	}
-	
-	public int getSundayRangeCount() {
-		return sundayRanges.size();
-	}
-
-	// returns whether now is contained in the ranges of _open
+	// returns true if restaurant is open now
 	public boolean isOpen() {
-		Calendar c = new GregorianCalendar();
-		int day = c.get(Calendar.DAY_OF_WEEK);
-		
-		ArrayList<Range> ranges = null;
-		int numberOfRanges = 0;
-		switch (day) {
-		case Calendar.MONDAY:
-			// use monday
-			numberOfRanges = this.getMondayRangeCount();
-			ranges = this.getMondayRanges();
-			break;
-		case Calendar.TUESDAY:
-			// use tuesday
-			numberOfRanges = this.getTuesdayRangeCount();
-			ranges = this.getTuesdayRanges();
-			break;
-		case Calendar.WEDNESDAY:
-			numberOfRanges = this.getWednesdayRangeCount();
-			ranges = this.getWednesdayRanges();
-			break;
-		case Calendar.THURSDAY:
-			numberOfRanges = this.getThursdayRangeCount();
-			ranges = this.getThursdayRanges();
-			break;
-		case Calendar.FRIDAY:
-			numberOfRanges = this.getFridayRangeCount();
-			ranges = this.getFridayRanges();
-			break;
-		case Calendar.SATURDAY:
-			numberOfRanges = this.getSaturdayRangeCount();
-			ranges = this.getSaturdayRanges();
-			break;
-		case Calendar.SUNDAY:
-			numberOfRanges = this.getSundayRangeCount();
-			ranges = this.getSundayRanges();
-			break;
-		default:
-			// should never get here...
-			break;
-		}
-
-		int hour = c.get(Calendar.HOUR);
-		int minute = c.get(Calendar.MINUTE);
-		for (int i = 0; i < numberOfRanges; i++) {
-			Range currentRange = ranges.get(i);
-			if (currentRange.inRange(new Time(hour, minute)) == true)
+		ArrayList<Range> todayRanges = getTodayRanges();
+		Time now = new Time();
+		for (int i = 0; i<todayRanges.size(); i++)
+			if (todayRanges.get(i).inRange(now))
 				return true;
-		}
-
-		// We never returned true, so we are not in any of the
-		// Ranges
 		return false;
-
 	}
-
+	
+	// returns minutes to the next opening time for the restaurant, and 0 if already open, -1 if closed for the day
+	public int minutesToOpen() {
+		ArrayList<Range> todayRanges = getTodayRanges();
+		Time now = new Time();
+		for (int i = 0; i<todayRanges.size(); i++) {
+			if (now.before(todayRanges.get(i).getEnd())) {
+				 int minutes = todayRanges.get(i).getStart().totalMinutes()-now.totalMinutes();
+				 return minutes>0?minutes:0;
+			}
+		}
+		return -1;
+	}
+	
+	// returns minutes to the next closing time for the restaurant, -1 if closed for the day
+	public int minutesToClose() {
+		ArrayList<Range> todayRanges = getTodayRanges();
+		Time now = new Time();
+		for (int i = 0; i<todayRanges.size(); i++) {
+			if (now.before(todayRanges.get(i).getEnd())) {
+				return todayRanges.get(i).getEnd().totalMinutes()-now.totalMinutes();
+			}
+		}
+		return -1;
+	}
+	
+	
+	
+	// methods to support old interface
+	public void setSundayRanges(ArrayList<Range> newSundayRange) {setRanges(Calendar.SUNDAY, newSundayRange);}
+	public void setMondayRanges(ArrayList<Range> newMondayRange) {setRanges(Calendar.MONDAY, newMondayRange);}
+	public void setTuesdayRanges(ArrayList<Range> newTuesdayRange) {setRanges(Calendar.TUESDAY, newTuesdayRange);}
+	public void setWednesdayRanges(ArrayList<Range> newWednesdayRange) {setRanges(Calendar.WEDNESDAY, newWednesdayRange);}
+	public void setThursdayRanges(ArrayList<Range> newThursdayRange) {setRanges(Calendar.THURSDAY, newThursdayRange);}
+	public void setFridayRanges(ArrayList<Range> newFridayRange) {setRanges(Calendar.FRIDAY, newFridayRange);}
+	public void setSaturdayRanges(ArrayList<Range> newSaturdayRange) {setRanges(Calendar.SATURDAY, newSaturdayRange);}
+	
+	public int getSundayRangeCount() {return getRangeCount(Calendar.SUNDAY);}
+	public int getMondayRangeCount() {return getRangeCount(Calendar.MONDAY);}
+	public int getTuesdayRangeCount() {return getRangeCount(Calendar.TUESDAY);}
+	public int getWednesdayRangeCount() {return getRangeCount(Calendar.WEDNESDAY);}
+	public int getThursdayRangeCount() {return getRangeCount(Calendar.THURSDAY);}
+	public int getFridayRangeCount() {return getRangeCount(Calendar.FRIDAY);}
+	public int getSaturdayRangeCount() {return getRangeCount(Calendar.SATURDAY);}
+	
+	public ArrayList<Range> getSundayRanges() {return getRanges(Calendar.SUNDAY);}
+	public ArrayList<Range> getMondayRanges() {return getRanges(Calendar.MONDAY);}
+	public ArrayList<Range> getTuesdayRanges() {return getRanges(Calendar.TUESDAY);}
+	public ArrayList<Range> getWednesdayRanges() {return getRanges(Calendar.WEDNESDAY);}
+	public ArrayList<Range> getThursdayRanges() {return getRanges(Calendar.THURSDAY);}
+	public ArrayList<Range> getFridayRanges() {return getRanges(Calendar.FRIDAY);}
+	public ArrayList<Range> getSaturdayRanges() {return getRanges(Calendar.SATURDAY);}
+	
+	
 }
