@@ -1,5 +1,7 @@
 package edu.vanderbilt.vuphone.android.objects;
 
+import android.util.Log;
+
 public class Range {
 	private Time _start;
 	private Time _end;
@@ -67,15 +69,15 @@ public class Range {
 	
 
 	
-	// true if t is before this Range
+	// true if this Range is completely before t
 	public boolean before(Time t) {
 		if (notNull())
-			return t.before(getStart());
+			return getEnd().before(t);
 		else throw new RuntimeException("before(Time): Range not properly initialized");
 	}
-	// true if r is entirely before this Range
+	// true if this Range is completely before r
 	public boolean before(Range r) {
-		return (before(r.getStart()) && before(r.getEnd()));
+		return (before(r.getStart()));
 	}
 	
 	// true if t is in the current Range
@@ -90,15 +92,15 @@ public class Range {
 		return !(r.before(this) || r.after(this));
 	}
 	
-	// true if t is after this Range
+	// true if this Range is completely after t
 	public boolean after(Time t) {
 		if (notNull())
-			return getEnd().before(t);
+			return t.before(getStart());
 		else throw new RuntimeException("after(Time): Range not properly initialized");
 	}
 	// true if this Range is completely after r
 	public boolean after(Range r) {
-		return (r.getEnd().before(getStart()));
+		return (r.before(getStart()));
 	}
 	
 	// r overlaps with this Range, concatenates r
@@ -112,6 +114,10 @@ public class Range {
 			setStart(r.getStart());
 		if (getEnd().before(r.getEnd()))
 			setEnd(r.getEnd());
+	}
+	
+	public String toString() {
+		return _start.toString() + " - " + _end.toString();
 	}
 	
 	// true if both _start and _end are not null
