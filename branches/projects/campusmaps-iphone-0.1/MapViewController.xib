@@ -59,7 +59,7 @@
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<object class="NSColor" key="IBUITintColor">
 							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC44MDAwMDAwMSAwLjgwMDAwMDAxIDAuNjAwMDAwMDIAA</bytes>
+							<bytes key="NSRGB">MC42MDAwMDAwMiAwLjIgMAA</bytes>
 						</object>
 						<object class="NSArray" key="IBUIItems">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -218,9 +218,9 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="146889077"/>
 							<reference ref="543276478"/>
 							<reference ref="864476342"/>
+							<reference ref="146889077"/>
 						</object>
 						<reference key="parent" ref="440733140"/>
 					</object>
@@ -300,7 +300,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>MapViewController</string>
 					<string>UIResponder</string>
-					<string>{{458, 53}, {320, 480}}</string>
+					<string>{{450, -137}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
