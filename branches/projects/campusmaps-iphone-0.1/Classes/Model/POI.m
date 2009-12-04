@@ -65,4 +65,10 @@
 	return coord;
 }
 
+- (NSString *)title {
+	return self.name;
+}
+
+
+
 @end
