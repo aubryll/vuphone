@@ -111,6 +111,8 @@
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
 	annView.animatesDrop = YES;
+	annView.userInteractionEnabled = YES;
+	annView.canShowCallout = YES;
 	return [annView autorelease];
 }
 
