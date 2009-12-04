@@ -1,4 +1,4 @@
-package edu.vanderbilt.vuphone.android.dining;
+package edu.vanderbilt.vuphone.android.map;
 
 import java.util.ArrayList;
 

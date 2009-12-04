@@ -1,10 +1,13 @@
-package edu.vanderbilt.vuphone.android.dining;
+package edu.vanderbilt.vuphone.android.map;
 
 import java.util.ArrayList;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
+
+import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.dining.R.drawable;
 
 /**
  * Creates an array of overlay for a particular restaurant to the map view

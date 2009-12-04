@@ -1,4 +1,4 @@
-package edu.vanderbilt.vuphone.android.dining;
+package edu.vanderbilt.vuphone.android.map;
 
 import android.os.Bundle;
 
@@ -6,6 +6,10 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+
+import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.dining.R.layout;
+import edu.vanderbilt.vuphone.android.dining.R.map;
 
 /**
  * Creates the map that displays the location of one dining facilities
