@@ -30,18 +30,19 @@
 	//mapView.mapType = MKMapTypeStandard;
 	// mapView.delegate = self;
 	
+
+	Layer *anyLayer = [[Layer allLayers:managedObjectContext] anyObject];
+	currentLayerController = [[MapLayerController alloc] initWithLayer:anyLayer];
+
+	CLLocationCoordinate2D location;
+	location.latitude = CAMPUS_CENTER_LATITUDE;
+	location.longitude = CAMPUS_CENTER_LONGITUDE;
+
 	MKCoordinateRegion region;
 	MKCoordinateSpan span;
 	span.longitudeDelta = 0.01;
 	span.latitudeDelta = 0.01;
 	
-	CLLocationCoordinate2D location;
-	
-	location.latitude = CAMPUS_CENTER_LATITUDE;
-	location.longitude = CAMPUS_CENTER_LONGITUDE;
-	Layer *anyLayer = [[Layer allLayers:managedObjectContext] anyObject];
-	currentLayerController = [[MapLayerController alloc] initWithLayer:anyLayer];
-
 	region.span = span;
 	region.center = location;
 
@@ -84,6 +85,25 @@
 	}
 }
 
+- (IBAction)centerOnCampus:(id)sender {
+	NSLog(@"Button pushed.");
+	
+	CLLocationCoordinate2D location;
+	location.latitude = CAMPUS_CENTER_LATITUDE;
+	location.longitude = CAMPUS_CENTER_LONGITUDE;
+	
+	MKCoordinateRegion region;
+	MKCoordinateSpan span;
+	span.longitudeDelta = 0.01;
+	span.latitudeDelta = 0.01;
+	
+	region.span = span;
+	region.center = location;
+	
+	[mapView setRegion:region animated:TRUE];
+	[mapView regionThatFits:region];
+
+}
 
 #pragma mark Layers
 
