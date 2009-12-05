@@ -103,6 +103,7 @@ public class BuildingList extends ListActivity {
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		filterText.removeTextChangedListener(filterTextWatcher);
 	}
 
