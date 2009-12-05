@@ -1,34 +1,33 @@
 #summary A page for the developers of the Android Campus Map Module.
 
-= Introduction =
+== Introduction ==
 
 This should be a general description of the module
 
-= Team Leader =
+== Team Leader ==
   * Kyle Prete
 
-= Meeting Time =
+== Meeting Time ==
 Saturday, 4-5PM (FGH 308)
 
-= Developers =
+== Developers ==
   * Kyle Liming
   * Dan Hasday
   * Rob McColl
   * Adam Albright
 
 
-= User Stories =
+== User Stories ==
 User can:
 
-For Beta Stories:
+==== For Beta Stories: ====
   # See a complete Building List 
   # Center on self
   # See a polished (zoom in/out, center) bar, especially during landscape view
   # Launch Building Information Page
   # Not see predictive text on building list filter.
 
-Future User Stories:
-
+==== Future User Stories: ====
   * Show all buildings as pins on the map when user clicks menu item
   * Click buildings
   * See menu after clicking: get directions, info
@@ -48,4 +47,6 @@ Future User Stories:
   * See all paths on vanderbilt campus
   * Find shortest path between two points on map
 
-<!-- Check mark addy: <img src='http://ni2.in/tb/.png'/> -->
+<wiki:comment>
+ Check mark addy: <img src='http://ni2.in/tb/.png'/>
+</wiki:comment>
