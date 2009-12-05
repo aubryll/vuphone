@@ -309,6 +309,7 @@ public class Main extends MapActivity {
 				return;
 
 			trace("Populating building list");
+
 			NodeList list_ = doc.getElementsByTagName("feature");
 			for (int i = 0; i < list_.getLength(); i++) {
 				Properties attrib = NodeList2Array(list_.item(i)
@@ -316,8 +317,12 @@ public class Main extends MapActivity {
 
 				if (attrib == null)
 					continue;
-
+				
 				String name = titleCase(attrib.getProperty("FACILITY_NAME"));
+				
+				if(!attrib.containsKey("coordinates"))
+					continue;
+					
 				String loc[] = attrib.getProperty("coordinates").split(" ");
 				String latlong[] = loc[0].split(",");
 				GeoPoint gp = EPSG900913ToGeoPoint(Double
@@ -330,8 +335,9 @@ public class Main extends MapActivity {
 
 				buildingList.put(b.hashCode(), b);
 			}
-
+			
 		} catch (Exception e) {
+			 e.printStackTrace();
 			trace("Unable to populate build list! " + e.getMessage());
 		}
 	}
