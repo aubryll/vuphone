@@ -68,39 +68,63 @@ public class RestaurantHours {
 		return getRanges(now.get(Calendar.DAY_OF_WEEK));
 	}
 	
-	// returns true if restaurant is open now
-	public boolean isOpen() {
+	// returns the next range or the current range (from now), null Range if closed for the day
+	public Range getCurrentRange() {
 		ArrayList<Range> todayRanges = getTodayRanges();
 		Time now = new Time();
-		for (int i = 0; i<todayRanges.size(); i++)
-			if (todayRanges.get(i).inRange(now))
-				return true;
+		for (int i = 0; i<todayRanges.size(); i++) 
+			if (now.before(todayRanges.get(i).getEnd()))
+				return todayRanges.get(i);
+		return new Range();
+	}
+	
+	// returns true if restaurant is open now
+	public boolean isOpen() {
+		Range current = getCurrentRange();
+		if (current.notNull())
+			return current.during(new Time());
 		return false;
 	}
 	
-	// returns minutes to the next opening time for the restaurant, and 0 if already open, -1 if closed for the day
+	// returns minutes to the next opening time for the restaurant, 0 if already open, -1 if closed for the day
 	public int minutesToOpen() {
-		ArrayList<Range> todayRanges = getTodayRanges();
 		Time now = new Time();
-		for (int i = 0; i<todayRanges.size(); i++) {
-			if (now.before(todayRanges.get(i).getEnd())) {
-				 int minutes = todayRanges.get(i).getStart().totalMinutes()-now.totalMinutes();
-				 return minutes>0?minutes:0;
-			}
+		Range current = getCurrentRange();
+		if (current.notNull()) {
+			int minutes = current.getStart().totalMinutes()-now.totalMinutes();
+			return minutes>0?minutes:0;
 		}
 		return -1;
 	}
 	
 	// returns minutes to the next closing time for the restaurant, -1 if closed for the day
 	public int minutesToClose() {
-		ArrayList<Range> todayRanges = getTodayRanges();
 		Time now = new Time();
-		for (int i = 0; i<todayRanges.size(); i++) {
-			if (now.before(todayRanges.get(i).getEnd())) {
-				return todayRanges.get(i).getEnd().totalMinutes()-now.totalMinutes();
-			}
-		}
+		Range current = getCurrentRange();
+		if (current.notNull())
+			return current.getEnd().totalMinutes()-now.totalMinutes();
 		return -1;
+	}	
+	
+	// returns the next open time, the current time if already open, and midnight if closed for the day
+	public Time getNextOpenTime() {
+		Range current = getCurrentRange();
+		Time now = new Time();
+		if (current.notNull()) {
+			if (current.getStart().before(now))
+				return now;
+			else return current.getStart();		
+		}
+		return new Time(0,0);
+	}
+	
+	// returns the next closing time, midnight if closed for the day
+	public Time getNextCloseTime() {
+		Range current = getCurrentRange();
+		Time now = new Time();
+		if (current.notNull()) 
+			return current.getEnd();
+		return new Time(0,0);
 	}
 	
 	// puts the ranges for a particular day in the correct order, and merges overlapping ranges
@@ -118,6 +142,7 @@ public class RestaurantHours {
 		int pivotIndex = end--;
 		for (;start<end;) {
 			if (!toSort.get(start).after(toSort.get(pivotIndex)))
+				// the comparison step, sorts in !after order, lol
 				start++;
 			else
 				swap(toSort, start, end--);
