@@ -53,7 +53,7 @@ public class Main extends MapActivity {
 	private static final int SUBMENU_STREET_VIEW = 6;
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
-	private static final int MENU_SETTINGS = 3;
+	//private static final int MENU_SETTINGS = 3;
 	private static final int MENU_BUILDING_LIST = 1;
 	private static final int MENU_MAP_MODE_GROUP = 0;
 	public static MapView mapView_;
@@ -82,7 +82,8 @@ public class Main extends MapActivity {
 		mapView_.setBuiltInZoomControls(false);
 
 		poLayer_ = new PathOverlay(mapView_);
-
+		
+		/*
 		// Just some demo paths to test for now
 		poLayer_.StartNewPath(new GeoPoint(36144875, -86806723));
 		poLayer_.AddPoint(new GeoPoint(36146071, -86804298));
@@ -120,7 +121,8 @@ public class Main extends MapActivity {
 				.AddPoint(EPSG900913ToGeoPoint(-9662389.499083, 4320714.573825));
 		poLayer_
 				.AddPoint(EPSG900913ToGeoPoint(-9662429.695230, 4320719.417812));
-
+		*/
+		
 		mc_ = mapView_.getController();
 
 		// Vanderbilt GPS coordinates, used to start the map at a Vanderbilt
@@ -175,8 +177,8 @@ public class Main extends MapActivity {
 		mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
 		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings").setIcon(
 				android.R.drawable.ic_menu_agenda);
-		menu.add(0, 2, MENU_SETTINGS, "Settings").setIcon(
-				android.R.drawable.ic_menu_preferences);
+		/*menu.add(0, 2, MENU_SETTINGS, "Settings").setIcon(
+				android.R.drawable.ic_menu_preferences);*/
 		return true;
 	}
 
@@ -234,9 +236,9 @@ public class Main extends MapActivity {
 			startActivity(i);
 			break;
 
-		case (MENU_SETTINGS):
+		/*case (MENU_SETTINGS):
 			echo("Settings");
-			break;
+			break;*/
 		}
 		return true;
 	}
