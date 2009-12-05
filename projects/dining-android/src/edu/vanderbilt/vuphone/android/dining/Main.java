@@ -62,12 +62,6 @@ public class Main extends ListActivity {
 
 		setListAdapter(sca);
 		getListView().setTextFilterEnabled(true);
-
-/*//		populateWithStaticData();
-		setListAdapter( 
-				new RestaurantAdapter(this)
-				);
-		getListView().setTextFilterEnabled(true);*/
 	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
