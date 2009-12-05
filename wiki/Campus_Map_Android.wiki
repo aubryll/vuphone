@@ -18,7 +18,7 @@ Saturday, 4-5PM (FGH 308)
 
 
 == User Stories ==
-User can:
+Add the prefix 'User can' to all of these stories!
 
 ==== For Beta Stories: ====
   # See a complete Building List 
