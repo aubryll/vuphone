@@ -20,7 +20,7 @@
 			android:paddingRight="5px">
 
 			<ImageButton android:id="@+id/button_center_gps"
-				android:layout_height="29px" android:layout_width="29px" />
+				android:layout_height="34px" android:layout_width="36px" />
 
 			<ImageButton android:id="@+id/button_zoom_out"
 				android:layout_marginLeft="50px"
