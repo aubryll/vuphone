@@ -21,6 +21,8 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 public class RestaurantDetails extends Activity {
+	
+	public static final String RESTAURANT_ID = "0";
 
 	private long restaurantID;
 	private Calendar rightNow;
@@ -52,7 +54,7 @@ public class RestaurantDetails extends Activity {
 		setContentView(R.layout.restaurant_details);
 
 		rightNow = Calendar.getInstance();
-		restaurantID = getIntent().getExtras().getLong("restaurant");
+		restaurantID = getIntent().getExtras().getLong(RESTAURANT_ID);
 		
 		DBAdapter adapter = new DBAdapter(this);
 		adapter.openReadable();
@@ -76,8 +78,13 @@ public class RestaurantDetails extends Activity {
 
 	CharSequence WeeklySchedule() {
 		SpannableStringBuilder out = new SpannableStringBuilder();
+		out.append(restaurant.getHours().toString());
 
+/*
+ * 
 		RestaurantHours hours = restaurant.getHours();
+		
+		
 		
 		for (int i = 0; i < hours.getMondayRangeCount(); i++)
 		{
@@ -106,7 +113,7 @@ public class RestaurantDetails extends Activity {
 			out.append(Integer.toString(r.getEnd().getMinute()));
 			out.append("\n");
 		}
-		
+		*/
 //		out.append("S\t" + Main.SUNDAY_START[restaurant] + " - "
 //				+ Main.SUNDAY_END[restaurant] + '\n' + "M\t"
 //				+ Main.MONDAY_START[restaurant] + " - "
