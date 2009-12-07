@@ -52,8 +52,16 @@ public class Restaurant {
 	public void setFavorite(boolean fav) 		{_favorite = fav;}
 	public void setDescription(String desc)		{_description = desc;}
 	
-	
 	public boolean create() 					{return DBWrapper.create(this);}
+	
+	public String toString() {
+		StringBuilder out = new StringBuilder();
+		if (favorite())
+			out.append("* ");
+		out.append(getName()).append("  (").append(getLat()).append(",").append(getLon()).
+			append(")\n").append(getDescription()).append("\n").append(getHours().toString());
+		return out.toString();
+	}
 	
 	// static methods for database access
 	public static ArrayList<Long> getIDs() 				{return DBWrapper.getIDs();}

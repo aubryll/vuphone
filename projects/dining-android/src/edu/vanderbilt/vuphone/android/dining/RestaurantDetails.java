@@ -1,8 +1,5 @@
 package edu.vanderbilt.vuphone.android.dining;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,21 +12,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.OneLocation;
-import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
-import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
-import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 public class RestaurantDetails extends Activity {
 	
 	public static final String RESTAURANT_ID = "0";
 
 	private long restaurantID;
-	private Calendar rightNow;
 	private Restaurant restaurant;
 
 	private OnClickListener mapListener = new OnClickListener() {
 		public void onClick(View v) {
+			// TODO I think it might be good to simply pass the restaurantID,
+			// 		then use the static Restaurant class methods to access the DB/cache
+			//		from the map activity
 			if (Main.DEBUG)
 				Log.i("Dining", "Map button for restaurant "
 						+ restaurant.getName() + " clicked.");
@@ -53,13 +49,8 @@ public class RestaurantDetails extends Activity {
 
 		setContentView(R.layout.restaurant_details);
 
-		rightNow = Calendar.getInstance();
 		restaurantID = getIntent().getExtras().getLong(RESTAURANT_ID);
-		
-		DBAdapter adapter = new DBAdapter(this);
-		adapter.openReadable();
-		
-		restaurant = adapter.fetchRestaurant(restaurantID);
+		restaurant = Restaurant.get(restaurantID);
 
 		SpannableString title = new SpannableString(
 				restaurant.getName());

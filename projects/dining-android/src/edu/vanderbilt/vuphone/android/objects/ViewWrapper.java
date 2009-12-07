@@ -1,8 +1,9 @@
-package edu.vanderbilt.vuphone.android.dining;
+package edu.vanderbilt.vuphone.android.objects;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.vanderbilt.vuphone.android.dining.R;
 
 public class ViewWrapper {
 	private View _base;
@@ -14,19 +15,19 @@ public class ViewWrapper {
 		_base = base;
 	}
 	
-	ImageView getFavoriteView() {
+	public ImageView getFavoriteView() {
 		if (_favorite == null) 
 			_favorite = (ImageView)_base.findViewById(R.mainListItem.favoriteIcon);
 		return _favorite;
 	}
 	
-	TextView getNameView() {
+	public TextView getNameView() {
 		if (_name == null) 
 			_name=(TextView)_base.findViewById(R.mainListItem.name);
 		return _name;
 	}
 	
-	TextView getSpecialView() {
+	public TextView getSpecialView() {
 		if (_special == null)
 			_special = (TextView)_base.findViewById(R.mainListItem.specialText);
 		return _special;

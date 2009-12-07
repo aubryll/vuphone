@@ -2,7 +2,6 @@ package edu.vanderbilt.vuphone.android.objects;
 
 import java.util.ArrayList;
 
-import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.Main;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
@@ -13,6 +12,10 @@ import edu.vanderbilt.vuphone.android.storage.DBAdapter;
  * @author austin
  *	This class abstracts database access and caches multiple like accesses.
  *	Accessed through the Restaurant class
+ *
+ * TODO: Restaurant efficient update (esp for user changing favorites)
+ * 		 Restaurant delete
+ * 		 reflect any new functionality in static methods in the Restaurant class
  */
 public class DBWrapper {
 
@@ -26,6 +29,7 @@ public class DBWrapper {
 	private static ArrayList<Restaurant> cache;
 	// IDs and cache the same size, parallel arrays ftw
 	
+	@SuppressWarnings("unchecked")
 	public static ArrayList<Long> getIDs() {
 		if (changed || IDs==null) {
 			makeReadable();
@@ -47,16 +51,18 @@ public class DBWrapper {
 		return (ArrayList<Long>)IDs.clone();//test;
 	}
 	
+	
 	public static Restaurant get(long rowID) { 
 		int i = getIDs().indexOf(rowID);
 		if (i==-1)
-			throw new RuntimeException("Restaurant not found");
+			throw new RuntimeException("Restaurant " + rowID + " not found");
 		if (cache.get(i) == null) {	
 			makeReadable();
 			cache.set(i, adapter.fetchRestaurant(rowID));
 		}
 		return cache.get(i);
 	}
+	
 	
 	
 	
@@ -122,6 +128,24 @@ public class DBWrapper {
 		case CLOSED:
 			adapter.openReadable();
 			state = READABLE;
+			return;
+		}
+	}
+	// closes the underlying database adapter 
+	// no read/writes are to be performed in the 
+	// near future
+	public static void close() {
+		initialize();
+		switch (state) {
+		case READABLE:
+			adapter.close();
+			state = CLOSED;
+			return;
+		case WRITABLE:
+			adapter.close();
+			state = CLOSED;
+			return;
+		case CLOSED:
 			return;
 		}
 	}
