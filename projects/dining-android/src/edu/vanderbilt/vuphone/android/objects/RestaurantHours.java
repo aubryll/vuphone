@@ -23,8 +23,12 @@ public class RestaurantHours {
 	}
 	public RestaurantHours (ArrayList<ArrayList<Range>> hours) {
 		_openRanges = hours;
-		for (int i = Calendar.SUNDAY; i<=Calendar.SATURDAY; i++) 
+		for (int i = Calendar.SUNDAY; i<=Calendar.SATURDAY; i++) {
+			if (i-1>_openRanges.size())
+				// if hours didnt have the correct number of days
+				_openRanges.add(new ArrayList<Range>());
 			sortAndMerge(i);
+		}
 	}
 	
 	// returns an ArrayList of ranges for the indicated day, 
@@ -178,25 +182,25 @@ public class RestaurantHours {
 			ArrayList<Range> ranges = getRanges(i);
 			switch (i) {
 			case Calendar.SUNDAY:
-				out.append("S ");
+				out.append("S\t");
 				break;
 			case Calendar.MONDAY:
-				out.append("M ");
+				out.append("M\t");
 				break;
 			case Calendar.TUESDAY:
-				out.append("T ");
+				out.append("T\t");
 				break;
 			case Calendar.WEDNESDAY:
-				out.append("W ");
+				out.append("W\t");
 				break;
 			case Calendar.THURSDAY:
-				out.append("T ");
+				out.append("T\t");
 				break;
 			case Calendar.FRIDAY:
-				out.append("F ");
+				out.append("F\t");
 				break;
 			case Calendar.SATURDAY:
-				out.append("S ");
+				out.append("S\t");
 				break;
 			}
 			for (int j = 0; j < ranges.size(); j++) {
