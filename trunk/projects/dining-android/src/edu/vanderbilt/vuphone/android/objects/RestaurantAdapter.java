@@ -1,4 +1,4 @@
-package edu.vanderbilt.vuphone.android.dining;
+package edu.vanderbilt.vuphone.android.objects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import edu.vanderbilt.vuphone.android.objects.Restaurant;
+import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.dining.R.drawable;
+import edu.vanderbilt.vuphone.android.dining.R.layout;
 
 public class RestaurantAdapter extends BaseAdapter {
 
@@ -27,7 +29,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	// tertiary sorts, all include alphabetical
 	public static final int FAVORITE_OPEN_CLOSED = 5;
 	
-	public static final int DEFAULT = OPEN_CLOSED;
+	public static final int DEFAULT = FAVORITE_OPEN_CLOSED;
 	
 	// non restaurant item codes, must be negative
 	public static final int FAVORITE_PARTITION = -1;
@@ -84,8 +86,9 @@ public class RestaurantAdapter extends BaseAdapter {
 			Restaurant r = (Restaurant)current;
 			 if (displayFav) {
 				 wrapper.getFavoriteView().setImageResource(r.favorite()?
-					R.drawable.dining:		// favorite icon
+					R.drawable.dining:		// favorite icon 
 					R.drawable.icon);		// nonfavorite icon
+				 // TODO add proper favorite/nonfavorite icons
 			 } else {
 				 wrapper.getFavoriteView().setVisibility(ImageView.GONE);
 			 }
@@ -139,6 +142,11 @@ public class RestaurantAdapter extends BaseAdapter {
 	// sets sort method for list, sorts, and returns the position of the favorites partition
 	// -1 if no mergeSort includes no favorites partition
 	public void setSort(int sortType) {
+		// first remove partitions if this is a later sort
+		if (_order != null)
+			for (int i = 0; i<_order.size(); i++)
+				if (_order.get(i)<0)
+					_order.remove(i);
 		sort(_order, ALPHABETICAL);
 		displayFav = true;
 		switch (sortType) {
@@ -241,7 +249,7 @@ public class RestaurantAdapter extends BaseAdapter {
 			for (;ri < right.size();)
 				toSort.set(i++, right.get(ri++));
 	}
-	// compare method for merge
+	// compare method for merge, 'less or equal'
 	private boolean compare(long first, long second, int sortType) {
 		switch (sortType) {
 		case FAVORITE:

@@ -13,10 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
 import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
+import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
@@ -37,63 +37,19 @@ public class Main extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// clunky mechanic with gross file dependency,
+		// but DBWrapper needs Main.mainContext for its
+		// calls to DBAdapter
 		mainContext = this;
 		
-		// Deletes old database data in case RestaurantHours implementation changes, rendering
-		//xstream data useless (which throws exception)
-		//
-		
-		// havent implemented delete in DBWrapper yet, but that will be the safest way to do it eventually
-		Log.i("test", "opening writable database.");
-		DBAdapter adapt = new DBAdapter(this);
-		adapt.openWritable();
-		ArrayList<Long> ids = Restaurant.getIDs();
-		Log.i("test", "deleting database contents");
-		for (int i = 0; i<ids.size(); i++)
-			adapt.deleteRestaurant(ids.get(i));
-		adapt.close();
-		
-		// static data
-		Restaurant poo = new Restaurant("poo");
-		RestaurantHours rh = new RestaurantHours();
-		for (int i = Calendar.MONDAY; i<=Calendar.FRIDAY; i++)
-			rh.addRange(Calendar.MONDAY, new Range(new Time(7,30), new Time(15,00)));
-		poo.setHours(rh);
-		poo.setFavorite(true);
-		Restaurant.create(poo);
-		Restaurant foo = new Restaurant("foo");
-		foo.setHours(rh);
-		foo.setName("foo");
-		foo.setFavorite(true);
-		foo.create();
-		
-////		// repopulates with static data
-//		Log.i("test", "loading database with valid random data");
-//		Random r = new Random();
-//		int numRest = 20;
-//		for (int i = 0; i<numRest; i++) {
-//			RestaurantHours rh = new RestaurantHours();
-//			for (int day = Calendar.SUNDAY; i<= Calendar.SATURDAY; i++) {
-//				int ranges = 1;//r.nextInt(2)+1;
-//				for (int k = 0; k<ranges; k++) {
-//					Time start = new Time(r.nextInt(12/ranges)+k*12,r.nextInt(59));
-//					Time stop = new Time((r.nextInt(12)+12)/ranges+k*12,r.nextInt(59));
-//					rh.addRange(day, new Range(start, stop));
-//				}
-//			}
-//			Log.i("test",rh.toString());
-//			Restaurant restaurant = new Restaurant();
-//			restaurant.setAttributes("Restaurant " + i, rh, r.nextInt(), r.nextInt(), 
-//					r.nextBoolean(), "Known for its fine cuisine, this is Restaurant " + i);
-//			restaurant.create();
-//		}
-//		Log.i("test", "done generating random restaurants, closing writable database");
-		
-		// end random restaurant generator
+		deleteAllRestaurants();
+		addRandomRestaurantsToDB(20);
 		
 		
-		
+		Log.i("test", Restaurant.getIDs().toString());
+				
 		RestaurantAdapter ra = new RestaurantAdapter(this);
+		ra.setSort(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra);
 		
 		getListView().setTextFilterEnabled(true);
@@ -137,6 +93,46 @@ public class Main extends ListActivity {
 			return true;
 		default:
 			return false;
+		}
+	}
+	
+	
+	// placeholder/temporary methods below
+	
+	// MAY CONFUSE DBWrapper IF USED AFTER ANY OTHER DB FUNCTIONS
+	private void deleteAllRestaurants() {
+		Log.i("test", "opening writable database.");
+		DBAdapter adapt = new DBAdapter(this);
+		adapt.openWritable();
+		ArrayList<Long> ids = Restaurant.getIDs();
+		Log.i("test", "deleting database contents");
+		for (int i = 0; i<ids.size(); i++)
+			adapt.deleteRestaurant(ids.get(i));
+		adapt.close();
+	}
+
+	private void addRandomRestaurantsToDB(int numRest) {
+		Log.i("test", "loading database with valid random data");
+		Random r = new Random();
+		for (int i = 0; i < numRest; i++) {
+			RestaurantHours rh = new RestaurantHours();
+			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
+				int ranges = r.nextInt(2) + 1;
+				for (int k = 0; k < ranges; k++) {
+					Time start = new Time(r.nextInt(12 / ranges) + k * 12, r
+							.nextInt(59));
+					Time stop = new Time(
+							(r.nextInt(12) + 12) / ranges + k * 12, r
+									.nextInt(59));
+					rh.addRange(day, new Range(start, stop));
+				}
+			}
+			Restaurant restaurant = new Restaurant();
+			restaurant.setAttributes("Restaurant " + i, rh, r.nextInt(), r
+					.nextInt(), r.nextBoolean(),
+					"Known for its fine cuisine, this is Restaurant " + i);
+			restaurant.create();
+			Log.i("test", restaurant.toString());
 		}
 	}
 
