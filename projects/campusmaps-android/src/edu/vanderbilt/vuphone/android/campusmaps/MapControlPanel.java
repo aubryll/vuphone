@@ -72,7 +72,7 @@ public class MapControlPanel extends LinearLayout {
 
 		ImageButton zoomIn = (ImageButton) findViewById(R.id.button_zoom_in);
 		ImageButton zoomOut = (ImageButton) findViewById(R.id.button_zoom_out);
-		ImageButton centergps1 = (ImageButton) findViewById(R.id.button_center_gps);
+		ImageButton centergps = (ImageButton) findViewById(R.id.button_center_gps);
 
 		zoomIn.setImageResource(android.R.drawable.btn_plus);
 		zoomIn.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +88,8 @@ public class MapControlPanel extends LinearLayout {
 			}
 		});
 
-		centergps1.setImageResource(R.drawable.centergps1);
-		centergps1.setOnClickListener(new View.OnClickListener() {
+		centergps.setImageResource(R.drawable.centergps);
+		centergps.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				Main.gps_.centerOnGPS(!Main.gps_.centerOnGPS_);
 			}
