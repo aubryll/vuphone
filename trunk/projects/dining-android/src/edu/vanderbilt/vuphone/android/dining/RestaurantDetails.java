@@ -1,5 +1,8 @@
 package edu.vanderbilt.vuphone.android.dining;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +22,7 @@ public class RestaurantDetails extends Activity {
 	public static final String RESTAURANT_ID = "0";
 
 	private long restaurantID;
+	private Calendar rightNow;
 	private Restaurant restaurant;
 
 	private OnClickListener mapListener = new OnClickListener() {
@@ -46,6 +50,8 @@ public class RestaurantDetails extends Activity {
 		super.onCreate(savedInstanceState);
 		if (Main.DEBUG)
 			Log.i("Dining", "Restaurant details Activity created");
+		
+		rightNow = new GregorianCalendar();
 
 		setContentView(R.layout.restaurant_details);
 
