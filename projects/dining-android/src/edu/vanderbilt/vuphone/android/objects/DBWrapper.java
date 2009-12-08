@@ -2,6 +2,7 @@ package edu.vanderbilt.vuphone.android.objects;
 
 import java.util.ArrayList;
 
+import android.content.Context;
 import edu.vanderbilt.vuphone.android.dining.Main;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
@@ -15,7 +16,9 @@ import edu.vanderbilt.vuphone.android.storage.DBAdapter;
  *
  * TODO: Restaurant efficient update (esp for user changing favorites)
  * 		 Restaurant delete
+ * 		 caching only parts of restaurants
  * 		 reflect any new functionality in static methods in the Restaurant class
+ * 
  */
 public class DBWrapper {
 
@@ -27,8 +30,10 @@ public class DBWrapper {
 	private static boolean changed = true; // set to true every time the Database is changed
 	private static ArrayList<Long> IDs;
 	private static ArrayList<Restaurant> cache;
+	private static int cached = 0;
 	// IDs and cache the same size, parallel arrays ftw
 	
+
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Long> getIDs() {
 		if (changed || IDs==null) {
@@ -40,15 +45,15 @@ public class DBWrapper {
 			cache = new ArrayList<Restaurant>();
 			for (int i = 0; i<IDs.size(); i++)
 				cache.add(null);
+			cached = 0;
 			// cache now obsolete, reset with correct buffer
 			
 			// it is possible that cache doesnt need to be completely reset, depending on
 			// the behavior of the underlying DBAdapter, but this is not sufficiently defined
 			// this is safest and not extremely inefficient, 
 		}
-		//ArrayList<Long> test = (ArrayList<Long>)IDs.clone();
-		//Log.i("test", test.toString() + "\n" + (ArrayList<Long>)adapter.fetchAllRestaurantIDs());
-		return (ArrayList<Long>)IDs.clone();//test;
+		
+		return (ArrayList<Long>)IDs.clone();
 	}
 	
 	
@@ -59,6 +64,10 @@ public class DBWrapper {
 		if (cache.get(i) == null) {	
 			makeReadable();
 			cache.set(i, adapter.fetchRestaurant(rowID));
+			
+			// if all restaurants are cached, close the adapter
+			if (++cached == cache.size())
+				close();
 		}
 		return cache.get(i);
 	}
@@ -95,7 +104,7 @@ public class DBWrapper {
 
 	private static void initialize() {
 		if (adapter == null) {
-			adapter = new DBAdapter(Main.mainContext);
+			adapter = new DBAdapter(Main.applicationContext);
 			state = CLOSED;
 		}
 	}

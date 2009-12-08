@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,33 +12,39 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.dining.R;
-import edu.vanderbilt.vuphone.android.dining.R.drawable;
-import edu.vanderbilt.vuphone.android.dining.R.layout;
 
+/**
+ * @author austin
+ *
+ */
 public class RestaurantAdapter extends BaseAdapter {
 
+	// unsorted, for when constructor is passed initial sort state
+	public static final int UNSORTED = 0;
+	
 	// alphabetical sort
-	public static final int ALPHABETICAL = 0;
+	public static final int ALPHABETICAL = 1;
 	
 	// secondary sorts, all include alphabetical
-	public static final int FAVORITE = 1;
-	public static final int OPEN_CLOSED = 2;
-	public static final int NEAR_FAR = 3;
+	public static final int FAVORITE = 2;
+	public static final int OPEN_CLOSED = 3;
+	public static final int NEAR_FAR = 4;
 	
 	// tertiary sorts, all include alphabetical
 	public static final int FAVORITE_OPEN_CLOSED = 5;
 	
 	public static final int DEFAULT = FAVORITE_OPEN_CLOSED;
 	
-	// non restaurant item codes, must be negative
-	public static final int FAVORITE_PARTITION = -1;
-	public static final int OPEN_PARTITION = -2;
-	public static final int CLOSED_PARTITION = -3;
-	public static final int OTHER_PARTITION = -4;
+	// non restaurant item Ids, must be negative
+	public static final long FAVORITE_PARTITION = -1;
+	public static final long OPEN_PARTITION = -2;
+	public static final long CLOSED_PARTITION = -3;
+	public static final long OTHER_PARTITION = -4;
 	
 		
-	private ArrayList<Long> _order;
 	private Context _context;
+	
+	private ArrayList<Long> _order;
 	private boolean displayFav;
 	
 	// TODO: Implement partition 
@@ -47,10 +52,15 @@ public class RestaurantAdapter extends BaseAdapter {
 		this(context, DEFAULT);
 	}
 	public RestaurantAdapter(Context context, int sortType) {
-		Log.i("test", "RestaurantAdapter constructer");
-		_order = Restaurant.getIDs();
 		_context = context;
-		setSort(sortType);
+		_order = Restaurant.getIDs();
+		if (sortType!=UNSORTED)
+			setSort(sortType);
+	}
+	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
+		_context = context;
+		_order = sortOrder;
+		displayFav = showFavIcon;
 	}
 	
 	public int getCount() {
@@ -60,7 +70,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	public Object getItem(int i) {
 		if (getItemId(i)>0)
 			return Restaurant.get(getItemId(i));
-		else return (int)getItemId(i);
+		else return getItemId(i);
 	}
 	
 	public long getItemId(int i) {
@@ -105,17 +115,17 @@ public class RestaurantAdapter extends BaseAdapter {
 			TextView partition = new TextView(_context);
 			partition.setGravity(Gravity.CENTER);
 			partition.setFocusable(false);
-			switch ((Integer)current) {
-			case FAVORITE_PARTITION:
+			switch ((int)(long)(Long)current) { // lol...
+			case (int)FAVORITE_PARTITION:
 				partition.setText("Favorites");
 				break;
-			case OPEN_PARTITION:
+			case (int)OPEN_PARTITION:
 				partition.setText("Open");
 				break;
-			case CLOSED_PARTITION:
+			case (int)CLOSED_PARTITION:
 				partition.setText("Closed");
 				break;				
-			case OTHER_PARTITION:
+			case (int)OTHER_PARTITION:
 				partition.setText("Other");
 			}
 			return partition;
@@ -124,23 +134,11 @@ public class RestaurantAdapter extends BaseAdapter {
 		
 	}
 	
-	// returns a string that appears under the restaurant name on the front page
-	private String getSpecialText(Restaurant r) {
-		int toOpen = r.minutesToOpen();
-		if (toOpen==0) {
-			int min = r.minutesToClose();
-			if (min<=60)
-				return "closes in " + min + " minutes";
-			else return "closes at " + r.getNextCloseTime().toString();
-		} else if (toOpen>0) {
-			if (toOpen<=60)
-				return "opens in " + toOpen + " minutes";
-			else return "opens at " + r.getNextOpenTime().toString();
-		} else return "closed"; // closed for the day
-	}
-	
-	// sets sort method for list, sorts, and returns the position of the favorites partition
-	// -1 if no mergeSort includes no favorites partition
+	/**
+	 * Sets sort method for list and sorts
+	 * @param sortType 
+	 * 		a class constant
+	 */
 	public void setSort(int sortType) {
 		// first remove partitions if this is a later sort
 		if (_order != null)
@@ -208,6 +206,41 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	
+	/**	
+	 * @return 
+	 * the underlying array of Restaurant row ids and partitions,
+	 * modifying this will change the actual sort of the RestaurantAdapter
+	 */
+	public ArrayList<Long> getSortOrder() {
+		return _order;
+	}
+	
+	
+	/**
+	 * @param order
+	 * the new order of display elements, add a partition using the 
+	 * class constants as row ids
+	 */
+	public void setSortOrder(ArrayList<Long> order) {
+		_order = order;
+	}
+	
+	private String getSpecialText(Restaurant r) {
+		int toOpen = r.minutesToOpen();
+		if (toOpen==0) {
+			int min = r.minutesToClose();
+			if (min<=60)
+				return "closes in " + min + " minutes ";
+			else return "closes at " + r.getNextCloseTime().toString() + " ";
+		} else if (toOpen>0) {
+			if (toOpen<=60)
+				return "opens in " + toOpen + " minutes ";
+			else return "opens at " + r.getNextOpenTime().toString() + " ";
+		} else return "closed "; // closed for the day
+	}
+	
+	
+	
 	// returns the first instance of a non favorite element in the sort, -1 if all are favorites
 	// useful in in lists sorted by favorites
 	private int firstNonFavorite() {
@@ -242,22 +275,20 @@ public class RestaurantAdapter extends BaseAdapter {
 				toSort.set(i++, left.get(li++));
 			else toSort.set(i++, right.get(ri++));
 		}
-		if (left.size()>0)
-			for (;li < left.size();)
-				toSort.set(i++, left.get(li++));
-		else 
-			for (;ri < right.size();)
-				toSort.set(i++, right.get(ri++));
+		for (;li < left.size();)
+			toSort.set(i++, left.get(li++));
+		for (;ri < right.size();)
+			toSort.set(i++, right.get(ri++));
 	}
 	// compare method for merge, 'less or equal'
 	private boolean compare(long first, long second, int sortType) {
 		switch (sortType) {
 		case FAVORITE:
-			return Restaurant.favorite(first);
+			return !(!Restaurant.favorite(first) && Restaurant.favorite(second));
 		case ALPHABETICAL:
 			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
 		case OPEN_CLOSED:
-			return Restaurant.getHours(first).isOpen();
+			return !(!Restaurant.getHours(first).isOpen() && Restaurant.getHours(second).isOpen());
 		case NEAR_FAR:
 			return true;
 		default:

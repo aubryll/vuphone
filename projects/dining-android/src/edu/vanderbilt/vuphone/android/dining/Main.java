@@ -26,7 +26,7 @@ public class Main extends ListActivity {
 	// austin added this to toggle the more inane log statements
 	public static final boolean DEBUG = true; 
 	
-	public static Context mainContext;
+	public static Context applicationContext;
 	/**The first case in the menu*/
 	private static final int MENU_ITEM_VIEW_MAP = 0;
 	/** The second case in the menu */
@@ -40,17 +40,21 @@ public class Main extends ListActivity {
 		// clunky mechanic with gross file dependency,
 		// but DBWrapper needs Main.mainContext for its
 		// calls to DBAdapter
-		mainContext = this;
+		if (applicationContext == null)
+			applicationContext = getApplicationContext();
 		
-		deleteAllRestaurants();
-		addRandomRestaurantsToDB(20);
-		
-		
-		Log.i("test", Restaurant.getIDs().toString());
+		//deleteAllRestaurants();
+		//addRandomRestaurantsToDB(20);
 				
-		RestaurantAdapter ra = new RestaurantAdapter(this);
+		RestaurantAdapter ra = new RestaurantAdapter(this, RestaurantAdapter.UNSORTED);
+		setListAdapter(ra); // display to user while list sorts
+							// I've also included a constructor which takes
+							// an initial sort state, which could be useful
+							// if such information could be saved between application
+							// runs.
+		
 		ra.setSort(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
-		setListAdapter(ra);
+		setListAdapter(ra); // redisplay using correct sorting
 		
 		getListView().setTextFilterEnabled(true);
 	}
@@ -112,9 +116,12 @@ public class Main extends ListActivity {
 	}
 
 	private void addRandomRestaurantsToDB(int numRest) {
+		String []letters = {"a", "b", "c", "d", "e", "f", "g", "h", 
+				"i","k", "l", "m", "n","o","p","q","r",
+				"s","t","u","v","w","x","y","z"};
 		Log.i("test", "loading database with valid random data");
 		Random r = new Random();
-		for (int i = 0; i < numRest; i++) {
+		for (int i = 1; i <= numRest; i++) {
 			RestaurantHours rh = new RestaurantHours();
 			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
 				int ranges = r.nextInt(2) + 1;
@@ -128,9 +135,12 @@ public class Main extends ListActivity {
 				}
 			}
 			Restaurant restaurant = new Restaurant();
-			restaurant.setAttributes("Restaurant " + i, rh, r.nextInt(), r
+			String name = new String();
+			for (int j = 0; j<7; j++)
+				name = name + letters[r.nextInt(letters.length)];
+			restaurant.setAttributes(name + " " + i, rh, r.nextInt(), r
 					.nextInt(), r.nextBoolean(),
-					"Known for its fine cuisine, this is Restaurant " + i);
+					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i);
 			restaurant.create();
 			Log.i("test", restaurant.toString());
 		}

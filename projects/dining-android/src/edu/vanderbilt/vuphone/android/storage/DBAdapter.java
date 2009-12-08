@@ -139,6 +139,8 @@ public class DBAdapter {
 		do {
 			restaurantIds.add(c.getLong(c.getColumnIndex(COLUMN_ID)));
 		} while (c.moveToNext());
+		
+		c.close();
 
 		return restaurantIds;
 	}
@@ -173,8 +175,9 @@ public class DBAdapter {
 		int longitude = c.getInt(c.getColumnIndex(COLUMN_LONGITUDE));
 		boolean fav = (c.getInt(c.getColumnIndex(COLUMN_FAVORITE)) == 1);
 		
-		Restaurant r = new Restaurant(name, hours, latitude, longitude, fav);
-		return r;
+		c.close();
+		
+		return new Restaurant(name, hours, latitude, longitude, fav);
 	}
 	
     /**
