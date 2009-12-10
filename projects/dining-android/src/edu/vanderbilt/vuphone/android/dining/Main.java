@@ -46,14 +46,8 @@ public class Main extends ListActivity {
 		//deleteAllRestaurants();
 		//addRandomRestaurantsToDB(20);
 				
-		RestaurantAdapter ra = new RestaurantAdapter(this, RestaurantAdapter.UNSORTED);
-		setListAdapter(ra); // display to user while list sorts
-							// I've also included a constructor which takes
-							// an initial sort state, which could be useful
-							// if such information could be saved between application
-							// runs.
-		
-		ra.setSort(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
+		RestaurantAdapter ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_OPEN_CLOSED);
+		//ra.setSort(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra); // redisplay using correct sorting
 		
 		getListView().setTextFilterEnabled(true);
