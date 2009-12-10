@@ -18,16 +18,17 @@ public class Restaurant {
 	private String _url;
 
 	public Restaurant() {
-		setAttributes("", new RestaurantHours(), 0, 0, false, "");
+		this(null);
 	}
 	public Restaurant(String name) {
-		setAttributes(name, new RestaurantHours(), 0, 0, false, "");
+		this(name, null, false);
 	}
-	public Restaurant(String name, RestaurantHours hours, int latitude, int longitude, boolean favorite) {
-		setAttributes(name, hours, latitude, longitude, favorite, "");
+	public Restaurant(String name, RestaurantHours hours, boolean favorite) {
+		this(name, hours, favorite, 0, 0, null, null, 0x0, true, false, null, null);
 	}
-	public Restaurant(String name, RestaurantHours hours, int latitude, int longitude, boolean favorite, String description) {
-		setAttributes(name, hours, latitude, longitude, favorite, description);
+	public Restaurant(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, Menu menu,
+			String description, int iconId, boolean onTheCard, boolean offCampus, String phoneNumber, String url) {
+		setAttributes(name, hours, favorite, latitude, longitude, menu, description, iconId, onTheCard, offCampus, phoneNumber, url);
 	}
 
 	public boolean 			isOpen() 			{return _hours.isOpen();}
@@ -36,28 +37,47 @@ public class Restaurant {
 	public Time 			getNextOpenTime()	{return _hours.getNextOpenTime();}
 	public Time 			getNextCloseTime()	{return _hours.getNextCloseTime();}
 	
-	
+	// these methods may return null
 	public String 			getName() 			{return _name;}
 	public int 				getLat() 			{return _latitude;}
 	public int 				getLon() 			{return _longitude;}
 	public RestaurantHours 	getHours() 			{return _hours;}
-	public boolean 			favorite() 			{return _favorite;}
 	public String 			getDescription()	{return _description;}
+	public Menu 			getMenu()			{return _menu;}
+	public boolean 			favorite() 			{return _favorite;}
+	public boolean			onTheCard()			{return _onTheCard;}
+	public boolean			offCampus()			{return _offCampus;}
+	public boolean			tasteOfNashville()	{return _onTheCard && _offCampus;}
+	public String			getPhoneNumber()	{return _phoneNumber;}
+	public String			getUrl()			{return _url;}
+	public int				getIcon()			{return _icon;}
 
-	public void setAttributes(String name, RestaurantHours hours, 
-			int latitude, int longitude, boolean favorite, String description) {
+	public void setAttributes(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, Menu menu,
+			String description, int iconId, boolean onTheCard, boolean offCampus, String phoneNumber, String url) {
 		setName(name);
 		setHours(hours);
-		setLocation(latitude, longitude);
 		setFavorite(favorite);
+		setLocation(latitude, longitude);
 		setDescription(description);
+		setMenu(menu);
+		setIcon(iconId);
+		setOnTheCard(onTheCard);
+		setOffCampus(offCampus);
+		setPhoneNumber(phoneNumber);
+		setUrl(url);
 	}
 	public void setName(String name)			{_name = name;}
-	public void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
 	public void setHours(RestaurantHours hrs)	{_hours = hrs;}
+	public void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
 	public void setFavorite(boolean fav) 		{_favorite = fav;}
+	public void setMenu(Menu menu) 				{_menu = menu;}
 	public void setDescription(String desc)		{_description = desc;}
-	
+	public void	setOnTheCard(boolean card)		{_onTheCard = card;}
+	public void	setOffCampus(boolean off)		{_offCampus = off;}
+	public void	setPhoneNumber(String number)	{_phoneNumber = number;}
+	public void setUrl(String url)				{_url = url;}
+	public void	setIcon(int iconID)				{_icon = iconID;}
+
 	public boolean create() 					{return DBWrapper.create(this);}
 	
 	public String toString() {
@@ -77,6 +97,8 @@ public class Restaurant {
 	public static int getLon(long rowID) 				{return DBWrapper.getLon(rowID);}
 	public static RestaurantHours getHours(long rowID) 	{return DBWrapper.getHours(rowID);}
 	public static boolean favorite(long rowID) 			{return DBWrapper.favorite(rowID);}
+	public static boolean onTheCard(long rowID)			{return DBWrapper.onTheCard(rowID);}
+	public static boolean offCampus(long rowID)			{return DBWrapper.offCampus(rowID);}
 	public static boolean create(Restaurant r) 			{return DBWrapper.create(r);}
 }
 

@@ -2,7 +2,6 @@ package edu.vanderbilt.vuphone.android.objects;
 
 import java.util.ArrayList;
 
-import android.content.Context;
 import edu.vanderbilt.vuphone.android.dining.Main;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
@@ -92,6 +91,12 @@ public class DBWrapper {
 	}
 	public static boolean favorite(long rowID) {
 		return get(rowID).favorite();
+	}
+	public static boolean onTheCard(long rowID) { // TODO implement these
+		return true;
+	}
+	public static boolean offCampus(long rowID) {
+		return false;
 	}
 	
 	public static boolean create(Restaurant r) {

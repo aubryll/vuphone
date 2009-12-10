@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import edu.vanderbilt.vuphone.android.objects.Menu;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 
@@ -177,7 +178,8 @@ public class DBAdapter {
 		
 		c.close();
 		
-		return new Restaurant(name, hours, latitude, longitude, fav);
+		// need to implement the rest of the elements of this constructor
+		return new Restaurant(name, hours, fav, latitude, longitude, null, null, 0x0, true, false, null, null);
 	}
 	
     /**
