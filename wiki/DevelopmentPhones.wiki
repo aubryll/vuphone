@@ -1,7 +1,5 @@
 #summary A list of the students that currently have development phones and contact information.
 
-= Introduction =
-
 We've gotten several development phones from Google, and they are available for you to use if you're working on an Android project. If you need a phone, contact one of the people who currently have them and update this wiki page with your contact information.
 
 = Current Owners =
