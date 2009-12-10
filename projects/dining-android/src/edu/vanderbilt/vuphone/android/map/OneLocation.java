@@ -8,6 +8,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
 import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.objects.Restaurant;
 
 /**
  * Creates the map that displays the location of one dining facilities
@@ -16,9 +17,7 @@ import edu.vanderbilt.vuphone.android.dining.R;
  */
 public class OneLocation extends MapActivity {
 
-	public static final String EXTRA_LONGITUDES = "longitude";
-	public static final String EXTRA_LATITUDES = "latitudes";
-	public static final String EXTRA_LOCATIONS = "locations";
+	public static final String RESTAURANT_ID = "RESTAURANT_ID";
 	/**
 	 * sets the zoom so that enough of surrounding campus is displayed for
 	 * context but focus is kept on particular restaurant
@@ -34,9 +33,8 @@ public class OneLocation extends MapActivity {
 
 		Bundle extras = getIntent().getExtras();
 		if (!extras.isEmpty()) {
-			int longitude = extras.getInt(EXTRA_LONGITUDES);
-			int latitude = extras.getInt(EXTRA_LATITUDES);
-			String location = extras.getString(EXTRA_LOCATIONS);
+			Long restaurantID = extras.getLong(RESTAURANT_ID);
+			Restaurant restaurant = Restaurant.get(restaurantID);
 
 			// start map view and enable zoom controls
 			setContentView(R.layout.map);
@@ -45,11 +43,12 @@ public class OneLocation extends MapActivity {
 			mapView.setClickable(true);
 
 			mapView.getController().setZoom(ZOOM);
-			GeoPoint point = new GeoPoint(longitude, latitude);
+			GeoPoint point = new GeoPoint(restaurant.getLon(), restaurant
+					.getLat());
 			mapView.getController().setCenter(point);
 
 			// add the icons for dining locations
-			diningOverlay = new SingleOverlay(this, point, location);
+			diningOverlay = new SingleOverlay(this, point, restaurant.getName());
 
 			MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 					mapView);

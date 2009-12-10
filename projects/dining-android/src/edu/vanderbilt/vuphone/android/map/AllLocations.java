@@ -16,20 +16,15 @@ import edu.vanderbilt.vuphone.android.dining.R;
  */
 public class AllLocations extends MapActivity {
 
-	public static final String EXTRA_LONGITUDES = "longitudes";
-	public static final String EXTRA_LATITUDES = "latitudes";
-	public static final String EXTRA_LOCATIONS = "restaurants";
-	/** sets zoom so all dining locations are visible without panning */
+	/**
+	 * sets zoom so all dining locations and most of Vanderbilts campus are
+	 * visible without panning
+	 */
 	public static final int ZOOM = 16;
 
 	@Override
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
-
-		Bundle extras = getIntent().getExtras();
-		int[] longitudes = extras.getIntArray(EXTRA_LONGITUDES);
-		int[] latitudes = extras.getIntArray(EXTRA_LATITUDES);
-		String[] locations = extras.getStringArray(EXTRA_LOCATIONS);
 
 		MapView mapView;
 		AllOverlays diningOverlay;
@@ -46,7 +41,7 @@ public class AllLocations extends MapActivity {
 		mapView.getController().setCenter(point);
 
 		// creates the overlay containing markers for all dining locations
-		diningOverlay = new AllOverlays(this, longitudes, latitudes, locations);
+		diningOverlay = new AllOverlays(this);
 
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 				mapView);
