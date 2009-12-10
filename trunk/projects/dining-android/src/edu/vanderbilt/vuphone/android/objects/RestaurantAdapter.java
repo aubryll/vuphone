@@ -114,7 +114,9 @@ public class RestaurantAdapter extends BaseAdapter {
 		} else {
 			TextView partition = new TextView(_context);
 			partition.setGravity(Gravity.CENTER);
-			partition.setFocusable(false);
+			//partition.setFocusable(false);
+			partition.setClickable(false);
+			partition.setTextSize((float) 22.0);
 			switch ((int)(long)(Long)current) { // lol...
 			case (int)FAVORITE_PARTITION:
 				partition.setText("Favorites");

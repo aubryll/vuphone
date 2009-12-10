@@ -5,11 +5,17 @@ import java.util.ArrayList;
 public class Restaurant {
 		
 	private String _name;
+	private RestaurantHours _hours;
+	private Menu _menu;
+	private String _description;
+	private int _icon;
 	private int _latitude;
 	private int _longitude;
-	private String _description;
 	private boolean _favorite;
-	private RestaurantHours _hours;
+	private boolean _onTheCard;
+	private boolean _offCampus; // taste of nashville
+	private String _phoneNumber;
+	private String _url;
 
 	public Restaurant() {
 		setAttributes("", new RestaurantHours(), 0, 0, false, "");
