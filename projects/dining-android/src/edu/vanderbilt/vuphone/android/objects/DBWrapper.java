@@ -89,6 +89,9 @@ public class DBWrapper {
 	public static RestaurantHours getHours(long rowID) {
 		return get(rowID).getHours();
 	}
+	public static String getType(long rowID) { // TODO implement this
+		return "";
+	}
 	public static boolean favorite(long rowID) {
 		return get(rowID).favorite();
 	}
