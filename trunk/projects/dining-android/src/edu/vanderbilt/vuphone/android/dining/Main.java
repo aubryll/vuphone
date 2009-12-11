@@ -46,7 +46,7 @@ public class Main extends ListActivity {
 		//deleteAllRestaurants();
 		//addRandomRestaurantsToDB(20);
 				
-		RestaurantAdapter ra = new RestaurantAdapter(this, RestaurantAdapter.OPEN_CLOSED);
+		RestaurantAdapter ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_OPEN_CLOSED);
 		//ra.setSort(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra); // redisplay using correct sorting
 		
@@ -133,7 +133,7 @@ public class Main extends ListActivity {
 			for (int j = 0; j<7; j++)
 				name = name + letters[r.nextInt(letters.length)];
 			restaurant.setAttributes(name + " " + i, rh, r.nextBoolean(), r.nextInt(), r
-					.nextInt(), null, 
+					.nextInt(), null, null, 
 					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, 0x0, true,
 					 false, null, null);
 			restaurant.create();

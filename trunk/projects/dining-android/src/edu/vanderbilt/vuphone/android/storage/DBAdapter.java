@@ -179,7 +179,7 @@ public class DBAdapter {
 		c.close();
 		
 		// need to implement the rest of the elements of this constructor
-		return new Restaurant(name, hours, fav, latitude, longitude, null, null, 0x0, true, false, null, null);
+		return new Restaurant(name, hours, fav, latitude, longitude, null, null, null, 0x0, true, false, null, null);
 	}
 	
     /**

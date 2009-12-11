@@ -79,8 +79,10 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	public View getView(int i, View convertView, ViewGroup parent) {
 		// current is either Restaurant or int
-		Object current = getItem(i);
-		if (current instanceof Restaurant) {
+		long rID = getItemId(i);
+		//Object current = getItem(i);
+		//if (current instanceof Restaurant) {
+		if (rID>0) {
 			
 			ViewWrapper wrapper;
 			// checks if convertView not initialized, or initialized to partition
@@ -93,17 +95,17 @@ public class RestaurantAdapter extends BaseAdapter {
 				wrapper = (ViewWrapper)convertView.getTag();
 			}
 			
-			Restaurant r = (Restaurant)current;
+			//Restaurant r = (Restaurant)current;
 			 if (displayFav) {
-				 wrapper.getFavoriteView().setImageResource(r.favorite()?
+				 wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
 					R.drawable.dining:		// favorite icon 
 					R.drawable.icon);		// nonfavorite icon
 				 // TODO add proper favorite/nonfavorite icons
 			 } else {
 				 wrapper.getFavoriteView().setVisibility(ImageView.GONE);
 			 }
-			 wrapper.getNameView().setText(r.getName());
-			 wrapper.getSpecialView().setText(getSpecialText(r));
+			 wrapper.getNameView().setText(Restaurant.getName(rID));
+			 wrapper.getSpecialView().setText(getSpecialText(Restaurant.getHours(rID)));
 
 	/*		if (!r.isOpen()) {
 				((ImageView)parent.findViewById(R.mainListItem.favoriteIcon))
@@ -117,7 +119,7 @@ public class RestaurantAdapter extends BaseAdapter {
 			//partition.setFocusable(false);
 			partition.setClickable(false);
 			partition.setTextSize((float) 22.0);
-			switch ((int)(long)(Long)current) { // lol...
+			switch ((int)rID) { // lol...
 			case (int)FAVORITE_PARTITION:
 				partition.setText("Favorites");
 				break;
@@ -227,17 +229,17 @@ public class RestaurantAdapter extends BaseAdapter {
 		_order = order;
 	}
 	
-	private String getSpecialText(Restaurant r) {
-		int toOpen = r.minutesToOpen();
+	private String getSpecialText(RestaurantHours rh) {
+		int toOpen = rh.minutesToOpen();
 		if (toOpen==0) {
-			int min = r.minutesToClose();
+			int min = rh.minutesToClose();
 			if (min<=60)
 				return "closes in " + min + " minutes ";
-			else return "closes at " + r.getNextCloseTime().toString() + " ";
+			else return "closes at " + rh.getNextCloseTime().toString() + " ";
 		} else if (toOpen>0) {
 			if (toOpen<=60)
 				return "opens in " + toOpen + " minutes ";
-			else return "opens at " + r.getNextOpenTime().toString() + " ";
+			else return "opens at " + rh.getNextOpenTime().toString() + " ";
 		} else return "closed "; // closed for the day
 	}
 	
