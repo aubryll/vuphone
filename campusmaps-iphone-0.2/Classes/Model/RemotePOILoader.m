@@ -86,6 +86,8 @@
 	}
 	
 	[responseXml release];
+	
+	NSLog(@"Finished loading POIs from server");
 
 	return [POIs autorelease];
 }
@@ -100,7 +102,8 @@
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_NAME" error:&err] objectAtIndex:0];
 	poi.name = [prop stringValue];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_URL" error:&err] objectAtIndex:0];
-	poi.url = [prop stringValue];
+	// The URL string is always all caps, but the real URL isn't really
+	poi.url = [[prop stringValue] lowercaseString];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_REMARKS" error:&err] objectAtIndex:0];
 	poi.details = [prop stringValue];
 

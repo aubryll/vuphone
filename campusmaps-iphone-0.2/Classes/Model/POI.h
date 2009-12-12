@@ -14,10 +14,13 @@
 #define CAMPUS_CENTER_LATITUDE 36.142
 #define CAMPUS_CENTER_LONGITUDE -86.8044
 
+#define BASE_IMAGE_URL_STRING @"http://www.vanderbilt.edu/map/"
+
 @class Layer;
 
 @interface POI :  NSManagedObject <MKAnnotation>
 {
+	UIImage *_image;
 }
 
 @property (nonatomic, retain) NSDecimalNumber * longitude;
@@ -33,6 +36,7 @@
 
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context;
 - (void)setEPSG900913CoordinatesLat:(double)x andLon:(double)y;
+- (UIImage *)image;
 
 @end
 

@@ -69,6 +69,15 @@
 	return self.name;
 }
 
-
+// Returns the image for this POI, whose URL is specified in the url property
+- (UIImage *)image {
+	if (!_image) {
+		NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
+		NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+		_image = [[UIImage alloc] initWithData:imageData];
+	}
+	
+	return _image;
+}
 
 @end
