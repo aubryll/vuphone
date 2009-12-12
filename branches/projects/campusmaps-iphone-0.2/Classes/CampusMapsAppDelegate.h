@@ -7,16 +7,16 @@
 //
 
 #import "MapViewController.h"
-#import "BaseViewController.h"
 
 @interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate> {
 
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
     UIWindow *window;
-	IBOutlet BaseViewController *baseViewController;
+	
+	IBOutlet MapViewController *mapViewController;
+	IBOutlet UINavigationController *navController;
 	
 }
 

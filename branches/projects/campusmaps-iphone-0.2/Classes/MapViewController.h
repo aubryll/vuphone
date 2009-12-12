@@ -18,6 +18,9 @@
 	
 	IBOutlet UISegmentedControl* mapType;
 	IBOutlet MKMapView* mapView;
+	IBOutlet UIBarButtonItem* homeButton;
+	IBOutlet UIBarButtonItem* showLayersButton;
+	
 	NSManagedObjectContext* managedObjectContext;
 }
 

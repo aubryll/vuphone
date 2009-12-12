@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "POI.h"
 #import "Layer.h"
+#import "POIViewController.h"
 
 @implementation MapViewController
 
@@ -24,16 +25,15 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	// mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
 	
-	//mapView.showsUserLocation = TRUE;
-	//mapView.mapType = MKMapTypeStandard;
-	// mapView.delegate = self;
-	
+	self.navigationItem.leftBarButtonItem = homeButton;
+	self.navigationItem.rightBarButtonItem = showLayersButton;
+	self.navigationItem.title = @"Campus Maps";
 
 	Layer *anyLayer = [[Layer allLayers:managedObjectContext] anyObject];
 	currentLayerController = [[MapLayerController alloc] initWithLayer:anyLayer];
-
+	
+	
 	CLLocationCoordinate2D location;
 	location.latitude = CAMPUS_CENTER_LATITUDE;
 	location.longitude = CAMPUS_CENTER_LONGITUDE;
@@ -127,14 +127,31 @@
 	[currentLayerController addAnnotationsToMapView:mapView];
 }
 
+#pragma mark MKMapViewDelegate
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
 	annView.animatesDrop = YES;
 	annView.userInteractionEnabled = YES;
 	annView.canShowCallout = YES;
+	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	return [annView autorelease];
 }
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+	POI *poi = (POI *)view.annotation;
+	
+	// Push the POI detail view controller
+	POIViewController *poiVC = [[POIViewController alloc] initWithNibName:@"POIViewController" bundle:nil];
+	poiVC.poi = poi;
+	poiVC.title = @"POI";
+	
+	[self.navigationController pushViewController:poiVC animated:YES];
+	[poiVC release];
+}
+
+
 
 - (void)dealloc {
 	[mapView autorelease];
