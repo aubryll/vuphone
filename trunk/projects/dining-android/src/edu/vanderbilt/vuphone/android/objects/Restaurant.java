@@ -71,6 +71,8 @@ public class Restaurant {
 	}
 	public void setName(String name)			{_name = name;}
 	public void setHours(RestaurantHours hrs)	{_hours = hrs;}
+	public void setLatitude(int latitude)		{_latitude = latitude;}
+	public void setLongidute(int longitude)		{_longitude = longitude;}
 	public void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
 	public void setFavorite(boolean fav) 		{_favorite = fav;}
 	public void setType(String type)			{_type = type;}
