@@ -20,8 +20,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
-    // Override point for customization after app launch   
-	baseViewController.managedObjectContext = [self managedObjectContext];
+	mapViewController.managedObjectContext = [self managedObjectContext];
 	
 	// Add a layer if none exist
 	NSSet *allLayers = [Layer allLayers:[self managedObjectContext]];
@@ -36,7 +35,9 @@
 		}
 	}
 	
-	[window addSubview:baseViewController.view];
+	
+	[window addSubview:navController.view];
+	[navController pushViewController:mapViewController animated:NO];
 	[window makeKeyAndVisible];
 	
 	[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
