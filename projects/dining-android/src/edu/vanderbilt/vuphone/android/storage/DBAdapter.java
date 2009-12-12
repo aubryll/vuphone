@@ -46,8 +46,11 @@ public class DBAdapter {
 	 * The rest of the application uses the RestaurantHours object to interface
 	 * with this column. The data stored in this column is simply an XML
 	 * representation of the data in a single RestaurantHours object.
+	 * 
+	 * I promise I'll be REEEALLYY CAREFUL! 
+	 * 	(also added a static helper method so I dont blow up the universe)
 	 */
-	protected static final String COLUMN_HOUR = "hour";
+	/*protected*/ public static final String COLUMN_HOUR = "hour";
 
 	/** Handle to the database instance */
 	private SQLiteDatabase database_;
@@ -168,8 +171,7 @@ public class DBAdapter {
 			throw new SQLException("Restaurant was not found");
 			
 		String xml = c.getString(c.getColumnIndex(COLUMN_HOUR));
-		XStream xs = new XStream(new DomDriver());
-		RestaurantHours hours = (RestaurantHours) xs.fromXML(xml);
+		RestaurantHours hours = getRestaurantHoursFromXml(xml);
 
 		String name = c.getString(c.getColumnIndex(COLUMN_NAME));
 		int latitude = c.getInt(c.getColumnIndex(COLUMN_LATITUDE));
@@ -197,6 +199,13 @@ public class DBAdapter {
                             COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
                             COLUMN_DESCRIPTION, COLUMN_FAVORITE }, null, null, null, null,
                             null);
+    }
+    
+    public Cursor getCursor(String [] columns) {
+    	return database_.query(RESTAURANT_TABLE, columns, null, null, null, null, null);
+    }
+    public Cursor getCursor(String [] columns, long rowId) {
+    	return database_.query(true, RESTAURANT_TABLE, columns, COLUMN_ID + "=" + rowId, null, null, null, null, null);
     }
 
 
@@ -264,5 +273,17 @@ public class DBAdapter {
 					errorMessage);
 			throw error;
 		}
+	}
+
+	/**
+	 * Generates RestaurantHours from database hours xml data
+	 * @param xmlFromDatabase
+	 * 		contents of a database COLUMN_HOUR
+	 * @return
+	 *		equivalent RestaurantHours object
+	 */
+	public static RestaurantHours getRestaurantHoursFromXml(String xmlFromDatabase) {
+		XStream xs = new XStream(new DomDriver());
+		return (RestaurantHours) xs.fromXML(xmlFromDatabase);
 	}
 }

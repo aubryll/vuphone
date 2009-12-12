@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	private ArrayList<Long> _order;
 	private boolean displayFav;
+	private boolean grayClosed; // currently always true
 	
 	// TODO: Implement partition 
 	public RestaurantAdapter(Context context) {
@@ -54,8 +56,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	public RestaurantAdapter(Context context, int sortType) {
 		_context = context;
 		_order = Restaurant.getIDs();
-		if (sortType!=UNSORTED)
-			setSort(sortType);
+		setSort(sortType);
 	}
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
 		_context = context;
@@ -78,10 +79,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	public View getView(int i, View convertView, ViewGroup parent) {
-		// current is either Restaurant or int
 		long rID = getItemId(i);
-		//Object current = getItem(i);
-		//if (current instanceof Restaurant) {
 		if (rID>0) {
 			
 			ViewWrapper wrapper;
@@ -94,32 +92,35 @@ public class RestaurantAdapter extends BaseAdapter {
 			} else {
 				wrapper = (ViewWrapper)convertView.getTag();
 			}
-			
 			//Restaurant r = (Restaurant)current;
-			 if (displayFav) {
-				 wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
-					R.drawable.dining:		// favorite icon 
-					R.drawable.icon);		// nonfavorite icon
-				 // TODO add proper favorite/nonfavorite icons
-			 } else {
-				 wrapper.getFavoriteView().setVisibility(ImageView.GONE);
-			 }
-			 wrapper.getNameView().setText(Restaurant.getName(rID));
-			 wrapper.getSpecialView().setText(getSpecialText(Restaurant.getHours(rID)));
+			if (displayFav) {
+				wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
+				R.drawable.dining:		// favorite icon 
+				R.drawable.icon);		// nonfavorite icon
+			// TODO add proper favorite/nonfavorite icons
+			} else {
+				wrapper.getFavoriteView().setVisibility(ImageView.GONE);
+			}
+			wrapper.getNameView().setText(Restaurant.getName(rID));
+			wrapper.getSpecialView().setText(getSpecialText(Restaurant.getHours(rID)));
 
-	/*		if (!r.isOpen()) {
-				((ImageView)parent.findViewById(R.mainListItem.favoriteIcon))
-				((TextView)parent.findViewById(R.mainListItem.name))
-				((TextView)parent.findViewById(R.mainListItem.specialText))
-			}*/
+			if (grayClosed) {
+				boolean enabled = true;
+				if (!Restaurant.getHours(rID).isOpen()) 
+					enabled = false;
+				wrapper.getNameView().setEnabled(enabled);
+				wrapper.getSpecialView().setEnabled(enabled);
+				wrapper.getFavoriteView().setEnabled(enabled);
+			}
+			
 			 return convertView;
 		} else {
 			TextView partition = new TextView(_context);
 			partition.setGravity(Gravity.CENTER);
-			//partition.setFocusable(false);
+			partition.setFocusable(false);
 			partition.setClickable(false);
 			partition.setTextSize((float) 22.0);
-			switch ((int)rID) { // lol...
+			switch ((int)rID) { 
 			case (int)FAVORITE_PARTITION:
 				partition.setText("Favorites");
 				break;
@@ -144,13 +145,19 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * 		a class constant
 	 */
 	public void setSort(int sortType) {
+		displayFav = true;
+		grayClosed = true;
+		
+		if (sortType == UNSORTED)
+			return; // only set the above if unsorted
+		
 		// first remove partitions if this is a later sort
 		if (_order != null)
 			for (int i = 0; i<_order.size(); i++)
 				if (_order.get(i)<0)
 					_order.remove(i);
 		sort(_order, ALPHABETICAL);
-		displayFav = true;
+		
 		switch (sortType) {
 		case FAVORITE_OPEN_CLOSED:
 		{
