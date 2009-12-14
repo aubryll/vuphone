@@ -2,6 +2,8 @@ package edu.vanderbilt.vuphone.android.objects;
 
 import java.util.ArrayList;
 
+import edu.vanderbilt.vuphone.android.dining.R;
+
 public class Restaurant {
 		
 	private String _name;
@@ -107,5 +109,8 @@ public class Restaurant {
 	public static boolean onTheCard(long rowID)			{return DBWrapper.onTheCard(rowID);}
 	public static boolean offCampus(long rowID)			{return DBWrapper.offCampus(rowID);}
 	public static boolean create(Restaurant r) 			{return DBWrapper.create(r);}
+	
+	//This is just temporary until the icon IDs are added to the database
+	public static int getIcon (Long rowID)				{return R.drawable.dining;}
 }
 
