@@ -9,7 +9,6 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
 
 /**
@@ -41,7 +40,7 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> {
 					locationLatitudes[x]);
 			OverlayItem overlayItem = new OverlayItem(point, restaurants[x], "");
 			overlayItem.setMarker(boundCenterBottom(map.getResources()
-					.getDrawable(R.drawable.dining)));
+					.getDrawable(Restaurant.getIcon(restaurantIDs.get(x)))));
 			locationOverlay.add(overlayItem);
 			populate();
 		}
