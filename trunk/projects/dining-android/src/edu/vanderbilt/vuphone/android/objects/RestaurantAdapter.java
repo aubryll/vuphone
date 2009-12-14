@@ -57,7 +57,7 @@ public class RestaurantAdapter extends BaseAdapter {
 		_context = context;
 		_order = Restaurant.getIDs();
 		setSort(sortType);
-	}
+	} 
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
 		_context = context;
 		_order = sortOrder;
@@ -162,12 +162,13 @@ public class RestaurantAdapter extends BaseAdapter {
 		case FAVORITE_OPEN_CLOSED:
 		{
 			displayFav = false;
+			sort(_order, OPEN_CLOSED);
 			sort(_order, FAVORITE);
 			int nonFav = firstNonFavorite();
 			int closed;
 			if (nonFav != -1) {
 				// if some are non favorites
-				sort(_order.subList(nonFav, _order.size()), OPEN_CLOSED);
+				//sort(_order.subList(nonFav, _order.size()), OPEN_CLOSED);
 				closed = firstClosed(nonFav);
 			} else {
 				closed = -1;
@@ -177,8 +178,8 @@ public class RestaurantAdapter extends BaseAdapter {
 			if (closed != -1 && nonFav!=-1) 
 				// if some restaurants are closed which are not favorites
 				_order.add(closed, (long)CLOSED_PARTITION);
-			if (nonFav != -1) 
-				// if some are non favorites
+			if (nonFav != -1 && nonFav!=closed) 
+				// if some restaurants are open which are not favorites
 				_order.add(nonFav, (long)OPEN_PARTITION);
 			if (nonFav != 0) 
 				// if there are some favorites
