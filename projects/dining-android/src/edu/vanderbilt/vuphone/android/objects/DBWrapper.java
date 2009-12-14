@@ -15,8 +15,6 @@ import edu.vanderbilt.vuphone.android.storage.DBAdapter;
  *	Accessed through the Restaurant class
  *
  * TODO: Restaurant efficient update (esp for user changing favorites)
- * 		 Restaurant delete
- * 		 caching only parts of restaurants
  * 		 reflect any new functionality in static methods in the Restaurant class
  * 
  */
@@ -31,6 +29,7 @@ public class DBWrapper {
 	//private static boolean changed = false; // set to true every time the Database is changed
 	private static ArrayList<Long> IDs;
 	private static ArrayList<Restaurant> cache;
+	private static boolean idsCached = false;
 	private static boolean mainDataCached = false;
 	private static boolean mapDataCached = false;
 	private static ArrayList<Boolean> cached;
@@ -40,9 +39,7 @@ public class DBWrapper {
 
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Long> getIDs() {
-		if (!mainDataCached) {
-			cacheMainData();
-		}
+		cacheIDs();
 		return (ArrayList<Long>)IDs.clone();
 	}
 	
@@ -107,18 +104,31 @@ public class DBWrapper {
 		} else return false;
 	}
 	
-	private static void cacheMainData() {
+	public static void cacheIDs() {
+		if (idsCached)
+			return;
+		IDs = new ArrayList<Long>();
+		makeReadable();
+		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_ID});
+		if (c.moveToFirst()) {
+			do {
+				IDs.add(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_ID)));
+			} while (c.moveToNext());
+		}
+		idsCached = true;
+		c.close();
+	}
+	
+	public static void cacheMainData() {
 		if (mainDataCached)
 			return;
-		resetCache();
+		resetRestaurantCache();
 		makeReadable();
-		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_ID, DBAdapter.COLUMN_NAME, 
+		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_NAME, 
 			DBAdapter.COLUMN_FAVORITE, DBAdapter.COLUMN_HOUR});
 		if (c.moveToFirst()) {
-			
 			do {
 				Restaurant current = new Restaurant();
-				IDs.add(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_ID)));
 				current.setName(c.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME)));
 				current.setFavorite(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_FAVORITE)) == 1);
 				current.setHours(DBAdapter.getRestaurantHoursFromXml(c.getString(c.getColumnIndex(DBAdapter.COLUMN_HOUR))));
@@ -127,10 +137,12 @@ public class DBWrapper {
 			} while (c.moveToNext());
 		}
 		mainDataCached = true;
+		c.close();
 		close();
+
 	}
 	
-	private static void cacheMapData() {
+	public static void cacheMapData() {
 		if (mapDataCached)
 			return;
 		if (!mainDataCached)
@@ -148,16 +160,17 @@ public class DBWrapper {
 			} while (c.moveToNext());
 		}
 		mapDataCached = true;
+		c.close();
 		close();
 	}
 	
-	private static int cacheRestaurant(long rowID) {
+	public static int cacheRestaurant(long rowID) {
 		if (!mainDataCached)
 			cacheMainData();
 		int i = IDs.indexOf(rowID);
 		if (cached.get(i))
 			return i;
-		makeReadable();							// TODO remove COLUMN_ID check once this is debugged
+		makeReadable();	
 		String [] columnsToRead;
 		if (mapDataCached)
 			columnsToRead = new String [] {DBAdapter.COLUMN_DESCRIPTION};
@@ -175,6 +188,7 @@ public class DBWrapper {
 		
 		// TODO add other fields as DB implementation is updated
 		r.setDescription(c.getString(c.getColumnIndex(DBAdapter.COLUMN_DESCRIPTION)));
+		c.close();
 		close();
 		cached.set(i, true);
 		return i;
@@ -193,10 +207,12 @@ public class DBWrapper {
 //			r.setFavorite((Boolean)setTo);
 //	}
 	
-	private static void resetCache() {
+	private static void resetRestaurantCache() {
+		int restaurants = getIDs().size();
 		cache = new ArrayList<Restaurant>();
-		IDs = new ArrayList<Long>();
+		cache.ensureCapacity(restaurants);
 		cached = new ArrayList<Boolean>();
+		cached.ensureCapacity(restaurants);
 		mainDataCached = false;
 		mapDataCached = false;
 	}

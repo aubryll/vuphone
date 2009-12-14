@@ -65,11 +65,8 @@ public class MarkFavs extends ListActivity {
 		SparseBooleanArray allPositions = getListView()
 				.getCheckedItemPositions();
 		for (int x = 0; x < restaurants.length; ++x) {
-			if (allPositions.get(x)) {
-				Restaurant.get(restaurantIDs.get(x)).setFavorite(true);
-			} else {
-				Restaurant.get(restaurantIDs.get(x)).setFavorite(false);
-			}
+				Restaurant.get(restaurantIDs.get(x)).setFavorite(allPositions.get(x));
+				// TODO this line will be replaced with DB update code
 		}
 	}
 

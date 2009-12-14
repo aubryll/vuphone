@@ -14,12 +14,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
+import edu.vanderbilt.vuphone.android.objects.DBWrapper;
 import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
 import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
-import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 public class Main extends ListActivity {
 	
@@ -31,14 +31,16 @@ public class Main extends ListActivity {
 	private static final int MENU_ITEM_VIEW_MAP = 0;
 	/** The second case in the menu */
 	private static final int MENU_ITEM_MARK_FAVS = 1;
+	private static final int MENU_ITEM_OPTIONS = 2;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 
 		// clunky mechanic with gross file dependency,
-		// but DBWrapper needs Main.mainContext for its
+		// but DBWrapper needs Main.applicationContext for its
 		// calls to DBAdapter
 		if (applicationContext == null)
 			applicationContext = getApplicationContext();
@@ -47,15 +49,17 @@ public class Main extends ListActivity {
 		//addRandomRestaurantsToDB(20);
 				
 		RestaurantAdapter ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_OPEN_CLOSED);
+		
 		//ra.setSort(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra); // redisplay using correct sorting
 		
 		getListView().setTextFilterEnabled(true);
+		
 	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		if (id<0)
+		if (id<0)   // if user clicked on a partition
 			return;
 		Log.i("dining", "position " + position + " was clicked");
 		
@@ -68,8 +72,9 @@ public class Main extends ListActivity {
 
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) { // do we need to call the super here?
-		menu.add(0, MENU_ITEM_VIEW_MAP, 0, "View Map");
-		menu.add(0, MENU_ITEM_MARK_FAVS, 0, "Mark Favorites");
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map");
+		menu.add(Menu.NONE, MENU_ITEM_OPTIONS, Menu.NONE, "Sorting");
+		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark Favorites");
 		return true;
 	}
 
@@ -78,17 +83,20 @@ public class Main extends ListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case MENU_ITEM_VIEW_MAP:
-			Intent i = new Intent(this, AllLocations.class);
+			Intent toMap = new Intent(this, AllLocations.class);
 //			i.putExtra(AllLocations.EXTRA_LONGITUDES, LOCATION_LONGITUDES);
 //			i.putExtra(AllLocations.EXTRA_LATITUDES, LOCATION_LATITUDES);
 //			i.putExtra(AllLocations.EXTRA_LOCATIONS, RESTAURANTS);
-			startActivity(i);
+			startActivity(toMap);
 			return true;
 		case MENU_ITEM_MARK_FAVS:
-			Intent i2 = new Intent(this, MarkFavs.class);
+			Intent toMarkFavs = new Intent(this, MarkFavs.class);
 //			i2.putExtra(MarkFavs.EXTRA_FAVORITES, FAVORITES);
-			startActivity(i2);
+			startActivity(toMarkFavs);
 			return true;
+		case MENU_ITEM_OPTIONS:
+			Intent toOptions = new Intent(this, Options.class);
+			startActivity(toOptions);
 		default:
 			return false;
 		}
@@ -98,7 +106,7 @@ public class Main extends ListActivity {
 	// placeholder/temporary methods below
 	
 	// MAY CONFUSE DBWrapper IF USED AFTER ANY OTHER DB FUNCTIONS
-	private void deleteAllRestaurants() {
+	private void deleteAllRestaurants() {/*
 		Log.i("test", "opening writable database.");
 		DBAdapter adapt = new DBAdapter(this);
 		adapt.openWritable();
@@ -106,7 +114,10 @@ public class Main extends ListActivity {
 		Log.i("test", "deleting database contents");
 		for (int i = 0; i<ids.size(); i++)
 			adapt.deleteRestaurant(ids.get(i));
-		adapt.close();
+		adapt.close();*/
+		ArrayList<Long> ids = Restaurant.getIDs();
+		for (int i = 0; i < ids.size(); i++)
+			DBWrapper.delete(ids.get(i));
 	}
 
 	private void addRandomRestaurantsToDB(int numRest) {
@@ -132,7 +143,7 @@ public class Main extends ListActivity {
 			String name = new String();
 			for (int j = 0; j<7; j++)
 				name = name + letters[r.nextInt(letters.length)];
-			restaurant.setAttributes(name + " " + i, rh, r.nextBoolean(), r.nextInt(), r
+			restaurant.setAttributes(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
 					.nextInt(), null, null, 
 					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, 0x0, true,
 					 false, null, null);
