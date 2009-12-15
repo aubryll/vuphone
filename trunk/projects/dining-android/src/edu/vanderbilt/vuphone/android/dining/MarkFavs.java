@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import edu.vanderbilt.vuphone.android.objects.DBWrapper;
 import edu.vanderbilt.vuphone.android.objects.Restaurant;
 import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 
@@ -24,7 +25,6 @@ public class MarkFavs extends ListActivity {
 
 	public static final String ADAPTER = "adapter";
 	private long[] listOrder;
-	private ArrayList<Long> changedFavorite = new ArrayList<Long>();
 
 	public void onCreate(Bundle SavedInstanceState) {
 		super.onCreate(SavedInstanceState);
@@ -47,16 +47,10 @@ public class MarkFavs extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		if (id < 0)
 			return;
-		Log.i("dining", "position " + position + " was clicked");
-
-		// starts restaurant details page and sends index of restaurant
-		Restaurant restaurant = Restaurant.get(id);
-		if (!restaurant.favorite()) {
-			restaurant.setFavorite(true);
-		} else {
-			restaurant.setFavorite(false);
-		}
-		changedFavorite.add(id);
+		
+		// toggles the favorite in memory and in the database
+		Restaurant.setFavorite(id, !Restaurant.favorite(id));
+		
 		createList();
 	}
 
@@ -73,13 +67,13 @@ public class MarkFavs extends ListActivity {
 		setListAdapter(ra);
 
 		getListView().setTextFilterEnabled(true);
-
 	}
 
 	/** ends activity and updates favorites when done button is clicked */
 	private OnClickListener doneListener = new OnClickListener() {
 
 		public void onClick(View v) {
+			DBWrapper.commit();
 			finish();
 		}
 	};
@@ -88,14 +82,7 @@ public class MarkFavs extends ListActivity {
 	private OnClickListener cancelListener = new OnClickListener() {
 
 		public void onClick(View v) {
-			for (int x = 0; x < changedFavorite.size(); ++x) {
-				Restaurant restaurant = Restaurant.get(changedFavorite.get(x));
-				if (!restaurant.favorite()) {
-					restaurant.setFavorite(true);
-				} else {
-					restaurant.setFavorite(false);
-				}
-			}
+			DBWrapper.revert();
 			finish();
 		}
 	};

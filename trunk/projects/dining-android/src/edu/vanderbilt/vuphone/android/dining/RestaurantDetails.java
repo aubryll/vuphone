@@ -31,9 +31,6 @@ public class RestaurantDetails extends Activity {
 			// then use the static Restaurant class methods to access the
 			// DB/cache
 			// from the map activity
-			if (Main.DEBUG)
-				Log.i("Dining", "Map button for restaurant "
-						+ restaurant.getName() + " clicked.");
 			Intent startMapView = new Intent(RestaurantDetails.this,
 					OneLocation.class);
 			startMapView.putExtra(OneLocation.RESTAURANT_ID, restaurantID);
@@ -44,8 +41,6 @@ public class RestaurantDetails extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (Main.DEBUG)
-			Log.i("Dining", "Restaurant details Activity created");
 
 		rightNow = new GregorianCalendar();
 

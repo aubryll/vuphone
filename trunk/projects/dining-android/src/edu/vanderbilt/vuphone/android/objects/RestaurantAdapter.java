@@ -18,6 +18,10 @@ import edu.vanderbilt.vuphone.android.dining.R;
  * @author austin
  *
  */
+/**
+ * @author austin
+ *
+ */
 public class RestaurantAdapter extends BaseAdapter {
 
 	// unsorted, for when constructor is passed initial sort state
@@ -147,13 +151,21 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * 		a class constant
 	 */
 	public void setSort(int sortType) {
-		if (sortType == currentSortType)
-			return;
-				
-		displayFav = true;
 		grayClosed = true;
+		switch (sortType) {
+		case UNSORTED:
+		case ALPHABETICAL:
+		case OPEN_CLOSED:
+		case NEAR_FAR:
+			displayFav = true;
+			break;
+		case FAVORITE_OPEN_CLOSED:
+		case FAVORITE:
+			displayFav = false;
+			break;
+		}
 		
-		if (sortType == UNSORTED)
+		if (sortType == currentSortType || sortType == UNSORTED)
 			return; // only set the above if unsorted
 		currentSortType = sortType;
 		
@@ -167,7 +179,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		switch (sortType) {
 		case FAVORITE_OPEN_CLOSED:
 		{
-			displayFav = false;
 			sort(_order, OPEN_CLOSED);
 			sort(_order, FAVORITE);
 			int nonFav = firstNonFavorite();
@@ -195,7 +206,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		}
 		case FAVORITE:
 		{
-			displayFav = false;
 			sort(_order, FAVORITE);
 			int nonFav = firstNonFavorite();
 			if (nonFav != -1) 
@@ -221,6 +231,26 @@ public class RestaurantAdapter extends BaseAdapter {
 		case NEAR_FAR:
 		default:
 		}
+	}
+	
+	
+	/**
+	 *  Use this instead of setSort() if the underlying Restaurant data
+	 *  has changed.
+	 * @param sortType
+	 * 		class constant representing a sort method
+	 */
+	public void forceSetSort(int sortType) {
+		currentSortType = UNSORTED;
+		setSort(sortType);
+	}
+	
+	public void setShowFavIcon(boolean show) {
+		displayFav = show;
+	}
+	
+	public void setGrayClosed(boolean gray) {
+		grayClosed = gray;
 	}
 	
 	
