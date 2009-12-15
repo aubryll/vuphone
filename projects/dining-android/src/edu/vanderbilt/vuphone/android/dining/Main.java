@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
 import edu.vanderbilt.vuphone.android.objects.DBWrapper;
@@ -26,8 +28,6 @@ import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class Main extends ListActivity {
 	
-	// austin added this to toggle the more inane log statements
-	public static final boolean DEBUG = true; 
 	
 	public static Context applicationContext;
 	/**The first case in the menu*/
@@ -44,6 +44,10 @@ public class Main extends ListActivity {
 	 * locations
 	 */
 	private int currentSortMethod = RestaurantAdapter.FAVORITE_OPEN_CLOSED;
+	
+	private static final int NORMAL = 0;
+	private static final int MARK_FAVS = 1;
+	private int mode;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,6 +62,11 @@ public class Main extends ListActivity {
 
 		//deleteAllRestaurants();
 		//addRandomRestaurantsToDB(20);		
+		
+		
+		setContentView(R.layout.main);
+		mode = NORMAL;
+		
 		
 		ra = new RestaurantAdapter(this, currentSortMethod);
 		setListAdapter(ra);
@@ -83,12 +92,19 @@ public class Main extends ListActivity {
 		if (id<0)   // if user clicked on a partition
 			return;
 		Log.i("dining", "position " + position + " was clicked");
-		
-		// starts restaurant details page and sends index of restaurant
-		Intent toDetails = new Intent(this, RestaurantDetails.class);
-		toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, id);
-
-		startActivity(toDetails);
+		switch (mode) {
+		case NORMAL:
+			// starts restaurant details page and sends index of restaurant
+			Intent toDetails = new Intent(this, RestaurantDetails.class);
+			toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, id);
+			
+			startActivity(toDetails);
+			break;
+		case MARK_FAVS:
+			Restaurant.setFavorite(id, !Restaurant.favorite(id));
+			getListView().recomputeViewAttributes(v);
+			setListAdapter(ra);
+		}
 	}
 
 	/**This opens the dialog that allows the user to choose a new sorting option*/
@@ -127,9 +143,9 @@ public class Main extends ListActivity {
 
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) { 
-		menu.add(0, MENU_ITEM_VIEW_MAP, 0, "View Map");
-		menu.add(0, MENU_ITEM_MARK_FAVS, 0, "Mark Favorites");
-		menu.add(0, MENU_ITEM_CHOOSE_SORTING, 0, "Sort");
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View\nMap");
+		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark\nFavorites");
+		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Sort");
 		return true;
 	}
 
@@ -138,17 +154,27 @@ public class Main extends ListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case MENU_ITEM_VIEW_MAP:
-			Intent i = new Intent(this, AllLocations.class);
-			startActivity(i);
+			Intent toMapView = new Intent(this, AllLocations.class);
+			startActivity(toMapView);
 			return true;
 		case MENU_ITEM_MARK_FAVS:
-			Intent i2 = new Intent(this, MarkFavs.class);
-			long[] order = new long[ra.getSortOrder().size()];
-			for (int x = 0; x < ra.getSortOrder().size(); ++x) {
-				order[x] = ra.getSortOrder().get(x);
-			}
-			i2.putExtra(MarkFavs.ADAPTER, order);
-			startActivity(i2);
+			setContentView(R.layout.mark_favs);
+			mode = MARK_FAVS;
+			ra.setShowFavIcon(true);
+			setListAdapter(ra);
+			
+			((Button) findViewById(R.mark_favs.done))
+					.setOnClickListener(doneListener);
+			((Button) findViewById(R.mark_favs.cancel))
+					.setOnClickListener(cancelListener);
+			
+//			Intent toMarkFavs = new Intent(this, MarkFavs.class);
+//			long[] order = new long[ra.getSortOrder().size()];
+//			for (int x = 0; x < ra.getSortOrder().size(); ++x) {
+//				order[x] = ra.getSortOrder().get(x);
+//			}
+//			toMarkFavs.putExtra(MarkFavs.ADAPTER, order);
+//			startActivity(toMarkFavs);
 			return true;
 		case MENU_ITEM_CHOOSE_SORTING:
 			showDialog(1);
@@ -156,8 +182,31 @@ public class Main extends ListActivity {
 		default:
 			return false;
 		}
-	}
+	}	
 	
+	private OnClickListener doneListener = new OnClickListener() {
+
+		public void onClick(View v) {
+			Restaurant.commit();
+			mode = NORMAL;
+			setContentView(R.layout.main);
+			ra.forceSetSort(currentSortMethod);
+			setListAdapter(ra);
+		}
+	};
+
+	/** ends activity when cancel button is clicked */
+	private OnClickListener cancelListener = new OnClickListener() {
+
+		public void onClick(View v) {
+			Restaurant.revert();
+			mode = NORMAL;
+			setContentView(R.layout.main);
+			ra.setSort(currentSortMethod);
+			setListAdapter(ra);
+		}
+	};
+
 	
 	// placeholder/temporary methods below
 	
@@ -173,7 +222,7 @@ public class Main extends ListActivity {
 		adapt.close();*/
 		ArrayList<Long> ids = Restaurant.getIDs();
 		for (int i = 0; i < ids.size(); i++)
-			DBWrapper.delete(ids.get(i));
+			Restaurant.delete(ids.get(i));
 	}
 
 	private void addRandomRestaurantsToDB(int numRest) {

@@ -233,18 +233,47 @@ public class DBAdapter {
 	 * @param favorite
 	 *            value to set restaurant favorite to
 	 * @return true if the restaurant was successfully updated, false otherwise
+	 * 
+	 * TODO add the other fields that might be updated as they are implemented
 	 */
 	public boolean updateRestaurant(long rowId, String name, long latitude,
-			long longitude, String description, int favorite) {
+			long longitude, String description, boolean favorite) {
 
 		ContentValues args = new ContentValues(5);
 		args.put(COLUMN_NAME, name);
 		args.put(COLUMN_LATITUDE, latitude);
 		args.put(COLUMN_LONGITUDE, longitude);
 		args.put(COLUMN_DESCRIPTION, description);
-		args.put(COLUMN_FAVORITE, favorite);
-
+		args.put(COLUMN_FAVORITE, (favorite?1:0));
+		
 		return database_.update(RESTAURANT_TABLE, args,
+				COLUMN_ID + "=" + rowId, null) > 0;
+	}
+	
+	// these methods allow individual columns to be updated, without 
+	// having to pull the rest of the Restaurant from storage
+	public boolean updateColumn(long rowId, String column, int value) {
+		ContentValues args = new ContentValues(1);
+		args.put(column, value);
+		return database_.update(RESTAURANT_TABLE, args, 
+				COLUMN_ID + "=" + rowId, null) > 0;
+	}
+	public boolean updateColumn(long rowId, String column, long value) {
+		ContentValues args = new ContentValues(1);
+		args.put(column, value);
+		return database_.update(RESTAURANT_TABLE, args, 
+				COLUMN_ID + "=" + rowId, null) > 0;
+	}
+	public boolean updateColumn(long rowId, String column, boolean value) {
+		ContentValues args = new ContentValues(1);
+		args.put(column, value);
+		return database_.update(RESTAURANT_TABLE, args, 
+				COLUMN_ID + "=" + rowId, null) > 0;
+	}
+	public boolean updateColumn(long rowId, String column, String value) {
+		ContentValues args = new ContentValues(1);
+		args.put(column, value);
+		return database_.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
 

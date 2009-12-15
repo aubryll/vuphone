@@ -98,19 +98,28 @@ public class Restaurant {
 	}
 	
 	// static methods for database access
-	public static ArrayList<Long> getIDs() 				{return DBWrapper.getIDs();}
-	public static Restaurant get(long rowID) 			{return DBWrapper.get(rowID);}
-	public static String getName(long rowID) 			{return DBWrapper.getName(rowID);}
-	public static int getLat(long rowID) 				{return DBWrapper.getLat(rowID);}
-	public static int getLon(long rowID) 				{return DBWrapper.getLon(rowID);}
-	public static RestaurantHours getHours(long rowID) 	{return DBWrapper.getHours(rowID);}
-	public static String getType(long rowID)			{return DBWrapper.getType(rowID);}	
-	public static boolean favorite(long rowID) 			{return DBWrapper.favorite(rowID);}
-	public static boolean onTheCard(long rowID)			{return DBWrapper.onTheCard(rowID);}
-	public static boolean offCampus(long rowID)			{return DBWrapper.offCampus(rowID);}
-	public static boolean create(Restaurant r) 			{return DBWrapper.create(r);}
+	public static ArrayList<Long> getIDs() 					{return DBWrapper.getIDs();}
+	public static Restaurant get(long rowID) 				{return DBWrapper.get(rowID);}
+	public static String getName(long rowID) 				{return DBWrapper.getName(rowID);}
+	public static int getLat(long rowID) 					{return DBWrapper.getLat(rowID);}
+	public static int getLon(long rowID) 					{return DBWrapper.getLon(rowID);}
+	public static RestaurantHours getHours(long rowID) 		{return DBWrapper.getHours(rowID);}
+	public static String getType(long rowID)				{return DBWrapper.getType(rowID);}	
+	public static int getIcon (Long rowID)					{return DBWrapper.getIcon(rowID);}
+	public static boolean favorite(long rowID) 				{return DBWrapper.favorite(rowID);}
+	public static boolean onTheCard(long rowID)				{return DBWrapper.onTheCard(rowID);}
+	public static boolean offCampus(long rowID)				{return DBWrapper.offCampus(rowID);}
 	
-	//This is just temporary until the icon IDs are added to the database
-	public static int getIcon (Long rowID)				{return R.drawable.dining;}
+	public static boolean setFavorite(long rowID, boolean favorite) {return DBWrapper.setFavorite(rowID, favorite);}
+	
+	public static boolean commit() 							{return DBWrapper.commit();}
+	public static void revert()								{DBWrapper.revert();}
+	
+	public static boolean create(Restaurant r) 				{return DBWrapper.create(r);}
+	public static boolean update(long rowID, Restaurant r)	{return DBWrapper.update(rowID, r);}
+	public static boolean delete(long rowID)				{return DBWrapper.delete(rowID);}
+	
+	// closes the underlying database. Use if no reads or writes are soon to be made
+	public static void close()								{DBWrapper.close();}
 }
 

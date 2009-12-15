@@ -1,9 +1,11 @@
 package edu.vanderbilt.vuphone.android.objects;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import android.database.Cursor;
 import edu.vanderbilt.vuphone.android.dining.Main;
+import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 
 
@@ -36,6 +38,8 @@ public class DBWrapper {
 	//private static int cached = 0;
 	// IDs and cache the same size, parallel arrays ftw
 	
+	private static Stack<UpdateItem> updated;
+	
 
 	@SuppressWarnings("unchecked")
 	public static ArrayList<Long> getIDs() {
@@ -65,8 +69,11 @@ public class DBWrapper {
 		cacheMainData();
 		return cache.get(IDs.indexOf(rowID)).getHours();
 	}
-	public static String getType(long rowID) { // TODO implement this
+	public static String getType(long rowID) { // TODO implement these
 		return "";
+	}
+	public static int getIcon(long rowID) {
+		return R.drawable.dining;
 	}
 	public static boolean favorite(long rowID) {
 		cacheMainData();
@@ -91,7 +98,54 @@ public class DBWrapper {
 		}
 		return (rID != -1);
 	}
+	
+	// updates the database and cache immediately with new values
+	public static boolean update(long rowID, Restaurant updated) {
+		cacheIDs();
+		makeWritable();
+		int i = IDs.indexOf(rowID);
+		if (i<0)
+			return false;
+		boolean success =  adapter.updateRestaurant(rowID, updated.getName(), updated.getLat(),
+				updated.getLon(), updated.getDescription(), updated.favorite());
+		if (mainDataCached && success)
+			cache.set(i, updated);  
+		close();
+		return success;
+	}
+	
+	// updates only the local cache with new favorite, call commit() to write changes to database
+	// or revert() to revert to old settings
+	public static boolean setFavorite(long rowID, boolean favorite) {
+		if (!mainDataCached)
+			cacheMainData();
+		int i = IDs.indexOf(rowID);
+		if (i<0 || cache.get(i).favorite()==favorite)
+			return false;
+		initializeUpdateStack();
+		updated.push(new UpdateItem(i, UpdateItem.FAVORITE, !favorite));
+		cache.get(i).setFavorite(favorite);
+		return true;
+	}
+	
+	public static boolean commit() {
+		if (updated.empty())
+			return false;
+		else
+			makeWritable();
+		while (!updated.empty()) {
+			if (!updated.pop().commit())
+				throw new RuntimeException("Unable to commit all changes, undefined database behavior");
+		}
+		close();
+		return true;
+	}
 
+	public static void revert() {
+		while (!updated.empty())
+			updated.pop().revert();
+	}
+	
 	public static boolean delete(long rowID) {
 		makeWritable();
 		if (adapter.deleteRestaurant(rowID)) {
@@ -123,7 +177,7 @@ public class DBWrapper {
 	public static void cacheMainData() {
 		if (mainDataCached)
 			return;
-		resetRestaurantCache();
+		resetRestaurantCache(); // ensures IDs are cached
 		makeReadable();
 		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_NAME, 
 			DBAdapter.COLUMN_FAVORITE, DBAdapter.COLUMN_HOUR});
@@ -273,5 +327,62 @@ public class DBWrapper {
 		case CLOSED:
 			return;
 		}
+	}
+	
+	private static void initializeUpdateStack() {
+		if (updated == null)
+			updated = new Stack<UpdateItem>();
+	}
+	
+	public static class UpdateItem {
+		
+		public static final int NAME = 0;
+		public static final int HOURS = 1;
+		public static final int MENU = 2;
+		public static final int DESCRIPTION = 3;
+		public static final int TYPE = 4; 
+		public static final int ICON = 5;
+		public static final int LATITUDE = 6;
+		public static final int LONGITUDE = 7;
+		public static final int FAVORITE = 8;
+		public static final int ON_THE_CARD = 9;
+		public static final int OFF_CAMPUS = 10; 
+		public static final int PHONE_NUMBER = 11;
+		public static final int URL = 12;
+		
+		private int _i;
+		private int _field;
+		private Object _oldVal;
+		
+		public UpdateItem(int i, int field, Object old) {
+			_i = i;
+			_field = field;
+			_oldVal = old;
+		}
+		
+		// pre: adapter is writable
+		public boolean commit() {
+			switch (_field) {
+			case FAVORITE:
+				return adapter.updateColumn(IDs.get(_i), DBAdapter.COLUMN_FAVORITE, cache.get(_i).favorite());
+				
+				// no other updateItem types needed yet, so none implemented
+				
+			default:
+				return false;
+			}
+		}
+		
+		public void revert() {
+			switch (_field) {
+			case FAVORITE:
+				cache.get(_i).setFavorite((Boolean)_oldVal);
+				break;
+				
+				// same here 
+				
+			}
+		}
+
 	}
 }
