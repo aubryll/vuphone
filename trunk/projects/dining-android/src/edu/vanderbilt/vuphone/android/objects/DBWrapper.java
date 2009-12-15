@@ -97,7 +97,8 @@ public class DBWrapper {
 		if (adapter.deleteRestaurant(rowID)) {
 			int i = getIDs().indexOf(rowID);
 			if (i>=0) {
-				cache.remove(i);
+				if (mainDataCached)
+					cache.remove(i);
 				IDs.remove(i);
 			}
 			return true;
