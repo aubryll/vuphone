@@ -122,6 +122,7 @@ public class DBAdapter {
 	}
 
 	/**
+	 * not needed by DBWrapper
 	 * Get a list of all Restaurant IDs in the database
 	 * 
 	 * @return A List of Longs, where each Long is the ID of one of the
@@ -150,6 +151,7 @@ public class DBAdapter {
 	}
 
 	/**
+	 * not needed by DBWrapper
 	 * Return a Restaurant object for the given restaurant id.
 	 * 
 	 * @param rowId
@@ -187,23 +189,27 @@ public class DBAdapter {
     /**
      * Return a Cursor over the list of all restaurants in the database
      * 
+     * @param columns
+     * 			An array of column names required to be traversable by the 
+     * 			returned Cursor
      * @return This cursor allows you to reference these columns COLUMN_ID,
      *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
      *         COLUMN_DESCRIPTION, COLUMN_FAVORITE. Note that this does not
      *         allow you to reference the restaurant hours information
      */
-
-    public Cursor fetchAllRestaurantsCursor() {
-
-            return database_.query(RESTAURANT_TABLE, new String[] { COLUMN_ID,
-                            COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-                            COLUMN_DESCRIPTION, COLUMN_FAVORITE }, null, null, null, null,
-                            null);
-    }
-    
     public Cursor getCursor(String [] columns) {
     	return database_.query(RESTAURANT_TABLE, columns, null, null, null, null, null);
     }
+    
+    
+    /**
+     * @param columns
+     * 			An array of column names required to be traversable by the 
+     * 			returned Cursor
+     * @param rowId
+     * 			the rowID of the restaurant to be traversed
+     * @return A cursor to traverse over Restaurant with rowID.
+     */
     public Cursor getCursor(String [] columns, long rowId) {
     	return database_.query(true, RESTAURANT_TABLE, columns, COLUMN_ID + "=" + rowId, null, null, null, null, null);
     }
@@ -252,27 +258,6 @@ public class DBAdapter {
 	public DBAdapter openWritable() throws SQLException {
 		database_ = openHelper_.getWritableDatabase();
 		return this;
-	}
-
-	public boolean isRestaurantOpen(long rowId) {
-		Cursor c = database_.query(RESTAURANT_TABLE,
-				new String[] { COLUMN_HOUR }, COLUMN_ID + "=" + rowId, null,
-				null, null, null);
-
-		// check to make sure we could move to first aka this row existed
-		if (c.moveToFirst()) {
-			String xml = c.getString(c.getColumnIndex(COLUMN_HOUR));
-			XStream xs = new XStream(new DomDriver());
-			RestaurantHours hours = (RestaurantHours) xs.fromXML(xml);
-			// Move the isOpen call to the hours class
-			// be sure to leave it accessible from the restaurant class as well
-			return hours.isOpen();
-		} else {
-			String errorMessage = "Restaurant does not exist at that row.";
-			IllegalArgumentException error = new IllegalArgumentException(
-					errorMessage);
-			throw error;
-		}
 	}
 
 	/**

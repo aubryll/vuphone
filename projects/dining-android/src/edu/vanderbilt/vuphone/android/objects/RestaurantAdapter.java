@@ -49,6 +49,8 @@ public class RestaurantAdapter extends BaseAdapter {
 	private boolean displayFav;
 	private boolean grayClosed; // currently always true
 	
+	private int currentSortType;
+	
 	// TODO: Implement partition 
 	public RestaurantAdapter(Context context) {
 		this(context, DEFAULT);
@@ -145,11 +147,15 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * 		a class constant
 	 */
 	public void setSort(int sortType) {
+		if (sortType == currentSortType)
+			return;
+				
 		displayFav = true;
 		grayClosed = true;
 		
 		if (sortType == UNSORTED)
 			return; // only set the above if unsorted
+		currentSortType = sortType;
 		
 		// first remove partitions if this is a later sort
 		if (_order != null)

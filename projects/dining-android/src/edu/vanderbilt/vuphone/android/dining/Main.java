@@ -56,9 +56,9 @@ public class Main extends ListActivity {
 		if (applicationContext == null)
 			applicationContext = getApplicationContext();
 
-		// deleteAllRestaurants();
-		// addRandomRestaurantsToDB(20);
-
+		//deleteAllRestaurants();
+		//addRandomRestaurantsToDB(20);		
+		
 		ra = new RestaurantAdapter(this, currentSortMethod);
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
@@ -126,8 +126,7 @@ public class Main extends ListActivity {
 	}
 
 	/** Creates list of actions for user when the menu button is clicked */
-	public boolean onCreateOptionsMenu(Menu menu) { // do we need to call the
-		// super here?
+	public boolean onCreateOptionsMenu(Menu menu) { 
 		menu.add(0, MENU_ITEM_VIEW_MAP, 0, "View Map");
 		menu.add(0, MENU_ITEM_MARK_FAVS, 0, "Mark Favorites");
 		menu.add(0, MENU_ITEM_CHOOSE_SORTING, 0, "Sort");
@@ -181,17 +180,18 @@ public class Main extends ListActivity {
 		String []letters = {"a", "b", "c", "d", "e", "f", "g", "h", 
 				"i","k", "l", "m", "n","o","p","q","r",
 				"s","t","u","v","w","x","y","z"};
+		int maxRanges = 2;
 		Log.i("test", "loading database with valid random data");
 		Random r = new Random();
 		for (int i = 1; i <= numRest; i++) {
 			RestaurantHours rh = new RestaurantHours();
 			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
-				int ranges = r.nextInt(2) + 1;
+				int ranges = r.nextInt(maxRanges) + 1;
 				for (int k = 0; k < ranges; k++) {
-					Time start = new Time(r.nextInt(12 / ranges) + k * 12, r
+					Time start = new Time(r.nextInt(12 / ranges) + k * 24/ranges, r
 							.nextInt(59));
 					Time stop = new Time(
-							(r.nextInt(12) + 12) / ranges + k * 12, r
+							(r.nextInt(12) + 12) / ranges + k * 24/ranges, r
 									.nextInt(59));
 					rh.addRange(day, new Range(start, stop));
 				}
@@ -205,7 +205,6 @@ public class Main extends ListActivity {
 					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, 0x0, true,
 					 false, null, null);
 			restaurant.create();
-			Log.i("test", restaurant.toString());
 		}
 	}
 

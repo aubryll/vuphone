@@ -17,6 +17,7 @@ public class RestaurantHours {
 	// default constructor initializes the array and each of its elements
 	public RestaurantHours () {
 		_openRanges = new ArrayList<ArrayList<Range>>();
+		_openRanges.ensureCapacity(7);
 		for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
 			_openRanges.add(new ArrayList<Range>());
 		}
@@ -125,7 +126,6 @@ public class RestaurantHours {
 	// returns the next closing time, midnight if closed for the day
 	public Time getNextCloseTime() {
 		Range current = getCurrentRange();
-		Time now = new Time();
 		if (current.notNull()) 
 			return current.getEnd();
 		return new Time(0,0);
@@ -211,6 +211,82 @@ public class RestaurantHours {
 		return out.toString();
 	}
 	
+	// flattens a days ranges into at most 64 bits (21*3 + 1)
+	public long flatten(int calendarDay) {
+		ArrayList<Range> day = getRanges(calendarDay);
+		long out;
+		switch (day.size()) {
+		case 0: case 1: case 2:
+			out = 0; // rightmost mode bit set to 0 
+						//	(can be encoded and decoded with only bit shifts, but is less data efficient)
+			for (int i = 0; i < day.size(); i++) {
+				out += (long)day.get(i).getStart().getHour() << 22*i + 1;
+				out += (long)day.get(i).getStart().getMinute() << 22*i + 6;
+				out += (long)day.get(i).getEnd().getHour() << 22*i + 12;
+				out += (long)day.get(i).getStart().getMinute() << 22*i + 17;
+			}
+			return out;
+		case 3:
+			out = 1; // rightmost mode bit set to 1
+						//	(uses multiplication and division to encode and decode, 
+						//  but is more data efficient, and can fit 3 ranges in 63 bits, plus the mode bit)
+			for (int i = 0; i < day.size(); i++) {
+				out += (long)day.get(i).getStart().getHour() +
+					24*((long)day.get(i).getStart().getMinute() +
+					60*((long)day.get(i).getEnd().getHour() +
+					24*((long)day.get(i).getEnd().getMinute()))) << 21*i + 1;
+			}
+			return out;
+		default:
+			throw new RuntimeException("too many ranges to flatten (must be <=3)");
+		}
+	}
+	
+	public static ArrayList<Range> inflate(long flattenedDay) {
+		ArrayList<Range> out = new ArrayList<Range>();
+		boolean mode = (flattenedDay & 1) == 1;
+		flattenedDay = flattenedDay >> 1;
+		if (mode) {
+			out.ensureCapacity(3);
+			for (int i = 0; i < 3; i++) {
+				Range currentR = new Range();
+				long current = flattenedDay & 0x1fffff;
+				int hr, min;
+				hr = (int)current % 24;
+				current /= 24;
+				min = (int)current % 60;
+				current /= 60;
+				currentR.setStart(new Time(hr, min));
+				hr = (int) current % 24;
+				current /= 24;
+				min = (int)current % 60;
+				Time end = new Time(hr, min);
+				if (!currentR.setEnd(end))
+					throw new RuntimeException("invalid hours data in database, " + end.toString() + " before " + currentR.getStart().toString());
+				out.add(currentR);
+				flattenedDay = flattenedDay >> 21; 
+			}
+		} else {
+			while (flattenedDay != 0) {
+				Range currentR = new Range();
+				int hr, min;
+				hr = ((int)flattenedDay & 0x1f);
+				flattenedDay = flattenedDay >> 5;
+				min = ((int)flattenedDay & 0x3f);
+				flattenedDay = flattenedDay >> 6;
+				currentR.setStart(new Time(hr, min));
+				hr = ((int)flattenedDay & 0x1f);
+				flattenedDay = flattenedDay >> 5;
+				min = ((int)flattenedDay & 0x3f);
+				flattenedDay = flattenedDay >> 6;
+				Time end = new Time(hr, min);
+				if (!currentR.setEnd(end))
+					throw new RuntimeException("invalid hours data in database, " + end.toString() + " before " + currentR.getStart().toString());
+				out.add(currentR);
+			}
+		}
+		return out;
+	}
 	
 	// methods to support old interface
 	public void setSundayRanges(ArrayList<Range> newSundayRange) {setRanges(Calendar.SUNDAY, newSundayRange);}
