@@ -245,11 +245,10 @@ public class Main extends ListActivity {
 					rh.addRange(day, new Range(start, stop));
 				}
 			}
-			Restaurant restaurant = new Restaurant();
 			String name = new String();
 			for (int j = 0; j<7; j++)
 				name = name + letters[r.nextInt(letters.length)];
-			restaurant.setAttributes(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
+			Restaurant restaurant = new Restaurant(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
 					.nextInt(), null, null, 
 					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, 0x0, true,
 					 false, null, null);

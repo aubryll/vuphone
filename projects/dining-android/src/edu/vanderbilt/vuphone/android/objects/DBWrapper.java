@@ -56,32 +56,40 @@ public class DBWrapper {
 	public static String getName(long rowID) {
 		cacheMainData();
 		return cache.get(IDs.indexOf(rowID)).getName();
-	}		
+	}
+
 	public static int getLat(long rowID) {
 		cacheMapData();
 		return cache.get(IDs.indexOf(rowID)).getLat();
-	}		
+	}
+
 	public static int getLon(long rowID) {
 		cacheMapData();
 		return cache.get(IDs.indexOf(rowID)).getLon();
 	}
+
 	public static RestaurantHours getHours(long rowID) {
 		cacheMainData();
 		return cache.get(IDs.indexOf(rowID)).getHours();
 	}
+
 	public static String getType(long rowID) { // TODO implement these
 		return "";
 	}
+
 	public static int getIcon(long rowID) {
 		return R.drawable.dining;
 	}
+
 	public static boolean favorite(long rowID) {
 		cacheMainData();
 		return cache.get(IDs.indexOf(rowID)).favorite();
 	}
+
 	public static boolean onTheCard(long rowID) { // TODO implement these
 		return true;
 	}
+
 	public static boolean offCampus(long rowID) {
 		return false;
 	}
@@ -179,6 +187,7 @@ public class DBWrapper {
 			return;
 		resetRestaurantCache(); // ensures IDs are cached
 		makeReadable();
+		// TODO get also type, offCampus, onTheCard
 		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_NAME, 
 			DBAdapter.COLUMN_FAVORITE, DBAdapter.COLUMN_HOUR});
 		if (c.moveToFirst()) {
@@ -202,14 +211,11 @@ public class DBWrapper {
 			return;
 		if (!mainDataCached)
 			cacheMainData();
-		makeReadable();							// TODO remove COLUMN_ID check once this is debugged
-		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_ID, DBAdapter.COLUMN_LATITUDE, DBAdapter.COLUMN_LONGITUDE});
+		makeReadable();							// TODO get icon as well, possibly move lat longs to getMainData in case of sort
+		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_LATITUDE, DBAdapter.COLUMN_LONGITUDE});
 		if (c.moveToFirst()) {
 			int i = 0;
 			do {
-				// here too
-				if (IDs.get(i) != c.getInt(c.getColumnIndex(DBAdapter.COLUMN_ID)))
-					throw new RuntimeException("ticker does not match actual DB column");
 				cache.get(i++).setLocation(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), 
 						c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LONGITUDE)));
 			} while (c.moveToNext());
