@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.OneLocation;
-import edu.vanderbilt.vuphone.android.objects.Restaurant;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 public class RestaurantDetails extends Activity {
 

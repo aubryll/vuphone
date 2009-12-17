@@ -19,12 +19,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
-import edu.vanderbilt.vuphone.android.objects.DBWrapper;
 import edu.vanderbilt.vuphone.android.objects.Range;
-import edu.vanderbilt.vuphone.android.objects.Restaurant;
 import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 public class Main extends ListActivity {
 	
@@ -60,15 +59,15 @@ public class Main extends ListActivity {
 		if (applicationContext == null)
 			applicationContext = getApplicationContext();
 
-		//deleteAllRestaurants();
-		//addRandomRestaurantsToDB(20);		
-		
+		deleteAllRestaurants();
+		addRandomRestaurantsToDB(20);		
 		
 		setContentView(R.layout.main);
 		mode = NORMAL;
 		
-		
+		Log.i("Main", "creating ra");
 		ra = new RestaurantAdapter(this, currentSortMethod);
+		Log.i("Main", "done creating ra, now setting it");
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
 	}
@@ -249,9 +248,9 @@ public class Main extends ListActivity {
 			for (int j = 0; j<7; j++)
 				name = name + letters[r.nextInt(letters.length)];
 			Restaurant restaurant = new Restaurant(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
-					.nextInt(), null, null, 
-					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, 0x0, true,
-					 false, null, null);
+					.nextInt(), "cafe", null, 
+					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, R.drawable.dining, true,
+					 false, "(615) 555-1234", "http://example.com");
 			restaurant.create();
 		}
 	}

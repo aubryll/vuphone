@@ -1,12 +1,12 @@
-package edu.vanderbilt.vuphone.android.objects;
+package edu.vanderbilt.vuphone.android.storage;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Stack;
 
 import android.database.Cursor;
 import edu.vanderbilt.vuphone.android.dining.Main;
-import edu.vanderbilt.vuphone.android.dining.R;
-import edu.vanderbilt.vuphone.android.storage.DBAdapter;
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 
 
 
@@ -73,12 +73,14 @@ public class DBWrapper {
 		return cache.get(IDs.indexOf(rowID)).getHours();
 	}
 
-	public static String getType(long rowID) { // TODO implement these
-		return "";
+	public static String getType(long rowID) { 
+		cacheMainData();
+		return cache.get(IDs.indexOf(rowID)).getType();
 	}
 
 	public static int getIcon(long rowID) {
-		return R.drawable.dining;
+		cacheMapData();
+		return cache.get(IDs.indexOf(rowID)).getIcon();
 	}
 
 	public static boolean favorite(long rowID) {
@@ -86,22 +88,24 @@ public class DBWrapper {
 		return cache.get(IDs.indexOf(rowID)).favorite();
 	}
 
-	public static boolean onTheCard(long rowID) { // TODO implement these
-		return true;
+	public static boolean onTheCard(long rowID) { 
+		cacheMainData();
+		return cache.get(IDs.indexOf(rowID)).onTheCard();
 	}
 
 	public static boolean offCampus(long rowID) {
-		return false;
+		cacheMainData();
+		return cache.get(IDs.indexOf(rowID)).offCampus();
 	}
 	
 	
 	public static boolean create(Restaurant r) {
 		makeWritable();
-		// TODO update this step as the underlying DBAdapter method is update
-		long rID = adapter.createRestaurant(r.getName(), r.getLat(), r.getLon(), 
-				r.getDescription(), r.favorite(), r.getHours());
-		if (mainDataCached && rID != -1) {
+		long rID = adapter.createRestaurant(r);
+		if (idsCached && rID != -1) {
 			IDs.add(rID);
+		}
+		if (mainDataCached && rID != -1) {
 			cache.add(r);
 		}
 		return (rID != -1);
@@ -114,8 +118,7 @@ public class DBWrapper {
 		int i = IDs.indexOf(rowID);
 		if (i<0)
 			return false;
-		boolean success =  adapter.updateRestaurant(rowID, updated.getName(), updated.getLat(),
-				updated.getLon(), updated.getDescription(), updated.favorite());
+		boolean success =  adapter.updateRestaurant(rowID, updated);
 		if (mainDataCached && success)
 			cache.set(i, updated);  
 		close();
@@ -187,15 +190,39 @@ public class DBWrapper {
 			return;
 		resetRestaurantCache(); // ensures IDs are cached
 		makeReadable();
-		// TODO get also type, offCampus, onTheCard
-		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_NAME, 
-			DBAdapter.COLUMN_FAVORITE, DBAdapter.COLUMN_HOUR});
+		Cursor c = adapter.getCursor(new String[] {
+			DBAdapter.COLUMN_NAME,			
+			DBAdapter.COLUMN_HOUR_SUN, 	
+			DBAdapter.COLUMN_HOUR_MON, 	
+			DBAdapter.COLUMN_HOUR_TUE, 	
+			DBAdapter.COLUMN_HOUR_WED, 	
+			DBAdapter.COLUMN_HOUR_THU, 	
+			DBAdapter.COLUMN_HOUR_FRI, 	
+			DBAdapter.COLUMN_HOUR_SAT, 	
+			DBAdapter.COLUMN_FAVORITE, 	
+			DBAdapter.COLUMN_ON_THE_CARD,
+			DBAdapter.COLUMN_OFF_CAMPUS, 
+			DBAdapter.COLUMN_TYPE});
 		if (c.moveToFirst()) {
 			do {
 				Restaurant current = new Restaurant();
 				current.setName(c.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME)));
+				
+				RestaurantHours rh = new RestaurantHours();
+				rh.setRanges(Calendar.SUNDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_SUN))));
+				rh.setRanges(Calendar.MONDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_MON))));
+				rh.setRanges(Calendar.TUESDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_TUE))));
+				rh.setRanges(Calendar.WEDNESDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_WED))));
+				rh.setRanges(Calendar.THURSDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_THU))));
+				rh.setRanges(Calendar.FRIDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_FRI))));
+				rh.setRanges(Calendar.SATURDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_SAT))));
+				current.setHours(rh);
+				
 				current.setFavorite(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_FAVORITE)) == 1);
-				current.setHours(DBAdapter.getRestaurantHoursFromXml(c.getString(c.getColumnIndex(DBAdapter.COLUMN_HOUR))));
+				current.setOnTheCard(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_ON_THE_CARD)) == 1);
+				current.setOffCampus(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_OFF_CAMPUS)) == 1);
+				current.setType(c.getString(c.getColumnIndex(DBAdapter.COLUMN_TYPE)));
+				
 				cache.add(current);
 				cached.add(false);
 			} while (c.moveToNext());
@@ -211,13 +238,17 @@ public class DBWrapper {
 			return;
 		if (!mainDataCached)
 			cacheMainData();
-		makeReadable();							// TODO get icon as well, possibly move lat longs to getMainData in case of sort
-		Cursor c = adapter.getCursor(new String[] {DBAdapter.COLUMN_LATITUDE, DBAdapter.COLUMN_LONGITUDE});
+		makeReadable();	
+		Cursor c = adapter.getCursor(new String[] {
+			DBAdapter.COLUMN_LATITUDE, 
+			DBAdapter.COLUMN_LONGITUDE,
+			DBAdapter.COLUMN_ICON});
 		if (c.moveToFirst()) {
 			int i = 0;
 			do {
-				cache.get(i++).setLocation(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), 
+				cache.get(i).setLocation(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), 
 						c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LONGITUDE)));
+				cache.get(i++).setIcon(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_ICON)));
 			} while (c.moveToNext());
 		}
 		mapDataCached = true;
@@ -232,23 +263,37 @@ public class DBWrapper {
 		if (cached.get(i))
 			return i;
 		makeReadable();	
-		String [] columnsToRead;
-		if (mapDataCached)
-			columnsToRead = new String [] {DBAdapter.COLUMN_DESCRIPTION};
-		else columnsToRead = new String [] {DBAdapter.COLUMN_LATITUDE, DBAdapter.COLUMN_LONGITUDE, DBAdapter.COLUMN_DESCRIPTION};
-		Cursor c = adapter.getCursor(columnsToRead, rowID);
+		ArrayList<String> columnsToRead = new ArrayList<String>();
+		if (!mapDataCached) {
+			columnsToRead.add(DBAdapter.COLUMN_LATITUDE);
+			columnsToRead.add(DBAdapter.COLUMN_LONGITUDE);
+			columnsToRead.add(DBAdapter.COLUMN_ICON);
+		}
+		columnsToRead.add(DBAdapter.COLUMN_DESCRIPTION);
+		columnsToRead.add(DBAdapter.COLUMN_PHONE_NUMBER);
+		columnsToRead.add(DBAdapter.COLUMN_URL);
+		columnsToRead.add(DBAdapter.COLUMN_MENU);
+		
+		String [] clmns = new String[0];
+		Cursor c = adapter.getCursor(columnsToRead.toArray(clmns), rowID);
 		if (!c.moveToFirst()) 
 			throw new RuntimeException("Cannot cache restaurant which doesnt exist");
 		if (i < 0)
 			throw new RuntimeException("error, descrepency between database and memory cache");
 		
 		Restaurant r = cache.get(i);
-		if (!mapDataCached)
+		if (!mapDataCached) {
 			r.setLocation(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), 
 					c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LONGITUDE)));
+			r.setIcon(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_ICON)));
+		}
 		
-		// TODO add other fields as DB implementation is updated
 		r.setDescription(c.getString(c.getColumnIndex(DBAdapter.COLUMN_DESCRIPTION)));
+		r.setPhoneNumber(c.getString(c.getColumnIndex(DBAdapter.COLUMN_PHONE_NUMBER)));
+		r.setUrl(c.getString(c.getColumnIndex(DBAdapter.COLUMN_URL)));
+		// TODO remove comments when menu functional
+		//r.setMenu(DBAdapter.getMenuFromXml(c.getString(c.getColumnIndex(DBAdapter.COLUMN_DESCRIPTION))));
+		
 		c.close();
 		close();
 		cached.set(i, true);
