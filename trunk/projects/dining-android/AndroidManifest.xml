@@ -16,7 +16,6 @@
         <activity android:name="edu.vanderbilt.vuphone.android.map.OneLocation"/>
         <activity android:name="edu.vanderbilt.vuphone.android.map.AllLocations"/>
         <activity android:name=".RestaurantDetails" />
-        <activity android:name=".MarkFavs"/>
 
     </application>
     <uses-sdk android:minSdkVersion="3" />
