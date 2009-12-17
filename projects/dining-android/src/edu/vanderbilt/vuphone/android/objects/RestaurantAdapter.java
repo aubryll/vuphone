@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	public int getCount() {
-		return Restaurant.getIDs().size();
+		return _order.size();
 	}
 	
 	public Object getItem(int i) {
@@ -170,17 +171,17 @@ public class RestaurantAdapter extends BaseAdapter {
 		currentSortType = sortType;
 		
 		// first remove partitions if this is a later sort
-		if (_order != null)
-			for (int i = 0; i<_order.size(); i++)
-				if (_order.get(i)<0)
-					_order.remove(i);
+		for (int i = 0; i<_order.size(); i++)
+			if (_order.get(i)<0)
+				_order.remove(i);
+
 		sort(_order, ALPHABETICAL);
-		
 		switch (sortType) {
 		case FAVORITE_OPEN_CLOSED:
 		{
 			sort(_order, OPEN_CLOSED);
 			sort(_order, FAVORITE);
+
 			int nonFav = firstNonFavorite();
 			int closed;
 			if (nonFav != -1) {
@@ -201,6 +202,7 @@ public class RestaurantAdapter extends BaseAdapter {
 			if (nonFav != 0) 
 				// if there are some favorites
 				_order.add(0, (long)FAVORITE_PARTITION);
+
 
 			break;
 		}

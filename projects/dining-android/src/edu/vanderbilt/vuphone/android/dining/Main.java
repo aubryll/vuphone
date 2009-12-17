@@ -57,17 +57,15 @@ public class Main extends ListActivity {
 		// but DBWrapper needs Main.mainContext for its
 		// calls to DBAdapter
 		if (applicationContext == null)
-			applicationContext = getApplicationContext();
+			applicationContext = getApplicationContext(); 
 
-		deleteAllRestaurants();
-		addRandomRestaurantsToDB(20);		
+		//deleteAllRestaurants();
+		//addRandomRestaurantsToDB(20);		
 		
 		setContentView(R.layout.main);
 		mode = NORMAL;
 		
-		Log.i("Main", "creating ra");
 		ra = new RestaurantAdapter(this, currentSortMethod);
-		Log.i("Main", "done creating ra, now setting it");
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
 	}
