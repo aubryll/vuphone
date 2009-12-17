@@ -9,7 +9,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
-import edu.vanderbilt.vuphone.android.objects.Restaurant;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
  * Creates an array of overlay items that are then added to the map view

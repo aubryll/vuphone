@@ -8,7 +8,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
 import edu.vanderbilt.vuphone.android.dining.R;
-import edu.vanderbilt.vuphone.android.objects.Restaurant;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
  * Creates the map that displays the location of one dining facilities

@@ -1,8 +1,10 @@
-package edu.vanderbilt.vuphone.android.objects;
+package edu.vanderbilt.vuphone.android.storage;
 
 import java.util.ArrayList;
 
-import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.objects.Menu;
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class Restaurant {
 	
