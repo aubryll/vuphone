@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.vanderbilt.vuphone.android.dining.R;
 
 public class Restaurant {
+	
 		
 	private String _name;
 	private RestaurantHours _hours;
@@ -19,7 +20,7 @@ public class Restaurant {
 	private boolean _offCampus; // taste of nashville
 	private String _phoneNumber;
 	private String _url;
-
+	
 	public Restaurant() {
 		this(null);
 	}
@@ -56,7 +57,11 @@ public class Restaurant {
 	public String			getUrl()			{return _url;}
 	public int				getIcon()			{return _icon;}
 
-	public void setAttributes(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, Menu menu,
+	
+	// I made all the write methods protected so that Restaurants cannot be modified outside the objects package
+	// not a completely ideal solution, but unauthorized writes to the restaurant cache must be prevented
+	// to alter a Restaurant, use the static methods update() or setX() and then commit(). 
+	protected void setAttributes(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, Menu menu,
 			String description, int iconId, boolean onTheCard, boolean offCampus, String phoneNumber, String url) {
 		setName(name);
 		setHours(hours);
@@ -71,22 +76,22 @@ public class Restaurant {
 		setPhoneNumber(phoneNumber);
 		setUrl(url);
 	}
-	public void setName(String name)			{_name = name;}
-	public void setHours(RestaurantHours hrs)	{_hours = hrs;}
-	public void setLatitude(int latitude)		{_latitude = latitude;}
-	public void setLongidute(int longitude)		{_longitude = longitude;}
-	public void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
-	public void setFavorite(boolean fav) 		{_favorite = fav;}
-	public void setType(String type)			{_type = type;}
-	public void setMenu(Menu menu) 				{_menu = menu;}
-	public void setDescription(String desc)		{_description = desc;}
-	public void	setOnTheCard(boolean card)		{_onTheCard = card;}
-	public void	setOffCampus(boolean off)		{_offCampus = off;}
-	public void	setPhoneNumber(String number)	{_phoneNumber = number;}
-	public void setUrl(String url)				{_url = url;}
-	public void	setIcon(int iconID)				{_icon = iconID;}
+	protected void setName(String name)				{_name = name;}
+	protected void setHours(RestaurantHours hrs)	{_hours = hrs;}
+	protected void setLatitude(int latitude)		{_latitude = latitude;}
+	protected void setLongidute(int longitude)		{_longitude = longitude;}
+	protected void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
+	protected void setFavorite(boolean fav) 		{_favorite = fav;}
+	protected void setType(String type)				{_type = type;}
+	protected void setMenu(Menu menu) 				{_menu = menu;}
+	protected void setDescription(String desc)		{_description = desc;}
+	protected void	setOnTheCard(boolean card)		{_onTheCard = card;}
+	protected void	setOffCampus(boolean off)		{_offCampus = off;}
+	protected void	setPhoneNumber(String number)	{_phoneNumber = number;}
+	protected void setUrl(String url)				{_url = url;}
+	protected void	setIcon(int iconID)				{_icon = iconID;}
 
-	public boolean create() 					{return DBWrapper.create(this);}
+	public boolean create() 						{return DBWrapper.create(this);}
 	
 	public String toString() {
 		StringBuilder out = new StringBuilder();
