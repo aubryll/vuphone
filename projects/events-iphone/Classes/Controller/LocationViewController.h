@@ -12,10 +12,9 @@
 
 @interface LocationViewController : UIViewController <MKMapViewDelegate, UITextFieldDelegate> {
 	IBOutlet UITextField *nameField;
-	IBOutlet UILabel *latitudeLabel;
-	IBOutlet UILabel *longitudeLabel;
 	IBOutlet UIBarButtonItem *saveButton;
 	IBOutlet UIBarButtonItem *editButton;
+	IBOutlet UIBarButtonItem *cancelButton;
 	IBOutlet MKMapView *mapView;
 	
 	NSManagedObjectContext *editingContext;
@@ -25,10 +24,11 @@
 
 - (IBAction)save:(id)sender;
 - (IBAction)edit:(id)sender;
-- (void)applyIsEditing;
+- (IBAction)cancel:(id)sender;
 
-@property (nonatomic, retain) NSManagedObjectContext *editingContext;
-@property (nonatomic, retain) Location *location;
+@property (retain) NSManagedObjectContext *editingContext;
+@property (retain) Location *location;
+@property (retain) IBOutlet MKMapView *mapView;
 @property (assign) BOOL isEditing;
 
 @end

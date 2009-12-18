@@ -9,6 +9,7 @@
 #import "Location.h"
 #import "Event.h"
 #import "EntityConstants.h"
+#import "NSManagedObjectContext-Convenience.h"
 
 @implementation Location 
 
@@ -34,6 +35,20 @@
 	return locations;
 }
 
++ (Location *)locationWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context {
+	// If the id is nil or empty, don't return a location, because any the user creates will have
+	// a null serverId and it shouldn't be overwritten upon an update with bad data
+	if (anId == nil || [anId length] == 0) {
+		return nil;
+	}
+
+	NSSet *locations = [context
+						fetchObjectsForEntityName:VUEntityNameLocation
+						withPredicateString:@"serverId = %@", anId];
+	
+	return [locations anyObject];
+}
+
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId {
 	return [self.ownerDeviceId isEqualToString:deviceId];
 }
@@ -56,6 +71,7 @@
 }
 
 @dynamic ownerDeviceId;
+@dynamic serverId;
 @dynamic longitude;
 @dynamic name;
 @dynamic latitude;

@@ -15,7 +15,9 @@
 {
 	self = [[[NSBundle mainBundle] loadNibNamed:@"VUEditableTableViewCell" owner:self options:nil] lastObject];
 	controller = [owningController retain];
-	self.textField.delegate = self;
+	textField.delegate = self;
+	
+	[self setEditable:NO];
 
 	return [self retain];
 }
@@ -23,42 +25,56 @@
 - (void)dealloc
 {
 	[controller release];
-	self.textField = nil;
 	self.textLabel = nil;
+	self.textField = nil;
+	self.valueView = nil;
+
 	[super dealloc];
 }
 
 @synthesize textLabel;
 @synthesize textField;
-
+@synthesize valueView;
 
 - (void)setEditable:(BOOL)editable
 {
-	textField.enabled = editable;
 	textField.placeholder = (editable) ? @"(tap to edit)" : nil;
 
-	if (!editable) {
+	if (editable) {
+		textField.hidden = NO;
+		valueView.hidden = YES;
+	} else {
 		[textField resignFirstResponder];
-	}	
+		textField.hidden = YES;
+		
+		// Resize the value view to fit its content exactly and show it
+		valueView.frame = CGRectMake(valueView.frame.origin.x,
+									 valueView.frame.origin.y,
+									 valueView.contentSize.width,
+									 valueView.contentSize.height);
+		
+		valueView.hidden = NO;
+	}
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-	if (textField.enabled && selected) {
+	if (textField.hidden == NO && selected) {
 		[textField becomeFirstResponder];
 	}
+
+	// Disallow selection if not editable
+//	if (textField.hidden) {
+		[super setSelected:NO animated:NO];
+//	}
 }
 
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidBeginEditing:(UITextField *)aTextField
-{
-	// Nothing to do
-}
-
 - (void)textFieldDidEndEditing:(UITextField *)aTextField
 {
 	[controller textFieldValueChanged:self.textField.text];
+	valueView.text = textField.text;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)aTextField

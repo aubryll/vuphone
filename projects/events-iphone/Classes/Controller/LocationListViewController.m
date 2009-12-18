@@ -129,7 +129,7 @@
 		lvc.isEditing = self.isEditing;
 		if (isEditing) {
 			// Give it an editing context
-			lvc.editingContext = [[EventStore sharedEventStore] editingContext];
+			lvc.editingContext = [[EventStore sharedEventStore] sharedContext];
 		}
 
 		[tvc.navigationController pushViewController:lvc animated:YES];

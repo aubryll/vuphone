@@ -19,7 +19,6 @@
 #import "NSManagedObject-IsNew.h"
 
 
-
 @implementation EventViewController
 
 - (void)viewDidLoad {
@@ -75,11 +74,7 @@
 
 - (IBAction)save:(id)sender
 {
-	self.navigationItem.leftBarButtonItem = nil;
-	self.navigationItem.rightBarButtonItem = editButton;
-	[self endEditingFields];
-	[self.tableView reloadData];
-	
+	// Check the input
 	if (event.location == nil)
 	{
 		// If the location is not set, show an alert message and bail
@@ -93,6 +88,11 @@
 		return;
 	}
 
+	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.rightBarButtonItem = editButton;
+	[self endEditingFields];
+	[self.tableView reloadData];
+	
 	// If this is a new event, set the device ID
 	if ([event isNew]) {
 		event.ownerDeviceId = [[UIDevice currentDevice] uniqueIdentifier];
@@ -114,6 +114,8 @@
 - (IBAction)cancelAdd:(id)sender
 {
 	[context rollback];
+	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.rightBarButtonItem = nil;
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

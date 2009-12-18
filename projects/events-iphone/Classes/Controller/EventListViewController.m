@@ -97,6 +97,8 @@
 	Event *event = (Event *)[NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
 														  inManagedObjectContext:context];
 	event.source = VUEventSourceUser;
+	event.startTime = [NSDate date];
+	event.endTime = [NSDate dateWithTimeIntervalSinceNow:60*60];
 	
 	EventViewController *eventViewC = [self eventViewController];
 	eventViewC.event = event;

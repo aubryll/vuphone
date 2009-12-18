@@ -79,20 +79,27 @@
 	{
 		for (DDXMLNode *node in nodes)
 		{
+			// Fetch the location from our DB.  If it doesn't exist, create a new one.
+			NSString *locationServerId = [(DDXMLNode *)[[node nodesForXPath:@"./Loc/Id" error:&err] objectAtIndex:0] stringValue];
+			Location *location = [Location locationWithServerId:locationServerId inContext:context];
+			if (!location) {
+				location = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation inManagedObjectContext:context];
+			}
+
+			[RemoteEventLoader getDataFromXMLNode:node intoLocation:location];
+
+
+			// Fetch the event from our DB.  If it doesn't exist, create a new one.
 			NSString *serverId = [(DDXMLNode *)[[node nodesForXPath:@"./EventId" error:&err] objectAtIndex:0] stringValue];
 			Event *event = [Event eventWithServerId:serverId inContext:context];
-
 			if (!event) {
-				// Create a new event and location
-				event = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
-															 inManagedObjectContext:context];
-				Location *location = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation
-																   inManagedObjectContext:context];
+				// Create a new event
+				event = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent inManagedObjectContext:context];
 				event.location = location;
 			}
 
 			[RemoteEventLoader getDataFromXMLNode:node intoEvent:event];
-			[RemoteEventLoader getDataFromXMLNode:node intoLocation:event.location];
+
 			
 			[context save:&err];
 			if (err) {
@@ -102,7 +109,7 @@
 			} else {
 				[events addObject:event];
 			}
-		}		
+		}
 	}
 	else
 	{
@@ -136,6 +143,8 @@
 	DDXMLNode *prop;
 	NSError *err;
 
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Id" error:&err] objectAtIndex:0];
+	location.serverId = [prop stringValue];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Name" error:&err] objectAtIndex:0];
 	location.name = [prop stringValue];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lat" error:&err] objectAtIndex:0];

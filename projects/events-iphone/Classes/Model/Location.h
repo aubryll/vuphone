@@ -16,9 +16,11 @@
 }
 
 + (NSArray *)rootLocations:(NSManagedObjectContext *)context;
++ (Location *)locationWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context;
 - (BOOL)isEditableByDeviceWithId:(NSString *)deviceId;
 
 @property (nonatomic, retain) NSString * ownerDeviceId;
+@property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSDecimalNumber * longitude;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDecimalNumber * latitude;

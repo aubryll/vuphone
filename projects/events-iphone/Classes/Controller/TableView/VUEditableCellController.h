@@ -25,7 +25,7 @@
 
 - (id)initWithLabel:(NSString *)aLabel;
 - (void)textFieldValueChanged:(NSString *)newValue;
-- (UITableViewCell *)cell;
+- (VUEditableCell *)cell;
 
 @property (readonly, copy) NSString *label;
 @property (copy) NSString *value;
