@@ -25,7 +25,7 @@ public class DBAdapter {
 	private static final String pre = "DBAdapter: ";
 
 	/** Used for database updates */
-	private static final int DB_VERSION = 3;
+	private static final int DB_VERSION = 4;
 
 	/** The filename where the database is stored */
 	private static final String DB_NAME = "dining.db";
@@ -51,9 +51,7 @@ public class DBAdapter {
 	public static final String COLUMN_ICON 			= "icon";
 	public static final String COLUMN_LATITUDE 		= "latitude";
 	public static final String COLUMN_LONGITUDE 	= "longitude";
-	public static final String COLUMN_FAVORITE 		= "favorite";
-	public static final String COLUMN_ON_THE_CARD 	= "onTheCard";
-	public static final String COLUMN_OFF_CAMPUS 	= "offCampus";
+	public static final String COLUMN_BOOLEANS		= "bools";
 	public static final String COLUMN_PHONE_NUMBER 	= "phoneNumber";
 	public static final String COLUMN_URL 			= "url";
 	
@@ -81,9 +79,7 @@ public class DBAdapter {
 				+ COLUMN_HOUR_THU 		+ " INTEGER NOT NULL,"
 				+ COLUMN_HOUR_FRI 		+ " INTEGER NOT NULL,"
 				+ COLUMN_HOUR_SAT 		+ " INTEGER NOT NULL,"
-				+ COLUMN_FAVORITE 		+ " INTEGER NOT NULL,"
-				+ COLUMN_ON_THE_CARD 	+ " INTEGER NOT NULL,"
-				+ COLUMN_OFF_CAMPUS 	+ " INTEGER NOT NULL,"
+				+ COLUMN_BOOLEANS 		+ " INTEGER NOT NULL,"
 				+ COLUMN_TYPE 			+ " TEXT NOT NULL,"
 				+ COLUMN_LATITUDE 		+ " INTEGER NOT NULL,"
 				+ COLUMN_LONGITUDE 		+ " INTEGER NOT NULL,"
@@ -179,9 +175,8 @@ public class DBAdapter {
 		initialValues.put(COLUMN_ICON 			, r.getIcon());
 		initialValues.put(COLUMN_LATITUDE 		, r.getLat());
 		initialValues.put(COLUMN_LONGITUDE 		, r.getLon());
-		initialValues.put(COLUMN_FAVORITE 		, (r.favorite()?1:0));
-		initialValues.put(COLUMN_ON_THE_CARD 	, (r.onTheCard()?1:0));
-		initialValues.put(COLUMN_OFF_CAMPUS 	, (r.offCampus()?1:0));
+		initialValues.put(COLUMN_BOOLEANS 		, booleansEncode(new boolean [] 
+		         {r.favorite(), r.mealPlanAccepted(), r.mealMoneyAccepted(), r.mealPlanAccepted(), r.offCampus()}));
 		initialValues.put(COLUMN_PHONE_NUMBER 	, r.getPhoneNumber());
 		initialValues.put(COLUMN_URL 			, r.getUrl());
 				
@@ -275,9 +270,8 @@ public class DBAdapter {
 		args.put(COLUMN_ICON 			, updated.getIcon());                                     
 		args.put(COLUMN_LATITUDE 		, updated.getLat());                                      
 		args.put(COLUMN_LONGITUDE 		, updated.getLon());                                      
-		args.put(COLUMN_FAVORITE 		, (updated.favorite()?1:0));                              
-		args.put(COLUMN_ON_THE_CARD 	, (updated.onTheCard()?1:0));                             
-		args.put(COLUMN_OFF_CAMPUS 		, (updated.offCampus()?1:0));                             
+		args.put(COLUMN_BOOLEANS 		, booleansEncode(new boolean []
+		    {updated.favorite(), updated.mealPlanAccepted(), updated.mealMoneyAccepted(), updated.mealPlanAccepted(), updated.offCampus()}));                          
 		args.put(COLUMN_PHONE_NUMBER 	, updated.getPhoneNumber());                              
 		args.put(COLUMN_URL 			, updated.getUrl());                                      
 	
@@ -325,7 +319,23 @@ public class DBAdapter {
 		database_ = openHelper_.getWritableDatabase();
 		return this;
 	}
-
+	
+	protected static int booleansEncode(boolean []in) {
+		int out = 0;
+		for (int i = 0; i < in.length; i++)
+			out += ((in[i]?1:0)<<i);
+		return out;
+	}
+	
+	protected static boolean [] booleansDecode(int in, int num) {
+		boolean [] out = new boolean[num];
+		for (int i = 0; i < num; i++) {
+			out[i]=(in&1)==1;
+			in = in >> 1;
+		}
+		return out;
+	}
+	
 	/**
 	 * Generates RestaurantHours from database hours xml data
 	 * @param xmlFromDatabase
@@ -333,7 +343,7 @@ public class DBAdapter {
 	 * @return
 	 *		equivalent RestaurantHours object
 	 */
-	public static Menu getMenuFromXml(String xmlFromDatabase) {
+	protected static Menu getMenuFromXml(String xmlFromDatabase) {
 		XStream xs = new XStream(new DomDriver());
 		return (Menu) xs.fromXML(xmlFromDatabase);
 	}

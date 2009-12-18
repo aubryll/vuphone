@@ -59,8 +59,8 @@ public class Main extends ListActivity {
 		if (applicationContext == null)
 			applicationContext = getApplicationContext(); 
 
-		//deleteAllRestaurants();
-		//addRandomRestaurantsToDB(20);		
+		deleteAllRestaurants();
+		addRandomRestaurantsToDB(20);		
 		
 		setContentView(R.layout.main);
 		mode = NORMAL;
@@ -248,7 +248,7 @@ public class Main extends ListActivity {
 			Restaurant restaurant = new Restaurant(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
 					.nextInt(), "cafe", null, 
 					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, R.drawable.dining, true,
-					 false, "(615) 555-1234", "http://example.com");
+					 false, false, "(615) 555-1234", "http://example.com");
 			restaurant.create();
 		}
 	}
