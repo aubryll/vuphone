@@ -36,6 +36,7 @@ public class EventPostHandler implements NotificationHandler {
 	/**
 	 * Helper method that generates an event entry in the database and returns
 	 * the index of the newly created event.
+	 * 
 	 * @param ep
 	 * @param locationId
 	 * @return
@@ -43,9 +44,10 @@ public class EventPostHandler implements NotificationHandler {
 	 */
 	private int createEvent(EventPost ep, int locationId) throws SQLException {
 		Connection conn = ds_.getConnection();
-		String sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate, sourceuid)" +
-				" values (?, ?, ?, ?, ?, ?, ?)";
-		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		String sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate, sourceuid)"
+				+ " values (?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement prep = conn.prepareStatement(sql,
+				Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
 		prep.setLong(3, ep.getDbUserId());
@@ -55,15 +57,16 @@ public class EventPostHandler implements NotificationHandler {
 		prep.setString(7, ep.getSourceUid());
 
 		if (prep.executeUpdate() == 0) {
-			throw new SQLException("Insertion into vandyupon.events failed for an unknown reason");
+			throw new SQLException(
+					"Insertion into vandyupon.events failed for an unknown reason");
 		} else {
-			//Everything worked
+			// Everything worked
 			ResultSet rs = prep.getGeneratedKeys();
 			rs.next();
 			int id = rs.getInt(1);
 
-			sql = "insert into eventmeta (eventid, value, submissiontime, metatype) " +
-					"values (?, ?, ?, (select typeid from metatypes where typename like 'DESCRIPTION'))";
+			sql = "insert into eventmeta (eventid, value, submissiontime, metatype) "
+					+ "values (?, ?, ?, (select typeid from metatypes where typename like 'DESCRIPTION'))";
 
 			prep = conn.prepareStatement(sql);
 			prep.setInt(1, id);
@@ -76,8 +79,8 @@ public class EventPostHandler implements NotificationHandler {
 
 	}
 
-
-	public ResponseNotification handle(Notification n) throws HandlerFailedException {
+	public ResponseNotification handle(Notification n)
+			throws HandlerFailedException {
 
 		if (!(n instanceof EventPost)) {
 			HandlerFailedException hfe = new HandlerFailedException();
@@ -89,8 +92,8 @@ public class EventPostHandler implements NotificationHandler {
 		try {
 			if (verifyUserID(ep)) {
 				int locationid = getLocationId(ep);
-				return new EventPostResponse(createEvent(ep, locationid), 
-						ep.getResponseType(), ep.getCallback());
+				return new EventPostResponse(createEvent(ep, locationid), ep
+						.getResponseType(), ep.getCallback());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -103,15 +106,67 @@ public class EventPostHandler implements NotificationHandler {
 		return ds_;
 	}
 
+	private int getNoGeoLocationId(EventPost ep) throws SQLException {
+		String sql;
+		Connection conn;
+		PreparedStatement prep;
+		conn = ds_.getConnection();
+		if (ep.getLocationName() == null) {
+			sql = "select * from locations where name IS NULL";
+			prep = conn.prepareStatement(sql);
+		} else {
+			sql = "select * from locations where name = ?";
+			prep = conn.prepareStatement(sql);
+			prep.setString(1, ep.getLocationName());
+		}
+		
+		int id;
+		ResultSet rs = prep.executeQuery();
+		rs.next();
+		try {
+			id = rs.getInt("locationid");
+			rs.close();
+		} catch (SQLException e) {
+			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) "
+					+ "values (?, ?, ?, ?, ?, ?)";
+			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			if (ep.getLocationName() == null)
+				prep.setNull(1, java.sql.Types.NULL);
+			else
+				prep.setString(1, ep.getLocationName());
+			
+			prep.setNull(2, java.sql.Types.NULL);
+			prep.setNull(3, java.sql.Types.NULL);
+			prep.setLong(4, System.currentTimeMillis() / 1000);
+			prep.setLong(5, ep.getDbUserId());
+			prep.setLong(6, System.currentTimeMillis() / 1000);
+
+			prep.execute();
+		
+			rs = prep.getGeneratedKeys();
+			rs.next();
+			id = rs.getInt(1);
+		}
+		
+		return id;
+	}
+
 	/**
-	 * Private helper method that accesses the database to return the id of the location
-	 * at a given point.  If no location is currently at that point a new one is created.
+	 * Private helper method that accesses the database to return the id of the
+	 * location at a given point. If no location is currently at that point a
+	 * new one is created.
+	 * 
 	 * @return
 	 */
 	private int getLocationId(EventPost ep) throws SQLException {
 		String sql;
 		Connection conn;
 		conn = ds_.getConnection();
+
+		if (ep.getLocation() == null)
+			return getNoGeoLocationId(ep);
+
 		sql = "select * from locations where lat = ? and lon = ?";
 		PreparedStatement prep = conn.prepareStatement(sql);
 		prep.setDouble(1, ep.getLocation().getLat());
@@ -124,8 +179,8 @@ public class EventPostHandler implements NotificationHandler {
 			id = rs.getInt("locationid");
 			rs.close();
 		} catch (SQLException e) {
-			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) " +
-					"values (?, ?, ?, ?, ?, ?)";
+			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) "
+					+ "values (?, ?, ?, ?, ?, ?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			prep.setString(1, ep.getLocationName());
 			prep.setDouble(2, ep.getLocation().getLat());
@@ -149,9 +204,11 @@ public class EventPostHandler implements NotificationHandler {
 	}
 
 	/**
-	 * This helper method is designed to check the validity of the user id submitted with the
-	 * event.
-	 * @param ep - The event post object
+	 * This helper method is designed to check the validity of the user id
+	 * submitted with the event.
+	 * 
+	 * @param ep
+	 *            - The event post object
 	 * @return boolean - Whether the id is a valid user or not
 	 * @throws SQLException
 	 */
@@ -159,7 +216,8 @@ public class EventPostHandler implements NotificationHandler {
 		String sql;
 		Connection conn = ds_.getConnection();
 		sql = "select * from people where deviceid like ?";
-		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = conn.prepareStatement(sql,
+				Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getUser());
 		ResultSet rs = prep.executeQuery();
 		try {

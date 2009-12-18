@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -24,15 +24,21 @@ import org.vuphone.vandyupon.notification.NotificationParser;
 public class EventPostParser implements NotificationParser {
 
 	public Notification parse(HttpServletRequest req) {
-		if (!req.getParameter("type").equalsIgnoreCase("eventpost")){
+		if (!req.getParameter("type").equalsIgnoreCase("eventpost")) {
 			return null;
 		}
-		
+
 		EventPost ep = new EventPost();
 		ep.setLocationName(req.getParameter("locationname"));
-		ep.setLocation(new Location(Double.parseDouble(req.getParameter("locationlat")), 
-				Double.parseDouble(req.getParameter("locationlon"))));
-		
+		if (req.getParameter("locationlat") == null
+				|| req.getParameter("locationlon") == null) {
+			ep.setLocation(null);
+		} else {
+			ep.setLocation(new Location(Double.parseDouble(req
+					.getParameter("locationlat")), Double.parseDouble(req
+					.getParameter("locationlon"))));
+		}
+
 		ep.setName(req.getParameter("eventname"));
 		ep.setStartTime(Long.parseLong(req.getParameter("starttime")));
 		ep.setEndTime(Long.parseLong(req.getParameter("endtime")));
@@ -41,7 +47,7 @@ public class EventPostParser implements NotificationParser {
 		ep.setCallback(req.getParameter("callback"));
 		ep.setDescription(req.getParameter("desc"));
 		ep.setSourceUid(req.getParameter("sourceuid"));
-		
+
 		return ep;
 	}
 
