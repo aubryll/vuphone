@@ -199,9 +199,7 @@ public class DBWrapper {
 			DBAdapter.COLUMN_HOUR_THU, 	
 			DBAdapter.COLUMN_HOUR_FRI, 	
 			DBAdapter.COLUMN_HOUR_SAT, 	
-			DBAdapter.COLUMN_FAVORITE, 	
-			DBAdapter.COLUMN_ON_THE_CARD,
-			DBAdapter.COLUMN_OFF_CAMPUS, 
+			DBAdapter.COLUMN_BOOLEANS,
 			DBAdapter.COLUMN_TYPE});
 		if (c.moveToFirst()) {
 			do {
@@ -218,9 +216,11 @@ public class DBWrapper {
 				rh.setRanges(Calendar.SATURDAY, RestaurantHours.inflate(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_HOUR_SAT))));
 				current.setHours(rh);
 				
-				current.setFavorite(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_FAVORITE)) == 1);
-				current.setOnTheCard(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_ON_THE_CARD)) == 1);
-				current.setOffCampus(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_OFF_CAMPUS)) == 1);
+				boolean [] booleans = DBAdapter.booleansDecode(c.getInt(c.getColumnIndex(DBAdapter.COLUMN_BOOLEANS)), 4);
+				current.setFavorite(booleans[0]);
+				current.setPlanAccepted(booleans[1]);
+				current.setMoneyAccepted(booleans[2]);
+				current.setOffCampus(booleans[3]);
 				current.setType(c.getString(c.getColumnIndex(DBAdapter.COLUMN_TYPE)));
 				
 				cache.add(current);
@@ -396,26 +396,37 @@ public class DBWrapper {
 		public static final int LATITUDE = 6;
 		public static final int LONGITUDE = 7;
 		public static final int FAVORITE = 8;
-		public static final int ON_THE_CARD = 9;
-		public static final int OFF_CAMPUS = 10; 
-		public static final int PHONE_NUMBER = 11;
-		public static final int URL = 12;
+		public static final int PLAN_ACCEPTED = 9;
+		public static final int MONEY_ACCEPTED = 10;
+		public static final int OFF_CAMPUS = 11; 
+		public static final int PHONE_NUMBER = 12;
+		public static final int URL = 13;
 		
 		private int _i;
 		private int _field;
 		private Object _oldVal;
 		
+		private static boolean booleansCommited;
+		
 		public UpdateItem(int i, int field, Object old) {
 			_i = i;
 			_field = field;
 			_oldVal = old;
+			booleansCommited = false;
 		}
 		
 		// pre: adapter is writable
 		public boolean commit() {
 			switch (_field) {
-			case FAVORITE:
-				return adapter.updateColumn(IDs.get(_i), DBAdapter.COLUMN_FAVORITE, cache.get(_i).favorite());
+			case FAVORITE:  
+			case PLAN_ACCEPTED:
+			case MONEY_ACCEPTED:
+			case OFF_CAMPUS:
+				if (!booleansCommited)
+					return adapter.updateColumn(IDs.get(_i), DBAdapter.COLUMN_BOOLEANS, 
+							DBAdapter.booleansEncode(new boolean[] {cache.get(_i).favorite(), cache.get(_i).mealPlanAccepted(), 
+									cache.get(_i).mealMoneyAccepted(), cache.get(_i).offCampus()}));
+				else return true;
 				
 				// no other updateItem types needed yet, so none implemented
 				

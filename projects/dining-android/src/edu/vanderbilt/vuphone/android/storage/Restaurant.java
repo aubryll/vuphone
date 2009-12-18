@@ -2,6 +2,7 @@ package edu.vanderbilt.vuphone.android.storage;
 
 import java.util.ArrayList;
 
+import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.objects.Menu;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
@@ -18,7 +19,8 @@ public class Restaurant {
 	private int _latitude;
 	private int _longitude;
 	private boolean _favorite;
-	private boolean _onTheCard;
+	private boolean _mealMoneyAccepted;
+	private boolean _mealPlanAccepted;
 	private boolean _offCampus; // taste of nashville
 	private String _phoneNumber;
 	private String _url;
@@ -30,11 +32,12 @@ public class Restaurant {
 		this(name, null, false);
 	}
 	public Restaurant(String name, RestaurantHours hours, boolean favorite) {
-		this(name, hours, favorite, 0, 0, null, null, null, 0x0, true, false, null, null);
+		this(name, hours, favorite, 0, 0, null, null, null, R.drawable.dining, true, true, false, null, null);
 	}
 	public Restaurant(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, Menu menu,
-			String description, int iconId, boolean onTheCard, boolean offCampus, String phoneNumber, String url) {
-		setAttributes(name, hours, favorite, latitude, longitude, type, menu, description, iconId, onTheCard, offCampus, phoneNumber, url);
+			String description, int iconId, boolean mealMoneyAccepted, boolean mealPlanAccepted, boolean offCampus, String phoneNumber, String url) {
+		setAttributes(name, hours, favorite, latitude, longitude, type, menu, description, iconId, 
+				mealMoneyAccepted, mealPlanAccepted, offCampus, phoneNumber, url);
 	}
 
 	public boolean 			isOpen() 			{return _hours.isOpen();}
@@ -52,9 +55,11 @@ public class Restaurant {
 	public String 			getType()			{return _type;}
 	public Menu 			getMenu()			{return _menu;}
 	public boolean 			favorite() 			{return _favorite;}
-	public boolean			onTheCard()			{return _onTheCard;}
+	public boolean			mealPlanAccepted()	{return _mealPlanAccepted;}
+	public boolean			mealMoneyAccepted()	{return _mealMoneyAccepted;}
+	public boolean			onTheCard()			{return _mealMoneyAccepted || _mealPlanAccepted;}
 	public boolean			offCampus()			{return _offCampus;}
-	public boolean			tasteOfNashville()	{return _onTheCard && _offCampus;}
+	public boolean			tasteOfNashville()	{return _mealMoneyAccepted && _offCampus;}
 	public String			getPhoneNumber()	{return _phoneNumber;}
 	public String			getUrl()			{return _url;}
 	public int				getIcon()			{return _icon;}
@@ -64,7 +69,7 @@ public class Restaurant {
 	// not a completely ideal solution, but unauthorized writes to the restaurant cache must be prevented
 	// to alter a Restaurant, use the static methods update() or setX() and then commit(). 
 	protected void setAttributes(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, Menu menu,
-			String description, int iconId, boolean onTheCard, boolean offCampus, String phoneNumber, String url) {
+			String description, int iconId, boolean mealMoneyAccepted, boolean mealPlanAccepted, boolean offCampus, String phoneNumber, String url) {
 		setName(name);
 		setHours(hours);
 		setFavorite(favorite);
@@ -73,7 +78,8 @@ public class Restaurant {
 		setType(type);
 		setMenu(menu);
 		setIcon(iconId);
-		setOnTheCard(onTheCard);
+		setMoneyAccepted(mealMoneyAccepted);
+		setPlanAccepted(mealPlanAccepted);
 		setOffCampus(offCampus);
 		setPhoneNumber(phoneNumber);
 		setUrl(url);
@@ -87,11 +93,12 @@ public class Restaurant {
 	protected void setType(String type)				{_type = type;}
 	protected void setMenu(Menu menu) 				{_menu = menu;}
 	protected void setDescription(String desc)		{_description = desc;}
-	protected void	setOnTheCard(boolean card)		{_onTheCard = card;}
-	protected void	setOffCampus(boolean off)		{_offCampus = off;}
-	protected void	setPhoneNumber(String number)	{_phoneNumber = number;}
+	protected void setMoneyAccepted(boolean mealMon){_mealMoneyAccepted = mealMon;}
+	protected void setPlanAccepted(boolean mealPlan){_mealPlanAccepted = mealPlan;}
+	protected void setOffCampus(boolean off)		{_offCampus = off;}
+	protected void setPhoneNumber(String number)	{_phoneNumber = number;}
 	protected void setUrl(String url)				{_url = url;}
-	protected void	setIcon(int iconID)				{_icon = iconID;}
+	protected void setIcon(int iconID)				{_icon = iconID;}
 
 	public boolean create() 						{return DBWrapper.create(this);}
 	
