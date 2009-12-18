@@ -73,10 +73,9 @@ public class EventRequestHandler implements NotificationHandler {
 			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, " +
 			"events.userid as user, locations.locationid as locid, locations.name as locname, lat, lon, events.lastupdate as lastupdate, events.sourceuid as sourceuid " +
 			"from events inner join locations on events.locationid = locations.locationid " +
-			"where endtime > ?  and events.lastupdate >= ? and ? * ACOS( (SIN( PI() * ? / 180) * " +
+			"where endtime > ?  and events.lastupdate >= ? and (? * ACOS( (SIN( PI() * ? / 180) * " +
 			"SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
-			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ?" + 
-			" OR (lat IS NULL AND endtime > ? AND events.lastupdate >= ?)";
+			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ? OR lat IS NULL)";
 			
 
 			PreparedStatement prep = db.prepareStatement(sql);
@@ -88,11 +87,13 @@ public class EventRequestHandler implements NotificationHandler {
 			prep.setDouble(5,req.getAnchor().getLat());
 			prep.setDouble(6,req.getAnchor().getLon());
 			prep.setDouble(7, req.getDistance());
-			prep.setLong(8, System.currentTimeMillis() / 1000);
-			prep.setLong(9, req.getUpdateTime());
-			
 
 			prep.executeUpdate();
+			
+			sql = "select id, name, starttime, endtime, deviceid, locid, locname, lat, lon, lastupdate, sourceuid, eventmeta.value as description " +
+					"from evtstmp inner join people on user = userid " +
+					"left join eventmeta on id = eventmeta.eventid " +
+					"where metatype = 1";
 			
 			prep = db.prepareStatement(sql);
 			
