@@ -75,7 +75,8 @@ public class EventRequestHandler implements NotificationHandler {
 			"from events inner join locations on events.locationid = locations.locationid " +
 			"where endtime > ?  and events.lastupdate >= ? and ? * ACOS( (SIN( PI() * ? / 180) * " +
 			"SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
-			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ?";
+			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ?" + 
+			" OR (lat IS NULL AND endtime > ? AND events.lastupdate >= ?)";
 			
 
 			PreparedStatement prep = db.prepareStatement(sql);
@@ -87,15 +88,14 @@ public class EventRequestHandler implements NotificationHandler {
 			prep.setDouble(5,req.getAnchor().getLat());
 			prep.setDouble(6,req.getAnchor().getLon());
 			prep.setDouble(7, req.getDistance());
+			prep.setLong(8, System.currentTimeMillis() / 1000);
+			prep.setLong(9, req.getUpdateTime());
+			
 
 			prep.executeUpdate();
 			
-			sql = "select id, name, starttime, endtime, deviceid, locid, locname, lat, lon, lastupdate, sourceuid, eventmeta.value as description " +
-					"from evtstmp inner join people on user = userid " +
-					"left join eventmeta on id = eventmeta.eventid " +
-					"where metatype = 1";
-			
 			prep = db.prepareStatement(sql);
+			
 			ResultSet rs = prep.executeQuery();
 			
 			while (rs.next()) {
