@@ -15,8 +15,6 @@
  **************************************************************************/
 package org.vuphone.vandyupon.sql;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
@@ -24,6 +22,8 @@ import javax.sql.DataSource;
 public class SqliteConstructor implements DatabaseConstructor {
 
 	public void construct(DataSource ds) throws SQLException {
+		throw new UnsupportedOperationException("SQLite is not maintained right now. Switch to mySQL");
+		/*
 		Connection db = ds.getConnection();
 		db.setAutoCommit(false);
 
@@ -66,7 +66,7 @@ public class SqliteConstructor implements DatabaseConstructor {
 		db.commit();
 
 		db.close();
-		
+		*/
 	}
 
 }

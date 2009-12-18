@@ -37,8 +37,8 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		sql = "CREATE TABLE IF NOT EXISTS locations ( "
 				+ "locationid INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "name varchar(100) not null,"
-				+ "Lat DOUBLE NOT NULL," + "Lon DOUBLE NOT NULL,"
+				+ "name varchar(100),"
+				+ "Lat DOUBLE," + "Lon DOUBLE,"
 				+ "Date BIGINT NOT NULL," + "userid int not null references people(userid)," +
 						"lastupdate bigint not null)"
 				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";

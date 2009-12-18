@@ -159,6 +159,5 @@ public class EventPost extends Notification {
 	public String getSourceUid() {
 		return sourceUid_;
 	}
-	
 
 }
