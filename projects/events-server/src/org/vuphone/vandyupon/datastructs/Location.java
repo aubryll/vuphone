@@ -17,6 +17,7 @@ package org.vuphone.vandyupon.datastructs;
 
 public class Location {
 
+	private int locationid_;
 	private String name_;
 	private double lat_;
 	private double lon_;
@@ -36,6 +37,20 @@ public class Location {
 		lon_ = lon;
 	}
 	
+	public Location(int locationid, String name, double lat, double lon) {
+		locationid_ = locationid;
+		name_ = name;
+		lat_ = lat;
+		lon_ = lon;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public int getLocationid() {
+		return locationid_;
+	}
+
 	/**
 	 * @return the name_
 	 */
