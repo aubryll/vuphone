@@ -34,6 +34,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.eventpost.EventPost;
 
 public class RequestICal {
@@ -51,7 +52,8 @@ public class RequestICal {
 		BufferedReader reader = null;
 		URL url = null;
 		try {
-			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
+			url = new URL(
+					"http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
 			reader = new BufferedReader(new InputStreamReader(url.openStream()));
 		} catch (MalformedURLException e1) {
 			System.err.println("ICS calendar URL malformed");
@@ -61,7 +63,8 @@ public class RequestICal {
 			System.err.println("Couldn't load ICS calendar");
 			e1.printStackTrace();
 		}
-		
+
+		// Write it back out to a temp file
 		try {
 			FileWriter writer = new FileWriter("vu-calendar-temp.ics");
 			BufferedWriter out = new BufferedWriter(writer);
@@ -71,16 +74,16 @@ public class RequestICal {
 			}
 			out.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-				
+
 		// Read in the iCal file from the preprocessed temp file
 		FileInputStream fin = null;
 		try {
 			fin = new FileInputStream("vu-calendar-temp.ics");
 		} catch (FileNotFoundException e) {
-			System.err.println("Could not read preprocessed input file vu-calendar-temp.ics");
+			System.err
+					.println("Could not read preprocessed input file vu-calendar-temp.ics");
 			e.printStackTrace();
 			return;
 		}
@@ -96,8 +99,7 @@ public class RequestICal {
 		} catch (ParserException e) {
 			e.printStackTrace();
 			return;
-		}
-		finally {
+		} finally {
 			try {
 				fin.close();
 			} catch (IOException e) {
@@ -113,30 +115,31 @@ public class RequestICal {
 		for (int i = 0; i < events.size(); ++i) {
 			EventPost ep = new EventPost();
 
-			c = (Component)events.get(i);
+			c = (Component) events.get(i);
 
 			Property locName = c.getProperty(Property.LOCATION);
 			if (locName != null) {
 				// Strip backslashes before colons that occur in the ics file
 				ep.setLocationName(locName.getValue().replaceAll("\\\\", ""));
-			}
-			
+			} else
+				ep.setLocationName(null);
+
 			// get geolocation
 			org.vuphone.vandyupon.datastructs.Location location = getLocation(c);
-			if (location == null)
-				continue;
 			ep.setLocation(location);
 
 			// get name
-			Summary name = (Summary)c.getProperty(Property.SUMMARY);
+			Summary name = (Summary) c.getProperty(Property.SUMMARY);
 			if (name == null) {
+				System.out.println("Skipping one w/o a name");
 				continue;
 			}
 			// Strip backslashes before colons that occur in the ics file
 			ep.setName(name.getValue().replaceAll("\\\\", ""));
-			
+
 			// get description
-			Description desc = (Description)c.getProperty(Property.DESCRIPTION);
+			Description desc = (Description) c
+					.getProperty(Property.DESCRIPTION);
 			if (desc != null) {
 				// Strip backslashes before colons that occur in the ics file
 				ep.setDescription(desc.getValue().replaceAll("\\\\", ""));
@@ -161,17 +164,17 @@ public class RequestICal {
 			} else {
 				ep.setEndTime(end.getDate().getTime() / 1000);
 			}
-			
+
 			// get UID
 			ep.setSourceUid(c.getProperty(Property.UID).getValue());
 
-			boolean postWorked = doEventPost(ep.getName(), ep.getStartTime(), ep.getEndTime(),
-					ep.getLocationName(), ep.getLocation().getLat(), ep.getLocation().getLon(),
-					ep.getDescription(), ep.getSourceUid());
+			boolean postWorked = doEventPost(ep.getName(), ep.getStartTime(),
+					ep.getEndTime(), ep.getLocationName(), ep.getLocation(), ep
+							.getDescription(), ep.getSourceUid());
 
 			if (postWorked == false)
 				++other;
-			
+
 		}
 
 		System.out.println("Missing " + missing);
@@ -199,30 +202,36 @@ public class RequestICal {
 	 *            event location
 	 * @param desc
 	 *            event description
-	 * @param sourceUid 
+	 * @param sourceUid
 	 * @param context
 	 *            application context used to fetch the android ID
 	 * @return true if the server was contacted, and returned 200 OK, false
 	 *         otherwise
 	 */
 	public static boolean doEventPost(String name, long start, long end,
-			String locName, double lat, double lon, String desc, String sourceUid) {
+			String locName, Location loc, String desc, String sourceUid) {
 
 		lastError_ = "";
 
 		String startTime = Long.toString(start);
 		String endTime = Long.toString(end);
-		String latitude = Double.toString((double) lat);
-		String longitude = Double.toString((double) lon);
+		String latitude = null, longitude = null;
+		if (loc != null) {
+			latitude = Double.toString((double) loc.getLat());
+			longitude = Double.toString((double) loc.getLon());
+		}
 		String androidID = "vandy cal datamine";
 
 		try {
 			name = URLEncoder.encode(name, "UTF-8");
 			startTime = URLEncoder.encode(startTime, "UTF-8");
 			endTime = URLEncoder.encode(endTime, "UTF-8");
-			locName = URLEncoder.encode(locName, "UTF-8");
-			latitude = URLEncoder.encode(latitude, "UTF-8");
-			longitude = URLEncoder.encode(longitude, "UTF-8");
+			if (locName != null)
+				locName = URLEncoder.encode(locName, "UTF-8");
+			if (loc != null) {
+				latitude = URLEncoder.encode(latitude, "UTF-8");
+				longitude = URLEncoder.encode(longitude, "UTF-8");
+			}
 			androidID = URLEncoder.encode(androidID, "UTF-8");
 			desc = URLEncoder.encode(desc, "UTF-8");
 			sourceUid = URLEncoder.encode(sourceUid, "UTF-8");
@@ -242,12 +251,19 @@ public class RequestICal {
 		// Create the parameter string
 		StringBuffer params = new StringBuffer();
 		params.append("type=eventpost");
-		params.append("&locationname=");
-		params.append(locName);
-		params.append("&locationlat=");
-		params.append(latitude);
-		params.append("&locationlon=");
-		params.append(longitude);
+
+		if (locName != null) {
+			params.append("&locationname=");
+			params.append(locName);
+		}
+		if (latitude != null) {
+			params.append("&locationlat=");
+			params.append(latitude);
+		}
+		if (longitude != null) {
+			params.append("&locationlon=");
+			params.append(longitude);
+		}
 		params.append("&eventname=");
 		params.append(name);
 		params.append("&starttime=");
@@ -306,7 +322,8 @@ public class RequestICal {
 		return true;
 	}
 
-	private static org.vuphone.vandyupon.datastructs.Location getLocation(Component c) {
+	private static org.vuphone.vandyupon.datastructs.Location getLocation(
+			Component c) {
 		Property location = c.getProperty(Property.LOCATION);
 
 		org.vuphone.vandyupon.datastructs.Location geoLocation = null;
