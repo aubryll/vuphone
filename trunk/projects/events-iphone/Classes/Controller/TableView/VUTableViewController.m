@@ -142,17 +142,13 @@
 
 
 - (void)beginEditingFields {
-	if (!isEditingFields) {
-		isEditingFields = YES;
-		[self propagateEditingFields];
-	}
+	isEditingFields = YES;
+	[self propagateEditingFields];
 }
 
 - (void)endEditingFields {
-	if (isEditingFields) {
-		isEditingFields = NO;
-		[self propagateEditingFields];
-	}
+	isEditingFields = NO;
+	[self propagateEditingFields];
 }
 
 - (void)propagateEditingFields
@@ -169,6 +165,31 @@
 	}
 }
 
+
+#pragma mark UIViewController methods
+- (void)viewWillAppear:(BOOL)animated
+{
+	// Have to propagate this manually to all controllers
+	for (NSArray *group in [self tableGroups]) {
+		for (NSObject<VUCellController> *cell in group) {
+			[(UIViewController *)cell viewWillAppear:animated];
+		}
+	}
+	
+	[super viewWillDisappear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	// Have to propagate this manually to all controllers
+	for (NSArray *group in [self tableGroups]) {
+		for (NSObject<VUCellController> *cell in group) {
+			[(UIViewController *)cell viewWillDisappear:animated];
+		}
+	}
+
+	[super viewWillDisappear:animated];
+}
 
 //
 // didReceiveMemoryWarning

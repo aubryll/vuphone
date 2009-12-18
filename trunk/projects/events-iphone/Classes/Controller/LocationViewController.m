@@ -11,31 +11,37 @@
 #import "EventViewController.h"
 #import "NSManagedObject-IsNew.h"
 
+@interface LocationViewController(PrivateMethods)
+
+- (void)applyEditing;
+
+@end
+
+
 @implementation LocationViewController
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	// Populate the fields from the location
 	nameField.text = location.name;
-	latitudeLabel.text = [location.latitude stringValue];
-	longitudeLabel.text = [location.longitude stringValue];
-	
-	// Add or remove the editable button
-	if ([location isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
-		self.navigationItem.rightBarButtonItem = editButton;
-	} else {
-		self.navigationItem.rightBarButtonItem = nil;
-	}
 	
 	// Set up the map
 	[mapView setRegion:MKCoordinateRegionMakeWithDistance(location.coordinate, 200.0, 200.0)];
 	[mapView removeAnnotation:location];
 	
-	if (location != nil) {
+	if (location) {
 		[mapView addAnnotation:location];
 	}
 	
-	[self applyIsEditing];
+	[self applyEditing];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	NSLog(@"viewWillDisappear");
+	if (location) {
+		[mapView removeAnnotation:location];
+	}
 }
 
 - (IBAction)save:(id)sender
@@ -64,23 +70,53 @@
 - (IBAction)edit:(id)sender
 {
 	self.isEditing = YES;
-	[self applyIsEditing];
+	[self applyEditing];
 }
 
-- (void)applyIsEditing
+- (IBAction)cancel:(id)sender
+{	
+	BOOL shouldPopView = NO;
+	if ([location isNew]) {
+		shouldPopView = YES;
+	}
+
+	[editingContext rollback];
+	
+	// Reset the view
+	self.isEditing = NO;
+	[self applyEditing];
+	nameField.text = location.name;
+	
+	if (shouldPopView) {
+		[self.navigationController popViewControllerAnimated:YES];
+	}
+}
+
+- (void)applyEditing
 {
 	nameField.enabled = isEditing;
 	
-	if (isEditing) {
+	if (isEditing)
+	{
 		self.title = @"Edit Location";
 		self.navigationItem.rightBarButtonItem = saveButton;
+		self.navigationItem.leftBarButtonItem = cancelButton;
 
 		nameField.borderStyle = UITextBorderStyleRoundedRect;
 		nameField.font = [UIFont boldSystemFontOfSize:12.0f];
-	} else {
+	}
+	else
+	{
 		self.title = @"Location Details";
-		self.navigationItem.rightBarButtonItem = editButton;
+		self.navigationItem.leftBarButtonItem = nil;
 
+		// Add or remove the editable button
+		if ([location isEditableByDeviceWithId:[[UIDevice currentDevice] uniqueIdentifier]]) {
+			self.navigationItem.rightBarButtonItem = editButton;
+		} else {
+			self.navigationItem.rightBarButtonItem = nil;
+		}
+		
 		nameField.borderStyle = UITextBorderStyleNone;
 		nameField.font = [UIFont boldSystemFontOfSize:17.0f];
 	}
@@ -94,8 +130,10 @@
 }
 
 - (void)viewDidUnload {
+	NSLog(@"viewDidUnload");
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.mapView = nil;
 }
 
 
@@ -105,13 +143,11 @@
 
 #pragma mark MKMapViewDelegate
 
-- (void)mapView:(MKMapView *)aMapView regionDidChangeAnimated:(BOOL)animated {
+- (void)mapView:(MKMapView *)aMapView regionDidChangeAnimated:(BOOL)animated
+{
 	MKCoordinateRegion region = [aMapView region];
 	
 	if (isEditing) {
-		latitudeLabel.text = [NSString stringWithFormat:@"%f", region.center.latitude];
-		longitudeLabel.text = [NSString stringWithFormat:@"%f", region.center.longitude];
-
 		[mapView removeAnnotation:location];
 
 		location.latitude = [NSDecimalNumber decimalNumberWithDecimal:
@@ -131,10 +167,9 @@
 	return YES;
 }
 
-
-
 @synthesize editingContext;
 @synthesize location;
 @synthesize isEditing;
+@synthesize mapView;
 
 @end

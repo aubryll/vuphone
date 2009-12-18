@@ -113,7 +113,9 @@ static EventStore *eventStore = nil;
 	if (managedObjectModel != nil) {
 		return managedObjectModel;
 	}
-	managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"Events 4" ofType:@"mom" inDirectory:nil];
+	NSURL *url = [NSURL fileURLWithPath:path];
+	managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:url];
 
 	return managedObjectModel;
 }

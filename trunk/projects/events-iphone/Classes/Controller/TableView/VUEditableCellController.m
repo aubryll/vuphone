@@ -25,14 +25,17 @@
     [super dealloc];
 }
 
-- (UITableViewCell *)cell
+- (VUEditableCell *)cell
 {
 	if (editableCell == nil) {
 		editableCell = [[[VUEditableCell alloc] initWithController:self] retain];
+
+		editableCell.textLabel.text = self.label;
+		editableCell.textField.text = self.value;
+		editableCell.valueView.text = self.value;
+		
+		[editableCell setEditable:isEditable];
 	}
-	editableCell.textLabel.text = self.label;
-	editableCell.textField.text = self.value;
-	[editableCell setEditable:isEditable];
 	
 	return editableCell;
 }
@@ -45,6 +48,17 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return [self cell];
+}
+
+- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	VUEditableCell *cellAtRow = (VUEditableCell *)[self cell];
+
+	if (isEditable) {
+		return 44.0f;
+	} else {
+		return cellAtRow.valueView.frame.size.height;
+	}
 }
 
 //
@@ -66,6 +80,10 @@
 	[(VUEditableCell *)[self cell] setEditable:isEditing];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[self textFieldValueChanged:editableCell.textField.text];
+}
 
 - (void)textFieldValueChanged:(NSString *)newValue
 {
@@ -73,6 +91,11 @@
 	if (delegate && [delegate respondsToSelector:@selector(cellControllerValueChanged:forKey:)]) {
 		[delegate cellControllerValueChanged:self.value forKey:key];
 	}
+}
+
+- (void)setValue:(NSString *)newValue {
+	[value release];
+	value = [newValue copy];
 }
 
 @synthesize label;

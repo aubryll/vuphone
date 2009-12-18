@@ -77,6 +77,11 @@
 		61F77BB810556A860071CA64 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BB710556A860071CA64 /* MapViewController.m */; };
 		61FD061010C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */; };
 		61FD061110C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */; };
+		61FD0B7C10C9A3AA000EA568 /* Events.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */; };
+		61FD0B7D10C9A3AA000EA568 /* Events 2.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */; };
+		61FD0B7E10C9A3AA000EA568 /* Events 4.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 61FD0B0210C789CF000EA568 /* Events 4.xcdatamodel */; };
+		61FD0BA110C9A63F000EA568 /* Events 4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 61FD0BA010C9A63F000EA568 /* Events 4.xcmappingmodel */; };
+		61FD0BA210C9A63F000EA568 /* Events 4.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 61FD0BA010C9A63F000EA568 /* Events 4.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -179,6 +184,8 @@
 		61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Events 2.xcdatamodel"; sourceTree = "<group>"; };
 		61FD060E10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
 		61FD060F10C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext-Convenience.m"; sourceTree = "<group>"; };
+		61FD0B0210C789CF000EA568 /* Events 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Events 4.xcdatamodel"; sourceTree = "<group>"; };
+		61FD0BA010C9A63F000EA568 /* Events 4.xcmappingmodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcmappingmodel; path = "Events 4.xcmappingmodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +246,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				615BFB1C105D5863005497F9 /* libxml2.dylib */,
+				61FD0BA010C9A63F000EA568 /* Events 4.xcmappingmodel */,
 				615DABC81088374300566919 /* Events.xcdatamodeld */,
 				61125E8C1064868B00247A75 /* Events-Info.plist */,
 				61F77A071054D0500071CA64 /* UnitTests-Info.plist */,
@@ -540,6 +548,10 @@
 				612250C210ACEA150074B05D /* VUURLCellController.m in Sources */,
 				615C9F0D10B076B100E310F2 /* Events 3.xcdatamodel in Sources */,
 				61FD061110C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */,
+				61FD0B7C10C9A3AA000EA568 /* Events.xcdatamodel in Sources */,
+				61FD0B7D10C9A3AA000EA568 /* Events 2.xcdatamodel in Sources */,
+				61FD0B7E10C9A3AA000EA568 /* Events 4.xcdatamodel in Sources */,
+				61FD0BA110C9A63F000EA568 /* Events 4.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +574,7 @@
 				6122505610ACD5150074B05D /* EventRating.m in Sources */,
 				612250C310ACEA150074B05D /* VUURLCellController.m in Sources */,
 				61FD061010C5A3F7000EA568 /* NSManagedObjectContext-Convenience.m in Sources */,
+				61FD0BA210C9A63F000EA568 /* Events 4.xcmappingmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,8 +741,9 @@
 				28C3AD890F43EF2300507BA6 /* Events.xcdatamodel */,
 				61F9CF4A10A87E0200BDBD53 /* Events 2.xcdatamodel */,
 				615C9F0C10B076B100E310F2 /* Events 3.xcdatamodel */,
+				61FD0B0210C789CF000EA568 /* Events 4.xcdatamodel */,
 			);
-			currentVersion = 615C9F0C10B076B100E310F2 /* Events 3.xcdatamodel */;
+			currentVersion = 61FD0B0210C789CF000EA568 /* Events 4.xcdatamodel */;
 			path = Events.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

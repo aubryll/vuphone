@@ -15,6 +15,7 @@
 
 	IBOutlet UILabel *textLabel;
 	IBOutlet UITextField *textField;
+	IBOutlet UITextView *valueView;
 	
 	VUEditableCellController *controller;
 }
@@ -22,7 +23,8 @@
 - (id)initWithController:(VUEditableCellController *)owningController;
 - (void)setEditable:(BOOL)editable;
 
-@property (nonatomic, retain) UILabel *textLabel;
-@property (nonatomic, retain) UITextField *textField;
+@property (nonatomic, retain) IBOutlet UILabel *textLabel;
+@property (retain) IBOutlet UITextField *textField;
+@property (retain) IBOutlet UITextView *valueView;
 
 @end

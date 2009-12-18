@@ -16,6 +16,11 @@
 	return VUStartEndDateCellHeight;
 }
 
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {	
+	// Disallow selection
+	[super setSelected:NO animated:NO];
+}
+
 - (void)setStartDate:(NSDate *)date {
 	[startDate autorelease];
 	// Don't allow a null date
