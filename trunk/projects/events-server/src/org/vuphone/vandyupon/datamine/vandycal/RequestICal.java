@@ -1,13 +1,20 @@
 /**
- * 
+ * @author Hamilton Turner
+ * @author Aaron Thompson
  */
 package org.vuphone.vandyupon.datamine.vandycal;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -29,10 +36,6 @@ import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.vuphone.vandyupon.notification.eventpost.EventPost;
 
-/**
- * @author Hamilton Turner
- * 
- */
 public class RequestICal {
 	// Some book-keeping variables
 	private static int missing = 0;
@@ -44,18 +47,45 @@ public class RequestICal {
 	}
 
 	public static void doIt() throws InterruptedException {
-
+		// First, read the file in, removing all instances of "US-Central:"
+		BufferedReader reader = null;
+		URL url = null;
+		try {
+			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
+			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		} catch (MalformedURLException e1) {
+			System.err.println("ICS calendar URL malformed");
+			e1.printStackTrace();
+			return;
+		} catch (IOException e1) {
+			System.err.println("Couldn't load ICS calendar");
+			e1.printStackTrace();
+		}
+		
+		try {
+			FileWriter writer = new FileWriter("vu-calendar-temp.ics");
+			BufferedWriter out = new BufferedWriter(writer);
+			String s;
+			while ((s = reader.readLine()) != null) {
+				out.write(s.replaceFirst("US-Central:", "") + "\n");
+			}
+			out.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+				
+		// Read in the iCal file from the preprocessed temp file
 		FileInputStream fin = null;
 		try {
-			fin = new FileInputStream("vu-calendar.ics");
+			fin = new FileInputStream("vu-calendar-temp.ics");
 		} catch (FileNotFoundException e) {
-			System.err
-					.println("Could not read sample input file vu-calendar.ics");
+			System.err.println("Could not read preprocessed input file vu-calendar-temp.ics");
 			e.printStackTrace();
 			return;
 		}
 
-		// Read in the ICAL file
+		// Now build the calendar
 		CalendarBuilder builder = new CalendarBuilder();
 		Calendar calendar = null;
 		try {
@@ -66,6 +96,13 @@ public class RequestICal {
 		} catch (ParserException e) {
 			e.printStackTrace();
 			return;
+		}
+		finally {
+			try {
+				fin.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		// Get all of the events from the calendar
