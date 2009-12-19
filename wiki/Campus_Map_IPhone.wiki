@@ -32,6 +32,8 @@ Map: Guy
  * <img src='http://ni2.in/tb/.png'/> tap a button that will move the map view to the center of campus and zoom to fit campus
  * *see the app decked out with the _official_ Vanderbilt color scheme*
  * rotate the device to reorient the map into portrait or landscape orientation
+ * See POIs on the map as soon as they are loaded, instead of just when the layer is refreshed
+ * See a loading screen when the app is first launched that indicates the first POIs are being loaded
 Layers: Ben, AJ
  * <img src='http://ni2.in/tb/.png'/> see the markers from the currently chosen layer
  * <img src='http://ni2.in/tb/.png'/> tap a button that will display the list of layers
