@@ -1,27 +1,18 @@
 package edu.vanderbilt.vuphone.android.events.submitevent;
 
-import java.io.IOException;
 import java.util.GregorianCalendar;
-
-import edu.vanderbilt.vuphone.android.events.R;
-import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -30,6 +21,7 @@ import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.LocationManager;
+import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
 
 /**
@@ -191,10 +183,11 @@ public class SubmitEvent extends Activity {
 
 	/** Clears the EditText fields. Used in the Menu */
 	private void clear() {
-		EditText et = (EditText) findViewById(R.id.ET_event_title);
-		et.setText("");
-		et = (EditText) findViewById(R.id.ET_event_desc);
-		et.setText("");
+		//TODO uncomment
+//		EditText et = (EditText) findViewById(R.submitEventPage.ET_event_title);
+//		et.setText("");
+//		et = (EditText) findViewById(R.submitEventPage.ET_event_desc);
+//		et.setText("");
 	}
 
 	/** Helper function to turn the Month from an integer into a String */
@@ -272,88 +265,90 @@ public class SubmitEvent extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//TODO Finish fixing layout, and then uncomment
+		
 		setContentView(R.layout.submit_event);
-
-		dateLabel_ = (TextView) findViewById(R.id.TV_event_date);
-		timeLabel_ = (TextView) findViewById(R.id.TV_event_time);
-		buildingLabel_ = (TextView) findViewById(R.id.TV_event_building);
-
-		dateEndLabel_ = (TextView) findViewById(R.id.TV_event_date_end);
-		timeEndLabel_ = (TextView) findViewById(R.id.TV_event_time_end);
-
-		nameLabel_ = (EditText) findViewById(R.id.ET_event_title);
-		descLabel_ = (EditText) findViewById(R.id.ET_event_desc);
-
-		// Create the onClickListener for the date
-		dateLabel_.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_DATE_PICKER);
-			}
-		});
-
-		// Create the onClickListener for the date
-		timeLabel_.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_TIME_PICKER);
-			}
-		});
-
-		// Create the onClickListener for the date
-		dateEndLabel_.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_END_DATE_PICKER);
-			}
-		});
-
-		// Create the onClickListener for the date
-		timeEndLabel_.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				showDialog(DIALOG_END_TIME_PICKER);
-			}
-		});
-
-		// Set the initial date
-		startCalendar_ = new GregorianCalendar();
-		endCalendar_ = new GregorianCalendar();
-		endCalendar_.add(GregorianCalendar.HOUR, 2);
-
-		while ((startCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
-			startCalendar_.add(GregorianCalendar.MINUTE, 1);
-
-		while ((endCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
-			endCalendar_.add(GregorianCalendar.MINUTE, 1);
-
-		updateDateLabels();
-		updateTimeLabels();
-
-		// Set up the location chooser
-		buildingLabel_.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				startActivityForResult(new Intent(SubmitEvent.this,
-						ChooseLocation.class), REQUEST_LIST_LOCATION);
-			}
-		});
-
-		ColorStateList csl = null;
-		XmlResourceParser parser = getResources().getXml(
-				R.color.focused_textview);
-		try {
-			csl = ColorStateList.createFromXml(getResources(), parser);
-		} catch (XmlPullParserException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		if (csl == null)
-			return;
-
-		dateLabel_.setTextColor(csl);
-		timeLabel_.setTextColor(csl);
-		buildingLabel_.setTextColor(csl);
-
-		dateEndLabel_.setTextColor(csl);
-		timeEndLabel_.setTextColor(csl);
+//
+//		dateLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_date);
+//		timeLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_time);
+//		buildingLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_building);
+//
+//		dateEndLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_date_end);
+//		timeEndLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_time_end);
+//
+//		nameLabel_ = (EditText) findViewById(R.submitEventPage.ET_event_title);
+//		descLabel_ = (EditText) findViewById(R.submitEventPage.ET_event_desc);
+//
+//		// Create the onClickListener for the date
+//		dateLabel_.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				showDialog(DIALOG_DATE_PICKER);
+//			}
+//		});
+//
+//		// Create the onClickListener for the date
+//		timeLabel_.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				showDialog(DIALOG_TIME_PICKER);
+//			}
+//		});
+//
+//		// Create the onClickListener for the date
+//		dateEndLabel_.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				showDialog(DIALOG_END_DATE_PICKER);
+//			}
+//		});
+//
+//		// Create the onClickListener for the date
+//		timeEndLabel_.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				showDialog(DIALOG_END_TIME_PICKER);
+//			}
+//		});
+//
+//		// Set the initial date
+//		startCalendar_ = new GregorianCalendar();
+//		endCalendar_ = new GregorianCalendar();
+//		endCalendar_.add(GregorianCalendar.HOUR, 2);
+//
+//		while ((startCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
+//			startCalendar_.add(GregorianCalendar.MINUTE, 1);
+//
+//		while ((endCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
+//			endCalendar_.add(GregorianCalendar.MINUTE, 1);
+//
+//		updateDateLabels();
+//		updateTimeLabels();
+//
+//		// Set up the location chooser
+//		buildingLabel_.setOnClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				startActivityForResult(new Intent(SubmitEvent.this,
+//						ChooseLocation.class), REQUEST_LIST_LOCATION);
+//			}
+//		});
+//
+//		ColorStateList csl = null;
+//		XmlResourceParser parser = getResources().getXml(
+//				R.color.focused_textview);
+//		try {
+//			csl = ColorStateList.createFromXml(getResources(), parser);
+//		} catch (XmlPullParserException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		if (csl == null)
+//			return;
+//
+//		dateLabel_.setTextColor(csl);
+//		timeLabel_.setTextColor(csl);
+//		buildingLabel_.setTextColor(csl);
+//
+//		dateEndLabel_.setTextColor(csl);
+//		timeEndLabel_.setTextColor(csl);
 	}
 
 	/** Creates the menu items */
@@ -411,8 +406,6 @@ public class SubmitEvent extends Activity {
 			dateEndLabel_.setEnabled(false);
 			timeEndLabel_.setEnabled(false);
 			buildingLabel_.setEnabled(false);
-			Spinner locationModifier = (Spinner) findViewById(R.id.SPIN_event_location);
-			locationModifier.setEnabled(false);
 
 			boolean posted = EventPoster.doEventPost(nameLabel_.getText()
 					.toString(), startCalendar_, endCalendar_, location_,
@@ -434,7 +427,6 @@ public class SubmitEvent extends Activity {
 				dateEndLabel_.setEnabled(true);
 				timeEndLabel_.setEnabled(true);
 				buildingLabel_.setEnabled(true);
-				locationModifier.setEnabled(true);
 			}
 		} else if (item.getTitle().equals("Clear"))
 			clear();

@@ -1,99 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content" android:layout_height="wrap_content">
-
-	<RelativeLayout android:layout_width="fill_parent"
-		android:layout_height="fill_parent">
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Event Title"
-			android:typeface="sans" android:textSize="19sp" android:paddingTop="17sp"
-			android:paddingLeft="12sp" android:id="@+id/TV_event_title"></TextView>
-
-		<EditText android:id="@+id/ET_event_title"
-			android:layout_alignParentRight="true" android:layout_width="wrap_content"
-			android:layout_marginTop="8sp" android:layout_marginRight="10sp"
-			android:layout_marginLeft="15sp" android:layout_height="wrap_content"
-			android:text="Type your event name here" android:textSize="17sp"
-			android:layout_toRightOf="@id/TV_event_title" android:nextFocusDown="@+id/TV_event_date"></EditText>
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/TV_event_date_time"
-			android:layout_below="@id/ET_event_title" android:layout_alignRight="@+id/TV_event_title"
-			android:textSize="19sp" android:text="Date, Time" android:paddingTop="2sp"></TextView>
-
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_alignRight="@+id/TV_event_date_time"
-			android:layout_below="@+id/TV_event_date_time" android:textSize="19sp"
-			android:text="Location" android:id="@+id/TV_event_location" android:paddingTop="40sp"></TextView>
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/TV_event_date"
-			android:layout_toRightOf="@+id/TV_event_date_time"
-			android:layout_alignBottom="@+id/TV_event_date_time"
-			android:layout_alignLeft="@+id/ET_event_title" android:text="Sept. 7, 2009"
-			android:textSize="17sp" android:paddingLeft="10sp"
-			android:paddingBottom="1sp" android:clickable="true"
-			android:focusable="true" android:nextFocusDown="@+id/TV_event_date_end" android:nextFocusRight="@+id/TV_event_time" android:nextFocusUp="@+id/ET_event_title"></TextView>
-
-
-		<TextView android:layout_below="@+id/TV_event_date"
-			android:layout_toRightOf="@+id/TV_event_date_time"
-			android:layout_height="wrap_content" android:layout_width="wrap_content"
-			android:paddingLeft="10sp" android:layout_alignLeft="@+id/ET_event_title"
-			android:clickable="true" android:focusable="true" android:id="@+id/TV_event_date_end"
-			android:textSize="17sp" android:text="Sept. 7, 2009"
-			android:paddingBottom="1sp" android:layout_marginTop="2sp" android:nextFocusUp="@+id/TV_event_date" android:nextFocusRight="@+id/TV_event_time_end" android:nextFocusDown="@+id/SPIN_event_location"></TextView>
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="7:00 PM"
-			android:textSize="17sp" android:layout_toRightOf="@+id/TV_event_date"
-			android:layout_alignTop="@+id/TV_event_date" android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
-			android:paddingRight="3sp" android:id="@+id/TV_event_time"
-			android:clickable="true" android:focusable="true" android:nextFocusDown="@+id/TV_event_time_end" android:nextFocusLeft="@+id/TV_event_date" android:nextFocusUp="@+id/ET_event_title"></TextView>
-
-		<TextView android:text="8:00 PM" android:layout_toRightOf="@+id/TV_event_date"
-			android:textSize="17sp" android:layout_alignRight="@+id/ET_event_title" android:gravity="right"
-			android:layout_height="wrap_content" android:layout_width="wrap_content" android:paddingRight="3sp" android:layout_alignTop="@+id/TV_event_date_end" android:nextFocusDown="@+id/SPIN_event_location" android:id="@+id/TV_event_time_end" android:nextFocusUp="@+id/TV_event_time" android:nextFocusLeft="@+id/TV_event_date_end" android:focusable="true" android:clickable="true"></TextView>
-
-		<Spinner android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_location"
-			android:layout_alignLeft="@+id/TV_event_date"
-			android:layout_alignTop="@+id/TV_event_location"
-			android:id="@+id/SPIN_event_location"
-			android:layout_alignRight="@+id/ET_event_title"
-			android:layout_marginLeft="2sp" android:entries="@array/location_modifiers"
-			android:nextFocusDown="@+id/TV_event_building" android:nextFocusUp="@+id/TV_event_time_end" android:layout_marginTop="32sp"></Spinner>
-
-
-
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_alignLeft="@+id/SPIN_event_location"
-			android:layout_below="@+id/SPIN_event_location" android:paddingLeft="5sp"
-			android:text="Featheringill Hall" android:textSize="17sp"
-			android:paddingTop="4sp" android:id="@+id/TV_event_building"
-			android:clickable="true" android:focusable="true"></TextView>
-
-
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_alignRight="@+id/TV_event_location"
-			android:id="@+id/TV_event_desc" android:layout_below="@+id/TV_event_building"
-			android:textSize="19sp" android:text="Desc" android:layout_marginTop="10sp"></TextView>
-
-		<EditText android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_toRightOf="@+id/TV_event_desc"
-			android:layout_below="@+id/TV_event_building" android:id="@+id/ET_event_desc"
-			android:layout_alignLeft="@+id/ET_event_title"
-			android:layout_alignTop="@+id/TV_event_desc"
-			android:layout_alignRight="@+id/ET_event_title" android:textSize="17sp"
-			android:minLines="9" android:gravity="top"
-			android:text="Type your event description here"></EditText>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
 	
+	<!-- 
+	// TODO - Turn TextViews into buttons, convert entire layout so it uses
+	          @submitEventPage, rather than @id
+	-->
+
+	<!-- What Settings -->
+	<TextView android:id="@+submitEventPage/TV_what"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:typeface="sans" android:textSize="19sp" android:paddingTop="17sp"
+		android:paddingLeft="12sp" android:text="What"></TextView>
+
+	<EditText android:id="@+submitEventPage/ET_what"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_marginTop="8sp" android:layout_marginRight="10sp"
+		android:layout_marginLeft="15sp" android:layout_alignParentRight="true"
+		android:hint="Type your event name here" android:textSize="17sp"></EditText>
+	<!-- End What Settings -->
+	
+	<!-- When Settings -->
+	<TextView android:id="@+submitEventPage/TV_when"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@submitEventPage/ET_what"
+		android:layout_alignRight="@submitEventPage/TV_what"
+		android:textSize="19sp" android:paddingTop="2sp"
+		android:text="When"></TextView> 
+		
+		
+	<TextView android:id="@+submitEventPage/TV_when_start_day"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+submitEventPage/TV_when"
+		android:layout_alignTop="@+submitEventPage/TV_when"
+		android:layout_alignLeft="@+submitEventPage/ET_what"
+		android:text="Sept. 7, 2009" android:textSize="17sp"
+		android:paddingLeft="10sp" android:paddingBottom="1sp"
+		android:clickable="true" android:focusable="true"/> 
+	
+	<TextView
+		android:id="@+submitEventPage/TV_when_end_day"
+		android:layout_below="@+submitEventPage/TV_when_start_day"
+		android:layout_toRightOf="@+submitEventPage/TV_when"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:paddingLeft="10sp"
+		android:layout_alignLeft="@+submitEventPage/ET_what"
+		android:clickable="true" android:focusable="true"
+		android:textSize="17sp" android:text="Sept. 7, 2009"
+		android:paddingBottom="1sp" android:layout_marginTop="2sp"/>
+
+	<TextView android:id="@+submitEventPage/TV_event_time"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="7:00 PM"
+		android:textSize="17sp"
+		android:layout_toRightOf="@+submitEventPage/TV_when_start_day"
+		android:layout_alignTop="@+submitEventPage/TV_when_start_day"
+		android:layout_alignRight="@+submitEventPage/ET_what"
+		android:gravity="right" android:paddingRight="3sp"
+		android:clickable="true" android:focusable="true"
+		android:nextFocusDown="@+submitEventPage/TV_event_time_end"
+		android:nextFocusLeft="@+submitEventPage/TV_when_start_day"
+		android:nextFocusUp="@+submitEventPage/ET_what" /> 
+	
+	<TextView
+		android:id="@+submitEventPage/TV_event_time_end" android:text="8:00
+		PM" android:layout_toRightOf="@+submitEventPage/TV_when_start_day"
+		android:textSize="17sp"
+		android:layout_alignRight="@+submitEventPage/ET_what"
+		android:gravity="right" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:paddingRight="3sp"
+		android:layout_alignTop="@+submitEventPage/TV_when_end_day"
+		android:focusable="true" android:clickable="true" />
+		
+		
+	<!-- <TextView
+		android:id="@+submitEventPage/TV_where"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignRight="@+submitEventPage/TV_when"
+		android:layout_below="@+submitEventPage/TV_when"
+		android:textSize="19sp" android:text="Where"
+		android:paddingTop="35sp"></TextView> -->
+	<!-- End When Settings -->
+	
+	
+	<!-- End Side Bar Labels
+	
+		<TextView android:id="@+submitEventPage/TV_event_building"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:paddingLeft="5sp"
+		android:text="Featheringill Hall" android:textSize="17sp"
+		android:paddingTop="4sp" android:clickable="true"
+		android:focusable="true"
+		android:layout_alignLeft="@+submitEventPage/ET_what"
+		android:layout_alignBottom="@+submitEventPage/TV_where"></TextView>
+
+
+		<TextView android:id="@+submitEventPage/TV_event_desc"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignRight="@+submitEventPage/TV_where"
+		android:layout_below="@+submitEventPage/TV_event_building"
+		android:textSize="19sp" android:text="Desc"
+		android:layout_marginTop="10sp"></TextView> <EditText
+		android:id="@+submitEventPage/ET_event_desc"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@+submitEventPage/TV_event_desc"
+		android:layout_below="@+submitEventPage/TV_event_building"
+		android:layout_alignLeft="@+submitEventPage/ET_what"
+		android:layout_alignTop="@+submitEventPage/TV_event_desc"
+		android:layout_alignRight="@+submitEventPage/ET_what"
+		android:textSize="17sp" android:minLines="9" android:gravity="top"
+		android:text="Type your event description here"></EditText>
+	-->
 
 </RelativeLayout>
-</ScrollView>	
+
 	
 	
 

@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 	 * Handle used to invalidate the current view after showing/hiding the
 	 * details pane
 	 */
-	private LinearLayout eventMap_;
+	private RelativeLayout eventMap_;
 
 	/** Constants to identify MenuItems */
 	private static final int MENUITEM_NEW_EVENT = 0;
@@ -138,7 +139,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 		setContentView(R.layout.event_map);
 
 		eventDetailsPane_ = (LinearLayout) findViewById(R.id.event_details_pane);
-		eventMap_ = (LinearLayout) findViewById(R.id.event_map);
+		eventMap_ = (RelativeLayout) findViewById(R.id.event_map);
 
 		map_ = (EventViewerMap) findViewById(R.id.event_viewer_map);
 		map_.getEventOverlay().setOnFocusChangeListener(this);
@@ -158,19 +159,23 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 	/** Called when the options menu is first created */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, MENUITEM_NEW_EVENT, Menu.NONE, "New Event");
+		// TODO - Uncomment after finishing the SubmitEvent class!
+		// menu.add(0, MENUITEM_NEW_EVENT, Menu.NONE, "New Event");
 
 		SubMenu filter = menu.addSubMenu(0, -1, Menu.NONE, "Filter");
+		filter.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_view));
 		filter.add(0, MENUITEM_FILTER_POS, Menu.NONE, "By Position");
 		filter.add(0, MENUITEM_FILTER_TIME, Menu.NONE, "By Time");
 		filter.add(0, MENUITEM_FILTER_TAG, Menu.NONE, "By Tags");
 
 		SubMenu map = menu.addSubMenu(0, -1, Menu.NONE, "Map Mode");
+		map.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
 		map.add(0, MENUITEM_MAP_NORM, Menu.NONE, "Map");
 		map.add(0, MENUITEM_MAP_SATELLITE, Menu.NONE, "Satellite");
 		map.add(0, MENUITEM_MAP_STREET, Menu.NONE, "Street View");
 
 		SubMenu more = menu.addSubMenu(0, -1, Menu.NONE, "More");
+		more.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_more));
 		more.add(0, MENUITEM_MANUAL_UPDATE, Menu.NONE, "Manual Update");
 		return true;
 	}
@@ -185,7 +190,6 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 		if (newFocus != null) {
 			EventOverlayItem eoi = (EventOverlayItem) newFocus;
 			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
-			
 			
 			long timeInMilliseconds = Long.parseLong(eoi.getStartTime());
 			GregorianCalendar gc = new GregorianCalendar();
@@ -225,7 +229,11 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 
 			break;
 		case MENUITEM_FILTER_TIME:
-
+			LinearLayout l2 = (LinearLayout) findViewById(R.event_map.time_filter);
+			if (l2.getVisibility() == View.GONE)
+				l2.setVisibility(View.VISIBLE);
+			else
+				l2.setVisibility(View.GONE);
 			break;
 		case MENUITEM_MAP_NORM:
 			map_.setSatellite(false);

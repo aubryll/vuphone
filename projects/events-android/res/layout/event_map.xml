@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<LinearLayout android:layout_width="fill_parent"
+<RelativeLayout android:layout_width="fill_parent"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:id="@+id/event_map" android:orientation="vertical">
+	android:layout_height="fill_parent" android:id="@+id/event_map">
 
 	<!-- Scott="0MTtaKsivpbDccqACwibpR4EWKVLtK1567_XsPQ" -->
 	<!-- Krzysztof="006K8o9WBJ9kmj2b0zgtit9-GXFF2om4L9YxqAQ" -->
@@ -15,13 +15,14 @@
 
 		<TextView android:text="Some text describing an event" android:id="@+id/TV_event_details_title"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"></TextView>
-
 	</LinearLayout>
-
 
 	<edu.vanderbilt.vuphone.android.events.viewevents.EventViewerMap
 		android:id="@+id/event_viewer_map" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:clickable="true"
 		android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />
+		
+	<include android:id="@+event_map/time_filter" layout="@layout/time_filter" />
+	
 
-</LinearLayout>
+</RelativeLayout>
