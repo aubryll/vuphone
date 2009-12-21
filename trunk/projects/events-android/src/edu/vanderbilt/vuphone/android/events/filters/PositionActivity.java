@@ -203,7 +203,7 @@ public class PositionActivity extends Activity {
 		// Have the system blur any windows behind this one.
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
 				WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
-
+		
 		setContentView(R.layout.position_filter);
 
 		// If anything happens to this activity, we should cancel

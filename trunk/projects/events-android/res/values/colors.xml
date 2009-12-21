@@ -2,4 +2,5 @@
 
 <resources>
 	<color name="focused_orange">#de7418</color>
+<color name="SeeThruGray">#AA000000</color>
 </resources>

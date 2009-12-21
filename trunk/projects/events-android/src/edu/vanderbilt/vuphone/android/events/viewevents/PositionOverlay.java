@@ -33,8 +33,10 @@ public class PositionOverlay extends Overlay {
 	private static final Paint whitePaint = new Paint();
 
 	static {
-		paint.setStrokeWidth(1);
+		// Color is greenish
+		paint.setStrokeWidth(4);
 		paint.setStyle(Paint.Style.STROKE);
+		paint.setARGB(255, 50, 205, 50);
 		paint.setAntiAlias(true);
 		
 		whitePaint.setStrokeWidth(1);
@@ -56,6 +58,7 @@ public class PositionOverlay extends Overlay {
 		Projection p = mapView.getProjection();
 		GeoPoint tr = filter_.getTopRight();
 		GeoPoint bl = filter_.getBottomLeft();
+		
 		
 		topRight_ = p.toPixels(tr, null);
 		bottomLeft_ = p.toPixels(bl, null);

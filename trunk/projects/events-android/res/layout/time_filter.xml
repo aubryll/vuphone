@@ -1,0 +1,64 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+timeFilter/layout"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:background="@color/SeeThruGray"
+	android:visibility="gone"
+	>
+	
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Time Filter"
+		android:padding="4px"
+		/>
+	
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Start"
+			android:padding="7px" 
+			/>
+		<SeekBar 
+			android:id="@+timeFilter/SB_start_time" 
+			android:layout_width="0dip"
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />
+		<TextView
+			android:id="@+timeFilter/TV_start_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Nov1"
+			android:padding="7px" />
+	</LinearLayout>
+
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:paddingBottom="4px">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text=" End "
+			android:padding="7px" 
+			/>
+		<SeekBar 
+			android:id="@+timeFilter/SB_end_time" 
+			android:layout_width="0dip"
+			android:layout_height="wrap_content"
+			android:layout_weight="1" />
+		<TextView
+			android:id="@+timeFilter/TV_end_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Nov1"
+			android:padding="7px" />
+	</LinearLayout>
+</LinearLayout>
