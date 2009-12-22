@@ -35,6 +35,8 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
+import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+
 /**
  * This class implements a marker/pin that can be placed and drug around on the
  * map
@@ -44,7 +46,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	int marker_image_;
 	Boolean dragging_ = false;
 	long lastTap_ = 0;
-	Building building_ = null;
+	Long buildingID_ = null;
 
 	public MapMarker(GeoPoint p) {
 		p_ = p;
@@ -56,9 +58,9 @@ public class MapMarker extends com.google.android.maps.Overlay {
 		marker_image_ = images[generator.nextInt(4)];
 	}
 
-	public MapMarker(GeoPoint p, Building building) {
+	public MapMarker(GeoPoint p, long buildingID) {
 		p_ = p;
-		building_ = building;
+		buildingID_ = buildingID;
 
 		// Select a random pin color
 		int images[] = { R.drawable.marker_yellow, R.drawable.marker_blue,
@@ -111,13 +113,13 @@ public class MapMarker extends com.google.android.maps.Overlay {
 		canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 50, null);
 
 		// Does this marker represent a building?
-		if (building_ != null) {
+		if (buildingID_ != null) {
 			Paint paint = new Paint();
 			paint.setStrokeWidth(2);
 			paint.setARGB(200, 0, 0, 0);
 			paint.setStyle(Paint.Style.FILL);
-			canvas.drawText(building_.getName(), screenPts.x - 20, screenPts.y,
-					paint);
+			canvas.drawText(Building.getName(buildingID_), screenPts.x - 20,
+					screenPts.y, paint);
 		}
 
 		return true;
@@ -128,7 +130,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	 */
 	public void onDoubleTap() {
 		Intent i = new Intent(Main.context_, BuildingInfo.class);
-		i.putExtra("building_id", building_.hashCode());
+		i.putExtra("building_id", buildingID_);
 
 		Main.getInstance().startActivity(i);
 	}

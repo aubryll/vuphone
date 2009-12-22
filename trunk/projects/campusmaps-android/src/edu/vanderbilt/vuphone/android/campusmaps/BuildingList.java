@@ -31,15 +31,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 
-public class BuildingList extends ListActivity {
+import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+import edu.vanderbilt.vuphone.android.campusmaps.storage.DBAdapter;
 
-	// List of buildings -- should get populated at boot
-	private HashMap<Integer, Building> buildings_ = null;
-	private HashMap<Integer, Integer> indexToHash_ = null;
+public class BuildingList extends ListActivity {
 
 	private EditText filterText = null;
 	ArrayAdapter<String> adapter = null;
@@ -53,32 +54,33 @@ public class BuildingList extends ListActivity {
 		filterText = (EditText) findViewById(R.building_list.search_box);
 		filterText.addTextChangedListener(filterTextWatcher);
 		
-		buildings_ = SharedData.getInstance().getBuildingList();
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_list_item_1, getBuildingList(null));
-		if (buildings_ == null || buildings_.size() < 1) {
-			echo("Building list not found!");
-		} else {
-			// TODO Create custom adapter so we can show more than just the
-			// building name
+		DBAdapter adapt = new DBAdapter(this);
+        
+		String[] from = new String[] { DBAdapter.COLUMN_NAME,
+             DBAdapter.COLUMN_ID };
+		int[] to = new int[] { android.R.id.text1, R.list_view.buildingID };
 
-			setListAdapter(adapter);
-		}
+		SimpleCursorAdapter sca = new SimpleCursorAdapter(
+             getApplicationContext(), R.layout.building_list_item, adapt
+                                 .fetchAllBuildingsCursor(), from, to);
 
-		Log.d("mad", "Buildings loaded: " + buildings_.size());
+		setListAdapter(sca);
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		// Get the clicked building
-		Building b = buildings_.get(indexToHash_.get(position));
-
+		TextView hiddenID = (TextView)v.findViewById(R.list_view.buildingID);
+        long b_id = 0;
+        b_id = Long.parseLong(hiddenID.getText().toString());
+        
+        Building b = Building.get(b_id);
+        	
 		// TODO open a menu that asks what they want to do
 
 		// Drop a pin
-		Main.getInstance().drop_pin(b.getLocation(), b);
+		Main.getInstance().drop_pin(b.getLocation(), b_id);
 
 		super.finish();
 	}
@@ -121,16 +123,17 @@ public class BuildingList extends ListActivity {
 
 		// Extract the building names for now
 		ArrayList<String> list = new ArrayList<String>();
-		Iterator<Building> i = buildings_.values().iterator();
-		indexToHash_ = new HashMap<Integer, Integer>();
-
-		int index = 0;
-		while (i.hasNext()) {
-			Building b = (Building) i.next();
-			indexToHash_.put(index, b.hashCode());
-			list.add(b.getName());
-			++index;
-		}
+		//TODO(adammalbright): fix/finish this method
+//		Iterator<Building> i = buildings_.values().iterator();
+//		indexToHash_ = new HashMap<Integer, Integer>();
+//
+//		int index = 0;
+//		while (i.hasNext()) {
+//			Building b = (Building) i.next();
+//			indexToHash_.put(index, b.hashCode());
+//			list.add(b.getName());
+//			++index;
+//		}
 
 		return list;
 	}

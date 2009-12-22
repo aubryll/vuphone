@@ -21,6 +21,8 @@ package edu.vanderbilt.vuphone.android.campusmaps;
 import java.io.BufferedInputStream;
 import java.net.URL;
 
+import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,11 +40,11 @@ public class BuildingInfo extends Activity {
 		setContentView(R.layout.buildinginfo);
 
 		Bundle extras = getIntent().getExtras();
-		int id = -1;
-		if (extras == null || (id = extras.getInt("building_id")) < 0)
+		long id = -1;
+		if (extras == null || (id = extras.getLong("building_id")) < 0)
 			return;
 
-		Building b = SharedData.getInstance().getBuildingList().get(id);
+		Building b = Building.get(id);
 		if (b == null)
 			finish();
 
