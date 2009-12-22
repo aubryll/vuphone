@@ -52,14 +52,12 @@ public class BuildingList extends ListActivity {
 		filterText = (EditText) findViewById(R.building_list.search_box);
 		filterText.addTextChangedListener(filterTextWatcher);
 
-		DBAdapter adapt = new DBAdapter(Main.applicationContext);
-
 		String[] from = new String[] { DBAdapter.COLUMN_NAME,
 				DBAdapter.COLUMN_ID };
-		int[] to = new int[] { android.R.id.text1, R.list_view.buildingID };
+		int[] to = new int[] { R.list_view.buildingName, R.list_view.buildingID };
 
 		simpleCursorAdapter = new SimpleCursorAdapter(
-				getApplicationContext(), R.layout.building_list_item, adapt
+				getApplicationContext(), R.layout.building_list_item, Building
 						.fetchAllBuildingsCursor(), from, to);
 
 		setListAdapter(simpleCursorAdapter);

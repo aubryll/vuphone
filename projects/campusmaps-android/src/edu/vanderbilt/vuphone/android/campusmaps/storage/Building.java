@@ -20,6 +20,8 @@ package edu.vanderbilt.vuphone.android.campusmaps.storage;
 
 import java.util.ArrayList;
 
+import android.database.Cursor;
+
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.campusmaps.R;
@@ -120,6 +122,10 @@ public class Building {
 
 	public static boolean delete(long rowID) {
 		return DBWrapper.delete(rowID);
+	}
+
+	public static Cursor fetchAllBuildingsCursor() {
+		return DBWrapper.fetchAllBuildingsCursor();
 	}
 
 }
