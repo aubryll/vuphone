@@ -48,8 +48,11 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 
+import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+
 public class Main extends MapActivity {
 
+	public static Context applicationContext;
 	private static final int SUBMENU_STREET_VIEW = 6;
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
@@ -77,6 +80,12 @@ public class Main extends MapActivity {
 		context_ = getBaseContext();
 		resources_ = getResources();
 
+		// clunky mechanic with gross file dependency,
+		// but DBWrapper needs Main.mainContext for its
+		// calls to DBAdapter
+		if (applicationContext == null)
+			applicationContext = getApplicationContext();
+		
 		setContentView(R.layout.main);
 		mapView_ = (MapView) findViewById(R.id.mapview);
 		mapView_.setBuiltInZoomControls(false);
@@ -260,8 +269,8 @@ public class Main extends MapActivity {
 	 * @param building
 	 *            - location to place marker
 	 */
-	public void drop_pin(GeoPoint p, Building building) {
-		MapMarker m = new MapMarker(p, building);
+	public void drop_pin(GeoPoint p, Long buildingID) {
+		MapMarker m = new MapMarker(p, buildingID);
 		m.drop_pin();
 		centerMapAt(p);
 	}
@@ -296,14 +305,7 @@ public class Main extends MapActivity {
 	 * Parses in the building data to populate BuildingList
 	 */
 	public void populateBuildings() {
-		try {
-			HashMap<Integer, Building> buildingList = SharedData.getInstance()
-					.getBuildingList();
-
-			// make sure this STATIC list isn't populated multiple times
-			if (buildingList.size() > 0)
-				return;
-
+		if(Building.getIDs().size() == 0) {
 			Document doc = parseXML("buildings.xml");
 			if (doc == null)
 				return;
@@ -333,13 +335,15 @@ public class Main extends MapActivity {
 				b.setDescription(attrib.getProperty("FACILITY_REMARKS"));
 				b.setImageURL(attrib.getProperty("FACILITY_URL"));
 
-				buildingList.put(b.hashCode(), b);
+				if(!b.create())
+					//TODO(corespace):some kinda error happened.
+					trace("Could not create building");
+				
 			}
 			
-		} catch (Exception e) {
-			 e.printStackTrace();
-			trace("Unable to populate build list! " + e.getMessage());
 		}
+			
+		
 	}
 
 	/**
