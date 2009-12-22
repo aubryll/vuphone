@@ -11,6 +11,7 @@
 
 #import "SourcesViewController.h"
 #import "EventViewController.h"
+#import "EventListCell.h"
 #import "Event.h"
 
 @interface EventListViewController : UITableViewController <NSFetchedResultsControllerDelegate, UISearchBarDelegate, SourcesViewDelegate> {
@@ -24,9 +25,11 @@
 	NSArray *sectionIndexTitles;
 	NSArray *chosenSources;
 	
-	IBOutlet EventViewController *eventViewController;
+	EventViewController *eventViewController;
 	IBOutlet UIBarButtonItem *addButton;
 	IBOutlet UISearchBar *searchBar;
+	IBOutlet UISearchDisplayController *searchDisplayController;
+	BOOL isSearching;
 }
 
 - (IBAction)addEvent:(id)sender;

@@ -6,6 +6,7 @@
 //  Copyright 2009 Vanderbilt University. All rights reserved.
 //
 
+
 #import "EventListViewController.h"
 #import "SourcesViewController.h"
 #import "EntityConstants.h"
@@ -19,6 +20,8 @@
 
 //	[[self locationManager] startUpdatingLocation];
 	NSArray *sources = [Event allSources];
+	
+	isSearching = NO;
 
 	// Hard-coding the list of chosen sources for now
 	NSMutableArray *tempChosenSources = [[NSMutableArray alloc] init];
@@ -150,6 +153,11 @@
 		count = 1;
 	}
 	
+	// Prevents a bug where there are no search results, but it shows all the table view headers
+	if ([searchBar.text length] == 0 && isSearching) {
+		count = 0;
+	}
+	
 	return count;
 }
 
@@ -179,7 +187,7 @@
 	static NSString *CellIdentifier = @"Cell";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[EventListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
 	[self configureCell:cell atIndexPath:indexPath];
@@ -187,36 +195,13 @@
 	return cell;
 }
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(EventListCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
 	// Get the event from the fetched results controller
 	Event *event = (Event *)[fetchedResultsC objectAtIndexPath:indexPath];
 
-	// Set up the date formatter
-	static NSDateFormatter *dateFormatter = nil;
-	if (dateFormatter == nil)
-	{
-		dateFormatter = [[NSDateFormatter alloc] init];
-		[dateFormatter setDateFormat:@"h:mm"];
-	}
-	
-	// Add a shorter name label
-	UILabel *shorterTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 3.0, 236.0, 40.0)];
-	shorterTextLabel.font = [UIFont boldSystemFontOfSize:[UIFont systemFontSize]+4.0];
-	shorterTextLabel.text = [event name];
-	[cell addSubview:shorterTextLabel];
-	[shorterTextLabel release];
-	
-	// Add a shorter time label
-	shorterTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(256.0, 3.0, 54.0, 40.0)];
-	shorterTextLabel.font = [UIFont systemFontOfSize:[UIFont systemFontSize]+4.0];
-	shorterTextLabel.text = [dateFormatter stringFromDate:[event startTime]];
-	shorterTextLabel.textColor = [UIColor colorWithRed:56.0/255.0
-												 green:84.0/255.0
-												  blue:135.0/255.0
-												 alpha:1.0];
-	[cell addSubview:shorterTextLabel];
-	[shorterTextLabel release];
+	[cell setName:[event name]];
+	[cell setTime:[event startTime]];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -260,6 +245,7 @@
 	[self.navigationController pushViewController:eventViewC animated:YES];
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
 /*
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -310,10 +296,12 @@
 
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
 	[controller setSearchResultsDelegate:self];
+	isSearching = YES;
 }
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller willUnloadSearchResultsTableView:(UITableView *)tableView
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
+	isSearching = NO;
 	[self filterContentForSearchText:@"" scope:@""];
 }
 

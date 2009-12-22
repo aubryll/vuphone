@@ -268,14 +268,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">searchDisplayController</string>
-						<reference key="source" ref="294501561"/>
-						<reference key="destination" ref="232151747"/>
-					</object>
-					<int key="connectionID">57</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">searchContentsController</string>
 						<reference key="source" ref="232151747"/>
 						<reference key="destination" ref="294501561"/>
@@ -353,6 +345,22 @@
 						<reference key="destination" ref="743484557"/>
 					</object>
 					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchBar</string>
+						<reference key="source" ref="294501561"/>
+						<reference key="destination" ref="743484557"/>
+					</object>
+					<int key="connectionID">97</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchDisplayController</string>
+						<reference key="source" ref="294501561"/>
+						<reference key="destination" ref="232151747"/>
+					</object>
+					<int key="connectionID">98</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -602,7 +610,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">95</int>
+			<int key="maxID">98</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -628,63 +636,19 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>addButton</string>
-							<string>eventViewController</string>
 							<string>searchBar</string>
+							<string>searchDisplayController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIBarButtonItem</string>
-							<string>EventViewController</string>
 							<string>UISearchBar</string>
+							<string>UISearchDisplayController</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/Controller/EventListViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">EventViewController</string>
-					<string key="superclassName">VUTableViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>beginEditing:</string>
-							<string>cancelAdd:</string>
-							<string>cancelEditing:</string>
-							<string>save:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>cancelAddButton</string>
-							<string>cancelButton</string>
-							<string>editButton</string>
-							<string>myTableView</string>
-							<string>saveButton</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIBarButtonItem</string>
-							<string>UIBarButtonItem</string>
-							<string>UIBarButtonItem</string>
-							<string>UITableView</string>
-							<string>UIBarButtonItem</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/Controller/EventViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -790,14 +754,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Classes/Controller/MapViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">VUTableViewController</string>
-					<string key="superclassName">UITableViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/Controller/TableView/VUTableViewController.h</string>
 					</object>
 				</object>
 			</object>
