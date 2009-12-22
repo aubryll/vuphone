@@ -8,6 +8,8 @@
 
 #import "VUEditableCellController.h"
 
+#define DefaultRowHeight 44.0f
+
 @implementation VUEditableCellController
 
 - (id)initWithLabel:(NSString *)aLabel
@@ -55,9 +57,13 @@
 	VUEditableCell *cellAtRow = (VUEditableCell *)[self cell];
 
 	if (isEditable) {
-		return 44.0f;
+		return DefaultRowHeight;
 	} else {
-		return cellAtRow.valueView.frame.size.height;
+		if (self.value) {
+			return cellAtRow.valueView.frame.size.height;
+		} else {
+			return DefaultRowHeight;
+		}
 	}
 }
 
