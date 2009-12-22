@@ -142,11 +142,15 @@
 {
 	DDXMLNode *prop;
 	NSError *err;
+	NSArray *nodes;
 
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Id" error:&err] objectAtIndex:0];
 	location.serverId = [prop stringValue];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Name" error:&err] objectAtIndex:0];
-	location.name = [prop stringValue];
+	nodes = [node nodesForXPath:@"./Loc/Name" error:&err];
+	if ([nodes count] > 0) {
+		prop = (DDXMLNode *)[nodes objectAtIndex:0];
+		location.name = [prop stringValue];
+	}
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lat" error:&err] objectAtIndex:0];
 	location.latitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lon" error:&err] objectAtIndex:0];

@@ -25,7 +25,6 @@
 		612F8385106ECC8600239F6B /* EventStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F82DB106D442A00239F6B /* EventStoreTests.m */; };
 		612F83B5106ED31600239F6B /* VULocationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 612F83B4106ED31600239F6B /* VULocationTests.m */; };
 		612F84A2106F071800239F6B /* MapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 612F84A1106F071800239F6B /* MapView.xib */; };
-		614876F5109A76D800A6A6EE /* VUEventListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 614876F4109A76D800A6A6EE /* VUEventListCell.xib */; };
 		615BFAF7105CC106005497F9 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AC105770A0009481D6 /* Event.m */; };
 		615BFAF9105CC127005497F9 /* RemoteEventLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F77BA2105568050071CA64 /* RemoteEventLoader.m */; };
 		615BFB02105CC453005497F9 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB6AE105770A0009481D6 /* Location.m */; };
@@ -45,6 +44,8 @@
 		6160F5911082EDAE00C7C3F8 /* SourcesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6160F58F1082EDAE00C7C3F8 /* SourcesViewController.m */; };
 		6160F5921082EDAE00C7C3F8 /* SourcesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6160F5901082EDAE00C7C3F8 /* SourcesView.xib */; };
 		6160F63C10838FE900C7C3F8 /* VUSourceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6160F63B10838FE900C7C3F8 /* VUSourceTableViewCell.m */; };
+		619A2C5F10E093DC004436E8 /* EventListCell.m in Resources */ = {isa = PBXBuildFile; fileRef = 619A2C5E10E093DC004436E8 /* EventListCell.m */; };
+		619A2CB910E09B37004436E8 /* EventListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 619A2C5E10E093DC004436E8 /* EventListCell.m */; };
 		61A84235105AA8A60001A6BB /* NSManagedObject-IsNew.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A84234105AA8A60001A6BB /* NSManagedObject-IsNew.m */; };
 		61BBB65010575D45009481D6 /* EventViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61BBB64E10575D45009481D6 /* EventViewController.m */; };
 		61BBB65110575D45009481D6 /* EventView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61BBB64F10575D45009481D6 /* EventView.xib */; };
@@ -110,7 +111,6 @@
 		612F8358106EBEB200239F6B /* sampleEventRequestResponse.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sampleEventRequestResponse.xml; sourceTree = "<group>"; };
 		612F83B4106ED31600239F6B /* VULocationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VULocationTests.m; path = Tests/VULocationTests.m; sourceTree = "<group>"; };
 		612F84A1106F071800239F6B /* MapView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapView.xib; path = XIBs/MapView.xib; sourceTree = "<group>"; };
-		614876F4109A76D800A6A6EE /* VUEventListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUEventListCell.xib; sourceTree = "<group>"; };
 		615BFB1C105D5863005497F9 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		615BFB24105D58B0005497F9 /* EventStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
 		615BFB25105D58B0005497F9 /* EventStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
@@ -122,9 +122,11 @@
 		615C9F0C10B076B100E310F2 /* Events 3.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "Events 3.xcdatamodel"; sourceTree = "<group>"; };
 		6160F58E1082EDAE00C7C3F8 /* SourcesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourcesViewController.h; sourceTree = "<group>"; };
 		6160F58F1082EDAE00C7C3F8 /* SourcesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SourcesViewController.m; sourceTree = "<group>"; };
-		6160F5901082EDAE00C7C3F8 /* SourcesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SourcesView.xib; path = Classes/Controller/SourcesView.xib; sourceTree = "<group>"; };
+		6160F5901082EDAE00C7C3F8 /* SourcesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SourcesView.xib; path = XIBs/SourcesView.xib; sourceTree = "<group>"; };
 		6160F63A10838FE900C7C3F8 /* VUSourceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUSourceTableViewCell.h; path = TableView/VUSourceTableViewCell.h; sourceTree = "<group>"; };
 		6160F63B10838FE900C7C3F8 /* VUSourceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUSourceTableViewCell.m; path = TableView/VUSourceTableViewCell.m; sourceTree = "<group>"; };
+		619A2C5D10E093DC004436E8 /* EventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListCell.h; path = TableView/EventListCell.h; sourceTree = "<group>"; };
+		619A2C5E10E093DC004436E8 /* EventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListCell.m; path = TableView/EventListCell.m; sourceTree = "<group>"; };
 		61A84233105AA8A60001A6BB /* NSManagedObject-IsNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject-IsNew.h"; sourceTree = "<group>"; };
 		61A84234105AA8A60001A6BB /* NSManagedObject-IsNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject-IsNew.m"; sourceTree = "<group>"; };
 		61BBB64D10575D45009481D6 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
@@ -277,7 +279,6 @@
 				61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */,
 				61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */,
 				612F84A1106F071800239F6B /* MapView.xib */,
-				614876F4109A76D800A6A6EE /* VUEventListCell.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -315,6 +316,8 @@
 				612250C110ACEA150074B05D /* VUURLCellController.m */,
 				6160F63A10838FE900C7C3F8 /* VUSourceTableViewCell.h */,
 				6160F63B10838FE900C7C3F8 /* VUSourceTableViewCell.m */,
+				619A2C5D10E093DC004436E8 /* EventListCell.h */,
+				619A2C5E10E093DC004436E8 /* EventListCell.m */,
 			);
 			name = TableView;
 			sourceTree = "<group>";
@@ -479,7 +482,7 @@
 				61DF569B108141A2000A7B1D /* MapFilterView.xib in Resources */,
 				61DF568110813D15000A7B1D /* Icons in Resources */,
 				6160F5921082EDAE00C7C3F8 /* SourcesView.xib in Resources */,
-				614876F5109A76D800A6A6EE /* VUEventListCell.xib in Resources */,
+				619A2C5F10E093DC004436E8 /* EventListCell.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +521,7 @@
 				1D3623260D0F684500981E51 /* EventsAppDelegate.m in Sources */,
 				615DABC91088374300566919 /* Events.xcdatamodeld in Sources */,
 				61F77AC510554E640071CA64 /* EventListViewController.m in Sources */,
+				619A2CB910E09B37004436E8 /* EventListCell.m in Sources */,
 				61F77BA3105568050071CA64 /* RemoteEventLoader.m in Sources */,
 				61F77BB1105569120071CA64 /* DDXMLDocument.m in Sources */,
 				61F77BB2105569120071CA64 /* DDXMLElement.m in Sources */,
