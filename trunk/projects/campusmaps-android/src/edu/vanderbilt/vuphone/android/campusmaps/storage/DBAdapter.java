@@ -56,7 +56,7 @@ public class DBAdapter {
 	public static final String COLUMN_URL = "url";
 
 	/** Handle to the database instance */
-	private static SQLiteDatabase database_;
+	private SQLiteDatabase database_;
 
 	/** Used to help open and update the database */
 	DBOpenHelper openHelper_;
