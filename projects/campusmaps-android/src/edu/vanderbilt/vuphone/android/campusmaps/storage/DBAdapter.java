@@ -85,7 +85,7 @@ public class DBAdapter {
 				+ COLUMN_DESCRIPTION
 				+ " TEXT NOT NULL,              "
 				+ COLUMN_URL
-				+ " TEXT,";
+				+ " TEXT)";
 
 
 		/**
