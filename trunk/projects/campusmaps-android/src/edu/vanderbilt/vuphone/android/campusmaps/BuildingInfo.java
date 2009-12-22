@@ -21,14 +21,13 @@ package edu.vanderbilt.vuphone.android.campusmaps;
 import java.io.BufferedInputStream;
 import java.net.URL;
 
-import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
 
 public class BuildingInfo extends Activity {
 	private Building building_ = null;
@@ -60,7 +59,8 @@ public class BuildingInfo extends Activity {
 			Bitmap bm = null;
 
 			try {
-				BufferedInputStream bis = new BufferedInputStream(new URL(img).openStream(), 1024);
+				BufferedInputStream bis = new BufferedInputStream(new URL(img)
+						.openStream(), 1024);
 				bm = BitmapFactory.decodeStream(bis);
 				bis.close();
 			} catch (Exception e) {
@@ -68,7 +68,7 @@ public class BuildingInfo extends Activity {
 
 			iv.setImageBitmap(bm);
 		}
-		
+
 		TextView tv2 = (TextView) findViewById(R.id.buildingDesc);
 		tv2.setText(b.getDescription());
 

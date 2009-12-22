@@ -19,7 +19,6 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,7 +55,7 @@ public class Main extends MapActivity {
 	private static final int SUBMENU_STREET_VIEW = 6;
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
-	//private static final int MENU_SETTINGS = 3;
+	// private static final int MENU_SETTINGS = 3;
 	private static final int MENU_BUILDING_LIST = 1;
 	private static final int MENU_MAP_MODE_GROUP = 0;
 	public static MapView mapView_;
@@ -85,53 +84,47 @@ public class Main extends MapActivity {
 		// calls to DBAdapter
 		if (applicationContext == null)
 			applicationContext = getApplicationContext();
-		
+
 		setContentView(R.layout.main);
 		mapView_ = (MapView) findViewById(R.id.mapview);
 		mapView_.setBuiltInZoomControls(false);
 
 		poLayer_ = new PathOverlay(mapView_);
-		
-		/*
-		// Just some demo paths to test for now
-		poLayer_.StartNewPath(new GeoPoint(36144875, -86806723));
-		poLayer_.AddPoint(new GeoPoint(36146071, -86804298));
-		poLayer_.StartNewPath(new GeoPoint(36143411, -86806401));
-		poLayer_.AddPoint(new GeoPoint(36143238, -86804727));
-		poLayer_.AddPoint(new GeoPoint(36143143, -86803257));
-		poLayer_.AddPoint(new GeoPoint(36143429, -86802624));
-		poLayer_.AddPoint(new GeoPoint(36143935, -86802587));
 
-		// Attempt to draw Wesley Place from GML data in EPSG900913 format from
-		// vu.gml, just testing / demoing.
-		poLayer_.StartNewPath(EPSG900913ToGeoPoint(-9662429.695230,
-				4320719.417812));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662420.185221, 4320683.476196));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662417.200911, 4320672.193037));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662417.071184, 4320672.178321));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662395.440964, 4320669.572643));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662395.711297, 4320667.316003));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662386.352760, 4320666.189571));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662386.082410, 4320668.444238));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662346.924362, 4320663.727702));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662359.954998, 4320711.017158));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662381.825093, 4320713.650537));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662389.499083, 4320714.573825));
-		poLayer_
-				.AddPoint(EPSG900913ToGeoPoint(-9662429.695230, 4320719.417812));
-		*/
-		
+		/*
+		 * // Just some demo paths to test for now poLayer_.StartNewPath(new
+		 * GeoPoint(36144875, -86806723)); poLayer_.AddPoint(new
+		 * GeoPoint(36146071, -86804298)); poLayer_.StartNewPath(new
+		 * GeoPoint(36143411, -86806401)); poLayer_.AddPoint(new
+		 * GeoPoint(36143238, -86804727)); poLayer_.AddPoint(new
+		 * GeoPoint(36143143, -86803257)); poLayer_.AddPoint(new
+		 * GeoPoint(36143429, -86802624)); poLayer_.AddPoint(new
+		 * GeoPoint(36143935, -86802587));
+		 * 
+		 * // Attempt to draw Wesley Place from GML data in EPSG900913 format
+		 * from // vu.gml, just testing / demoing.
+		 * poLayer_.StartNewPath(EPSG900913ToGeoPoint(-9662429.695230,
+		 * 4320719.417812)); poLayer_
+		 * .AddPoint(EPSG900913ToGeoPoint(-9662420.185221, 4320683.476196));
+		 * poLayer_ .AddPoint(EPSG900913ToGeoPoint(-9662417.200911,
+		 * 4320672.193037)); poLayer_
+		 * .AddPoint(EPSG900913ToGeoPoint(-9662417.071184, 4320672.178321));
+		 * poLayer_ .AddPoint(EPSG900913ToGeoPoint(-9662395.440964,
+		 * 4320669.572643)); poLayer_
+		 * .AddPoint(EPSG900913ToGeoPoint(-9662395.711297, 4320667.316003));
+		 * poLayer_ .AddPoint(EPSG900913ToGeoPoint(-9662386.352760,
+		 * 4320666.189571)); poLayer_
+		 * .AddPoint(EPSG900913ToGeoPoint(-9662386.082410, 4320668.444238));
+		 * poLayer_ .AddPoint(EPSG900913ToGeoPoint(-9662346.924362,
+		 * 4320663.727702)); poLayer_
+		 * .AddPoint(EPSG900913ToGeoPoint(-9662359.954998, 4320711.017158));
+		 * poLayer_ .AddPoint(EPSG900913ToGeoPoint(-9662381.825093,
+		 * 4320713.650537)); poLayer_
+		 * .AddPoint(EPSG900913ToGeoPoint(-9662389.499083, 4320714.573825));
+		 * poLayer_ .AddPoint(EPSG900913ToGeoPoint(-9662429.695230,
+		 * 4320719.417812));
+		 */
+
 		mc_ = mapView_.getController();
 
 		// Vanderbilt GPS coordinates, used to start the map at a Vanderbilt
@@ -186,8 +179,10 @@ public class Main extends MapActivity {
 		mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
 		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings").setIcon(
 				android.R.drawable.ic_menu_agenda);
-		/*menu.add(0, 2, MENU_SETTINGS, "Settings").setIcon(
-				android.R.drawable.ic_menu_preferences);*/
+		/*
+		 * menu.add(0, 2, MENU_SETTINGS, "Settings").setIcon(
+		 * android.R.drawable.ic_menu_preferences);
+		 */
 		return true;
 	}
 
@@ -245,9 +240,9 @@ public class Main extends MapActivity {
 			startActivity(i);
 			break;
 
-		/*case (MENU_SETTINGS):
-			echo("Settings");
-			break;*/
+		/*
+		 * case (MENU_SETTINGS): echo("Settings"); break;
+		 */
 		}
 		return true;
 	}
@@ -305,45 +300,47 @@ public class Main extends MapActivity {
 	 * Parses in the building data to populate BuildingList
 	 */
 	public void populateBuildings() {
-		if(Building.getIDs().size() == 0) {
+		Log.i("mad", "Might populate data");
+		//if (Building.getIDs().size() == 0) {
+			Log.i("mad", "Populating data");
 			Document doc = parseXML("buildings.xml");
 			if (doc == null)
 				return;
 
 			trace("Populating building list");
-
+			int i;
 			NodeList list_ = doc.getElementsByTagName("feature");
-			for (int i = 0; i < list_.getLength(); i++) {
+			for (i = 0; i < list_.getLength(); i++) {
 				Properties attrib = NodeList2Array(list_.item(i)
 						.getChildNodes());
 
 				if (attrib == null)
 					continue;
-				
+
 				String name = titleCase(attrib.getProperty("FACILITY_NAME"));
-				
-				if(!attrib.containsKey("coordinates"))
+
+				if (!attrib.containsKey("coordinates"))
 					continue;
-					
+
 				String loc[] = attrib.getProperty("coordinates").split(" ");
 				String latlong[] = loc[0].split(",");
 				GeoPoint gp = EPSG900913ToGeoPoint(Double
 						.parseDouble(latlong[0]), Double
 						.parseDouble(latlong[1]));
 
-				Building b = new Building(gp, name);
-				b.setDescription(attrib.getProperty("FACILITY_REMARKS"));
-				b.setImageURL(attrib.getProperty("FACILITY_URL"));
+				Building b = new Building(gp, name, attrib
+						.getProperty("FACILITY_REMARKS"), attrib
+						.getProperty("FACILITY_URL"));
 
-				if(!b.create())
-					//TODO(corespace):some kinda error happened.
+				if (!b.create())
+					// TODO(corespace):some kinda error happened.
 					trace("Could not create building");
-				
+
 			}
-			
-		}
-			
-		
+			Log.i("mad", "Populated " + i + " entries");
+
+		//}
+
 	}
 
 	/**

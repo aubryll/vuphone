@@ -18,17 +18,16 @@
 package edu.vanderbilt.vuphone.android.campusmaps.storage;
 
 import java.util.ArrayList;
-import java.util.Stack;
+
+import android.database.Cursor;
 
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.campusmaps.Main;
 
-import android.database.Cursor;
-
 /**
  * This class abstracts database access and caches multiple like accesses.
- * Accessed through the Restaurant class
+ * Accessed through the Building class
  */
 public class DBWrapper {
 
@@ -73,7 +72,7 @@ public class DBWrapper {
 		cacheMainData();
 		return cache.get(IDs.indexOf(rowID)).getImageURL();
 	}
-	
+
 	public static String getDesc(long rowID) {
 		cacheMainData();
 		return cache.get(IDs.indexOf(rowID)).getDescription();
@@ -107,9 +106,6 @@ public class DBWrapper {
 		close();
 		return success;
 	}
-
-
-
 
 	public static boolean delete(long rowID) {
 		makeWritable();
@@ -260,5 +256,5 @@ public class DBWrapper {
 			return;
 		}
 	}
-	
+
 }

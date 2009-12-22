@@ -19,8 +19,6 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -43,8 +41,8 @@ import edu.vanderbilt.vuphone.android.campusmaps.storage.DBAdapter;
 public class BuildingList extends ListActivity {
 
 	private EditText filterText = null;
-	ArrayAdapter<String> adapter = null;
-	
+	SimpleCursorAdapter simpleCursorAdapter = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,30 +51,30 @@ public class BuildingList extends ListActivity {
 
 		filterText = (EditText) findViewById(R.building_list.search_box);
 		filterText.addTextChangedListener(filterTextWatcher);
-		
-		DBAdapter adapt = new DBAdapter(this);
-        
+
+		DBAdapter adapt = new DBAdapter(Main.applicationContext);
+
 		String[] from = new String[] { DBAdapter.COLUMN_NAME,
-             DBAdapter.COLUMN_ID };
+				DBAdapter.COLUMN_ID };
 		int[] to = new int[] { android.R.id.text1, R.list_view.buildingID };
 
-		SimpleCursorAdapter sca = new SimpleCursorAdapter(
-             getApplicationContext(), R.layout.building_list_item, adapt
-                                 .fetchAllBuildingsCursor(), from, to);
+		simpleCursorAdapter = new SimpleCursorAdapter(
+				getApplicationContext(), R.layout.building_list_item, adapt
+						.fetchAllBuildingsCursor(), from, to);
 
-		setListAdapter(sca);
+		setListAdapter(simpleCursorAdapter);
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		TextView hiddenID = (TextView)v.findViewById(R.list_view.buildingID);
-        long b_id = 0;
-        b_id = Long.parseLong(hiddenID.getText().toString());
-        
-        Building b = Building.get(b_id);
-        	
+		TextView hiddenID = (TextView) v.findViewById(R.list_view.buildingID);
+		long b_id = 0;
+		b_id = Long.parseLong(hiddenID.getText().toString());
+
+		Building b = Building.get(b_id);
+
 		// TODO open a menu that asks what they want to do
 
 		// Drop a pin
@@ -84,7 +82,7 @@ public class BuildingList extends ListActivity {
 
 		super.finish();
 	}
-	
+
 	private TextWatcher filterTextWatcher = new TextWatcher() {
 
 		public void afterTextChanged(Editable s) {
@@ -98,9 +96,9 @@ public class BuildingList extends ListActivity {
 				int count) {
 			String str = filterText.getText().toString();
 			Log.d("list", "Text is " + str);
-			adapter.getFilter().filter(s);
+			simpleCursorAdapter.getFilter().filter(s);
 		}
-		
+
 	};
 
 	@Override
@@ -123,17 +121,17 @@ public class BuildingList extends ListActivity {
 
 		// Extract the building names for now
 		ArrayList<String> list = new ArrayList<String>();
-		//TODO(adammalbright): fix/finish this method
-//		Iterator<Building> i = buildings_.values().iterator();
-//		indexToHash_ = new HashMap<Integer, Integer>();
-//
-//		int index = 0;
-//		while (i.hasNext()) {
-//			Building b = (Building) i.next();
-//			indexToHash_.put(index, b.hashCode());
-//			list.add(b.getName());
-//			++index;
-//		}
+		// TODO(adammalbright): fix/finish this method
+		// Iterator<Building> i = buildings_.values().iterator();
+		// indexToHash_ = new HashMap<Integer, Integer>();
+		//
+		// int index = 0;
+		// while (i.hasNext()) {
+		// Building b = (Building) i.next();
+		// indexToHash_.put(index, b.hashCode());
+		// list.add(b.getName());
+		// ++index;
+		// }
 
 		return list;
 	}

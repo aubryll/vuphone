@@ -23,42 +23,81 @@ import java.util.ArrayList;
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.campusmaps.R;
-import edu.vanderbilt.vuphone.android.campusmaps.R.string;
 
 public class Building {
-	private GeoPoint point_;
-	private String name_;
-	private String desc_;
+	private GeoPoint point_ = new GeoPoint(36142830, -86804437);
+	private String name_ = "error";
+	private String desc_ = null;
 	private String url_ = null;
 
 	public Building(GeoPoint point, String name) {
 		point_ = point;
 		name_ = name;
 	}
-	
-	public Building(int latitude, int longitude, String name, String desc, String url) {
+
+	public Building(int latitude, int longitude, String name, String desc,
+			String url) {
 		point_ = new GeoPoint(latitude, longitude);
 		name_ = name;
 		desc_ = desc;
 		url_ = url;
 	}
 
-	public GeoPoint getLocation() {			return point_;	}
-	public String getName() {				return name_;	}
-	public String getDescription() {		return desc_;	}
-	public String getImageURL() {			return url_;	}
+	public Building(GeoPoint gp, String name, String desc, String url) {
+		point_ = gp;
+		name_ = name;
+		desc_ = desc;
+		url_ = url;
+	}
 
-	public boolean create() 						{return DBWrapper.create(this);}
+	public GeoPoint getLocation() {
+		return point_;
+	}
 
-	public static ArrayList<Long> getIDs() 			{return DBWrapper.getIDs();}
-	public static Building get(long rowID) 			{return DBWrapper.get(rowID);}
-	public static String getName(long rowID) 		{return DBWrapper.getName(rowID);}
-	public static double getLat(long rowID) 		{return DBWrapper.getLat(rowID);}
-	public static double getLon(long rowID) 		{return DBWrapper.getLon(rowID);}
-	public static String getDesc(long rowID)		{return DBWrapper.getDesc(rowID);}
-	public static String getImageURL(long rowID)	{return DBWrapper.getURL(rowID);}
-	
-	
+	public String getName() {
+		return name_;
+	}
+
+	public String getDescription() {
+		return desc_;
+	}
+
+	public String getImageURL() {
+		return url_;
+	}
+
+	public boolean create() {
+		return DBWrapper.create(this);
+	}
+
+	public static ArrayList<Long> getIDs() {
+		return DBWrapper.getIDs();
+	}
+
+	public static Building get(long rowID) {
+		return DBWrapper.get(rowID);
+	}
+
+	public static String getName(long rowID) {
+		return DBWrapper.getName(rowID);
+	}
+
+	public static double getLat(long rowID) {
+		return DBWrapper.getLat(rowID);
+	}
+
+	public static double getLon(long rowID) {
+		return DBWrapper.getLon(rowID);
+	}
+
+	public static String getDesc(long rowID) {
+		return DBWrapper.getDesc(rowID);
+	}
+
+	public static String getImageURL(long rowID) {
+		return DBWrapper.getURL(rowID);
+	}
+
 	public void setDescription(String desc) {
 		desc_ = desc;
 	}
@@ -67,13 +106,20 @@ public class Building {
 		url_ = R.string.building_image_url + url.toLowerCase();
 	}
 
-
 	public String toString() {
 		return getName();
 	}
-	
-	public static boolean create(Building b) 				{return DBWrapper.create(b);}
-	public static boolean update(long rowID, Building b)	{return DBWrapper.update(rowID, b);}
-	public static boolean delete(long rowID)				{return DBWrapper.delete(rowID);}
+
+	public static boolean create(Building b) {
+		return DBWrapper.create(b);
+	}
+
+	public static boolean update(long rowID, Building b) {
+		return DBWrapper.update(rowID, b);
+	}
+
+	public static boolean delete(long rowID) {
+		return DBWrapper.delete(rowID);
+	}
 
 }
