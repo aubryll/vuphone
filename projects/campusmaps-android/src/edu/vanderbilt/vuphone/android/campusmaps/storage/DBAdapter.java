@@ -20,9 +20,6 @@ package edu.vanderbilt.vuphone.android.campusmaps.storage;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.maps.GeoPoint;
-
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -31,6 +28,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
+
+import com.google.android.maps.GeoPoint;
 
 public class DBAdapter {
 
@@ -57,22 +56,19 @@ public class DBAdapter {
 	public static final String COLUMN_URL = "url";
 
 	/** Handle to the database instance */
-	private SQLiteDatabase database_;
+	private static SQLiteDatabase database_;
 
 	/** Used to help open and update the database */
 	DBOpenHelper openHelper_;
-	
+
 	public class DBOpenHelper extends SQLiteOpenHelper {
 
 		/** Used for logging */
 		private static final String pre = "DBOpenHelper: ";
 
-		/** Used for CREATE TABLE */
-		protected static final String BUILDING_TABLE_NAME = BUILDING_TABLE;
-		
 		/** Used to create database */
 		private static final String BUILDING_CREATE = "CREATE TABLE IF NOT EXISTS "
-				+ BUILDING_TABLE_NAME
+				+ BUILDING_TABLE
 				+ " (                                       "
 				+ COLUMN_ID
 				+ " INTEGER PRIMARY KEY AUTOINCREMENT,       "
@@ -83,10 +79,7 @@ public class DBAdapter {
 				+ COLUMN_LONGITUDE
 				+ " REAL NOT NULL,                  "
 				+ COLUMN_DESCRIPTION
-				+ " TEXT NOT NULL,              "
-				+ COLUMN_URL
-				+ " TEXT)";
-
+				+ " TEXT,              " + COLUMN_URL + " TEXT)";
 
 		/**
 		 * @see android.database.sqlite.SQLiteOpenHelper#SQLiteOpenHelper(Context,
@@ -112,10 +105,12 @@ public class DBAdapter {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// Log the version upgrade.
-			Log.w("Warning", pre + "Upgrading from version " + oldVersion + " to "
-					+ newVersion + ", which will destroy all old data");
+			Log
+					.w("Warning", pre + "Upgrading from version " + oldVersion
+							+ " to " + newVersion
+							+ ", which will destroy all old data");
 
-			db.execSQL("DROP TABLE IF EXISTS " + BUILDING_TABLE_NAME);
+			db.execSQL("DROP TABLE IF EXISTS " + BUILDING_TABLE);
 			onCreate(db);
 		}
 	}
@@ -146,8 +141,8 @@ public class DBAdapter {
 	 *            url of an image of the building
 	 * @return rowId or -1 if failed
 	 */
-	public long createBuilding(String name, int latitude,
-			int longitude, String description, String url) {
+	public long createBuilding(String name, int latitude, int longitude,
+			String description, String url) {
 
 		ContentValues initialValues = new ContentValues(5);
 		initialValues.put(COLUMN_NAME, name);
@@ -155,7 +150,7 @@ public class DBAdapter {
 		initialValues.put(COLUMN_LONGITUDE, longitude);
 		initialValues.put(COLUMN_DESCRIPTION, description);
 		initialValues.put(COLUMN_URL, url);
-	
+
 		return database_.insert(BUILDING_TABLE, null, initialValues);
 	}
 
@@ -168,27 +163,26 @@ public class DBAdapter {
 	 */
 	public boolean deleteBuilding(long rowId) {
 
-		return database_
-				.delete(BUILDING_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
+		return database_.delete(BUILDING_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
 	}
 
 	/**
 	 * not needed by DBWrapper Get a list of all building IDs in the database
 	 * 
 	 * @return A List of Longs, where each Long is the ID of one of the
-	 *         buildings in the database. Use the fetchBuilding() call to
-	 *         get the building object
+	 *         buildings in the database. Use the fetchBuilding() call to get
+	 *         the building object
 	 * 
 	 * @see DBAdapter.fetchBuilding(long rowId)
 	 */
 	public List<Long> fetchAllBuildingIDs() {
-		Cursor c = database_.query(BUILDING_TABLE,
-				new String[] { COLUMN_ID }, null, null, null, null, null, null);
+		Cursor c = database_.query(BUILDING_TABLE, new String[] { COLUMN_ID },
+				null, null, null, null, null, null);
 
 		ArrayList<Long> buildingIds = new ArrayList<Long>();
 
 		// If there are no buildings, return empty list
-	if (c.moveToFirst() == false)
+		if (c.moveToFirst() == false)
 			return buildingIds;
 
 		do {
@@ -201,8 +195,8 @@ public class DBAdapter {
 	}
 
 	/**
-	 * not needed by DBWrapper Return a building object for the given
-	 * building id.
+	 * not needed by DBWrapper Return a building object for the given building
+	 * id.
 	 * 
 	 * @param rowId
 	 *            id of building to retrieve
@@ -216,8 +210,8 @@ public class DBAdapter {
 	public Building fetchbuilding(long rowId) throws SQLException {
 		Cursor c = database_.query(true, BUILDING_TABLE, new String[] {
 				COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-				COLUMN_DESCRIPTION, COLUMN_URL}, COLUMN_ID
-				+ "=" + rowId, null, null, null, null, null);
+				COLUMN_DESCRIPTION, COLUMN_URL }, COLUMN_ID + "=" + rowId,
+				null, null, null, null, null);
 
 		if (c.moveToFirst() == false)
 			throw new SQLException("building was not found");
@@ -248,8 +242,8 @@ public class DBAdapter {
 	 *         COLUMN_DESCRIPTION, COLUMN_URL.
 	 */
 	public Cursor getCursor(String[] columns) {
-		return database_.query(BUILDING_TABLE, columns, null, null, null,
-				null, null);
+		return database_.query(BUILDING_TABLE, columns, null, null, null, null,
+				null);
 	}
 
 	/**
@@ -294,8 +288,8 @@ public class DBAdapter {
 		args.put(COLUMN_DESCRIPTION, description);
 		args.put(COLUMN_URL, url);
 
-		return database_.update(BUILDING_TABLE, args,
-				COLUMN_ID + "=" + rowId, null) > 0;
+		return database_.update(BUILDING_TABLE, args, COLUMN_ID + "=" + rowId,
+				null) > 0;
 	}
 
 	// these methods allow individual columns to be updated, without
@@ -303,22 +297,22 @@ public class DBAdapter {
 	public boolean updateColumn(long rowId, String column, int value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(BUILDING_TABLE, args,
-				COLUMN_ID + "=" + rowId, null) > 0;
+		return database_.update(BUILDING_TABLE, args, COLUMN_ID + "=" + rowId,
+				null) > 0;
 	}
 
 	public boolean updateColumn(long rowId, String column, long value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(BUILDING_TABLE, args,
-				COLUMN_ID + "=" + rowId, null) > 0;
+		return database_.update(BUILDING_TABLE, args, COLUMN_ID + "=" + rowId,
+				null) > 0;
 	}
 
 	public boolean updateColumn(long rowId, String column, String value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(BUILDING_TABLE, args,
-				COLUMN_ID + "=" + rowId, null) > 0;
+		return database_.update(BUILDING_TABLE, args, COLUMN_ID + "=" + rowId,
+				null) > 0;
 	}
 
 	/** Used to open a readable database */
@@ -332,22 +326,19 @@ public class DBAdapter {
 		database_ = openHelper_.getWritableDatabase();
 		return this;
 	}
-	
-    /**
-     * Return a Cursor over the list of all buildings in the database
-     * 
-     * @return This cursor allows you to reference these columns COLUMN_ID,
-     *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-     *         COLUMN_DESCRIPTION, COLUMN_URL.
-     */
 
-    public Cursor fetchAllBuildingsCursor() {
-            return database_.query(BUILDING_TABLE, new String[] { COLUMN_ID,
-                            COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-                            COLUMN_DESCRIPTION, COLUMN_URL }, null, null, null, null,
-                            null);
-    }
+	/**
+	 * Return a Cursor over the list of all buildings in the database
+	 * 
+	 * @return This cursor allows you to reference these columns COLUMN_ID,
+	 *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+	 *         COLUMN_DESCRIPTION, COLUMN_URL.
+	 */
 
-
+	public Cursor fetchAllBuildingsCursor() {
+		return database_.query(BUILDING_TABLE, new String[] { COLUMN_ID,
+				COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+				COLUMN_DESCRIPTION, COLUMN_URL }, null, null, null, null, null);
+	}
 
 }
