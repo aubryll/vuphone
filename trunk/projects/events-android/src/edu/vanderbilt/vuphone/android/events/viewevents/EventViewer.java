@@ -32,6 +32,7 @@ import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
 import edu.vanderbilt.vuphone.android.events.filters.PositionActivity;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
+import edu.vanderbilt.vuphone.android.events.filters.TimeActivity;
 import edu.vanderbilt.vuphone.android.events.submitevent.SubmitEvent;
 
 /**
@@ -229,11 +230,8 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 
 			break;
 		case MENUITEM_FILTER_TIME:
-			LinearLayout l2 = (LinearLayout) findViewById(R.event_map.time_filter);
-			if (l2.getVisibility() == View.GONE)
-				l2.setVisibility(View.VISIBLE);
-			else
-				l2.setVisibility(View.GONE);
+			Intent tf = new Intent(this, TimeActivity.class);
+			startActivity(tf);
 			break;
 		case MENUITEM_MAP_NORM:
 			map_.setSatellite(false);

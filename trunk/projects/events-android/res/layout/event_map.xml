@@ -20,9 +20,6 @@
 	<edu.vanderbilt.vuphone.android.events.viewevents.EventViewerMap
 		android:id="@+id/event_viewer_map" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:clickable="true"
-		android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />
-		
-	<include android:id="@+event_map/time_filter" layout="@layout/time_filter" />
-	
+		android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />	
 
 </RelativeLayout>

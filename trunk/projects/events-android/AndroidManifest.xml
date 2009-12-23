@@ -24,6 +24,9 @@
 		<activity android:name=".submitevent.LocationChooser" />
 		<activity android:name=".filters.PositionActivity"
 			android:theme="@android:style/Theme.Dialog" />
+			
+		<activity android:name=".filters.TimeActivity"
+			android:theme="@android:style/Theme.Translucent" />
 
 		<!-- Used to start the loader service explicitly -->
 		<service android:name=".eventloader.EventLoader"
