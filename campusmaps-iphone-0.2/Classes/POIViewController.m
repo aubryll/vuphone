@@ -45,9 +45,14 @@
 	static NSString *identifier = @"identifier";
 	static NSString *varHeightIdentifier = @"varHeight";
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+	UITableViewCell *cell;
+	if (indexPath.section == 0) {
+		cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+	} else {
+		cell = [tableView dequeueReusableCellWithIdentifier:varHeightIdentifier];
+	}
+	
 	VariableHeightCell *varCell;
-	CGRect contentRect;
 	
 	if (cell == nil) {
 		if (indexPath.section == 0)
@@ -56,28 +61,42 @@
 		else {
 			cell = [[[VariableHeightCell alloc] initWithStyle:UITableViewCellStyleDefault 
 											  reuseIdentifier:varHeightIdentifier] autorelease];
-			varCell = (VariableHeightCell *)cell;
-			contentRect = varCell.textView.frame;
 		}
 	}
+	varCell = (VariableHeightCell *)cell;
+	UIImageView *poiImage;
+	CGRect tempFrame;
 	
 	// Configure the cell.
 	switch (indexPath.section) {
 		case 0:
 			// Release the current subview and then add the poi image. 
 //			[cell.contentView release];
-//			UIImageView *poiImage = [[UIImageView alloc] initWithImage:[poi image]];
-//			[cell.contentView addSubview:poiImage];
+			NSLog(@"loading image…");
+			poiImage = [[UIImageView alloc] initWithImage:[poi image]];
+			poiImage.contentMode = UIViewContentModeScaleAspectFit;
+			if (poiImage.frame.size.width < cell.backgroundView.frame.size.width) {
+				// Center the image
+				tempFrame = poiImage.frame;
+				tempFrame.origin.x += (cell.backgroundView.frame.size.width-poiImage.frame.size.width)/2.0;
+			}
+			poiImage.clipsToBounds = YES;
+//			[cell.backgroundView addSubview:poiImage];
+			[cell.contentView addSubview:poiImage];
+			[poiImage release];
 			break;
+			
 		case 1: // Name
 			[varCell setText:poi.name];
 			break;
-		case 2:
+			
+		case 2: // Distance
 			// TODO: Logic for determining distance needs to go here.
 			//CLLocation *curLocation;
-//			[varCell setText:@"NOOB!!!"];
+			[varCell setText:@"NOOB!!!"];
 			break;
-		case 3:
+			
+		case 3: // Details
 			[varCell setText:poi.details];
 			break;
 		
@@ -110,10 +129,9 @@
 		case 0:
 			return [poi image].size.height;
 		case 1:
-		case 3:
-			return ((VariableHeightCell *)cell).textView.contentSize.height + 4.0;
 		case 2:
-			return 30.0;
+		case 3:
+			return [(VariableHeightCell *)cell height];
 		default:
 			return 44.0;
 	}

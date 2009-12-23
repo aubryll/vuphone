@@ -16,7 +16,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         // Initialization code
-		textView = [[UITextView alloc] initWithFrame:CGRectMake(16.0, 4.0, 280, 36.0)];
+		textView = [[UITextView alloc] initWithFrame:CGRectMake(16.0, 2.0, 280, 40.0)];
 		textView.editable = NO;
 		textView.font = [UIFont systemFontOfSize:13.0];
 		[self addSubview:textView];
@@ -38,6 +38,10 @@
 	CGRect contentRect = self.textView.frame;
 	contentRect.size.height = self.textView.contentSize.height;
 	self.textView.frame = contentRect;
+}
+
+- (CGFloat)height {
+	return self.textView.frame.size.height + 4.0;
 }
 
 - (void)dealloc {
