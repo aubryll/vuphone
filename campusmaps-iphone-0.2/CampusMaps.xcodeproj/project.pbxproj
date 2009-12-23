@@ -84,7 +84,7 @@
 		8D1107310486CEB800E47090 /* CampusMaps-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CampusMaps-Info.plist"; sourceTree = "<group>"; };
 		9952698110D34E6300424730 /* POIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIViewController.h; sourceTree = "<group>"; };
 		9952698210D34E6300424730 /* POIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIViewController.m; sourceTree = "<group>"; };
-		9952698310D34E6300424730 /* POIViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = POIViewController.xib; path = Classes/POIViewController.xib; sourceTree = "<group>"; };
+		9952698310D34E6300424730 /* POIViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = POIViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
