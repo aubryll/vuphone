@@ -137,7 +137,7 @@ public class Time {
 			int hr = (getHour() + 12 - 1)%12 + 1; 	// turns hour to 12 hour format (the + 12 simply 
 													// makes the modulus operator behave as it is 
 													// mathematically defined)
-			return (hr + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())) + " " + (getHour()>=11 ? "p.m." : "a.m."));
+			return (hr + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())) + " " + (getHour()>=11 ? "pm" : "am"));
 		}
 	}
 	

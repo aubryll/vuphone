@@ -2,9 +2,10 @@ package edu.vanderbilt.vuphone.android.storage;
 
 import java.util.ArrayList;
 
+import android.view.Menu;
 import edu.vanderbilt.vuphone.android.dining.R;
-import edu.vanderbilt.vuphone.android.objects.Menu;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class Restaurant {
@@ -12,7 +13,7 @@ public class Restaurant {
 		
 	private String _name;
 	private RestaurantHours _hours;
-	private Menu _menu;
+	private RestaurantMenu _menu;
 	private String _description;
 	private String _type;    // eg 'Cafe,' 'Mediterranian,' 'Coffee Shop'
 	private int _icon;
@@ -34,7 +35,7 @@ public class Restaurant {
 	public Restaurant(String name, RestaurantHours hours, boolean favorite) {
 		this(name, hours, favorite, 0, 0, null, null, null, R.drawable.dining, true, true, false, null, null);
 	}
-	public Restaurant(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, Menu menu,
+	public Restaurant(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, RestaurantMenu menu,
 			String description, int iconId, boolean mealMoneyAccepted, boolean mealPlanAccepted, boolean offCampus, String phoneNumber, String url) {
 		setAttributes(name, hours, favorite, latitude, longitude, type, menu, description, iconId, 
 				mealMoneyAccepted, mealPlanAccepted, offCampus, phoneNumber, url);
@@ -53,7 +54,7 @@ public class Restaurant {
 	public RestaurantHours 	getHours() 			{return _hours;}
 	public String 			getDescription()	{return _description;}
 	public String 			getType()			{return _type;}
-	public Menu 			getMenu()			{return _menu;}
+	public RestaurantMenu 	getMenu()			{return _menu;}
 	public boolean 			favorite() 			{return _favorite;}
 	public boolean			mealPlanAccepted()	{return _mealPlanAccepted;}
 	public boolean			mealMoneyAccepted()	{return _mealMoneyAccepted;}
@@ -68,7 +69,7 @@ public class Restaurant {
 	// I made all the write methods protected so that Restaurants cannot be modified outside the objects package
 	// not a completely ideal solution, but unauthorized writes to the restaurant cache must be prevented
 	// to alter a Restaurant, use the static methods update() or setX() and then commit(). 
-	protected void setAttributes(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, Menu menu,
+	protected void setAttributes(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, RestaurantMenu menu,
 			String description, int iconId, boolean mealMoneyAccepted, boolean mealPlanAccepted, boolean offCampus, String phoneNumber, String url) {
 		setName(name);
 		setHours(hours);
@@ -91,7 +92,7 @@ public class Restaurant {
 	protected void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
 	protected void setFavorite(boolean fav) 		{_favorite = fav;}
 	protected void setType(String type)				{_type = type;}
-	protected void setMenu(Menu menu) 				{_menu = menu;}
+	protected void setMenu(RestaurantMenu menu) 				{_menu = menu;}
 	protected void setDescription(String desc)		{_description = desc;}
 	protected void setMoneyAccepted(boolean mealMon){_mealMoneyAccepted = mealMon;}
 	protected void setPlanAccepted(boolean mealPlan){_mealPlanAccepted = mealPlan;}
@@ -113,6 +114,7 @@ public class Restaurant {
 	
 	// static methods for database access
 	public static ArrayList<Long> getIDs() 					{return DBWrapper.getIDs();}
+	public static ArrayList<Long> copyIDs()					{return DBWrapper.copyIDs();}
 	public static Restaurant get(long rowID) 				{return DBWrapper.get(rowID);}
 	public static String getName(long rowID) 				{return DBWrapper.getName(rowID);}
 	public static int getLat(long rowID) 					{return DBWrapper.getLat(rowID);}
@@ -133,7 +135,8 @@ public class Restaurant {
 	public static boolean update(long rowID, Restaurant r)	{return DBWrapper.update(rowID, r);}
 	public static boolean delete(long rowID)				{return DBWrapper.delete(rowID);}
 	
-	// closes the underlying database. Use if no reads or writes are soon to be made
+	// closes the underlying database. Use if no reads or writes are soon to be made (is called often
+	// in the underlying database modifying function call, so often unnecessary)
 	public static void close()								{DBWrapper.close();}
 }
 

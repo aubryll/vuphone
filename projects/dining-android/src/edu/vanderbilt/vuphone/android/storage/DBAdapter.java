@@ -16,8 +16,8 @@ import android.util.Log;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import edu.vanderbilt.vuphone.android.objects.Menu;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 
 public class DBAdapter {
 
@@ -34,26 +34,26 @@ public class DBAdapter {
 	protected static final String RESTAURANT_TABLE = "restaurants";
 
 	/** The index column */
-	public static final String COLUMN_ID = "_id";
+	protected static final String COLUMN_ID = "_id";
 
 	/** The other column names */
-	public static final String COLUMN_NAME 			= "name";
-	public static final String COLUMN_HOUR_SUN 		= "hourS";
-	public static final String COLUMN_HOUR_MON 		= "hourM";
-	public static final String COLUMN_HOUR_TUE 		= "hourT";
-	public static final String COLUMN_HOUR_WED 		= "hourW";
-	public static final String COLUMN_HOUR_THU 		= "hourTh";
-	public static final String COLUMN_HOUR_FRI 		= "hourF";
-	public static final String COLUMN_HOUR_SAT 		= "hourSa";
-	public static final String COLUMN_MENU 			= "menu";
-	public static final String COLUMN_DESCRIPTION 	= "description";
-	public static final String COLUMN_TYPE 			= "type";
-	public static final String COLUMN_ICON 			= "icon";
-	public static final String COLUMN_LATITUDE 		= "latitude";
-	public static final String COLUMN_LONGITUDE 	= "longitude";
-	public static final String COLUMN_BOOLEANS		= "bools";
-	public static final String COLUMN_PHONE_NUMBER 	= "phoneNumber";
-	public static final String COLUMN_URL 			= "url";
+	protected static final String COLUMN_NAME 			= "name";
+	protected static final String COLUMN_HOUR_SUN 		= "hourS";
+	protected static final String COLUMN_HOUR_MON 		= "hourM";
+	protected static final String COLUMN_HOUR_TUE 		= "hourT";
+	protected static final String COLUMN_HOUR_WED 		= "hourW";
+	protected static final String COLUMN_HOUR_THU 		= "hourTh";
+	protected static final String COLUMN_HOUR_FRI 		= "hourF";
+	protected static final String COLUMN_HOUR_SAT 		= "hourSa";
+	protected static final String COLUMN_MENU 			= "menu";
+	protected static final String COLUMN_DESCRIPTION 	= "description";
+	protected static final String COLUMN_TYPE 			= "type";
+	protected static final String COLUMN_ICON 			= "icon";
+	protected static final String COLUMN_LATITUDE 		= "latitude";
+	protected static final String COLUMN_LONGITUDE 	= "longitude";
+	protected static final String COLUMN_BOOLEANS		= "bools";
+	protected static final String COLUMN_PHONE_NUMBER 	= "phoneNumber";
+	protected static final String COLUMN_URL 			= "url";
 	
 	/** Handle to the database instance */
 	private SQLiteDatabase database_;
@@ -97,7 +97,7 @@ public class DBAdapter {
 		 * @see android.database.sqlite.SQLiteOpenHelper#SQLiteOpenHelper(Context,
 		 *      String, CursorFactory, int)
 		 */
-		public DBOpenHelper(Context context) {
+		protected DBOpenHelper(Context context) {
 			super(context, DB_NAME, null, DB_VERSION);
 		}
 
@@ -127,12 +127,12 @@ public class DBAdapter {
 
 	
 	
-	public DBAdapter(Context context) {
+	protected DBAdapter(Context context) {
 		openHelper_ = new DBOpenHelper(context);
 	}
 
 	/** Used to close the database when done */
-	public void close() {
+	protected void close() {
 		openHelper_.close();
 	}
 
@@ -159,7 +159,7 @@ public class DBAdapter {
 	 * 
 	 * @return rowId or -1 if failed
 	 */
-	public long createRestaurant(Restaurant r) {
+	protected long createRestaurant(Restaurant r) {
 
 		ContentValues initialValues = new ContentValues(6);
 		initialValues.put(COLUMN_NAME 			, r.getName());
@@ -181,11 +181,11 @@ public class DBAdapter {
 		initialValues.put(COLUMN_URL 			, r.getUrl());
 				
 		// TODO remove comments when menu functional
-/*		if (r.getMenu() != null) {
+		if (r.getMenu() != null) {
 			XStream xstream = new XStream(new DomDriver());
 			String menuf = xstream.toXML(r.getMenu());
 			initialValues.put(COLUMN_MENU, menuf);
-		}*/
+		}
 
 		return database_.insert(RESTAURANT_TABLE, null, initialValues);
 	}
@@ -197,7 +197,7 @@ public class DBAdapter {
 	 *            id of restaurant to delete
 	 * @return true if deleted, false otherwise
 	 */
-	public boolean deleteRestaurant(long rowId) {
+	protected boolean deleteRestaurant(long rowId) {
 
 		return database_
 				.delete(RESTAURANT_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
@@ -210,12 +210,9 @@ public class DBAdapter {
      * @param columns
      * 			An array of column names required to be traversable by the 
      * 			returned Cursor
-     * @return This cursor allows you to reference these columns COLUMN_ID,
-     *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
-     *         COLUMN_DESCRIPTION, COLUMN_FAVORITE. Note that this does not
-     *         allow you to reference the restaurant hours information
+     * @return This cursor allows you to reference these columns. 
      */
-    public Cursor getCursor(String [] columns) {
+    protected Cursor getCursor(String [] columns) {
     	return database_.query(RESTAURANT_TABLE, columns, null, null, null, null, null);
     }
     
@@ -228,7 +225,7 @@ public class DBAdapter {
      * 			the rowID of the restaurant to be traversed
      * @return A cursor to traverse over Restaurant with rowID.
      */
-    public Cursor getCursor(String [] columns, long rowId) {
+    protected Cursor getCursor(String [] columns, long rowId) {
     	return database_.query(true, RESTAURANT_TABLE, columns, COLUMN_ID + "=" + rowId, null, null, null, null, null);
     }
 
@@ -240,68 +237,68 @@ public class DBAdapter {
 	 * 
 	 * @param rowId
 	 *            id of note to update
-	 * @param name
-	 *            value to set restaurant name to
-	 * @param latitude
-	 *            value to set restaurant latitude to
-	 * @param latitude
-	 *            value to set restaurant longitude to
-	 * @param description
-	 *            value to set restaurant description to
-	 * @param favorite
-	 *            value to set restaurant favorite to
+	 * @param updated
+	 * 			the updated version of restaurant with row id rowId
 	 * @return true if the restaurant was successfully updated, false otherwise
 	 * 
 	 * TODO add the other fields that might be updated as they are implemented
 	 */
-	public boolean updateRestaurant(long rowId, Restaurant updated) {
+	protected boolean updateRestaurant(long rowId, Restaurant updated) {
 
-		ContentValues args = new ContentValues(5);
-		args.put(COLUMN_NAME 			, updated.getName());                                     
-		args.put(COLUMN_HOUR_SUN 		, updated.getHours().flatten(Calendar.SUNDAY));           
-		args.put(COLUMN_HOUR_MON 		, updated.getHours().flatten(Calendar.MONDAY));           
-		args.put(COLUMN_HOUR_TUE 		, updated.getHours().flatten(Calendar.TUESDAY));          
-		args.put(COLUMN_HOUR_WED 		, updated.getHours().flatten(Calendar.WEDNESDAY));        
-		args.put(COLUMN_HOUR_THU 		, updated.getHours().flatten(Calendar.THURSDAY));         
-		args.put(COLUMN_HOUR_FRI 		, updated.getHours().flatten(Calendar.FRIDAY));           
-		args.put(COLUMN_HOUR_SAT 		, updated.getHours().flatten(Calendar.SATURDAY));         
-		args.put(COLUMN_DESCRIPTION 	, updated.getDescription());                              
-		args.put(COLUMN_TYPE 			, updated.getType());                                     
-		args.put(COLUMN_ICON 			, updated.getIcon());                                     
-		args.put(COLUMN_LATITUDE 		, updated.getLat());                                      
-		args.put(COLUMN_LONGITUDE 		, updated.getLon());                                      
-		args.put(COLUMN_BOOLEANS 		, booleansEncode(new boolean []
+		ContentValues updateParams = new ContentValues(16);
+		updateParams.put(COLUMN_NAME 			, updated.getName());                                     
+		updateParams.put(COLUMN_HOUR_SUN 		, updated.getHours().flatten(Calendar.SUNDAY));           
+		updateParams.put(COLUMN_HOUR_MON 		, updated.getHours().flatten(Calendar.MONDAY));           
+		updateParams.put(COLUMN_HOUR_TUE 		, updated.getHours().flatten(Calendar.TUESDAY));          
+		updateParams.put(COLUMN_HOUR_WED 		, updated.getHours().flatten(Calendar.WEDNESDAY));        
+		updateParams.put(COLUMN_HOUR_THU 		, updated.getHours().flatten(Calendar.THURSDAY));         
+		updateParams.put(COLUMN_HOUR_FRI 		, updated.getHours().flatten(Calendar.FRIDAY));           
+		updateParams.put(COLUMN_HOUR_SAT 		, updated.getHours().flatten(Calendar.SATURDAY));         
+		updateParams.put(COLUMN_DESCRIPTION 	, updated.getDescription());                              
+		updateParams.put(COLUMN_TYPE 			, updated.getType());                                     
+		updateParams.put(COLUMN_ICON 			, updated.getIcon());                                     
+		updateParams.put(COLUMN_LATITUDE 		, updated.getLat());                                      
+		updateParams.put(COLUMN_LONGITUDE 		, updated.getLon());                                      
+		updateParams.put(COLUMN_BOOLEANS 		, booleansEncode(new boolean []
 		    {updated.favorite(), updated.mealPlanAccepted(), updated.mealMoneyAccepted(), updated.mealPlanAccepted(), updated.offCampus()}));                          
-		args.put(COLUMN_PHONE_NUMBER 	, updated.getPhoneNumber());                              
-		args.put(COLUMN_URL 			, updated.getUrl());                                      
+		updateParams.put(COLUMN_PHONE_NUMBER 	, updated.getPhoneNumber());                              
+		updateParams.put(COLUMN_URL 			, updated.getUrl());                                      
 	
-	
+		if (updated.getMenu() != null) {
+			XStream xstream = new XStream(new DomDriver());
+			String menuf = xstream.toXML(updated.getMenu());
+			updateParams.put(COLUMN_MENU, menuf);
+		}
 		
-		return database_.update(RESTAURANT_TABLE, args,
+		return database_.update(RESTAURANT_TABLE, updateParams,
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
 	
 	// these methods allow individual columns to be updated, without 
 	// having to pull the rest of the Restaurant from storage
-	public boolean updateColumn(long rowId, String column, int value) {
+	protected boolean updateColumns(long rowId, ContentValues newVals) {
+		return database_.update(RESTAURANT_TABLE, newVals, 
+				COLUMN_ID + "=" + rowId, null) > 0;
+	}
+	protected boolean updateColumn(long rowId, String column, int value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
 		return database_.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
-	public boolean updateColumn(long rowId, String column, long value) {
+	protected boolean updateColumn(long rowId, String column, long value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
 		return database_.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
-	public boolean updateColumn(long rowId, String column, boolean value) {
+	protected boolean updateColumn(long rowId, String column, boolean value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
 		return database_.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
-	public boolean updateColumn(long rowId, String column, String value) {
+	protected boolean updateColumn(long rowId, String column, String value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
 		return database_.update(RESTAURANT_TABLE, args, 
@@ -309,16 +306,18 @@ public class DBAdapter {
 	}
 
 	/** Used to open a readable database */
-	public DBAdapter openReadable() throws SQLException {
+	protected DBAdapter openReadable() throws SQLException {
 		database_ = openHelper_.getReadableDatabase();
 		return this;
 	}
 
 	/** Used to open a writable database */
-	public DBAdapter openWritable() throws SQLException {
+	protected DBAdapter openWritable() throws SQLException {
 		database_ = openHelper_.getWritableDatabase();
 		return this;
 	}
+	
+	
 	
 	protected static int booleansEncode(boolean []in) {
 		int out = 0;
@@ -343,9 +342,13 @@ public class DBAdapter {
 	 * @return
 	 *		equivalent RestaurantHours object
 	 */
-	protected static Menu getMenuFromXml(String xmlFromDatabase) {
+	protected static RestaurantMenu getMenuFromXml(String xmlFromDatabase) {
+		if (xmlFromDatabase == null){
+			Log.i("DBAdapter", "getMenuFromXml null pointer");
+			return null;
+		}
 		XStream xs = new XStream(new DomDriver());
-		return (Menu) xs.fromXML(xmlFromDatabase);
+		return (RestaurantMenu) xs.fromXML(xmlFromDatabase);
 	}
 	
 //
@@ -359,7 +362,7 @@ public class DBAdapter {
 //	 * 
 //	 * @see DBAdapter.fetchRestaurant(long rowId)
 //	 */
-//	public List<Long> fetchAllRestaurantIDs() {
+//	protected List<Long> fetchAllRestaurantIDs() {
 //		Cursor c = database_.query(RESTAURANT_TABLE,
 //				new String[] { COLUMN_ID }, null, null, null, null, null);
 //
@@ -391,7 +394,7 @@ public class DBAdapter {
 //	 * 
 //	 * @TODO - Create a RestaurantNotFound exception, and throw that instead
 //	 */
-//	public Restaurant fetchRestaurant(long rowId) throws SQLException {
+//	protected Restaurant fetchRestaurant(long rowId) throws SQLException {
 //		Cursor c = database_.query(true, RESTAURANT_TABLE, new String[] {
 //				COLUMN_ID, COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
 //				COLUMN_DESCRIPTION, COLUMN_FAVORITE, COLUMN_HOUR }, COLUMN_ID + "=" + rowId,

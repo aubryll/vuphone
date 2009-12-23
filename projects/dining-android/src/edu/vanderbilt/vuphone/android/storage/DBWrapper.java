@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Stack;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import edu.vanderbilt.vuphone.android.dining.Main;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
@@ -41,10 +42,15 @@ public class DBWrapper {
 	private static Stack<UpdateItem> updated;
 	
 
-	@SuppressWarnings("unchecked")
 	public static ArrayList<Long> getIDs() {
 		cacheIDs();
-		return (ArrayList<Long>)IDs.clone();
+		return IDs;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static ArrayList<Long> copyIDs() {
+		cacheIDs();
+		return (ArrayList<Long>) IDs.clone();
 	}
 	
 	
@@ -55,82 +61,81 @@ public class DBWrapper {
 	
 	public static String getName(long rowID) {
 		cacheMainData();
-		return cache.get(IDs.indexOf(rowID)).getName();
+		return cache.get(getI(rowID)).getName();
 	}
 
 	public static int getLat(long rowID) {
 		cacheMapData();
-		return cache.get(IDs.indexOf(rowID)).getLat();
+		return cache.get(getI(rowID)).getLat();
 	}
 
 	public static int getLon(long rowID) {
 		cacheMapData();
-		return cache.get(IDs.indexOf(rowID)).getLon();
+		return cache.get(getI(rowID)).getLon();
 	}
 
 	public static RestaurantHours getHours(long rowID) {
 		cacheMainData();
-		return cache.get(IDs.indexOf(rowID)).getHours();
+		return cache.get(getI(rowID)).getHours();
 	}
 
 	public static String getType(long rowID) { 
 		cacheMainData();
-		return cache.get(IDs.indexOf(rowID)).getType();
+		return cache.get(getI(rowID)).getType();
 	}
 
 	public static int getIcon(long rowID) {
 		cacheMapData();
-		return cache.get(IDs.indexOf(rowID)).getIcon();
+		return cache.get(getI(rowID)).getIcon();
 	}
 
 	public static boolean favorite(long rowID) {
 		cacheMainData();
-		return cache.get(IDs.indexOf(rowID)).favorite();
+		return cache.get(getI(rowID)).favorite();
 	}
 
 	public static boolean onTheCard(long rowID) { 
 		cacheMainData();
-		return cache.get(IDs.indexOf(rowID)).onTheCard();
+		return cache.get(getI(rowID)).onTheCard();
 	}
 
 	public static boolean offCampus(long rowID) {
 		cacheMainData();
-		return cache.get(IDs.indexOf(rowID)).offCampus();
+		return cache.get(getI(rowID)).offCampus();
 	}
 	
 	
 	public static boolean create(Restaurant r) {
 		makeWritable();
 		long rID = adapter.createRestaurant(r);
-		if (idsCached && rID != -1) {
-			IDs.add(rID);
-		}
-		if (mainDataCached && rID != -1) {
-			cache.add(r);
-		}
-		return (rID != -1);
+		if (rID >= 0) {
+			if (idsCached)
+				IDs.add(rID);
+			if (mainDataCached)
+				cache.add(r);
+			return true;
+		} else
+			return false;
 	}
 	
 	// updates the database and cache immediately with new values
 	public static boolean update(long rowID, Restaurant updated) {
-		cacheIDs();
 		makeWritable();
-		int i = IDs.indexOf(rowID);
+		int i = getI(rowID);
 		if (i<0)
 			return false;
-		boolean success =  adapter.updateRestaurant(rowID, updated);
-		if (mainDataCached && success)
-			cache.set(i, updated);  
+		boolean success =  adapter.updateRestaurant(rowID, updated); 
 		close();
+		if (mainDataCached && success)
+			cache.set(i, updated); 
 		return success;
 	}
 	
 	// updates only the local cache with new favorite, call commit() to write changes to database
 	// or revert() to revert to old settings
 	public static boolean setFavorite(long rowID, boolean favorite) {
-		if (!mainDataCached)
-			cacheMainData();
-		int i = IDs.indexOf(rowID);
+		cacheMainData();
+		int i = getI(rowID);
 		if (i<0 || cache.get(i).favorite()==favorite)
 			return false;
 		initializeUpdateStack();
@@ -140,7 +145,7 @@ public class DBWrapper {
 	}
 	
 	public static boolean commit() {
-		if (updated.empty())
+		if (updated == null || updated.empty())
 			return false;
 		else
 			makeWritable();
@@ -153,6 +158,8 @@ public class DBWrapper {
 	}
 
 	public static void revert() {
+		if (updated == null)
+			return;
 		while (!updated.empty())
 			updated.pop().revert();
 	}
@@ -259,16 +266,17 @@ public class DBWrapper {
 	public static int cacheRestaurant(long rowID) {
 		if (!mainDataCached)
 			cacheMainData();
-		int i = IDs.indexOf(rowID);
+		int i = getI(rowID);
 		if (cached.get(i))
 			return i;
 		makeReadable();	
 		ArrayList<String> columnsToRead = new ArrayList<String>();
 		if (!mapDataCached) {
+			columnsToRead.ensureCapacity(7);
 			columnsToRead.add(DBAdapter.COLUMN_LATITUDE);
 			columnsToRead.add(DBAdapter.COLUMN_LONGITUDE);
 			columnsToRead.add(DBAdapter.COLUMN_ICON);
-		}
+		} else columnsToRead.ensureCapacity(4);
 		columnsToRead.add(DBAdapter.COLUMN_DESCRIPTION);
 		columnsToRead.add(DBAdapter.COLUMN_PHONE_NUMBER);
 		columnsToRead.add(DBAdapter.COLUMN_URL);
@@ -300,18 +308,6 @@ public class DBWrapper {
 		return i;
 	}
 	
-//	private static void setRestaurantField(Restaurant r, String DBColumn, Cursor c) {
-//		if (DBColumn.equals(DBAdapter.COLUMN_NAME))
-//			r.setName((String)c.getString(c.getColumnIndexOrThrow(DBColumn));
-//		else if (DBColumn.equals(DBAdapter.COLUMN_LATITUDE))
-//			r.setLatitude((Integer)setTo);
-//		else if (DBColumn.equals(DBAdapter.COLUMN_LONGITUDE))
-//			r.setLongidute((Integer)setTo);
-//		else if (DBColumn.equals(DBAdapter.COLUMN_DESCRIPTION))
-//			r.setDescription((String)setTo);
-//		else if (DBColumn.equals(DBAdapter.COLUMN_FAVORITE))
-//			r.setFavorite((Boolean)setTo);
-//	}
 	
 	private static void resetRestaurantCache() {
 		int restaurants = getIDs().size();
@@ -349,11 +345,7 @@ public class DBWrapper {
 		initialize();
 		switch (state) {
 		case READABLE:
-			return;
 		case WRITABLE:
-			adapter.close();
-			adapter.openReadable();
-			state = READABLE;
 			return;
 		case CLOSED:
 			adapter.openReadable();
@@ -379,10 +371,18 @@ public class DBWrapper {
 			return;
 		}
 	}
+
+	private static int getI(long rowID) {
+		int i = getIDs().indexOf(rowID);
+		if (i < 0)
+			throw new RuntimeException("Restaurant does not exist");
+		return i;
+	}
 	
 	private static void initializeUpdateStack() {
-		if (updated == null)
+		if (updated == null) {
 			updated = new Stack<UpdateItem>();
+		}
 	}
 	
 	public static class UpdateItem {
@@ -422,13 +422,28 @@ public class DBWrapper {
 			case PLAN_ACCEPTED:
 			case MONEY_ACCEPTED:
 			case OFF_CAMPUS:
-				if (!booleansCommited)
-					return adapter.updateColumn(IDs.get(_i), DBAdapter.COLUMN_BOOLEANS, 
+				if (!booleansCommited) {
+					booleansCommited = true;
+					return adapter.updateColumn(getIDs().get(_i), DBAdapter.COLUMN_BOOLEANS, 
 							DBAdapter.booleansEncode(new boolean[] {cache.get(_i).favorite(), cache.get(_i).mealPlanAccepted(), 
 									cache.get(_i).mealMoneyAccepted(), cache.get(_i).offCampus()}));
+				}
 				else return true;
 				
 				// no other updateItem types needed yet, so none implemented
+				
+			case NAME: 
+				return adapter.updateColumn(getIDs().get(_i), DBAdapter.COLUMN_NAME, cache.get(_i).getName());
+			case HOURS:
+				//return adapter.updateColumn(IDs.get(_i), DBAdapter.COLUMN_HOURS, (String)_oldVal);
+			case MENU:
+			case DESCRIPTION:
+			case TYPE:
+			case ICON:
+			case LATITUDE:
+			case LONGITUDE:
+			case PHONE_NUMBER:
+			case URL:
 				
 			default:
 				return false;
