@@ -14,6 +14,7 @@
 }
 
 - (void)setText:(NSString *)text;
+- (CGFloat)height;
 
 @property(retain) UITextView *textView;
 
