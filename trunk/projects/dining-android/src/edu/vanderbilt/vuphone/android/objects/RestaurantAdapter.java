@@ -15,10 +15,7 @@ import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
-/**
- * @author austin
- *
- */
+
 /**
  * @author austin
  *
@@ -32,12 +29,19 @@ public class RestaurantAdapter extends BaseAdapter {
 	public static final int ALPHABETICAL = 1;
 	
 	// secondary sorts, all include alphabetical
-	public static final int FAVORITE = 2;
-	public static final int OPEN_CLOSED = 3;
-	public static final int NEAR_FAR = 4;
+	public static final int FAVORITE = 0x10;
+	public static final int OPEN_CLOSED = 0x20;
+	public static final int NEAR_FAR = 0x30;
+		// these time sorts are dumb and should be applied on strictly open and strictly closed
+		// restaurant ranges, respectively, or undefined sorting may occur
+	private static final int TIME_TO_CLOSE = 0x40;
+	private static final int TIME_TO_OPEN = 0x50;
 	
 	// tertiary sorts, all include alphabetical
-	public static final int FAVORITE_OPEN_CLOSED = 5;
+	public static final int FAVORITE_OPEN_CLOSED = 0x100;
+	public static final int FAVORITE_TIME_TO_CLOSE = 0x200;
+	public static final int FAVORITE_TIMES = 0x300;
+	
 	
 	public static final int DEFAULT = FAVORITE_OPEN_CLOSED;
 	
@@ -62,7 +66,6 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	public RestaurantAdapter(Context context, int sortType) {
 		_context = context;
-		_order = Restaurant.getIDs();
 		setSort(sortType);
 	} 
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
@@ -112,9 +115,7 @@ public class RestaurantAdapter extends BaseAdapter {
 			wrapper.getSpecialView().setText(getSpecialText(Restaurant.getHours(rID)));
 
 			if (grayClosed) {
-				boolean enabled = true;
-				if (!Restaurant.getHours(rID).isOpen()) 
-					enabled = false;
+				boolean enabled = Restaurant.getHours(rID).isOpen();
 				wrapper.getNameView().setEnabled(enabled);
 				wrapper.getSpecialView().setEnabled(enabled);
 				wrapper.getFavoriteView().setEnabled(enabled);
@@ -161,25 +162,34 @@ public class RestaurantAdapter extends BaseAdapter {
 			displayFav = true;
 			break;
 		case FAVORITE_OPEN_CLOSED:
+		case FAVORITE_TIME_TO_CLOSE:
+		case FAVORITE_TIMES:
 		case FAVORITE:
 			displayFav = false;
 			break;
 		}
 		
-		if (sortType == currentSortType || sortType == UNSORTED)
+		_order = Restaurant.copyIDs();
+		
+		if (sortType == UNSORTED)
 			return; // only set the above if unsorted
 		currentSortType = sortType;
-		
-		// first remove partitions if this is a later sort
-		for (int i = 0; i<_order.size(); i++)
-			if (_order.get(i)<0)
-				_order.remove(i);
 
 		sort(_order, ALPHABETICAL);
 		switch (sortType) {
 		case FAVORITE_OPEN_CLOSED:
+		case FAVORITE_TIME_TO_CLOSE:
+		case FAVORITE_TIMES:
 		{
 			sort(_order, OPEN_CLOSED);
+			if (sortType == FAVORITE_TIME_TO_CLOSE || sortType == FAVORITE_TIMES) {
+				int tClosed = firstClosed();
+				if (tClosed == -1)
+					tClosed = _order.size();
+				sort(_order.subList(0, tClosed), TIME_TO_CLOSE);
+				if (sortType == FAVORITE_TIMES && tClosed != _order.size())
+					sort(_order.subList(tClosed, _order.size()), TIME_TO_OPEN);
+			}
 			sort(_order, FAVORITE);
 
 			int nonFav = firstNonFavorite();
@@ -235,16 +245,12 @@ public class RestaurantAdapter extends BaseAdapter {
 		}
 	}
 	
+	public void setSort() {
+		setSort(currentSortType);
+	}
 	
-	/**
-	 *  Use this instead of setSort() if the underlying Restaurant data
-	 *  has changed.
-	 * @param sortType
-	 * 		class constant representing a sort method
-	 */
-	public void forceSetSort(int sortType) {
-		currentSortType = UNSORTED;
-		setSort(sortType);
+	public int getSortType() {
+		return currentSortType;
 	}
 	
 	public void setShowFavIcon(boolean show) {
@@ -334,11 +340,18 @@ public class RestaurantAdapter extends BaseAdapter {
 	private boolean compare(long first, long second, int sortType) {
 		switch (sortType) {
 		case FAVORITE:
-			return !(!Restaurant.favorite(first) && Restaurant.favorite(second));
+			return Restaurant.favorite(first) || !Restaurant.favorite(second);
 		case ALPHABETICAL:
 			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
 		case OPEN_CLOSED:
-			return !(!Restaurant.getHours(first).isOpen() && Restaurant.getHours(second).isOpen());
+			return Restaurant.getHours(first).isOpen() || !Restaurant.getHours(second).isOpen();
+		case TIME_TO_CLOSE:
+			return Restaurant.getHours(first).minutesToClose() <= Restaurant.getHours(second).minutesToClose();
+		case TIME_TO_OPEN:
+			int fm =Restaurant.getHours(first).minutesToOpen(), sm = Restaurant.getHours(second).minutesToOpen();
+			if (fm == -1)
+				return sm == -1;
+			else return fm <= sm || sm == -1;
 		case NEAR_FAR:
 			return true;
 		default:

@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import android.util.Log;
 
 // TODO sort ranges before saving, and check for overlay
+// 		support cross midnight ranges
 
 public class RestaurantHours {
 	

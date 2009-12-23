@@ -22,6 +22,7 @@ import edu.vanderbilt.vuphone.android.map.AllLocations;
 import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
+import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
@@ -37,12 +38,6 @@ public class Main extends ListActivity {
 	private static final int MENU_ITEM_CHOOSE_SORTING = 2;
 	/** The custom adapter used to create the list */
 	private RestaurantAdapter ra;
-	/**
-	 * This value saves the users sort preference while using the program and
-	 * and defaults to showing favorites on top followed by open and then closed
-	 * locations
-	 */
-	private int currentSortMethod = RestaurantAdapter.FAVORITE_OPEN_CLOSED;
 	
 	private static final int NORMAL = 0;
 	private static final int MARK_FAVS = 1;
@@ -60,12 +55,15 @@ public class Main extends ListActivity {
 			applicationContext = getApplicationContext(); 
 
 		deleteAllRestaurants();
+
+		Log.i("Main", "onCreat() IDs size: " + Restaurant.getIDs().size());
 		addRandomRestaurantsToDB(20);		
+		Log.i("Main", "onCreat() IDs size: " + Restaurant.getIDs().size());
 		
 		setContentView(R.layout.main);
 		mode = NORMAL;
 		
-		ra = new RestaurantAdapter(this, currentSortMethod);
+		ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_TIMES);
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
 	}
@@ -73,14 +71,13 @@ public class Main extends ListActivity {
 	/** Resorts the list when it is resumed */
 	public void onResume() {
 		super.onResume();
-		ra.setSort(currentSortMethod);
+		ra.setSort();
 		setListAdapter(ra);
 	}
 
 	/** Sets a new sort method to be used and resorts the list */
 	protected void reSortList(int sortMethod) {
-		currentSortMethod = sortMethod;
-		ra.setSort(currentSortMethod);
+		ra.setSort(sortMethod);
 		setListAdapter(ra);
 	}
 
@@ -118,7 +115,7 @@ public class Main extends ListActivity {
 		itemsIDs.add(RestaurantAdapter.ALPHABETICAL);
 
 		builder.setSingleChoiceItems(items,
-				itemsIDs.indexOf(currentSortMethod),
+				itemsIDs.indexOf(ra.getSortType()),
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int item) {
 
@@ -187,7 +184,7 @@ public class Main extends ListActivity {
 			Restaurant.commit();
 			mode = NORMAL;
 			setContentView(R.layout.main);
-			ra.forceSetSort(currentSortMethod);
+			ra.setSort();
 			setListAdapter(ra);
 		}
 	};
@@ -199,15 +196,13 @@ public class Main extends ListActivity {
 			Restaurant.revert();
 			mode = NORMAL;
 			setContentView(R.layout.main);
-			ra.setSort(currentSortMethod);
+			ra.setSort();
 			setListAdapter(ra);
 		}
 	};
 
 	
 	// placeholder/temporary methods below
-	
-	// MAY CONFUSE DBWrapper IF USED AFTER ANY OTHER DB FUNCTIONS
 	private void deleteAllRestaurants() {/*
 		Log.i("test", "opening writable database.");
 		DBAdapter adapt = new DBAdapter(this);
@@ -217,7 +212,7 @@ public class Main extends ListActivity {
 		for (int i = 0; i<ids.size(); i++)
 			adapt.deleteRestaurant(ids.get(i));
 		adapt.close();*/
-		ArrayList<Long> ids = Restaurant.getIDs();
+		ArrayList<Long> ids = Restaurant.copyIDs();
 		for (int i = 0; i < ids.size(); i++)
 			Restaurant.delete(ids.get(i));
 	}
@@ -227,6 +222,7 @@ public class Main extends ListActivity {
 				"i","k", "l", "m", "n","o","p","q","r",
 				"s","t","u","v","w","x","y","z"};
 		int maxRanges = 2;
+		int maxMenuItems = 10;
 		Log.i("test", "loading database with valid random data");
 		Random r = new Random();
 		for (int i = 1; i <= numRest; i++) {
@@ -242,11 +238,19 @@ public class Main extends ListActivity {
 					rh.addRange(day, new Range(start, stop));
 				}
 			}
+			RestaurantMenu menu = new RestaurantMenu();
+			int items = r.nextInt(maxMenuItems);
+			for (int k = 0; k < items; k++) {
+				String name = new String();
+				for (int j = 0; j<14; j++)
+					name = name + letters[r.nextInt(letters.length)];
+				menu.addItem(new RestaurantMenu.MenuItem(name, "A wonderful blend of nothing and everything to make something"));
+			}
 			String name = new String();
 			for (int j = 0; j<7; j++)
 				name = name + letters[r.nextInt(letters.length)];
 			Restaurant restaurant = new Restaurant(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
-					.nextInt(), "cafe", null, 
+					.nextInt(), "cafe", menu, 
 					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, R.drawable.dining, true,
 					 false, false, "(615) 555-1234", "http://example.com");
 			restaurant.create();
