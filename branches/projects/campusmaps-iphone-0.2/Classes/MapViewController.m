@@ -145,7 +145,7 @@
 	// Push the POI detail view controller
 	POIViewController *poiVC = [[POIViewController alloc] initWithNibName:@"POIViewController" bundle:nil];
 	poiVC.poi = poi;
-	poiVC.title = @"POI";
+	poiVC.title = poi.name;
 	
 	[self.navigationController pushViewController:poiVC animated:YES];
 	[poiVC release];

@@ -34,6 +34,7 @@
 		6F211BD010884D90003F009F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F211BCD10884D90003F009F /* MapViewController.xib */; };
 		9952698410D34E6300424730 /* POIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9952698210D34E6300424730 /* POIViewController.m */; };
 		9952698510D34E6300424730 /* POIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9952698310D34E6300424730 /* POIViewController.xib */; };
+		9973B77210E2727E002922E9 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9973B77110E2727E002922E9 /* VariableHeightCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,8 @@
 		9952698110D34E6300424730 /* POIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIViewController.h; sourceTree = "<group>"; };
 		9952698210D34E6300424730 /* POIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIViewController.m; sourceTree = "<group>"; };
 		9952698310D34E6300424730 /* POIViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = POIViewController.xib; sourceTree = "<group>"; };
+		9973B77010E2727E002922E9 /* VariableHeightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableHeightCell.h; sourceTree = "<group>"; };
+		9973B77110E2727E002922E9 /* VariableHeightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableHeightCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 				1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */,
 				61FD09CE10C75112000EA568 /* LayersListViewController.h */,
 				61FD09CF10C75112000EA568 /* LayersListViewController.m */,
+				9973B77010E2727E002922E9 /* VariableHeightCell.h */,
+				9973B77110E2727E002922E9 /* VariableHeightCell.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 				61FD08EF10C741D9000EA568 /* NSStringAdditions.m in Sources */,
 				61FD09D110C75112000EA568 /* LayersListViewController.m in Sources */,
 				9952698410D34E6300424730 /* POIViewController.m in Sources */,
+				9973B77210E2727E002922E9 /* VariableHeightCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
