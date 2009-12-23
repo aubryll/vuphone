@@ -8,6 +8,8 @@
 
 #import "POIViewController.h"
 #import <UIKit/UIStringDrawing.h>
+#import <CoreLocation/CoreLocation.h>
+#import "VariableHeightCell.h"
 
 
 
@@ -41,42 +43,49 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *identifier = @"identifier";
+	static NSString *varHeightIdentifier = @"varHeight";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+	VariableHeightCell *varCell;
+	CGRect contentRect;
 	
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier] autorelease];
+		if (indexPath.section == 0)
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 
+										   reuseIdentifier:identifier] autorelease];
+		else {
+			cell = [[[VariableHeightCell alloc] initWithStyle:UITableViewCellStyleDefault 
+											  reuseIdentifier:varHeightIdentifier] autorelease];
+			varCell = (VariableHeightCell *)cell;
+			contentRect = varCell.textView.frame;
+		}
 	}
-	
-	CGRect contentRect = CGRectMake(10.0, 0.0, 280, 56);
-	UITextView *textLabel = [[UITextView alloc] initWithFrame:contentRect];
-	textLabel.editable = NO;
-	textLabel.font = [UIFont systemFontOfSize:13.0];
-	[cell.contentView addSubview:textLabel];
 	
 	// Configure the cell.
 	switch (indexPath.section) {
 		case 0:
-			textLabel.text = poi.name;
+			// Release the current subview and then add the poi image. 
+//			[cell.contentView release];
+//			UIImageView *poiImage = [[UIImageView alloc] initWithImage:[poi image]];
+//			[cell.contentView addSubview:poiImage];
 			break;
-		case 1:
-			// TODO: Logic for determining distance needs to go here.
-			textLabel.text = @"NOOB!!!";
+		case 1: // Name
+			[varCell setText:poi.name];
 			break;
 		case 2:
-			textLabel.text = poi.details;
+			// TODO: Logic for determining distance needs to go here.
+			//CLLocation *curLocation;
+//			[varCell setText:@"NOOB!!!"];
 			break;
 		case 3:
-			// Release the current subview and then add the poi image. 
-			[cell.contentView release];
-			UIImageView *poiImage = [[UIImageView alloc] initWithImage:[poi image]];
-			[cell.contentView addSubview:poiImage];
+			[varCell setText:poi.details];
 			break;
+		
 		default:
 			break;
 	}
 	
-	[textLabel release];
+	//[varCell release];
 	
 	return cell;
 }
@@ -84,30 +93,27 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
 	switch (section) {
-		case 0:
-			return @"Name";
 		case 1:
-			return @"Distance";
+			return @"Name";
 		case 2:
-			return @"Details";
+			return @"Distance";
 		case 3:
-			return @"Image";
+			return @"Details";
 		default:
 			return nil;
 	}
 }
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+	UITableViewCell *cell = [self tableView:aTableView cellForRowAtIndexPath:indexPath];
 	switch (indexPath.section) {
 		case 0:
-			return 30.0;
-		case 1:
-			return 30.0;
-		case 2:
-			return [self getSizeOfText:poi.details].height;
-		case 3:
 			return [poi image].size.height;
+		case 1:
+		case 3:
+			return ((VariableHeightCell *)cell).textView.contentSize.height + 4.0;
+		case 2:
+			return 30.0;
 		default:
 			return 44.0;
 	}
@@ -116,7 +122,7 @@
 // Helper method used to calculate the frame for the table view cell.
 -(CGSize)getSizeOfText:(NSString *)text {
 	return [text sizeWithFont:[UIFont systemFontOfSize:13.0] 
-			constrainedToSize:CGSizeMake(130.0, 56.0) lineBreakMode:UILineBreakModeWordWrap];
+			constrainedToSize:CGSizeMake(20.0, 56.0) lineBreakMode:UILineBreakModeWordWrap];
 }
 
 //
