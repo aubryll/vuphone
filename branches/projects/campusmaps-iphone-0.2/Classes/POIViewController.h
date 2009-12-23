@@ -11,7 +11,11 @@
 
 @interface POIViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	POI *poi;
+	CGFloat detailsTextHeight;
 }
 
+-(CGSize) getSizeOfText:(NSString *) text;
+
 @property (retain) POI *poi;
+
 @end
