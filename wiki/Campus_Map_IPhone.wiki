@@ -46,8 +46,8 @@ Handles marker taps: Demetri
  * <img src='http://ni2.in/tb/.png'/> tap a location marker's title to see the following details: title, details
  * <img src='http://ni2.in/tb/.png'/> see the annotation's details formatted as a list
  * <img src='http://ni2.in/tb/.png'/> see an image related to annotation selected when viewing the annotation's details
-* center image related to annotation selected when viewing annotation's details
-* see distance to selected annotation from current location
+ * center image related to annotation selected when viewing annotation's details
+ * see distance to selected annotation from current location
 
 Locations: Joshua
  * <img src='http://ni2.in/tb/.png'/> see a search interface to search for POIs on the currently selected layer
