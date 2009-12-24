@@ -275,7 +275,7 @@ public class Main extends MapActivity {
 	public void drop_pin(Building b) {
 		MapMarker m = new MapMarker(b);
 		m.drop_pin();
-		centerMapAt(b.getLocation());
+		centerMapAt(b.getLocation(), 18);
 	}
 
 	/**
@@ -339,10 +339,11 @@ public class Main extends MapActivity {
 			String latlong[] = loc[0].split(",");
 			GeoPoint gp = EPSG900913ToGeoPoint(Double.parseDouble(latlong[0]),
 					Double.parseDouble(latlong[1]));
+			String url = "http://www.vanderbilt.edu/map/"
+					+ attrib.getProperty("FACILITY_URL").toLowerCase();
 
 			Building b = new Building(i, gp, name, attrib
-					.getProperty("FACILITY_REMARKS"), attrib
-					.getProperty("FACILITY_URL"));
+					.getProperty("FACILITY_REMARKS"), url);
 
 			bList.put(new Long(i), b);
 		}
@@ -423,7 +424,7 @@ public class Main extends MapActivity {
 	 *            - level to set zoom
 	 */
 	public void centerMapAt(GeoPoint p, int zoomLevel) {
-		mc_.setZoom(17);
+		mc_.setZoom(zoomLevel);
 		centerMapAt(p);
 	}
 
