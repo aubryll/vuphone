@@ -15,10 +15,12 @@ import com.google.android.maps.ItemizedOverlay;
 
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
-import edu.vanderbilt.vuphone.android.events.filters.FilterChangedListener;
+import edu.vanderbilt.vuphone.android.events.filters.FilterManager;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
+import edu.vanderbilt.vuphone.android.events.filters.PositionFilterListener;
 import edu.vanderbilt.vuphone.android.events.filters.TagsFilter;
 import edu.vanderbilt.vuphone.android.events.filters.TimeFilter;
+import edu.vanderbilt.vuphone.android.events.filters.TimeFilterListener;
 
 /**
  * Contains the {@link EventOverlayItem}s. Holds a handle to the database, and
@@ -29,7 +31,7 @@ import edu.vanderbilt.vuphone.android.events.filters.TimeFilter;
  * 
  */
 public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
-		FilterChangedListener {
+		PositionFilterListener, TimeFilterListener {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventOverlay: ";
@@ -76,7 +78,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 		tagsFilter_ = tagsFilter;
 
 		if (positionFilter_ != null)
-			positionFilter_.registerListener(this);
+			FilterManager.registerFilterListener((PositionFilterListener)this);
 
 		database_ = new DBAdapter(context);
 		database_.openReadable();
@@ -93,19 +95,6 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	protected EventOverlayItem createItem(int arg0) {
 		eventCursor_.moveToNext();
 		return EventOverlayItem.getItemFromRow(eventCursor_);
-	}
-
-	/**
-	 * @see edu.vanderbilt.vuphone.android.events.filters.FilterChangedListener#filterChanged()
-	 */
-	public void filterChanged() {
-		Log.i(tag, pre + "Filter was updated");
-		eventCursor_.close();
-		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
-				tagsFilter_);
-
-		setLastFocusedIndex(-1);
-		populate();
 	}
 
 	@Override
@@ -132,11 +121,11 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 			TagsFilter ts) {
 
 		if (positionFilter_ != null)
-			positionFilter_.unregisterListener(this);
+			FilterManager.unregisterFilterListener((PositionFilterListener)this);
 
 		positionFilter_ = p;
 		if (positionFilter_ != null)
-			positionFilter_.registerListener(this);
+			FilterManager.registerFilterListener((PositionFilterListener)this);
 
 		timeFilter_ = t;
 		tagsFilter_ = ts;
@@ -187,5 +176,24 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	@Override
 	public int size() {
 		return eventCursor_.getCount();
+	}
+
+	/** 
+	 * @see edu.vanderbilt.vuphone.android.events.filters.PositionFilterListener#filterUpdated(edu.vanderbilt.vuphone.android.events.filters.PositionFilter)
+	 */
+	public void filterUpdated(PositionFilter filter) {
+		Log.i(tag, pre + "Filter was updated");
+		eventCursor_.close();
+		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
+				tagsFilter_);
+
+		setLastFocusedIndex(-1);
+		populate();
+	}
+
+	/** 
+	 * @see edu.vanderbilt.vuphone.android.events.filters.TimeFilterListener#filterUpdated(edu.vanderbilt.vuphone.android.events.filters.TimeFilter)
+	 */
+	public void filterUpdated(TimeFilter filter) {
 	}
 }

@@ -3,9 +3,6 @@
  */
 package edu.vanderbilt.vuphone.android.events.filters;
 
-import java.util.ArrayList;
-
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,7 +14,6 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.events.Constants;
-import edu.vanderbilt.vuphone.android.events.viewevents.EventViewer;
 
 /**
  * Represents a central location, and a radius around that location. Events must
@@ -31,21 +27,14 @@ import edu.vanderbilt.vuphone.android.events.viewevents.EventViewer;
  * the support for trigonometric functions in the query. See
  * http://www.artfulsoftware.com/infotree/queries.php?&bw=1280#109 )
  * 
- * This is the only Filter that is not strictly immutable, because of the
- * possibility of it having to update itself when the user moves. If this is a
- * problem for anyone using this filter, then they can register as a
- * FilterChangedListener and receive a callback when this filter updates itself
  * 
  * @author Hamilton Turner
  * 
  */
-public class PositionFilter {
+public class PositionFilter implements Filter {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "PositionFilter: ";
-
-	/** Holds any listeners registered to this filter */
-	private ArrayList<FilterChangedListener> listeners_ = new ArrayList<FilterChangedListener>();
 
 	/** Hold the data. */
 	private GeoPoint bottomLeft_;
@@ -78,10 +67,7 @@ public class PositionFilter {
 			if (shouldTerminate_)
 				manager_.removeUpdates(this);
 
-			updatePosition(location, radiusInFeet_);
-
-			for (FilterChangedListener list : listeners_)
-				list.filterChanged();
+			updatePosition(location, radiusInFeet_);			
 		}
 
 		public void onProviderDisabled(String provider) {
@@ -171,19 +157,6 @@ public class PositionFilter {
 	}
 
 	/**
-	 * Adds a FilterChangedListener to be registered when this filter changes.
-	 * Note that this is only useful if this filter dynamically updates itself
-	 * (as in, it is keeping track of the users current location). For top-down
-	 * updates, when this filter is replaced entirely, there are other callback
-	 * methods in other classes (see {@link EventViewer}). This is for bottom-up
-	 * updates only
-	 */
-	public void registerListener(FilterChangedListener listener) {
-		listeners_.add(listener);
-		Log.i(tag, pre + "Added listener");
-	}
-
-	/**
 	 * Flags this filter to stop updating itself, if it is. If this is a current
 	 * location position filter, this will remove GPS updates, hopefully leaving
 	 * this filter unattached to anything and ready to be garbage collected. If
@@ -191,11 +164,6 @@ public class PositionFilter {
 	 */
 	public void stop() {
 		shouldTerminate_ = true;
-	}
-
-	/** Removes a previously added FilterChangedListener */
-	public void unregisterListener(FilterChangedListener listener) {
-		listeners_.remove(listener);
 	}
 
 	/** Helper method which converts the Location to a GeoPoint */
@@ -252,6 +220,8 @@ public class PositionFilter {
 
 		topRight_ = new GeoPoint(upperLat, upperLon);
 		bottomLeft_ = new GeoPoint(lowerLat, lowerLon);
+		
+		FilterManager.updateFilter(this);
 	}
 
 }
