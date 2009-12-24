@@ -75,20 +75,26 @@
 	
 	// Configure the cell.
 	switch (indexPath.section) {
-		case 0:
+		case 0:	// Image
 			NSLog(@"loading image…");
 			// Backview used to remove white background from image cell.
-			backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+			backView = [[UIView alloc] initWithFrame:CGRectZero];
 			backView.backgroundColor = [UIColor clearColor];
 			
 			// Setup the image to display prettily.
 			poiImage = [[UIImageView alloc] initWithImage:[poi image]];
-			poiImage.frame = CGRectMake(-10.0, 0.0, 320.0, poiImage.frame.size.height);
+			
+			poiImage.frame = CGRectMake([self getImageOffset:poiImage], 
+										0.0, 
+										[self getImageWidth:poiImage], 
+										[self getImageHeight:poiImage]);
 			poiImage.contentMode = UIViewContentModeCenter;
 			poiImage.layer.cornerRadius = 10.0f;
 			poiImage.clipsToBounds = YES;
+			
 			[cell.contentView addSubview:poiImage];
 			cell.backgroundView = backView;
+			[backView release];
 			[poiImage release];
 			break;
 			
@@ -141,10 +147,21 @@
 	}
 }
 
-// Helper method used to calculate the frame for the table view cell.
--(CGSize)getSizeOfText:(NSString *)text {
-	return [text sizeWithFont:[UIFont systemFontOfSize:13.0] 
-			constrainedToSize:CGSizeMake(20.0, 56.0) lineBreakMode:UILineBreakModeWordWrap];
+-(CGFloat) getImageHeight:(UIImageView *)image 
+{
+	return image.frame.size.height;
+}
+
+-(CGFloat) getImageWidth:(UIImageView *) image
+{
+	return image.frame.size.width;
+}
+
+// Returns the offset needed to evenly space the image
+// horizontally.
+-(CGFloat) getImageOffset:(UIImageView *) image
+{
+	return ((300.0f - [self getImageWidth:image])/2.0f);
 }
 
 //

@@ -14,7 +14,12 @@
 	CGFloat detailsTextHeight;
 }
 
--(CGSize) getSizeOfText:(NSString *) text;
+-(CGFloat) getImageHeight:(UIImageView *) image;
+-(CGFloat) getImageWidth:(UIImageView *) image;
+
+// Returns the offset needed to evenly space the image
+// horizontally.
+-(CGFloat) getImageOffset:(UIImageView *) image;
 
 @property (retain) POI *poi;
 
