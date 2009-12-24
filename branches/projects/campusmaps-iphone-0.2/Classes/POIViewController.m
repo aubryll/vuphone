@@ -12,7 +12,7 @@
 #import "VariableHeightCell.h"
 #import <QuartzCore/QuartzCore.h>
 
-
+#define kCellWidth 300.0f
 
 @implementation POIViewController
 
@@ -147,21 +147,25 @@
 	}
 }
 
--(CGFloat) getImageHeight:(UIImageView *)image 
+- (CGFloat)getImageHeight:(UIImageView *)image 
 {
 	return image.frame.size.height;
 }
 
--(CGFloat) getImageWidth:(UIImageView *) image
+- (CGFloat)getImageWidth:(UIImageView *)image
 {
-	return image.frame.size.width;
+	if (image.frame.size.width > kCellWidth) {
+		return kCellWidth;
+	} else {
+		return image.frame.size.width;
+	}
 }
 
 // Returns the offset needed to evenly space the image
 // horizontally.
 -(CGFloat) getImageOffset:(UIImageView *) image
 {
-	return ((300.0f - [self getImageWidth:image])/2.0f);
+	return ((kCellWidth - [self getImageWidth:image])/2.0f);
 }
 
 //
