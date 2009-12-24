@@ -145,7 +145,12 @@ public class Main extends MapActivity {
 		echo("Loading. Please wait...");
 
 		// Start populating the building list
-		populateBuildings();
+		new Thread(new Runnable() {
+			public void run() {
+				populateBuildings();
+			}
+		}).start();
+
 	}
 
 	/**
@@ -301,46 +306,45 @@ public class Main extends MapActivity {
 	 */
 	public void populateBuildings() {
 		Log.i("mad", "Might populate data");
-		//if (Building.getIDs().size() == 0) {
-			Log.i("mad", "Populating data");
-			Document doc = parseXML("buildings.xml");
-			if (doc == null)
-				return;
+		// Prevent the building list from being populated each time onCreate is
+		// called
+		if (Building.getIDs().size() != 0)
+			return;
 
-			trace("Populating building list");
-			int i;
-			NodeList list_ = doc.getElementsByTagName("feature");
-			for (i = 0; i < list_.getLength(); i++) {
-				Properties attrib = NodeList2Array(list_.item(i)
-						.getChildNodes());
+		trace("Populating data");
+		Document doc = parseXML("buildings.xml");
+		if (doc == null)
+			return;
 
-				if (attrib == null)
-					continue;
+		trace("Populating building list");
+		int i;
+		NodeList list_ = doc.getElementsByTagName("feature");
+		for (i = 0; i < list_.getLength(); i++) {
+			Properties attrib = NodeList2Array(list_.item(i).getChildNodes());
 
-				String name = titleCase(attrib.getProperty("FACILITY_NAME"));
+			if (attrib == null)
+				continue;
 
-				if (!attrib.containsKey("coordinates"))
-					continue;
+			String name = titleCase(attrib.getProperty("FACILITY_NAME"));
 
-				String loc[] = attrib.getProperty("coordinates").split(" ");
-				String latlong[] = loc[0].split(",");
-				GeoPoint gp = EPSG900913ToGeoPoint(Double
-						.parseDouble(latlong[0]), Double
-						.parseDouble(latlong[1]));
+			if (!attrib.containsKey("coordinates"))
+				continue;
 
-				Building b = new Building(gp, name, attrib
-						.getProperty("FACILITY_REMARKS"), attrib
-						.getProperty("FACILITY_URL"));
+			String loc[] = attrib.getProperty("coordinates").split(" ");
+			String latlong[] = loc[0].split(",");
+			GeoPoint gp = EPSG900913ToGeoPoint(Double.parseDouble(latlong[0]),
+					Double.parseDouble(latlong[1]));
 
-				if (!b.create())
-					// TODO(corespace):some kinda error happened.
-					trace("Could not create building");
+			Building b = new Building(gp, name, attrib
+					.getProperty("FACILITY_REMARKS"), attrib
+					.getProperty("FACILITY_URL"));
 
-			}
-			Log.i("mad", "Populated " + i + " entries");
+			if (!b.create())
+				// TODO(corespace):some kinda error happened.
+				trace("Could not create building");
 
-		//}
-
+		}
+		Log.i("mad", "Populated " + i + " entries");
 	}
 
 	/**
