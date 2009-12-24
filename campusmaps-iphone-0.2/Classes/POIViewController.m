@@ -10,6 +10,7 @@
 #import <UIKit/UIStringDrawing.h>
 #import <CoreLocation/CoreLocation.h>
 #import "VariableHeightCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 
@@ -46,14 +47,16 @@
 	static NSString *varHeightIdentifier = @"varHeight";
 	
 	UITableViewCell *cell;
+	VariableHeightCell *varCell;
+	
+	// Determine which cell to reuse.
 	if (indexPath.section == 0) {
 		cell = [tableView dequeueReusableCellWithIdentifier:identifier];
 	} else {
 		cell = [tableView dequeueReusableCellWithIdentifier:varHeightIdentifier];
 	}
 	
-	VariableHeightCell *varCell;
-	
+	// Determine which cell type to create if needed.
 	if (cell == nil) {
 		if (indexPath.section == 0)
 			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 
@@ -63,26 +66,29 @@
 											  reuseIdentifier:varHeightIdentifier] autorelease];
 		}
 	}
+	
+	
 	varCell = (VariableHeightCell *)cell;
 	UIImageView *poiImage;
-	CGRect tempFrame;
+	
+	UIView *backView;
 	
 	// Configure the cell.
 	switch (indexPath.section) {
 		case 0:
-			// Release the current subview and then add the poi image. 
-//			[cell.contentView release];
 			NSLog(@"loading image…");
+			// Backview used to remove white background from image cell.
+			backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+			backView.backgroundColor = [UIColor clearColor];
+			
+			// Setup the image to display prettily.
 			poiImage = [[UIImageView alloc] initWithImage:[poi image]];
-			poiImage.contentMode = UIViewContentModeScaleAspectFit;
-			if (poiImage.frame.size.width < cell.backgroundView.frame.size.width) {
-				// Center the image
-				tempFrame = poiImage.frame;
-				tempFrame.origin.x += (cell.backgroundView.frame.size.width-poiImage.frame.size.width)/2.0;
-			}
+			poiImage.frame = CGRectMake(-10.0, 0.0, 320.0, poiImage.frame.size.height);
+			poiImage.contentMode = UIViewContentModeCenter;
+			poiImage.layer.cornerRadius = 10.0f;
 			poiImage.clipsToBounds = YES;
-//			[cell.backgroundView addSubview:poiImage];
 			[cell.contentView addSubview:poiImage];
+			cell.backgroundView = backView;
 			[poiImage release];
 			break;
 			
@@ -103,9 +109,7 @@
 		default:
 			break;
 	}
-	
-	//[varCell release];
-	
+		
 	return cell;
 }
 
@@ -150,7 +154,7 @@
 //
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+	[tableView deselectRowAtIndexPath:indexPath	animated:NO];
 }
 
 
