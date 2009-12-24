@@ -19,6 +19,11 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -30,18 +35,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.maps.GeoPoint;
-
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
-import edu.vanderbilt.vuphone.android.campusmaps.storage.DBAdapter;
 
 public class BuildingList extends ListActivity {
 
 	private EditText filterText = null;
 	SimpleCursorAdapter simpleCursorAdapter = null;
+	ArrayAdapter<Building> dataAdapter = null;
+	private static Map<Long, Building> buildings_ = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,31 +54,34 @@ public class BuildingList extends ListActivity {
 		filterText = (EditText) findViewById(R.building_list.search_box);
 		filterText.addTextChangedListener(filterTextWatcher);
 
-		String[] from = new String[] { DBAdapter.COLUMN_NAME,
-				DBAdapter.COLUMN_ID };
-		int[] to = new int[] { R.list_view.buildingName, R.list_view.buildingID };
+		List<Building> bList = new ArrayList<Building>(buildings_.values());
 
-		simpleCursorAdapter = new SimpleCursorAdapter(
-				getApplicationContext(), R.layout.building_list_item, Building
-						.fetchAllBuildingsCursor(), from, to);
+		if (bList.size() == 0) {
+			echo("The building list is still being populated. Please wait...");
+			finish();
+			return;
+		}
 
-		setListAdapter(simpleCursorAdapter);
+		// Alphabetize
+		Collections.sort(bList);
+
+		dataAdapter = new ArrayAdapter<Building>(this,
+				android.R.layout.simple_list_item_1, bList);
+
+		setListAdapter(dataAdapter);
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		TextView hiddenID = (TextView) v.findViewById(R.list_view.buildingID);
-		long b_id = 0;
-		b_id = Long.parseLong(hiddenID.getText().toString());
-
-		Building b = Building.get(b_id);
+		Building bc = (Building) getListView().getItemAtPosition(position);
+		Main.trace(bc.getName() + " selected");
 
 		// TODO open a menu that asks what they want to do
 
 		// Drop a pin
-		Main.getInstance().drop_pin(b.getLocation(), b_id);
+		Main.getInstance().drop_pin(bc);
 
 		super.finish();
 	}
@@ -94,7 +99,7 @@ public class BuildingList extends ListActivity {
 				int count) {
 			String str = filterText.getText().toString();
 			Log.d("list", "Text is " + str);
-			simpleCursorAdapter.getFilter().filter(s);
+			dataAdapter.getFilter().filter(s);
 		}
 
 	};
@@ -106,32 +111,35 @@ public class BuildingList extends ListActivity {
 	}
 
 	/**
-	 * Return the list of buildings near coordinates. I
+	 * Returns a list of building names
 	 * 
-	 * @param point
-	 *            - measure distance from building to this point (can be null)
 	 * @return
 	 */
-	public ArrayList<String> getBuildingList(GeoPoint point) {
-		if (point == null) {
-			// Don't measure the distance
+	public List<String> getBuildingNames() {
+		List<String> list = new ArrayList<String>();
+
+		Iterator<Building> iter = buildings_.values().iterator();
+		while (iter.hasNext()) {
+			list.add(iter.next().getName());
 		}
 
-		// Extract the building names for now
-		ArrayList<String> list = new ArrayList<String>();
-		// TODO(adammalbright): fix/finish this method
-		// Iterator<Building> i = buildings_.values().iterator();
-		// indexToHash_ = new HashMap<Integer, Integer>();
-		//
-		// int index = 0;
-		// while (i.hasNext()) {
-		// Building b = (Building) i.next();
-		// indexToHash_.put(index, b.hashCode());
-		// list.add(b.getName());
-		// ++index;
-		// }
-
 		return list;
+	}
+
+	/**
+	 * Provides access to the database of buildings
+	 * 
+	 * @return
+	 */
+	public static Map<Long, Building> getBuildingList() {
+		if (buildings_ == null)
+			buildings_ = new HashMap<Long, Building>();
+
+		return buildings_;
+	}
+
+	public static Building getBuilding(long buildingID) {
+		return buildings_.get(new Long(buildingID));
 	}
 
 	/**
