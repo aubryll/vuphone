@@ -80,11 +80,11 @@ public class GPS implements LocationListener {
 
 			if (centerOnGPS_)
 				Main.centerMapAt(g);
-			trace(l.getProvider());
 
-			trace("GPS: " + l.getLatitude() + "," + l.getLongitude() + " -> "
-					+ l.getAccuracy() + "m");
-		
+			if (l.getProvider().equals(LocationManager.GPS_PROVIDER)) {
+				// Location data is from the GPS
+			}
+
 			loc_ = l;
 		} else {
 			trace("You haven't moved");
@@ -102,7 +102,8 @@ public class GPS implements LocationListener {
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		if (extras != null) {
-			trace("# of satellites:" + extras.getInt("satellites"));
+			// Satellite Count
+			extras.getInt("satellites");
 		}
 	}
 

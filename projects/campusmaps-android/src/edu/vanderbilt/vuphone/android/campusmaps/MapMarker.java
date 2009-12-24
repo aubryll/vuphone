@@ -46,7 +46,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	int marker_image_;
 	Boolean dragging_ = false;
 	long lastTap_ = 0;
-	Long buildingID_ = null;
+	Building building_ = null;
 
 	public MapMarker(GeoPoint p) {
 		p_ = p;
@@ -58,9 +58,9 @@ public class MapMarker extends com.google.android.maps.Overlay {
 		marker_image_ = images[generator.nextInt(4)];
 	}
 
-	public MapMarker(GeoPoint p, long buildingID) {
-		p_ = p;
-		buildingID_ = buildingID;
+	public MapMarker(Building b) {
+		building_ = b;
+		p_ = b.getLocation();
 
 		// Select a random pin color
 		int images[] = { R.drawable.marker_yellow, R.drawable.marker_blue,
@@ -113,12 +113,12 @@ public class MapMarker extends com.google.android.maps.Overlay {
 		canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 50, null);
 
 		// Does this marker represent a building?
-		if (buildingID_ != null) {
+		if (building_ != null) {
 			Paint paint = new Paint();
 			paint.setStrokeWidth(2);
 			paint.setARGB(200, 0, 0, 0);
 			paint.setStyle(Paint.Style.FILL);
-			canvas.drawText(Building.getName(buildingID_), screenPts.x - 20,
+			canvas.drawText(building_.getName(), screenPts.x - 20,
 					screenPts.y, paint);
 		}
 
@@ -130,7 +130,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 	 */
 	public void onDoubleTap() {
 		Intent i = new Intent(Main.context_, BuildingInfo.class);
-		i.putExtra("building_id", buildingID_);
+		i.putExtra("building_id", building_.getID());
 
 		Main.getInstance().startActivity(i);
 	}

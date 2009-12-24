@@ -18,34 +18,19 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps.storage;
 
-import java.util.ArrayList;
-
-import android.database.Cursor;
-
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.campusmaps.R;
 
-public class Building {
-	private GeoPoint point_ = new GeoPoint(36142830, -86804437);
-	private String name_ = "error";
+public class Building implements Comparable<Building> {
+	private GeoPoint point_ = null;
+	private String name_ = null;
 	private String desc_ = null;
 	private String url_ = null;
+	private long id_ = 0;
 
-	public Building(GeoPoint point, String name) {
-		point_ = point;
-		name_ = name;
-	}
-
-	public Building(int latitude, int longitude, String name, String desc,
-			String url) {
-		point_ = new GeoPoint(latitude, longitude);
-		name_ = name;
-		desc_ = desc;
-		url_ = url;
-	}
-
-	public Building(GeoPoint gp, String name, String desc, String url) {
+	public Building(long id, GeoPoint gp, String name, String desc, String url) {
+		id_ = id;
 		point_ = gp;
 		name_ = name;
 		desc_ = desc;
@@ -68,36 +53,8 @@ public class Building {
 		return url_;
 	}
 
-	public boolean create() {
-		return DBWrapper.create(this);
-	}
-
-	public static ArrayList<Long> getIDs() {
-		return DBWrapper.getIDs();
-	}
-
-	public static Building get(long rowID) {
-		return DBWrapper.get(rowID);
-	}
-
-	public static String getName(long rowID) {
-		return DBWrapper.getName(rowID);
-	}
-
-	public static double getLat(long rowID) {
-		return DBWrapper.getLat(rowID);
-	}
-
-	public static double getLon(long rowID) {
-		return DBWrapper.getLon(rowID);
-	}
-
-	public static String getDesc(long rowID) {
-		return DBWrapper.getDesc(rowID);
-	}
-
-	public static String getImageURL(long rowID) {
-		return DBWrapper.getURL(rowID);
+	public long getID() {
+		return id_;
 	}
 
 	public void setDescription(String desc) {
@@ -112,20 +69,8 @@ public class Building {
 		return getName();
 	}
 
-	public static boolean create(Building b) {
-		return DBWrapper.create(b);
-	}
-
-	public static boolean update(long rowID, Building b) {
-		return DBWrapper.update(rowID, b);
-	}
-
-	public static boolean delete(long rowID) {
-		return DBWrapper.delete(rowID);
-	}
-
-	public static Cursor fetchAllBuildingsCursor() {
-		return DBWrapper.fetchAllBuildingsCursor();
+	public int compareTo(Building another) {
+		return getName().compareTo(another.getName());
 	}
 
 }

@@ -225,7 +225,7 @@ public class DBAdapter {
 		c.close();
 
 		// TODO(corespace): make a ctor for all this.
-		Building temp = new Building(new GeoPoint(latitude, longitude), name);
+		Building temp = new Building(rowId, new GeoPoint(latitude, longitude), name, desc, url);
 		temp.setDescription(desc);
 		temp.setImageURL(url);
 		return temp;

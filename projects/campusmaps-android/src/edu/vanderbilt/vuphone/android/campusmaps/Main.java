@@ -19,6 +19,7 @@
 package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -259,7 +260,9 @@ public class Main extends MapActivity {
 	 *            - location to place marker
 	 */
 	public void drop_pin(GeoPoint p) {
-		drop_pin(p, null);
+		MapMarker m = new MapMarker(p);
+		m.drop_pin();
+		centerMapAt(p);
 	}
 
 	/**
@@ -269,10 +272,10 @@ public class Main extends MapActivity {
 	 * @param building
 	 *            - location to place marker
 	 */
-	public void drop_pin(GeoPoint p, Long buildingID) {
-		MapMarker m = new MapMarker(p, buildingID);
+	public void drop_pin(Building b) {
+		MapMarker m = new MapMarker(b);
 		m.drop_pin();
-		centerMapAt(p);
+		centerMapAt(b.getLocation());
 	}
 
 	/**
@@ -308,7 +311,9 @@ public class Main extends MapActivity {
 		Log.i("mad", "Might populate data");
 		// Prevent the building list from being populated each time onCreate is
 		// called
-		if (Building.getIDs().size() != 0)
+		Map<Long, Building> bList = BuildingList.getBuildingList();
+
+		if (bList.size() != 0)
 			return;
 
 		trace("Populating data");
@@ -335,15 +340,13 @@ public class Main extends MapActivity {
 			GeoPoint gp = EPSG900913ToGeoPoint(Double.parseDouble(latlong[0]),
 					Double.parseDouble(latlong[1]));
 
-			Building b = new Building(gp, name, attrib
+			Building b = new Building(i, gp, name, attrib
 					.getProperty("FACILITY_REMARKS"), attrib
 					.getProperty("FACILITY_URL"));
 
-			if (!b.create())
-				// TODO(corespace):some kinda error happened.
-				trace("Could not create building");
-
+			bList.put(new Long(i), b);
 		}
+
 		Log.i("mad", "Populated " + i + " entries");
 	}
 

@@ -145,10 +145,14 @@ public class DBWrapper {
 				DBAdapter.COLUMN_LATITUDE, DBAdapter.COLUMN_LONGITUDE });
 		if (c.moveToFirst()) {
 			do {
-				Building current = new Building(new GeoPoint(c.getInt(c
-						.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), c.getInt(c
-						.getColumnIndex(DBAdapter.COLUMN_LONGITUDE))), c
-						.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME)));
+				Building current = new Building(c.getLong(c
+						.getColumnIndex(DBAdapter.COLUMN_ID)), new GeoPoint(c
+						.getInt(c.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), c
+						.getInt(c.getColumnIndex(DBAdapter.COLUMN_LONGITUDE))),
+						c.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME)),
+						c.getString(c
+								.getColumnIndex(DBAdapter.COLUMN_DESCRIPTION)),
+						c.getString(c.getColumnIndex(DBAdapter.COLUMN_URL)));
 				cache.add(current);
 				cached.add(false);
 			} while (c.moveToNext());

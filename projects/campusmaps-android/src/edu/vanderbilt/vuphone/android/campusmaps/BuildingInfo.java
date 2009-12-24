@@ -30,7 +30,6 @@ import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
 
 public class BuildingInfo extends Activity {
-	private Building building_ = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +42,9 @@ public class BuildingInfo extends Activity {
 		if (extras == null || (id = extras.getLong("building_id")) < 0)
 			return;
 
-		Building b = Building.get(id);
+		Building b = BuildingList.getBuilding(id);
 		if (b == null)
 			finish();
-
-		building_ = b;
 
 		TextView tv = (TextView) findViewById(R.id.buildingName);
 		tv.setText(b.getName());
