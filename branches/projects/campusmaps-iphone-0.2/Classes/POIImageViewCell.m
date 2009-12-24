@@ -45,10 +45,10 @@
 {
 	poiImage = [[UIImageView alloc] initWithImage:image];
 	
-	poiImage.frame = CGRectMake([self getImageOffset:poiImage], 
+	poiImage.frame = CGRectMake([self offsetForImage:poiImage], 
 								0.0, 
-								[self getImageWidth:poiImage], 
-								[self getImageHeight:poiImage]);
+								[self widthForImage:poiImage], 
+								[self heightForImage:poiImage]);
 	poiImage.contentMode = UIViewContentModeCenter;
 	poiImage.layer.cornerRadius = 10.0f;
 	poiImage.clipsToBounds = YES;
@@ -57,12 +57,12 @@
 }
 
 
-- (CGFloat)getImageHeight:(UIImageView *)image 
+- (CGFloat)heightForImage:(UIImageView *)image 
 {
 	return image.frame.size.height;
 }
 
-- (CGFloat)getImageWidth:(UIImageView *)image
+- (CGFloat)widthForImage:(UIImageView *)image
 {
 	if (image.frame.size.width > kCellWidth) {
 		return kCellWidth;
@@ -73,9 +73,9 @@
 
 // Returns the offset needed to evenly space the image
 // horizontally.
--(CGFloat) getImageOffset:(UIImageView *) image
+-(CGFloat) offsetForImage:(UIImageView *) image
 {
-	return ((kCellWidth - [self getImageWidth:image])/2.0f);
+	return (((kCellWidth - [self widthForImage:image])/2.0f) + 10.0f);
 }
 
 - (void)dealloc {
