@@ -10,9 +10,10 @@
 #import <UIKit/UIStringDrawing.h>
 #import <CoreLocation/CoreLocation.h>
 #import "VariableHeightCell.h"
+#import "POIImageViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define kCellWidth 300.0f
+
 
 @implementation POIViewController
 
@@ -43,15 +44,17 @@
 //
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *identifier = @"identifier";
+	//static NSString *identifier = @"identifier";
 	static NSString *varHeightIdentifier = @"varHeight";
+	static NSString *poiImageIdentifier = @"poiImageID";
 	
 	UITableViewCell *cell;
 	VariableHeightCell *varCell;
+	POIImageViewCell *poiImageCell;
 	
 	// Determine which cell to reuse.
 	if (indexPath.section == 0) {
-		cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+		cell = [tableView dequeueReusableCellWithIdentifier:poiImageIdentifier];
 	} else {
 		cell = [tableView dequeueReusableCellWithIdentifier:varHeightIdentifier];
 	}
@@ -59,43 +62,22 @@
 	// Determine which cell type to create if needed.
 	if (cell == nil) {
 		if (indexPath.section == 0)
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 
-										   reuseIdentifier:identifier] autorelease];
+			cell = [[[POIImageViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+										   reuseIdentifier:poiImageIdentifier] autorelease];
 		else {
 			cell = [[[VariableHeightCell alloc] initWithStyle:UITableViewCellStyleDefault 
 											  reuseIdentifier:varHeightIdentifier] autorelease];
 		}
 	}
 	
-	
+	poiImageCell = (POIImageViewCell *)cell;
 	varCell = (VariableHeightCell *)cell;
-	UIImageView *poiImage;
-	
-	UIView *backView;
 	
 	// Configure the cell.
 	switch (indexPath.section) {
 		case 0:	// Image
 			NSLog(@"loading image…");
-			// Backview used to remove white background from image cell.
-			backView = [[UIView alloc] initWithFrame:CGRectZero];
-			backView.backgroundColor = [UIColor clearColor];
-			
-			// Setup the image to display prettily.
-			poiImage = [[UIImageView alloc] initWithImage:[poi image]];
-			
-			poiImage.frame = CGRectMake([self getImageOffset:poiImage], 
-										0.0, 
-										[self getImageWidth:poiImage], 
-										[self getImageHeight:poiImage]);
-			poiImage.contentMode = UIViewContentModeCenter;
-			poiImage.layer.cornerRadius = 10.0f;
-			poiImage.clipsToBounds = YES;
-			
-			[cell.contentView addSubview:poiImage];
-			cell.backgroundView = backView;
-			[backView release];
-			[poiImage release];
+			[poiImageCell setupImage:[poi image]];
 			break;
 			
 		case 1: // Name
@@ -145,27 +127,6 @@
 		default:
 			return 44.0;
 	}
-}
-
-- (CGFloat)getImageHeight:(UIImageView *)image 
-{
-	return image.frame.size.height;
-}
-
-- (CGFloat)getImageWidth:(UIImageView *)image
-{
-	if (image.frame.size.width > kCellWidth) {
-		return kCellWidth;
-	} else {
-		return image.frame.size.width;
-	}
-}
-
-// Returns the offset needed to evenly space the image
-// horizontally.
--(CGFloat) getImageOffset:(UIImageView *) image
-{
-	return ((kCellWidth - [self getImageWidth:image])/2.0f);
 }
 
 //
