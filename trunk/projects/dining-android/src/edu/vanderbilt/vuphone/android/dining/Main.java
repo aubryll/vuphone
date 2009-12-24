@@ -63,7 +63,7 @@ public class Main extends ListActivity {
 		setContentView(R.layout.main);
 		mode = NORMAL;
 		
-		ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_TIMES);
+		ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
 	}
@@ -223,17 +223,18 @@ public class Main extends ListActivity {
 				"s","t","u","v","w","x","y","z"};
 		int maxRanges = 2;
 		int maxMenuItems = 10;
+		int hourOffset = 5;
 		Log.i("test", "loading database with valid random data");
 		Random r = new Random();
 		for (int i = 1; i <= numRest; i++) {
 			RestaurantHours rh = new RestaurantHours();
 			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
-				int ranges = r.nextInt(maxRanges) + 1;
+				int ranges = r.nextInt(maxRanges + 1);
 				for (int k = 0; k < ranges; k++) {
-					Time start = new Time(r.nextInt(12 / ranges) + k * 24/ranges, r
+					Time start = new Time((r.nextInt(12 / ranges) + k * 24/ranges + hourOffset) % 24, r
 							.nextInt(59));
 					Time stop = new Time(
-							(r.nextInt(12) + 12) / ranges + k * 24/ranges, r
+							((r.nextInt(12) + 12) / ranges + k * 24/ranges + hourOffset) % 24, r
 									.nextInt(59));
 					rh.addRange(day, new Range(start, stop));
 				}

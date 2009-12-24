@@ -7,8 +7,15 @@ import java.util.GregorianCalendar;
 import android.util.Log;
 
 // TODO sort ranges before saving, and check for overlay
-// 		support cross midnight ranges
+// 		s
 
+
+
+/**
+ * @author austin
+ *	Limitations: no range can span more than 24 hours, but it can span accross a day 
+ *	(this is indicated when the end time is before the start time)
+ */
 public class RestaurantHours {
 	
 	// array of 7 arrays (one for each day), each of which contains the ranges that the Restaurant is 
@@ -36,7 +43,18 @@ public class RestaurantHours {
 	// returns an ArrayList of ranges for the indicated day, 
 	// as defined by the Calendar class
 	public ArrayList<Range> getRanges(int calendarDay) {
-		return _openRanges.get(calendarDay-1);
+		ArrayList<Range> ranges = (ArrayList<Range>)_openRanges.get(calendarDay-1).clone();
+		ArrayList<Range> yesterdayRanges = _openRanges.get((calendarDay - 2 + 7) % 7);
+		if (!yesterdayRanges.isEmpty()) {
+			Range lastYesterday = yesterdayRanges.get(yesterdayRanges.size()-1);
+			if (lastYesterday.overnight())
+				ranges.add(0, new Range(new Time(0, 0), lastYesterday.getEnd()));
+		}
+		return ranges;
+	}
+	
+	public ArrayList<Range> getRangesToModify(int calendarDay) {
+		return _openRanges.get(calendarDay - 1);
 	}
 	
 	// sets the ArrayList of ranges for a particular day
@@ -48,7 +66,7 @@ public class RestaurantHours {
 	// adds a range to a particular day in sorted order, concatenating with currently
 	// existing ranges if necessary
 	public void addRange(int calendarDay, Range newRange) {
-		ArrayList<Range> ranges = getRanges(calendarDay);
+		ArrayList<Range> ranges = getRangesToModify(calendarDay);
 		for (int i = ranges.size(); i>0; i--) {
 			if (newRange.after(ranges.get(i-1))) {
 				ranges.add(i,newRange);
@@ -65,7 +83,7 @@ public class RestaurantHours {
 	
 	// returns the number of ranges in the day
 	public int getRangeCount(int calendarDay) {
-		return getRanges(calendarDay).size();
+		return getRangesToModify(calendarDay).size();
 	}
 	
 	// returns ArrayList of today's ranges
@@ -74,21 +92,21 @@ public class RestaurantHours {
 		return getRanges(now.get(Calendar.DAY_OF_WEEK));
 	}
 	
-	// returns the next range or the current range (from now), null Range if closed for the day
+	// returns the next range or the current range (from now), null if closed for the day
 	public Range getCurrentRange() {
 		ArrayList<Range> todayRanges = getTodayRanges();
 		Time now = new Time();
 		for (int i = 0; i<todayRanges.size(); i++) 
 			if (now.before(todayRanges.get(i).getEnd()))
 				return todayRanges.get(i);
-		return new Range();
+		return null;
 	}
 	
 	// returns true if restaurant is open now
 	public boolean isOpen() {
 		Range current = getCurrentRange();
-		if (current.notNull())
-			return current.during(new Time());
+		if (current != null)
+			return current.inRange(new Time());
 		return false;
 	}
 	
@@ -96,8 +114,8 @@ public class RestaurantHours {
 	public int minutesToOpen() {
 		Time now = new Time();
 		Range current = getCurrentRange();
-		if (current.notNull()) {
-			int minutes = current.getStart().totalMinutes()-now.totalMinutes();
+		if (current != null) {
+			int minutes = current.minutesUntilStart(now);
 			return minutes>0?minutes:0;
 		}
 		return -1;
@@ -107,34 +125,31 @@ public class RestaurantHours {
 	public int minutesToClose() {
 		Time now = new Time();
 		Range current = getCurrentRange();
-		if (current.notNull())
-			return current.getEnd().totalMinutes()-now.totalMinutes();
+		if (current != null)
+			return current.minutesUntilEnd(now);
 		return -1;
 	}	
 	
-	// returns the next open time, the current time if already open, and midnight if closed for the day
+	// returns the next open time, and midnight if closed for the day
+	// pre: restaurant is closed
 	public Time getNextOpenTime() {
 		Range current = getCurrentRange();
-		Time now = new Time();
-		if (current.notNull()) {
-			if (current.getStart().before(now))
-				return now;
-			else return current.getStart();		
-		}
+		if (current != null)
+			return current.getStart();
 		return new Time(0,0);
 	}
 	
 	// returns the next closing time, midnight if closed for the day
 	public Time getNextCloseTime() {
 		Range current = getCurrentRange();
-		if (current.notNull()) 
+		if (current != null) 
 			return current.getEnd();
 		return new Time(0,0);
 	}
 	
 	// puts the ranges for a particular day in the correct order, and merges overlapping ranges
 	public void sortAndMerge(int calendarDay) {
-		ArrayList<Range> ranges = getRanges(calendarDay);
+		ArrayList<Range> ranges = getRangesToModify(calendarDay);
 		quickSort(ranges, 0, ranges.size()-1);
 		mergeAll(ranges);
 	}
@@ -180,7 +195,7 @@ public class RestaurantHours {
 	public String toString() {
 		StringBuilder out = new StringBuilder();
 		for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-			ArrayList<Range> ranges = getRanges(i);
+			ArrayList<Range> ranges = getRangesToModify(i);
 			switch (i) {
 			case Calendar.SUNDAY:
 				out.append("S\t");
@@ -214,7 +229,7 @@ public class RestaurantHours {
 	
 	// flattens a days ranges into at most 64 bits (21*3 + 1)
 	public long flatten(int calendarDay) {
-		ArrayList<Range> day = getRanges(calendarDay);
+		ArrayList<Range> day = getRangesToModify(calendarDay);
 		long out;
 		switch (day.size()) {
 		case 0: case 1: case 2:
@@ -262,8 +277,7 @@ public class RestaurantHours {
 				current /= 24;
 				min = (int)current % 60;
 				Time end = new Time(hr, min);
-				if (!currentR.setEnd(end))
-					throw new RuntimeException("invalid hours data in database, " + end.toString() + " before " + currentR.getStart().toString());
+				currentR.setEnd(end);
 				out.add(currentR);
 				flattenedDay = flattenedDay >> 21; 
 			}
@@ -281,8 +295,7 @@ public class RestaurantHours {
 				min = ((int)flattenedDay & 0x3f);
 				flattenedDay = flattenedDay >> 6;
 				Time end = new Time(hr, min);
-				if (!currentR.setEnd(end))
-					throw new RuntimeException("invalid hours data in database, " + end.toString() + " before " + currentR.getStart().toString());
+				currentR.setEnd(end);
 				out.add(currentR);
 			}
 		}

@@ -120,8 +120,24 @@ public class Time {
 	
 	// returns true if the time contained in 'this' comes before (in the same day) 
 	// the time contained in 'time'
-	public boolean before(Time time) {
-		return totalMinutes() < time.totalMinutes();
+	public boolean before(Time t) {
+		return totalMinutes() < t.totalMinutes();
+	}
+	
+	public boolean after(Time t) {
+		return totalMinutes() >= t.totalMinutes();
+	}
+	
+	public boolean before(Range r) {
+		return before(r.getStart());
+	}
+	
+	public boolean during(Range r) {
+		return r.inRange(this);
+	}
+	
+	public boolean after(Range r) {
+		return after(r.getEnd());
 	}
 	
 	// returns the number of minutes elapsed in the day
