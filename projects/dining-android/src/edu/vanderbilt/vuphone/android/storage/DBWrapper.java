@@ -282,7 +282,7 @@ public class DBWrapper {
 		columnsToRead.add(DBAdapter.COLUMN_URL);
 		columnsToRead.add(DBAdapter.COLUMN_MENU);
 		
-		String [] clmns = new String[0];
+		String [] clmns = new String[0]; // for the type
 		Cursor c = adapter.getCursor(columnsToRead.toArray(clmns), rowID);
 		if (!c.moveToFirst()) 
 			throw new RuntimeException("Cannot cache restaurant which doesnt exist");

@@ -3,6 +3,8 @@ package edu.vanderbilt.vuphone.android.objects;
 import android.util.Log;
 
 public class Range {
+	
+	// start is allowed to be after end, it indicates a range that is intraday
 	private Time _start;
 	private Time _end;
 
@@ -15,77 +17,70 @@ public class Range {
 	
 
 	// sets start time for range, 
-	// false: failure because end was before the beginning
-	// true: success
-	public boolean setStart(Time start) {
-		if (_end==null || start.before(_end)) {
-			_start = start;
-			return true;
-		}
-		return false;	
+	public void setStart(Time start) {
+		_start = start;
 	}
 	
 	// sets end time for range, 
-	// false: failure because end was before the beginning
-	// true: success
-	public boolean setEnd(Time end) {
-		if (_start == null || _start.before(end)) {
-			_end = end;
-			return true;
-		}
-		return false;
+	public void setEnd(Time end) {
+		_end = end;
 	}
 	
 	// sets start and end times, and throws an exception if end is before start
 	public void setTimes(Time start, Time end) {
-		_start = null;
-		_end = null;
-		if (!setStart(start) || !setEnd(end))
-			throw new RuntimeException("Invalid Range created, end time before start");
+		_start = start;
+		_end = end;
 	}
 
 	// returns whether t is in the current range or not. 
 	public boolean inRange(Time t) {
-		if (notNull())
-			return t.before(_end) && _start.before(t);
-		else return false;
+		try {
+			int startM = _start.totalMinutes();
+			int endM = _end.totalMinutes();
+			int tM = t.totalMinutes();
+			if (startM < endM)
+				return (startM <= tM && tM < endM);
+			else
+				return (startM <= tM || tM < endM);
+		} catch (NullPointerException e) {
+			throw new RuntimeException("inRange(Time): Range not properly initialized");
+		}
 	}
 	
 	// returns a negative number if start_ is after t
 	public int minutesUntilStart(Time t) {
-		if (notNull())
+		try {
 			return _start.totalMinutes() - t.totalMinutes();
-		else
+		} catch (NullPointerException e) {
 			throw new RuntimeException("minutesUntilStart(Time): Range not properly initialized");
+		}
 	}
 	
-	// returns a negative number if end_ is after t
+	// always returns a positive number, even when t is after the range (will return time until end the next day)
 	public int minutesUntilEnd(Time t) {
-		if (notNull())
-			return _start.totalMinutes() - t.totalMinutes();
-		else
+		try {
+			return (_end.totalMinutes() - t.totalMinutes() + 1440) % 1440;
+		} catch (NullPointerException e) {
 			throw new RuntimeException("minutesUntilEnd(Time): Range not properly initialized");
+		}
 	}
 	
 
 	
 	// true if this Range is completely before t
 	public boolean before(Time t) {
-		if (notNull())
-			return getEnd().before(t);
-		else throw new RuntimeException("before(Time): Range not properly initialized");
+		try {
+			return _end.before(t) && _start.before(_end);
+		} catch (NullPointerException e) {
+			throw new RuntimeException(
+					"before(Time): Range not properly initialized");
+		}
 	}
 	// true if this Range is completely before r
 	public boolean before(Range r) {
 		return (before(r.getStart()));
 	}
 	
-	// true if t is in the current Range
-	public boolean during(Time t) {
-		if (notNull())
-			return getStart().before(t) && t.before(getEnd());
-		else throw new RuntimeException("after(Time): Range not properly initialized");
-	}	
 	// returns true if this range and r overlap
 	// might be implemented better, and currently no consideration is made for the bounds
 	public boolean overlap(Range r) {
@@ -94,13 +89,19 @@ public class Range {
 	
 	// true if this Range is completely after t
 	public boolean after(Time t) {
-		if (notNull())
+		try {
 			return t.before(getStart());
-		else throw new RuntimeException("after(Time): Range not properly initialized");
+		} catch (NullPointerException e) {
+			throw new RuntimeException("after(Time): Range not properly initialized");
+		}
 	}
 	// true if this Range is completely after r
 	public boolean after(Range r) {
 		return (r.before(getStart()));
+	}
+	
+	public boolean overnight() {
+		return (_end.before(_start));
 	}
 	
 	// r overlaps with this Range, concatenates r
@@ -112,7 +113,10 @@ public class Range {
 	public void concat(Range r) {
 		if (r.getStart().before(getStart()))
 			setStart(r.getStart());
-		if (getEnd().before(r.getEnd()))
+		int start = _start.totalMinutes();
+		int duration = (_end.totalMinutes() - start + 1440) % 1440;
+		int durationR = (r.getEnd().totalMinutes() - start + 1440) % 1440;
+		if (duration < durationR)
 			setEnd(r.getEnd());
 	}
 	
