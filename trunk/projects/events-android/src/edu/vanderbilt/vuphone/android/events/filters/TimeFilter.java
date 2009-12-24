@@ -14,7 +14,7 @@ import java.util.GregorianCalendar;
  * @author Hamilton Turner
  * 
  */
-public class TimeFilter {
+public class TimeFilter implements Filter {
 
 	/** 
 	 * Used to fetch the start time of this filter
