@@ -105,9 +105,9 @@ public class RestaurantAdapter extends BaseAdapter {
 			//Restaurant r = (Restaurant)current;
 			if (displayFav) {
 				wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
-				R.drawable.dining:		// favorite icon 
-				R.drawable.icon);		// nonfavorite icon
-			// TODO add proper favorite/nonfavorite icons
+				R.drawable.star:		// favorite icon 
+				R.drawable.grey_star);		// nonfavorite icon
+			
 			} else {
 				wrapper.getFavoriteView().setVisibility(ImageView.GONE);
 			}
