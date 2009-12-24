@@ -19,11 +19,11 @@
 
 -(void)setupImage:(UIImage *)image;
 
--(CGFloat) getImageHeight:(UIImageView *) image;
--(CGFloat) getImageWidth:(UIImageView *) image;
+-(CGFloat) heightForImage:(UIImageView *) image;
+-(CGFloat) widthForImage:(UIImageView *) image;
 
 // Returns the offset needed to evenly space the image horizontally.
--(CGFloat) getImageOffset:(UIImageView *) image;
+-(CGFloat) offsetForImage:(UIImageView *) image;
 
 @property(retain) UIImageView *poiImage;
 @property(retain) UIView *backView;
