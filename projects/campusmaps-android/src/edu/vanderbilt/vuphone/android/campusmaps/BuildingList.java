@@ -18,12 +18,17 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import android.app.ListActivity;
 import android.os.Bundle;
@@ -36,7 +41,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import com.google.android.maps.GeoPoint;
+
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+import edu.vanderbilt.vuphone.android.campusmaps.tools.Tools;
+import edu.vanderbilt.vuphone.android.campusmaps.tools.XMLTools;
 
 public class BuildingList extends ListActivity {
 
@@ -140,6 +150,55 @@ public class BuildingList extends ListActivity {
 
 	public static Building getBuilding(long buildingID) {
 		return buildings_.get(new Long(buildingID));
+	}
+
+	/**
+	 * Parses in the building data to populate BuildingList
+	 */
+	public static void populateBuildings(InputStream xmlData) {
+		// Prevent the building list from being populated each time onCreate is
+		// called
+		Map<Long, Building> bList = BuildingList.getBuildingList();
+
+		if (bList.size() != 0)
+			return;
+
+		Main.trace("Populating data");
+
+		Document doc = XMLTools.parseXML(xmlData);
+
+		if (doc == null)
+			return;
+
+		Main.trace("Populating building list");
+		int i;
+		NodeList list_ = doc.getElementsByTagName("feature");
+		for (i = 0; i < list_.getLength(); i++) {
+			Properties attrib = XMLTools.NodeList2Array(list_.item(i)
+					.getChildNodes());
+
+			if (attrib == null)
+				continue;
+
+			String name = Tools.titleCase(attrib.getProperty("FACILITY_NAME"));
+
+			if (!attrib.containsKey("coordinates"))
+				continue;
+
+			String loc[] = attrib.getProperty("coordinates").split(" ");
+			String latlong[] = loc[0].split(",");
+			GeoPoint gp = Tools.EPSG900913ToGeoPoint(Double
+					.parseDouble(latlong[0]), Double.parseDouble(latlong[1]));
+			String url = "http://www.vanderbilt.edu/map/"
+					+ attrib.getProperty("FACILITY_URL").toLowerCase();
+
+			Building b = new Building(i, gp, name, attrib
+					.getProperty("FACILITY_REMARKS"), url);
+
+			bList.put(new Long(i), b);
+		}
+
+		Log.i("mad", "Populated " + i + " entries");
 	}
 
 	/**
