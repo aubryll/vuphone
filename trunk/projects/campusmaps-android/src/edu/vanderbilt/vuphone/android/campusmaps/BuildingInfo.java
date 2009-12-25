@@ -62,6 +62,7 @@ public class BuildingInfo extends Activity {
 						.openConnection().getInputStream(), 150 * 1024);
 				bm = BitmapFactory.decodeStream(bis);
 
+				// TODO(corespace): create an Exception for this.
 				if (bm == null)
 					throw new Exception("BitmapFactory sucks...");
 

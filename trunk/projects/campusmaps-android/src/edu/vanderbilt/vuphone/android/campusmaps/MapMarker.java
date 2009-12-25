@@ -60,7 +60,7 @@ public class MapMarker extends com.google.android.maps.Overlay {
 
 	public MapMarker(Building b) {
 		building_ = b;
-		p_ = b.getLocation();
+		p_ = new GeoPoint(b.getLat_(), b.getLong_());
 
 		// Select a random pin color
 		int images[] = { R.drawable.marker_yellow, R.drawable.marker_blue,
@@ -118,8 +118,8 @@ public class MapMarker extends com.google.android.maps.Overlay {
 			paint.setStrokeWidth(2);
 			paint.setARGB(200, 0, 0, 0);
 			paint.setStyle(Paint.Style.FILL);
-			canvas.drawText(building_.getName(), screenPts.x - 20,
-					screenPts.y, paint);
+			canvas.drawText(building_.getName(), screenPts.x - 20, screenPts.y,
+					paint);
 		}
 
 		return true;

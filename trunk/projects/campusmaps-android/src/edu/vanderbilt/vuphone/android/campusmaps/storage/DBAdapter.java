@@ -29,8 +29,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
-import com.google.android.maps.GeoPoint;
-
 public class DBAdapter {
 
 	/** Used for logging */
@@ -79,7 +77,9 @@ public class DBAdapter {
 				+ COLUMN_LONGITUDE
 				+ " REAL NOT NULL,                  "
 				+ COLUMN_DESCRIPTION
-				+ " TEXT,              " + COLUMN_URL + " TEXT)";
+				+ " TEXT,              "
+				+ COLUMN_URL
+				+ " TEXT)";
 
 		/**
 		 * @see android.database.sqlite.SQLiteOpenHelper#SQLiteOpenHelper(Context,
@@ -224,11 +224,7 @@ public class DBAdapter {
 
 		c.close();
 
-		// TODO(corespace): make a ctor for all this.
-		Building temp = new Building(rowId, new GeoPoint(latitude, longitude), name, desc, url);
-		temp.setDescription(desc);
-		temp.setImageURL(url);
-		return temp;
+		return new Building(rowId, latitude, longitude, name, desc, url);
 	}
 
 	/**

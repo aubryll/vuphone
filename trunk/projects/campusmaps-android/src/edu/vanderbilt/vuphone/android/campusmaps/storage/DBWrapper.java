@@ -20,9 +20,6 @@ package edu.vanderbilt.vuphone.android.campusmaps.storage;
 import java.util.ArrayList;
 
 import android.database.Cursor;
-
-import com.google.android.maps.GeoPoint;
-
 import edu.vanderbilt.vuphone.android.campusmaps.Main;
 
 /**
@@ -60,12 +57,12 @@ public class DBWrapper {
 
 	public static double getLat(long rowID) {
 		cacheMainData();
-		return (cache.get(IDs.indexOf(rowID)).getLocation().getLatitudeE6() / 1E6);
+		return (cache.get(IDs.indexOf(rowID)).getLat_() / 1E6);
 	}
 
 	public static double getLon(long rowID) {
 		cacheMainData();
-		return (cache.get(IDs.indexOf(rowID)).getLocation().getLongitudeE6() / 1E6);
+		return (cache.get(IDs.indexOf(rowID)).getLong_() / 1E6);
 	}
 
 	public static String getURL(long rowID) {
@@ -80,9 +77,8 @@ public class DBWrapper {
 
 	public static boolean create(Building b) {
 		makeWritable();
-		long rID = adapter.createBuilding(b.getName(), b.getLocation()
-				.getLatitudeE6(), b.getLocation().getLongitudeE6(), b
-				.getDescription(), b.getImageURL());
+		long rID = adapter.createBuilding(b.getName(), b.getLat_(), b
+				.getLong_(), b.getDescription(), b.getImageURL());
 		if (mainDataCached && rID != -1) {
 			IDs.add(rID);
 			cache.add(b);
@@ -98,9 +94,8 @@ public class DBWrapper {
 		if (i < 0)
 			return false;
 		boolean success = adapter.updateBuilding(rowID, updated.getName(),
-				updated.getLocation().getLatitudeE6(), updated.getLocation()
-						.getLongitudeE6(), updated.getDescription(), updated
-						.getImageURL());
+				updated.getLat_(), updated.getLong_(),
+				updated.getDescription(), updated.getImageURL());
 		if (mainDataCached && success)
 			cache.set(i, updated);
 		close();
@@ -146,11 +141,11 @@ public class DBWrapper {
 		if (c.moveToFirst()) {
 			do {
 				Building current = new Building(c.getLong(c
-						.getColumnIndex(DBAdapter.COLUMN_ID)), new GeoPoint(c
-						.getInt(c.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), c
-						.getInt(c.getColumnIndex(DBAdapter.COLUMN_LONGITUDE))),
-						c.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME)),
-						c.getString(c
+						.getColumnIndex(DBAdapter.COLUMN_ID)), c.getInt(c
+						.getColumnIndex(DBAdapter.COLUMN_LATITUDE)), c.getInt(c
+						.getColumnIndex(DBAdapter.COLUMN_LONGITUDE)), c
+						.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME)), c
+						.getString(c
 								.getColumnIndex(DBAdapter.COLUMN_DESCRIPTION)),
 						c.getString(c.getColumnIndex(DBAdapter.COLUMN_URL)));
 				cache.add(current);

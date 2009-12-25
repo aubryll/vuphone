@@ -18,11 +18,10 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps.storage;
 
-import com.google.android.maps.GeoPoint;
-
 import edu.vanderbilt.vuphone.android.campusmaps.R;
 
 public class Building implements Comparable<Building> {
+	// Stored in microdegrees.
 	private int lat_ = 0;
 	private int long_ = 0;
 	private String name_ = null;
@@ -31,20 +30,35 @@ public class Building implements Comparable<Building> {
 	private long id_ = 0;
 
 	@SuppressWarnings("unused")
-	private Building(){
-		//This ctor is needed for XStream
-	}
-	public Building(long id, GeoPoint gp, String name, String desc, String url) {
-		id_ = id;
-		lat_ = gp.getLatitudeE6();
-		long_ = gp.getLongitudeE6();
-		name_ = name;
-		desc_ = desc;
-		url_ = url;
+	private Building() {
+		// This ctor is needed for XStream
 	}
 
-	public GeoPoint getLocation() {
-		return new GeoPoint(lat_,long_);
+	public Building(long id, int lat, int lon, String name, String desc,
+			String url) {
+		id_ = id;
+		setLat_(lat);
+		setLong_(lon);
+		name_ = name;
+		desc_ = desc;
+		setImageURL(url);
+	}
+
+	// Don't know if we need these setters so I made them private.
+	private void setLat_(int lat_) {
+		this.lat_ = lat_;
+	}
+
+	private void setLong_(int long_) {
+		this.long_ = long_;
+	}
+
+	public int getLat_() {
+		return lat_;
+	}
+
+	public int getLong_() {
+		return long_;
 	}
 
 	public String getName() {
@@ -75,6 +89,7 @@ public class Building implements Comparable<Building> {
 		return getName();
 	}
 
+	// TODO(corespace): Are building names unique?
 	public int compareTo(Building another) {
 		return getName().compareTo(another.getName());
 	}
