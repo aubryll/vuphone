@@ -73,6 +73,7 @@
 	poiImageCell = (POIImageViewCell *)cell;
 	varCell = (VariableHeightCell *)cell;
 	
+
 	// Configure the cell.
 	switch (indexPath.section) {
 		case 0:	// Image
@@ -84,9 +85,7 @@
 			[varCell setText:poi.name];
 			break;
 			
-		case 2: // Distance
-			// TODO: Logic for determining distance needs to go here.
-			
+		case 2: // Distance			
 			[varCell setText:[self distanceToPOI]];
 			break;
 			
@@ -101,7 +100,8 @@
 	return cell;
 }
 
-// Returns the distance (in yards) formatted as a string.
+// Returns the distance (in miles) formatted as a string.
+// TODO: handle mem mgmt in this method.
 - (NSString *)distanceToPOI
 {
 	CLLocation *curLocation = [[CLLocation alloc] init];
@@ -112,8 +112,10 @@
 	// Distance measured in meters. 
 	CLLocationDistance distance = [curLocation getDistanceFrom:poiLocation];
 	
+	// Convert distance to miles.
 	distance = distance * 0.000621371192;
 	
+	// Round off double to scale decimal places.
 	NSDecimalNumberHandler *mydnh = [[[NSDecimalNumberHandler alloc] initWithRoundingMode:NSRoundPlain 
 																					scale:2
 																		 raiseOnExactness:NO 
@@ -122,6 +124,7 @@
 																	  raiseOnDivideByZero:NO] autorelease];
 	NSDecimalNumber *myDecimal = [[[NSDecimalNumber alloc] initWithDouble:distance] autorelease];
 	NSDecimalNumber *result = [myDecimal decimalNumberByRoundingAccordingToBehavior:mydnh];
+	
 	return [NSString stringWithFormat:@"%@ miles", result];
 }
 

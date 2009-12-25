@@ -37,7 +37,7 @@ static LocationManagerSingleton *sharedLocationManagerSingleton = nil;
 {
 	// Location corresponds to 10 21st Avenue South, Nashville, TN. This is hard-coded
 	// for now because accessing location-based services on simulator is not working for me.
-	CLLocation *loc = [[CLLocation alloc] initWithLatitude:36.136637 longitude:-86.80088];
+	CLLocation *loc = [[[CLLocation alloc] initWithLatitude:36.136637 longitude:-86.80088] autorelease];
 	return loc;
 }
 
@@ -99,5 +99,6 @@ fromLocation:(CLLocation *)oldLocation
 {
 	return self;
 }
+
 
 @end
