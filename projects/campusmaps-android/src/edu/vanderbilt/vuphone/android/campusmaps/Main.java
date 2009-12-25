@@ -18,6 +18,7 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import android.content.Context;
@@ -104,21 +105,23 @@ public class Main extends MapActivity {
 		try {
 			final InputStream xmlData = getResources().getAssets().open(
 					"buildings.xml");
-			
+
 			InputStream dataCache = null;
-			
+
 			try {
 				dataCache = openFileInput("buildingList.cache");
-			} catch (Exception e) {	
+			} catch (FileNotFoundException fnfe) {
+				// Smother - this is not a problem.
 			}
-			
+
 			final InputStream buildingCache = dataCache;
-			
+
 			new Thread(new Runnable() {
 				public void run() {
 					BuildingList.populateBuildings(xmlData, buildingCache);
 				}
 			}).start();
+			// TODO(corespace): catch specific errors.
 		} catch (Exception e) {
 			trace("Couldn't open the buildings list");
 			e.printStackTrace();
@@ -246,7 +249,7 @@ public class Main extends MapActivity {
 	public void drop_pin(Building b) {
 		MapMarker m = new MapMarker(b);
 		m.drop_pin();
-		centerMapAt(b.getLocation(), 18);
+		centerMapAt(new GeoPoint(b.getLat_(), b.getLong_()), 18);
 	}
 
 	/**

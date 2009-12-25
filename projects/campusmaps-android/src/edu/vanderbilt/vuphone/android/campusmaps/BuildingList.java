@@ -242,7 +242,8 @@ public class BuildingList extends ListActivity {
 			String url = "http://www.vanderbilt.edu/map/"
 					+ attrib.getProperty("FACILITY_URL").toLowerCase();
 
-			Building b = new Building(i, gp, name, attrib
+			Building b = new Building(i, gp.getLatitudeE6(), gp
+					.getLongitudeE6(), name, attrib
 					.getProperty("FACILITY_REMARKS"), url);
 
 			bList.put(new Long(i), b);
