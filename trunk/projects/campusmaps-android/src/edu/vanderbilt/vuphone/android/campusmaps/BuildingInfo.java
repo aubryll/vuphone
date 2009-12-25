@@ -55,15 +55,21 @@ public class BuildingInfo extends Activity {
 
 			Bitmap bm = null;
 
+			// TODO Find a work-around to get BitmapFactory to work
+			// http://groups.google.com/group/android-developers/browse_thread/thread/171b8bf35dbbed96/
 			try {
 				BufferedInputStream bis = new BufferedInputStream(new URL(img)
-						.openStream(), 1024);
+						.openConnection().getInputStream(), 150 * 1024);
 				bm = BitmapFactory.decodeStream(bis);
-				bis.close();
-			} catch (Exception e) {
-			}
 
-			iv.setImageBitmap(bm);
+				if (bm == null)
+					throw new Exception("BitmapFactory sucks...");
+
+				bis.close();
+				iv.setImageBitmap(bm);
+			} catch (Exception e) {
+				Main.trace("Couldn't download image: " + e.getMessage());
+			}
 		}
 
 		TextView tv2 = (TextView) findViewById(R.id.buildingDesc);
