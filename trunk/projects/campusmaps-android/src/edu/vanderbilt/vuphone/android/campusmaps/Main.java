@@ -104,10 +104,19 @@ public class Main extends MapActivity {
 		try {
 			final InputStream xmlData = getResources().getAssets().open(
 					"buildings.xml");
-
+			
+			InputStream dataCache = null;
+			
+			try {
+				dataCache = openFileInput("buildingList.cache");
+			} catch (Exception e) {	
+			}
+			
+			final InputStream buildingCache = dataCache;
+			
 			new Thread(new Runnable() {
 				public void run() {
-					BuildingList.populateBuildings(xmlData);
+					BuildingList.populateBuildings(xmlData, buildingCache);
 				}
 			}).start();
 		} catch (Exception e) {

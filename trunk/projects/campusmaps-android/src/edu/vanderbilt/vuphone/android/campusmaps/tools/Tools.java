@@ -48,7 +48,7 @@ public class Tools {
 		double longitude = x / (6378137.0 * Math.PI / 180);
 		double latitude = ((Math.atan(Math.pow(Math.E, (y / 6378137.0))))
 				/ (Math.PI / 180) - 45) * 2.0;
-		Log.d("LatLong", "Lat = " + latitude + " Long = " + longitude);
+
 		return new GeoPoint((int) (latitude * 1E6), (int) (longitude * 1E6));
 	}
 
