@@ -38,10 +38,7 @@ public class Range {
 			int startM = _start.totalMinutes();
 			int endM = _end.totalMinutes();
 			int tM = t.totalMinutes();
-			if (startM < endM)
-				return (startM <= tM && tM < endM);
-			else
-				return (startM <= tM || tM < endM);
+			return (startM <= tM && (tM < endM || endM < startM));
 		} catch (NullPointerException e) {
 			throw new RuntimeException("inRange(Time): Range not properly initialized");
 		}

@@ -137,7 +137,7 @@ public class Time {
 	}
 	
 	public boolean after(Range r) {
-		return after(r.getEnd());
+		return after(r.getEnd()) && !r.overnight();
 	}
 	
 	// returns the number of minutes elapsed in the day

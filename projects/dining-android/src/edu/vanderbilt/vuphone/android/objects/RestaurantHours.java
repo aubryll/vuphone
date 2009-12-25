@@ -97,7 +97,7 @@ public class RestaurantHours {
 		ArrayList<Range> todayRanges = getTodayRanges();
 		Time now = new Time();
 		for (int i = 0; i<todayRanges.size(); i++) 
-			if (now.before(todayRanges.get(i).getEnd()))
+			if (!now.after(todayRanges.get(i)))
 				return todayRanges.get(i);
 		return null;
 	}
