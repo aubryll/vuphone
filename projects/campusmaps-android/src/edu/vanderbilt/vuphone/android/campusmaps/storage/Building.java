@@ -23,22 +23,28 @@ import com.google.android.maps.GeoPoint;
 import edu.vanderbilt.vuphone.android.campusmaps.R;
 
 public class Building implements Comparable<Building> {
-	private GeoPoint point_ = null;
+	private int lat_ = 0;
+	private int long_ = 0;
 	private String name_ = null;
 	private String desc_ = null;
 	private String url_ = null;
 	private long id_ = 0;
 
+	@SuppressWarnings("unused")
+	private Building(){
+		//This ctor is needed for XStream
+	}
 	public Building(long id, GeoPoint gp, String name, String desc, String url) {
 		id_ = id;
-		point_ = gp;
+		lat_ = gp.getLatitudeE6();
+		long_ = gp.getLongitudeE6();
 		name_ = name;
 		desc_ = desc;
 		url_ = url;
 	}
 
 	public GeoPoint getLocation() {
-		return point_;
+		return new GeoPoint(lat_,long_);
 	}
 
 	public String getName() {

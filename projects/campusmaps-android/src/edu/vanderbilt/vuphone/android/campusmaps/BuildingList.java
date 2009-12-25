@@ -18,7 +18,9 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps;
 
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,6 +47,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+import edu.vanderbilt.vuphone.android.campusmaps.tools.Serializer;
 import edu.vanderbilt.vuphone.android.campusmaps.tools.Tools;
 import edu.vanderbilt.vuphone.android.campusmaps.tools.XMLTools;
 
@@ -155,22 +158,68 @@ public class BuildingList extends ListActivity {
 	/**
 	 * Parses in the building data to populate BuildingList
 	 */
-	public static void populateBuildings(InputStream xmlData) {
+	public static void populateBuildings(InputStream xmlData,
+			InputStream buildingCache) {
 		// Prevent the building list from being populated each time onCreate is
 		// called
-		Map<Long, Building> bList = BuildingList.getBuildingList();
 
-		if (bList.size() != 0)
+		if (getBuildingList().size() != 0)
 			return;
 
-		Main.trace("Populating data");
+		if (isNewListAvailable() || buildingCache == null) {
+			Main.trace("Parsing building list from XML");
+			loadFromXML(xmlData);
+
+			// Cache the building list
+			updateCacheFile();
+		}
+
+		else {
+			Main.trace("Loading building list from CACHE");
+			loadFromCache(buildingCache);
+		}
+
+		Log.i("mad", "Populated " + buildings_.size() + " entries");
+	}
+
+	private static boolean isNewListAvailable() {
+		// TODO check server for updated building list
+
+		return true;
+	}
+
+	private static void updateCacheFile() {
+		try {
+			FileOutputStream fos = Main.getInstance().openFileOutput(
+					"buildingList.cache", MODE_WORLD_READABLE);
+
+			OutputStreamWriter osw = new OutputStreamWriter(fos);
+
+			new Serializer().saveObject(buildings_, osw);
+		} catch (Exception e) {
+			Main.trace("Unable to update the building list cache");
+			e.printStackTrace();
+			return;
+		}
+
+		Main.trace("Building list cache has been updated");
+	}
+
+	/**
+	 * Prints a message to the screen for a few seconds
+	 */
+	public void echo(String s) {
+		Toast.makeText(getBaseContext(), s, Toast.LENGTH_SHORT).show();
+	}
+
+	private static void loadFromXML(InputStream xmlData) {
+		Map<Long, Building> bList = BuildingList.getBuildingList();
 
 		Document doc = XMLTools.parseXML(xmlData);
 
 		if (doc == null)
 			return;
 
-		Main.trace("Populating building list");
 		int i;
 		NodeList list_ = doc.getElementsByTagName("feature");
 		for (i = 0; i < list_.getLength(); i++) {
@@ -197,14 +246,26 @@ public class BuildingList extends ListActivity {
 
 			bList.put(new Long(i), b);
 		}
-
-		Log.i("mad", "Populated " + i + " entries");
 	}
 
-	/**
-	 * Prints a message to the screen for a few seconds
-	 */
-	public void echo(String s) {
-		Toast.makeText(getBaseContext(), s, Toast.LENGTH_SHORT).show();
+	@SuppressWarnings("unchecked")
+	private static void loadFromCache(InputStream is) {
+		try {
+			int avail = is.available();
+			if (avail <= 0)
+				return;
+
+			byte file[] = new byte[avail];
+			is.read(file);
+
+			String str = new String(file);
+
+			Object o = new Serializer().fromXML(str);
+
+			buildings_ = (Map<Long, Building>) o;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
