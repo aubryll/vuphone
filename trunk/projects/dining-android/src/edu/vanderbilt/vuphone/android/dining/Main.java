@@ -54,16 +54,13 @@ public class Main extends ListActivity {
 		if (applicationContext == null)
 			applicationContext = getApplicationContext(); 
 
-		deleteAllRestaurants();
-
-		Log.i("Main", "onCreat() IDs size: " + Restaurant.getIDs().size());
-		addRandomRestaurantsToDB(20);		
-		Log.i("Main", "onCreat() IDs size: " + Restaurant.getIDs().size());
+		//deleteAllRestaurants();
+		//addRandomRestaurantsToDB(20);
 		
 		setContentView(R.layout.main);
 		mode = NORMAL;
 		
-		ra = new RestaurantAdapter(this, RestaurantAdapter.FAVORITE_OPEN_CLOSED);
+		ra = new RestaurantAdapter(this, RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
 	}
@@ -71,7 +68,7 @@ public class Main extends ListActivity {
 	/** Resorts the list when it is resumed */
 	public void onResume() {
 		super.onResume();
-		ra.setSort();
+		ra.setSort(); 
 		setListAdapter(ra);
 	}
 
@@ -105,14 +102,14 @@ public class Main extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		final CharSequence[] items = { "open/closed", "near/far",
-				"favorites/open/closed", "favorite", "alphabetical" };
+		final CharSequence[] items = {"Favorites, Open", "Open/Close times", "Open",
+				 "Favorites", "Alphabetical" };
 		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
-		itemsIDs.add(RestaurantAdapter.OPEN_CLOSED);
-		itemsIDs.add(RestaurantAdapter.NEAR_FAR);
-		itemsIDs.add(RestaurantAdapter.FAVORITE_OPEN_CLOSED);
-		itemsIDs.add(RestaurantAdapter.FAVORITE);
-		itemsIDs.add(RestaurantAdapter.ALPHABETICAL);
+		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);
+		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_TIMES);
+		itemsIDs.add(RestaurantAdapter.SAMPLE_OPEN_CLOSED);
+		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE); 
+		itemsIDs.add(RestaurantAdapter.SAMPLE_ALPHABETICAL);
 
 		builder.setSingleChoiceItems(items,
 				itemsIDs.indexOf(ra.getSortType()),
@@ -229,7 +226,7 @@ public class Main extends ListActivity {
 		for (int i = 1; i <= numRest; i++) {
 			RestaurantHours rh = new RestaurantHours();
 			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
-				int ranges = r.nextInt(maxRanges + 1);
+				int ranges = r.nextInt(maxRanges) + 1;
 				for (int k = 0; k < ranges; k++) {
 					Time start = new Time((r.nextInt(12 / ranges) + k * 24/ranges + hourOffset) % 24, r
 							.nextInt(59));

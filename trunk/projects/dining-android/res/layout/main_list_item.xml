@@ -8,6 +8,7 @@
   android:id="@+mainListItem/favoriteIcon"
   android:layout_height="wrap_content"
   android:layout_width="wrap_content"
+  android:layout_centerVertical="true"
   android:src="@drawable/dining"/>
   <TextView 
   android:id="@+mainListItem/name"
@@ -24,7 +25,7 @@
   android:layout_height="wrap_content"
   android:layout_width="wrap_content" 
   android:layout_below="@mainListItem/name"
-  android:layout_alignParentRight="true"
-  android:paddingRight="50dp"
+  android:layout_toRightOf="@mainListItem/favoriteIcon"
+  android:paddingLeft="20dp"
   android:text="special text"/>
 </RelativeLayout>

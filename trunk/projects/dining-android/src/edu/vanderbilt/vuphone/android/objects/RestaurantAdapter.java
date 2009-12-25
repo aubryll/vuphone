@@ -21,29 +21,68 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
  *
  */
 public class RestaurantAdapter extends BaseAdapter {
+	
+	private static final int NUM_BOOLEANS = 8;
+	
+	// booleans (maximum 8 boolean values, remove sort levels if need more)
+	public static final int ALPHABETICAL 			= 16; // 2 ^ 4 to be independant of other sorts below
+	public static final int SHOW_FAV_ICON 			= 1; // 2 ^ 0
+	public static final int GRAY_CLOSED				= 2; // 2 ^ 1
+	public static final int SHOW_FAV_PART 			= 4; // 2 ^ 2
+	public static final int SHOW_OPEN_PART 			= 8; // ...
 
-	// unsorted, for when constructor is passed initial sort state
-	public static final int UNSORTED = 0;
 	
-	// alphabetical sort
-	public static final int ALPHABETICAL = 1;
+	// sort options for each level (maximum value 7)
+	public static final int UNSORTED 				= 0;
+	public static final int TIME_TO_CLOSE 			= 1;
+	public static final int TIME_TO_OPEN			= 2;
+	public static final int FAVORITE 				= 3;
+	public static final int OPEN_CLOSED				= 4;
+	public static final int NEAR_FAR				= 5;
 	
-	// secondary sorts, all include alphabetical
-	public static final int FAVORITE = 0x10;
-	public static final int OPEN_CLOSED = 0x20;
-	public static final int NEAR_FAR = 0x30;
-		// these time sorts are dumb and should be applied on strictly open and strictly closed
-		// restaurant ranges, respectively, or undefined sorting may occur
-	private static final int TIME_TO_CLOSE = 0x40;
-	private static final int TIME_TO_OPEN = 0x50;
+	// ascending is default
+	public static final int DESCENDING 				= 0x8; // the bit, 1 for true, 0 for false
 	
-	// tertiary sorts, all include alphabetical
-	public static final int FAVORITE_OPEN_CLOSED = 0x100;
-	public static final int FAVORITE_TIME_TO_CLOSE = 0x200;
-	public static final int FAVORITE_TIMES = 0x300;
+	// sort levels, higher the level, the more recent the sort (most top level)
+	public static final int LEVEL1					= 0x100;
+	public static final int LEVEL2					= 0x1000;
+	public static final int LEVEL3					= 0x10000;
+	public static final int LEVEL4					= 0x100000;
+	public static final int LEVEL5					= 0x1000000;
+	public static final int LEVEL6					= 0x10000000;
+	
+	// sample headers
+	public static final int HEADER_FAVORITE_HIGHEST = ALPHABETICAL + GRAY_CLOSED + SHOW_FAV_PART;
+	public static final int HEADER_FAVORITE_NOT_HIGHEST = ALPHABETICAL + GRAY_CLOSED + SHOW_FAV_ICON;
 	
 	
-	public static final int DEFAULT = FAVORITE_OPEN_CLOSED;
+	// sample sorts, supports old interface
+	public static final int SAMPLE_FAVORITE_OPEN_CLOSED 		= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
+																	LEVEL1 * OPEN_CLOSED + 
+																	LEVEL2 * FAVORITE;
+	public static final int SAMPLE_FAVORITE_TIMES 				= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
+																	LEVEL1 * OPEN_CLOSED + 
+																	LEVEL2 * (TIME_TO_CLOSE + DESCENDING) +
+																	LEVEL3 * TIME_TO_OPEN + 
+																	LEVEL4 * FAVORITE;
+	public static final int SAMPLE_FAVORITE_TIMES_ASCENDING 	= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
+																	LEVEL1 * OPEN_CLOSED + 
+																	LEVEL2 * TIME_TO_CLOSE +
+																	LEVEL3 * TIME_TO_OPEN + 
+																	LEVEL4 * FAVORITE;
+	public static final int SAMPLE_FAVORITE_TIMES_DESCENDING	= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
+																	LEVEL1 * OPEN_CLOSED + 
+																	LEVEL2 * (TIME_TO_CLOSE + DESCENDING) +
+																	LEVEL3 * (TIME_TO_OPEN + DESCENDING) + 
+																	LEVEL4 * FAVORITE;
+	public static final int SAMPLE_FAVORITE						= HEADER_FAVORITE_HIGHEST + 
+																	LEVEL1 * FAVORITE;
+	public static final int SAMPLE_OPEN_CLOSED					= HEADER_FAVORITE_NOT_HIGHEST + SHOW_OPEN_PART + 
+																	LEVEL1 * OPEN_CLOSED;
+	public static final int SAMPLE_ALPHABETICAL					= HEADER_FAVORITE_NOT_HIGHEST;
+														
+	
+	public static final int DEFAULT = SAMPLE_FAVORITE_OPEN_CLOSED;
 	
 	// non restaurant item Ids, must be negative
 	public static final long FAVORITE_PARTITION = -1;
@@ -105,8 +144,8 @@ public class RestaurantAdapter extends BaseAdapter {
 			//Restaurant r = (Restaurant)current;
 			if (displayFav) {
 				wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
-				R.drawable.star:		// favorite icon 
-				R.drawable.grey_star);		// nonfavorite icon
+											R.drawable.star:		// favorite icon 
+											R.drawable.grey_star);	// nonfavorite icon
 			
 			} else {
 				wrapper.getFavoriteView().setVisibility(ImageView.GONE);
@@ -153,95 +192,69 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * 		a class constant
 	 */
 	public void setSort(int sortType) {
-		grayClosed = true;
-		switch (sortType) {
-		case UNSORTED:
-		case ALPHABETICAL:
-		case OPEN_CLOSED:
-		case NEAR_FAR:
-			displayFav = true;
-			break;
-		case FAVORITE_OPEN_CLOSED:
-		case FAVORITE_TIME_TO_CLOSE:
-		case FAVORITE_TIMES:
-		case FAVORITE:
-			displayFav = false;
-			break;
-		}
 		
+		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
 		
-		if (sortType == UNSORTED)
-			return; // only set the above if unsorted
-		currentSortType = sortType;
-
-		sort(_order, ALPHABETICAL);
-		switch (sortType) {
-		case FAVORITE_OPEN_CLOSED:
-		case FAVORITE_TIME_TO_CLOSE:
-		case FAVORITE_TIMES:
-		{
-			sort(_order, OPEN_CLOSED);
-			if (sortType == FAVORITE_TIME_TO_CLOSE || sortType == FAVORITE_TIMES) {
-				int tClosed = firstClosed();
-				if (tClosed == -1)
-					tClosed = _order.size();
-				sort(_order.subList(0, tClosed), TIME_TO_CLOSE);
-				if (sortType == FAVORITE_TIMES && tClosed != _order.size())
-					sort(_order.subList(tClosed, _order.size()), TIME_TO_OPEN);
+		displayFav = ((sortType & SHOW_FAV_ICON) > 0);
+		grayClosed = ((sortType & GRAY_CLOSED) > 0);
+		if ((sortType & ALPHABETICAL) > 0)
+			sort(_order, ALPHABETICAL);
+		
+		
+		int currentSort = sortType >> NUM_BOOLEANS; // number of booleans
+		
+		while (currentSort != UNSORTED) {
+			switch (currentSort & 0x7) {
+			case FAVORITE:
+			case OPEN_CLOSED: 
+			case NEAR_FAR:
+				sort(_order, currentSort & 0xF);
+				break;
+			case TIME_TO_CLOSE:
+				sort(_order.subList(0, firstClosed()), currentSort & 0xF);
+				break;
+			case TIME_TO_OPEN:
+				sort(_order.subList(firstClosed(), _order.size()), currentSort & 0xF);
+				break;
 			}
-			sort(_order, FAVORITE);
-
-			int nonFav = firstNonFavorite();
-			int closed;
-			if (nonFav != -1) {
-				// if some are non favorites
-				//sort(_order.subList(nonFav, _order.size()), OPEN_CLOSED);
+			currentSort = currentSort >> 4; // size of hexidecimal number
+		}
+		
+		// NOW BEGIN ADDING PARTITIONS
+		
+		boolean favPart = (sortType & SHOW_FAV_PART) > 0;
+		int nonFav = -1;
+		boolean openPart = (sortType & SHOW_OPEN_PART) > 0;
+		int closed = -1;
+		if (favPart) {
+			nonFav = firstNonFavorite();
+			if (openPart)
 				closed = firstClosed(nonFav);
+		} else {
+			if (openPart)
+				closed = firstClosed();
+		}
+		
+		if (openPart && closed != -1)
+			_order.add(closed, CLOSED_PARTITION);
+		if (favPart) {
+			if (openPart) {
+				if (nonFav != closed && nonFav != -1) {
+					_order.add(nonFav, OPEN_PARTITION);
+				}
 			} else {
-				closed = -1;
+				if (nonFav != -1)
+					_order.add(nonFav, OTHER_PARTITION);
 			}
-			// add partitions bottom to top, so indices remain valid
-			
-			if (closed != -1 && nonFav!=-1) 
-				// if some restaurants are closed which are not favorites
-				_order.add(closed, (long)CLOSED_PARTITION);
-			if (nonFav != -1 && nonFav!=closed) 
-				// if some restaurants are open which are not favorites
-				_order.add(nonFav, (long)OPEN_PARTITION);
-			if (nonFav != 0) 
-				// if there are some favorites
-				_order.add(0, (long)FAVORITE_PARTITION);
-
-
-			break;
 		}
-		case FAVORITE:
-		{
-			sort(_order, FAVORITE);
-			int nonFav = firstNonFavorite();
-			if (nonFav != -1) 
-				// if some are non favorites
-				_order.add(firstNonFavorite(), (long)OTHER_PARTITION);
-			if (nonFav != 0) 
-				// if there are some favorites
-				_order.add(0, (long)FAVORITE_PARTITION);
-			break;
-		}
-		case OPEN_CLOSED:
-		{
-			sort(_order, OPEN_CLOSED);
-			int closed = firstClosed();
-			if (closed != -1)
-				// if some are closed
-				_order.add(closed, (long)CLOSED_PARTITION);
-			if (closed != 0) 
-				// if some are open
-				_order.add(0, (long)OPEN_PARTITION);
-			break;
-		}
-		case NEAR_FAR:
-		default:
+		
+		if (favPart) {
+			if (nonFav != 0)
+				_order.add(0, FAVORITE_PARTITION);
+		} else {
+			if (openPart && closed != 0)
+				_order.add(0, OPEN_PARTITION);
 		}
 	}
 	
@@ -255,6 +268,13 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	public void setShowFavIcon(boolean show) {
 		displayFav = show;
+		// the following code would change currentSortType to reflect this change
+		// it is commented because nothing in the implementation currently requires 
+		// currentSortType to perfectly reflect what the actual sorting of the list is
+		// As it is, the added benefit of storing the old value in currentSortType is
+		// present, which is useful for marking favorites
+//		if ((currentSortType & SHOW_FAV_ICON) > 0 ^ show) 
+//			currentSortType += (show?SHOW_FAV_ICON:-SHOW_FAV_ICON);
 	}
 	
 	public void setGrayClosed(boolean gray) {
@@ -338,25 +358,39 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	// compare method for merge, 'less or equal'
 	private boolean compare(long first, long second, int sortType) {
-		switch (sortType) {
+		if (sortType == ALPHABETICAL)
+			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
+		switch (sortType & 0x7) {
 		case FAVORITE:
 			return Restaurant.favorite(first) || !Restaurant.favorite(second);
-		case ALPHABETICAL:
-			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
 		case OPEN_CLOSED:
 			return Restaurant.getHours(first).isOpen() || !Restaurant.getHours(second).isOpen();
 		case TIME_TO_CLOSE:
-			return Restaurant.getHours(first).minutesToClose() <= Restaurant.getHours(second).minutesToClose();
+			//if (Restaurant.getName(first).equals("o"))
+				Log.i("RA: compare()", Restaurant.getName(first) + ": " + 
+						Restaurant.getHours(first).minutesToClose() + ", " +
+						Restaurant.getName(second) + ": " + Restaurant.getHours(second).minutesToClose());
+			if ((sortType & DESCENDING) == 0)
+				return Restaurant.getHours(first).minutesToClose() <= Restaurant.getHours(second).minutesToClose();
+			else
+				return Restaurant.getHours(first).minutesToClose() >= Restaurant.getHours(second).minutesToClose();
 		case TIME_TO_OPEN:
+		{
 			int fm =Restaurant.getHours(first).minutesToOpen(), sm = Restaurant.getHours(second).minutesToOpen();
-			if (fm == -1)
-				return sm == -1;
-			else return fm <= sm || sm == -1;
+			if ((sortType & DESCENDING) == 0) {
+				if (sm == -1)
+					return true;
+				else return fm <= sm && fm != -1;
+			} else {
+				if (fm == -1)
+					return true;
+				else return fm >= sm && sm != -1;
+			}
+		}
 		case NEAR_FAR:
 			return true;
 		default:
 			return true;
 		}
 	}
-	
 }
