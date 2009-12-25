@@ -20,6 +20,7 @@ package edu.vanderbilt.vuphone.android.campusmaps;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -185,7 +186,7 @@ public class BuildingList extends ListActivity {
 	private static boolean isNewListAvailable() {
 		// TODO check server for updated building list
 
-		return true;
+		return false;
 	}
 
 	private static void updateCacheFile() {
@@ -255,12 +256,7 @@ public class BuildingList extends ListActivity {
 			if (avail <= 0)
 				return;
 
-			byte file[] = new byte[avail];
-			is.read(file);
-
-			String str = new String(file);
-
-			Object o = new Serializer().fromXML(str);
+			Object o = new Serializer().fromXML(new InputStreamReader(is));
 
 			buildings_ = (Map<Long, Building>) o;
 

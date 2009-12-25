@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 
 import com.thoughtworks.xstream.XStream;
@@ -115,6 +116,20 @@ public class Serializer {
 	public Object fromXML(String s) {
 		try {
 			return xstream_.fromXML(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Instantiate an object from its serialized form
+	 * @param s
+	 * @return
+	 */
+	public Object fromXML(Reader r) {
+		try {
+			return xstream_.fromXML(r);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
