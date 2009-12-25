@@ -118,6 +118,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	public Object getItem(int i) {
+		Log.i("RA getItem", "getItem()");
 		if (getItemId(i)>0)
 			return Restaurant.get(getItemId(i));
 		else return getItemId(i);
@@ -143,12 +144,13 @@ public class RestaurantAdapter extends BaseAdapter {
 			}
 			//Restaurant r = (Restaurant)current;
 			if (displayFav) {
+				wrapper.getFavoriteView().setVisibility(View.VISIBLE);
 				wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
 											R.drawable.star:		// favorite icon 
 											R.drawable.grey_star);	// nonfavorite icon
 			
 			} else {
-				wrapper.getFavoriteView().setVisibility(ImageView.GONE);
+				wrapper.getFavoriteView().setVisibility(View.GONE);
 			}
 			wrapper.getNameView().setText(Restaurant.getName(rID));
 			wrapper.getSpecialView().setText(getSpecialText(Restaurant.getHours(rID)));
@@ -186,12 +188,26 @@ public class RestaurantAdapter extends BaseAdapter {
 		
 	}
 	
+	private static final int RESTAURANT = 1;
+	private static final int PARTITION = 0;
+	@Override
+	public int getItemViewType(int i) {
+		return getItemId(i)>0?RESTAURANT:PARTITION;
+	}
+	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
+	
 	/**
 	 * Sets sort method for list and sorts
 	 * @param sortType 
 	 * 		a class constant
 	 */
 	public void setSort(int sortType) {
+		
+		if (sortType == currentSortType)
+			return;
 		
 		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
@@ -256,10 +272,14 @@ public class RestaurantAdapter extends BaseAdapter {
 			if (openPart && closed != 0)
 				_order.add(0, OPEN_PARTITION);
 		}
+		
+		notifyDataSetChanged();
 	}
 	
 	public void setSort() {
-		setSort(currentSortType);
+		int oldSort = currentSortType;
+		currentSortType = UNSORTED;
+		setSort(oldSort);
 	}
 	
 	public int getSortType() {
@@ -268,6 +288,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	public void setShowFavIcon(boolean show) {
 		displayFav = show;
+		notifyDataSetChanged();
 		// the following code would change currentSortType to reflect this change
 		// it is commented because nothing in the implementation currently requires 
 		// currentSortType to perfectly reflect what the actual sorting of the list is
@@ -276,10 +297,29 @@ public class RestaurantAdapter extends BaseAdapter {
 //		if ((currentSortType & SHOW_FAV_ICON) > 0 ^ show) 
 //			currentSortType += (show?SHOW_FAV_ICON:-SHOW_FAV_ICON);
 	}
+
+	public boolean getShowFavIconCurrent() {
+		return displayFav;
+	}
+	
+	public boolean getShowFavIconSortMethod() {
+		return (currentSortType & SHOW_FAV_ICON) > 0;
+	}
 	
 	public void setGrayClosed(boolean gray) {
 		grayClosed = gray;
+		notifyDataSetChanged();
 	}
+
+	public boolean getGrayClosedCurrent() {
+		return grayClosed;
+	}
+	
+	public boolean getGrayClosedSortMethod() {
+		return (currentSortType & GRAY_CLOSED) > 0;
+	}
+	
+	
 	
 	
 	/**	
