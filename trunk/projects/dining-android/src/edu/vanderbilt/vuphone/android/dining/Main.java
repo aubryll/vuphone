@@ -42,6 +42,8 @@ public class Main extends ListActivity {
 	private static final int NORMAL = 0;
 	private static final int MARK_FAVS = 1;
 	private int mode;
+	private View doneButton;
+	private View cancelButton;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,25 +59,12 @@ public class Main extends ListActivity {
 		//deleteAllRestaurants();
 		//addRandomRestaurantsToDB(20);
 		
-		setContentView(R.layout.main);
-		mode = NORMAL;
+		initializeContentView();
 		
-		ra = new RestaurantAdapter(this, RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);
+		ra = new RestaurantAdapter(this, RestaurantAdapter.SAMPLE_FAVORITE_TIMES);//SAMPLE_FAVORITE_OPEN_CLOSED);
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
-	}
-
-	/** Resorts the list when it is resumed */
-	public void onResume() {
-		super.onResume();
-		ra.setSort(); 
-		setListAdapter(ra);
-	}
-
-	/** Sets a new sort method to be used and resorts the list */
-	protected void reSortList(int sortMethod) {
-		ra.setSort(sortMethod);
-		setListAdapter(ra);
+				
 	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -93,8 +82,8 @@ public class Main extends ListActivity {
 			break;
 		case MARK_FAVS:
 			Restaurant.setFavorite(id, !Restaurant.favorite(id));
-			getListView().recomputeViewAttributes(v);
-			setListAdapter(ra);
+			ra.notifyDataSetChanged();
+			//getListView().recomputeViewAttributes(v); // TODO examin this
 		}
 	}
 
@@ -116,7 +105,7 @@ public class Main extends ListActivity {
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int item) {
 
-						reSortList(itemsIDs.get(item));
+						ra.setSort(itemsIDs.get(item));
 
 					}
 				});
@@ -134,8 +123,8 @@ public class Main extends ListActivity {
 
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) { 
-		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View\nMap");
-		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark\nFavorites");
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map");
+		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark Favorites");
 		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Sort");
 		return true;
 	}
@@ -149,23 +138,7 @@ public class Main extends ListActivity {
 			startActivity(toMapView);
 			return true;
 		case MENU_ITEM_MARK_FAVS:
-			setContentView(R.layout.mark_favs);
-			mode = MARK_FAVS;
-			ra.setShowFavIcon(true);
-			setListAdapter(ra);
-			
-			((Button) findViewById(R.mark_favs.done))
-					.setOnClickListener(doneListener);
-			((Button) findViewById(R.mark_favs.cancel))
-					.setOnClickListener(cancelListener);
-			
-//			Intent toMarkFavs = new Intent(this, MarkFavs.class);
-//			long[] order = new long[ra.getSortOrder().size()];
-//			for (int x = 0; x < ra.getSortOrder().size(); ++x) {
-//				order[x] = ra.getSortOrder().get(x);
-//			}
-//			toMarkFavs.putExtra(MarkFavs.ADAPTER, order);
-//			startActivity(toMarkFavs);
+			setModeMarkFavs();
 			return true;
 		case MENU_ITEM_CHOOSE_SORTING:
 			showDialog(1);
@@ -179,10 +152,7 @@ public class Main extends ListActivity {
 
 		public void onClick(View v) {
 			Restaurant.commit();
-			mode = NORMAL;
-			setContentView(R.layout.main);
-			ra.setSort();
-			setListAdapter(ra);
+			setModeNormal();
 		}
 	};
 
@@ -191,15 +161,37 @@ public class Main extends ListActivity {
 
 		public void onClick(View v) {
 			Restaurant.revert();
-			mode = NORMAL;
-			setContentView(R.layout.main);
-			ra.setSort();
-			setListAdapter(ra);
+			setModeNormal();
 		}
 	};
+	
+	private void initializeContentView() {
+		setContentView(R.layout.main);
+		doneButton = findViewById(R.mark_favs.done);
+		cancelButton = findViewById(R.mark_favs.cancel);
+		((Button) doneButton).setOnClickListener(doneListener);
+		((Button) cancelButton).setOnClickListener(cancelListener);
+		mode = NORMAL;
+	}
+	
+	private void setModeNormal() {
+		mode = NORMAL;
+		doneButton.setVisibility(View.GONE);
+		cancelButton.setVisibility(View.GONE);
+		ra.setSort();
+	}
+	
+	private void setModeMarkFavs() {
+		mode = MARK_FAVS;
+		doneButton.setVisibility(View.VISIBLE);
+		cancelButton.setVisibility(View.VISIBLE);
+		ra.setShowFavIcon(true);
+	}
 
 	
-	// placeholder/temporary methods below
+	// PLACEHOLDER / TEMOPRARY METHODS BELOW
+	
+	
 	private void deleteAllRestaurants() {/*
 		Log.i("test", "opening writable database.");
 		DBAdapter adapt = new DBAdapter(this);
