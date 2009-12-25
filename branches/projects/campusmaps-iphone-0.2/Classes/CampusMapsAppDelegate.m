@@ -9,17 +9,30 @@
 #import "CampusMapsAppDelegate.h"
 #import "RemotePOILoader.h"
 #import "Layer.h"
+#import "LocationManagerSingleton.h"
+#import <CoreLocation/CoreLocation.h>
 
 @implementation CampusMapsAppDelegate
 
 @synthesize window;
-
+//@synthesize locationManager;
 
 #pragma mark -
 #pragma mark Application lifecycle
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
+	/* Setup the LocationManager.
+	self.locationManager = [[CLLocationManager alloc] init];
+	self.locationManager.delegate = self;
+	self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+	[locationManager startUpdatingLocation];
+	*/
+	
+	// This call should setup our singleton. It returns a reference to our singleton
+	// but we don't need it right here.
+	[LocationManagerSingleton sharedManager];
+	
 	mapViewController.managedObjectContext = [self managedObjectContext];
 	
 	// Add a layer if none exist
@@ -41,6 +54,7 @@
 	[window makeKeyAndVisible];
 	
 	[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
+
 }
 
 - (void)loadRemotePOIs:(NSManagedObjectContext *)context
@@ -166,6 +180,25 @@
 
 
 #pragma mark -
+#pragma mark Location Management
+/**
+ Not sure what to do with these methods.
+ 
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation
+fromLocation:(CLLocation *)oldLocation
+{
+	
+}
+
+// Returns the last known location grabbed by the location manager.
+- (CLLocation *)mostRecentLocation
+{
+	return self.locationManager.location;
+}
+*/
+
+#pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
@@ -174,6 +207,9 @@
     [managedObjectModel release];
     [persistentStoreCoordinator release];
     
+	//[locationManager stopUpdatingLocation];
+	//[locationManager release];
+	
 	[window release];
 	[super dealloc];
 }

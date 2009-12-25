@@ -7,12 +7,12 @@
 //
 
 #import "POIViewController.h"
-#import <UIKit/UIStringDrawing.h>
-#import <CoreLocation/CoreLocation.h>
 #import "VariableHeightCell.h"
 #import "POIImageViewCell.h"
+#import "LocationManagerSingleton.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import <UIKit/UIStringDrawing.h>
+#import <CoreLocation/CoreLocation.h>
 
 
 @implementation POIViewController
@@ -86,8 +86,8 @@
 			
 		case 2: // Distance
 			// TODO: Logic for determining distance needs to go here.
-			//CLLocation *curLocation;
-			[varCell setText:@"NOOB!!!"];
+			
+			[varCell setText:[self distanceToPOI]];
 			break;
 			
 		case 3: // Details
@@ -100,6 +100,58 @@
 		
 	return cell;
 }
+
+// Returns the distance (in yards) formatted as a string.
+- (NSString *)distanceToPOI
+{
+	CLLocation *curLocation = [[CLLocation alloc] init];
+	curLocation = [[LocationManagerSingleton sharedManager] lastKnownLocation];
+	CLLocation *poiLocation = [[CLLocation alloc] initWithLatitude:[poi.latitude doubleValue] 
+														 longitude:[poi.longitude doubleValue]];
+	
+	// Distance measured in meters. 
+	CLLocationDistance distance = [curLocation getDistanceFrom:poiLocation];
+	
+	distance = distance * 0.000621371192;
+	
+	NSDecimalNumberHandler *mydnh = [[[NSDecimalNumberHandler alloc] initWithRoundingMode:NSRoundPlain 
+																					scale:2
+																		 raiseOnExactness:NO 
+																		  raiseOnOverflow:NO 
+																		 raiseOnUnderflow:NO 
+																	  raiseOnDivideByZero:NO] autorelease];
+	NSDecimalNumber *myDecimal = [[[NSDecimalNumber alloc] initWithDouble:distance] autorelease];
+	NSDecimalNumber *result = [myDecimal decimalNumberByRoundingAccordingToBehavior:mydnh];
+	return [NSString stringWithFormat:@"%@ miles", result];
+}
+
+// Converts a CLLocationDistance to different units based on parameters.
+/*
+- (CLLocationDistance)convertDistance:(CLLocationDistance)distance toUnits:(units)newUnits
+{
+	// For now, we can assume the old units will always be meters.
+	// 1 meter =
+	//			3.2808399 feet
+	//			1.0936133 yards
+	//			.001 kilometers
+	//			0.000621371192 miles
+	
+	switch (newUnits) {
+		case FEET: 
+			return (distance*3.2808399);
+		case METERS:
+			return distance;
+		case YARDS: 
+			return (distance * 1.0936133);
+		case KILOMETERS:
+			return (distance * .001);
+		case MILES:
+			return (distance * .000621371192);
+		default:
+			break;
+	}
+}
+ */
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {
