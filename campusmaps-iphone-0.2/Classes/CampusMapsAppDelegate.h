@@ -7,13 +7,16 @@
 //
 
 #import "MapViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate> {
+@interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     UIWindow *window;
+	
+	//CLLocationManager *locationManager;
 	
 	IBOutlet MapViewController *mapViewController;
 	IBOutlet UINavigationController *navController;
@@ -27,6 +30,10 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+
+//@property (retain) CLLocationManager *locationManager;
+
+//- (CLLocation *)mostRecentLocation;
 
 - (NSString *)applicationDocumentsDirectory;
 
