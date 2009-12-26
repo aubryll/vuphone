@@ -10,12 +10,11 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define kCellWidth 300.0f
-#define kNoImageHeight 86.0f
+#define kNoImageHeight 46.0f
 
 @implementation POIImageViewCell
 
 @synthesize poiImage;
-@synthesize backView;
 @synthesize imageLoadingState;
 @synthesize loadingIndicator;
 @synthesize statusLabel;
@@ -25,19 +24,20 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
 		// Note that poiImage cannot be initialized until we know what image
 		// we are passing it.
-		backView = [[UIView alloc] initWithFrame:CGRectZero];
-		backView.backgroundColor = [UIColor clearColor];		
+		self.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];;
+		self.backgroundView.backgroundColor = [UIColor clearColor];
 		
 		imageLoadingState = POIImageIsLoadingState;
 
 		// Set up the loading indicator
 		loadingIndicator = [[UIActivityIndicatorView alloc]
-							initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+							initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 		CGRect tempFrame = loadingIndicator.frame;
 		tempFrame.origin.x = (kCellWidth - tempFrame.size.width) / 2.0f;
 		tempFrame.origin.y = 6.0f;
 		loadingIndicator.frame = tempFrame;
 		loadingIndicator.hidesWhenStopped = YES;
+		loadingIndicator.backgroundColor = [UIColor clearColor];
 		[loadingIndicator startAnimating];
 		[self addSubview:loadingIndicator];
 		
@@ -47,7 +47,8 @@
 		tempFrame.size.width = kCellWidth;
 		statusLabel = [[UILabel alloc] initWithFrame:tempFrame];
 		statusLabel.textAlignment = UITextAlignmentCenter;
-		statusLabel.textColor = [UIColor lightGrayColor];
+		statusLabel.textColor = [UIColor grayColor];
+		statusLabel.backgroundColor = [UIColor clearColor];
 		statusLabel.text = @"loading image…";
 		[self addSubview:statusLabel];
     }
@@ -140,7 +141,6 @@
 
 - (void)dealloc {
 	self.poiImage = nil;
-	self.backView = nil;
     [super dealloc];
 }
 
