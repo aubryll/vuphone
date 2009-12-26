@@ -16,11 +16,23 @@
 
 #define BASE_IMAGE_URL_STRING @"http://www.vanderbilt.edu/map/"
 
+enum {
+	POIImageIsLoadingState, 
+	POIImageLoadedState,
+	POIImageFailedToLoadState, 
+	POIImageNotYetLoadingState	
+}; typedef NSUInteger POIImageLoadingState;
+
 @class Layer;
 
 @interface POI :  NSManagedObject <MKAnnotation>
 {
 	UIImage *_image;
+	
+	
+	
+	POIImageLoadingState imageLoadingState;
+	
 }
 
 @property (nonatomic, retain) NSDecimalNumber * longitude;
@@ -31,12 +43,14 @@
 @property (nonatomic, retain) NSString * details;
 @property (nonatomic, retain) NSString * serverId;
 @property (nonatomic, retain) NSString * url;
+@property (readonly) POIImageLoadingState imageLoadingState;
 
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context;
 - (void)setEPSG900913CoordinatesLat:(double)x andLon:(double)y;
 - (UIImage *)image;
+- (NSString *)distanceFromLocation:(CLLocation *)location;
 
 @end
 

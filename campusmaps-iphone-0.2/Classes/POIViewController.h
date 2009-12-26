@@ -23,5 +23,4 @@
 
 @property (retain) POI *poi;
 
--(NSString *)distanceToPOI;
 @end
