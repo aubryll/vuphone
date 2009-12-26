@@ -86,20 +86,24 @@
 // Returns the image for this POI, whose URL is specified in the url property
 - (UIImage *)image {
 	if (!_image && imageLoadingState != POIImageFailedToLoadState) {
-		NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
-		imageLoadingState = POIImageIsLoadingState;
-		NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-		if (imageData != nil) {
-			_image = [[UIImage alloc] initWithData:imageData];
-			imageLoadingState = POIImageLoadedState;	
-		} else {
-			_image = nil;
-			imageLoadingState = POIImageFailedToLoadState;
-		}
-		
+		[self loadImage];		
 	}
 	
 	return _image;
+}
+
+- (void)loadImage
+{
+	NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
+	imageLoadingState = POIImageIsLoadingState;
+	NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+	if (imageData != nil) {
+		_image = [[UIImage alloc] initWithData:imageData];
+		imageLoadingState = POIImageLoadedState;	
+	} else {
+		_image = nil;
+		imageLoadingState = POIImageFailedToLoadState;
+	}
 }
 
 // Returns the distance to the POI from the location specified...Formatted as a string.
