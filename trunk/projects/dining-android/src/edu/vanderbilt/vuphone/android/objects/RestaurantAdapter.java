@@ -44,12 +44,12 @@ public class RestaurantAdapter extends BaseAdapter {
 	public static final int DESCENDING 				= 0x8; // the bit, 1 for true, 0 for false
 	
 	// sort levels, higher the level, the more recent the sort (most top level)
-	public static final int LEVEL1					= 0x100;
-	public static final int LEVEL2					= 0x1000;
-	public static final int LEVEL3					= 0x10000;
-	public static final int LEVEL4					= 0x100000;
-	public static final int LEVEL5					= 0x1000000;
-	public static final int LEVEL6					= 0x10000000;
+	public static final int []LEVEL					= { 0x100,
+														0x1000,
+														0x10000,
+														0x100000,
+														0x1000000,
+														0x10000000 };
 	
 	// sample headers
 	public static final int HEADER_FAVORITE_HIGHEST = ALPHABETICAL + GRAY_CLOSED + SHOW_FAV_PART;
@@ -58,27 +58,27 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	// sample sorts, supports old interface
 	public static final int SAMPLE_FAVORITE_OPEN_CLOSED 		= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL1 * OPEN_CLOSED + 
-																	LEVEL2 * FAVORITE;
+																	LEVEL[0] * OPEN_CLOSED + 
+																	LEVEL[1] * FAVORITE;
 	public static final int SAMPLE_FAVORITE_TIMES 				= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL1 * OPEN_CLOSED + 
-																	LEVEL2 * (TIME_TO_CLOSE + DESCENDING) +
-																	LEVEL3 * TIME_TO_OPEN + 
-																	LEVEL4 * FAVORITE;
+																	LEVEL[0] * OPEN_CLOSED + 
+																	LEVEL[1] * (TIME_TO_CLOSE + DESCENDING) +
+																	LEVEL[2] * TIME_TO_OPEN + 
+																	LEVEL[3] * FAVORITE;
 	public static final int SAMPLE_FAVORITE_TIMES_ASCENDING 	= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL1 * OPEN_CLOSED + 
-																	LEVEL2 * TIME_TO_CLOSE +
-																	LEVEL3 * TIME_TO_OPEN + 
-																	LEVEL4 * FAVORITE;
+																	LEVEL[0] * OPEN_CLOSED + 
+																	LEVEL[1] * TIME_TO_CLOSE +
+																	LEVEL[2] * TIME_TO_OPEN + 
+																	LEVEL[3] * FAVORITE;
 	public static final int SAMPLE_FAVORITE_TIMES_DESCENDING	= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL1 * OPEN_CLOSED + 
-																	LEVEL2 * (TIME_TO_CLOSE + DESCENDING) +
-																	LEVEL3 * (TIME_TO_OPEN + DESCENDING) + 
-																	LEVEL4 * FAVORITE;
+																	LEVEL[0] * OPEN_CLOSED + 
+																	LEVEL[1] * (TIME_TO_CLOSE + DESCENDING) +
+																	LEVEL[2] * (TIME_TO_OPEN + DESCENDING) + 
+																	LEVEL[3] * FAVORITE;
 	public static final int SAMPLE_FAVORITE						= HEADER_FAVORITE_HIGHEST + 
-																	LEVEL1 * FAVORITE;
+																	LEVEL[0] * FAVORITE;
 	public static final int SAMPLE_OPEN_CLOSED					= HEADER_FAVORITE_NOT_HIGHEST + SHOW_OPEN_PART + 
-																	LEVEL1 * OPEN_CLOSED;
+																	LEVEL[0] * OPEN_CLOSED;
 	public static final int SAMPLE_ALPHABETICAL					= HEADER_FAVORITE_NOT_HIGHEST;
 														
 	
@@ -208,7 +208,7 @@ public class RestaurantAdapter extends BaseAdapter {
 		
 		if (sortType == currentSortType)
 			return;
-		
+		Log.i("RA", "setSort()");
 		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
 		
@@ -218,23 +218,23 @@ public class RestaurantAdapter extends BaseAdapter {
 			sort(_order, ALPHABETICAL);
 		
 		
-		int currentSort = sortType >> NUM_BOOLEANS; // number of booleans
 		
-		while (currentSort != UNSORTED) {
-			switch (currentSort & 0x7) {
+		for(int level = 0; level < LEVEL.length; level++) {
+			int sort = getSortAtLevel(level);
+			Log.i("RA", String.valueOf(sort));
+			switch (sort & 0x7) {
 			case FAVORITE:
 			case OPEN_CLOSED: 
 			case NEAR_FAR:
-				sort(_order, currentSort & 0xF);
+				sort(_order, sort);
 				break;
 			case TIME_TO_CLOSE:
-				sort(_order.subList(0, firstClosed()), currentSort & 0xF);
+				sort(_order.subList(0, firstClosed()), sort);
 				break;
 			case TIME_TO_OPEN:
-				sort(_order.subList(firstClosed(), _order.size()), currentSort & 0xF);
+				sort(_order.subList(firstClosed(), _order.size()), sort);
 				break;
 			}
-			currentSort = currentSort >> 4; // size of hexidecimal number
 		}
 		
 		// NOW BEGIN ADDING PARTITIONS
@@ -341,6 +341,76 @@ public class RestaurantAdapter extends BaseAdapter {
 		_order = order;
 	}
 	
+	
+	/**
+	 * finds the next usable level, and compacts the rest if out of room
+	 * @return
+	 * 	the index of an unused level on top of all others
+	 */
+	public int getNextUnusedLevel() {
+		for (int level = LEVEL.length-1; level >=0; level--) {
+			if ((currentSortType & (LEVEL[level] * 0xF)) != UNSORTED)
+				if (level + 1 < LEVEL.length)
+					return level + 1;
+				else break;
+		}
+		if (compactLevels())
+			return getNextUnusedLevel();
+		return -1;
+	}
+	
+	 
+	/** sets the indicated level to the indicated sort
+	 * pre: level < LEVEL.length, 0<=sort<16
+	 * @param level
+	 * index of level to set
+	 * @param sort
+	 * class constant level sort to set
+	 */
+	public void setSortAtLevel(int level, int sort) {
+		currentSortType = currentSortType & ~(LEVEL[level] * 0xF);
+		currentSortType = currentSortType | (LEVEL[level] * sort);
+	}
+	
+	public int getSortAtLevel(int level) {
+		return (currentSortType & (LEVEL[level] * 0xF)) >> (level * 4 + NUM_BOOLEANS);
+	}
+	
+	public int indexOf(int sort) {
+		for (int i = 0; i < LEVEL.length; i++)
+			if (getSortAtLevel(i) == sort)
+				return i;
+		return -1;
+	}
+	
+	public boolean insert(int i, int sort) {
+		int sortHere = getSortAtLevel(i);
+		if (sortHere != UNSORTED) {
+			if (i+1 >= LEVEL.length || !insert(i+1, sortHere))
+				return false;
+		}
+		setSortAtLevel(i, sort);
+		return true;
+	}
+	
+	private boolean compactLevels() {
+		boolean changed = false;
+		int shiftsRemain = LEVEL.length - 1;
+		for (int level = 0; level < LEVEL.length - 1; level++) {
+			while ((currentSortType & (LEVEL[level] * 0xF)) == UNSORTED && shiftsRemain-->0) {
+				int onesRightOfLevel = (1 << (level * 4 + NUM_BOOLEANS)) - 1;
+				int newLeft = (currentSortType & ~onesRightOfLevel) >> 4; 
+				if (newLeft == 0)
+					return changed;
+				else changed = true;
+				currentSortType = currentSortType & onesRightOfLevel;
+				currentSortType = currentSortType | newLeft;
+			}
+			shiftsRemain--;
+		}
+		return changed;
+	}
+	
 	private String getSpecialText(RestaurantHours rh) {
 		int toOpen = rh.minutesToOpen();
 		if (toOpen==0) {
@@ -406,10 +476,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		case OPEN_CLOSED:
 			return Restaurant.getHours(first).isOpen() || !Restaurant.getHours(second).isOpen();
 		case TIME_TO_CLOSE:
-			//if (Restaurant.getName(first).equals("o"))
-				Log.i("RA: compare()", Restaurant.getName(first) + ": " + 
-						Restaurant.getHours(first).minutesToClose() + ", " +
-						Restaurant.getName(second) + ": " + Restaurant.getHours(second).minutesToClose());
 			if ((sortType & DESCENDING) == 0)
 				return Restaurant.getHours(first).minutesToClose() <= Restaurant.getHours(second).minutesToClose();
 			else

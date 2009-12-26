@@ -112,7 +112,7 @@ public class StaticRestaurantData {
 		String description = "Rand Dining Center is the focal point of the campus community. Its central location, great food, and comfortable atmosphere provide students, faculty, and staff an opportunity to gather, socialize, and interact. Rand retail offers a varity of foods such as baked goods, made-for-you or build-your own salads, and regional favorites like Mediterranean and Asian foods.";
 
 		Restaurant rand = new Restaurant("Rand Dining Center", rh, false, 3, 3,
-				"onCampus", menu, description, R.drawable.rand, true, true,
+				"Cafeteria", menu, description, R.drawable.rand, true, true,
 				false, "(615) 322-2999",
 				"http://www.vanderbilt.edu/dining/rest_rand.php");
 		rand.create();
@@ -161,45 +161,44 @@ public class StaticRestaurantData {
 							"A wonderful blend of nothing and everything to make something"));
 		}
 
-		String description = "The Commons Center is the dining facility and community square of The Commons. The state-of-the-art dining facility includes a salad bar with sizzle station, Chef’s Table, specialty pizza oven, deli, wok, grill, and vegan/vegetarian food.";
+		String description = "The Commons Center is the dining facility and community square of The Commons. The state-of-the-art dining facility includes a salad bar with sizzle station, Chefï¿½s Table, specialty pizza oven, deli, wok, grill, and vegan/vegetarian food.";
 		
 		Restaurant commonsFood = new Restaurant("The Commons Food Gallery", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.commons,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/rest_commons.php");
+				false, 3, 3, "Cafeteria", menu, description, R.drawable.commons,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/rest_commons.php");
 		commonsFood.create();
 	}
 
 	private void commonGroundsData() {
 		RestaurantHours rh = new RestaurantHours();
 
-		//TODO Need a way to show that Common Grounds is open 24 hours a day. Currently
-		// 24 hours is represented by 7:00 AM - 7:00 AM but results in always being closed
+		//TODO Need a way to show that Common Grounds is open 24 hours a day that makes sense
 		Time start = new Time(7, 0);
-		Time stop = new Time(7, 0);
+		Time stop = new Time(6, 59);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		RestaurantMenu menu = new RestaurantMenu();
@@ -216,8 +215,8 @@ public class StaticRestaurantData {
 		String description = "Common Grounds 24-hour coffee shop in The Commons Center offers grab-n-go meals, beverages and sundries. Particular emphasis on using biodegradable/compostable products and only serves 100% organic/fair trade coffee.";
 		
 		Restaurant commonGrounds = new Restaurant("The Common Grounds", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.commongrounds,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/commongrounds.php");
+				false, 3, 3, "Munchie Mart", menu, description, R.drawable.commongrounds,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/commongrounds.php");
 		commonGrounds.create();
 	}
 
@@ -267,8 +266,8 @@ public class StaticRestaurantData {
 		String description = "Chef James Bistro serves hot gourmet entrees and sides, soups, coffee, gourmet grab-n-go salads, sandwiches, entrees and sides.";
 		
 		Restaurant chefJames = new Restaurant("Chef James Bistro", rh, false,
-				3, 3, "onCampus", menu, description, R.drawable.chefjamesbistro, true,
-				true, false, "6154336785",
+				3, 3, "Cafe", menu, description, R.drawable.chefjamesbistro, true,
+				true, false, "(615) 433-6785",
 				"http://www.vanderbilt.edu/dining/line_chefjamesbistro.php");
 		chefJames.create();
 	}
@@ -313,8 +312,8 @@ public class StaticRestaurantData {
 		String description = "Gourmet smoothie shop offering grab-n-go meal plan options.";
 		
 		Restaurant centerSmoothie = new Restaurant("Center Smoothie", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.centersmoothie,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/line_centersmoothie.php");
+				false, 3, 3, "Smoothie", menu, description, R.drawable.centersmoothie,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_centersmoothie.php");
 		centerSmoothie.create();
 	}
 
@@ -358,8 +357,8 @@ public class StaticRestaurantData {
 		String description = "Casual dining restaurant serving al-a-carte lunch (burgers, paninis, salads, sandwiches, chicken fingers) and themed dinners (Mexican, BBQ, Italian, etc). The Pub is a perfect place to watch a game on its state-of-the-art TV/sound system.";
 		
 		Restaurant thePub = new Restaurant("The Pub at Overcup Oak", rh, false,
-				3, 3, "onCampus", menu, description, R.drawable.pub, true,
-				true, false, "6154336785", "http://www.vanderbilt.edu/dining/line_pub.php");
+				3, 3, "Sports Bar", menu, description, R.drawable.pub, true,
+				true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_pub.php");
 		thePub.create();
 	}
 
@@ -403,8 +402,8 @@ public class StaticRestaurantData {
 		String description = "Cowboy-themed casual BBQ restaurant in Carmichael West serving BBQ, burgers, chili, and much more!";
 		
 		Restaurant ctWest = new Restaurant("C.T. West", rh, false, 3, 3,
-				"onCampus", menu, description, R.drawable.ctwest, true, true,
-				false, "6154336785", "http://www.vanderbilt.edu/dining/line_ctwest.php");
+				"BBQ", menu, description, R.drawable.ctwest, true, true,
+				false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_ctwest.php");
 		ctWest.create();
 	}
 
@@ -456,8 +455,8 @@ public class StaticRestaurantData {
 		String description = "Located in Carmichael Towers and Morgan Hall, Quiznos delivers uncompromising quality for those looking for a tasty, fresher alternative to traditional fast food restaurants. Serving sandwiches, soup, and salads.";
 		
 		Restaurant quiznosTowers = new Restaurant("Quiznos Sub - Towers", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.quiznos,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/line_quiznos_towers.php");
+				false, 3, 3, "Sandwich", menu, description, R.drawable.quiznos,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_quiznos_towers.php");
 		quiznosTowers.create();
 	}
 
@@ -507,8 +506,8 @@ public class StaticRestaurantData {
 		String description = "Located in Carmichael Towers and Morgan Hall, Quiznos delivers uncompromising quality for those looking for a tasty, fresher alternative to traditional fast food restaurants. Serving sandwiches, soup, and salads.";
 		
 		Restaurant quiznosMorgan = new Restaurant("Quiznos Sub - Morgan", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.quiznos,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/line_quiznos_morgan.php");
+				false, 3, 3, "Sandwich", menu, description, R.drawable.quiznos,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_quiznos_morgan.php");
 		quiznosMorgan.create();
 	}
 
@@ -551,8 +550,8 @@ public class StaticRestaurantData {
 		String description = "Island-themed quick-service restaurant serving chef-crafted wraps, paninis, pizza, sandwiches, and salads.";
 		
 		Restaurant roTiki = new Restaurant("Ro*Tiki", rh, false, 3, 3,
-				"onCampus", menu, description, R.drawable.rotiki, true, true,
-				false, "6154336785", "http://www.vanderbilt.edu/dining/line_rotiki.php");
+				"Cafe/Munchie Mart", menu, description, R.drawable.rotiki, true, true,
+				false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_rotiki.php");
 		roTiki.create();
 	}
 
@@ -599,8 +598,8 @@ public class StaticRestaurantData {
 		String description = "Starbucks takes the Commodore Card (Meal Money and Commodore Cash) and serves pastries and beverages Sunday through Friday.";
 		
 		Restaurant starbucks = new Restaurant("Starbucks", rh, false, 3, 3,
-				"onCampus", menu, description, R.drawable.starbucks, true, true,
-				false, "6154336785", "http://www.vanderbilt.edu/dining/line_starbucks.php");
+				"Coffee", menu, description, R.drawable.starbucks, true, true,
+				false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_starbucks.php");
 		starbucks.create();
 	}
 
@@ -644,8 +643,8 @@ public class StaticRestaurantData {
 		String description = "Grins Vegetarian Cafe in the Schulman Center offers wraps, salads, paninis, and baked goods with a Kosher-certified kitchen.";
 		
 		Restaurant grins = new Restaurant("Grins - Vegetarian Cafe", rh, false,
-				3, 3, "onCampus", menu, description, R.drawable.grins, true,
-				true, false, "6154336785", "http://www.vanderbilt.edu/dining/line_grins.php");
+				3, 3, "Vegetarian", menu, description, R.drawable.grins, true,
+				true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_grins.php");
 		grins.create();
 	}
 
@@ -688,8 +687,8 @@ public class StaticRestaurantData {
 		String description = "All three locations offer an assortment of delicious sandwiches, bagels, muffins, wraps, coffee and many other treats. Suzie's takes cash, Commodore Card and Meal Plan at Blair and Featheringill and takes cash, Meal Plan, Commodore Card, and Visa and Mastercard at the Divinity School.";
 
 		Restaurant suziesCafeEng = new Restaurant("Suzie's Cafe - Engineering",
-				rh, false, 3, 3, "onCampus", menu, description,
-				R.drawable.suzies, true, true, false, "6154336785",
+				rh, false, 3, 3, "Cafe", menu, description,
+				R.drawable.suzies, true, true, false, "(615) 433-6785",
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
 		suziesCafeEng.create();
 	}
@@ -732,8 +731,8 @@ public class StaticRestaurantData {
 		String description = "All three locations offer an assortment of delicious sandwiches, bagels, muffins, wraps, coffee and many other treats. Suzie's takes cash, Commodore Card and Meal Plan at Blair and Featheringill and takes cash, Meal Plan, Commodore Card, and Visa and Mastercard at the Divinity School.";
 		
 		Restaurant suziesCafeBlair = new Restaurant("Suzie's Cafe - Blair", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.suzies,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/line_suziescafe.php");
+				false, 3, 3, "Cafe", menu, description, R.drawable.suzies,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/line_suziescafe.php");
 		suziesCafeBlair.create();
 	}
 
@@ -775,8 +774,8 @@ public class StaticRestaurantData {
 		String description = "All three locations offer an assortment of delicious sandwiches, bagels, muffins, wraps, coffee and many other treats. Suzie's takes cash, Commodore Card and Meal Plan at Blair and Featheringill and takes cash, Meal Plan, Commodore Card, and Visa and Mastercard at the Divinity School.";
 		
 		Restaurant suziesCafeDiv = new Restaurant("Suzie's Cafe - Divinity",
-				rh, false, 3, 3, "onCampus", menu, description,
-				R.drawable.suzies, true, true, false, "6154336785",
+				rh, false, 3, 3, "Cafe", menu, description,
+				R.drawable.suzies, true, true, false, "(615) 433-6785",
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
 		suziesCafeDiv.create();
 	}
@@ -819,8 +818,8 @@ public class StaticRestaurantData {
 		String description = "This campus natural food store offers alternative natural, organic and gourmet products including grab & go, beverages, snacks, frozen meals, specialty food and whole body care. Located on the first floor of Barnard.";
 		
 		Restaurant nectar = new Restaurant("Nectar", rh, false, 3, 3,
-				"onCampus", menu, description, R.drawable.nectar, true, true,
-				false, "6154336785", "http://www.vanderbilt.edu/dining/nectar.php");
+				"Organic Munchie Mart", menu, description, R.drawable.nectar, true, true,
+				false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/nectar.php");
 		nectar.create();
 	}
 
@@ -877,7 +876,7 @@ public class StaticRestaurantData {
 		
 		Restaurant mcTyeire = new Restaurant("McTyeire", rh, false, 3, 3,
 				"onCampus", menu, description, R.drawable.dining, true, true,
-				false, "6154336785", "www.rand.com");
+				false, "(615) 433-6785", "www.rand.com");
 		mcTyeire.create();
 	}
 
@@ -886,31 +885,31 @@ public class StaticRestaurantData {
 		// TODO Implement a way to show that a restaurant is open 24 hours a day 7 days a week
 		// Currently shown by 7:00 AM - 7:00 AM
 		Time start = new Time(7, 0);
-		Time stop = new Time(7, 0);
+		Time stop = new Time(6, 59);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		RestaurantMenu menu = new RestaurantMenu();
@@ -927,9 +926,9 @@ public class StaticRestaurantData {
 		String description = "Open 24 hours! Featuring grab-n-go snacks, microwave meals, salads, fresh fruits, sandwiches, plus Bongo Java coffees, Muffin Tin baked goods, tons of groceries, and more! Plus, Varsity Marketplace is home to Ro*Tiki, our island-themed quick-service restaurant offering chef-crafted soups, salads, wraps, sandwiches, and pizza. And Varsity Marketplace is a VU Meal Plan location.";
 		
 		Restaurant varsityBranscomb = new Restaurant(
-				"Varsity Market - Branscomb", rh, false, 3, 3, "onCampus",
+				"Varsity Market - Branscomb", rh, false, 3, 3, "Munchie Mart",
 				menu, description, R.drawable.marketplace, true, true, false,
-				"6154336785", "http://www.vanderbilt.edu/dining/varsitymarketplace.php");
+				"(615) 433-6785", "http://www.vanderbilt.edu/dining/varsitymarketplace.php");
 		varsityBranscomb.create();
 	}
 
@@ -938,31 +937,31 @@ public class StaticRestaurantData {
 		// TODO Implement a way to show that a restaurant is open 24 hours a day 7 days a week
 		// Currently shown by 7:00 AM - 7:00 AM
 		Time start = new Time(7, 0);
-		Time stop = new Time(7, 0);
+		Time stop = new Time(6, 59);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(7, 0);
+		stop = new Time(6, 59);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		RestaurantMenu menu = new RestaurantMenu();
@@ -979,8 +978,8 @@ public class StaticRestaurantData {
 		String description = "Located in the basement of Carmichael Towers East, Varsity Towers features grocery items, a variety of bottled beverages, dairy products, sandwiches, salads, fresh fruits, and more. And Varsity Towers is a VU Meal Plan location open 24/7.";
 		
 		Restaurant varsityTowers = new Restaurant("Varsity Market - Towers",
-				rh, false, 3, 3, "onCampus", menu, description,
-				R.drawable.towers, true, true, false, "6154336785",
+				rh, false, 3, 3, "Munchie Mart", menu, description,
+				R.drawable.towers, true, true, false, "(615) 433-6785",
 				"http://www.vanderbilt.edu/dining/varsitytowers.php");
 		varsityTowers.create();
 	}
@@ -1032,8 +1031,8 @@ public class StaticRestaurantData {
 		String description = "Bringing convenience to Area VI, Varsity Morgan offers grocery items, beverages, dairy products, and sandwiches, salads, and fresh fruits. VU Meal Plans may be used at Varsity Morgan.";
 		
 		Restaurant varsityMorgan = new Restaurant("Varsity Market - Morgan",
-				rh, false, 3, 3, "onCampus", menu, description,
-				R.drawable.morgan, true, true, false, "6154336785",
+				rh, false, 3, 3, "Munchie Mart", menu, description,
+				R.drawable.morgan, true, true, false, "(615) 433-6785",
 				"http://www.vanderbilt.edu/dining/varsitymorgan.php");
 		varsityMorgan.create();
 	}
@@ -1077,9 +1076,9 @@ public class StaticRestaurantData {
 		String description = "This mini-market in Sarratt Student Center features grab-n-go items, snacks, beverages, sandwiches, salads, fresh fruits, plus a whole lot more. And Jr. Varsity Market is a VU Meal Plan location.";
 		
 		Restaurant varsitySarratt = new Restaurant(
-				"Jr. Varsity Market - Sarratt", rh, false, 3, 3, "onCampus",
+				"Jr. Varsity Market - Sarratt", rh, false, 3, 3, "Munchie Mart",
 				menu, description, R.drawable.jr, true, true, false,
-				"6154336785", "http://www.vanderbilt.edu/dining/jrvarsitymarket.php");
+				"(615) 433-6785", "http://www.vanderbilt.edu/dining/jrvarsitymarket.php");
 		varsitySarratt.create();
 	}
 
@@ -1131,8 +1130,8 @@ public class StaticRestaurantData {
 		String description = "A Market serving Kissam Quad, Hemingway Market is located inside Hemingway Hall.";
 		
 		Restaurant hemingwayMarket = new Restaurant("Hemingway Market", rh,
-				false, 3, 3, "onCampus", menu, description, R.drawable.hemingway,
-				true, true, false, "6154336785", "http://www.vanderbilt.edu/dining/hemingwaymarket.php");
+				false, 3, 3, "Munchie Mart", menu, description, R.drawable.hemingway,
+				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/hemingwaymarket.php");
 		hemingwayMarket.create();
 	}
 }

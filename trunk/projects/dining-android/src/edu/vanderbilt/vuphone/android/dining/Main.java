@@ -25,6 +25,7 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
+import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 
 public class Main extends ListActivity {
 	
@@ -56,14 +57,21 @@ public class Main extends ListActivity {
 		if (applicationContext == null)
 			applicationContext = getApplicationContext(); 
 
-		//deleteAllRestaurants();
+		deleteAllRestaurants();
 		//addRandomRestaurantsToDB(20);
+		if (Restaurant.getIDs().isEmpty()) {
+			(new StaticRestaurantData()).createAllRestaurants();
+		}
 		
+		Log.i("Main", "before initializing content view");
 		initializeContentView();
 		
-		ra = new RestaurantAdapter(this, RestaurantAdapter.SAMPLE_FAVORITE_TIMES);//SAMPLE_FAVORITE_OPEN_CLOSED);
+		Log.i("Main", "after initializing content view, now creating restaurant adapter");
+		ra = new RestaurantAdapter(this,RestaurantAdapter.SAMPLE_FAVORITE_TIMES);//SAMPLE_FAVORITE_OPEN_CLOSED);
+		Log.i("Main", "after initializing restaurant adapter");
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
+		Log.i("Main", "everything done");
 				
 	}
 
@@ -89,36 +97,61 @@ public class Main extends ListActivity {
 
 	/**This opens the dialog that allows the user to choose a new sorting option*/
 	protected Dialog onCreateDialog(int id) {
-		Dialog dialog;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		final CharSequence[] items = {"Favorites, Open", "Open/Close times", "Open",
-				 "Favorites", "Alphabetical" };
+//		final CharSequence[] items = {"Favorites, Open", "Open/Close times", "Open",
+//				 "Favorites", "Alphabetical" };
+//		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
+//		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);
+//		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_TIMES);
+//		itemsIDs.add(RestaurantAdapter.SAMPLE_OPEN_CLOSED);
+//		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE); 
+//		itemsIDs.add(RestaurantAdapter.SAMPLE_ALPHABETICAL);
+		
+		CharSequence[] items = {"Open", "Time until open or close", "Favorite"};
+		boolean[] checked = {ra.getSortAtLevel(0) == RestaurantAdapter.OPEN_CLOSED, 
+							ra.getSortAtLevel(1) == RestaurantAdapter.TIME_TO_CLOSE,
+							ra.getSortAtLevel(3) == RestaurantAdapter.FAVORITE};
+		
+		// this implementation is not very good and should be improved;
 		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
-		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);
-		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_TIMES);
-		itemsIDs.add(RestaurantAdapter.SAMPLE_OPEN_CLOSED);
-		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE); 
-		itemsIDs.add(RestaurantAdapter.SAMPLE_ALPHABETICAL);
-
-		builder.setSingleChoiceItems(items,
-				itemsIDs.indexOf(ra.getSortType()),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-
-						ra.setSort(itemsIDs.get(item));
-
-					}
-				});
+		itemsIDs.add(RestaurantAdapter.OPEN_CLOSED * RestaurantAdapter.LEVEL[0] +
+				RestaurantAdapter.SHOW_OPEN_PART);
+		itemsIDs.add(RestaurantAdapter.TIME_TO_CLOSE * RestaurantAdapter.LEVEL[1] +
+				(RestaurantAdapter.TIME_TO_OPEN + RestaurantAdapter.DESCENDING) * 
+				RestaurantAdapter.LEVEL[2]);
+		itemsIDs.add(RestaurantAdapter.SHOW_FAV_PART - RestaurantAdapter.SHOW_FAV_ICON + 
+				RestaurantAdapter.FAVORITE * RestaurantAdapter.LEVEL[3]);
+		
+		builder.setMultiChoiceItems(items, checked, 
+				new DialogInterface.OnMultiChoiceClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+				if (isChecked)
+					ra.setSort(ra.getSortType() + itemsIDs.get(which));
+				else 
+					ra.setSort(ra.getSortType() - itemsIDs.get(which));
+			}
+		});
+		
+				
+//		builder.setSingleChoiceItems(items,
+//				itemsIDs.indexOf(ra.getSortType()),
+//				new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int item) {
+//
+//						ra.setSort(itemsIDs.get(item));
+//
+//					}
+//				});
 
 		builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
 				dialog.cancel();
 			}
 		});
-		builder.setTitle("Choose sort method");
-		dialog = builder.create();
+		builder.setTitle("Sort by/Display Options");
 
-		return dialog;
+		return builder.create();
 	}
 
 	/** Creates list of actions for user when the menu button is clicked */
