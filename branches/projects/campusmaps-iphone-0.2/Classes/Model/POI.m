@@ -25,9 +25,21 @@
 
 @synthesize imageLoadingState;
 
+- (void)awakeFromInsert
+{
+	[super awakeFromInsert];
+	imageLoadingState = POIImageNotYetLoadingState;
+}
+
+- (void)awakeFromFetch
+{
+	[super awakeFromFetch];
+	imageLoadingState = POIImageNotYetLoadingState;
+}
+
+
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context {
 	NSSet *POIs = [context fetchObjectsForEntityName:ENTITY_NAME_POI withPredicateString:@"serverId = %@", anId];
-	
 	return [POIs anyObject];
 }
 
