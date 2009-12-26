@@ -10,24 +10,35 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define kCellWidth 300.0f
+#define kNoImageHeight 44.0f
 
 @implementation POIImageViewCell
 
 @synthesize poiImage;
 @synthesize backView;
-
+@synthesize imageLoadingState;
+@synthesize loadingIndicator;
+@synthesize statusLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        // Initialization code.
-		
 		// Note that poiImage cannot be initialized until we know what image
 		// we are passing it.
 		backView = [[UIView alloc] initWithFrame:CGRectZero];
-		backView.backgroundColor = [UIColor clearColor];
+		backView.backgroundColor = [UIColor clearColor];		
 		
-		self.backgroundView = backView;
+		imageLoadingState = POIImageIsLoadingState;
+
+		// Set up the loading indicator
+		loadingIndicator = [[UIActivityIndicatorView alloc]
+							initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+		CGRect frame = loadingIndicator.frame;
+		frame.origin.x = (self.frame.size.width - frame.size.width) / 2 + frame.size.width;
+		loadingIndicator.hidesWhenStopped = YES;
+		[loadingIndicator startAnimating];
     }
+	
     return self;
 }
 
@@ -39,9 +50,32 @@
     // Configure the view for the selected state
 }
 
+- (void)setImageLoadingState:(POIImageLoadingState)loadingState
+{
+	self.imageLoadingState = loadingState;
+	
+	switch (loadingState) {
+		case POIImageIsLoadingState:
+			self.statusLabel.text = @"loading image…";
+			[self.loadingIndicator startAnimating];
+			break;
+		case POIImageFailedToLoadState:
+			self.statusLabel.text = @"no image";
+			[self.loadingIndicator stopAnimating];
+			break;
+		case POIImageLoadedState:
+			self.statusLabel.text = nil;
+			[self.loadingIndicator stopAnimating];
+			// Image to be set separately
+			break;
+		default:
+			break;
+	}
+}
+
 // Initializes our poiImage to the image passed and sets up all the
 // properties for how we want it displayed.
--(void)setupImage:(UIImage *)image
+- (void)setupImage:(UIImage *)image
 {
 	poiImage = [[UIImageView alloc] initWithImage:image];
 	
@@ -56,6 +90,19 @@
 	[self addSubview:poiImage];
 }
 
+- (CGFloat)height
+{
+	switch (imageLoadingState)
+	{
+		case POIImageLoadedState:
+			return [self heightForImage:poiImage];
+
+		case POIImageIsLoadingState:
+		case POIImageFailedToLoadState:
+		default:
+			return kNoImageHeight;
+	}
+}
 
 - (CGFloat)heightForImage:(UIImageView *)image 
 {
@@ -73,7 +120,7 @@
 
 // Returns the offset needed to evenly space the image
 // horizontally.
--(CGFloat) offsetForImage:(UIImageView *) image
+- (CGFloat)offsetForImage:(UIImageView *)image
 {
 	return (((kCellWidth - [self widthForImage:image])/2.0f) + 10.0f);
 }
