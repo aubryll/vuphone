@@ -84,11 +84,11 @@
 }
 
 // Returns the image for this POI, whose URL is specified in the url property
-- (UIImage *)image {
+- (UIImage *)image 
+{
 	if (!_image && imageLoadingState != POIImageFailedToLoadState) {
-		[self loadImage];		
+		[self loadImage];
 	}
-	
 	return _image;
 }
 

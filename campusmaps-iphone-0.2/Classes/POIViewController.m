@@ -77,8 +77,18 @@
 	// Configure the cell.
 	switch (indexPath.section) {
 		case 0:	// Image
-			NSLog(@"loading image…");
-			[poiImageCell setupImage:[poi image]];
+			if (poi.imageLoadingState == POIImageNotYetLoadingState) {
+				
+				NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:tableView, @"tableView", 
+																					indexPath, @"indexPath", nil];
+				// spawn thread to load image.
+				[NSThread detachNewThreadSelector:@selector(loadImage) toTarget:self withObject:params];
+			} 
+			else if (poi.imageLoadingState == POIImageLoadedState) {
+				[poiImageCell setupImage:[poi image]];
+			} 
+			
+			poiImageCell.imageLoadingState = poi.imageLoadingState;
 			break;
 			
 		case 1: // Name
@@ -100,6 +110,17 @@
 	return cell;
 }
 
+
+// Spawn a new thread to load the image associated with selected POI.
+- (void)loadImage:(NSDictionary *)params
+{
+	// Load the image into POI.
+	[poi loadImage];
+	
+	// Refresh table view.
+	[[params objectForKey:@"tableView"] reloadRowsAtIndexPaths:[NSArray arrayWithObject:[params objectForKey:@"indexPath"]]
+																   withRowAnimation:UITableViewRowAnimationFade];
+}
 // Converts a CLLocationDistance to different units based on parameters.
 /*
 - (CLLocationDistance)convertDistance:(CLLocationDistance)distance toUnits:(units)newUnits
