@@ -21,18 +21,17 @@ enum {
 	POIImageLoadedState,
 	POIImageFailedToLoadState, 
 	POIImageNotYetLoadingState	
-}; typedef NSUInteger POIImageLoadingState;
+};
+typedef NSUInteger POIImageLoadingState;
+
 
 @class Layer;
 
-@interface POI :  NSManagedObject <MKAnnotation>
+@interface POI : NSManagedObject <MKAnnotation>
 {
 	UIImage *_image;
 	
-	
-	
 	POIImageLoadingState imageLoadingState;
-	
 }
 
 @property (nonatomic, retain) NSDecimalNumber * longitude;
