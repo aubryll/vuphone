@@ -16,10 +16,6 @@
 	UIImageView *poiImage;
 	UIActivityIndicatorView *loadingIndicator;
 	UILabel *statusLabel;
-	
-	// Background for the image to be displayed. We need
-	// this to be transparent.
-	UIView *backView;
 }
 
 - (void)setupImage:(UIImage *)image;
@@ -31,7 +27,6 @@
 - (CGFloat)offsetForImage:(UIImageView *)image;
 
 @property (retain) UIImageView *poiImage;
-@property (retain) UIView *backView;
 @property (assign, setter=setImageLoadingState) POIImageLoadingState imageLoadingState;
 @property (retain) UIActivityIndicatorView *loadingIndicator;
 @property (retain) UILabel *statusLabel;
