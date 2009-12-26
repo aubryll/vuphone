@@ -133,8 +133,8 @@
 	// Distance measured in meters. 
 	CLLocationDistance distance = [poiLocation getDistanceFrom:location];
 	
-	// Convert distance to miles.
-	distance = distance * 0.000621371192;
+	// Convert distance to miles or feet depending on location.
+	CLLocationDistance convertedDistance = [self convertDistance:distance];
 	
 	// Round off double to scale decimal places.
 	NSDecimalNumberHandler *mydnh = [[[NSDecimalNumberHandler alloc] initWithRoundingMode:NSRoundPlain 
@@ -143,10 +143,26 @@
 																		  raiseOnOverflow:NO 
 																		 raiseOnUnderflow:NO 
 																	  raiseOnDivideByZero:NO] autorelease];
-	NSDecimalNumber *myDecimal = [[[NSDecimalNumber alloc] initWithDouble:distance] autorelease];
+	NSDecimalNumber *myDecimal = [[[NSDecimalNumber alloc] initWithDouble:convertedDistance] autorelease];
 	NSDecimalNumber *result = [myDecimal decimalNumberByRoundingAccordingToBehavior:mydnh];
 	
-	return [NSString stringWithFormat:@"%@ miles", result];
+	// Return the result with the proper units appended to the string.
+	if (convertedDistance < distance) {
+		return [NSString stringWithFormat:@"%@ miles", result];
+	} else {
+		return [NSString stringWithFormat:@"%@ feet", result];
+	}
+}
+
+// Converts a CLLocationDistance to different units based on parameters.
+- (CLLocationDistance)convertDistance:(CLLocationDistance)distance
+{
+	// For now, we can assume the old units will always be meters.
+	if ((distance * METERS_TO_FEET) <= 900.0f) {
+		return (distance * METERS_TO_FEET);
+	} else {
+		return (distance * METERS_TO_MILES);
+	}
 }
 
 @end
