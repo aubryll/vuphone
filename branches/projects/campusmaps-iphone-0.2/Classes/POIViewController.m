@@ -86,7 +86,7 @@
 			break;
 			
 		case 2: // Distance			
-			[varCell setText:[self distanceToPOI]];
+			[varCell setText:[poi distanceFromLocation:[[LocationManagerSingleton sharedManager] lastKnownLocation]]];
 			break;
 			
 		case 3: // Details
@@ -98,34 +98,6 @@
 	}
 		
 	return cell;
-}
-
-// Returns the distance (in miles) formatted as a string.
-// TODO: handle mem mgmt in this method.
-- (NSString *)distanceToPOI
-{
-	CLLocation *curLocation = [[CLLocation alloc] init];
-	curLocation = [[LocationManagerSingleton sharedManager] lastKnownLocation];
-	CLLocation *poiLocation = [[CLLocation alloc] initWithLatitude:[poi.latitude doubleValue] 
-														 longitude:[poi.longitude doubleValue]];
-	
-	// Distance measured in meters. 
-	CLLocationDistance distance = [curLocation getDistanceFrom:poiLocation];
-	
-	// Convert distance to miles.
-	distance = distance * 0.000621371192;
-	
-	// Round off double to scale decimal places.
-	NSDecimalNumberHandler *mydnh = [[[NSDecimalNumberHandler alloc] initWithRoundingMode:NSRoundPlain 
-																					scale:2
-																		 raiseOnExactness:NO 
-																		  raiseOnOverflow:NO 
-																		 raiseOnUnderflow:NO 
-																	  raiseOnDivideByZero:NO] autorelease];
-	NSDecimalNumber *myDecimal = [[[NSDecimalNumber alloc] initWithDouble:distance] autorelease];
-	NSDecimalNumber *result = [myDecimal decimalNumberByRoundingAccordingToBehavior:mydnh];
-	
-	return [NSString stringWithFormat:@"%@ miles", result];
 }
 
 // Converts a CLLocationDistance to different units based on parameters.

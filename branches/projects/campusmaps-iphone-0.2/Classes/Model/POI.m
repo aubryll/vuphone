@@ -9,6 +9,7 @@
 #import "POI.h"
 #import "Layer.h"
 #import "NSManagedObjectContext-Convenience.h"
+#import "LocationManagerSingleton.h"
 #include <math.h>
 
 @implementation POI 
@@ -22,6 +23,7 @@
 @dynamic serverId;
 @dynamic url;
 
+@synthesize imageLoadingState;
 
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context {
 	NSSet *POIs = [context fetchObjectsForEntityName:ENTITY_NAME_POI withPredicateString:@"serverId = %@", anId];
@@ -71,13 +73,45 @@
 
 // Returns the image for this POI, whose URL is specified in the url property
 - (UIImage *)image {
-	if (!_image) {
+	if (!_image && imageLoadingState != POIImageFailedToLoadState) {
 		NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
+		imageLoadingState = POIImageIsLoadingState;
 		NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-		_image = [[UIImage alloc] initWithData:imageData];
+		if (imageData != nil) {
+			_image = [[UIImage alloc] initWithData:imageData];
+			imageLoadingState = POIImageLoadedState;	
+		} else {
+			_image = nil;
+			imageLoadingState = POIImageFailedToLoadState;
+		}
+		
 	}
 	
 	return _image;
+}
+
+// Returns the distance to the POI from the location specified...Formatted as a string.
+- (NSString *)distanceFromLocation:(CLLocation *)location
+{
+	CLLocation *poiLocation = [[[CLLocation alloc] initWithLatitude:[self.latitude doubleValue] 
+														  longitude:[self.longitude doubleValue]] autorelease];
+	// Distance measured in meters. 
+	CLLocationDistance distance = [poiLocation getDistanceFrom:location];
+	
+	// Convert distance to miles.
+	distance = distance * 0.000621371192;
+	
+	// Round off double to scale decimal places.
+	NSDecimalNumberHandler *mydnh = [[[NSDecimalNumberHandler alloc] initWithRoundingMode:NSRoundPlain 
+																					scale:2
+																		 raiseOnExactness:NO 
+																		  raiseOnOverflow:NO 
+																		 raiseOnUnderflow:NO 
+																	  raiseOnDivideByZero:NO] autorelease];
+	NSDecimalNumber *myDecimal = [[[NSDecimalNumber alloc] initWithDouble:distance] autorelease];
+	NSDecimalNumber *result = [myDecimal decimalNumberByRoundingAccordingToBehavior:mydnh];
+	
+	return [NSString stringWithFormat:@"%@ miles", result];
 }
 
 @end
