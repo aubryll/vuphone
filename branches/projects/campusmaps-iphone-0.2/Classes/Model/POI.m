@@ -28,13 +28,25 @@
 - (void)awakeFromInsert
 {
 	[super awakeFromInsert];
+	loadingLock = [[NSLock alloc] init];
 	imageLoadingState = POIImageNotYetLoadingState;
 }
 
 - (void)awakeFromFetch
 {
 	[super awakeFromFetch];
+	loadingLock = [[NSLock alloc] init];
 	imageLoadingState = POIImageNotYetLoadingState;
+}
+
+- (void)prepareForDeletion
+{
+	[loadingLock release];
+}
+
+- (void)willTurnIntoFault
+{
+	[loadingLock release];
 }
 
 
@@ -94,6 +106,7 @@
 
 - (void)loadImage
 {
+	NSLog(@"loadImage called, imageLoadingState = %i", imageLoadingState);
 	NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
 	imageLoadingState = POIImageIsLoadingState;
 	NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
@@ -104,6 +117,7 @@
 		_image = nil;
 		imageLoadingState = POIImageFailedToLoadState;
 	}
+	NSLog(@"imageLoadingState now = %i", imageLoadingState);
 }
 
 // Returns the distance to the POI from the location specified...Formatted as a string.

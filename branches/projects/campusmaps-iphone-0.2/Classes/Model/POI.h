@@ -32,6 +32,7 @@ typedef NSUInteger POIImageLoadingState;
 	UIImage *_image;
 	
 	POIImageLoadingState imageLoadingState;
+	NSLock *loadingLock;
 }
 
 @property (nonatomic, retain) NSDecimalNumber * longitude;
