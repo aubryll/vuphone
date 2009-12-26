@@ -131,7 +131,7 @@
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
-	annView.animatesDrop = YES;
+	annView.animatesDrop = NO;
 	annView.userInteractionEnabled = YES;
 	annView.canShowCallout = YES;
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];

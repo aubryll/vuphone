@@ -75,18 +75,20 @@
 	
 
 	// Configure the cell.
-	switch (indexPath.section) {
+	switch (indexPath.section)
+	{
 		case 0:	// Image
+			NSLog(@"Configuring image cell, imageLoadingState = %i", poi.imageLoadingState);
 			if (poi.imageLoadingState == POIImageNotYetLoadingState) {
 				
 				NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:tableView, @"tableView", 
 																					indexPath, @"indexPath", nil];
 				// spawn thread to load image.
 				[NSThread detachNewThreadSelector:@selector(loadImage:) toTarget:self withObject:params];
-			} 
+			}
 			else if (poi.imageLoadingState == POIImageLoadedState) {
 				[poiImageCell setupImage:[poi image]];
-			} 
+			}
 			
 			poiImageCell.imageLoadingState = poi.imageLoadingState;
 			break;
@@ -118,6 +120,7 @@
 	
 	// Load the image into POI.
 	[poi loadImage];
+	[NSThread sleepForTimeInterval:5.0f];
 	
 	// Refresh table view.
 	[self performSelectorOnMainThread:@selector(reloadTableView:) withObject:params waitUntilDone:YES];
@@ -177,7 +180,7 @@
 	UITableViewCell *cell = [self tableView:aTableView cellForRowAtIndexPath:indexPath];
 	switch (indexPath.section) {
 		case 0:
-			return [poi image].size.height;
+			return [(POIImageViewCell *)cell height];
 		case 1:
 		case 2:
 		case 3:

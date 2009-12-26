@@ -101,14 +101,17 @@
 	if (!_image && imageLoadingState != POIImageFailedToLoadState) {
 		[self loadImage];
 	}
+
 	return _image;
 }
 
 - (void)loadImage
 {
+	[loadingLock lock];
 	NSLog(@"loadImage called, imageLoadingState = %i", imageLoadingState);
-	NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
 	imageLoadingState = POIImageIsLoadingState;
+
+	NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
 	NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
 	if (imageData != nil) {
 		_image = [[UIImage alloc] initWithData:imageData];
@@ -117,7 +120,9 @@
 		_image = nil;
 		imageLoadingState = POIImageFailedToLoadState;
 	}
+	
 	NSLog(@"imageLoadingState now = %i", imageLoadingState);
+	[loadingLock unlock];
 }
 
 // Returns the distance to the POI from the location specified...Formatted as a string.
