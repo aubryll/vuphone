@@ -102,9 +102,12 @@
 			break;
 			
 		case 3: // Details
-			[varCell setText:poi.details];
+			if ([poi.details length] == 0) { 
+				[varCell setText:@"Details not available."]; 
+			} else {
+				[varCell setText:poi.details];
+			} 
 			break;
-		
 		default:
 			break;
 	}
@@ -133,34 +136,6 @@
 	[[params objectForKey:@"tableView"] reloadRowsAtIndexPaths:[NSArray arrayWithObject:[params objectForKey:@"indexPath"]]
 											  withRowAnimation:UITableViewRowAnimationFade];	
 }
-
-// Converts a CLLocationDistance to different units based on parameters.
-/*
-- (CLLocationDistance)convertDistance:(CLLocationDistance)distance toUnits:(units)newUnits
-{
-	// For now, we can assume the old units will always be meters.
-	// 1 meter =
-	//			3.2808399 feet
-	//			1.0936133 yards
-	//			.001 kilometers
-	//			0.000621371192 miles
-	
-	switch (newUnits) {
-		case FEET: 
-			return (distance*3.2808399);
-		case METERS:
-			return distance;
-		case YARDS: 
-			return (distance * 1.0936133);
-		case KILOMETERS:
-			return (distance * .001);
-		case MILES:
-			return (distance * .000621371192);
-		default:
-			break;
-	}
-}
- */
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section 
 {

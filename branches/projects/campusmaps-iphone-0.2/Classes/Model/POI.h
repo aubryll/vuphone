@@ -14,6 +14,9 @@
 #define CAMPUS_CENTER_LATITUDE 36.142
 #define CAMPUS_CENTER_LONGITUDE -86.8044
 
+#define METERS_TO_FEET 3.2808399
+#define METERS_TO_MILES 0.000621371192
+
 #define BASE_IMAGE_URL_STRING @"http://www.vanderbilt.edu/map/"
 
 enum {
@@ -24,13 +27,11 @@ enum {
 };
 typedef NSUInteger POIImageLoadingState;
 
-
 @class Layer;
 
 @interface POI : NSManagedObject <MKAnnotation>
 {
 	UIImage *_image;
-	
 	POIImageLoadingState imageLoadingState;
 	NSLock *loadingLock;
 }
@@ -51,7 +52,9 @@ typedef NSUInteger POIImageLoadingState;
 - (void)setEPSG900913CoordinatesLat:(double)x andLon:(double)y;
 - (UIImage *)image;
 - (void)loadImage;
+
 - (NSString *)distanceFromLocation:(CLLocation *)location;
+- (CLLocationDistance)convertDistance:(CLLocationDistance)distanceFromLocation;
 
 @end
 

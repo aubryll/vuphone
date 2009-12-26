@@ -14,10 +14,6 @@
 @interface POIViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	POI *poi;
 	CGFloat detailsTextHeight;
-
-	//typedef enum {
-	//	FEET, METERS, YARDS, KILOMETERS, MILES
-	//} units;
 	
 }
 
