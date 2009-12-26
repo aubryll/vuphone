@@ -49,6 +49,7 @@ typedef NSUInteger POIImageLoadingState;
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context;
 - (void)setEPSG900913CoordinatesLat:(double)x andLon:(double)y;
 - (UIImage *)image;
+- (void)loadImage;
 - (NSString *)distanceFromLocation:(CLLocation *)location;
 
 @end
