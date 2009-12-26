@@ -21,7 +21,7 @@ Saturday, 4-5PM (FGH 308)
 Add the prefix 'User can' to all of these stories!
 
 ==== For Beta Stories: ====
-  # See a complete *and correct* Building List 
+  # <img src='http://ni2.in/tb/.png'/> See a complete and correct Building List 
   # <img src='http://ni2.in/tb/.png'/> Center on self
   # See a polished (zoom in/out, center) bar, especially during landscape view
   # <img src='http://ni2.in/tb/.png'/> Launch Building Information Page
