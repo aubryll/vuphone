@@ -123,7 +123,9 @@
 	
 	// Load the image into POI.
 	[poi loadImage];
-	[NSThread sleepForTimeInterval:5.0f];
+
+	// To give yourself enough time to see the loading view for debugging, uncomment the following line
+//	[NSThread sleepForTimeInterval:5.0f];
 	
 	// Refresh table view.
 	[self performSelectorOnMainThread:@selector(reloadTableView:) withObject:params waitUntilDone:YES];
