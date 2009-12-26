@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define kCellWidth 300.0f
-#define kNoImageHeight 44.0f
+#define kNoImageHeight 86.0f
 
 @implementation POIImageViewCell
 
@@ -33,10 +33,23 @@
 		// Set up the loading indicator
 		loadingIndicator = [[UIActivityIndicatorView alloc]
 							initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-		CGRect frame = loadingIndicator.frame;
-		frame.origin.x = (self.frame.size.width - frame.size.width) / 2 + frame.size.width;
+		CGRect tempFrame = loadingIndicator.frame;
+		tempFrame.origin.x = (kCellWidth - tempFrame.size.width) / 2.0f;
+		tempFrame.origin.y = 6.0f;
+		loadingIndicator.frame = tempFrame;
 		loadingIndicator.hidesWhenStopped = YES;
 		[loadingIndicator startAnimating];
+		[self addSubview:loadingIndicator];
+		
+		// Set up the status label
+		tempFrame.origin.x = 10.0f;
+		tempFrame.origin.y += tempFrame.size.height;
+		tempFrame.size.width = kCellWidth;
+		statusLabel = [[UILabel alloc] initWithFrame:tempFrame];
+		statusLabel.textAlignment = UITextAlignmentCenter;
+		statusLabel.textColor = [UIColor lightGrayColor];
+		statusLabel.text = @"loading image…";
+		[self addSubview:statusLabel];
     }
 	
     return self;
@@ -52,7 +65,7 @@
 
 - (void)setImageLoadingState:(POIImageLoadingState)loadingState
 {
-	self.imageLoadingState = loadingState;
+	imageLoadingState = loadingState;
 	
 	switch (loadingState) {
 		case POIImageIsLoadingState:
@@ -106,7 +119,7 @@
 
 - (CGFloat)heightForImage:(UIImageView *)image 
 {
-	return image.frame.size.height;
+	return image.frame.size.height ;
 }
 
 - (CGFloat)widthForImage:(UIImageView *)image

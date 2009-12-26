@@ -15,6 +15,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	MapViewController *mapVC = (MapViewController *)self.navigationController.visibleViewController;
+	mapVC.managedObjectContext = [self managedObjectContext[;
+/*	
 	//shifted the center of the base view up 10 pixels
 	
 	self.view.center = CGPointMake(160.0, 230.0);
@@ -22,7 +25,7 @@
 	mapViewController.managedObjectContext = [self managedObjectContext];
 	
 	[self.view addSubview:mapViewController.view];
-}
+*/}
 
 
 /*

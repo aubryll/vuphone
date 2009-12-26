@@ -17,10 +17,10 @@
 #define BASE_IMAGE_URL_STRING @"http://www.vanderbilt.edu/map/"
 
 enum {
-	POIImageIsLoadingState, 
-	POIImageLoadedState,
-	POIImageFailedToLoadState, 
-	POIImageNotYetLoadingState	
+	POIImageIsLoadingState = 2,
+	POIImageLoadedState = 3,
+	POIImageFailedToLoadState = 4,
+	POIImageNotYetLoadingState = 5
 };
 typedef NSUInteger POIImageLoadingState;
 
