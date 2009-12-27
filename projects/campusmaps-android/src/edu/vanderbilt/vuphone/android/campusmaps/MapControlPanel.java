@@ -26,12 +26,12 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 /*
  * This class provides an overlay panel to control the MapView
  */
-public class MapControlPanel extends LinearLayout {
+public class MapControlPanel extends RelativeLayout {
 	private Paint innerPaint, borderPaint;
 
 	/*
