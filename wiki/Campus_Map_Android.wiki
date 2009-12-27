@@ -23,7 +23,7 @@ Add the prefix 'User can' to all of these stories!
 ==== For Beta Stories: ====
   # <img src='http://ni2.in/tb/.png'/> See a complete and correct Building List 
   # <img src='http://ni2.in/tb/.png'/> Center on self
-  # See a polished (zoom in/out, center) bar, especially during landscape view
+  # <img src='http://ni2.in/tb/.png'/> See a polished (zoom in/out, center) bar, especially during landscape view
   # <img src='http://ni2.in/tb/.png'/> Launch Building Information Page
   # <img src='http://ni2.in/tb/.png'/> Not see predictive text on building list filter.
 
