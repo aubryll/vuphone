@@ -22,13 +22,14 @@
 			<ImageButton android:id="@+id/button_center_gps"
 				android:layout_height="34px" android:layout_width="36px" />
 
-			<ImageButton android:id="@+id/button_zoom_out"
-				android:layout_marginLeft="50px"
-				android:layout_height="wrap_content" android:layout_width="80px" />
+			<LinearLayout android:gravity="center"
+				android:layout_width="fill_parent" android:layout_height="wrap_content">
+				<ImageButton android:id="@+id/button_zoom_out"
+					android:layout_height="wrap_content" android:layout_width="80px" />
 
-			<ImageButton android:id="@+id/button_zoom_in"
-				android:layout_height="wrap_content" android:layout_width="80px" />
-
+				<ImageButton android:id="@+id/button_zoom_in"
+					android:layout_height="wrap_content" android:layout_width="80px" />
+			</LinearLayout>
 		</edu.vanderbilt.vuphone.android.campusmaps.MapControlPanel>
 	</LinearLayout>
 </RelativeLayout>
