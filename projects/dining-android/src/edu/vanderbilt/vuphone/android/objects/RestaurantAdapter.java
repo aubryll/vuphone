@@ -199,6 +199,24 @@ public class RestaurantAdapter extends BaseAdapter {
 		return 2;
 	}
 	
+	public void setSort(boolean open, boolean timeUntil, boolean favorite) {
+		currentSortType = UNSORTED;
+		if (open) {
+			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.OPEN_CLOSED);
+			currentSortType += SHOW_OPEN_PART;
+		}
+		if (timeUntil) {
+			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.TIME_TO_CLOSE);
+			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.TIME_TO_OPEN);
+		}
+		if (favorite) {
+			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.FAVORITE);
+			currentSortType += HEADER_FAVORITE_HIGHEST;
+		} else currentSortType += HEADER_FAVORITE_NOT_HIGHEST;
+		
+		setSort();
+	}
+	
 	/**
 	 * Sets sort method for list and sorts
 	 * @param sortType 
@@ -208,7 +226,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		
 		if (sortType == currentSortType)
 			return;
-		Log.i("RA", "setSort()");
 		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
 		
@@ -221,7 +238,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		
 		for(int level = 0; level < LEVEL.length; level++) {
 			int sort = getSortAtLevel(level);
-			Log.i("RA", String.valueOf(sort));
 			switch (sort & 0x7) {
 			case FAVORITE:
 			case OPEN_CLOSED: 
@@ -348,12 +364,14 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * 	the index of an unused level on top of all others
 	 */
 	public int getNextUnusedLevel() {
-		for (int level = LEVEL.length-1; level >=0; level--) {
-			if ((currentSortType & (LEVEL[level] * 0xF)) != UNSORTED)
+		Log.i("RA", "getNextUnusedLevel currentSortType = " + Integer.toHexString(currentSortType));
+		for (int level = LEVEL.length-1; level >=0; level--) 
+			if (getSortAtLevel(level) != UNSORTED)
 				if (level + 1 < LEVEL.length)
 					return level + 1;
 				else break;
-		}
+		if (getSortAtLevel(0) == UNSORTED)
+			return 0;
 		if (compactLevels())
 			return getNextUnusedLevel();
 		return -1;
@@ -368,6 +386,9 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * class constant level sort to set
 	 */
 	public void setSortAtLevel(int level, int sort) {
+		Log.i("RA setSortAtLevel", "level=" + level +", sort=" +sort);
+		if (level>=LEVEL.length || level<0)
+			throw new RuntimeException("level bad: " + level);
 		currentSortType = currentSortType & ~(LEVEL[level] * 0xF);
 		currentSortType = currentSortType | (LEVEL[level] * sort);
 	}

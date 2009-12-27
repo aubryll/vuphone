@@ -45,6 +45,8 @@ public class Main extends ListActivity {
 	private int mode;
 	private View doneButton;
 	private View cancelButton;
+	
+	boolean [] checked;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,7 +59,7 @@ public class Main extends ListActivity {
 		if (applicationContext == null)
 			applicationContext = getApplicationContext(); 
 
-		deleteAllRestaurants();
+		//deleteAllRestaurants();
 		//addRandomRestaurantsToDB(20);
 		if (Restaurant.getIDs().isEmpty()) {
 			(new StaticRestaurantData()).createAllRestaurants();
@@ -67,7 +69,8 @@ public class Main extends ListActivity {
 		initializeContentView();
 		
 		Log.i("Main", "after initializing content view, now creating restaurant adapter");
-		ra = new RestaurantAdapter(this,RestaurantAdapter.SAMPLE_FAVORITE_TIMES);//SAMPLE_FAVORITE_OPEN_CLOSED);
+		ra = new RestaurantAdapter(this,RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);//SAMPLE_FAVORITE_OPEN_CLOSED);
+		checked = new boolean[] {true, false, true};
 		Log.i("Main", "after initializing restaurant adapter");
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
@@ -108,28 +111,32 @@ public class Main extends ListActivity {
 //		itemsIDs.add(RestaurantAdapter.SAMPLE_ALPHABETICAL);
 		
 		CharSequence[] items = {"Open", "Time until open or close", "Favorite"};
-		boolean[] checked = {ra.getSortAtLevel(0) == RestaurantAdapter.OPEN_CLOSED, 
-							ra.getSortAtLevel(1) == RestaurantAdapter.TIME_TO_CLOSE,
-							ra.getSortAtLevel(3) == RestaurantAdapter.FAVORITE};
 		
 		// this implementation is not very good and should be improved;
-		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
-		itemsIDs.add(RestaurantAdapter.OPEN_CLOSED * RestaurantAdapter.LEVEL[0] +
-				RestaurantAdapter.SHOW_OPEN_PART);
-		itemsIDs.add(RestaurantAdapter.TIME_TO_CLOSE * RestaurantAdapter.LEVEL[1] +
-				(RestaurantAdapter.TIME_TO_OPEN + RestaurantAdapter.DESCENDING) * 
-				RestaurantAdapter.LEVEL[2]);
-		itemsIDs.add(RestaurantAdapter.SHOW_FAV_PART - RestaurantAdapter.SHOW_FAV_ICON + 
-				RestaurantAdapter.FAVORITE * RestaurantAdapter.LEVEL[3]);
+//		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
+//		itemsIDs.add(RestaurantAdapter.OPEN_CLOSED * RestaurantAdapter.LEVEL[0] +
+//				RestaurantAdapter.SHOW_OPEN_PART);
+//		itemsIDs.add(RestaurantAdapter.TIME_TO_CLOSE * RestaurantAdapter.LEVEL[1] +
+//				(RestaurantAdapter.TIME_TO_OPEN + RestaurantAdapter.DESCENDING) * 
+//				RestaurantAdapter.LEVEL[2]);
+//		itemsIDs.add(RestaurantAdapter.SHOW_FAV_PART - RestaurantAdapter.SHOW_FAV_ICON + 
+//				RestaurantAdapter.FAVORITE * RestaurantAdapter.LEVEL[3]);
 		
-		builder.setMultiChoiceItems(items, checked, 
+		builder.setMultiChoiceItems(items, checked,
 				new DialogInterface.OnMultiChoiceClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-				if (isChecked)
-					ra.setSort(ra.getSortType() + itemsIDs.get(which));
-				else 
-					ra.setSort(ra.getSortType() - itemsIDs.get(which));
+				if (which == 0 && !isChecked && checked[1])
+					onClick(dialog, 1, false); // currently doesnt work for some reason...
+				if (which == 1 && isChecked && !checked[0])
+					onClick(dialog, 0, true);
+					
+					
+				checked[which] = isChecked;
+//				if (isChecked)
+//					ra.setSort(ra.getSortType() + itemsIDs.get(which));
+//				else 
+//					ra.setSort(ra.getSortType() - itemsIDs.get(which));
 			}
 		});
 		
@@ -146,10 +153,11 @@ public class Main extends ListActivity {
 
 		builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
-				dialog.cancel();
+				ra.setSort(checked[0], checked[1], checked[2]);
+				dialog.dismiss();
 			}
 		});
-		builder.setTitle("Sort by/Display Options");
+		builder.setTitle("Sort by");
 
 		return builder.create();
 	}

@@ -3,6 +3,7 @@ package edu.vanderbilt.vuphone.android.storage;
 import java.util.Calendar;
 import java.util.Random;
 
+import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
@@ -111,7 +112,7 @@ public class StaticRestaurantData {
 
 		String description = "Rand Dining Center is the focal point of the campus community. Its central location, great food, and comfortable atmosphere provide students, faculty, and staff an opportunity to gather, socialize, and interact. Rand retail offers a varity of foods such as baked goods, made-for-you or build-your own salads, and regional favorites like Mediterranean and Asian foods.";
 
-		Restaurant rand = new Restaurant("Rand Dining Center", rh, false, 3, 3,
+		Restaurant rand = new Restaurant("Rand Dining Center", rh, true, 3, 3,
 				"Cafeteria", menu, description, R.drawable.rand, true, true,
 				false, "(615) 322-2999",
 				"http://www.vanderbilt.edu/dining/rest_rand.php");
@@ -164,7 +165,7 @@ public class StaticRestaurantData {
 		String description = "The Commons Center is the dining facility and community square of The Commons. The state-of-the-art dining facility includes a salad bar with sizzle station, Chef�s Table, specialty pizza oven, deli, wok, grill, and vegan/vegetarian food.";
 		
 		Restaurant commonsFood = new Restaurant("The Commons Food Gallery", rh,
-				false, 3, 3, "Cafeteria", menu, description, R.drawable.commons,
+				true, 3, 3, "Cafeteria", menu, description, R.drawable.commons,
 				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/rest_commons.php");
 		commonsFood.create();
 	}
@@ -218,6 +219,7 @@ public class StaticRestaurantData {
 				false, 3, 3, "Munchie Mart", menu, description, R.drawable.commongrounds,
 				true, true, false, "(615) 433-6785", "http://www.vanderbilt.edu/dining/commongrounds.php");
 		commonGrounds.create();
+		
 	}
 
 	private void chefJamesData() {

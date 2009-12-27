@@ -121,6 +121,10 @@ public class Range {
 		return _start.toString() + " - " + _end.toString();
 	}
 	
+	public String toString(boolean display24) {
+		return _start.toString(display24) + " - " + _end.toString(display24);
+	}
+	
 	// true if both _start and _end are not null
 	public boolean notNull() {
 		return !(_start == null || _end == null);
