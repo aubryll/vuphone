@@ -94,33 +94,13 @@ public class Main extends ListActivity {
 		case MARK_FAVS:
 			Restaurant.setFavorite(id, !Restaurant.favorite(id));
 			ra.notifyDataSetChanged();
-			//getListView().recomputeViewAttributes(v); // TODO examin this
 		}
 	}
 
 	/**This opens the dialog that allows the user to choose a new sorting option*/
 	protected Dialog onCreateDialog(int id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//		final CharSequence[] items = {"Favorites, Open", "Open/Close times", "Open",
-//				 "Favorites", "Alphabetical" };
-//		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
-//		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);
-//		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE_TIMES);
-//		itemsIDs.add(RestaurantAdapter.SAMPLE_OPEN_CLOSED);
-//		itemsIDs.add(RestaurantAdapter.SAMPLE_FAVORITE); 
-//		itemsIDs.add(RestaurantAdapter.SAMPLE_ALPHABETICAL);
-		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);		
 		CharSequence[] items = {"Open", "Time until open or close", "Favorite"};
-		
-		// this implementation is not very good and should be improved;
-//		final ArrayList<Integer> itemsIDs = new ArrayList<Integer>();
-//		itemsIDs.add(RestaurantAdapter.OPEN_CLOSED * RestaurantAdapter.LEVEL[0] +
-//				RestaurantAdapter.SHOW_OPEN_PART);
-//		itemsIDs.add(RestaurantAdapter.TIME_TO_CLOSE * RestaurantAdapter.LEVEL[1] +
-//				(RestaurantAdapter.TIME_TO_OPEN + RestaurantAdapter.DESCENDING) * 
-//				RestaurantAdapter.LEVEL[2]);
-//		itemsIDs.add(RestaurantAdapter.SHOW_FAV_PART - RestaurantAdapter.SHOW_FAV_ICON + 
-//				RestaurantAdapter.FAVORITE * RestaurantAdapter.LEVEL[3]);
 		
 		builder.setMultiChoiceItems(items, checked,
 				new DialogInterface.OnMultiChoiceClickListener() {
@@ -133,23 +113,9 @@ public class Main extends ListActivity {
 					
 					
 				checked[which] = isChecked;
-//				if (isChecked)
-//					ra.setSort(ra.getSortType() + itemsIDs.get(which));
-//				else 
-//					ra.setSort(ra.getSortType() - itemsIDs.get(which));
 			}
 		});
 		
-				
-//		builder.setSingleChoiceItems(items,
-//				itemsIDs.indexOf(ra.getSortType()),
-//				new DialogInterface.OnClickListener() {
-//					public void onClick(DialogInterface dialog, int item) {
-//
-//						ra.setSort(itemsIDs.get(item));
-//
-//					}
-//				});
 
 		builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
@@ -233,15 +199,7 @@ public class Main extends ListActivity {
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW
 	
 	
-	private void deleteAllRestaurants() {/*
-		Log.i("test", "opening writable database.");
-		DBAdapter adapt = new DBAdapter(this);
-		adapt.openWritable();
-		ArrayList<Long> ids = Restaurant.getIDs();
-		Log.i("test", "deleting database contents");
-		for (int i = 0; i<ids.size(); i++)
-			adapt.deleteRestaurant(ids.get(i));
-		adapt.close();*/
+	private void deleteAllRestaurants() {
 		ArrayList<Long> ids = Restaurant.copyIDs();
 		for (int i = 0; i < ids.size(); i++)
 			Restaurant.delete(ids.get(i));

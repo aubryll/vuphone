@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
+
 
 
 /**
@@ -97,6 +99,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	private boolean displayFav;
 	private boolean grayClosed; // currently always true
 	
+	
 	private int currentSortType;
 	
 	// TODO: Implement partition 
@@ -120,7 +123,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	public Object getItem(int i) {
 		Log.i("RA getItem", "getItem()");
 		if (getItemId(i)>0)
-			return Restaurant.get(getItemId(i));
+			return Restaurant.get(getItemId(i)); 
 		else return getItemId(i);
 	}
 	
@@ -164,11 +167,17 @@ public class RestaurantAdapter extends BaseAdapter {
 			
 			 return convertView;
 		} else {
-			TextView partition = new TextView(_context);
-			partition.setGravity(Gravity.CENTER);
-			partition.setFocusable(false);
-			partition.setClickable(false);
-			partition.setTextSize((float) 22.0);
+			TextView partition;
+			if (convertView == null) {
+				partition = new TextView(_context);
+				partition.setBackgroundResource(android.R.drawable.dark_header);
+				partition.setGravity(Gravity.CENTER_VERTICAL);
+				partition.setFocusable(false);
+				partition.setClickable(false);
+				partition.setTextSize((float) 14.0);
+				partition.setTypeface(Typeface.DEFAULT_BOLD);
+				Log.i("RA", "made new partition");
+			} else partition = (TextView)convertView;
 			switch ((int)rID) { 
 			case (int)FAVORITE_PARTITION:
 				partition.setText("Favorites");
@@ -185,7 +194,6 @@ public class RestaurantAdapter extends BaseAdapter {
 			return partition;
 			
 		}
-		
 	}
 	
 	private static final int RESTAURANT = 1;
@@ -198,6 +206,22 @@ public class RestaurantAdapter extends BaseAdapter {
 	public int getViewTypeCount() {
 		return 2;
 	}
+	
+	@Override
+	public boolean hasStableIds() {
+		return true;
+	}
+	
+	@Override 
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+	
+	@Override
+	public boolean isEnabled(int i) {
+		return getItemViewType(i) != PARTITION;
+	}
+	
 	
 	public void setSort(boolean open, boolean timeUntil, boolean favorite) {
 		currentSortType = UNSORTED;
@@ -321,6 +345,8 @@ public class RestaurantAdapter extends BaseAdapter {
 	public boolean getShowFavIconSortMethod() {
 		return (currentSortType & SHOW_FAV_ICON) > 0;
 	}
+	
+	
 	
 	public void setGrayClosed(boolean gray) {
 		grayClosed = gray;
