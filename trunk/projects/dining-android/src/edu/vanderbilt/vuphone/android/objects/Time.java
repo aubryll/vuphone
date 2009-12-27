@@ -18,21 +18,18 @@ public class Time {
 	// minute in range 0-59
 	private int minute;
 	
-	// string output setting
-	private boolean display24;
-	
 	
 	
 	
 	// constructors based on setTime methods defined below, and sets display
 	// mode to 12 hour format, default constructor sets to the current time
 	public Time() 				{Calendar now = new GregorianCalendar();
-								 setTime(now);		display24=false;}
-	public Time(int hr,int min) {setTime(hr,min);	display24=false;}
-	public Time(int hr) 		{setTime(hr);		display24=false;}
-	public Time(String time)	{setTime(time);		display24=false;}
-	public Time(Time time)		{setTime(time);		display24=false;}
-	public Time(Calendar c) 	{setTime(c);		display24=false;}
+								 setTime(now);}
+	public Time(int hr,int min) {setTime(hr,min);}
+	public Time(int hr) 		{setTime(hr);}
+	public Time(String time)	{setTime(time);}
+	public Time(Time time)		{setTime(time);}
+	public Time(Calendar c) 	{setTime(c);}
 	
 	
 	
@@ -100,12 +97,6 @@ public class Time {
 	// returns minute
 	public int getMinute() 			{return minute;}
 	
-	// sets display mode to 24 hour time
-	public void setMilitaryTime() 	{display24=true;}
-	
-	// sets display mode to 12 hour time
-	public void setCivilianTime() 	{display24=false;}
-	
 	// changes time to having elapsed 1 hour
 	public void incrementHour() {
 		hour = (hour+1)%24;
@@ -147,6 +138,13 @@ public class Time {
 	
 	// returns a string representation of the contained time in set or default format (12 or 24 hour time);
 	public String toString() {		
+		int hr = (getHour() + 12 - 1)%12 + 1; 	// turns hour to 12 hour format (the + 12 simply 
+												// makes the modulus operator behave as it is 
+												// mathematically defined)
+		return (hr + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())) + " " + (getHour()>=12 ? "pm" : "am"));
+	}
+		
+	public String toString(boolean display24) {
 		if (display24) {
 			return ((getHour()<10 ? "0":"") + getHour() + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())));
 		} else {

@@ -193,6 +193,10 @@ public class RestaurantHours {
 	}
 	
 	public String toString() {
+		return toString(false);
+	}
+	
+	public String toString(boolean display24) {
 		StringBuilder out = new StringBuilder();
 		for (int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
 			ArrayList<Range> ranges = getRangesToModify(i);
@@ -220,7 +224,7 @@ public class RestaurantHours {
 				break;
 			}
 			for (int j = 0; j < ranges.size(); j++) {
-				out.append(ranges.get(j).toString()).append(" ");
+				out.append(ranges.get(j).toString(display24)).append(" ");
 			}
 			out.append("\n");
 		}
@@ -239,7 +243,7 @@ public class RestaurantHours {
 				out += (long)day.get(i).getStart().getHour() << 22*i + 1;
 				out += (long)day.get(i).getStart().getMinute() << 22*i + 6;
 				out += (long)day.get(i).getEnd().getHour() << 22*i + 12;
-				out += (long)day.get(i).getStart().getMinute() << 22*i + 17;
+				out += (long)day.get(i).getEnd().getMinute() << 22*i + 17;
 			}
 			return out;
 		case 3:
