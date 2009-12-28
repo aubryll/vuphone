@@ -37,6 +37,8 @@ public class Main extends ListActivity {
 	/** The case in menu to change sorting method */
 	private static final int MENU_ITEM_CHOOSE_SORTING = 2;
 	/** The custom adapter used to create the list */
+	private static final int MENU_ITEM_VIEW_SETTINGS = 3;
+	/** The custom adapter used to view settings */
 	private RestaurantAdapter ra;
 
 	private static final int NORMAL = 0;
@@ -143,8 +145,7 @@ public class Main extends ListActivity {
 						getResources().getDrawable(
 								android.R.drawable.ic_menu_agenda));
 		//TODO Settings menu button needs an action added to it when clicked.
-		//Currently it's using the sort action which is not what it needs to do
-		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Settings")
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_SETTINGS, Menu.NONE, "Settings")
 				.setIcon(
 						getResources().getDrawable(
 								android.R.drawable.ic_menu_preferences));
