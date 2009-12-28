@@ -28,10 +28,9 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 
 public class Main extends ListActivity {
-	
-	
+
 	public static Context applicationContext;
-	/**The first case in the menu*/
+	/** The first case in the menu */
 	private static final int MENU_ITEM_VIEW_MAP = 0;
 	/** The second case in the menu */
 	private static final int MENU_ITEM_MARK_FAVS = 1;
@@ -39,14 +38,14 @@ public class Main extends ListActivity {
 	private static final int MENU_ITEM_CHOOSE_SORTING = 2;
 	/** The custom adapter used to create the list */
 	private RestaurantAdapter ra;
-	
+
 	private static final int NORMAL = 0;
 	private static final int MARK_FAVS = 1;
 	private int mode;
 	private View doneButton;
 	private View cancelButton;
-	
-	boolean [] checked;
+
+	boolean[] checked;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -57,30 +56,33 @@ public class Main extends ListActivity {
 		// but DBWrapper needs Main.mainContext for its
 		// calls to DBAdapter
 		if (applicationContext == null)
-			applicationContext = getApplicationContext(); 
+			applicationContext = getApplicationContext();
 
-		//deleteAllRestaurants();
-		//addRandomRestaurantsToDB(20);
+		// deleteAllRestaurants();
+		// addRandomRestaurantsToDB(20);
 		if (Restaurant.getIDs().isEmpty()) {
 			(new StaticRestaurantData()).createAllRestaurants();
 		}
-		
+
 		Log.i("Main", "before initializing content view");
 		initializeContentView();
-		
-		Log.i("Main", "after initializing content view, now creating restaurant adapter");
-		ra = new RestaurantAdapter(this,RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);//SAMPLE_FAVORITE_OPEN_CLOSED);
-		checked = new boolean[] {true, false, true};
+
+		Log
+				.i("Main",
+						"after initializing content view, now creating restaurant adapter");
+		ra = new RestaurantAdapter(this,
+				RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);// SAMPLE_FAVORITE_OPEN_CLOSED);
+		checked = new boolean[] { true, false, true };
 		Log.i("Main", "after initializing restaurant adapter");
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
 		Log.i("Main", "everything done");
-				
+
 	}
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		if (id<0)   // if user clicked on a partition
+		if (id < 0) // if user clicked on a partition
 			return;
 		Log.i("dining", "position " + position + " was clicked");
 		switch (mode) {
@@ -88,7 +90,7 @@ public class Main extends ListActivity {
 			// starts restaurant details page and sends index of restaurant
 			Intent toDetails = new Intent(this, RestaurantDetails.class);
 			toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, id);
-			
+
 			startActivity(toDetails);
 			break;
 		case MARK_FAVS:
@@ -97,25 +99,26 @@ public class Main extends ListActivity {
 		}
 	}
 
-	/**This opens the dialog that allows the user to choose a new sorting option*/
+	/**
+	 * This opens the dialog that allows the user to choose a new sorting option
+	 */
 	protected Dialog onCreateDialog(int id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);		
-		CharSequence[] items = {"Open", "Time until open or close", "Favorite"};
-		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		CharSequence[] items = { "Open", "Time until open or close", "Favorite" };
+
 		builder.setMultiChoiceItems(items, checked,
 				new DialogInterface.OnMultiChoiceClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-				if (which == 0 && !isChecked && checked[1])
-					onClick(dialog, 1, false); // currently doesnt work for some reason...
-				if (which == 1 && isChecked && !checked[0])
-					onClick(dialog, 0, true);
-					
-					
-				checked[which] = isChecked;
-			}
-		});
-		
+					public void onClick(DialogInterface dialog, int which,
+							boolean isChecked) {
+						if (which == 0 && !isChecked && checked[1])
+							onClick(dialog, 1, false); // currently doesnt work
+														// for some reason...
+						if (which == 1 && isChecked && !checked[0])
+							onClick(dialog, 0, true);
+
+						checked[which] = isChecked;
+					}
+				});
 
 		builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
@@ -129,10 +132,22 @@ public class Main extends ListActivity {
 	}
 
 	/** Creates list of actions for user when the menu button is clicked */
-	public boolean onCreateOptionsMenu(Menu menu) { 
-		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map");
-		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark Favorites");
-		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Sort");
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map").setIcon(
+				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
+		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark Favorites").setIcon(
+						getResources().getDrawable(
+								R.drawable.ic_menu_star));
+		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Sort")
+				.setIcon(
+						getResources().getDrawable(
+								android.R.drawable.ic_menu_agenda));
+		//TODO Settings menu button needs an action added to it when clicked.
+		//Currently it's using the sort action which is not what it needs to do
+		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Settings")
+				.setIcon(
+						getResources().getDrawable(
+								android.R.drawable.ic_menu_preferences));
 		return true;
 	}
 
@@ -153,8 +168,8 @@ public class Main extends ListActivity {
 		default:
 			return false;
 		}
-	}	
-	
+	}
+
 	private OnClickListener doneListener = new OnClickListener() {
 
 		public void onClick(View v) {
@@ -171,7 +186,7 @@ public class Main extends ListActivity {
 			setModeNormal();
 		}
 	};
-	
+
 	private void initializeContentView() {
 		setContentView(R.layout.main);
 		doneButton = findViewById(R.mark_favs.done);
@@ -180,14 +195,14 @@ public class Main extends ListActivity {
 		((Button) cancelButton).setOnClickListener(cancelListener);
 		mode = NORMAL;
 	}
-	
+
 	private void setModeNormal() {
 		mode = NORMAL;
 		doneButton.setVisibility(View.GONE);
 		cancelButton.setVisibility(View.GONE);
 		ra.setSort();
 	}
-	
+
 	private void setModeMarkFavs() {
 		mode = MARK_FAVS;
 		doneButton.setVisibility(View.VISIBLE);
@@ -195,10 +210,8 @@ public class Main extends ListActivity {
 		ra.setShowFavIcon(true);
 	}
 
-	
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW
-	
-	
+
 	private void deleteAllRestaurants() {
 		ArrayList<Long> ids = Restaurant.copyIDs();
 		for (int i = 0; i < ids.size(); i++)
@@ -206,9 +219,9 @@ public class Main extends ListActivity {
 	}
 
 	private void addRandomRestaurantsToDB(int numRest) {
-		String []letters = {"a", "b", "c", "d", "e", "f", "g", "h", 
-				"i","k", "l", "m", "n","o","p","q","r",
-				"s","t","u","v","w","x","y","z"};
+		String[] letters = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "k",
+				"l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
+				"x", "y", "z" };
 		int maxRanges = 2;
 		int maxMenuItems = 10;
 		int hourOffset = 5;
@@ -219,11 +232,10 @@ public class Main extends ListActivity {
 			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
 				int ranges = r.nextInt(maxRanges) + 1;
 				for (int k = 0; k < ranges; k++) {
-					Time start = new Time((r.nextInt(12 / ranges) + k * 24/ranges + hourOffset) % 24, r
-							.nextInt(59));
-					Time stop = new Time(
-							((r.nextInt(12) + 12) / ranges + k * 24/ranges + hourOffset) % 24, r
-									.nextInt(59));
+					Time start = new Time((r.nextInt(12 / ranges) + k * 24
+							/ ranges + hourOffset) % 24, r.nextInt(59));
+					Time stop = new Time(((r.nextInt(12) + 12) / ranges + k
+							* 24 / ranges + hourOffset) % 24, r.nextInt(59));
 					rh.addRange(day, new Range(start, stop));
 				}
 			}
@@ -231,17 +243,21 @@ public class Main extends ListActivity {
 			int items = r.nextInt(maxMenuItems);
 			for (int k = 0; k < items; k++) {
 				String name = new String();
-				for (int j = 0; j<14; j++)
+				for (int j = 0; j < 14; j++)
 					name = name + letters[r.nextInt(letters.length)];
-				menu.addItem(new RestaurantMenu.MenuItem(name, "A wonderful blend of nothing and everything to make something"));
+				menu
+						.addItem(new RestaurantMenu.MenuItem(name,
+								"A wonderful blend of nothing and everything to make something"));
 			}
 			String name = new String();
-			for (int j = 0; j<7; j++)
+			for (int j = 0; j < 7; j++)
 				name = name + letters[r.nextInt(letters.length)];
-			Restaurant restaurant = new Restaurant(name + " " + i, rh, r.nextBoolean() && r.nextBoolean(), r.nextInt(), r
-					.nextInt(), "cafe", menu, 
-					"Known for its fine cuisine, this is the restaurant Restaurant " + name + " " + i, R.drawable.dining, true,
-					 false, false, "(615) 555-1234", "http://example.com");
+			Restaurant restaurant = new Restaurant(name + " " + i, rh, r
+					.nextBoolean()
+					&& r.nextBoolean(), r.nextInt(), r.nextInt(), "cafe", menu,
+					"Known for its fine cuisine, this is the restaurant Restaurant "
+							+ name + " " + i, R.drawable.dining, true, false,
+					false, "(615) 555-1234", "http://example.com");
 			restaurant.create();
 		}
 	}
