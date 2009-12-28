@@ -82,7 +82,7 @@ public class Building implements Comparable<Building> {
 	}
 
 	public void setImageURL(String url) {
-		url_ = R.string.building_image_url + url.toLowerCase();
+		url_ = url;
 	}
 
 	public String toString() {
