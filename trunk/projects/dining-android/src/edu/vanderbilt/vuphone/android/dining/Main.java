@@ -27,28 +27,21 @@ import edu.vanderbilt.vuphone.android.objects.Time;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 
+/**
+ * @author austin
+ *
+ */
 public class Main extends ListActivity {
-
+	
 	public static Context applicationContext;
-	/** The first case in the menu */
-	private static final int MENU_ITEM_VIEW_MAP = 0;
-	/** The second case in the menu */
-	private static final int MENU_ITEM_MARK_FAVS = 1;
-	/** The case in menu to change sorting method */
-	private static final int MENU_ITEM_CHOOSE_SORTING = 2;
-	/** The custom adapter used to create the list */
-	private static final int MENU_ITEM_VIEW_SETTINGS = 3;
-	/** The custom adapter used to view settings */
-	private RestaurantAdapter ra;
 
+	// current mode and values
 	private static final int NORMAL = 0;
 	private static final int MARK_FAVS = 1;
 	private int mode;
-	private View doneButton;
-	private View cancelButton;
-
-	boolean[] checked;
-
+	
+	private RestaurantAdapter ra;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -66,19 +59,14 @@ public class Main extends ListActivity {
 			(new StaticRestaurantData()).createAllRestaurants();
 		}
 
-		Log.i("Main", "before initializing content view");
 		initializeContentView();
+		checkedSort = new boolean[] {true, false, true};
 
-		Log
-				.i("Main",
-						"after initializing content view, now creating restaurant adapter");
-		ra = new RestaurantAdapter(this,
-				RestaurantAdapter.SAMPLE_FAVORITE_OPEN_CLOSED);// SAMPLE_FAVORITE_OPEN_CLOSED);
-		checked = new boolean[] { true, false, true };
-		Log.i("Main", "after initializing restaurant adapter");
+		
+		ra = new RestaurantAdapter(this, checkedSort[0], checkedSort[1], checkedSort[2]);//SAMPLE_FAVORITE_OPEN_CLOSED);
+		//ra.setShowRestaurantType(true);
 		setListAdapter(ra);
 		getListView().setTextFilterEnabled(true);
-		Log.i("Main", "everything done");
 
 	}
 
@@ -100,38 +88,28 @@ public class Main extends ListActivity {
 			ra.notifyDataSetChanged();
 		}
 	}
-
-	/**
-	 * This opens the dialog that allows the user to choose a new sorting option
-	 */
-	protected Dialog onCreateDialog(int id) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		CharSequence[] items = { "Open", "Time until open or close", "Favorite" };
-
-		builder.setMultiChoiceItems(items, checked,
-				new DialogInterface.OnMultiChoiceClickListener() {
-					public void onClick(DialogInterface dialog, int which,
-							boolean isChecked) {
-						if (which == 0 && !isChecked && checked[1])
-							onClick(dialog, 1, false); // currently doesnt work
-														// for some reason...
-						if (which == 1 && isChecked && !checked[0])
-							onClick(dialog, 0, true);
-
-						checked[which] = isChecked;
-					}
-				});
-
-		builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item) {
-				ra.setSort(checked[0], checked[1], checked[2]);
-				dialog.dismiss();
-			}
-		});
-		builder.setTitle("Sort by");
-
-		return builder.create();
+	
+	private void initializeContentView() {
+		setContentView(R.layout.main);
+		doneButton = findViewById(R.mark_favs.done);
+		cancelButton = findViewById(R.mark_favs.cancel);
+		((Button) doneButton).setOnClickListener(doneListener);
+		((Button) cancelButton).setOnClickListener(cancelListener);
+		mode = NORMAL;
 	}
+	
+	// -------------------- MENU FUNCTIONS
+	
+	private static final int MENU_ITEM_VIEW_MAP = 0;
+	private static final int MENU_ITEM_MARK_FAVS = 1;
+	private static final int MENU_ITEM_CHOOSE_SORTING = 2;
+	private static final int MENU_ITEM_VIEW_SETTINGS = 3;
+	
+	private View doneButton;
+	private View cancelButton;
+	
+	// saved showFavIcon preference to reset to when switching back to normal
+	boolean showFavIcon;
 
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,7 +142,10 @@ public class Main extends ListActivity {
 			setModeMarkFavs();
 			return true;
 		case MENU_ITEM_CHOOSE_SORTING:
-			showDialog(1);
+			showDialog(DIALOG_SORT);
+			return true;
+		case MENU_ITEM_VIEW_SETTINGS:
+			showDialog(DIALOG_SETTINGS);
 			return true;
 		default:
 			return false;
@@ -188,27 +169,129 @@ public class Main extends ListActivity {
 		}
 	};
 
-	private void initializeContentView() {
-		setContentView(R.layout.main);
-		doneButton = findViewById(R.mark_favs.done);
-		cancelButton = findViewById(R.mark_favs.cancel);
-		((Button) doneButton).setOnClickListener(doneListener);
-		((Button) cancelButton).setOnClickListener(cancelListener);
-		mode = NORMAL;
-	}
-
 	private void setModeNormal() {
 		mode = NORMAL;
 		doneButton.setVisibility(View.GONE);
 		cancelButton.setVisibility(View.GONE);
+		ra.setShowFavIcon(showFavIcon);
 		ra.setSort();
+		ra.notifyDataSetChanged();
 	}
 
 	private void setModeMarkFavs() {
 		mode = MARK_FAVS;
 		doneButton.setVisibility(View.VISIBLE);
 		cancelButton.setVisibility(View.VISIBLE);
+		showFavIcon = ra.getShowFavIcon();
 		ra.setShowFavIcon(true);
+		ra.notifyDataSetChanged();
+	}
+
+	
+	// --------------- POP UP DIALOG FUNCTIONS
+
+	private static final int DIALOG_SORT = 0;
+	private static final int DIALOG_SETTINGS = 1;
+	
+	private boolean[] checkedSort;
+	private boolean settingsModified = false;
+
+	/**
+	 * This opens the dialog that allows the user to choose a new sorting option
+	 */
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case DIALOG_SORT:
+		default: {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			CharSequence[] items = { "Open", "Time until close",
+					"Favorite" };
+
+			builder.setMultiChoiceItems(items, checkedSort,
+					new DialogInterface.OnMultiChoiceClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which,
+								boolean isChecked) {
+							if (which == 0 && !isChecked && checkedSort[1])
+								onClick(dialog, 1, false); // currently doesnt work for some reason...
+							if (which == 1 && isChecked && !checkedSort[0])
+								onClick(dialog, 0, true);
+
+							checkedSort[which] = isChecked;
+						}
+					});
+
+			builder.setNeutralButton("Done",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int item) {
+							Log.i("Main","settingsModified = " + settingsModified);
+							if (settingsModified)
+								ra.setSortPreserveSettings(checkedSort[0], checkedSort[1], checkedSort[2]);
+							else 
+								ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2]);
+							ra.notifyDataSetChanged();
+							dialog.dismiss();
+						}
+					});
+			builder.setTitle("Sort by");
+
+			return builder.create();
+		}
+		case DIALOG_SETTINGS:
+		{
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			
+			CharSequence[] items = { "Show favorites icon", "Gray closed places", "Show place type"};
+			boolean checked[] = {ra.getShowFavIcon(), ra.getGrayClosed(), ra.getShowRestaurantType()};
+			
+			builder.setMultiChoiceItems(items, checked, 
+					new DialogInterface.OnMultiChoiceClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+							switch (which) {
+							case 0:
+								ra.setShowFavIcon(isChecked);
+								settingsModified = true;
+								break;
+							case 1:
+								ra.setGrayClosed(isChecked);
+								settingsModified = true;
+								break;
+							case 2:
+								ra.setShowRestaurantType(isChecked);
+							}
+							
+						}
+					});
+			
+			builder.setNeutralButton("Done",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int item) {
+							ra.notifyDataSetChanged();
+							dialog.dismiss();
+						}
+					});
+			
+			builder.setNegativeButton("Set Defaults", 
+					new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							ra.setBoolsToDefault();
+							ra.setShowRestaurantType(false);
+							settingsModified = false;
+							ra.notifyDataSetChanged();
+							dialog.dismiss();
+						}
+					});
+			
+			builder.setTitle("Settings");
+
+			return builder.create();
+			
+		}
+		}
 	}
 
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW

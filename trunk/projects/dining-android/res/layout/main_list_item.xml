@@ -19,7 +19,7 @@
   android:layout_toRightOf="@mainListItem/favoriteIcon"
   android:layout_marginLeft="8dp"
   android:maxLines="1"/>
-  <!-- delete the color line in the above and below to go back to the old colors -->
+  <!-- comment out the color lien to go back to the old colors -->
     <TextView 
   android:id="@+mainListItem/specialText"
   android:textStyle="italic"

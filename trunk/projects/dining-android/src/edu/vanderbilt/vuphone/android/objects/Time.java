@@ -4,12 +4,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 
-// So I (Austin) happened to have a more full featured Time class implementation 
-// with a virtually identical interface on hand from a CS 101 assignment. It has 
-// some good helper methods, as well as functional toString methods with option for
-// 12 and 24 hour time. 
-
-
 public class Time {
 
 	private static final Exception NumberFormatException = null;
@@ -97,17 +91,6 @@ public class Time {
 	// returns minute
 	public int getMinute() 			{return minute;}
 	
-	// changes time to having elapsed 1 hour
-	public void incrementHour() {
-		hour = (hour+1)%24;
-	}
-	// changes time to having elapsed 1 minute
-	public void incrementMinute() {
-		minute = (minute+1)%60;
-		if (minute == 0) 
-			incrementHour();
-	}
-	
 	
 	// returns true if the time contained in 'this' comes before (in the same day) 
 	// the time contained in 'time'
@@ -115,8 +98,12 @@ public class Time {
 		return totalMinutes() < t.totalMinutes();
 	}
 	
+	public boolean equals(Time t) {
+		return (getHour() == t.getHour() && getMinute() == t.getMinute());
+	}
+	
 	public boolean after(Time t) {
-		return totalMinutes() >= t.totalMinutes();
+		return totalMinutes() > t.totalMinutes();
 	}
 	
 	public boolean before(Range r) {
@@ -138,10 +125,7 @@ public class Time {
 	
 	// returns a string representation of the contained time in set or default format (12 or 24 hour time);
 	public String toString() {		
-		int hr = (getHour() + 12 - 1)%12 + 1; 	// turns hour to 12 hour format (the + 12 simply 
-												// makes the modulus operator behave as it is 
-												// mathematically defined)
-		return (hr + ":" + (getMinute()==0?"00":(getMinute()<10?"0" + getMinute():getMinute())) + " " + (getHour()>=12 ? "pm" : "am"));
+		return toString(false);
 	}
 		
 	public String toString(boolean display24) {

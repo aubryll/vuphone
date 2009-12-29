@@ -175,31 +175,31 @@ public class StaticRestaurantData {
 
 		//TODO Need a way to show that Common Grounds is open 24 hours a day that makes sense
 		Time start = new Time(7, 0);
-		Time stop = new Time(6, 59);
+		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		RestaurantMenu menu = new RestaurantMenu();
@@ -887,31 +887,31 @@ public class StaticRestaurantData {
 		// TODO Implement a way to show that a restaurant is open 24 hours a day 7 days a week
 		// Currently shown by 7:00 AM - 7:00 AM
 		Time start = new Time(7, 0);
-		Time stop = new Time(6, 59);
+		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		RestaurantMenu menu = new RestaurantMenu();
@@ -939,31 +939,31 @@ public class StaticRestaurantData {
 		// TODO Implement a way to show that a restaurant is open 24 hours a day 7 days a week
 		// Currently shown by 7:00 AM - 7:00 AM
 		Time start = new Time(7, 0);
-		Time stop = new Time(6, 59);
+		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		RestaurantMenu menu = new RestaurantMenu();

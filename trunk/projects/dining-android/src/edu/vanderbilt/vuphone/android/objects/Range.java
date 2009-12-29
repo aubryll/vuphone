@@ -38,7 +38,7 @@ public class Range {
 			int startM = _start.totalMinutes();
 			int endM = _end.totalMinutes();
 			int tM = t.totalMinutes();
-			return (startM <= tM && (tM < endM || endM < startM));
+			return (startM <= tM && (tM <= endM || endM <= startM));
 		} catch (NullPointerException e) {
 			throw new RuntimeException("inRange(Time): Range not properly initialized");
 		}
@@ -56,7 +56,7 @@ public class Range {
 	// always returns a positive number, even when t is after the range (will return time until end the next day)
 	public int minutesUntilEnd(Time t) {
 		try {
-			return (_end.totalMinutes() - t.totalMinutes() + 1440) % 1440;
+			return (_end.totalMinutes() - t.totalMinutes() + 1440 - 1) % 1440 + 1;
 		} catch (NullPointerException e) {
 			throw new RuntimeException("minutesUntilEnd(Time): Range not properly initialized");
 		}
@@ -67,7 +67,7 @@ public class Range {
 	// true if this Range is completely before t
 	public boolean before(Time t) {
 		try {
-			return _end.before(t) && _start.before(_end);
+			return _end.before(t) && !overnight();
 		} catch (NullPointerException e) {
 			throw new RuntimeException(
 					"before(Time): Range not properly initialized");
@@ -75,13 +75,13 @@ public class Range {
 	}
 	// true if this Range is completely before r
 	public boolean before(Range r) {
-		return (before(r.getStart()));
+		return before(r.getStart());
 	}
 	
 	// returns true if this range and r overlap
 	// might be implemented better, and currently no consideration is made for the bounds
 	public boolean overlap(Range r) {
-		return !(r.before(this) || r.after(this));
+		return !(before(r) || after(r));
 	}
 	
 	// true if this Range is completely after t
@@ -98,7 +98,11 @@ public class Range {
 	}
 	
 	public boolean overnight() {
-		return (_end.before(_start));
+		return !(_start.before(_end));
+	}
+	
+	public boolean over24Hours() {
+		return _start.equals(_end);
 	}
 	
 	// r overlaps with this Range, concatenates r
@@ -118,7 +122,7 @@ public class Range {
 	}
 	
 	public String toString() {
-		return _start.toString() + " - " + _end.toString();
+		return toString(false);
 	}
 	
 	public String toString(boolean display24) {
