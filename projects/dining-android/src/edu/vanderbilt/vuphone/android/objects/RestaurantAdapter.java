@@ -96,13 +96,12 @@ public class RestaurantAdapter extends BaseAdapter {
 	private Context _context;
 	
 	private ArrayList<Long> _order;
-	private boolean displayFav;
-	private boolean grayClosed; // currently always true
+	private boolean showRestaurantType;
 	
 	
 	private int currentSortType;
 	
-	// TODO: Implement partition 
+	
 	public RestaurantAdapter(Context context) {
 		this(context, DEFAULT);
 	}
@@ -113,7 +112,12 @@ public class RestaurantAdapter extends BaseAdapter {
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
 		_context = context;
 		_order = sortOrder;
-		displayFav = showFavIcon;
+		currentSortType = UNSORTED;
+		setShowFavIcon(showFavIcon);
+	}
+	public RestaurantAdapter(Context context, boolean open, boolean timeUntil, boolean favorite) {
+		_context = context;
+		setSort(open, timeUntil, favorite);
 	}
 	
 	public int getCount() {
@@ -146,7 +150,7 @@ public class RestaurantAdapter extends BaseAdapter {
 				wrapper = (ViewWrapper)convertView.getTag();
 			}
 			//Restaurant r = (Restaurant)current;
-			if (displayFav) {
+			if (getShowFavIcon()) {
 				wrapper.getFavoriteView().setVisibility(View.VISIBLE);
 				wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
 											R.drawable.star:		// favorite icon 
@@ -156,13 +160,17 @@ public class RestaurantAdapter extends BaseAdapter {
 				wrapper.getFavoriteView().setVisibility(View.GONE);
 			}
 			wrapper.getNameView().setText(Restaurant.getName(rID));
-			wrapper.getSpecialView().setText(getSpecialText(Restaurant.getHours(rID)));
+			wrapper.getSpecialView().setText(getSpecialText(rID));
 
-			if (grayClosed) {
+			if (getGrayClosed()) {
 				boolean enabled = Restaurant.getHours(rID).isOpen();
 				wrapper.getNameView().setEnabled(enabled);
 				wrapper.getSpecialView().setEnabled(enabled);
 				wrapper.getFavoriteView().setEnabled(enabled);
+			} else {
+				wrapper.getNameView().setEnabled(true);
+				wrapper.getSpecialView().setEnabled(true);
+				wrapper.getFavoriteView().setEnabled(true);
 			}
 			
 			 return convertView;
@@ -193,6 +201,27 @@ public class RestaurantAdapter extends BaseAdapter {
 			}
 			return partition;
 			
+		}
+	}
+	
+	private String getSpecialText(long rID) {
+		if (showRestaurantType) {
+			return Restaurant.getType(rID);
+		} else {
+			RestaurantHours rh = Restaurant.getHours(rID);
+			int toOpen = rh.minutesToOpen();
+			if (toOpen==0) {
+				int min = rh.minutesToClose();
+				if (min >= 1440)
+					return "open ";
+				else if (min<=60)
+					return "closes in " + min + " minutes ";
+				else return "closes at " + rh.getNextCloseTime().toString() + " ";
+			} else if (toOpen>0) {
+				if (toOpen<=60)
+					return "opens in " + toOpen + " minutes ";
+				else return "opens at " + rh.getNextOpenTime().toString() + " ";
+			} else return "closed "; // closed for the day
 		}
 	}
 	
@@ -241,6 +270,14 @@ public class RestaurantAdapter extends BaseAdapter {
 		setSort();
 	}
 	
+	public void setSortPreserveSettings(boolean open, boolean timeUntil, boolean favorite) {
+		boolean showFavIcon = getShowFavIcon();
+		boolean grayClosed = getGrayClosed();
+		setSort(open, timeUntil, favorite);
+		setShowFavIcon(showFavIcon);
+		setGrayClosed(grayClosed);
+	}
+	
 	/**
 	 * Sets sort method for list and sorts
 	 * @param sortType 
@@ -253,8 +290,8 @@ public class RestaurantAdapter extends BaseAdapter {
 		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
 		
-		displayFav = ((sortType & SHOW_FAV_ICON) > 0);
-		grayClosed = ((sortType & GRAY_CLOSED) > 0);
+		//setShowFavIcon((sortType & SHOW_FAV_ICON) > 0);
+		//setGrayClosed((sortType & GRAY_CLOSED) > 0);
 		if ((sortType & ALPHABETICAL) > 0)
 			sort(_order, ALPHABETICAL);
 		
@@ -313,7 +350,6 @@ public class RestaurantAdapter extends BaseAdapter {
 				_order.add(0, OPEN_PARTITION);
 		}
 		
-		notifyDataSetChanged();
 	}
 	
 	public void setSort() {
@@ -326,41 +362,43 @@ public class RestaurantAdapter extends BaseAdapter {
 		return currentSortType;
 	}
 	
+	public void setBoolsToDefault() {
+		setGrayClosed(true);
+		setShowFavIcon(indexOf(FAVORITE) == -1);
+	}
+	
 	public void setShowFavIcon(boolean show) {
-		displayFav = show;
-		notifyDataSetChanged();
 		// the following code would change currentSortType to reflect this change
 		// it is commented because nothing in the implementation currently requires 
 		// currentSortType to perfectly reflect what the actual sorting of the list is
 		// As it is, the added benefit of storing the old value in currentSortType is
 		// present, which is useful for marking favorites
-//		if ((currentSortType & SHOW_FAV_ICON) > 0 ^ show) 
-//			currentSortType += (show?SHOW_FAV_ICON:-SHOW_FAV_ICON);
-	}
-
-	public boolean getShowFavIconCurrent() {
-		return displayFav;
+		if ((currentSortType & SHOW_FAV_ICON) > 0 ^ show) 
+			currentSortType += (show?SHOW_FAV_ICON:-SHOW_FAV_ICON);
 	}
 	
-	public boolean getShowFavIconSortMethod() {
+	public boolean getShowFavIcon() {
 		return (currentSortType & SHOW_FAV_ICON) > 0;
 	}
 	
 	
 	
 	public void setGrayClosed(boolean gray) {
-		grayClosed = gray;
-		notifyDataSetChanged();
-	}
-
-	public boolean getGrayClosedCurrent() {
-		return grayClosed;
+		if ((currentSortType & GRAY_CLOSED) > 0 ^ gray) 
+			currentSortType += (gray?GRAY_CLOSED:-GRAY_CLOSED);
 	}
 	
-	public boolean getGrayClosedSortMethod() {
+	public boolean getGrayClosed() {
 		return (currentSortType & GRAY_CLOSED) > 0;
 	}
 	
+	public void setShowRestaurantType(boolean show) {
+		showRestaurantType = show;
+	}
+	
+	public boolean getShowRestaurantType() {
+		return showRestaurantType;
+	}
 	
 	
 	
@@ -390,7 +428,6 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * 	the index of an unused level on top of all others
 	 */
 	public int getNextUnusedLevel() {
-		Log.i("RA", "getNextUnusedLevel currentSortType = " + Integer.toHexString(currentSortType));
 		for (int level = LEVEL.length-1; level >=0; level--) 
 			if (getSortAtLevel(level) != UNSORTED)
 				if (level + 1 < LEVEL.length)
@@ -412,7 +449,6 @@ public class RestaurantAdapter extends BaseAdapter {
 	 * class constant level sort to set
 	 */
 	public void setSortAtLevel(int level, int sort) {
-		Log.i("RA setSortAtLevel", "level=" + level +", sort=" +sort);
 		if (level>=LEVEL.length || level<0)
 			throw new RuntimeException("level bad: " + level);
 		currentSortType = currentSortType & ~(LEVEL[level] * 0xF);
@@ -457,21 +493,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		}
 		return changed;
 	}
-	
-	private String getSpecialText(RestaurantHours rh) {
-		int toOpen = rh.minutesToOpen();
-		if (toOpen==0) {
-			int min = rh.minutesToClose();
-			if (min<=60)
-				return "closes in " + min + " minutes ";
-			else return "closes at " + rh.getNextCloseTime().toString() + " ";
-		} else if (toOpen>0) {
-			if (toOpen<=60)
-				return "opens in " + toOpen + " minutes ";
-			else return "opens at " + rh.getNextOpenTime().toString() + " ";
-		} else return "closed "; // closed for the day
-	}
-	
 	
 	
 	// returns the first instance of a non favorite element in the sort, -1 if all are favorites
