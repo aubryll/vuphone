@@ -113,20 +113,18 @@ public class Main extends ListActivity {
 
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map").setIcon(
-				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_SETTINGS, Menu.NONE, "Settings").setIcon(
+				getResources().getDrawable(
+						android.R.drawable.ic_menu_preferences));
+		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Sort").setIcon(
+						getResources().getDrawable(
+								android.R.drawable.ic_menu_agenda));
 		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark Favorites").setIcon(
 						getResources().getDrawable(
 								R.drawable.ic_menu_star));
-		menu.add(Menu.NONE, MENU_ITEM_CHOOSE_SORTING, Menu.NONE, "Sort")
-				.setIcon(
-						getResources().getDrawable(
-								android.R.drawable.ic_menu_agenda));
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map").setIcon(
+				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
 		//TODO Settings menu button needs an action added to it when clicked.
-		menu.add(Menu.NONE, MENU_ITEM_VIEW_SETTINGS, Menu.NONE, "Settings")
-				.setIcon(
-						getResources().getDrawable(
-								android.R.drawable.ic_menu_preferences));
 		return true;
 	}
 
@@ -194,7 +192,7 @@ public class Main extends ListActivity {
 	private static final int DIALOG_SETTINGS = 1;
 	
 	private boolean[] checkedSort;
-	private boolean settingsModified = false;
+	private boolean sortSettingsModified = false;
 
 	/**
 	 * This opens the dialog that allows the user to choose a new sorting option
@@ -224,8 +222,8 @@ public class Main extends ListActivity {
 			builder.setNeutralButton("Done",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
-							Log.i("Main","settingsModified = " + settingsModified);
-							if (settingsModified)
+							Log.i("Main","settingsModified = " + sortSettingsModified);
+							if (sortSettingsModified)
 								ra.setSortPreserveSettings(checkedSort[0], checkedSort[1], checkedSort[2]);
 							else 
 								ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2]);
@@ -252,11 +250,11 @@ public class Main extends ListActivity {
 							switch (which) {
 							case 0:
 								ra.setShowFavIcon(isChecked);
-								settingsModified = true;
+								sortSettingsModified = true;
 								break;
 							case 1:
 								ra.setGrayClosed(isChecked);
-								settingsModified = true;
+								sortSettingsModified = true;
 								break;
 							case 2:
 								ra.setShowRestaurantType(isChecked);
@@ -280,7 +278,7 @@ public class Main extends ListActivity {
 						public void onClick(DialogInterface dialog, int which) {
 							ra.setBoolsToDefault();
 							ra.setShowRestaurantType(false);
-							settingsModified = false;
+							sortSettingsModified = false;
 							ra.notifyDataSetChanged();
 							dialog.dismiss();
 						}
