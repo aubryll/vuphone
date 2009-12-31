@@ -42,18 +42,27 @@ public class RequestICal {
 	private static int missing = 0;
 	private static int unable_to_code = 0;
 	private static int other = 0;
-
+	
+	public static final char substitute = '\uFFFD'; 
+/*
+	private static final String escapeRegex =
+		"[\u0000|\u0001|\u0002|\u0003|\u0004|\u0005" + 
+		"|\u0006|\u0007|\u0008|\u000B|\u000C|\u000E|\u000F|\u0010|\u0011|\u0012" + 
+		"|\u0013|\u0014|\u0015|\u0016|\u0017|\u0018|\u0019|\u001A|\u001B|\u001C" + 
+		"|\u001D|\u001E|\u001F|\uFFFE|\uFFFF]"; 
+*/
+	private static final String escapeRegex = "[:cntrl:]";
+	
 	public static void main(String[] argv) throws Exception {
 		RequestICal.doIt();
 	}
 
 	public static void doIt() throws InterruptedException {
-		// First, read the file in, removing all instances of "US-Central:"
+		// First, read the file in, removing all instances of "US-Central:" and "LAST-MODIFIED;"
 		BufferedReader reader = null;
 		URL url = null;
 		try {
-			url = new URL(
-					"http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
+			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
 			reader = new BufferedReader(new InputStreamReader(url.openStream()));
 		} catch (MalformedURLException e1) {
 			System.err.println("ICS calendar URL malformed");
@@ -70,7 +79,23 @@ public class RequestICal {
 			BufferedWriter out = new BufferedWriter(writer);
 			String s;
 			while ((s = reader.readLine()) != null) {
-				out.write(s.replaceFirst("US-Central:", "") + "\n");
+				// Process the string
+				s = s.replaceFirst(";TZID=US-Central", "") + "\n";
+				char[] cbuf = new char[s.length()];
+				s.getChars(0, s.length()-1, cbuf, 0);
+				for (int i=0; i<cbuf.length; i++) {
+					if (Character.isISOControl(cbuf[i]) && cbuf[i] != '\n') {
+						// Replace with a newline
+						cbuf[i] = '\n';
+					}
+					if (cbuf[i] > 255) {
+						cbuf[i] = ' ';
+					}
+				}
+//				s = s.replaceAll(escapeRegex, " ");
+//				s = s.replace(' ', ' ');
+//				out.write(s);
+				out.write(cbuf);
 			}
 			out.close();
 		} catch (IOException e1) {
@@ -82,8 +107,7 @@ public class RequestICal {
 		try {
 			fin = new FileInputStream("vu-calendar-temp.ics");
 		} catch (FileNotFoundException e) {
-			System.err
-					.println("Could not read preprocessed input file vu-calendar-temp.ics");
+			System.err.println("Could not read preprocessed input file vu-calendar-temp.ics");
 			e.printStackTrace();
 			return;
 		}
@@ -138,8 +162,7 @@ public class RequestICal {
 			ep.setName(name.getValue().replaceAll("\\\\", ""));
 
 			// get description
-			Description desc = (Description) c
-					.getProperty(Property.DESCRIPTION);
+			Description desc = (Description) c.getProperty(Property.DESCRIPTION);
 			if (desc != null) {
 				// Strip backslashes before colons that occur in the ics file
 				ep.setDescription(desc.getValue().replaceAll("\\\\", ""));
@@ -243,8 +266,7 @@ public class RequestICal {
 		final HttpClient c = new DefaultHttpClient();
 		final HttpPost post = new HttpPost("http://localhost:8080" + PATH);
 		c.getParams().setParameter("http.socket.timeout", new Integer(1000));
-		c.getParams()
-				.setParameter("http.connection.timeout", new Integer(1000));
+		c.getParams().setParameter("http.connection.timeout", new Integer(1000));
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		post.addHeader("Content-Encoding", "UTF-8");
 
@@ -322,8 +344,7 @@ public class RequestICal {
 		return true;
 	}
 
-	private static org.vuphone.vandyupon.datastructs.Location getLocation(
-			Component c) {
+	private static org.vuphone.vandyupon.datastructs.Location getLocation(Component c) {
 		Property location = c.getProperty(Property.LOCATION);
 
 		org.vuphone.vandyupon.datastructs.Location geoLocation = null;
