@@ -5,7 +5,6 @@ package edu.vanderbilt.vuphone.android.events.eventstore;
 
 import java.util.ArrayList;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -139,6 +138,33 @@ public class DBAdapter {
 		return c;
 	}
 
+	public long getLargestTime() {
+		Cursor result = database_.rawQuery("SELECT MAX(" + COLUMN_END_TIME
+				+ ") FROM " + TABLE_NAME, null);
+		if (result.moveToFirst()) {
+			long answer = result.getLong(0);
+			result.close();
+			return answer;
+		}
+
+		result.close();
+		return 0;
+	}
+
+	public long getSmallestTime() {
+		Cursor result = database_.rawQuery("SELECT MIN(" + COLUMN_START_TIME
+				+ ") FROM " + TABLE_NAME, null);
+
+		if (result.moveToFirst()) {
+			long answer = result.getLong(0);
+			result.close();
+			return answer;
+		}
+
+		result.close();
+		return 0;
+	}
+
 	/**
 	 * Used to fetch the largest updated time in our database. This value can be
 	 * sent to the server, allowing the server to only return new entries, and
@@ -149,10 +175,16 @@ public class DBAdapter {
 	public long getLargestUpdatedTime() {
 		Cursor result = database_.rawQuery("SELECT MAX(" + COLUMN_UPDATED_TIME
 				+ ") FROM " + TABLE_NAME, null);
-		if (result.moveToFirst())
-			return result.getLong(0);
-		else
-			return 0;
+
+		if (result.moveToFirst()) {
+			
+			long ans = result.getLong(0);
+			result.close();
+			return ans;
+		}
+	
+		result.close();
+		return 0;
 	}
 
 	/**
@@ -175,9 +207,8 @@ public class DBAdapter {
 	 *            The unique id used by the server to identify this event
 	 * @return true if the event was inserted, false if there was some problem
 	 */
-	public boolean insertOrUpdateEvent(String name,
-			long startTime, long endTime,
-			GeoPoint location, long updateTime, boolean owner,
+	public boolean insertOrUpdateEvent(String name, long startTime,
+			long endTime, GeoPoint location, long updateTime, boolean owner,
 			long serverId) {
 
 		String[] resultColumns = { COLUMN_UPDATED_TIME };
@@ -186,7 +217,7 @@ public class DBAdapter {
 				COLUMN_SERVER_ID + "=?", selectionArgs, null, null, null);
 
 		// Build the row of content values
-		ContentValues rowValues = new ContentValues(7);
+		ContentValues rowValues = new ContentValues(8);
 		rowValues.put(COLUMN_NAME, name);
 		rowValues.put(COLUMN_START_TIME, startTime);
 		rowValues.put(COLUMN_END_TIME, endTime);
@@ -208,15 +239,19 @@ public class DBAdapter {
 				e.printStackTrace();
 				Log.w(tag, pre + "Unable to insert event into database");
 				Log.w(tag, pre + "Error: " + e.getMessage());
+
+				event.close();
 				return false;
 			}
 
 			if (id == -1) {
 				Log.w(tag, pre + "Unknown error occurred"
 						+ " when inserting into database");
+				event.close();
 				return false;
 			}
 
+			event.close();
 			return true;
 
 		} else if (event.getCount() == 1) {
@@ -233,7 +268,10 @@ public class DBAdapter {
 				Log.w(tag, pre + rowsAffected
 						+ " rows were affected on update! "
 						+ "This should never happen!");
+
+			event.close();
 			return true;
+
 		} else if (event.getCount() > 1) {
 			// remove all rows, log warning, insert event
 			Log.w(tag, pre + "More than one row with server id " + serverId);
@@ -250,19 +288,24 @@ public class DBAdapter {
 				e.printStackTrace();
 				Log.w(tag, pre + "Unable to insert event into database");
 				Log.w(tag, pre + "Error: " + e.getMessage());
+				event.close();
 				return false;
 			}
 
 			if (id == -1) {
 				Log.w(tag, pre + "Unknown error occurred"
 						+ " when inserting into database");
+
+				event.close();
 				return false;
 			}
 
+			event.close();
 			return true;
 		}
 
 		// We should never get here, means event.getCount was negative
+		event.close();
 		return false;
 	}
 

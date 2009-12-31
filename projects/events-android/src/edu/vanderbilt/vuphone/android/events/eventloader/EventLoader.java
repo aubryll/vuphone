@@ -120,7 +120,8 @@ public class EventLoader extends Service {
 		final GeoPoint location = new GeoPoint(latE6, lonE6);
 		boolean handled = false;
 		int count = 0;
-
+		
+		Log.d(tag, pre + "Begin handling event");
 		do {
 			handled = openDatabase.insertOrUpdateEvent(name, startTime,
 					endTime, location, updateTime, owner, serverId);
@@ -130,12 +131,13 @@ public class EventLoader extends Service {
 			if (count == 5)
 				Log.e(tag, pre + "Giving up on storing event");
 		} while (handled == false && count < 5);
-		Log.d(tag, pre + "Done handlng event");
+		Log.d(tag, pre + "Done handling event");
 	}
 
 	public static void manualUpdate(Context c) {
 		DBAdapter db = new DBAdapter(c);
 		db.openWritable();
 		loadEvents(db, c);
+		db.close();
 	}
 }

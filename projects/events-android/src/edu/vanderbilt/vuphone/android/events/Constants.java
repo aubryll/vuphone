@@ -22,6 +22,8 @@ public class Constants {
 
 	/** Server location */
 	public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8081";
+	// Use this server location to get Android emulator to connect to a local computer 127.0.0.1
+	// public static final String SERVER = "http://10.0.2.2:8080";
 
 	/**
 	 * Used to have global constants for various activity results. Note that
