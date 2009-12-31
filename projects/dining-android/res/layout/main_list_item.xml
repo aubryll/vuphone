@@ -18,7 +18,8 @@
   android:layout_width="fill_parent"
   android:layout_toRightOf="@mainListItem/favoriteIcon"
   android:layout_marginLeft="8dp"
-  android:singleLine="true"/>
+  android:singleLine="true"
+  android:ellipsize="marquee"/>
   <!-- comment out the color line to go back to the old colors -->
     <TextView 
   android:id="@+mainListItem/specialText"

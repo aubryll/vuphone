@@ -3,6 +3,8 @@ package edu.vanderbilt.vuphone.android.objects;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import edu.vanderbilt.vuphone.android.dining.Main;
 /**
  * @author austin
  *	Limitations: no range can span more than 24 hours, but it can span accross a day 
@@ -221,7 +223,7 @@ public class RestaurantHours {
 	}
 	
 	public String toString() {
-		return toString(false);
+		return toString(Main.display24);
 	}
 	
 	public String toString(boolean display24) {
