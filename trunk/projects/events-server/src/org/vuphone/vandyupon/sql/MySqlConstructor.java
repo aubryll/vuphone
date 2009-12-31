@@ -47,7 +47,7 @@ public class MySqlConstructor implements DatabaseConstructor {
 
 		sql = "CREATE TABLE IF NOT EXISTS events ( "
 				+ "eventid INTEGER PRIMARY KEY AUTO_INCREMENT,"
-				+ "sourceuid varchar(255),"
+				+ "sourceuid varchar(255) UNIQUE,"
 				+ "name varchar(100) not null,"
 				+ "locationid integer not null references locations(locationid),"
 				+ "userid integer not null references people(userid)," 
@@ -57,7 +57,12 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
-
+/* Isn't working for some reason.  Gives MySQL errno 150.
+		sql = "ALTER TABLE events ADD FOREIGN KEY (locationid) " +
+				"REFERENCES locations (locationid) ON DELETE SET NULL";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+*/
 		sql = "CREATE TABLE IF NOT EXISTS eventrating ( "
 				+ "ratingid INTEGER PRIMARY KEY AUTO_INCREMENT,"
 				+ "value tinyint not null,"
@@ -66,6 +71,11 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "userid integer not null references people (userid),"
 				+ "submissiondate BIGINT NOT NULL)"
 				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+		
+		sql = "ALTER TABLE eventrating ADD FOREIGN KEY (eventid) " +
+				"REFERENCES events (eventid) ON DELETE CASCADE;";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -79,7 +89,13 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
-		
+
+/*		Also not working
+		sql = "ALTER TABLE locationrating ADD FOREIGN KEY (locationid) " +
+				"REFERENCES locations (locationid) ON DELETE SET NULL";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+*/
 		sql = "create table if not exists facebookconnector ("
 			+ "facebookid integer primary key auto_increment,"
 			+ "userid integer not null, "
@@ -106,6 +122,11 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
+
+		sql = "ALTER TABLE eventmeta ADD FOREIGN KEY (eventid) " +
+				"REFERENCES events (eventid) ON DELETE CASCADE;";
+		prep = db.prepareStatement(sql);
+		prep.execute();
 		
 		sql = "create table if not exists locationmeta ("
 			+ "metaid integer not null primary key auto_increment,"
@@ -117,6 +138,11 @@ public class MySqlConstructor implements DatabaseConstructor {
 		prep = db.prepareStatement(sql);
 		prep.execute();
 		
+		sql = "ALTER TABLE locationmeta ADD FOREIGN KEY (locationid) " +
+				"REFERENCES locations (locationid) ON DELETE CASCADE;";
+		prep = db.prepareStatement(sql);
+		prep.execute();
+
 		db.commit();
 		
 		db.setAutoCommit(true);
