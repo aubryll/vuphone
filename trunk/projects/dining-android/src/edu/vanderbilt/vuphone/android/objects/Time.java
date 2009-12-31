@@ -3,6 +3,8 @@ package edu.vanderbilt.vuphone.android.objects;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import edu.vanderbilt.vuphone.android.dining.Main;
+
 
 public class Time {
 
@@ -125,7 +127,7 @@ public class Time {
 	
 	// returns a string representation of the contained time in set or default format (12 or 24 hour time);
 	public String toString() {		
-		return toString(false);
+		return toString(Main.display24);
 	}
 		
 	public String toString(boolean display24) {

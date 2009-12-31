@@ -1,5 +1,6 @@
 package edu.vanderbilt.vuphone.android.objects;
 
+import edu.vanderbilt.vuphone.android.dining.Main;
 import android.util.Log;
 
 public class Range {
@@ -122,7 +123,7 @@ public class Range {
 	}
 	
 	public String toString() {
-		return toString(false);
+		return toString(Main.display24);
 	}
 	
 	public String toString(boolean display24) {

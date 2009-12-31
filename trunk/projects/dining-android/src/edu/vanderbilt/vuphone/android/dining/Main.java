@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.provider.Settings.SettingNotFoundException;
+import android.provider.Settings.System;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
 import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
@@ -34,6 +36,7 @@ import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 public class Main extends ListActivity {
 	
 	public static Context applicationContext;
+	public static boolean display24;
 
 	// current mode and values
 	private static final int NORMAL = 0;
@@ -52,7 +55,8 @@ public class Main extends ListActivity {
 		// calls to DBAdapter
 		if (applicationContext == null)
 			applicationContext = getApplicationContext();
-
+		display24 = System.getString(this.getContentResolver(), System.TIME_12_24).equals("24");
+		
 		// deleteAllRestaurants();
 		// addRandomRestaurantsToDB(20);
 		if (Restaurant.getIDs().isEmpty()) {
