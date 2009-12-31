@@ -55,11 +55,14 @@ class is entirely thread-safe and returns POIs via asynchronous notifications.
 
 #pragma mark Managing POI Cache
 
+- (CGRect)visibleQuadrants;
+
 - (void)saveCache;
 - (void)clearCache;
 
 #pragma mark Supplying & Managing Layers
 
+- (NSArray*)layers;
 - (void)addLayer:(POILayer*)layer;
 
 @end

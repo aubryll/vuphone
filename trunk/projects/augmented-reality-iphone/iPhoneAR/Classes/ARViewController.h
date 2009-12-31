@@ -10,14 +10,32 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import "POIManager.h"
+#import "AROverlayContainerView.h"
+#import "UserLocationAnnotation.h"
 
-@interface ARViewController : UIViewController <CLLocationManagerDelegate> {
-
-    CLLocationManager   * locationManager;
-    IBOutlet MKMapView  * map;
+@interface ARViewController : UIViewController <CLLocationManagerDelegate, MKMapViewDelegate> {
     
-    NSMutableDictionary * quadrantAnnotations;
+    CLLocationManager                   * locationManager;
+    UserLocationAnnotation              * locationAnnotation;
+    MKAnnotationView                    * locationAnnotationView;
+    
+    IBOutlet UIView                     * flipContainer;
+    IBOutlet UIView                     * mapSide;
+    IBOutlet MKMapView                  * map;
+    IBOutlet UIView                     * cameraSide;
+    IBOutlet AROverlayContainerView     * cameraOverlayContainer;
+    IBOutlet UIBarButtonItem            * layersButton;
+    
+    NSMutableDictionary                 * quadrantAnnotations;
 }
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+- (void)viewDidLoad;
+
+#pragma mark User Interaction
+
+- (IBAction)setSide:(id)sender;
+- (IBAction)setVisibleLayers:(id)sender;
 
 #pragma mark CLLocationManager Delegate Functions
 

@@ -27,6 +27,7 @@
 - (void)dealloc;
 
 - (NSString*)key;
+- (void)resetAge;
 - (NSTimeInterval)age;
 
 - (CLLocationCoordinate2D)coordinate;

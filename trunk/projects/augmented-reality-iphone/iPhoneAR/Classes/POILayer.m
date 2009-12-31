@@ -38,6 +38,29 @@
     [super dealloc];
 }
 
+- (void)setDisplayed:(BOOL)d
+{
+    displayed = d;
+    
+    // get the visible quadrant rectangle
+    CGRect visible = [[POIManager sharedManager] visibleQuadrants];
+    
+    // iterate over the quadrants represented in the rect and put them into the display dictionary
+    for (int x = visible.origin.x; x < visible.origin.x + visible.size.width; x++){
+        for (int y = visible.origin.y; y < visible.origin.y + visible.size.height; y++){
+            
+            // find the quadrant
+            NSString * key = [NSString stringWithFormat:@"%d,%d", x, y];
+            POIQuadrant * q = [cacheQuadrants objectForKey: key];
+            
+            if (displayed == NO)
+                [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationPointsRemoved object: [q points]];
+            else
+                [[NSNotificationCenter defaultCenter] postNotificationName: kNotificationPointsAdded object: [q points]];
+        }
+    }
+}
+
 #pragma mark Managing POI Cache
 
 - (void)clearCache

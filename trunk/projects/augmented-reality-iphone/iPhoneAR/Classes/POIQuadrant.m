@@ -37,6 +37,12 @@
     return [NSString stringWithFormat:@"%d,%d", x, y];
 }
 
+- (void)resetAge
+{
+    [cacheDate release];
+    cacheDate = [[NSDate date] retain];
+}
+
 - (NSTimeInterval)age
 {
     if (cacheDate != nil)
