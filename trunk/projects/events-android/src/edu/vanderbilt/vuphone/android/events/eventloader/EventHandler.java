@@ -4,6 +4,8 @@
 package edu.vanderbilt.vuphone.android.events.eventloader;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,10 +17,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.util.Log;
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
-
-import android.util.Log;
 
 /**
  * Handles parsing the XML that is returned from the server, and sending
@@ -48,6 +49,12 @@ public class EventHandler extends DefaultHandler {
 	private boolean inEventId = false;
 	private boolean inLastUpdate = false;
 
+	/**
+	 * There are two possible <Name> elements, one inside of a location, and one
+	 * not. This let's us know which is which
+	 */
+	private boolean inLoc = false;
+
 	/** Holds the data for the current event */
 	private double latitude_;
 	private double longitude_;
@@ -76,6 +83,8 @@ public class EventHandler extends DefaultHandler {
 			inLat = true;
 		else if (localname.trim().equalsIgnoreCase("Lon"))
 			inLon = true;
+		else if (localname.trim().equalsIgnoreCase("Loc"))
+			inLoc = true;
 		else if (localname.trim().equalsIgnoreCase("Owner"))
 			inOwner = true;
 		else if (localname.trim().equalsIgnoreCase("Start"))
@@ -97,15 +106,23 @@ public class EventHandler extends DefaultHandler {
 		if (localname.trim().equalsIgnoreCase("EventRequestResponse"))
 			throw new SAXException("Done processing");
 		else if (localname.trim().equalsIgnoreCase("Event")) {
+			
 			// Fire callback here to store current event
 			EventLoader.handleEvent(database_, name_, latitude_, longitude_,
 					owner_, startTime_, endTime_, lastUpdate_, serverId_);
-		} else if (localname.trim().equalsIgnoreCase("Name"))
+			
+			// Set the name to null, so that the next event's name may be concatenated properly
+			// See characters() for more info
+			name_ = null;
+			
+		} else if (localname.trim().equalsIgnoreCase("Name")) 
 			inName = false;
 		else if (localname.trim().equalsIgnoreCase("Lat"))
 			inLat = false;
 		else if (localname.trim().equalsIgnoreCase("Lon"))
 			inLon = false;
+		else if (localname.trim().equalsIgnoreCase("Loc"))
+			inLoc = false;
 		else if (localname.trim().equalsIgnoreCase("Owner"))
 			inOwner = false;
 		else if (localname.trim().equalsIgnoreCase("Start"))
@@ -118,10 +135,14 @@ public class EventHandler extends DefaultHandler {
 			inLastUpdate = false;
 	}
 
-	/** Called every time an element is about to be exited */
+	/** Called every time there are characters in an element to be obtained */
 	@Override
 	public void characters(char ch[], int start, int length) {
-		String str = new String(ch, start, length);
+		String str = null;
+		if (inName)
+			str = new String(ch, start, length);
+		else
+			str = new String(ch, start, length);
 
 		if (inLat)
 			latitude_ = Double.parseDouble(str);
@@ -129,9 +150,15 @@ public class EventHandler extends DefaultHandler {
 			longitude_ = Double.parseDouble(str);
 		else if (inOwner)
 			owner_ = Boolean.parseBoolean(str);
-		else if (inName)
-			name_ = new String(str);
-		else if (inStart)
+		else if (inName) {
+			
+			if (inLoc == false)
+				if (name_ != null)
+					name_ = name_ + str;
+				else
+					name_ = str;
+			
+		} else if (inStart)
 			startTime_ = Long.parseLong(str);
 		else if (inEnd)
 			endTime_ = Long.parseLong(str);
