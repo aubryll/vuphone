@@ -11,9 +11,9 @@
 #import "POI.h"
 
 @interface POILayer : NSObject <POIProviderDelegate> {
-
-    NSString            * name;
-    BOOL                  displayed;
+ 
+    NSString             * name;
+    BOOL                   displayed;
     NSObject<POIProvider>* provider;
     
     NSTimeInterval        cacheLifespan;
@@ -21,7 +21,7 @@
 }
 
 @property (nonatomic, retain) NSObject<POIProvider>* provider;
-@property (nonatomic, assign) BOOL displayed;
+@property (nonatomic, assign, setter=setDisplayed:) BOOL displayed;
 @property (nonatomic, retain) NSString * name;
 
 - (id)initWithName:(NSString *)n andProvider:(NSObject<POIProvider>*)p andCacheLifespan:(NSTimeInterval)l;

@@ -1,0 +1,394 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		28D7ACF80DDB3853001CB0EB /* SensorMockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* SensorMockViewController.m */; };
+		4322F3381068182B006D98F8 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F3371068182B006D98F8 /* MethodSwizzle.m */; };
+		4322F341106819D0006D98F8 /* SensorMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F340106819D0006D98F8 /* SensorMock.m */; };
+		4322F49B106868FF006D98F8 /* SensorMockDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F49A106868FF006D98F8 /* SensorMockDelegate.m */; };
+		4322F4B6106878E9006D98F8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4322F4B5106878E9006D98F8 /* CoreLocation.framework */; };
+		435BF53010A26EE200D64D4B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435BF52F10A26EE200D64D4B /* MessageUI.framework */; };
+		435BF54510A26F8C00D64D4B /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 435BF54410A26F8C00D64D4B /* libobjc.dylib */; };
+		4375150910A9001700817CFE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4375150810A9001700817CFE /* MobileCoreServices.framework */; };
+		4375155810A9018300817CFE /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375154C10A9018300817CFE /* AsyncSocket.m */; };
+		4375155910A9018300817CFE /* HTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375154F10A9018300817CFE /* HTTPServer.m */; };
+		4375155A10A9018300817CFE /* HTTPResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375155110A9018300817CFE /* HTTPResponse.m */; };
+		4375155B10A9018300817CFE /* HTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375155310A9018300817CFE /* HTTPConnection.m */; };
+		4375155D10A9018300817CFE /* HTTPAuthenticationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375155710A9018300817CFE /* HTTPAuthenticationRequest.m */; };
+		4375159010A9026A00817CFE /* DDNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375158B10A9026900817CFE /* DDNumber.m */; };
+		4375159110A9026A00817CFE /* DDRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375158D10A9026900817CFE /* DDRange.m */; };
+		4375159210A9026A00817CFE /* DDData.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375158F10A9026A00817CFE /* DDData.m */; };
+		437515A710A9029800817CFE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437515A610A9029800817CFE /* CFNetwork.framework */; };
+		4375167F10A90BAC00817CFE /* SensorMockHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 4375167E10A90BAC00817CFE /* SensorMockHTTPConnection.m */; };
+		43E8CC9410A27B690027D565 /* SensorMockAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CC9310A27B690027D565 /* SensorMockAppDelegate.m */; };
+		43E8CC9610A27B780027D565 /* SensorMockViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E8CC9510A27B780027D565 /* SensorMockViewController.xib */; };
+		43E8CC9E10A27B8A0027D565 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E8CC9D10A27B8A0027D565 /* MainWindow.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D6058910D05DD3D006BFB54 /* SensorMock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SensorMock.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28D7ACF60DDB3853001CB0EB /* SensorMockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMockViewController.h; sourceTree = "<group>"; };
+		28D7ACF70DDB3853001CB0EB /* SensorMockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorMockViewController.m; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* SensorMock_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMock_Prefix.pch; sourceTree = "<group>"; };
+		4322F3361068182B006D98F8 /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
+		4322F3371068182B006D98F8 /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
+		4322F33B1068188C006D98F8 /* SensorMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMock.h; sourceTree = "<group>"; };
+		4322F340106819D0006D98F8 /* SensorMock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorMock.m; sourceTree = "<group>"; };
+		4322F3A7106858A6006D98F8 /* UIMotionEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMotionEvent.h; sourceTree = "<group>"; };
+		4322F499106868FF006D98F8 /* SensorMockDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMockDelegate.h; sourceTree = "<group>"; };
+		4322F49A106868FF006D98F8 /* SensorMockDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorMockDelegate.m; sourceTree = "<group>"; };
+		4322F4B5106878E9006D98F8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = /System/Library/Frameworks/CoreLocation.framework; sourceTree = "<absolute>"; };
+		4331184F106AC0EF0051523B /* CameraFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFramework.h; sourceTree = "<group>"; };
+		435BF52F10A26EE200D64D4B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		435BF54410A26F8C00D64D4B /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
+		435BF55210A2702600D64D4B /* message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = message.h; path = usr/include/objc/message.h; sourceTree = SDKROOT; };
+		435BF55310A2702600D64D4B /* objc-api.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "objc-api.h"; path = "usr/include/objc/objc-api.h"; sourceTree = SDKROOT; };
+		435BF55410A2702600D64D4B /* objc-auto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "objc-auto.h"; path = "usr/include/objc/objc-auto.h"; sourceTree = SDKROOT; };
+		435BF55610A2702600D64D4B /* objc-exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "objc-exception.h"; path = "usr/include/objc/objc-exception.h"; sourceTree = SDKROOT; };
+		435BF55910A2702600D64D4B /* objc-sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "objc-sync.h"; path = "usr/include/objc/objc-sync.h"; sourceTree = SDKROOT; };
+		435BF55A10A2702600D64D4B /* objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = objc.h; path = usr/include/objc/objc.h; sourceTree = SDKROOT; };
+		435BF55D10A2702600D64D4B /* runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = runtime.h; path = usr/include/objc/runtime.h; sourceTree = SDKROOT; };
+		4375150810A9001700817CFE /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		4375154B10A9018300817CFE /* AsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncSocket.h; sourceTree = "<group>"; };
+		4375154C10A9018300817CFE /* AsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncSocket.m; sourceTree = "<group>"; };
+		4375154E10A9018300817CFE /* HTTPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPServer.h; sourceTree = "<group>"; };
+		4375154F10A9018300817CFE /* HTTPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPServer.m; sourceTree = "<group>"; };
+		4375155010A9018300817CFE /* HTTPResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPResponse.h; sourceTree = "<group>"; };
+		4375155110A9018300817CFE /* HTTPResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPResponse.m; sourceTree = "<group>"; };
+		4375155210A9018300817CFE /* HTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPConnection.h; sourceTree = "<group>"; };
+		4375155310A9018300817CFE /* HTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPConnection.m; sourceTree = "<group>"; };
+		4375155610A9018300817CFE /* HTTPAuthenticationRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTTPAuthenticationRequest.h; sourceTree = "<group>"; };
+		4375155710A9018300817CFE /* HTTPAuthenticationRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTTPAuthenticationRequest.m; sourceTree = "<group>"; };
+		4375158A10A9026900817CFE /* DDNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDNumber.h; sourceTree = "<group>"; };
+		4375158B10A9026900817CFE /* DDNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDNumber.m; sourceTree = "<group>"; };
+		4375158C10A9026900817CFE /* DDRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDRange.h; sourceTree = "<group>"; };
+		4375158D10A9026900817CFE /* DDRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDRange.m; sourceTree = "<group>"; };
+		4375158E10A9026A00817CFE /* DDData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDData.h; sourceTree = "<group>"; };
+		4375158F10A9026A00817CFE /* DDData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDData.m; sourceTree = "<group>"; };
+		437515A610A9029800817CFE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		4375167D10A90BAC00817CFE /* SensorMockHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SensorMockHTTPConnection.h; sourceTree = "<group>"; };
+		4375167E10A90BAC00817CFE /* SensorMockHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorMockHTTPConnection.m; sourceTree = "<group>"; };
+		43E8CC9210A27B690027D565 /* SensorMockAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SensorMockAppDelegate.h; path = ../../../../../../../Desktop/SensorMock/Classes/SensorMockAppDelegate.h; sourceTree = SOURCE_ROOT; };
+		43E8CC9310A27B690027D565 /* SensorMockAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SensorMockAppDelegate.m; path = ../../../../../../../Desktop/SensorMock/Classes/SensorMockAppDelegate.m; sourceTree = SOURCE_ROOT; };
+		43E8CC9510A27B780027D565 /* SensorMockViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SensorMockViewController.xib; sourceTree = "<group>"; };
+		43E8CC9D10A27B8A0027D565 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* SensorMock-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SensorMock-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				4322F4B6106878E9006D98F8 /* CoreLocation.framework in Frameworks */,
+				435BF53010A26EE200D64D4B /* MessageUI.framework in Frameworks */,
+				435BF54510A26F8C00D64D4B /* libobjc.dylib in Frameworks */,
+				4375150910A9001700817CFE /* MobileCoreServices.framework in Frameworks */,
+				437515A710A9029800817CFE /* CFNetwork.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				43E8CC9210A27B690027D565 /* SensorMockAppDelegate.h */,
+				43E8CC9310A27B690027D565 /* SensorMockAppDelegate.m */,
+				4322F3361068182B006D98F8 /* MethodSwizzle.h */,
+				4322F3371068182B006D98F8 /* MethodSwizzle.m */,
+				28D7ACF60DDB3853001CB0EB /* SensorMockViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* SensorMockViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* SensorMock.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				4322F3A7106858A6006D98F8 /* UIMotionEvent.h */,
+				4375154D10A9018300817CFE /* HTTP */,
+				4375154A10A9018300817CFE /* TCP */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				435BF54C10A2702600D64D4B /* objc */,
+				4322F499106868FF006D98F8 /* SensorMockDelegate.h */,
+				4322F49A106868FF006D98F8 /* SensorMockDelegate.m */,
+				4322F33B1068188C006D98F8 /* SensorMock.h */,
+				4322F340106819D0006D98F8 /* SensorMock.m */,
+				32CA4F630368D1EE00C91783 /* SensorMock_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43E8CC9510A27B780027D565 /* SensorMockViewController.xib */,
+				43E8CC9D10A27B8A0027D565 /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* SensorMock-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				437515A610A9029800817CFE /* CFNetwork.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				4322F4B5106878E9006D98F8 /* CoreLocation.framework */,
+				4331184F106AC0EF0051523B /* CameraFramework.h */,
+				435BF52F10A26EE200D64D4B /* MessageUI.framework */,
+				435BF54410A26F8C00D64D4B /* libobjc.dylib */,
+				4375150810A9001700817CFE /* MobileCoreServices.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		435BF54C10A2702600D64D4B /* objc */ = {
+			isa = PBXGroup;
+			children = (
+				435BF55210A2702600D64D4B /* message.h */,
+				435BF55310A2702600D64D4B /* objc-api.h */,
+				435BF55410A2702600D64D4B /* objc-auto.h */,
+				435BF55610A2702600D64D4B /* objc-exception.h */,
+				435BF55910A2702600D64D4B /* objc-sync.h */,
+				435BF55A10A2702600D64D4B /* objc.h */,
+				435BF55D10A2702600D64D4B /* runtime.h */,
+			);
+			name = objc;
+			path = usr/include/objc;
+			sourceTree = SDKROOT;
+		};
+		4375154A10A9018300817CFE /* TCP */ = {
+			isa = PBXGroup;
+			children = (
+				4375154B10A9018300817CFE /* AsyncSocket.h */,
+				4375154C10A9018300817CFE /* AsyncSocket.m */,
+			);
+			name = TCP;
+			sourceTree = "<group>";
+		};
+		4375154D10A9018300817CFE /* HTTP */ = {
+			isa = PBXGroup;
+			children = (
+				4375158A10A9026900817CFE /* DDNumber.h */,
+				4375158B10A9026900817CFE /* DDNumber.m */,
+				4375158C10A9026900817CFE /* DDRange.h */,
+				4375158D10A9026900817CFE /* DDRange.m */,
+				4375158E10A9026A00817CFE /* DDData.h */,
+				4375158F10A9026A00817CFE /* DDData.m */,
+				4375154E10A9018300817CFE /* HTTPServer.h */,
+				4375154F10A9018300817CFE /* HTTPServer.m */,
+				4375155010A9018300817CFE /* HTTPResponse.h */,
+				4375155110A9018300817CFE /* HTTPResponse.m */,
+				4375155210A9018300817CFE /* HTTPConnection.h */,
+				4375155310A9018300817CFE /* HTTPConnection.m */,
+				4375167D10A90BAC00817CFE /* SensorMockHTTPConnection.h */,
+				4375167E10A90BAC00817CFE /* SensorMockHTTPConnection.m */,
+				4375155610A9018300817CFE /* HTTPAuthenticationRequest.h */,
+				4375155710A9018300817CFE /* HTTPAuthenticationRequest.m */,
+			);
+			name = HTTP;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* SensorMock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SensorMock" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SensorMock;
+			productName = SensorMock;
+			productReference = 1D6058910D05DD3D006BFB54 /* SensorMock.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SensorMock" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* SensorMock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E8CC9610A27B780027D565 /* SensorMockViewController.xib in Resources */,
+				43E8CC9E10A27B8A0027D565 /* MainWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				28D7ACF80DDB3853001CB0EB /* SensorMockViewController.m in Sources */,
+				4322F3381068182B006D98F8 /* MethodSwizzle.m in Sources */,
+				4322F341106819D0006D98F8 /* SensorMock.m in Sources */,
+				4322F49B106868FF006D98F8 /* SensorMockDelegate.m in Sources */,
+				43E8CC9410A27B690027D565 /* SensorMockAppDelegate.m in Sources */,
+				4375155810A9018300817CFE /* AsyncSocket.m in Sources */,
+				4375155910A9018300817CFE /* HTTPServer.m in Sources */,
+				4375155A10A9018300817CFE /* HTTPResponse.m in Sources */,
+				4375155B10A9018300817CFE /* HTTPConnection.m in Sources */,
+				4375155D10A9018300817CFE /* HTTPAuthenticationRequest.m in Sources */,
+				4375159010A9026A00817CFE /* DDNumber.m in Sources */,
+				4375159110A9026A00817CFE /* DDRange.m in Sources */,
+				4375159210A9026A00817CFE /* DDData.m in Sources */,
+				4375167F10A90BAC00817CFE /* SensorMockHTTPConnection.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SensorMock_Prefix.pch;
+				INFOPLIST_FILE = "SensorMock-Info.plist";
+				PRODUCT_NAME = SensorMock;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = SensorMock_Prefix.pch;
+				INFOPLIST_FILE = "SensorMock-Info.plist";
+				PRODUCT_NAME = SensorMock;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ben Gotow";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "773A9520-427E-48FB-B60A-5BA94976E295";
+				SDKROOT = iphoneos3.0;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ben Gotow";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "773A9520-427E-48FB-B60A-5BA94976E295";
+				SDKROOT = iphoneos3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "SensorMock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SensorMock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

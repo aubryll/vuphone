@@ -148,6 +148,11 @@ static POIManager * sharedPOIManager;
 
 #pragma mark Managing POI Cache
 
+- (CGRect)visibleQuadrants
+{
+    return lastVisibleQuadrants;
+}
+
 - (void)saveCache
 {
     [NSKeyedArchiver archiveRootObject:layers toFile:@"cachedLayers.archive"];
@@ -160,6 +165,11 @@ static POIManager * sharedPOIManager;
 }
 
 #pragma mark Supplying & Managing Layers
+
+- (NSArray*)layers
+{
+    return layers;
+}
 
 - (void)addLayer:(POILayer*)layer
 {

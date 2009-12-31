@@ -31,6 +31,8 @@
 		4304B1241085403600CF9AD8 /* WikipediaPOIProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4304B1231085403600CF9AD8 /* WikipediaPOIProvider.m */; };
 		4304B1EF10855ECB00CF9AD8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4304B1EE10855ECB00CF9AD8 /* MapKit.framework */; };
 		4304B2E410856D7A00CF9AD8 /* QuadrantAnnotation.png in Resources */ = {isa = PBXBuildFile; fileRef = 4304B2E310856D7A00CF9AD8 /* QuadrantAnnotation.png */; };
+		4322C401109A879C00305ECC /* LayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322C3FF109A879C00305ECC /* LayersViewController.m */; };
+		4322C402109A879C00305ECC /* LayersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4322C400109A879C00305ECC /* LayersViewController.xib */; };
 		4322F2DD10681354006D98F8 /* POIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F2DC10681354006D98F8 /* POIManager.m */; };
 		4322F2E21068135B006D98F8 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4322F2E11068135B006D98F8 /* POI.m */; };
 		433E7AAB10837C8200C2C2F2 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433E7AAA10837C8200C2C2F2 /* CoreLocation.framework */; };
@@ -39,6 +41,11 @@
 		43564101108440D700C958D4 /* SensorMockDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 435640FF108440D700C958D4 /* SensorMockDelegate.m */; };
 		435641111084418800C958D4 /* MethodSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 435641101084418800C958D4 /* MethodSwizzle.m */; };
 		4356412E1084421800C958D4 /* libtidy.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4356412D1084421800C958D4 /* libtidy.dylib */; };
+		43795F5B109A9324003CCAFB /* AROverlayContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43795F5A109A9324003CCAFB /* AROverlayContainerView.m */; };
+		43795F68109A9684003CCAFB /* AROverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43795F67109A9684003CCAFB /* AROverlayView.m */; };
+		43795F9C109AA00D003CCAFB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43795F9B109AA00D003CCAFB /* QuartzCore.framework */; };
+		437960D7109ABE87003CCAFB /* UserLocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 437960D6109ABE87003CCAFB /* UserLocationAnnotation.m */; };
+		437960F6109AC03A003CCAFB /* UserLocation.png in Resources */ = {isa = PBXBuildFile; fileRef = 437960F5109AC03A003CCAFB /* UserLocation.png */; };
 		439EE6E1107576B60053A1AB /* WebPOIProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 439EE6E0107576B60053A1AB /* WebPOIProvider.m */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +96,9 @@
 		4304B1231085403600CF9AD8 /* WikipediaPOIProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WikipediaPOIProvider.m; path = ../WikipediaPOIProvider.m; sourceTree = "<group>"; };
 		4304B1EE10855ECB00CF9AD8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4304B2E310856D7A00CF9AD8 /* QuadrantAnnotation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QuadrantAnnotation.png; sourceTree = "<group>"; };
+		4322C3FE109A879C00305ECC /* LayersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersViewController.h; sourceTree = "<group>"; };
+		4322C3FF109A879C00305ECC /* LayersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayersViewController.m; sourceTree = "<group>"; };
+		4322C400109A879C00305ECC /* LayersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LayersViewController.xib; path = Classes/LayersViewController.xib; sourceTree = "<group>"; };
 		4322F2DB10681354006D98F8 /* POIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIManager.h; sourceTree = "<group>"; };
 		4322F2DC10681354006D98F8 /* POIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIManager.m; sourceTree = "<group>"; };
 		4322F2E01068135B006D98F8 /* POI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POI.h; sourceTree = "<group>"; };
@@ -104,6 +114,14 @@
 		4356410F1084418800C958D4 /* MethodSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodSwizzle.h; sourceTree = "<group>"; };
 		435641101084418800C958D4 /* MethodSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzle.m; sourceTree = "<group>"; };
 		4356412D1084421800C958D4 /* libtidy.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtidy.dylib; path = Libraries/libtidy.dylib; sourceTree = "<group>"; };
+		43795F59109A9324003CCAFB /* AROverlayContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AROverlayContainerView.h; sourceTree = "<group>"; };
+		43795F5A109A9324003CCAFB /* AROverlayContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AROverlayContainerView.m; sourceTree = "<group>"; };
+		43795F66109A9684003CCAFB /* AROverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AROverlayView.h; sourceTree = "<group>"; };
+		43795F67109A9684003CCAFB /* AROverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AROverlayView.m; sourceTree = "<group>"; };
+		43795F9B109AA00D003CCAFB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		437960D5109ABE87003CCAFB /* UserLocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLocationAnnotation.h; sourceTree = "<group>"; };
+		437960D6109ABE87003CCAFB /* UserLocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLocationAnnotation.m; sourceTree = "<group>"; };
+		437960F5109AC03A003CCAFB /* UserLocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UserLocation.png; sourceTree = "<group>"; };
 		439EE6DF107576B60053A1AB /* WebPOIProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPOIProvider.h; sourceTree = "<group>"; };
 		439EE6E0107576B60053A1AB /* WebPOIProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPOIProvider.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iPhoneAR-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iPhoneAR-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -120,6 +138,7 @@
 				433E7AAB10837C8200C2C2F2 /* CoreLocation.framework in Frameworks */,
 				4356412E1084421800C958D4 /* libtidy.dylib in Frameworks */,
 				4304B1EF10855ECB00CF9AD8 /* MapKit.framework in Frameworks */,
+				43795F9C109AA00D003CCAFB /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +148,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				437960D5109ABE87003CCAFB /* UserLocationAnnotation.h */,
+				437960D6109ABE87003CCAFB /* UserLocationAnnotation.m */,
+				43795F66109A9684003CCAFB /* AROverlayView.h */,
+				43795F67109A9684003CCAFB /* AROverlayView.m */,
+				43795F59109A9324003CCAFB /* AROverlayContainerView.h */,
+				43795F5A109A9324003CCAFB /* AROverlayContainerView.m */,
 				4304B0E710853F6400CF9AD8 /* Constants.h */,
 				4304B04C1084EA0900CF9AD8 /* CXML */,
 				43564102108440D900C958D4 /* SensorMock */,
@@ -137,6 +162,8 @@
 				1D3623250D0F684500981E51 /* iPhoneARAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* ARViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* ARViewController.m */,
+				4322C3FE109A879C00305ECC /* LayersViewController.h */,
+				4322C3FF109A879C00305ECC /* LayersViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -176,8 +203,9 @@
 				4304B2E210856D7A00CF9AD8 /* Images */,
 				4356412D1084421800C958D4 /* libtidy.dylib */,
 				2899E5210DE3E06400AC0155 /* iPhoneARViewController.xib */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* iPhoneAR-Info.plist */,
+				4322C400109A879C00305ECC /* LayersViewController.xib */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -185,6 +213,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43795F9B109AA00D003CCAFB /* QuartzCore.framework */,
 				433E7AAA10837C8200C2C2F2 /* CoreLocation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -268,6 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				4304B2E310856D7A00CF9AD8 /* QuadrantAnnotation.png */,
+				437960F5109AC03A003CCAFB /* UserLocation.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -348,6 +378,8 @@
 				4304B0751084EA0900CF9AD8 /* Makefile.am in Resources */,
 				4304B0761084EA0900CF9AD8 /* Makefile.in in Resources */,
 				4304B2E410856D7A00CF9AD8 /* QuadrantAnnotation.png in Resources */,
+				4322C402109A879C00305ECC /* LayersViewController.xib in Resources */,
+				437960F6109AC03A003CCAFB /* UserLocation.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +412,10 @@
 				4304B0741084EA0900CF9AD8 /* CTidy.m in Sources */,
 				4304B0A910853A4100CF9AD8 /* POILayer.m in Sources */,
 				4304B1241085403600CF9AD8 /* WikipediaPOIProvider.m in Sources */,
+				4322C401109A879C00305ECC /* LayersViewController.m in Sources */,
+				43795F5B109A9324003CCAFB /* AROverlayContainerView.m in Sources */,
+				43795F68109A9684003CCAFB /* AROverlayView.m in Sources */,
+				437960D7109ABE87003CCAFB /* UserLocationAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

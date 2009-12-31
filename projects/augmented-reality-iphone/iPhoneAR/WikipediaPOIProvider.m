@@ -37,8 +37,7 @@
 {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     CGRect r = [[POIManager sharedManager] latLonRectForQuadrant: q];
-    NSURL * url = [NSURL URLWithString: [NSString stringWithFormat:@"http://ws.geonames.org/findNearbyWikipedia?lat=%f&lng=%f&radius=1.609", r.origin.x + r.size.width / 2.0, r.origin.y + r.size.height / 2.0]];
-    NSLog([url description]);
+    NSURL * url = [NSURL URLWithString: [NSString stringWithFormat:@"http://ws.geonames.org/findNearbyWikipedia?lat=%f&lng=%f&radius=2", r.origin.x + r.size.width / 2.0, r.origin.y + r.size.height / 2.0]];
     
     NSError * err = nil;
     NSData * data = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL: url] returningResponse:nil error:&err];
@@ -85,6 +84,7 @@
         }
     }
     
+    [quadrant resetAge];
     [delegate providerFetchedPOIs:pois inQuadrant:quadrant];
 }
 
