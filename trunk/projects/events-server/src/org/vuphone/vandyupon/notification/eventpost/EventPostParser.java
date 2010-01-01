@@ -15,6 +15,8 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventpost;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.vuphone.vandyupon.datastructs.Location;
@@ -24,6 +26,13 @@ import org.vuphone.vandyupon.notification.NotificationParser;
 public class EventPostParser implements NotificationParser {
 
 	public Notification parse(HttpServletRequest req) {
+		// Use UTF-8 encoding
+		try {
+			req.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
 		if (!req.getParameter("type").equalsIgnoreCase("eventpost")) {
 			return null;
 		}
@@ -46,6 +55,7 @@ public class EventPostParser implements NotificationParser {
 		ep.setReponseType(req.getParameter("resp"));
 		ep.setCallback(req.getParameter("callback"));
 		ep.setDescription(req.getParameter("desc"));
+		System.out.println("Setting description: " + ep.getDescription());
 		ep.setSourceUid(req.getParameter("sourceuid"));
 
 		return ep;

@@ -44,10 +44,23 @@ public class EventPostHandler implements NotificationHandler {
 	 */
 	private int createEvent(EventPost ep, int locationId) throws SQLException {
 		Connection conn = ds_.getConnection();
-		String sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate, sourceuid)"
+		
+		// First check if the event already exists
+		String sql = "SELECT eventid FROM events WHERE sourceuid = ?";
+		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		prep.setString(1, ep.getSourceUid());
+		ResultSet rs = prep.executeQuery();
+		if (rs.next()) {
+			// This is a duplicate event, so update
+			sql = "update events set name = ?, locationid = ?, userid = ?, starttime = ?, endtime = ?" +
+					", lastupdate = ?, sourceuid = ?";
+		} else {
+			// This is a new event, so insert
+			sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate, sourceuid)"
 				+ " values (?, ?, ?, ?, ?, ?, ?)";
-		PreparedStatement prep = conn.prepareStatement(sql,
-				Statement.RETURN_GENERATED_KEYS);
+		}
+		
+		prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
 		prep.setLong(3, ep.getDbUserId());
@@ -61,7 +74,7 @@ public class EventPostHandler implements NotificationHandler {
 					"Insertion into vandyupon.events failed for an unknown reason");
 		} else {
 			// Everything worked
-			ResultSet rs = prep.getGeneratedKeys();
+			rs = prep.getGeneratedKeys();
 			rs.next();
 			int id = rs.getInt(1);
 
