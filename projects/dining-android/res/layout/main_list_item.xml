@@ -30,4 +30,15 @@
   android:layout_below="@mainListItem/name"
   android:layout_toRightOf="@mainListItem/favoriteIcon"
   android:paddingLeft="20dp"/>
+  <TextView
+  android:id="@+mainListItem/specialTextRight"
+  android:textStyle="italic"
+  android:textColor="@android:color/secondary_text_dark"
+  android:layout_height="wrap_content"
+  android:layout_width="wrap_content"
+  android:layout_below="@mainListItem/name"
+  android:layout_alignParentRight="true"
+  android:layout_toRightOf="@mainListItem/specialText"
+  android:layout_marginRight="10dp"
+  android:gravity="right" />
 </RelativeLayout>

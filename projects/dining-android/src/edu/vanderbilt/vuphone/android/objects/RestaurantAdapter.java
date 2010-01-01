@@ -5,6 +5,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -96,11 +100,13 @@ public class RestaurantAdapter extends BaseAdapter {
 	private Context _context;
 	
 	private ArrayList<Long> _order;
-	private boolean showRestaurantType;
-	
-	
 	private int currentSortType;
 	
+	private boolean showRestaurantType = false;
+	private boolean showDistances = false;
+	
+	ArrayList<Double> distances;
+	LocationManager locationManager;
 	
 	public RestaurantAdapter(Context context) {
 		this(context, DEFAULT);
@@ -108,16 +114,19 @@ public class RestaurantAdapter extends BaseAdapter {
 	public RestaurantAdapter(Context context, int sortType) {
 		_context = context;
 		setSort(sortType);
+		initializeLocationService();
 	} 
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
 		_context = context;
 		_order = sortOrder;
 		currentSortType = UNSORTED;
 		setShowFavIcon(showFavIcon);
+		initializeLocationService();
 	}
-	public RestaurantAdapter(Context context, boolean open, boolean timeUntil, boolean favorite) {
+	public RestaurantAdapter(Context context, boolean open, boolean timeUntil, boolean nearFar, boolean favorite) {
 		_context = context;
-		setSort(open, timeUntil, favorite);
+		setSort(open, timeUntil, nearFar, favorite);
+		initializeLocationService();
 	}
 	
 	public int getCount() {
@@ -125,7 +134,6 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	public Object getItem(int i) {
-		Log.i("RA getItem", "getItem()");
 		if (getItemId(i)>0)
 			return Restaurant.get(getItemId(i)); 
 		else return getItemId(i);
@@ -161,16 +169,19 @@ public class RestaurantAdapter extends BaseAdapter {
 			}
 			wrapper.getNameView().setText(Restaurant.getName(rID));
 			wrapper.getSpecialView().setText(getSpecialText(rID));
+			wrapper.getSpecialRightView().setText(getSpecialRightText(rID));
 
 			if (getGrayClosed()) {
 				boolean enabled = Restaurant.getHours(rID).isOpen();
 				wrapper.getNameView().setEnabled(enabled);
 				wrapper.getSpecialView().setEnabled(enabled);
 				wrapper.getFavoriteView().setEnabled(enabled);
+				wrapper.getSpecialRightView().setEnabled(enabled);
 			} else {
 				wrapper.getNameView().setEnabled(true);
 				wrapper.getSpecialView().setEnabled(true);
 				wrapper.getFavoriteView().setEnabled(true);
+				wrapper.getSpecialRightView().setEnabled(true);
 			}
 			
 			 return convertView;
@@ -184,7 +195,6 @@ public class RestaurantAdapter extends BaseAdapter {
 				partition.setClickable(false);
 				partition.setTextSize((float) 14.0);
 				partition.setTypeface(Typeface.DEFAULT_BOLD);
-				Log.i("RA", "made new partition");
 			} else partition = (TextView)convertView;
 			switch ((int)rID) { 
 			case (int)FAVORITE_PARTITION:
@@ -208,21 +218,34 @@ public class RestaurantAdapter extends BaseAdapter {
 		if (showRestaurantType) {
 			return Restaurant.getType(rID);
 		} else {
+			StringBuilder out = new StringBuilder();
 			RestaurantHours rh = Restaurant.getHours(rID);
 			int toOpen = rh.minutesToOpen();
 			if (toOpen==0) {
 				int min = rh.minutesToClose();
 				if (min >= 1440)
-					return "open ";
+					out.append("open");
 				else if (min<=60)
-					return "closes in " + min + " minutes ";
-				else return "closes at " + rh.getNextCloseTime().toString() + " ";
+					out.append("closes in ").append(min).append(" minutes");
+				else out.append("closes at ").append(rh.getNextCloseTime().toString());
 			} else if (toOpen>0) {
 				if (toOpen<=60)
-					return "opens in " + toOpen + " minutes ";
-				else return "opens at " + rh.getNextOpenTime().toString() + " ";
-			} else return "closed "; // closed for the day
+					out.append("opens in ").append(toOpen).append(" minutes");
+				else out.append("opens at ").append(rh.getNextOpenTime().toString());
+			} else out.append("closed"); // closed for the day
+			return out.append(" ").toString();
 		}
+	}
+	
+	private String getSpecialRightText(long rID) {
+		StringBuilder out = new StringBuilder();
+		if (showDistances && distances != null) {
+			double distance = distances.get(Restaurant.getIDs().indexOf(rID));
+			if (distance < 1000)
+				out.append((int)(distance / 10 + .5) * 10).append(" ft");
+			else out.append(((int)(distance / 5280 * 10 + .5)) / 10.0).append(" mi");
+		}
+		return out.append(" ").toString();
 	}
 	
 	private static final int RESTAURANT = 1;
@@ -252,8 +275,11 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	
-	public void setSort(boolean open, boolean timeUntil, boolean favorite) {
+	public void setSort(boolean favorite, boolean open, boolean timeUntil, boolean nearFar) {
 		currentSortType = UNSORTED;
+		if (nearFar) {
+			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.NEAR_FAR);
+		}
 		if (open) {
 			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.OPEN_CLOSED);
 			currentSortType += SHOW_OPEN_PART;
@@ -270,10 +296,10 @@ public class RestaurantAdapter extends BaseAdapter {
 		setSort();
 	}
 	
-	public void setSortPreserveSettings(boolean open, boolean timeUntil, boolean favorite) {
+	public void setSortPreserveSettings(boolean favorite, boolean open, boolean timeUntil, boolean nearFar) {
 		boolean showFavIcon = getShowFavIcon();
 		boolean grayClosed = getGrayClosed();
-		setSort(open, timeUntil, favorite);
+		setSort(open, timeUntil, nearFar, favorite);
 		setShowFavIcon(showFavIcon);
 		setGrayClosed(grayClosed);
 	}
@@ -290,8 +316,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
 		
-		//setShowFavIcon((sortType & SHOW_FAV_ICON) > 0);
-		//setGrayClosed((sortType & GRAY_CLOSED) > 0);
 		if ((sortType & ALPHABETICAL) > 0)
 			sort(_order, ALPHABETICAL);
 		
@@ -301,7 +325,7 @@ public class RestaurantAdapter extends BaseAdapter {
 			int sort = getSortAtLevel(level);
 			switch (sort & 0x7) {
 			case FAVORITE:
-			case OPEN_CLOSED: 
+			case OPEN_CLOSED:
 			case NEAR_FAR:
 				sort(_order, sort);
 				break;
@@ -311,6 +335,7 @@ public class RestaurantAdapter extends BaseAdapter {
 			case TIME_TO_OPEN:
 				sort(_order.subList(firstClosed(), _order.size()), sort);
 				break;
+				
 			}
 		}
 		
@@ -365,6 +390,8 @@ public class RestaurantAdapter extends BaseAdapter {
 	public void setBoolsToDefault() {
 		setGrayClosed(true);
 		setShowFavIcon(indexOf(FAVORITE) == -1);
+		setShowDistances(false);
+		setShowRestaurantType(false);
 	}
 	
 	public void setShowFavIcon(boolean show) {
@@ -400,7 +427,13 @@ public class RestaurantAdapter extends BaseAdapter {
 		return showRestaurantType;
 	}
 	
+	public void setShowDistances(boolean show) {
+		showDistances = show;
+	}
 	
+	public boolean getShowDistances() {
+		return showDistances;
+	}
 	
 	/**	
 	 * @return 
@@ -512,6 +545,51 @@ public class RestaurantAdapter extends BaseAdapter {
 	private int firstClosed() {
 		return firstClosed(0);
 	}
+	
+	public boolean refreshDistances() {
+		//Location here = getCurrentLocation();
+		Location here = new Location("test");
+		here.setLatitude(36.143299); 
+		here.setLongitude(-86.802464);
+		Log.i("RA", "refreshDistances getting current Location");
+		if (here == null) 
+			return false;
+		Log.i("Ra", "refreshDistances got current location, computing distances");
+		Location location = new Location("");
+		ArrayList<Long> IDs = Restaurant.getIDs();
+		distances = new ArrayList<Double>();
+		distances.ensureCapacity(IDs.size());
+		Log.i("RA", here.toString());
+		for (int i = 0; i < IDs.size(); i++) {
+			location.setLatitude(Restaurant.getLat(IDs.get(i)) * 1.0E-6);
+			location.setLongitude(Restaurant.getLon(IDs.get(i)) * 1.0E-6);
+			distances.add(here.distanceTo(location) *  3.2808399); // in feet
+		}
+		return true;
+	}
+	
+	private Location getCurrentLocation() {
+		Criteria needed = new Criteria();
+		needed.setAccuracy(Criteria.ACCURACY_FINE);
+		needed.setAltitudeRequired(false);
+		needed.setBearingRequired(false);
+		needed.setSpeedRequired(false);
+		return locationManager.getLastKnownLocation(locationManager.getBestProvider(needed, true));
+	}
+	
+	private void initializeLocationService() {
+		locationManager = (LocationManager) _context.getSystemService(Context.LOCATION_SERVICE);
+		//locationManager.addTestProvider("test", false, false, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
+//		Location fakeHere = new Location("test");
+//		fakeHere.setLatitude(36.143299);
+//		fakeHere.setLongitude(-86.802464);
+//		locationManager.setTestProviderStatus("test",
+//		LocationProvider.AVAILABLE, null, System.currentTimeMillis()); 
+//		locationManager.setTestProviderEnabled("test", true);
+//		locationManager.setTestProviderLocation("test", fakeHere);
+	}
+	
+	
 	//implementation of merge sort
 	private void sort(List<Long> toSort, int sortType) {
 		if (toSort.size()<=1)
@@ -562,9 +640,52 @@ public class RestaurantAdapter extends BaseAdapter {
 			}
 		}
 		case NEAR_FAR:
-			return true;
+			if (distances == null)
+				return true;
+			if ((sortType & DESCENDING) == 0)
+				return distances.get(Restaurant.getIDs().indexOf(first)) <= distances.get(Restaurant.getIDs().indexOf(second));
+			else 
+				return distances.get(Restaurant.getIDs().indexOf(first)) >= distances.get(Restaurant.getIDs().indexOf(second));
 		default:
 			return true;
 		}
 	}
+	
+
+	private class ViewWrapper {
+		private View _base;
+		private ImageView _favorite;
+		private TextView _name;
+		private TextView _special;
+		private TextView _specialRight;
+		
+		public ViewWrapper(View base) {
+			_base = base;
+		}
+		
+		public ImageView getFavoriteView() {
+			if (_favorite == null) 
+				_favorite = (ImageView)_base.findViewById(R.mainListItem.favoriteIcon);
+			return _favorite;
+		}
+		
+		public TextView getNameView() {
+			if (_name == null) 
+				_name=(TextView)_base.findViewById(R.mainListItem.name);
+			return _name;
+		}
+		
+		public TextView getSpecialView() {
+			if (_special == null)
+				_special = (TextView)_base.findViewById(R.mainListItem.specialText);
+			return _special;
+		}
+		
+		public TextView getSpecialRightView() {
+			if (_specialRight == null)
+				_specialRight = (TextView)_base.findViewById(R.mainListItem.specialTextRight);
+			return _specialRight; 
+		}
+	}
+
 }

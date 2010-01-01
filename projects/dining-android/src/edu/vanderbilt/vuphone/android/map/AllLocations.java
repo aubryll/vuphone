@@ -1,5 +1,6 @@
 package edu.vanderbilt.vuphone.android.map;
 
+import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.google.android.maps.GeoPoint;
@@ -26,7 +27,7 @@ public class AllLocations extends MapActivity {
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
 
-		MapView mapView;
+		MapView mapView; 
 		AllOverlays diningOverlay;
 
 		// start map view and enable zoom controls
@@ -39,13 +40,12 @@ public class AllLocations extends MapActivity {
 		// This GeoPoint is approximately the center of campus
 		GeoPoint point = new GeoPoint(36143299, -86802464);
 		mapView.getController().setCenter(point);
-
 		// creates the overlay containing markers for all dining locations
 		diningOverlay = new AllOverlays(this);
-
+		
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 				mapView);
-		myLocationOverlay.enableMyLocation();
+		myLocationOverlay.enableMyLocation(); 
 
 		mapView.getOverlays().add(diningOverlay);
 		mapView.getOverlays().add(myLocationOverlay);
