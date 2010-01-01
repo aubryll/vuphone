@@ -43,7 +43,7 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> {
 					.getDrawable(Restaurant.getIcon(restaurantIDs.get(x)))));
 			locationOverlay.add(overlayItem);
 			populate();
-		}
+		} 
 	}
 
 	@Override
