@@ -5,13 +5,13 @@
 package org.vuphone.vandyupon.datamine.vandycal;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -41,17 +41,7 @@ public class RequestICal {
 	// Some book-keeping variables
 	private static int missing = 0;
 	private static int unable_to_code = 0;
-	private static int other = 0;
-	
-	public static final char substitute = '\uFFFD'; 
-/*
-	private static final String escapeRegex =
-		"[\u0000|\u0001|\u0002|\u0003|\u0004|\u0005" + 
-		"|\u0006|\u0007|\u0008|\u000B|\u000C|\u000E|\u000F|\u0010|\u0011|\u0012" + 
-		"|\u0013|\u0014|\u0015|\u0016|\u0017|\u0018|\u0019|\u001A|\u001B|\u001C" + 
-		"|\u001D|\u001E|\u001F|\uFFFE|\uFFFF]"; 
-*/
-	private static final String escapeRegex = "[:cntrl:]";
+	private static int other = 0;	
 	
 	public static void main(String[] argv) throws Exception {
 		RequestICal.doIt();
@@ -63,7 +53,7 @@ public class RequestICal {
 		URL url = null;
 		try {
 			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 		} catch (MalformedURLException e1) {
 			System.err.println("ICS calendar URL malformed");
 			e1.printStackTrace();
@@ -75,8 +65,9 @@ public class RequestICal {
 
 		// Write it back out to a temp file
 		try {
-			FileWriter writer = new FileWriter("vu-calendar-temp.ics");
-			BufferedWriter out = new BufferedWriter(writer);
+			FileOutputStream fout = new FileOutputStream("vu-calendar-temp.ics");
+			OutputStreamWriter out = new OutputStreamWriter(fout, "UTF-8");
+
 			String s;
 			while ((s = reader.readLine()) != null) {
 				// Process the string
@@ -84,17 +75,34 @@ public class RequestICal {
 				char[] cbuf = new char[s.length()];
 				s.getChars(0, s.length()-1, cbuf, 0);
 				for (int i=0; i<cbuf.length; i++) {
-					if (Character.isISOControl(cbuf[i]) && cbuf[i] != '\n') {
-						// Replace with a newline
-						cbuf[i] = '\n';
+					char c = cbuf[i];
+					// If an invalid character
+					if (!(
+						(c== 0x9) ||
+						(c== 0xA) ||
+						(c== 0xD) ||
+						((c >= 0x20) && (c <= 0xD7FF)) ||
+						((c >= 0xE000) && (c <= 0xFFFD)) ||
+						((c >= 0x10000) && (c <= 0x10FFFF)))
+						) {
+							// Replace with a newline
+							cbuf[i] = '\n';
 					}
-					if (cbuf[i] > 255) {
+/*
+					// If an invalid control character
+					if (
+						c < 0x20 &&
+						c != 0x9 &&
+						c != 0xA &&
+						c != 0xD
+						) {
+							// Replace with a newline
+							cbuf[i] = '\n';
+					} else if (c > 0x7E) {
+						// Replace with a space
 						cbuf[i] = ' ';
 					}
-				}
-//				s = s.replaceAll(escapeRegex, " ");
-//				s = s.replace(' ', ' ');
-//				out.write(s);
+*/				}
 				out.write(cbuf);
 			}
 			out.close();
@@ -103,13 +111,15 @@ public class RequestICal {
 		}
 
 		// Read in the iCal file from the preprocessed temp file
-		FileInputStream fin = null;
+		InputStreamReader fin = null;
 		try {
-			fin = new FileInputStream("vu-calendar-temp.ics");
+			fin = new InputStreamReader(new FileInputStream("vu-calendar-temp.ics"), "UTF-8");
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not read preprocessed input file vu-calendar-temp.ics");
 			e.printStackTrace();
 			return;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 
 		// Now build the calendar
@@ -136,24 +146,25 @@ public class RequestICal {
 
 		// Used in the loop to store a single event
 		Component c = null;
-		for (int i = 0; i < events.size(); ++i) {
+		for (int i = 0; i < events.size(); i++) {
 			EventPost ep = new EventPost();
 
-			c = (Component) events.get(i);
+			c = (Component)events.get(i);
 
 			Property locName = c.getProperty(Property.LOCATION);
 			if (locName != null) {
 				// Strip backslashes before colons that occur in the ics file
 				ep.setLocationName(locName.getValue().replaceAll("\\\\", ""));
-			} else
+			} else {
 				ep.setLocationName(null);
+			}
 
 			// get geolocation
 			org.vuphone.vandyupon.datastructs.Location location = getLocation(c);
 			ep.setLocation(location);
 
 			// get name
-			Summary name = (Summary) c.getProperty(Property.SUMMARY);
+			Summary name = (Summary)c.getProperty(Property.SUMMARY);
 			if (name == null) {
 				System.out.println("Skipping one w/o a name");
 				continue;
@@ -162,7 +173,7 @@ public class RequestICal {
 			ep.setName(name.getValue().replaceAll("\\\\", ""));
 
 			// get description
-			Description desc = (Description) c.getProperty(Property.DESCRIPTION);
+			Description desc = (Description)c.getProperty(Property.DESCRIPTION);
 			if (desc != null) {
 				// Strip backslashes before colons that occur in the ics file
 				ep.setDescription(desc.getValue().replaceAll("\\\\", ""));
@@ -172,9 +183,9 @@ public class RequestICal {
 			ep.setUser("vandy calendar datamine");
 
 			// get start time
-			DtStart start = (DtStart) c.getProperty(Property.DTSTART);
+			DtStart start = (DtStart)c.getProperty(Property.DTSTART);
 			if (start == null) {
-				++missing;
+				missing++;
 				continue;
 			} else {
 				ep.setStartTime(start.getDate().getTime() / 1000);
@@ -196,7 +207,7 @@ public class RequestICal {
 							.getDescription(), ep.getSourceUid());
 
 			if (postWorked == false)
-				++other;
+				other++;
 
 		}
 
@@ -351,7 +362,7 @@ public class RequestICal {
 
 		// Check to make sure there was a location
 		if (location == null) {
-			++missing;
+			missing++;
 			return null;
 		}
 
@@ -392,4 +403,5 @@ public class RequestICal {
 	public static String getLastError() {
 		return lastError_;
 	}
+	
 }
