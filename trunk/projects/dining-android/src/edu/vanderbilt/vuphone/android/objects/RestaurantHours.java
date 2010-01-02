@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.Main;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 /**
  * @author austin
  *	Limitations: no range can span more than 24 hours, but it can span accross a day 
@@ -12,9 +14,6 @@ import edu.vanderbilt.vuphone.android.dining.Main;
  *	if the end time is equal to the start time, it is a range of 24 hours
  */
 public class RestaurantHours {
-	
-	public static final Time beginning = new Time(0, 0);
-	public static final Time end = new Time(0, 0);
 	
 	// array of 7 arrays (one for each day), each of which contains the ranges that the Restaurant is 
 	// open for that day
@@ -48,8 +47,8 @@ public class RestaurantHours {
 		ArrayList<Range> yesterdayRanges = _openRanges.get((calendarDay - 2 + 7) % 7);
 		if (!yesterdayRanges.isEmpty()) {
 			Range lastYesterday = yesterdayRanges.get(yesterdayRanges.size()-1);
-			if (lastYesterday.overnight())
-				ranges.add(0, new Range(beginning, lastYesterday.getEnd()));
+			if (lastYesterday.overnight() && !lastYesterday.getEnd().equals(Time.beginning))
+				ranges.add(0, new Range(Time.beginning, lastYesterday.getEnd()));
 		}
 		return ranges;
 	}
@@ -127,14 +126,17 @@ public class RestaurantHours {
 		Time now = new Time();
 		Range current = getCurrentRange();
 		if (current != null) {
-			if (current.over24Hours())
+			if (current.over24Hours()) {
 				return 1440;
-			if (current.getStart().equals(beginning)) {
+			}
+			if (current.getStart().equals(Time.beginning)) {
 				ArrayList<Range> today = getTodayRanges();
 				if (today.size()>1) {
 					Range next = today.get(1);
-					if (!next.after(current)) // they overlap
-						return current.minutesUntilEnd(now) + next.minutesUntilEnd(next.getStart());
+					if (!next.after(current)) { // they overlap
+						int min = current.minutesUntilEnd(now) + next.minutesUntilEnd(next.getStart());
+						return min>1440?1440:min;
+					}
 				}
 			}
 			return current.minutesUntilEnd(now);
@@ -151,30 +153,28 @@ public class RestaurantHours {
 		return null;
 	}
 	
-	// returns the next closing time, null if closed for the day
-	// pre: current range does not overlap with the next one
-	// use commented code instead if such functionality is needed
-	// with that pre: restaurant is open, and returns null if open
+	// pre: restaurant is open, and returns null if open
 	// more than 24 hours from now
 	public Time getNextCloseTime() {
 		Range current = getCurrentRange();
-//		if (current == null) 
-//			throw new RuntimeException("Restaurant must be open");
-//		if (current.getStart().equals(beginning)) {
-//			ArrayList<Range> today = getTodayRanges();
-//			if (today.size()>1) {
-//				Range next = today.get(1);
-//				Time now = new Time();
-//				if (!next.after(current)) // they overlap
-//					if (!next.overnight() || next.getEnd().before(now))
-//						return next.getEnd();
-//					else
-//						return null;
-//			}
-//		}
-		if (current != null) 
-			return current.getEnd();
-		return null;
+		if (current == null) 
+			throw new RuntimeException("Restaurant must be open");
+		if (current.getStart().equals(Time.beginning)) {
+			ArrayList<Range> today = getTodayRanges();
+			if (today.size()>1) {
+				Range next = today.get(1);
+				Time now = new Time();
+				if (!next.after(current)) // they overlap
+					if (!next.overnight() || !next.getEnd().after(now))
+						return next.getEnd();
+					else
+						return null;
+			}
+		} 
+		return current.getEnd();
+//		if (current != null) 
+//			return current.getEnd();
+//		return null;
 	}
 	
 	// puts the ranges for a particular day in the correct order, and merges overlapping ranges

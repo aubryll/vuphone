@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,10 +31,10 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	// booleans (maximum 8 boolean values, remove sort levels if need more)
 	public static final int ALPHABETICAL 			= 16; // 2 ^ 4 to be independant of other sorts below
-	public static final int SHOW_FAV_ICON 			= 1; // 2 ^ 0
-	public static final int GRAY_CLOSED				= 2; // 2 ^ 1
-	public static final int SHOW_FAV_PART 			= 4; // 2 ^ 2
-	public static final int SHOW_OPEN_PART 			= 8; // ...
+	public static final int SHOW_FAV_PART 			= 1; // 2 ^ 0
+	public static final int SHOW_OPEN_PART 			= 2; // ...
+	public static final int HIDE_OFF_CAMPUS 		= 4;
+	public static final int HIDE_OFF_THE_CARD		= 8;
 
 	
 	// sort options for each level (maximum value 7)
@@ -57,38 +56,8 @@ public class RestaurantAdapter extends BaseAdapter {
 														0x1000000,
 														0x10000000 };
 	
-	// sample headers
-	public static final int HEADER_FAVORITE_HIGHEST = ALPHABETICAL + GRAY_CLOSED + SHOW_FAV_PART;
-	public static final int HEADER_FAVORITE_NOT_HIGHEST = ALPHABETICAL + GRAY_CLOSED + SHOW_FAV_ICON;
 	
-	
-	// sample sorts, supports old interface
-	public static final int SAMPLE_FAVORITE_OPEN_CLOSED 		= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL[0] * OPEN_CLOSED + 
-																	LEVEL[1] * FAVORITE;
-	public static final int SAMPLE_FAVORITE_TIMES 				= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL[0] * OPEN_CLOSED + 
-																	LEVEL[1] * (TIME_TO_CLOSE + DESCENDING) +
-																	LEVEL[2] * TIME_TO_OPEN + 
-																	LEVEL[3] * FAVORITE;
-	public static final int SAMPLE_FAVORITE_TIMES_ASCENDING 	= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL[0] * OPEN_CLOSED + 
-																	LEVEL[1] * TIME_TO_CLOSE +
-																	LEVEL[2] * TIME_TO_OPEN + 
-																	LEVEL[3] * FAVORITE;
-	public static final int SAMPLE_FAVORITE_TIMES_DESCENDING	= HEADER_FAVORITE_HIGHEST + SHOW_OPEN_PART +
-																	LEVEL[0] * OPEN_CLOSED + 
-																	LEVEL[1] * (TIME_TO_CLOSE + DESCENDING) +
-																	LEVEL[2] * (TIME_TO_OPEN + DESCENDING) + 
-																	LEVEL[3] * FAVORITE;
-	public static final int SAMPLE_FAVORITE						= HEADER_FAVORITE_HIGHEST + 
-																	LEVEL[0] * FAVORITE;
-	public static final int SAMPLE_OPEN_CLOSED					= HEADER_FAVORITE_NOT_HIGHEST + SHOW_OPEN_PART + 
-																	LEVEL[0] * OPEN_CLOSED;
-	public static final int SAMPLE_ALPHABETICAL					= HEADER_FAVORITE_NOT_HIGHEST;
-														
-	
-	public static final int DEFAULT = SAMPLE_FAVORITE_OPEN_CLOSED;
+	public static final int DEFAULT = UNSORTED;
 	
 	// non restaurant item Ids, must be negative
 	public static final long FAVORITE_PARTITION = -1;
@@ -102,6 +71,8 @@ public class RestaurantAdapter extends BaseAdapter {
 	private ArrayList<Long> _order;
 	private int currentSortType;
 	
+	private boolean showFavIcon;
+	private boolean grayClosed;
 	private boolean showRestaurantType = false;
 	private boolean showDistances = false;
 	
@@ -125,7 +96,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	public RestaurantAdapter(Context context, boolean open, boolean timeUntil, boolean nearFar, boolean favorite) {
 		_context = context;
-		setSort(open, timeUntil, nearFar, favorite);
+		setSort(open, timeUntil, nearFar, favorite, false, false);
 		initializeLocationService();
 	}
 	
@@ -211,29 +182,33 @@ public class RestaurantAdapter extends BaseAdapter {
 			}
 			return partition;
 			
-		}
+		} 
+	}
+	
+	public static String hoursText(long rID) {
+		StringBuilder out = new StringBuilder();
+		RestaurantHours rh = Restaurant.getHours(rID);
+		int toOpen = rh.minutesToOpen();
+		if (toOpen==0) {
+			int min = rh.minutesToClose();
+			if (min >= 1440)
+				out.append("open"); // open for 24 hours or more
+			else if (min<=60)
+				out.append("closes in ").append(min).append(" minutes");
+			else out.append("closes at ").append(rh.getNextCloseTime().toString());
+		} else if (toOpen>0) {
+			if (toOpen<=60)
+				out.append("opens in ").append(toOpen).append(" minutes");
+			else out.append("opens at ").append(rh.getNextOpenTime().toString());
+		} else out.append("closed"); // closed for the day
+		return out.toString();
 	}
 	
 	private String getSpecialText(long rID) {
 		if (showRestaurantType) {
-			return Restaurant.getType(rID);
+			return Restaurant.getType(rID) + " ";
 		} else {
-			StringBuilder out = new StringBuilder();
-			RestaurantHours rh = Restaurant.getHours(rID);
-			int toOpen = rh.minutesToOpen();
-			if (toOpen==0) {
-				int min = rh.minutesToClose();
-				if (min >= 1440)
-					out.append("open");
-				else if (min<=60)
-					out.append("closes in ").append(min).append(" minutes");
-				else out.append("closes at ").append(rh.getNextCloseTime().toString());
-			} else if (toOpen>0) {
-				if (toOpen<=60)
-					out.append("opens in ").append(toOpen).append(" minutes");
-				else out.append("opens at ").append(rh.getNextOpenTime().toString());
-			} else out.append("closed"); // closed for the day
-			return out.append(" ").toString();
+			return hoursText(rID) + " ";
 		}
 	}
 	
@@ -275,34 +250,36 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	
-	public void setSort(boolean favorite, boolean open, boolean timeUntil, boolean nearFar) {
-		currentSortType = UNSORTED;
+	public void setSort(boolean favorite, boolean open, boolean timeUntil, boolean nearFar, 
+			boolean settingsModified, boolean sortSettingsModified) {
+		Log.i("RA", Integer.toHexString(currentSortType));
+		currentSortType = currentSortType & ((1 << NUM_BOOLEANS) - 1);
+		Log.i("RA", Integer.toHexString(((1 << NUM_BOOLEANS) - 1)));
+		Log.i("RA", Integer.toHexString(currentSortType));
 		if (nearFar) {
-			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.NEAR_FAR);
+			setSortAtLevel(getNextUnusedLevel(), NEAR_FAR);
 		}
 		if (open) {
-			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.OPEN_CLOSED);
-			currentSortType += SHOW_OPEN_PART;
+			setSortAtLevel(getNextUnusedLevel(), OPEN_CLOSED);
 		}
 		if (timeUntil) {
-			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.TIME_TO_CLOSE);
-			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.TIME_TO_OPEN);
+			setSortAtLevel(getNextUnusedLevel(), TIME_TO_CLOSE);
+			setSortAtLevel(getNextUnusedLevel(), TIME_TO_OPEN);
 		}
 		if (favorite) {
-			setSortAtLevel(getNextUnusedLevel(), RestaurantAdapter.FAVORITE);
-			currentSortType += HEADER_FAVORITE_HIGHEST;
-		} else currentSortType += HEADER_FAVORITE_NOT_HIGHEST;
+			setSortAtLevel(getNextUnusedLevel(), FAVORITE);
+		} 
+		if (!settingsModified) 
+			setAllBoolsToDefault();
+		else if (!sortSettingsModified) 
+			setSortBoolsToDefault();
+		else 
+			setNonSettingBoolsToDefault();
 		
+
 		setSort();
 	}
 	
-	public void setSortPreserveSettings(boolean favorite, boolean open, boolean timeUntil, boolean nearFar) {
-		boolean showFavIcon = getShowFavIcon();
-		boolean grayClosed = getGrayClosed();
-		setSort(open, timeUntil, nearFar, favorite);
-		setShowFavIcon(showFavIcon);
-		setGrayClosed(grayClosed);
-	}
 	
 	/**
 	 * Sets sort method for list and sorts
@@ -315,6 +292,17 @@ public class RestaurantAdapter extends BaseAdapter {
 			return;
 		currentSortType = sortType;
 		_order = Restaurant.copyIDs();
+		
+		if (getHideOffCampus()) {
+			for (int i = _order.size() - 1; i >= 0; i--)
+				if (Restaurant.offCampus(_order.get(i)))
+					_order.remove(i);
+		}
+		if (getHideOffTheCard()) {
+			for (int i = _order.size() - 1; i >= 0; i--)
+				if (!Restaurant.onTheCard(_order.get(i)))
+					_order.remove(i);
+		}
 		
 		if ((sortType & ALPHABETICAL) > 0)
 			sort(_order, ALPHABETICAL);
@@ -387,36 +375,45 @@ public class RestaurantAdapter extends BaseAdapter {
 		return currentSortType;
 	}
 	
-	public void setBoolsToDefault() {
+	public void setNonSettingBoolsToDefault() {
+		currentSortType = currentSortType | ALPHABETICAL;
+		if (indexOf(FAVORITE) != -1) 
+			currentSortType |= SHOW_FAV_PART;
+		else currentSortType &= ~SHOW_FAV_PART;
+		if (indexOf(OPEN_CLOSED) != -1) 
+			currentSortType |= SHOW_OPEN_PART;
+		else currentSortType &= ~SHOW_OPEN_PART;
+	}
+	
+	// settings that depend on the sort
+	public void setSortBoolsToDefault() {
+		setNonSettingBoolsToDefault();
 		setGrayClosed(true);
 		setShowFavIcon(indexOf(FAVORITE) == -1);
+	}
+	
+	public void setAllBoolsToDefault() {
+		setSortBoolsToDefault();
 		setShowDistances(false);
 		setShowRestaurantType(false);
+		setHideOffCampus(false);
+		setHideOffTheCard(false);
 	}
 	
 	public void setShowFavIcon(boolean show) {
-		// the following code would change currentSortType to reflect this change
-		// it is commented because nothing in the implementation currently requires 
-		// currentSortType to perfectly reflect what the actual sorting of the list is
-		// As it is, the added benefit of storing the old value in currentSortType is
-		// present, which is useful for marking favorites
-		if ((currentSortType & SHOW_FAV_ICON) > 0 ^ show) 
-			currentSortType += (show?SHOW_FAV_ICON:-SHOW_FAV_ICON);
+		showFavIcon = show;
 	}
 	
 	public boolean getShowFavIcon() {
-		return (currentSortType & SHOW_FAV_ICON) > 0;
+		return showFavIcon;
 	}
 	
-	
-	
 	public void setGrayClosed(boolean gray) {
-		if ((currentSortType & GRAY_CLOSED) > 0 ^ gray) 
-			currentSortType += (gray?GRAY_CLOSED:-GRAY_CLOSED);
+		grayClosed = gray;
 	}
 	
 	public boolean getGrayClosed() {
-		return (currentSortType & GRAY_CLOSED) > 0;
+		return grayClosed;
 	}
 	
 	public void setShowRestaurantType(boolean show) {
@@ -434,6 +431,28 @@ public class RestaurantAdapter extends BaseAdapter {
 	public boolean getShowDistances() {
 		return showDistances;
 	}
+	
+	public void setHideOffCampus(boolean hide) {
+		if (hide)
+			currentSortType |= HIDE_OFF_CAMPUS;
+		else currentSortType &= ~HIDE_OFF_CAMPUS;
+	}
+	
+	public boolean getHideOffCampus() {
+		return (currentSortType & HIDE_OFF_CAMPUS) > 0;
+	}
+	
+	public void setHideOffTheCard(boolean hide) {
+		if (hide)
+			currentSortType |= HIDE_OFF_THE_CARD;
+		else currentSortType &= ~HIDE_OFF_THE_CARD;
+	}
+	
+	public boolean getHideOffTheCard() {
+		return (currentSortType & HIDE_OFF_THE_CARD) > 0;
+	}
+	
+	
 	
 	/**	
 	 * @return 
@@ -484,8 +503,8 @@ public class RestaurantAdapter extends BaseAdapter {
 	public void setSortAtLevel(int level, int sort) {
 		if (level>=LEVEL.length || level<0)
 			throw new RuntimeException("level bad: " + level);
-		currentSortType = currentSortType & ~(LEVEL[level] * 0xF);
-		currentSortType = currentSortType | (LEVEL[level] * sort);
+		currentSortType &= ~(LEVEL[level] * 0xF);
+		currentSortType |= (LEVEL[level] * sort);
 	}
 	
 	public int getSortAtLevel(int level) {
@@ -519,8 +538,8 @@ public class RestaurantAdapter extends BaseAdapter {
 				if (newLeft == 0)
 					return changed;
 				else changed = true;
-				currentSortType = currentSortType & onesRightOfLevel;
-				currentSortType = currentSortType | newLeft;
+				currentSortType &= onesRightOfLevel;
+				currentSortType |= newLeft;
 			}
 			shiftsRemain--;
 		}
@@ -547,14 +566,12 @@ public class RestaurantAdapter extends BaseAdapter {
 	}
 	
 	public boolean refreshDistances() {
-		//Location here = getCurrentLocation();
-		Location here = new Location("test");
-		here.setLatitude(36.143299); 
-		here.setLongitude(-86.802464);
-		Log.i("RA", "refreshDistances getting current Location");
+		Location here = getCurrentLocation();
+		//Location here = new Location("test"); // use these to fake a position in the middle of campus
+		//here.setLatitude(36.143299); 
+		//here.setLongitude(-86.802464);
 		if (here == null) 
 			return false;
-		Log.i("Ra", "refreshDistances got current location, computing distances");
 		Location location = new Location("");
 		ArrayList<Long> IDs = Restaurant.getIDs();
 		distances = new ArrayList<Double>();
@@ -612,15 +629,22 @@ public class RestaurantAdapter extends BaseAdapter {
 		for (;ri < right.size();)
 			toSort.set(i++, right.get(ri++));
 	}
+	
 	// compare method for merge, 'less or equal'
 	private boolean compare(long first, long second, int sortType) {
 		if (sortType == ALPHABETICAL)
 			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
 		switch (sortType & 0x7) {
 		case FAVORITE:
-			return Restaurant.favorite(first) || !Restaurant.favorite(second);
+			if ((sortType & DESCENDING) == 0)
+				return Restaurant.favorite(first) || !Restaurant.favorite(second);
+			else
+				return Restaurant.favorite(second) || !Restaurant.favorite(first);
 		case OPEN_CLOSED:
-			return Restaurant.getHours(first).isOpen() || !Restaurant.getHours(second).isOpen();
+			if ((sortType & DESCENDING) == 0)
+				return Restaurant.getHours(first).isOpen() || !Restaurant.getHours(second).isOpen();
+			else 
+				return Restaurant.getHours(second).isOpen() || !Restaurant.getHours(first).isOpen();
 		case TIME_TO_CLOSE:
 			if ((sortType & DESCENDING) == 0)
 				return Restaurant.getHours(first).minutesToClose() <= Restaurant.getHours(second).minutesToClose();

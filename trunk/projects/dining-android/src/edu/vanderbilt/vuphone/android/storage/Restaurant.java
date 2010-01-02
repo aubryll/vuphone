@@ -92,7 +92,7 @@ public class Restaurant {
 	protected void setLocation(int lat, int lon)	{_latitude = lat; _longitude = lon;}
 	protected void setFavorite(boolean fav) 		{_favorite = fav;}
 	protected void setType(String type)				{_type = type;}
-	protected void setMenu(RestaurantMenu menu) 				{_menu = menu;}
+	protected void setMenu(RestaurantMenu menu) 	{_menu = menu;}
 	protected void setDescription(String desc)		{_description = desc;}
 	protected void setMoneyAccepted(boolean mealMon){_mealMoneyAccepted = mealMon;}
 	protected void setPlanAccepted(boolean mealPlan){_mealPlanAccepted = mealPlan;}

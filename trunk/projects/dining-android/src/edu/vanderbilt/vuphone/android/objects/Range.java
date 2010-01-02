@@ -5,6 +5,7 @@ import android.util.Log;
 
 public class Range {
 	
+	
 	// start is allowed to be after end, it indicates a range that is intraday
 	private Time _start;
 	private Time _end;
@@ -99,7 +100,7 @@ public class Range {
 	}
 	
 	public boolean overnight() {
-		return !(_start.before(_end));
+		return !_start.before(_end); 
 	}
 	
 	public boolean over24Hours() {

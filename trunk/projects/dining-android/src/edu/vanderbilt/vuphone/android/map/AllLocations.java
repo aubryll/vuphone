@@ -26,7 +26,7 @@ public class AllLocations extends MapActivity {
 	@Override
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
-
+		
 		MapView mapView; 
 		AllOverlays diningOverlay;
 
