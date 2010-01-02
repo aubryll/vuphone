@@ -7,8 +7,10 @@ import edu.vanderbilt.vuphone.android.dining.Main;
 
 
 public class Time {
+	
+	public static Time beginning = new Time(0,0);
+	public static Time end = new Time(23,59);
 
-	private static final Exception NumberFormatException = null;
 	// hour in 24 based time (0-23)
 	private int hour;
 	// minute in range 0-59

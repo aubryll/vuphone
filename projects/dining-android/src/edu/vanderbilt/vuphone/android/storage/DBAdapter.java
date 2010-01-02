@@ -50,7 +50,7 @@ public class DBAdapter {
 	protected static final String COLUMN_TYPE 			= "type";
 	protected static final String COLUMN_ICON 			= "icon";
 	protected static final String COLUMN_LATITUDE 		= "latitude";
-	protected static final String COLUMN_LONGITUDE 	= "longitude";
+	protected static final String COLUMN_LONGITUDE 		= "longitude";
 	protected static final String COLUMN_BOOLEANS		= "bools";
 	protected static final String COLUMN_PHONE_NUMBER 	= "phoneNumber";
 	protected static final String COLUMN_URL 			= "url";
@@ -176,7 +176,7 @@ public class DBAdapter {
 		initialValues.put(COLUMN_LATITUDE 		, r.getLat());
 		initialValues.put(COLUMN_LONGITUDE 		, r.getLon());
 		initialValues.put(COLUMN_BOOLEANS 		, booleansEncode(new boolean [] 
-		         {r.favorite(), r.mealPlanAccepted(), r.mealMoneyAccepted(), r.mealPlanAccepted(), r.offCampus()}));
+		         {r.favorite(), r.mealPlanAccepted(), r.mealMoneyAccepted(), r.offCampus()}));
 		initialValues.put(COLUMN_PHONE_NUMBER 	, r.getPhoneNumber());
 		initialValues.put(COLUMN_URL 			, r.getUrl());
 				
@@ -319,17 +319,17 @@ public class DBAdapter {
 	
 	
 	
-	protected static int booleansEncode(boolean []in) {
+	public static int booleansEncode(boolean []in) {
 		int out = 0;
 		for (int i = 0; i < in.length; i++)
 			out += ((in[i]?1:0)<<i);
 		return out;
 	}
 	
-	protected static boolean [] booleansDecode(int in, int num) {
+	public static boolean [] booleansDecode(int in, int num) {
 		boolean [] out = new boolean[num];
 		for (int i = 0; i < num; i++) {
-			out[i]=(in&1)==1;
+			out[i]=((in&1)==1);
 			in = in >> 1;
 		}
 		return out;

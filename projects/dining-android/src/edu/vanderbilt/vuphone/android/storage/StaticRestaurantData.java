@@ -363,10 +363,6 @@ public class StaticRestaurantData {
 
 	private void quiznosTowersData() {
 		RestaurantHours rh = new RestaurantHours();
-		// TODO Implement a way to show that a restaurant is open beyond the
-		// current day, on Friday and Saturday, Quiznos is open til 4:00 AM and
-		// Sunday through Thursday
-		// is open til 12:30 AM the next day.
 
 		Time start = new Time(11, 0);
 		Time stop = new Time(0, 30);
@@ -689,7 +685,7 @@ public class StaticRestaurantData {
 
 	private void mcTyeireData() {
 		RestaurantHours rh = new RestaurantHours();
-		// TODO Add icon and description for restaurant
+		// TODO Add icon and description, and type for restaurant
 		// Restaurant is closed all day on Saturday and Sunday
 
 		Time start = new Time(7, 0);
@@ -894,13 +890,8 @@ public class StaticRestaurantData {
 
 	private void hemingwayMarketData() {
 		RestaurantHours rh = new RestaurantHours();
-		// TODO Implement a way to show that a restaurant is open beyond the
-		// current day
-		// Strange situation because restaurant opens at 10:00 AM on Sunday then
-		// is open
-		// 24 hours a day until it closes on on Saturday at 11:00 PM
 		Time start = new Time(10, 0);
-		Time stop = new Time(10, 0);
+		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
@@ -920,10 +911,10 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(23, 0);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
-		start = new Time(10, 0);
+		start = new Time(7, 0);
 		stop = new Time(23, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
@@ -1097,23 +1088,23 @@ public class StaticRestaurantData {
 		RestaurantHours rh = new RestaurantHours();
 
 		Time start = new Time(7, 0);
-		Time stop = new Time(6, 59);
+		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(7, 0);
-		stop = new Time(6, 59);
+		stop = new Time(7, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 		
 		Restaurant cafeCoco = new Restaurant("Cafe Coco", rh, false,
@@ -1409,11 +1400,11 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(6, 0);
-		stop = new Time(5, 59);
+		stop = new Time(6, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		start = new Time(6, 0);
-		stop = new Time(5, 59);
+		stop = new Time(6, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 		
 		Restaurant qdoba = new Restaurant("Qdoba", rh, false,

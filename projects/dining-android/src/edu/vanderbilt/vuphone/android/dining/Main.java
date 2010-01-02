@@ -26,6 +26,7 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
+import edu.vanderbilt.vuphone.android.storage.DBAdapter;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 
@@ -57,7 +58,8 @@ public class Main extends ListActivity {
 			applicationContext = getApplicationContext();
 		display24 = "24".equals(System.getString(this.getContentResolver(), System.TIME_12_24));
 		
-		// deleteAllRestaurants();
+		
+		deleteAllRestaurants();
 		// addRandomRestaurantsToDB(20);
 		if (Restaurant.getIDs().isEmpty()) {
 			(new StaticRestaurantData()).createAllRestaurants();
@@ -196,7 +198,9 @@ public class Main extends ListActivity {
 	
 	private boolean[] checkedSort;
 	private boolean[] checkedSetting;
+	private boolean settingsModified = false;
 	private boolean sortSettingsModified = false;
+	private boolean reSortNeeded = false;
 
 	/**
 	 * This opens the dialog that allows the user to choose a new sorting option
@@ -216,8 +220,9 @@ public class Main extends ListActivity {
 							checkedSort[which] = isChecked;
 							((AlertDialog)dialog).getListView().setItemChecked(which, isChecked);
 							
-							if (which == 1 && !isChecked && checkedSort[2])
+							if (which == 1 && !isChecked && checkedSort[2]) {
 								onClick(dialog, 2, false);
+							}
 							if (which == 2 && isChecked) {
 								if (!checkedSort[1])
 									onClick(dialog, 1, true);
@@ -235,13 +240,25 @@ public class Main extends ListActivity {
 
 			builder.setNeutralButton("Done",
 					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int item) {
-							if (sortSettingsModified)
-								ra.setSortPreserveSettings(checkedSort[0], checkedSort[1], checkedSort[2], checkedSort[3]);
-							else 
-								ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2], checkedSort[3]);
+				
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2], 
+									checkedSort[3], settingsModified, sortSettingsModified);
 							ra.notifyDataSetChanged();
 							dialog.dismiss();
+						}
+						
+					});
+			
+
+			builder.setNegativeButton("Cancel", 
+					new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+							
 						}
 					});
 			builder.setTitle("Sort by");
@@ -252,8 +269,10 @@ public class Main extends ListActivity {
 		{
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			
-			CharSequence[] items = { "Show favorites icon", "Gray closed places", "Show distance", "Show place type"};
-			checkedSetting = new boolean [] {ra.getShowFavIcon(), ra.getGrayClosed(), ra.getShowDistances(), ra.getShowRestaurantType()};
+			CharSequence[] items = { "Show favorites icon", "Gray closed places", "Show distance", 
+					"Show place type", "Hide off campus", "Hide off the card"};
+			checkedSetting = new boolean [] {ra.getShowFavIcon(), ra.getGrayClosed(), ra.getShowDistances(), 
+					ra.getShowRestaurantType(), ra.getHideOffCampus(), ra.getHideOffTheCard()};
 			
 			builder.setMultiChoiceItems(items, checkedSetting, 
 					new DialogInterface.OnMultiChoiceClickListener() {
@@ -262,6 +281,8 @@ public class Main extends ListActivity {
 						public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 							checkedSetting[which]=isChecked;
 							((AlertDialog)dialog).getListView().setItemChecked(which, isChecked);
+
+							settingsModified = true;
 							
 							switch (which) {
 							case 0:
@@ -275,7 +296,7 @@ public class Main extends ListActivity {
 							case 2:
 								if (isChecked)
 									if (getLocationWithUI()) {
-										ra.setShowDistances(true); // TODO find a sane way to deal with this if false
+										ra.setShowDistances(true);
 									} else {
 										onClick(dialog, 2, false);
 									}
@@ -283,6 +304,15 @@ public class Main extends ListActivity {
 								break;
 							case 3:
 								ra.setShowRestaurantType(isChecked);
+								break;
+							case 4:
+								ra.setHideOffCampus(isChecked);
+								reSortNeeded = true;
+								break;
+							case 5:
+								ra.setHideOffTheCard(isChecked);
+								reSortNeeded = true;
+								break;
 							}
 							
 						}
@@ -291,6 +321,10 @@ public class Main extends ListActivity {
 			builder.setNeutralButton("Done",
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int item) {
+							if (reSortNeeded) {
+								ra.setSort();
+								reSortNeeded = false;
+							}
 							ra.notifyDataSetChanged();
 							dialog.dismiss();
 						}
@@ -301,15 +335,15 @@ public class Main extends ListActivity {
 						
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							ra.setBoolsToDefault();
-
-							boolean checked[] = {ra.getShowFavIcon(), ra.getGrayClosed(), ra.getShowDistances(), ra.getShowRestaurantType()};
-							for (int i = 0; i<checked.length; i++) {
-								checkedSetting[i]=checked[i];
-								((AlertDialog)dialog).getListView().setItemChecked(i, checked[i]);
-							}
+							ra.setAllBoolsToDefault();
 							
+							settingsModified = false;
 							sortSettingsModified = false;
+
+							if (reSortNeeded) {
+								ra.setSort();
+								reSortNeeded = false;
+							}
 							ra.notifyDataSetChanged();
 							dialog.dismiss();
 						}
@@ -319,6 +353,27 @@ public class Main extends ListActivity {
 
 			return builder.create();
 			
+		}
+		}
+	}
+	
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		switch (id) {
+		case DIALOG_SORT: {
+			boolean [] checked = {ra.indexOf(RestaurantAdapter.FAVORITE) != -1, ra.indexOf(RestaurantAdapter.OPEN_CLOSED) != -1,
+					ra.indexOf(RestaurantAdapter.TIME_TO_CLOSE) != -1, ra.indexOf(RestaurantAdapter.NEAR_FAR) != -1};
+			for (int i = 0; i<checked.length; i++) {
+				checkedSort[i] = checked[i];
+				((AlertDialog)dialog).getListView().setItemChecked(i, checked[i]);
+			}
+		}
+		case DIALOG_SETTINGS: {
+			boolean checked[] = {ra.getShowFavIcon(), ra.getGrayClosed(), ra.getShowDistances(), 
+					ra.getShowRestaurantType(), ra.getHideOffCampus(), ra.getHideOffTheCard()};
+			for (int i = 0; i<checked.length; i++) {
+				checkedSetting[i]=checked[i];
+				((AlertDialog)dialog).getListView().setItemChecked(i, checked[i]);
+			}
 		}
 		}
 	}

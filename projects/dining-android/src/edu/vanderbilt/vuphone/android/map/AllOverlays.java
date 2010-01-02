@@ -9,6 +9,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
+import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
@@ -24,26 +25,16 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> {
 
 		super(new ShapeDrawable(new OvalShape()));
 
-		ArrayList<Long> restaurantIDs = Restaurant.getIDs();
-		int[] locationLatitudes = new int[restaurantIDs.size()], locationLongitudes = new int[restaurantIDs
-				.size()];
-		String[] restaurants = new String[restaurantIDs.size()];
+		ArrayList<Long> IDs = Restaurant.getIDs();
 
-		for (int x = 0; x < restaurantIDs.size(); ++x) {
-			locationLatitudes[x] = Restaurant.getLat(restaurantIDs.get(x));
-			locationLongitudes[x] = Restaurant.getLon(restaurantIDs.get(x));
-			restaurants[x] = Restaurant.getName(restaurantIDs.get(x));
-		}
-
-		for (int x = 0; x < locationLatitudes.length; ++x) {
-			GeoPoint point = new GeoPoint(locationLongitudes[x],
-					locationLatitudes[x]);
-			OverlayItem overlayItem = new OverlayItem(point, restaurants[x], "");
+		for (int i = 0; i < IDs.size(); i++) {
+			OverlayItem overlayItem = new OverlayItem(new GeoPoint(Restaurant.getLat(IDs.get(i)),
+					Restaurant.getLon(IDs.get(i))), Restaurant.getName(IDs.get(i)), RestaurantAdapter.hoursText(IDs.get(i)));
 			overlayItem.setMarker(boundCenterBottom(map.getResources()
-					.getDrawable(Restaurant.getIcon(restaurantIDs.get(x)))));
+					.getDrawable(Restaurant.getIcon(IDs.get(i)))));
 			locationOverlay.add(overlayItem);
-			populate();
 		} 
+		populate();
 	}
 
 	@Override
