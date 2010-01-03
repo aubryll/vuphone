@@ -1,7 +1,9 @@
 package edu.vanderbilt.vuphone.android.map;
 
-import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -22,6 +24,7 @@ public class AllLocations extends MapActivity {
 	 * visible without panning
 	 */
 	public static final int ZOOM = 16;
+	public static final GeoPoint CENTER = new GeoPoint(36143299, -86802464);
 
 	@Override
 	public void onCreate(Bundle ice) {
@@ -34,14 +37,13 @@ public class AllLocations extends MapActivity {
 		setContentView(R.layout.map);
 		mapView = (MapView) findViewById(R.map.mapview);
 		mapView.setBuiltInZoomControls(true);
-		mapView.setClickable(true);
+
 
 		mapView.getController().setZoom(ZOOM);
-		// This GeoPoint is approximately the center of campus
-		GeoPoint point = new GeoPoint(36143299, -86802464);
-		mapView.getController().setCenter(point);
+		mapView.getController().setCenter(CENTER);
+		
 		// creates the overlay containing markers for all dining locations
-		diningOverlay = new AllOverlays(this);
+		diningOverlay = new AllOverlays(this, mapView);
 		
 		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
 				mapView);

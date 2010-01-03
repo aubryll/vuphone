@@ -208,7 +208,7 @@ public class Main extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DIALOG_SORT:
-		default: {
+		{
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			CharSequence[] items = {"Favorite", "Open", "Time until close", "Near" };
 
@@ -266,7 +266,7 @@ public class Main extends ListActivity {
 			return builder.create();
 		}
 		case DIALOG_SETTINGS:
-		{
+		default: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			
 			CharSequence[] items = { "Show favorites icon", "Gray closed places", "Show distance", 
@@ -366,6 +366,7 @@ public class Main extends ListActivity {
 				checkedSort[i] = checked[i];
 				((AlertDialog)dialog).getListView().setItemChecked(i, checked[i]);
 			}
+			break;
 		}
 		case DIALOG_SETTINGS: {
 			boolean checked[] = {ra.getShowFavIcon(), ra.getGrayClosed(), ra.getShowDistances(), 
@@ -374,6 +375,7 @@ public class Main extends ListActivity {
 				checkedSetting[i]=checked[i];
 				((AlertDialog)dialog).getListView().setItemChecked(i, checked[i]);
 			}
+			break;
 		}
 		}
 	}
@@ -381,10 +383,15 @@ public class Main extends ListActivity {
 	
 	
 	private boolean getLocationWithUI() {
+		//Toast trying = Toast.makeText(this, "Trying to determine your location..." , Toast.LENGTH_SHORT);
+		//trying.show();
 		if (!ra.refreshDistances()) {
-			Toast.makeText(this, "Unable to get location", Toast.LENGTH_SHORT).show();
+		//	trying.cancel();
+			Toast.makeText(this, "Current location temporarily unavailable", Toast.LENGTH_SHORT).show();
 			return false;
-		} return true;
+		} 
+		//trying.cancel();
+		return true;
 	}
 
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW
