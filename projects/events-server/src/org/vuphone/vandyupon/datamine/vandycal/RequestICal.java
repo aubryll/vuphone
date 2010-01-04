@@ -76,7 +76,7 @@ public class RequestICal {
 				s.getChars(0, s.length()-1, cbuf, 0);
 				for (int i=0; i<cbuf.length; i++) {
 					char c = cbuf[i];
-					// If an invalid character
+/*					// If an invalid character
 					if (!(
 						(c== 0x9) ||
 						(c== 0xA) ||
@@ -88,7 +88,7 @@ public class RequestICal {
 							// Replace with a newline
 							cbuf[i] = '\n';
 					}
-/*
+*/
 					// If an invalid control character
 					if (
 						c < 0x20 &&
@@ -98,11 +98,11 @@ public class RequestICal {
 						) {
 							// Replace with a newline
 							cbuf[i] = '\n';
-					} else if (c > 0x7E) {
+					} else if (c > 0xFF) {
 						// Replace with a space
 						cbuf[i] = ' ';
 					}
-*/				}
+				}
 				out.write(cbuf);
 			}
 			out.close();
