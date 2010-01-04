@@ -3,8 +3,8 @@ package edu.vanderbilt.vuphone.android.map;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -15,6 +15,7 @@ import com.google.android.maps.OverlayItem;
 
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.dining.RestaurantDetails;
+import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
@@ -28,7 +29,9 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 	private AllLocations map;
 	private MapView mapView;
 	private RelativeLayout popup;
+	//private ImageView icon;
 	private TextView popupText;
+	private TextView specialText;
 	
 	private ArrayList<OverlayItem> locationOverlay = new ArrayList<OverlayItem>();
 
@@ -38,14 +41,17 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 		this.map = map;
 		this.mapView = mapview;
 		popup = (RelativeLayout)mapView.findViewById(R.map.popup);
-		popupText = (TextView)popup.findViewById(R.map.textButton);
+		//icon = (ImageView)popup.findViewById(R.map.icon);
+		popupText = (TextView)popup.findViewById(R.map.title);
+		specialText = (TextView)popup.findViewById(R.map.specialText);
+		
 		popup.setOnClickListener(this);
 		
 		ArrayList<Long> IDs = Restaurant.getIDs();
 
 		for (int i = 0; i < IDs.size(); i++) {
 			OverlayItem overlayItem = new OverlayItem(new GeoPoint(Restaurant.getLat(IDs.get(i)),
-					Restaurant.getLon(IDs.get(i))), Restaurant.getName(IDs.get(i)), String.valueOf(IDs.get(i))); 
+					Restaurant.getLon(IDs.get(i))), Restaurant.getName(IDs.get(i)), RestaurantAdapter.hoursText(IDs.get(i))); 
 						// hackish way of storing the restaurant id inside the snippet text
 			// TODO make custom markers for each restaurant
 			if (Restaurant.offCampus(IDs.get(i)))
@@ -68,7 +74,9 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 				getItem(index).getPoint(), 0, -getItem(index).getMarker(0).getIntrinsicHeight(), MapView.LayoutParams.BOTTOM_CENTER));
 		popup.setVisibility(View.VISIBLE);
 		
+		//icon.setImageResource(Restaurant.getIcon(Restaurant.getIDs().get(index)));
 		popupText.setText(getItem(index).getTitle());
+		specialText.setText(getItem(index).getSnippet());
 		
 		mapView.getController().animateTo(getItem(index).getPoint());
 		return true; //super.onTap(index);
@@ -88,7 +96,7 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 	@Override
 	public void onClick(View v) {
 		Intent toDetails = new Intent(map, RestaurantDetails.class);
-		toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, Long.valueOf(getItem(clickedPosition).getSnippet()));
+		toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, Restaurant.getIDs().get(clickedPosition));
 		map.startActivity(toDetails);
 	}
 	
