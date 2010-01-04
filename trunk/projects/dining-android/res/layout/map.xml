@@ -19,11 +19,23 @@
 			android:layout_height="wrap_content" 
 			android:padding="10dp"
 			android:background="@drawable/map_popup_box"
-			android:visibility="gone" >
-			<TextView android:id="@+map/textButton" 
+			android:visibility="gone">
+			<!-- <ImageView android:id="@+map/icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:layout_centerVertical="true"
+				android:maxHeight="15dp"
+				android:maxWidth="15dp"/> -->
+			<TextView android:id="@+map/title" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
-				android:textColor="@android:color/primary_text_light"/>
+				android:textSize="18dp"
+				android:textColor="@android:color/primary_text_light" />
+			<TextView android:id="@+map/specialText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@android:color/secondary_text_light"
+				android:layout_below="@map/title" />
 		</RelativeLayout>
 		
     </com.google.android.maps.MapView>
