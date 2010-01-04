@@ -11,6 +11,11 @@
 
 @implementation NSManagedObjectContext(Convenience)
 
+- (NSSet *)fetchAllObjectsForEntityName:(NSString *)entityName
+{
+	return [self fetchObjectsForEntityName:entityName withPredicateString:@"TRUEPREDICATE"];
+}
+
 // Convenience method to fetch the array of objects for a given Entity
 // name in the context, optionally limiting by a predicate or by a predicate
 // made from a format NSString and variable arguments.
