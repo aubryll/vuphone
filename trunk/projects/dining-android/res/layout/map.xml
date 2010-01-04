@@ -17,7 +17,7 @@
 			android:id="@+map/popup"
 	        android:layout_width="wrap_content"
 			android:layout_height="wrap_content" 
-			android:padding="10dp"
+			android:padding="9px"
 			android:background="@drawable/map_popup_box"
 			android:visibility="gone">
 			<!-- <ImageView android:id="@+map/icon"
@@ -29,7 +29,7 @@
 			<TextView android:id="@+map/title" 
 				android:layout_width="wrap_content" 
 				android:layout_height="wrap_content"
-				android:textSize="18dp"
+				android:textSize="18px"
 				android:textColor="@android:color/primary_text_light" />
 			<TextView android:id="@+map/specialText"
 				android:layout_width="wrap_content"

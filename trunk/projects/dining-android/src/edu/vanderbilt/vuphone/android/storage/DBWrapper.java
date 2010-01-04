@@ -172,8 +172,18 @@ public class DBWrapper {
 			if (i>=0) {
 				if (mainDataCached)
 					cache.remove(i);
-				IDs.remove(i);
+				IDs.remove(i); // IDs cached with getIDs() above
 			}
+			return true;
+		} else return false;
+	}
+	
+	public static boolean deleteAll() {
+		makeWritable();
+		if (adapter.deleteAllRestaurants()) {
+			idsCached = false;
+			mainDataCached = false;
+			mapDataCached = false;
 			return true;
 		} else return false;
 	}

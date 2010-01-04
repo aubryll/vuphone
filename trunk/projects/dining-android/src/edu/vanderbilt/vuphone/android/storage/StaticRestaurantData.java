@@ -9,6 +9,8 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class StaticRestaurantData {
+	
+	public static final int NUM_RESTAURANTS = 47;
 
 	int maxMenuItems = 10;
 

@@ -27,6 +27,7 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
 import edu.vanderbilt.vuphone.android.storage.DBAdapter;
+import edu.vanderbilt.vuphone.android.storage.DBWrapper;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 
@@ -58,21 +59,25 @@ public class Main extends ListActivity {
 			applicationContext = getApplicationContext();
 		display24 = "24".equals(System.getString(this.getContentResolver(), System.TIME_12_24));
 		
-		
-		deleteAllRestaurants();
-		// addRandomRestaurantsToDB(20);
-		if (Restaurant.getIDs().isEmpty()) {
+		//DBWrapper.deleteAll();
+		if (Restaurant.getIDs().size() != StaticRestaurantData.NUM_RESTAURANTS) {
+			Log.i("Dining", "database purged: getIDs().size()=" + Restaurant.getIDs().size() +
+					", Static data size=" + StaticRestaurantData.NUM_RESTAURANTS);
+			DBWrapper.deleteAll();
 			(new StaticRestaurantData()).createAllRestaurants();
 		}
 
 		initializeContentView();
-		checkedSort = new boolean[] {true, true, false, false};
+		checkedSort = new boolean[] {true, true, false, false}; // {favorite, open, time till close, near}
 
 		
 		ra = new RestaurantAdapter(this, checkedSort[0], checkedSort[1], checkedSort[2], checkedSort[3]);
 		
 		setListAdapter(ra);
-		getListView().setTextFilterEnabled(true);
+		// getListView().setTextFilterEnabled(true); 
+			// RestaurantAdapter must implement Filterable for this to work
+		//getListView().setFastScrollEnabled(true);
+			// dont know if this is appropriate
 		
 	}
 
@@ -396,55 +401,49 @@ public class Main extends ListActivity {
 
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW
 
-	private void deleteAllRestaurants() {
-		ArrayList<Long> ids = Restaurant.copyIDs();
-		for (int i = 0; i < ids.size(); i++)
-			Restaurant.delete(ids.get(i));
-	}
-
-	private void addRandomRestaurantsToDB(int numRest) {
-		String[] letters = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "k",
-				"l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
-				"x", "y", "z" };
-		int maxRanges = 2;
-		int maxMenuItems = 10;
-		int hourOffset = 5;
-		Log.i("test", "loading database with valid random data");
-		Random r = new Random();
-		for (int i = 1; i <= numRest; i++) {
-			RestaurantHours rh = new RestaurantHours();
-			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
-				int ranges = r.nextInt(maxRanges) + 1;
-				for (int k = 0; k < ranges; k++) {
-					Time start = new Time((r.nextInt(12 / ranges) + k * 24
-							/ ranges + hourOffset) % 24, r.nextInt(59));
-					Time stop = new Time(((r.nextInt(12) + 12) / ranges + k
-							* 24 / ranges + hourOffset) % 24, r.nextInt(59));
-					rh.addRange(day, new Range(start, stop));
-				}
-			}
-			RestaurantMenu menu = new RestaurantMenu();
-			int items = r.nextInt(maxMenuItems);
-			for (int k = 0; k < items; k++) {
-				String name = new String();
-				for (int j = 0; j < 14; j++)
-					name = name + letters[r.nextInt(letters.length)];
-				menu
-						.addItem(new RestaurantMenu.MenuItem(name,
-								"A wonderful blend of nothing and everything to make something"));
-			}
-			String name = new String();
-			for (int j = 0; j < 7; j++)
-				name = name + letters[r.nextInt(letters.length)];
-			Restaurant restaurant = new Restaurant(name + " " + i, rh, r
-					.nextBoolean()
-					&& r.nextBoolean(), r.nextInt(), r.nextInt(), "cafe", menu,
-					"Known for its fine cuisine, this is the restaurant Restaurant "
-							+ name + " " + i, R.drawable.dining, true, false,
-					false, "(615) 555-1234", "http://example.com");
-			restaurant.create();
-		}
-	}
+//	private void addRandomRestaurantsToDB(int numRest) {
+//		String[] letters = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "k",
+//				"l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w",
+//				"x", "y", "z" };
+//		int maxRanges = 2;
+//		int maxMenuItems = 10;
+//		int hourOffset = 5;
+//		Log.i("test", "loading database with valid random data");
+//		Random r = new Random();
+//		for (int i = 1; i <= numRest; i++) {
+//			RestaurantHours rh = new RestaurantHours();
+//			for (int day = Calendar.SUNDAY; day <= Calendar.SATURDAY; day++) {
+//				int ranges = r.nextInt(maxRanges) + 1;
+//				for (int k = 0; k < ranges; k++) {
+//					Time start = new Time((r.nextInt(12 / ranges) + k * 24
+//							/ ranges + hourOffset) % 24, r.nextInt(59));
+//					Time stop = new Time(((r.nextInt(12) + 12) / ranges + k
+//							* 24 / ranges + hourOffset) % 24, r.nextInt(59));
+//					rh.addRange(day, new Range(start, stop));
+//				}
+//			}
+//			RestaurantMenu menu = new RestaurantMenu();
+//			int items = r.nextInt(maxMenuItems);
+//			for (int k = 0; k < items; k++) {
+//				String name = new String();
+//				for (int j = 0; j < 14; j++)
+//					name = name + letters[r.nextInt(letters.length)];
+//				menu
+//						.addItem(new RestaurantMenu.MenuItem(name,
+//								"A wonderful blend of nothing and everything to make something"));
+//			}
+//			String name = new String();
+//			for (int j = 0; j < 7; j++)
+//				name = name + letters[r.nextInt(letters.length)];
+//			Restaurant restaurant = new Restaurant(name + " " + i, rh, r
+//					.nextBoolean()
+//					&& r.nextBoolean(), r.nextInt(), r.nextInt(), "cafe", menu,
+//					"Known for its fine cuisine, this is the restaurant Restaurant "
+//							+ name + " " + i, R.drawable.dining, true, false,
+//					false, "(615) 555-1234", "http://example.com");
+//			restaurant.create();
+//		}
+//	}
 
 	
 }
