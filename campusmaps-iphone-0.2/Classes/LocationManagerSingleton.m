@@ -35,10 +35,11 @@ static LocationManagerSingleton *sharedLocationManagerSingleton = nil;
 // Returns the most recent location known to the locationManager.
 - (CLLocation *)lastKnownLocation
 {
-	// Location corresponds to 10 21st Avenue South, Nashville, TN. This is hard-coded
-	// for now because accessing location-based services on simulator is not working for me.
-	CLLocation *loc = [[[CLLocation alloc] initWithLatitude:36.136637 longitude:-86.80088] autorelease];
+	// Location corresponds to the center of campus, Nashville, TN. This is hard-coded
+	// for now because accessing location-based services on simulator is not working.
+	CLLocation *loc = [[[CLLocation alloc] initWithLatitude:36.142 longitude:-86.8044] autorelease];
 	return loc;
+	
 }
 
 #pragma mark -

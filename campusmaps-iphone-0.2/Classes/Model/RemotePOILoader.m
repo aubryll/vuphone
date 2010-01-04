@@ -36,9 +36,17 @@
 	NSLog(@"Requesting URL: %@", urlString);
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
+	
 	// Make the request to get the data
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
 
+	// If URL request failed. Use the static XML file.
+	if (responseData == nil) {
+		NSLog(@"Failed to retrieve building data.");
+		responseData = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] 
+													   stringByAppendingPathComponent:POI_REQUEST_ALTERNATIVE]];
+	}
+	
 	// Parse the request
 	NSError *err = nil;
 	DDXMLDocument *responseXml = [[DDXMLDocument alloc] initWithData:responseData options:0 error:&err];
