@@ -13,8 +13,7 @@
 
 + (NSSet *)allLayers:(NSManagedObjectContext *)context
 {
-	NSSet *result = [context fetchObjectsForEntityName:ENTITY_NAME_LAYER
-								   withPredicateString:@"TRUEPREDICATE"];
+	NSSet *result = [context fetchAllObjectsForEntityName:ENTITY_NAME_LAYER];
 
 	return result;
 }
