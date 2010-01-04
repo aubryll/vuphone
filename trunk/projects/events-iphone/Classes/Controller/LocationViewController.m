@@ -38,7 +38,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	NSLog(@"viewWillDisappear");
 	if (location) {
 		[mapView removeAnnotation:location];
 	}
@@ -130,7 +129,6 @@
 }
 
 - (void)viewDidUnload {
-	NSLog(@"viewDidUnload");
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 	self.mapView = nil;

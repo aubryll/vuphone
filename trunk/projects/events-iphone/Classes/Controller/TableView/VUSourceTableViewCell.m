@@ -32,7 +32,6 @@
 }
 
 - (void)setSource:(NSString *)newSource {
-	NSLog(@"setSource: %@", newSource);
 	if (source != newSource) {
 		[source release];
 		source = [newSource retain];

@@ -9,6 +9,7 @@
 #import "VUEditableCellController.h"
 
 #define DefaultRowHeight 44.0f
+#define KeyboardAnimationDuration 1.0f
 
 @implementation VUEditableCellController
 
@@ -17,6 +18,7 @@
 	self = [super init];
 	if (self != nil) {
 		label = [aLabel retain];
+		animatedDistance = 0.0f;
 	}
 	return self;
 }
@@ -24,7 +26,7 @@
 - (void)dealloc {
 	[editableCell release];
 	self.delegate = nil;
-    [super dealloc];
+	[super dealloc];
 }
 
 - (VUEditableCell *)cell
@@ -91,6 +93,40 @@
 	[self textFieldValueChanged:editableCell.textField.text];
 }
 
+/*
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	CGRect textFieldRect = [self.view.window convertRect:textField.bounds fromView:textField];
+	CGRect viewRect = [self.view.window convertRect:self.view.bounds fromView:self.view];
+	NSLog(@"textFieldRect: %@", textFieldRect);
+	NSLog(@"viewRect: %@", viewRect);
+	
+	CGRect viewFrame = self.view.frame;
+	viewFrame.origin.y -= animatedDistance;
+	
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+	[UIView setAnimationDuration:KeyboardAnimationDuration];
+	
+	[self.view setFrame:viewFrame];
+	
+	[UIView commitAnimations];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+	CGRect viewFrame = self.view.frame;
+	viewFrame.origin.y += animatedDistance;
+	
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+	[UIView setAnimationDuration:KeyboardAnimationDuration];
+	
+	[self.view setFrame:viewFrame];
+	
+	[UIView commitAnimations];
+}
+*/
 - (void)textFieldValueChanged:(NSString *)newValue
 {
 	self.value = newValue;

@@ -14,6 +14,8 @@
 #import "VUTableViewController.h"
 #import "VUCellControllerDelegate.h"
 
+#define kTabBarHeight 50
+
 @interface EventViewController : VUTableViewController <VUCellControllerDelegate>
 {
 	IBOutlet UITableView *myTableView;
@@ -25,6 +27,9 @@
 	Event *event;
 	NSManagedObjectContext *context;
 	NSDateFormatter *dateFormatter;
+	
+	BOOL keyboardIsShowing;
+	NSIndexPath *currentCellIndexPath;
 }
 
 - (IBAction)save:(id)sender;
@@ -32,7 +37,8 @@
 - (IBAction)beginEditing:(id)sender;
 - (IBAction)cancelEditing:(id)sender;
 
-@property (nonatomic, retain, setter=setEvent:) Event *event;
-@property (nonatomic, retain) NSManagedObjectContext *context;
+@property (retain, setter=setEvent:) Event *event;
+@property (retain) NSManagedObjectContext *context;
+@property (retain) NSIndexPath *currentCellIndexPath;
 
 @end

@@ -22,9 +22,29 @@
 @implementation EventViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	dateFormatter = [[NSDateFormatter alloc] init];
+	
+	[[NSNotificationCenter defaultCenter]
+	 addObserver:self
+	 selector:@selector(keyboardDidShow:)
+	 name:UIKeyboardDidShowNotification
+	 object:nil];
+	
+	[[NSNotificationCenter defaultCenter]
+	 addObserver:self
+	 selector:@selector(keyboardDidHide:)
+	 name:UIKeyboardWillHideNotification
+	 object:nil];
+	
+	[[NSNotificationCenter defaultCenter]
+	 addObserver:self
+		selector:@selector(editableCellBeganEditing:)
+			name:VUEditableCellBeganEditingNotification
+		  object:nil];
+	
+	self.currentCellIndexPath = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -55,7 +75,7 @@
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+	[super didReceiveMemoryWarning];
 }
 
 - (void)viewDidUnload {
@@ -63,11 +83,13 @@
 	// e.g. self.myOutlet = nil;
 	self.event = nil;
 	self.context = nil;
+	[dateFormatter release];
+	self.currentCellIndexPath = nil;
 }
 
 
 - (void)dealloc {
-    [super dealloc];
+	[super dealloc];
 }
 
 #pragma mark Actions
@@ -218,6 +240,64 @@
 }
 
 
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+	// Shorten the table view's frame by the keyboard's height
+	if (!keyboardIsShowing) {
+		keyboardIsShowing = YES;
+		
+		CGRect keyboardBounds;
+		[[notification.userInfo valueForKey:UIKeyboardBoundsUserInfoKey] getValue:&keyboardBounds];
+
+		CGRect frame = self.tableView.frame;
+		frame.size.height -= (keyboardBounds.size.height - kTabBarHeight);
+		self.tableView.frame = frame;
+	}
+
+	if (self.currentCellIndexPath) {
+		[self.tableView scrollToRowAtIndexPath:self.currentCellIndexPath
+							  atScrollPosition:UITableViewScrollPositionNone
+									  animated:YES];
+	}
+}
+
+- (void)keyboardDidHide:(NSNotification *)notification
+{
+	// Resize the tableview back down
+	CGRect keyboardBounds;
+	[[notification.userInfo valueForKey:UIKeyboardBoundsUserInfoKey] getValue:&keyboardBounds];
+
+	CGRect frame = self.tableView.frame;
+	frame.size.height += (keyboardBounds.size.height - kTabBarHeight);
+	self.tableView.frame = frame;
+
+	keyboardIsShowing = NO;
+	self.currentCellIndexPath = nil;
+}
+
+- (void)editableCellBeganEditing:(NSNotification *)notification
+{
+	VUEditableCellController *ecc = [notification object];
+	
+	// Determine the appropriate textField
+	for (int i = 0; i<[[self tableGroups] count]; i++) {
+		VUTableViewController *tvc = (VUTableViewController *)[[[self tableGroups] objectAtIndex:i] objectAtIndex:0];
+		NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:i];
+
+		if ((VUEditableCellController *)tvc == ecc) {
+			// Save the scroll path
+			self.currentCellIndexPath = indexPath;
+
+//			NSLog(@"editableCellBeganEditing scrolling to section %i", self.currentCellIndexPath.section);
+			[self.tableView scrollToRowAtIndexPath:self.currentCellIndexPath
+								  atScrollPosition:UITableViewScrollPositionNone
+										  animated:YES];
+			break;
+		}
+	}
+	
+}
+
 - (void)setEvent:(Event *)newEvent
 {
 	if (event != newEvent) {
@@ -230,5 +310,6 @@
 
 @synthesize event;
 @synthesize context;
+@synthesize currentCellIndexPath;
 
 @end
