@@ -21,6 +21,7 @@
 	CLLocationManager *locationManager;
 	NSPredicate *sourcesPredicate;
 	NSPredicate *filterPredicate;
+	NSPredicate *todayOrLaterPredicate;
 	
 	NSArray *sectionIndexTitles;
 	NSArray *chosenSources;
@@ -34,7 +35,6 @@
 
 - (IBAction)addEvent:(id)sender;
 - (IBAction)showSourcesSheet:(id)sender;
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (EventViewController *)eventViewController;
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope;
 - (void)setChosenSources:(NSArray *)sources;

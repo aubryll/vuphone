@@ -37,7 +37,6 @@
 - (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSLog(@"Getting events");
 
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
 	if (lastUpdate == nil) {
@@ -48,7 +47,6 @@
 	[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
 	
 	[RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
-	NSLog(@"RemoteEventLoader returned");
 	NSError *err = nil;
 	[context save:&err];
 	

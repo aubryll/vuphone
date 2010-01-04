@@ -56,7 +56,7 @@
 	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
-	NSLog(@"Requesting URL: %@", urlString);
+//	NSLog(@"Requesting URL: %@", urlString);
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	// Make the request to get the data
@@ -113,7 +113,8 @@
 	}
 	else
 	{
-		NSLog(@"No nodes found: %@", responseXml);
+		// No events were found
+//		NSLog(@"No nodes found: %@", responseXml);
 	}
 	
 	[responseXml release];
@@ -179,18 +180,16 @@
 	[urlString appendFormat:@"&desc=%@", event.details];
 
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSLog(@"%@", escapedUrlString);
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 
 	// Make the request to get the data
-	NSLog(@"Submitting URL: %@", urlString);
+//	NSLog(@"Submitting URL: %@", urlString);
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
 
-	NSLog(@"submitEvent returned data %@", [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease]);
+//	NSLog(@"submitEvent returned data %@", [[[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding] autorelease]);
 	// Parse the request
 	NSError *err = nil;
 	DDXMLDocument *responseXml = [[DDXMLDocument alloc] initWithData:responseData options:0 error:&err];
-	NSLog(@"response: %@", [responseXml stringValue]);
 	if (err) {
 		NSLog(@"Error loading response XML: %@", err);
 	} else {

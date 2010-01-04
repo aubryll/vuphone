@@ -212,17 +212,14 @@
 	switch(type)
 	{
 		case NSFetchedResultsChangeInsert:
-			NSLog(@"NSFetchedResultsChangeInsert with event %@", ((Event *)anObject).name);
 			[mapView addAnnotation:anObject];
 			break;
 			
 		case NSFetchedResultsChangeDelete:
-			NSLog(@"NSFetchedResultsChangeDelete");
 			[mapView removeAnnotation:anObject];
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
-			NSLog(@"NSFetchedResultsChangeUpdate");
 			[mapView removeAnnotation:anObject];
 			[mapView addAnnotation:anObject];
 			break;

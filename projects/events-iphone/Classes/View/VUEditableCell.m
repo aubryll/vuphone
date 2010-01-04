@@ -71,6 +71,12 @@
 
 #pragma mark UITextFieldDelegate
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+	[[NSNotificationCenter defaultCenter]
+	 postNotificationName:VUEditableCellBeganEditingNotification object:controller];
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)aTextField
 {
 	[controller textFieldValueChanged:self.textField.text];

@@ -11,6 +11,9 @@
 #import "VUCellControllerDelegate.h"
 #import "VUEditableCell.h"
 
+#define VUEditableCellBeganEditingNotification @"VUEditableCellBeganEditingNotification"
+#define VUEditableCellEndedEditingNotification @"VUEditableCellEndedEditingNotification"
+
 @interface VUEditableCellController : UIViewController <VUCellController, UITextFieldDelegate> {
 
 	VUEditableCell *editableCell;
@@ -21,6 +24,8 @@
 	NSString *value;
 	
 	BOOL isEditable;
+	
+	CGFloat animatedDistance;
 }
 
 - (id)initWithLabel:(NSString *)aLabel;

@@ -22,21 +22,24 @@
 	NSArray *sources = [Event allSources];
 	
 	isSearching = NO;
+	
+	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSDateComponents *components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
+	NSDate *midnight = [gregorian dateFromComponents:components];
+	todayOrLaterPredicate = [[NSPredicate predicateWithFormat:@"endTime > %@", midnight] retain];
 
 	// Hard-coding the list of chosen sources for now
 	NSMutableArray *tempChosenSources = [[NSMutableArray alloc] init];
 	[tempChosenSources addObject:[sources objectAtIndex:0]];
-	[tempChosenSources addObject:[sources objectAtIndex:1]];
 	[tempChosenSources addObject:[sources objectAtIndex:4]];
 	chosenSources = tempChosenSources;
+	
+	// Disable the Sources button
+	self.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	// Set the table view header color, which for whatever reason can't be set in IB
-	
-	self.tableView.separatorColor = self.navigationController.navigationBar.tintColor;
-	
 	if (!fetchedResultsC)
 	{
 		// Set up the initial fetch request
@@ -93,6 +96,7 @@
 	self.fetchedResultsC = nil;
 	self.locationManager = nil;
 	[eventViewController release];
+	[todayOrLaterPredicate release];
 }
 
 - (IBAction)addEvent:(id)sender
@@ -153,8 +157,7 @@
 		count = 1;
 	}
 	
-	// Prevents a bug where there are no search results, but it shows all the table view headers
-	if ([searchBar.text length] == 0 && isSearching) {
+	if (isSearching && tableView != self.searchDisplayController.searchResultsTableView) {
 		count = 0;
 	}
 	
@@ -176,6 +179,10 @@
 		count = [sectionInfo numberOfObjects];
 	}
 
+	if (isSearching && tableView != self.searchDisplayController.searchResultsTableView) {
+		count = 0;
+	}
+	
 	return count;
 }
 
@@ -185,23 +192,18 @@
 {
 	// Set up the cell
 	static NSString *CellIdentifier = @"Cell";
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	EventListCell *cell = (EventListCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
 		cell = [[[EventListCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
-	[self configureCell:cell atIndexPath:indexPath];
-
-	return cell;
-}
-
-- (void)configureCell:(EventListCell *)cell atIndexPath:(NSIndexPath *)indexPath
-{
 	// Get the event from the fetched results controller
 	Event *event = (Event *)[fetchedResultsC objectAtIndexPath:indexPath];
-
+	
 	[cell setName:[event name]];
 	[cell setTime:[event startTime]];
+	
+	return cell;
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
@@ -243,7 +245,7 @@
 	eventViewC.title = [event name];
 	[eventViewC endEditingFields];
 	[self.navigationController pushViewController:eventViewC animated:YES];
-	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*
@@ -356,7 +358,7 @@
 
 - (NSPredicate *)predicate {
 	return [NSCompoundPredicate andPredicateWithSubpredicates:
-			[NSArray arrayWithObjects:sourcesPredicate, filterPredicate, nil]];
+			[NSArray arrayWithObjects:sourcesPredicate, filterPredicate, todayOrLaterPredicate, nil]];
 }
 
 - (void)refetch
@@ -366,11 +368,13 @@
 	// Refetch
 	NSError *err;
 	[self.fetchedResultsC performFetch:&err];
-	[self.tableView reloadData];
+/*	
+	self.tableView reloadData];
 
 	[sectionIndexTitles release];
 	sectionIndexTitles = nil;
 	[self.tableView reloadSectionIndexTitles];
+*/
 }
 
 - (void)dealloc
