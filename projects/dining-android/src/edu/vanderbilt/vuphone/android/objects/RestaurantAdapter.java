@@ -8,7 +8,6 @@ import android.graphics.Typeface;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,8 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
  * @author austin
  *
  */
-public class RestaurantAdapter extends BaseAdapter {
+public class RestaurantAdapter extends BaseAdapter //implements Filterable, SectionIndexer 
+{
 	
 	private static final int NUM_BOOLEANS = 8;
 	
@@ -194,12 +194,12 @@ public class RestaurantAdapter extends BaseAdapter {
 			if (min >= 1440)
 				out.append("open"); // open for 24 hours or more
 			else if (min<=60)
-				out.append("closes in ").append(min).append(" minutes");
-			else out.append("closes at ").append(rh.getNextCloseTime().toString());
+				out.append("open for ").append(min).append(" minutes");
+			else out.append("open until ").append(rh.getNextCloseTime().toString());
 		} else if (toOpen>0) {
 			if (toOpen<=60)
-				out.append("opens in ").append(toOpen).append(" minutes");
-			else out.append("opens at ").append(rh.getNextOpenTime().toString());
+				out.append("closed, opens in ").append(toOpen).append(" minutes");
+			else out.append("closed until ").append(rh.getNextOpenTime().toString());
 		} else out.append("closed"); // closed for the day
 		return out.toString();
 	}
@@ -252,10 +252,7 @@ public class RestaurantAdapter extends BaseAdapter {
 	
 	public void setSort(boolean favorite, boolean open, boolean timeUntil, boolean nearFar, 
 			boolean settingsModified, boolean sortSettingsModified) {
-		Log.i("RA", Integer.toHexString(currentSortType));
 		currentSortType = currentSortType & ((1 << NUM_BOOLEANS) - 1);
-		Log.i("RA", Integer.toHexString(((1 << NUM_BOOLEANS) - 1)));
-		Log.i("RA", Integer.toHexString(currentSortType));
 		if (nearFar) {
 			setSortAtLevel(getNextUnusedLevel(), NEAR_FAR);
 		}
@@ -576,7 +573,6 @@ public class RestaurantAdapter extends BaseAdapter {
 		ArrayList<Long> IDs = Restaurant.getIDs();
 		distances = new ArrayList<Double>();
 		distances.ensureCapacity(IDs.size());
-		Log.i("RA", here.toString());
 		for (int i = 0; i < IDs.size(); i++) {
 			location.setLatitude(Restaurant.getLat(IDs.get(i)) * 1.0E-6);
 			location.setLongitude(Restaurant.getLon(IDs.get(i)) * 1.0E-6);
@@ -605,7 +601,6 @@ public class RestaurantAdapter extends BaseAdapter {
 //		locationManager.setTestProviderEnabled("test", true);
 //		locationManager.setTestProviderLocation("test", fakeHere);
 	}
-	
 	
 	//implementation of merge sort
 	private void sort(List<Long> toSort, int sortType) {

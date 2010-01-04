@@ -198,9 +198,11 @@ public class DBAdapter {
 	 * @return true if deleted, false otherwise
 	 */
 	protected boolean deleteRestaurant(long rowId) {
-
-		return database_
-				.delete(RESTAURANT_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
+		return database_.delete(RESTAURANT_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
+	}
+	
+	protected boolean deleteAllRestaurants() {
+		return database_.delete(RESTAURANT_TABLE, null, null) > 0;
 	}
 
 	
