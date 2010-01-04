@@ -34,6 +34,7 @@
 		6F211BD010884D90003F009F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F211BCD10884D90003F009F /* MapViewController.xib */; };
 		9952698410D34E6300424730 /* POIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9952698210D34E6300424730 /* POIViewController.m */; };
 		9952698510D34E6300424730 /* POIViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9952698310D34E6300424730 /* POIViewController.xib */; };
+		995C9F5810EF07C0003875D0 /* buildings.xml in Resources */ = {isa = PBXBuildFile; fileRef = 995C9F5710EF07C0003875D0 /* buildings.xml */; };
 		9973B77210E2727E002922E9 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9973B77110E2727E002922E9 /* VariableHeightCell.m */; };
 		997D639710E4817600A55FAC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 997D639610E4817600A55FAC /* CoreLocation.framework */; };
 		997D63A410E48E3600A55FAC /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 997D63A310E48E3600A55FAC /* LocationManagerSingleton.m */; };
@@ -89,6 +90,7 @@
 		9952698110D34E6300424730 /* POIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIViewController.h; sourceTree = "<group>"; };
 		9952698210D34E6300424730 /* POIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIViewController.m; sourceTree = "<group>"; };
 		9952698310D34E6300424730 /* POIViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = POIViewController.xib; sourceTree = "<group>"; };
+		995C9F5710EF07C0003875D0 /* buildings.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = buildings.xml; sourceTree = "<group>"; };
 		9973B77010E2727E002922E9 /* VariableHeightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableHeightCell.h; sourceTree = "<group>"; };
 		9973B77110E2727E002922E9 /* VariableHeightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableHeightCell.m; sourceTree = "<group>"; };
 		997D639610E4817600A55FAC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -175,6 +177,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				995C9F5710EF07C0003875D0 /* buildings.xml */,
 				61FD089210C739C9000EA568 /* CampusMaps.xcdatamodeld */,
 				8D1107310486CEB800E47090 /* CampusMaps-Info.plist */,
 			);
@@ -287,6 +290,7 @@
 				3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */,
 				61FD09D210C75112000EA568 /* LayersListViewController.xib in Resources */,
 				9952698510D34E6300424730 /* POIViewController.xib in Resources */,
+				995C9F5810EF07C0003875D0 /* buildings.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
