@@ -3,8 +3,8 @@ package edu.vanderbilt.vuphone.android.map;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +25,9 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
  */
 public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.OnClickListener {
 	
+	private static final int NUM_FILTERS = 1;
+	private static final int FILTER_CLOSED = 0;
+	
 	private int clickedPosition = -1;
 	private AllLocations map;
 	private MapView mapView;
@@ -34,6 +37,7 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 	private TextView specialText;
 	
 	private ArrayList<OverlayItem> locationOverlay = new ArrayList<OverlayItem>();
+	private boolean [][] show; // will show an item only if every entry in the column is true
 
 	public AllOverlays(AllLocations map, MapView mapview) {
 
@@ -48,6 +52,7 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 		popup.setOnClickListener(this);
 		
 		ArrayList<Long> IDs = Restaurant.getIDs();
+		show = new boolean [NUM_FILTERS][IDs.size()]; // only 1 possible criteria for showing now
 
 		for (int i = 0; i < IDs.size(); i++) {
 			OverlayItem overlayItem = new OverlayItem(new GeoPoint(Restaurant.getLat(IDs.get(i)),
@@ -58,6 +63,8 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 				overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker)));
 			else overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker_v)));
 			locationOverlay.add(overlayItem);
+			for (int j = 0; j < NUM_FILTERS; j++)
+				show[j][i] = true;
 		} 
 		populate();
 	}
@@ -82,15 +89,39 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 		return true; //super.onTap(index);
 	}
 	
-	
+	private int lastI;
+	private int lastIndex;
 	@Override
 	protected OverlayItem createItem(int i) {
-		return locationOverlay.get(i);
+		if (lastI == i - 1) {
+			for (int j = lastIndex + 1; j < show[0].length; j++)
+				if (getShowItem(j)) {
+					lastI = i;
+					lastIndex = j;
+					return locationOverlay.get(j);
+				}
+		} else {
+			int num = -1;
+			for (int j = 0; j < show[0].length; j++) {
+				if (getShowItem(j))
+					num++;
+				if (num == i) {
+					lastI = i;
+					lastIndex = j;
+					return locationOverlay.get(j);
+				}
+			}
+		}
+		throw new RuntimeException("createItem error");
 	}
 
 	@Override
 	public int size() {
-		return locationOverlay.size();
+		int size = 0;
+		for (int i = 0; i < show[0].length; i++) 
+			if (getShowItem(i))
+				size++;
+		return size;
 	}
 
 	@Override
@@ -100,5 +131,33 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 		map.startActivity(toDetails);
 	}
 	
+	public ArrayList<OverlayItem> getLocationOverlay() {
+		return locationOverlay;
+	}
+	
+	public void setHideClosed(boolean hide) {
+		if (!hide) 
+			for (int i = 0; i < show[0].length; i++)
+				setShowItem(i, FILTER_CLOSED, true);
+		else
+			for (int i = 0; i < show[0].length; i++)
+				if (!Restaurant.getHours(Restaurant.getIDs().get(i)).isOpen())
+					setShowItem(i, FILTER_CLOSED, false);
+	}
+	
+	public void setShowItem(int i, int filter, boolean display) {
+		show[filter][i] = display;
+	}
+	
+	public boolean getShowItem(int i) {
+		for (int j = 0; j<NUM_FILTERS; j++)
+			if (!show[j][i])
+				return false;
+		return true;
+	}
+	
+	public void notifyDataSetChanged() {
+		populate();
+	}
 
 }

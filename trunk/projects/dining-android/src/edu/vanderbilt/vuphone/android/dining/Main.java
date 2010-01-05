@@ -123,6 +123,7 @@ public class Main extends ListActivity {
 
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
 		menu.add(Menu.NONE, MENU_ITEM_VIEW_SETTINGS, Menu.NONE, "Settings").setIcon(
 				getResources().getDrawable(
 						android.R.drawable.ic_menu_preferences));
@@ -134,7 +135,6 @@ public class Main extends ListActivity {
 								R.drawable.ic_menu_star));
 		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map").setIcon(
 				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
-		//TODO Settings menu button needs an action added to it when clicked.
 		return true;
 	}
 
@@ -155,9 +155,8 @@ public class Main extends ListActivity {
 		case MENU_ITEM_VIEW_SETTINGS:
 			showDialog(DIALOG_SETTINGS);
 			return true;
-		default:
-			return false;
 		}
+		return true;
 	}
 
 	private OnClickListener doneListener = new OnClickListener() {

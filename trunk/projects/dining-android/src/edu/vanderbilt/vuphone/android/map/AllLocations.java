@@ -1,6 +1,11 @@
 package edu.vanderbilt.vuphone.android.map;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -11,6 +16,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
 import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
  * Creates the map that displays the location of all dining facilities
@@ -19,6 +25,10 @@ import edu.vanderbilt.vuphone.android.dining.R;
  */
 public class AllLocations extends MapActivity {
 
+	MapView mapView;
+	AllOverlays diningOverlay;
+	MyLocationOverlay myLocationOverlay;
+	
 	/**
 	 * sets zoom so all dining locations and most of Vanderbilts campus are
 	 * visible without panning
@@ -29,9 +39,6 @@ public class AllLocations extends MapActivity {
 	@Override
 	public void onCreate(Bundle ice) {
 		super.onCreate(ice);
-		
-		MapView mapView; 
-		AllOverlays diningOverlay;
 
 		// start map view and enable zoom controls
 		setContentView(R.layout.map);
@@ -45,16 +52,117 @@ public class AllLocations extends MapActivity {
 		// creates the overlay containing markers for all dining locations
 		diningOverlay = new AllOverlays(this, mapView);
 		
-		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this,
+		myLocationOverlay = new MyLocationOverlay(this,
 				mapView);
 		myLocationOverlay.enableMyLocation(); 
 
 		mapView.getOverlays().add(diningOverlay);
 		mapView.getOverlays().add(myLocationOverlay);
+		
+		settingsChecked = SETTINGS_DEFAULT.clone();
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
+	
+	public AllOverlays getDiningOverlay() {
+		return diningOverlay;
+	}
+	
+	// MENU FUNCTIONS
+	
+	public static final int MENU_SETTINGS = 0;
+	public static final int MENU_CURRENT_LOC = 1;
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		menu.add(Menu.NONE, MENU_SETTINGS, Menu.NONE, "Settings").
+				setIcon(getResources().getDrawable(android.R.drawable.ic_menu_preferences));
+		menu.add(Menu.NONE, MENU_CURRENT_LOC, Menu.NONE, "My Location").
+				setIcon(getResources().getDrawable(android.R.drawable.ic_menu_mylocation));
+		return true;
+	}
+	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+		case MENU_SETTINGS:
+			showDialog(DIALOG_SETTINGS);
+			return true;
+		case MENU_CURRENT_LOC:
+			if (myLocationOverlay.getMyLocation() != null)
+				mapView.getController().animateTo(myLocationOverlay.getMyLocation());
+			return true;
+		}
+		return true;
+	}
+	
+	// DIALOG FUNCTIONS
+	
+	public static final int DIALOG_SETTINGS = 0;
+	
+	private static final boolean [] SETTINGS_DEFAULT = {false};
+	private boolean [] settingsChecked;
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		super.onCreateDialog(id);
+		switch (id) {
+		case DIALOG_SETTINGS:
+		default: {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+			CharSequence[] settings = { "Hide closed locations" };
+
+			builder.setMultiChoiceItems(settings, settingsChecked,
+					new DialogInterface.OnMultiChoiceClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which,
+								boolean isChecked) {
+							settingsChecked[which] = isChecked;
+							((AlertDialog) dialog).getListView()
+									.setItemChecked(which, isChecked);
+
+						}
+					});
+			
+			builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					AllLocations.this.updateSettings();
+					dialog.dismiss();
+				}
+			});
+			
+			builder.setNegativeButton("Set Defaults", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					settingsChecked = SETTINGS_DEFAULT.clone();
+					AllLocations.this.updateSettings();
+					dialog.dismiss();
+				}
+			});
+
+			builder.setTitle("Settings");
+
+			return builder.create();
+		}
+		}
+	}
+	
+	private void updateSettings() {
+		// update this function with more entries as more settings are added
+		diningOverlay.setHideClosed(settingsChecked[0]);
+		diningOverlay.notifyDataSetChanged();
+		mapView.invalidate();
+	}
+	
 }
