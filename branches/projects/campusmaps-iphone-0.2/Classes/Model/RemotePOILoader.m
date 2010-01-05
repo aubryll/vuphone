@@ -41,8 +41,8 @@
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
 
 	// If URL request failed. Use the static XML file.
-	if (responseData == nil) {
-		NSLog(@"Failed to retrieve building data.");
+	if (responseData == nil || [responseData length] == 0) {
+		NSLog(@"Failed to retrieve building data from server.");
 		responseData = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] 
 													   stringByAppendingPathComponent:POI_REQUEST_ALTERNATIVE]];
 	}

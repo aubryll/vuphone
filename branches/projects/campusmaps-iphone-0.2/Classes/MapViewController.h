@@ -12,7 +12,7 @@
 #import "MapLayerController.h"
 #import "LayersListViewController.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate, LayersListViewDelegate> {
+@interface MapViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, LayersListViewDelegate> {
 
 	MapLayerController* currentLayerController;
 	
