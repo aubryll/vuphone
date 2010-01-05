@@ -27,7 +27,7 @@
 - (CGFloat)offsetForImage:(UIImageView *)image;
 
 @property (retain) UIImageView *poiImage;
-@property (assign, setter=setImageLoadingState) POIImageLoadingState imageLoadingState;
+@property (assign, setter=setImageLoadingState:) POIImageLoadingState imageLoadingState;
 @property (retain) UIActivityIndicatorView *loadingIndicator;
 @property (retain) UILabel *statusLabel;
 

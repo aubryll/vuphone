@@ -14,10 +14,15 @@
 
 @interface MapLayerController : NSObject {
 	Layer *layer;
+
+	NSSet *filteredPOIs;
 }
+
+@property (retain) NSSet *filteredPOIs;
 
 - (id)initWithLayer:(Layer *)aLayer;
 - (void)addAnnotationsToMapView:(MKMapView *)mapView;
 - (void)removeAnnotationsFromMapView:(MKMapView *)mapView;
+- (void)setPredicate:(NSPredicate *)pred forContext:(NSManagedObjectContext *)context onMapView:(MKMapView *)mapView;
 
 @end

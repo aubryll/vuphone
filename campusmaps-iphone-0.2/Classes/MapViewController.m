@@ -73,9 +73,15 @@
 }
 
 
+- (void)dealloc {
+	[mapView autorelease];
+	[currentLayerController autorelease];
+    [super dealloc];
+}
+
+#pragma mark IBActions
+
 - (IBAction)changeType:(id)sender {
-	NSLog(@"Button pushed.");
-	
 	if (mapType.selectedSegmentIndex == 0) {
 		mapView.mapType = MKMapTypeStandard;
 	} else if (mapType.selectedSegmentIndex == 1) {
@@ -86,8 +92,6 @@
 }
 
 - (IBAction)centerOnCampus:(id)sender {
-	NSLog(@"Button pushed.");
-	
 	CLLocationCoordinate2D location;
 	location.latitude = CAMPUS_CENTER_LATITUDE;
 	location.longitude = CAMPUS_CENTER_LONGITUDE;
@@ -151,14 +155,38 @@
 	[poiVC release];
 }
 
+#pragma mark UISearchBarDelegate
 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+	NSPredicate *pred;
+	if (searchText && [searchText length] > 0) {
+		pred = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
+	} else {
+		pred = nil;
+	}
 
-- (void)dealloc {
-	[mapView autorelease];
-	[currentLayerController autorelease];
-    [super dealloc];
+	[currentLayerController setPredicate:pred forContext:managedObjectContext onMapView:mapView];
+	
+	if ([mapView.annotations count] == 1)
+	{
+		id<MKAnnotation> ann = [mapView.annotations objectAtIndex:0];
+		[mapView setCenterCoordinate:ann.coordinate animated:YES];
+		[mapView selectAnnotation:ann animated:YES];
+	}
 }
 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+	[currentLayerController setPredicate:nil forContext:managedObjectContext onMapView:mapView];
+
+	[searchBar resignFirstResponder];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+	[searchBar resignFirstResponder];
+}
 
 @synthesize managedObjectContext;
 

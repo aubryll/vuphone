@@ -23,7 +23,7 @@ static LocationManagerSingleton *sharedLocationManagerSingleton = nil;
 - (void)setupLocationManager
 {
 	if (locationManager.locationServicesEnabled == NO) {
-		NSLog(@"Location services not enabled.");
+//		NSLog(@"Location services not enabled.");
 	}
 	
 	locationManager.delegate = self;
@@ -50,12 +50,12 @@ static LocationManagerSingleton *sharedLocationManagerSingleton = nil;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation
 fromLocation:(CLLocation *)oldLocation
 {
-	NSLog(@"Received new location");
+//	NSLog(@"Received new location");
 }
 
 - (void)locationmanager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	NSLog(@"Error: %@", [error localizedDescription]);
+//	NSLog(@"Error: %@", [error localizedDescription]);
 }
 
 

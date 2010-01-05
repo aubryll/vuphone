@@ -108,7 +108,6 @@
 - (void)loadImage
 {
 	[loadingLock lock];
-	NSLog(@"loadImage called, imageLoadingState = %i", imageLoadingState);
 	imageLoadingState = POIImageIsLoadingState;
 
 	NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_IMAGE_URL_STRING, self.url];
@@ -121,7 +120,6 @@
 		imageLoadingState = POIImageFailedToLoadState;
 	}
 	
-	NSLog(@"imageLoadingState now = %i", imageLoadingState);
 	[loadingLock unlock];
 }
 
