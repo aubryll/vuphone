@@ -180,6 +180,7 @@
 {
 	[currentLayerController setPredicate:nil forContext:managedObjectContext onMapView:mapView];
 
+	searchBar.text = nil;
 	[searchBar resignFirstResponder];
 }
 
