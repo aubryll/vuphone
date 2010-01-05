@@ -56,11 +56,11 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 
 		for (int i = 0; i < IDs.size(); i++) {
 			OverlayItem overlayItem = new OverlayItem(new GeoPoint(Restaurant.getLat(IDs.get(i)),
-					Restaurant.getLon(IDs.get(i))), Restaurant.getName(IDs.get(i)), RestaurantAdapter.hoursText(IDs.get(i))); 
-						// hackish way of storing the restaurant id inside the snippet text
-			// TODO make custom markers for each restaurant
+					Restaurant.getLon(IDs.get(i))), Restaurant.getName(IDs.get(i)), RestaurantAdapter.hoursText(IDs.get(i)));
 			if (Restaurant.offCampus(IDs.get(i)))
 				overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker)));
+					// TODO get a better custom marker for off campus restaurants and/or make more custom markers for different 
+					// types or individual restaurants
 			else overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker_v)));
 			locationOverlay.add(overlayItem);
 			for (int j = 0; j < NUM_FILTERS; j++)

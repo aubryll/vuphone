@@ -389,9 +389,11 @@ public class Main extends ListActivity {
 	private boolean getLocationWithUI() {
 		//Toast trying = Toast.makeText(this, "Trying to determine your location..." , Toast.LENGTH_SHORT);
 		//trying.show();
+		// TODO show a waiting for device type message
 		if (!ra.refreshDistances()) {
 		//	trying.cancel();
-			Toast.makeText(this, "Current location temporarily unavailable", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Your location is temporarily unavailable", Toast.LENGTH_SHORT).show();
+			// TODO make these strings part of resource data
 			return false;
 		} 
 		//trying.cancel();
