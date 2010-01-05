@@ -415,6 +415,7 @@
 			616F361A10F3BBEF00E50212 /* PBXTextBookmark */ = 616F361A10F3BBEF00E50212 /* PBXTextBookmark */;
 			616F361F10F3BBFD00E50212 /* PBXTextBookmark */ = 616F361F10F3BBFD00E50212 /* PBXTextBookmark */;
 			616F362010F3BBFD00E50212 /* PBXTextBookmark */ = 616F362010F3BBFD00E50212 /* PBXTextBookmark */;
+			616F362610F3BD0B00E50212 /* PBXTextBookmark */ = 616F362610F3BD0B00E50212 /* PBXTextBookmark */;
 			61DF565C108138A8000A7B1D = 61DF565C108138A8000A7B1D /* PBXTextBookmark */;
 		};
 		sourceControlManager = 61FC2E7D107C2BDA00FFF897 /* Source Control */;
@@ -474,8 +475,8 @@
 	337049671082E17B00E0520A /* MapLayerController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {866, 884}}";
-			sepNavSelRange = "{1583, 0}";
-			sepNavVisRange = "{244, 1431}";
+			sepNavSelRange = "{967, 0}";
+			sepNavVisRange = "{227, 1448}";
 		};
 	};
 	338387CA1081479400F56AEB /* MapViewController.h */ = {
@@ -487,9 +488,9 @@
 	};
 	338387CB1081479400F56AEB /* MapViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1146, 2535}}";
-			sepNavSelRange = "{5282, 0}";
-			sepNavVisRange = "{3744, 1800}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 2561}}";
+			sepNavSelRange = "{5502, 0}";
+			sepNavVisRange = "{3881, 1759}";
 		};
 	};
 	613DC8E110E67B64000F709C /* PBXTextBookmark */ = {
@@ -1370,7 +1371,7 @@
 		fRef = 338387CB1081479400F56AEB /* MapViewController.m */;
 		name = "MapViewController.m: 179";
 		rLen = 0;
-		rLoc = 5578;
+		rLoc = 5601;
 		rType = 0;
 		vrLen = 1758;
 		vrLoc = 3609;
@@ -1380,7 +1381,7 @@
 		fRef = 338387CB1081479400F56AEB /* MapViewController.m */;
 		name = "MapViewController.m: 175";
 		rLen = 0;
-		rLoc = 5441;
+		rLoc = 5464;
 		rType = 0;
 		vrLen = 1789;
 		vrLoc = 3609;
@@ -1414,6 +1415,16 @@
 		rType = 0;
 		vrLen = 1800;
 		vrLoc = 3744;
+	};
+	616F362610F3BD0B00E50212 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 338387CB1081479400F56AEB /* MapViewController.m */;
+		name = "MapViewController.m: 186";
+		rLen = 0;
+		rLoc = 5502;
+		rType = 0;
+		vrLen = 1759;
+		vrLoc = 3881;
 	};
 	61DF565C108138A8000A7B1D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1500,7 +1511,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {796, 1820}}";
 			sepNavSelRange = "{724, 5}";
-			sepNavVisRange = "{497, 540}";
+			sepNavVisRange = "{497, 650}";
 		};
 	};
 	61FD089410C739CA000EA568 /* CampusMaps 2.xcdatamodel */ = {
