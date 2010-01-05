@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.google.android.maps.GeoPoint;
@@ -97,6 +98,8 @@ public class AllLocations extends MapActivity {
 		case MENU_CURRENT_LOC:
 			if (myLocationOverlay.getMyLocation() != null)
 				mapView.getController().animateTo(myLocationOverlay.getMyLocation());
+			else Toast.makeText(this, "Your location is temporarily unavailable", Toast.LENGTH_SHORT).show();
+			// TODO make getting location device type text, same as in Main
 			return true;
 		}
 		return true;
@@ -155,6 +158,18 @@ public class AllLocations extends MapActivity {
 
 			return builder.create();
 		}
+		}
+	}
+	
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog) {
+		super.onPrepareDialog(id, dialog);
+		switch (id) {
+		case DIALOG_SETTINGS:
+			for (int i = 0; i < settingsChecked.length; i++) {
+				// TODO make this work correctly, (messes up if set Defaults is pressed
+				((AlertDialog)dialog).getListView().setItemChecked(i, settingsChecked[i]);
+			}
 		}
 	}
 	
