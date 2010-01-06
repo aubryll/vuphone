@@ -115,6 +115,7 @@ public class Restaurant {
 	// static methods for database access
 	public static ArrayList<Long> getIDs() 					{return DBWrapper.getIDs();}
 	public static ArrayList<Long> copyIDs()					{return DBWrapper.copyIDs();}
+	public static int getI(long rowID)						{return DBWrapper.getI(rowID);}
 	public static Restaurant get(long rowID) 				{return DBWrapper.get(rowID);}
 	public static String getName(long rowID) 				{return DBWrapper.getName(rowID);}
 	public static int getLat(long rowID) 					{return DBWrapper.getLat(rowID);}

@@ -625,29 +625,32 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 			toSort.set(i++, right.get(ri++));
 	}
 	
+	public int currentSortCompareCached = UNSORTED;
+	@SuppressWarnings("unchecked")
+	ArrayList compareCache;
+	
 	// compare method for merge, 'less or equal'
 	private boolean compare(long first, long second, int sortType) {
 		if (sortType == ALPHABETICAL)
 			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
+		if (currentSortCompareCached != sortType)
+			createCompareCache(sortType);
 		switch (sortType & 0x7) {
 		case FAVORITE:
-			if ((sortType & DESCENDING) == 0)
-				return Restaurant.favorite(first) || !Restaurant.favorite(second);
-			else
-				return Restaurant.favorite(second) || !Restaurant.favorite(first);
 		case OPEN_CLOSED:
 			if ((sortType & DESCENDING) == 0)
-				return Restaurant.getHours(first).isOpen() || !Restaurant.getHours(second).isOpen();
-			else 
-				return Restaurant.getHours(second).isOpen() || !Restaurant.getHours(first).isOpen();
+				return ((Boolean)compareCache.get(Restaurant.getI(first))) || !((Boolean)compareCache.get(Restaurant.getI(second)));
+			else
+				return ((Boolean)compareCache.get(Restaurant.getI(second))) || !((Boolean)compareCache.get(Restaurant.getI(first)));
 		case TIME_TO_CLOSE:
 			if ((sortType & DESCENDING) == 0)
-				return Restaurant.getHours(first).minutesToClose() <= Restaurant.getHours(second).minutesToClose();
+				return ((Integer)compareCache.get(Restaurant.getI(first))) <= ((Integer)compareCache.get(Restaurant.getI(second)));
 			else
-				return Restaurant.getHours(first).minutesToClose() >= Restaurant.getHours(second).minutesToClose();
+				return ((Integer)compareCache.get(Restaurant.getI(first))) >= ((Integer)compareCache.get(Restaurant.getI(second)));
 		case TIME_TO_OPEN:
 		{
-			int fm =Restaurant.getHours(first).minutesToOpen(), sm = Restaurant.getHours(second).minutesToOpen();
+			int fm = ((Integer)compareCache.get(Restaurant.getI(first))), 
+					sm = ((Integer)compareCache.get(Restaurant.getI(second)));
 			if ((sortType & DESCENDING) == 0) {
 				if (sm == -1)
 					return true;
@@ -662,14 +665,39 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 			if (distances == null)
 				return true;
 			if ((sortType & DESCENDING) == 0)
-				return distances.get(Restaurant.getIDs().indexOf(first)) <= distances.get(Restaurant.getIDs().indexOf(second));
+				return distances.get(Restaurant.getI(first)) <= distances.get(Restaurant.getI(second));
 			else 
-				return distances.get(Restaurant.getIDs().indexOf(first)) >= distances.get(Restaurant.getIDs().indexOf(second));
+				return distances.get(Restaurant.getI(first)) >= distances.get(Restaurant.getI(second));
 		default:
 			return true;
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void createCompareCache(int sortType) {
+		ArrayList<Long> IDs = Restaurant.getIDs();
+		compareCache = new ArrayList<Void>();
+		compareCache.ensureCapacity(IDs.size());
+		switch (sortType & 0x7) {
+		case FAVORITE:
+			for (int i = 0; i<IDs.size(); i++)
+				compareCache.add(Restaurant.favorite(IDs.get(i)));
+			break;
+		case OPEN_CLOSED:
+			for (int i = 0; i<IDs.size(); i++)
+				compareCache.add(Restaurant.getHours(IDs.get(i)).isOpen());
+			break;
+		case TIME_TO_CLOSE:
+			for (int i = 0; i<IDs.size(); i++)
+				compareCache.add(Restaurant.getHours(IDs.get(i)).minutesToClose());
+			break;
+		case TIME_TO_OPEN:
+			for (int i = 0; i<IDs.size(); i++)
+				compareCache.add(Restaurant.getHours(IDs.get(i)).minutesToOpen());
+			break;
+		}
+		currentSortCompareCached = sortType;
+	}
 
 	private class ViewWrapper {
 		private View _base;

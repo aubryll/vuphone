@@ -2,6 +2,7 @@ package edu.vanderbilt.vuphone.android.storage;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Stack;
 
 import android.content.ContentValues;
@@ -30,8 +31,8 @@ public class DBWrapper {
 	private static final int WRITABLE = 2;
 	private static DBAdapter adapter;
 	private static int state;
-	//private static boolean changed = false; // set to true every time the Database is changed
 	private static ArrayList<Long> IDs;
+		// IDs should always be in sorted order
 	private static ArrayList<Restaurant> cache;
 	private static boolean idsCached = false;
 	private static boolean mainDataCached = false;
@@ -112,6 +113,9 @@ public class DBWrapper {
 		if (rID >= 0) {
 			if (idsCached)
 				IDs.add(rID);
+				// could potentially be a problem if this addition causes IDs
+				// not to be sorted. (Shouldnt in theory since ID is set to 
+				// autoincrement
 			if (mainDataCached)
 				cache.add(r);
 			return true;
@@ -199,6 +203,7 @@ public class DBWrapper {
 				IDs.add(c.getLong(c.getColumnIndex(DBAdapter.COLUMN_ID)));
 			} while (c.moveToNext());
 		}
+		Collections.sort(IDs);
 		idsCached = true;
 		c.close();
 	}
@@ -383,8 +388,8 @@ public class DBWrapper {
 		}
 	}
 
-	private static int getI(long rowID) {
-		int i = getIDs().indexOf(rowID);
+	public static int getI(long rowID) {
+		int i = Collections.binarySearch(IDs, rowID);
 		if (i < 0)
 			throw new RuntimeException("Restaurant does not exist");
 		return i;
