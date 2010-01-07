@@ -42,7 +42,7 @@
 
 	// If URL request failed. Use the static XML file.
 	if (responseData == nil || [responseData length] == 0) {
-		NSLog(@"Failed to retrieve building data from server.");
+		NSLog(@"Failed to retrieve building data from server.\nUsing static XML file.");
 		responseData = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] 
 													   stringByAppendingPathComponent:POI_REQUEST_ALTERNATIVE]];
 	}
