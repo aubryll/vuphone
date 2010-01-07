@@ -101,7 +101,7 @@ public class Restaurant {
 	protected void setUrl(String url)				{_url = url;}
 	protected void setIcon(int iconID)				{_icon = iconID;}
 
-	public boolean create() 						{return DBWrapper.create(this);}
+	public boolean create() 						{return DbWrapper.create(this);}
 	
 	public String toString() {
 		StringBuilder out = new StringBuilder();
@@ -113,31 +113,35 @@ public class Restaurant {
 	}
 	
 	// static methods for database access
-	public static ArrayList<Long> getIDs() 					{return DBWrapper.getIDs();}
-	public static ArrayList<Long> copyIDs()					{return DBWrapper.copyIDs();}
-	public static int getI(long rowID)						{return DBWrapper.getI(rowID);}
-	public static Restaurant get(long rowID) 				{return DBWrapper.get(rowID);}
-	public static String getName(long rowID) 				{return DBWrapper.getName(rowID);}
-	public static int getLat(long rowID) 					{return DBWrapper.getLat(rowID);}
-	public static int getLon(long rowID) 					{return DBWrapper.getLon(rowID);}
-	public static RestaurantHours getHours(long rowID) 		{return DBWrapper.getHours(rowID);}
-	public static String getType(long rowID)				{return DBWrapper.getType(rowID);}	
-	public static int getIcon (Long rowID)					{return DBWrapper.getIcon(rowID);}
-	public static boolean favorite(long rowID) 				{return DBWrapper.favorite(rowID);}
-	public static boolean onTheCard(long rowID)				{return DBWrapper.onTheCard(rowID);}
-	public static boolean offCampus(long rowID)				{return DBWrapper.offCampus(rowID);}
+	public static ArrayList<Long> getIDs() 					{return DbWrapper.getIDs();}
+	public static ArrayList<Long> copyIDs()					{return DbWrapper.copyIDs();}
+	public static int getI(long rowID)						{return DbWrapper.getI(rowID);}
+	public static Restaurant get(long rowID) 				{return DbWrapper.get(rowID);}
+	public static String getName(long rowID) 				{return DbWrapper.getName(rowID);}
+	public static int getLat(long rowID) 					{return DbWrapper.getLat(rowID);}
+	public static int getLon(long rowID) 					{return DbWrapper.getLon(rowID);}
+	public static RestaurantHours getHours(long rowID) 		{return DbWrapper.getHours(rowID);}
+	public static String getType(long rowID)				{return DbWrapper.getType(rowID);}	
+	public static int getIcon (Long rowID)					{return DbWrapper.getIcon(rowID);}
+	public static boolean favorite(long rowID) 				{return DbWrapper.favorite(rowID);}
+	public static boolean mealPlanAccepted(long rowID)		{return DbWrapper.mealPlanAccepted(rowID);}
+	public static boolean mealMoneyAccepted(long rowID) 	{return DbWrapper.mealMoneyAccepted(rowID);}
+	public static boolean onTheCard(long rowID)				{return DbWrapper.onTheCard(rowID);}
+	public static boolean tasteOfNashville(long rowID)		{return DbWrapper.tasteOfNashville(rowID);}
+	public static boolean offCampus(long rowID)				{return DbWrapper.offCampus(rowID);}
 	
-	public static boolean setFavorite(long rowID, boolean favorite) {return DBWrapper.setFavorite(rowID, favorite);}
+	public static boolean setFavorite(long rowID, boolean favorite) {return DbWrapper.setFavorite(rowID, favorite);}
 	
-	public static boolean commit() 							{return DBWrapper.commit();}
-	public static void revert()								{DBWrapper.revert();}
+	public static boolean commit() 							{return DbWrapper.commit();}
+	public static void revert()								{DbWrapper.revert();}
 	
-	public static boolean create(Restaurant r) 				{return DBWrapper.create(r);}
-	public static boolean update(long rowID, Restaurant r)	{return DBWrapper.update(rowID, r);}
-	public static boolean delete(long rowID)				{return DBWrapper.delete(rowID);}
+	public static boolean create(Restaurant r) 				{return DbWrapper.create(r);}
+	public static boolean update(long rowID, Restaurant r)	{return DbWrapper.update(rowID, r);}
+	public static boolean delete(long rowID)				{return DbWrapper.delete(rowID);}
+	public static boolean deleteAll()						{return DbWrapper.deleteAll();}
 	
 	// closes the underlying database. Use if no reads or writes are soon to be made (is called often
 	// in the underlying database modifying function call, so often unnecessary)
-	public static void close()								{DBWrapper.close();}
+	public static void close()								{DbWrapper.close();}
 }
 

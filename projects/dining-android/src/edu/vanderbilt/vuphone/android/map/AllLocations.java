@@ -60,7 +60,6 @@ public class AllLocations extends MapActivity {
 		mapView.getOverlays().add(diningOverlay);
 		mapView.getOverlays().add(myLocationOverlay);
 		
-		settingsChecked = SETTINGS_DEFAULT.clone();
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class AllLocations extends MapActivity {
 	
 	public static final int DIALOG_SETTINGS = 0;
 	
-	private static final boolean [] SETTINGS_DEFAULT = {false};
+	private static final boolean [] SETTINGS_DEFAULT = {false, false, false};
 	private boolean [] settingsChecked;
 	
 	@Override
@@ -120,7 +119,8 @@ public class AllLocations extends MapActivity {
 		default: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-			CharSequence[] settings = { "Hide closed locations" };
+			CharSequence[] settings = { "Hide closed locations", "Hide no meal plan", "Hide no meal money" };
+			settingsChecked = SETTINGS_DEFAULT.clone();
 
 			builder.setMultiChoiceItems(settings, settingsChecked,
 					new DialogInterface.OnMultiChoiceClickListener() {
@@ -175,7 +175,9 @@ public class AllLocations extends MapActivity {
 	
 	private void updateSettings() {
 		// update this function with more entries as more settings are added
-		diningOverlay.setHideClosed(settingsChecked[0]);
+		diningOverlay.setHideForFilter(settingsChecked[0], AllOverlays.FILTER_CLOSED);
+		diningOverlay.setHideForFilter(settingsChecked[1], AllOverlays.FILTER_PLAN);
+		diningOverlay.setHideForFilter(settingsChecked[2], AllOverlays.FILTER_MONEY);
 		diningOverlay.notifyDataSetChanged();
 		mapView.invalidate();
 	}

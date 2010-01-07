@@ -26,8 +26,8 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
-import edu.vanderbilt.vuphone.android.storage.DBAdapter;
-import edu.vanderbilt.vuphone.android.storage.DBWrapper;
+import edu.vanderbilt.vuphone.android.storage.DbAdapter;
+import edu.vanderbilt.vuphone.android.storage.DbWrapper;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
 
@@ -51,6 +51,7 @@ public class Main extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 
 		// clunky mechanic with gross file dependency,
 		// but DBWrapper needs Main.mainContext for its
@@ -59,11 +60,11 @@ public class Main extends ListActivity {
 			applicationContext = getApplicationContext();
 		display24 = "24".equals(System.getString(this.getContentResolver(), System.TIME_12_24));
 		
-		//DBWrapper.deleteAll();
+		//Restaurant.deleteAll();
 		if (Restaurant.getIDs().size() != StaticRestaurantData.NUM_RESTAURANTS) {
 			Log.i("Dining", "database purged: getIDs().size()=" + Restaurant.getIDs().size() +
 					", Static data size=" + StaticRestaurantData.NUM_RESTAURANTS);
-			DBWrapper.deleteAll();
+			Restaurant.deleteAll();
 			(new StaticRestaurantData()).createAllRestaurants();
 		}
 
@@ -384,20 +385,19 @@ public class Main extends ListActivity {
 		}
 	}
 	
-	
-	
 	private boolean getLocationWithUI() {
 		//Toast trying = Toast.makeText(this, "Trying to determine your location..." , Toast.LENGTH_SHORT);
 		//trying.show();
 		// TODO show a waiting for device type message
 		if (!ra.refreshDistances()) {
-		//	trying.cancel();
+			//trying.cancel();
 			Toast.makeText(this, "Your location is temporarily unavailable", Toast.LENGTH_SHORT).show();
 			// TODO make these strings part of resource data
 			return false;
-		} 
-		//trying.cancel();
-		return true;
+		} else {
+			//trying.cancel();
+			return true;
+		}
 	}
 
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW

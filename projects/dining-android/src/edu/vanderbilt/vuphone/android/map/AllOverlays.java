@@ -25,8 +25,10 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
  */
 public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.OnClickListener {
 	
-	private static final int NUM_FILTERS = 1;
-	private static final int FILTER_CLOSED = 0;
+	private static final int NUM_FILTERS = 3;
+	public static final int FILTER_CLOSED = 0;
+	public static final int FILTER_PLAN = 1;
+	public static final int FILTER_MONEY = 2;
 	
 	private int clickedPosition = -1;
 	private AllLocations map;
@@ -58,7 +60,7 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 			OverlayItem overlayItem = new OverlayItem(new GeoPoint(Restaurant.getLat(IDs.get(i)),
 					Restaurant.getLon(IDs.get(i))), Restaurant.getName(IDs.get(i)), RestaurantAdapter.hoursText(IDs.get(i)));
 			if (Restaurant.offCampus(IDs.get(i)))
-				overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker)));
+				overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker_n)));
 					// TODO get a better custom marker for off campus restaurants and/or make more custom markers for different 
 					// types or individual restaurants
 			else overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(R.drawable.map_marker_v)));
@@ -77,13 +79,14 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 			return true; //super.onTap(index);
 		}
 		clickedPosition = index;
-		popup.setLayoutParams(new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, 
-				getItem(index).getPoint(), 0, -getItem(index).getMarker(0).getIntrinsicHeight(), MapView.LayoutParams.BOTTOM_CENTER));
-		popup.setVisibility(View.VISIBLE);
-		
+
 		//icon.setImageResource(Restaurant.getIcon(Restaurant.getIDs().get(index)));
 		popupText.setText(getItem(index).getTitle());
 		specialText.setText(getItem(index).getSnippet());
+		
+		popup.setLayoutParams(new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, 
+				getItem(index).getPoint(), 0, -getItem(index).getMarker(0).getIntrinsicHeight(), MapView.LayoutParams.BOTTOM_CENTER));
+		popup.setVisibility(View.VISIBLE);
 		
 		mapView.getController().animateTo(getItem(index).getPoint());
 		return true; //super.onTap(index);
@@ -135,14 +138,29 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 		return locationOverlay;
 	}
 	
-	public void setHideClosed(boolean hide) {
+	public void setHideForFilter(boolean hide, int filter) {
 		if (!hide) 
 			for (int i = 0; i < show[0].length; i++)
-				setShowItem(i, FILTER_CLOSED, true);
-		else
-			for (int i = 0; i < show[0].length; i++)
-				if (!Restaurant.getHours(Restaurant.getIDs().get(i)).isOpen())
-					setShowItem(i, FILTER_CLOSED, false);
+				setShowItem(i, filter, true);
+		else {
+			switch (filter) {
+			case FILTER_CLOSED:
+				for (int i = 0; i < show[0].length; i++)
+					if (!Restaurant.getHours(Restaurant.getIDs().get(i)).isOpen())
+						setShowItem(i, filter, false);
+				break;
+			case FILTER_PLAN:
+				for (int i = 0; i < show[0].length; i++)
+					if (!Restaurant.mealPlanAccepted(Restaurant.getIDs().get(i)))
+						setShowItem(i, filter, false);
+				break;
+			case FILTER_MONEY:
+				for (int i = 0; i < show[0].length; i++)
+					if (!Restaurant.mealMoneyAccepted(Restaurant.getIDs().get(i)))
+						setShowItem(i, filter, false);
+				break;
+			}
+		}
 	}
 	
 	public void setShowItem(int i, int filter, boolean display) {
