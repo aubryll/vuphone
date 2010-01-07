@@ -19,7 +19,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 
-public class DBAdapter {
+public class DbAdapter {
 
 	/** Used for logging */
 	private static final String pre = "DBAdapter: ";
@@ -56,10 +56,10 @@ public class DBAdapter {
 	protected static final String COLUMN_URL 			= "url";
 	
 	/** Handle to the database instance */
-	private SQLiteDatabase database_;
+	private SQLiteDatabase _database;
 
 	/** Used to help open and update the database */
-	DBOpenHelper openHelper_;
+	DBOpenHelper _openHelper;
 
 	private static class DBOpenHelper extends SQLiteOpenHelper {
 
@@ -107,7 +107,7 @@ public class DBAdapter {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			Log.i("i", pre + "Creating a new DB");
-			db.execSQL(RESTAURANT_CREATE);
+			db.execSQL(RESTAURANT_CREATE); 
 		}
 
 		/**
@@ -127,19 +127,18 @@ public class DBAdapter {
 
 	
 	
-	protected DBAdapter(Context context) {
-		openHelper_ = new DBOpenHelper(context);
+	protected DbAdapter(Context context) {
+		_openHelper = new DBOpenHelper(context);
 	}
 
 	/** Used to close the database when done */
 	protected void close() {
-		openHelper_.close();
+		_openHelper.close();
 	}
 
 	/**
-	 * Create a new restaurant using the name, latitude, longitude, description,
-	 * favorite, mondayID, tuesdayID, wednesdayId, thursdayId, fridayId,
-	 * saturdayId, sundayId provided. If the restaurant is successfully created
+	 * Create a new restaurant using the restaurant provided. 
+	 * If the restaurant is successfully created
 	 * return the new rowId for that restaurant, otherwise return a -1 to
 	 * indicate failure.
 	 * 
@@ -160,7 +159,6 @@ public class DBAdapter {
 	 * @return rowId or -1 if failed
 	 */
 	protected long createRestaurant(Restaurant r) {
-
 		ContentValues initialValues = new ContentValues(6);
 		initialValues.put(COLUMN_NAME 			, r.getName());
 		initialValues.put(COLUMN_HOUR_SUN 		, r.getHours().flatten(Calendar.SUNDAY));
@@ -186,8 +184,8 @@ public class DBAdapter {
 			String menuf = xstream.toXML(r.getMenu());
 			initialValues.put(COLUMN_MENU, menuf);
 		}
-
-		return database_.insert(RESTAURANT_TABLE, null, initialValues);
+		
+		return _database.insert(RESTAURANT_TABLE, null, initialValues);
 	}
 
 	/**
@@ -198,11 +196,14 @@ public class DBAdapter {
 	 * @return true if deleted, false otherwise
 	 */
 	protected boolean deleteRestaurant(long rowId) {
-		return database_.delete(RESTAURANT_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
+		return _database.delete(RESTAURANT_TABLE, COLUMN_ID + "=" + rowId, null) > 0;
 	}
 	
+	/** Deletes the entire contents of the database
+	 * @return true if successful
+	 */
 	protected boolean deleteAllRestaurants() {
-		return database_.delete(RESTAURANT_TABLE, null, null) > 0;
+		return _database.delete(RESTAURANT_TABLE, null, null) > 0;
 	}
 
 	
@@ -215,7 +216,7 @@ public class DBAdapter {
      * @return This cursor allows you to reference these columns. 
      */
     protected Cursor getCursor(String [] columns) {
-    	return database_.query(RESTAURANT_TABLE, columns, null, null, null, null, null);
+    	return _database.query(RESTAURANT_TABLE, columns, null, null, null, null, null);
     }
     
     
@@ -228,7 +229,7 @@ public class DBAdapter {
      * @return A cursor to traverse over Restaurant with rowID.
      */
     protected Cursor getCursor(String [] columns, long rowId) {
-    	return database_.query(true, RESTAURANT_TABLE, columns, COLUMN_ID + "=" + rowId, null, null, null, null, null);
+    	return _database.query(true, RESTAURANT_TABLE, columns, COLUMN_ID + "=" + rowId, null, null, null, null, null);
     }
 
 
@@ -272,65 +273,133 @@ public class DBAdapter {
 			updateParams.put(COLUMN_MENU, menuf);
 		}
 		
-		return database_.update(RESTAURANT_TABLE, updateParams,
+		return _database.update(RESTAURANT_TABLE, updateParams,
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
 	
-	// these methods allow individual columns to be updated, without 
-	// having to pull the rest of the Restaurant from storage
+	/** 
+	 * Updates a row with the given contentValue pairs
+	 * @param rowId 
+	 * 	value of the column COLUMN_ID for the restaurant
+	 * @param newVals
+	 * 	the value map
+	 * @return true if successful
+	 * 	
+	 */
 	protected boolean updateColumns(long rowId, ContentValues newVals) {
-		return database_.update(RESTAURANT_TABLE, newVals, 
+		return _database.update(RESTAURANT_TABLE, newVals, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
+	
+	/**
+	 * Updates a single column of a single row with the given value
+	 * @param rowId
+	 * 	value of the column COLUMN_ID for the restaurant
+	 * @param column
+	 * 	id of the column to modify
+	 * @param value
+	 * 	new value for the column
+	 * @return true if successful
+	 */
 	protected boolean updateColumn(long rowId, String column, int value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(RESTAURANT_TABLE, args, 
+		return _database.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
+	
+	/**
+	 * Updates a single column of a single row with the given value
+	 * @param rowId
+	 * 	value of the column COLUMN_ID for the restaurant
+	 * @param column
+	 * 	id of the column to modify
+	 * @param value
+	 * 	new value for the column
+	 * @return true if successful
+	 */
 	protected boolean updateColumn(long rowId, String column, long value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(RESTAURANT_TABLE, args, 
+		return _database.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
+	
+	/**
+	 * Updates a single column of a single row with the given value
+	 * @param rowId
+	 * 	value of the column COLUMN_ID for the restaurant
+	 * @param column
+	 * 	id of the column to modify
+	 * @param value
+	 * 	new value for the column
+	 * @return true if successful
+	 */
 	protected boolean updateColumn(long rowId, String column, boolean value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(RESTAURANT_TABLE, args, 
+		return _database.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
+	
+	/**
+	 * Updates a single column of a single row with the given value
+	 * @param rowId
+	 * 	value of the column COLUMN_ID for the restaurant
+	 * @param column
+	 * 	id of the column to modify
+	 * @param value
+	 * 	new value for the column
+	 * @return true if successful
+	 */
 	protected boolean updateColumn(long rowId, String column, String value) {
 		ContentValues args = new ContentValues(1);
 		args.put(column, value);
-		return database_.update(RESTAURANT_TABLE, args, 
+		return _database.update(RESTAURANT_TABLE, args, 
 				COLUMN_ID + "=" + rowId, null) > 0;
 	}
 
 	/** Used to open a readable database */
-	protected DBAdapter openReadable() throws SQLException {
-		database_ = openHelper_.getReadableDatabase();
+	protected DbAdapter openReadable() throws SQLException {
+		_database = _openHelper.getReadableDatabase();
 		return this;
 	}
 
 	/** Used to open a writable database */
-	protected DBAdapter openWritable() throws SQLException {
-		database_ = openHelper_.getWritableDatabase();
+	protected DbAdapter openWritable() throws SQLException {
+		_database = _openHelper.getWritableDatabase();
 		return this;
 	}
 	
 	
 	
-	public static int booleansEncode(boolean []in) {
-		int out = 0;
+	/** 
+	 * Encodes the given array of booleans into an integer
+	 * Decode with boolenasDecode()
+	 * @param in
+	 * 	boolean array of length less or equal to 27
+	 * @return the encoded integer
+	 */
+	protected static int booleansEncode(boolean []in) {
+		int out = in.length;
 		for (int i = 0; i < in.length; i++)
-			out += ((in[i]?1:0)<<i);
+			out += ((in[i]?1:0)<<(i + 5));
 		return out;
 	}
 	
-	public static boolean [] booleansDecode(int in, int num) {
-		boolean [] out = new boolean[num];
-		for (int i = 0; i < num; i++) {
+	/**
+	 * Decodes a previously encoded boolean array encoded using
+	 * booleansEncode()
+	 * @param in
+	 * 	the integer to decode
+	 * @param num
+	 * 	the number of booleans 
+	 * @return
+	 */
+	protected static boolean [] booleansDecode(int in) {
+		boolean [] out = new boolean[in & 0x1f];
+		in = in >> 5;
+		for (int i = 0; i < out.length; i++) {
 			out[i]=((in&1)==1);
 			in = in >> 1;
 		}

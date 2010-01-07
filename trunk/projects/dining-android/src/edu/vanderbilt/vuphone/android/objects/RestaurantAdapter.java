@@ -215,7 +215,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	private String getSpecialRightText(long rID) {
 		StringBuilder out = new StringBuilder();
 		if (showDistances && distances != null) {
-			double distance = distances.get(Restaurant.getIDs().indexOf(rID));
+			double distance = distances.get(Restaurant.getI(rID));
 			if (distance < 1000)
 				out.append((int)(distance / 10 + .5) * 10).append(" ft");
 			else out.append(((int)(distance / 5280 * 10 + .5)) / 10.0).append(" mi");
@@ -564,9 +564,9 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	
 	public boolean refreshDistances() {
 		Location here = getCurrentLocation();
-		//Location here = new Location("test"); // use these to fake a position in the middle of campus
-		//here.setLatitude(36.143299); 
-		//here.setLongitude(-86.802464);
+//		Location here = new Location("test"); // use these to fake a position in the middle of campus
+//		here.setLatitude(36.143299); 
+//		here.setLongitude(-86.802464);
 		if (here == null) 
 			return false;
 		Location location = new Location("");
