@@ -31,7 +31,7 @@
 	self.navigationItem.title = @"Campus Maps";
 
 	Layer *anyLayer = [[Layer allLayers:managedObjectContext] anyObject];
-	currentLayerController = [[MapLayerController alloc] initWithLayer:anyLayer];
+	currentLayerController = [[MapLayerController alloc] initWithLayer:anyLayer andMapView:mapView];
 	
 	
 	CLLocationCoordinate2D location;
@@ -48,7 +48,7 @@
 
 	[mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
-	[currentLayerController addAnnotationsToMapView:mapView];
+	[currentLayerController addAnnotationsToMapView];
 }
 
 
@@ -125,15 +125,15 @@
 				  didChooseLayer:(Layer *)layer
 {
 	// Adjust the query to include these choices
-	[currentLayerController removeAnnotationsFromMapView:mapView];
+	[currentLayerController removeAnnotationsFromMapView];
 	[currentLayerController release];
 	currentLayerController = [[MapLayerController alloc] initWithLayer:layer];
-	[currentLayerController addAnnotationsToMapView:mapView];
+	[currentLayerController addAnnotationsToMapView];
 }
 
 #pragma mark MKMapViewDelegate
 
-- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
 	annView.animatesDrop = NO;
 	annView.userInteractionEnabled = YES;

@@ -280,6 +280,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>22</integer>
+									<integer>7</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -323,7 +325,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MapViewController.m</string>
+								<string>MapLayerController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,18 +333,18 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>MapViewController.m</string>
+										<string>MapLayerController.m</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>616F362610F3BD0B00E50212</string>
+										<string>616F367E10F6381E00E50212</string>
 										<key>history</key>
 										<array>
 											<string>61DF565C108138A8000A7B1D</string>
 											<string>616F34BD10F1A0E100E50212</string>
-											<string>616F35B510F39AFC00E50212</string>
-											<string>616F360F10F3B99400E50212</string>
-											<string>616F361F10F3BBFD00E50212</string>
+											<string>616F366A10F637A400E50212</string>
+											<string>616F367210F637E200E50212</string>
+											<string>616F367310F637E200E50212</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -538,14 +540,14 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>616F362710F3BD0B00E50212</string>
+		<string>616F367C10F637EF00E50212</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>616F34C110F1A0E100E50212</string>
 		<string>616F34C210F1A0E100E50212</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>61FC2E95107C2BF700FFF897</string>
 		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/branches/projects/campusmaps-iphone-0.2/CampusMaps.xcodeproj</string>
+		<string>1C78EAAD065D492600B07095</string>
 	</array>
 	<key>WindowString</key>
 	<string>42 56 1009 822 0 0 1440 878 </string>
@@ -785,7 +787,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>RemotePOILoader.m</string>
+										<string>&lt;No Editor&gt;</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -806,8 +808,6 @@
 							<string>212pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -886,7 +886,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {702, 338}}</string>
 								<key>RubberWindowFrame</key>
-								<string>117 91 702 379 0 0 1440 878 </string>
+								<string>132 100 702 379 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -915,11 +915,11 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>117 91 702 379 0 0 1440 878 </string>
+			<string>132 100 702 379 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

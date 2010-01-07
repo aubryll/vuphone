@@ -14,7 +14,7 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, LayersListViewDelegate> {
 
-	MapLayerController* currentLayerController;
+	MapLayerController *currentLayerController;
 	
 	IBOutlet UISegmentedControl* mapType;
 	IBOutlet MKMapView* mapView;
