@@ -40,7 +40,7 @@
 	if ([allLayers count] == 0) {
 		Layer *layer = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_LAYER
 													 inManagedObjectContext:[self managedObjectContext]];
-		layer.name = @"Default Layer";
+		layer.name = @"Buildings";
 		NSError *err = nil;
 		[[self managedObjectContext] save:&err];
 		if (err) {

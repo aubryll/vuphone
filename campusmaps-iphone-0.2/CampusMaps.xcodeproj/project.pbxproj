@@ -120,11 +120,11 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3332F9CF10A13B89003D35B8 /* Model */,
 				9952698110D34E6300424730 /* POIViewController.h */,
 				9952698210D34E6300424730 /* POIViewController.m */,
 				3335285310A3EA3300D4F1A2 /* SearchResultViewController.h */,
 				3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */,
-				3332F9CF10A13B89003D35B8 /* Model */,
 				337049661082E17B00E0520A /* MapLayerController.h */,
 				337049671082E17B00E0520A /* MapLayerController.m */,
 				338387CA1081479400F56AEB /* MapViewController.h */,
