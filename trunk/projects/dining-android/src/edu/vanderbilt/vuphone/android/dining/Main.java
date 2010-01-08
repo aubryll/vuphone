@@ -60,7 +60,7 @@ public class Main extends ListActivity {
 			applicationContext = getApplicationContext();
 		display24 = "24".equals(System.getString(this.getContentResolver(), System.TIME_12_24));
 		
-		//Restaurant.deleteAll();
+		Restaurant.deleteAll();
 		if (Restaurant.getIDs().size() != StaticRestaurantData.NUM_RESTAURANTS) {
 			Log.i("Dining", "database purged: getIDs().size()=" + Restaurant.getIDs().size() +
 					", Static data size=" + StaticRestaurantData.NUM_RESTAURANTS);
@@ -219,7 +219,6 @@ public class Main extends ListActivity {
 
 			builder.setMultiChoiceItems(items, checkedSort,
 					new DialogInterface.OnMultiChoiceClickListener() {
-						@Override
 						public void onClick(DialogInterface dialog, int which,
 								boolean isChecked) {
 							checkedSort[which] = isChecked;
@@ -246,7 +245,6 @@ public class Main extends ListActivity {
 			builder.setNeutralButton("Done",
 					new DialogInterface.OnClickListener() {
 				
-						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2], 
 									checkedSort[3], settingsModified, sortSettingsModified);
@@ -260,7 +258,6 @@ public class Main extends ListActivity {
 			builder.setNegativeButton("Cancel", 
 					new DialogInterface.OnClickListener() {
 						
-						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
 							
@@ -282,7 +279,6 @@ public class Main extends ListActivity {
 			builder.setMultiChoiceItems(items, checkedSetting, 
 					new DialogInterface.OnMultiChoiceClickListener() {
 						
-						@Override
 						public void onClick(DialogInterface dialog, int which, boolean isChecked) {
 							checkedSetting[which]=isChecked;
 							((AlertDialog)dialog).getListView().setItemChecked(which, isChecked);
@@ -338,7 +334,6 @@ public class Main extends ListActivity {
 			builder.setNegativeButton("Set Defaults", 
 					new DialogInterface.OnClickListener() {
 						
-						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							ra.setAllBoolsToDefault();
 							

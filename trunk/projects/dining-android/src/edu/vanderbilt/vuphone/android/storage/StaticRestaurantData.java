@@ -10,7 +10,7 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class StaticRestaurantData {
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	public static final int NUM_RESTAURANTS = 47;
 
 	int maxMenuItems = 10;
@@ -1144,7 +1144,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant breadAndCo = new Restaurant("Bread and Company", rh, false,
-				(int) (36.145872 * 1E6), (int) (-86.80846 * 1E6), "Sandwiches",
+				(int) (36.146313 * 1E6), (int) (-86.808728 * 1E6), "Sandwiches",
 				null, null, R.drawable.breadandco, true, false, true,
 				"(615) 329-1400", "http://www.breadandcompany.com/");
 		long id = breadAndCo.create();
@@ -2012,7 +2012,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant tgiFridays = new Restaurant("TGI Friday's", rh, false,
-				(int) (36.135898 * 1E6), (int) (-86.822827 * 1E6), "American",
+				(int) (36.1507 * 1E6), (int) (-86.801198 * 1E6), "American",
 				null, null, R.drawable.fridays, true, false, true,
 				"(615) 327-8071", "http://www.fridays.com/");
 		long id = tgiFridays.create();
@@ -2044,7 +2044,7 @@ public class StaticRestaurantData {
 		RestaurantHours rh = new RestaurantHours();
 		// TODO Add Hours of Operations
 		Restaurant wendysWestEnd = new Restaurant("Wendy's - West End", rh,
-				false, (int) (36.135841 * 1E6), (int) (-86.82291 * 1E6),
+				false, (int) (36.145667 * 1E6), (int) (-86.810038 * 1E6),
 				"Fast Food", null, null, R.drawable.wendys, true, false, true,
 				"(615) 327-4930", "http://www.wendys.com/");
 		long id = wendysWestEnd.create();
