@@ -1,5 +1,6 @@
 package edu.vanderbilt.vuphone.android.dining;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -9,20 +10,34 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 import edu.vanderbilt.vuphone.android.map.OneLocation;
+import edu.vanderbilt.vuphone.android.objects.Range;
+import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
-public class RestaurantDetails extends Activity {
+public class RestaurantDetails extends Activity implements ViewSwitcher.ViewFactory,
+View.OnClickListener{
 
 	public static final String RESTAURANT_ID = "0";
 
 	private long restaurantID;
 	private Calendar rightNow;
 	private Restaurant restaurant;
+	private long restaurantLogo;
+	private TextSwitcher mSwitcher;
+
+    private int mCounter = 0;
 
 	private OnClickListener mapListener = new OnClickListener() {
 		public void onClick(View v) {
@@ -47,21 +62,70 @@ public class RestaurantDetails extends Activity {
 
 		restaurantID = getIntent().getExtras().getLong(RESTAURANT_ID);
 		restaurant = Restaurant.get(restaurantID);
+		restaurantLogo = Restaurant.getIcon(restaurantID);
 
 		SpannableString title = new SpannableString(restaurant.getName());
 		title.setSpan(new RelativeSizeSpan((float) 2.2), 0, title.length(), 0);
+		((ImageView)findViewById(R.restaurantDetailsPage.restaurantLogo)).setImageResource((int) restaurantLogo);
 		((TextView) findViewById(R.restaurantDetailsPage.restaurantName))
 				.setText(title);
 		((TextView) findViewById(R.restaurantDetailsPage.restaurantHours))
 				.setText(WeeklySchedule());
-
 		((Button) findViewById(R.restaurantDetailsPage.to_map_button))
 				.setOnClickListener(mapListener);
 
+		mSwitcher = (TextSwitcher) findViewById(R.id.switcher);
+        mSwitcher.setFactory(this);
+
+        Animation in = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_out_right);
+        Animation out = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_in_left);
+        mSwitcher.setInAnimation(in);
+        mSwitcher.setOutAnimation(out);
+
+        ImageButton nextButton = (ImageButton) findViewById(R.id.next);
+        nextButton.setOnClickListener(this);
+
+        updateCounter();
 	}
 
 	// TODO place holder functions below
-
+	CharSequence DaySchedule()
+	{
+		RestaurantHours hours = Restaurant.getHours(restaurantID);
+		SpannableStringBuilder out = new SpannableStringBuilder();
+		if(mCounter>Calendar.SATURDAY)
+		{
+			mCounter=Calendar.SUNDAY;
+		}
+		switch (mCounter) {
+			case Calendar.SUNDAY:
+				out.append((CharSequence) hours.getSundayRanges().toString());
+				break;
+			case Calendar.MONDAY:
+				out.append((CharSequence) hours.getMondayRanges().toString());
+				break;
+			case Calendar.TUESDAY:
+				out.append((CharSequence) hours.getTuesdayRanges().toString());
+				break;
+			case Calendar.WEDNESDAY:
+				out.append((CharSequence) hours.getWednesdayRanges().toString());
+				break;
+			case Calendar.THURSDAY:
+				out.append((CharSequence) hours.getThursdayRanges().toString());
+				break;
+			case Calendar.FRIDAY:
+				out.append((CharSequence) hours.getFridayRanges().toString());
+				break;
+			case Calendar.SATURDAY:
+				out.append((CharSequence) hours.getSaturdayRanges().toString());
+				break;
+			}
+		return out;
+		}
+	
+	
 	CharSequence WeeklySchedule() {
 		SpannableStringBuilder out = new SpannableStringBuilder();
 		out.append(restaurant.getHours().toString());
@@ -121,4 +185,20 @@ public class RestaurantDetails extends Activity {
 
 		return out;
 	}
+
+    public void onClick(View v) {
+        mCounter++;
+        updateCounter();
+    }
+
+    private void updateCounter() {
+        mSwitcher.setText(DaySchedule());
+    }
+
+    public View makeView() {
+        TextView t = new TextView(this);
+        t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+        t.setTextSize(10);
+        return t;
+    }
 }

@@ -127,7 +127,6 @@ public class AllOverlays extends ItemizedOverlay<OverlayItem> implements View.On
 		return size;
 	}
 
-	@Override
 	public void onClick(View v) {
 		Intent toDetails = new Intent(map, RestaurantDetails.class);
 		toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, Restaurant.getIDs().get(clickedPosition));
