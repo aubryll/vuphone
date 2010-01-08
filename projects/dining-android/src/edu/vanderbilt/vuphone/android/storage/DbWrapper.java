@@ -263,9 +263,9 @@ public class DbWrapper {
 	 * @param r
 	 * 	the restaurant to create
 	 * @return
-	 * 	whether or not the creation was successful
+	 * 	the column id of the restaurant, or -1 if unsuccessful
 	 */
-	protected static boolean create(Restaurant r) {
+	protected static long create(Restaurant r) {
 		makeWritable();
 		long rID = adapter.createRestaurant(r);
 		if (rID >= 0) {
@@ -274,11 +274,13 @@ public class DbWrapper {
 				// could potentially be a problem if this addition causes IDs
 				// not to be sorted. (Shouldnt in theory since ID is set to 
 				// autoincrement
-			if (mainDataCached)
+			if (mainDataCached) {
 				cache.add(r);
-			return true;
+				cached.add(true);
+			}
+			return rID;
 		} else
-			return false;
+			return -1;
 	}
 	
 	/**
@@ -296,8 +298,10 @@ public class DbWrapper {
 			return false;
 		boolean success =  adapter.updateRestaurant(rowID, updated); 
 		close();
-		if (mainDataCached && success)
+		if (mainDataCached && success) {
 			cache.set(i, updated); 
+			cached.set(i, true);
+		}
 		return success;
 	}
 	
@@ -363,8 +367,10 @@ public class DbWrapper {
 		if (adapter.deleteRestaurant(rowID)) {
 			int i = getIDs().indexOf(rowID);
 			if (i>=0) {
-				if (mainDataCached)
+				if (mainDataCached) {
 					cache.remove(i);
+					cached.remove(i);
+				}
 				IDs.remove(i); // IDs cached with getIDs() above
 			}
 			return true;
@@ -461,8 +467,7 @@ public class DbWrapper {
 	protected static void cacheMapData() {
 		if (mapDataCached)
 			return;
-		if (!mainDataCached)
-			cacheMainData();
+		cacheMainData();
 		makeReadable();	
 		Cursor c = adapter.getCursor(new String[] {
 			DbAdapter.COLUMN_LATITUDE, 
@@ -489,8 +494,7 @@ public class DbWrapper {
 	 * 	the index of the cached restaurant
 	 */
 	protected static int cacheRestaurant(long rowID) {
-		if (!mainDataCached)
-			cacheMainData();
+		cacheMainData();
 		int i = getI(rowID);
 		if (cached.get(i))
 			return i;
@@ -537,7 +541,7 @@ public class DbWrapper {
 	/**
 	 * Destroys the restaurant cache, but not the ID cache
 	 */
-	private static void resetRestaurantCache() {
+	protected static void resetRestaurantCache() { //TODO make this private after finished debugging in StaticRestaurantData
 		int restaurants = getIDs().size();
 		cache = new ArrayList<Restaurant>();
 		cache.ensureCapacity(restaurants);

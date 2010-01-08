@@ -101,15 +101,82 @@ public class Restaurant {
 	protected void setUrl(String url)				{_url = url;}
 	protected void setIcon(int iconID)				{_icon = iconID;}
 
-	public boolean create() 						{return DbWrapper.create(this);}
+	public long create() 							{return DbWrapper.create(this);}
 	
 	public String toString() {
 		StringBuilder out = new StringBuilder();
 		if (favorite())
-			out.append("* ");
-		out.append(getName()).append("  (").append(getLat()).append(",").append(getLon()).
-			append(")\n").append(getDescription()).append("\n").append(getHours().toString());
+			out.append("*");
+		if (offCampus())
+			out.append("O");
+		if (mealPlanAccepted())
+			out.append("P");
+		if (mealMoneyAccepted())
+			out.append("M");
+		out.append(" ");
+		out.append(getName()).append("  (").append(getLat()).append(",")
+				.append(getLon()).append(")\n").append(getType()).append("\n")
+				.append(getDescription()).append("\n").append(getPhoneNumber())
+				.append("\n").append(getUrl()).append("\n").append(
+						getHours().toString()).append("\n icon hex string: ")
+				.append(Integer.toHexString(getIcon()));
 		return out.toString();
+	}
+	
+	public boolean equals(Object in) {
+		if (in instanceof Restaurant) {
+			Restaurant inR = (Restaurant)in;
+			if (getName() == null) {
+				if (inR.getName() != null)
+					return false;
+			} else if (!getName().equals(inR.getName()))
+				return false;
+			
+//			if (getHours() == null) {
+//				if (inR.getHours() != null)
+//					return false;
+//			} else if (!getHours().equals(inR.getHours()))
+//				return false;
+			
+			if (getDescription() == null) {
+				if (inR.getDescription() != null)
+					return false;
+			} else if (!getDescription().equals(inR.getDescription()))
+				return false;
+			
+			if (getType() == null) {
+				if (inR.getType() != null)
+					return false;
+			} else if (!getType().equals(inR.getType()))
+				return false;
+			
+//			if (getMenu() == null) {
+//				if (inR.getMenu() != null)
+//					return false;
+//			} else if (!getMenu().equals(inR.getMenu()))
+//				return false;
+			
+			if (getPhoneNumber() == null) {
+				if (inR.getPhoneNumber() != null)
+					return false;
+			} else if (!getPhoneNumber().equals(inR.getPhoneNumber()))
+				return false;
+			
+			if (getUrl() == null) {
+				if (inR.getUrl() != null)
+					return false;
+			} else if (!getUrl().equals(inR.getUrl()))
+				return false;
+			
+			return (getLat() == inR.getLat() &&
+					getLon() == inR.getLon() &&
+					favorite() == inR.favorite() &&
+					mealPlanAccepted() == inR.mealPlanAccepted() &&
+					mealMoneyAccepted() == inR.mealMoneyAccepted() &&
+					offCampus() == inR.offCampus() &&
+					getIcon() == inR.getIcon());
+		}
+		return false;
 	}
 	
 	// static methods for database access
@@ -135,7 +202,7 @@ public class Restaurant {
 	public static boolean commit() 							{return DbWrapper.commit();}
 	public static void revert()								{DbWrapper.revert();}
 	
-	public static boolean create(Restaurant r) 				{return DbWrapper.create(r);}
+	public static long create(Restaurant r) 				{return DbWrapper.create(r);}
 	public static boolean update(long rowID, Restaurant r)	{return DbWrapper.update(rowID, r);}
 	public static boolean delete(long rowID)				{return DbWrapper.delete(rowID);}
 	public static boolean deleteAll()						{return DbWrapper.deleteAll();}
