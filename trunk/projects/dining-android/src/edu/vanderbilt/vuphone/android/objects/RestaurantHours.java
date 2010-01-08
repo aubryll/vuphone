@@ -30,7 +30,7 @@ public class RestaurantHours {
 	public RestaurantHours (ArrayList<ArrayList<Range>> hours) {
 		_openRanges = hours;
 		for (int i = Calendar.SUNDAY; i<=Calendar.SATURDAY; i++) {
-			if (i-1>_openRanges.size())
+			if (i - Calendar.SUNDAY>_openRanges.size())
 				// if hours didnt have the correct number of days
 				_openRanges.add(new ArrayList<Range>());
 			sortAndMerge(i);
@@ -126,8 +126,16 @@ public class RestaurantHours {
 		Time now = new Time();
 		Range current = getCurrentRange();
 		if (current != null) {
-			if (current.over24Hours()) {
-				return 1440;
+			if (current.overnight()) {
+				ArrayList<Range> tomorrow = getRangesToModify((new GregorianCalendar().
+						get(Calendar.DAY_OF_WEEK) + 1 - Calendar.SUNDAY) % 7 + Calendar.SUNDAY);
+				if (!tomorrow.isEmpty()) {
+					Range next = tomorrow.get(0);
+					if (!next.after(current.getEnd())) {
+						int min = current.minutesUntilEnd(now) + next.minutesUntilEnd(next.getStart());
+						return min>1440?1440:min;
+					}							
+				}
 			}
 			if (current.getStart().equals(Time.beginning)) {
 				ArrayList<Range> today = getTodayRanges();
@@ -159,6 +167,20 @@ public class RestaurantHours {
 		Range current = getCurrentRange();
 		if (current == null) 
 			throw new RuntimeException("Restaurant must be open");
+		if (current.overnight()) {
+			ArrayList<Range> tomorrow = getRangesToModify((new GregorianCalendar().
+					get(Calendar.DAY_OF_WEEK) + 1 - Calendar.SUNDAY) % 7 + Calendar.SUNDAY);
+			if (!tomorrow.isEmpty()) {
+				Range next = tomorrow.get(0);
+				if (!next.after(current.getEnd())) {
+					Time now = new Time();
+					if (!next.overnight() && !next.getEnd().after(now))
+						return next.getEnd();
+					else 
+						return null;
+				}							
+			}
+		}
 		if (current.getStart().equals(Time.beginning)) {
 			ArrayList<Range> today = getTodayRanges();
 			if (today.size()>1) {

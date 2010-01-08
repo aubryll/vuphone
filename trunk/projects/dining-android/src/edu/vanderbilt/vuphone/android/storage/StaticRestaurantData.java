@@ -3,13 +3,14 @@ package edu.vanderbilt.vuphone.android.storage;
 import java.util.Calendar;
 import java.util.Random;
 
+import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.objects.Range;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class StaticRestaurantData {
-	
+	public static final boolean DEBUG = false;
 	public static final int NUM_RESTAURANTS = 47;
 
 	int maxMenuItems = 10;
@@ -136,7 +137,15 @@ public class StaticRestaurantData {
 				(int) (36.146405 * 1E6), (int) (-86.803178 * 1E6), "Cafeteria",
 				null, description, R.drawable.rand, true, true, false, null,
 				"http://www.vanderbilt.edu/dining/rest_rand.php");
-		rand.create();
+		long id = rand.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(rand.equals(Restaurant
+					.get(id))));
+		}
+		
+		//Log.i("StaticRestaurantData", rand.toString() +"\n" + Restaurant.get(id).toString());
 	}
 
 	private void theCommonsFoodGalleryData() {
@@ -177,7 +186,13 @@ public class StaticRestaurantData {
 				"Cafeteria", null, description, R.drawable.commons, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/rest_commons.php");
-		commonsFood.create();
+		long id = commonsFood.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(commonsFood
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void commonGroundsData() {
@@ -218,7 +233,13 @@ public class StaticRestaurantData {
 				"Munchie Mart", null, description, R.drawable.commongrounds,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/commongrounds.php");
-		commonGrounds.create();
+		long id = commonGrounds.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(commonGrounds
+					.equals(Restaurant.get(id))));
+		}
 
 	}
 
@@ -260,7 +281,13 @@ public class StaticRestaurantData {
 				null, description, R.drawable.chefjamesbistro, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_chefjamesbistro.php");
-		chefJames.create();
+		long id = chefJames.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(chefJames
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void centerSmoothieData() {
@@ -294,7 +321,13 @@ public class StaticRestaurantData {
 				"Smoothie", null, description, R.drawable.centersmoothie, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/line_centersmoothie.php");
-		centerSmoothie.create();
+		long id = centerSmoothie.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(centerSmoothie
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void pubData() {
@@ -327,13 +360,19 @@ public class StaticRestaurantData {
 				(int) (36.146626 * 1E6), (int) (-86.803736 * 1E6),
 				"Sports Bar", null, description, R.drawable.pub, true, true,
 				false, null, "http://www.vanderbilt.edu/dining/line_pub.php");
-		thePub.create();
+		long id = thePub.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(thePub
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void ctWestData() {
 		RestaurantHours rh = new RestaurantHours();
 		// C.T. West is closed on Friday and Saturday
-		
+
 		Time start = new Time(11, 0);
 		Time stop = new Time(21, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -360,7 +399,13 @@ public class StaticRestaurantData {
 				(int) (36.147418 * 1E6), (int) (-86.806839 * 1E6), "BBQ", null,
 				description, R.drawable.ctwest, true, true, false, null,
 				"http://www.vanderbilt.edu/dining/line_ctwest.php");
-		ctWest.create();
+		long id = ctWest.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(ctWest
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void quiznosTowersData() {
@@ -401,7 +446,13 @@ public class StaticRestaurantData {
 				"Sandwich", null, description, R.drawable.quiznos, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_quiznos_towers.php");
-		quiznosTowers.create();
+		long id = quiznosTowers.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(quiznosTowers
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void quiznosMorganData() {
@@ -443,7 +494,13 @@ public class StaticRestaurantData {
 				"Sandwich", null, description, R.drawable.quiznos, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_quiznos_morgan.php");
-		quiznosMorgan.create();
+		long id = quiznosMorgan.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(quiznosMorgan
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void roTikiData() {
@@ -477,12 +534,18 @@ public class StaticRestaurantData {
 				"Cafe/Munchie Mart", null, description, R.drawable.rotiki,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/line_rotiki.php");
-		roTiki.create();
+		long id = roTiki.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(roTiki
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void starbucksData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(12, 0);
 		Time stop = new Time(23, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -513,7 +576,13 @@ public class StaticRestaurantData {
 				(int) (36.144368 * 1E6), (int) (-86.805529 * 1E6), "Coffee",
 				null, description, R.drawable.starbucks, true, true, false,
 				null, "http://www.vanderbilt.edu/dining/line_starbucks.php");
-		starbucks.create();
+		long id = starbucks.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(starbucks
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void grinsData() {
@@ -546,7 +615,13 @@ public class StaticRestaurantData {
 				(int) (36.144785 * 1E6), (int) (-86.806399 * 1E6),
 				"Vegetarian", null, description, R.drawable.grins, true, true,
 				false, null, "http://www.vanderbilt.edu/dining/line_grins.php");
-		grins.create();
+		long id = grins.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(grins
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void suziesCafeEngData() {
@@ -580,12 +655,18 @@ public class StaticRestaurantData {
 				"Cafe", null, description, R.drawable.suzies, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
-		suziesCafeEng.create();
+		long id = suziesCafeEng.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(suziesCafeEng
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void suziesCafeBlairData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		// Restaurant is closed all day on Saturday and Sunday
 		Time start = new Time(7, 30);
 		Time stop = new Time(14, 30);
@@ -614,12 +695,18 @@ public class StaticRestaurantData {
 				"Cafe", null, description, R.drawable.suzies, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
-		suziesCafeBlair.create();
+		long id = suziesCafeBlair.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(suziesCafeBlair
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void suziesCafeDivinityData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		// Restaurant is closed all day on Saturday and Sunday
 		Time start = new Time(8, 30);
 		Time stop = new Time(14, 30);
@@ -648,12 +735,18 @@ public class StaticRestaurantData {
 				"Cafe", null, description, R.drawable.suzies, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
-		suziesCafeDiv.create();
+		long id = suziesCafeDiv.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(suziesCafeDiv
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void nectarData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		// Restaurant is closed all day on Saturday and Sunday
 		Time start = new Time(10, 0);
 		Time stop = new Time(19, 0);
@@ -682,7 +775,13 @@ public class StaticRestaurantData {
 				"Organic Munchie Mart", null, description, R.drawable.nectar,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/nectar.php");
-		nectar.create();
+		long id = nectar.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(nectar
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void mcTyeireData() {
@@ -728,12 +827,18 @@ public class StaticRestaurantData {
 				(int) (36.143796 * 1E6), (int) (-86.803227 * 1E6), "onCampus",
 				null, description, R.drawable.dining, true, true, false, null,
 				null);
-		mcTyeire.create();
+		long id = mcTyeire.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(mcTyeire
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void varsityBranscombData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(7, 0);
 		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -770,12 +875,18 @@ public class StaticRestaurantData {
 				"Munchie Mart", null, description, R.drawable.marketplace,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/varsitymarketplace.php");
-		varsityBranscomb.create();
+		long id = varsityBranscomb.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(varsityBranscomb
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void varsityTowersData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(7, 0);
 		Time stop = new Time(7, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -811,12 +922,18 @@ public class StaticRestaurantData {
 				"Munchie Mart", null, description, R.drawable.towers, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/varsitytowers.php");
-		varsityTowers.create();
+		long id = varsityTowers.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(varsityTowers
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void varsityMorganData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(10, 0);
 		Time stop = new Time(1, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -852,7 +969,13 @@ public class StaticRestaurantData {
 				"Munchie Mart", null, description, R.drawable.morgan, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/varsitymorgan.php");
-		varsityMorgan.create();
+		long id = varsityMorgan.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(varsityMorgan
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void varsitySarrattData() {
@@ -887,7 +1010,13 @@ public class StaticRestaurantData {
 				"Munchie Mart", null, description, R.drawable.jr, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/jrvarsitymarket.php");
-		varsitySarratt.create();
+		long id = varsitySarratt.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(varsitySarratt
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void hemingwayMarketData() {
@@ -927,7 +1056,13 @@ public class StaticRestaurantData {
 				"Munchie Mart", null, description, R.drawable.hemingway, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/hemingwaymarket.php");
-		hemingwayMarket.create();
+		long id = hemingwayMarket.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(hemingwayMarket
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	/*
@@ -935,7 +1070,7 @@ public class StaticRestaurantData {
 	 */
 	private void bestWokData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(12, 0);
 		Time stop = new Time(22, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -966,14 +1101,20 @@ public class StaticRestaurantData {
 
 		Restaurant bestWok = new Restaurant("Best Wok", rh, false,
 				(int) (36.158751 * 1E6), (int) (-86.818717 * 1E6), "Chinese",
-				null, null, R.drawable.tasteofnashville, true, false, true, "(615) 341-0188",
-				null);
-		bestWok.create();
+				null, null, R.drawable.tasteofnashville, true, false, true,
+				"(615) 341-0188", null);
+		long id = bestWok.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(bestWok
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void breadAndCoData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(8, 0);
 		Time stop = new Time(16, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1002,17 +1143,22 @@ public class StaticRestaurantData {
 		stop = new Time(18, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
-
 		Restaurant breadAndCo = new Restaurant("Bread and Company", rh, false,
 				(int) (36.145872 * 1E6), (int) (-86.80846 * 1E6), "Sandwiches",
-				null, null, R.drawable.breadandco, true, false, true, "(615) 329-1400",
-				"http://www.breadandcompany.com/");
-		breadAndCo.create();
+				null, null, R.drawable.breadandco, true, false, true,
+				"(615) 329-1400", "http://www.breadandcompany.com/");
+		long id = breadAndCo.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(breadAndCo
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void brueggersBagelData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(7, 0);
 		Time stop = new Time(17, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1040,12 +1186,18 @@ public class StaticRestaurantData {
 		start = new Time(7, 0);
 		stop = new Time(17, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant brueggersBagel = new Restaurant("Bruegger's Bagels", rh, false,
-				(int) (36.148542 * 1E6), (int) (-86.799112 * 1E6), "Sandwiches",
-				null, null, R.drawable.brueggers, true, false, true, "(615) 327-0055",
-				"http://www.brueggers.com/");
-		brueggersBagel.create();
+
+		Restaurant brueggersBagel = new Restaurant("Bruegger's Bagels", rh,
+				false, (int) (36.148542 * 1E6), (int) (-86.799112 * 1E6),
+				"Sandwiches", null, null, R.drawable.brueggers, true, false,
+				true, "(615) 327-0055", "http://www.brueggers.com/");
+		long id = brueggersBagel.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(brueggersBagel
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void cabanaData() {
@@ -1078,12 +1230,18 @@ public class StaticRestaurantData {
 		start = new Time(16, 0);
 		stop = new Time(3, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant cabana = new Restaurant("Cabana", rh, false,
-				(int) (36.137065 * 1E6), (int) (-86.799215 * 1E6), "Fine Dining",
-				null, null, R.drawable.cabana, true, false, true, "(615) 577-2262",
-				"http://www.cabananashville.com/");
-		cabana.create();
+				(int) (36.137065 * 1E6), (int) (-86.799215 * 1E6),
+				"Fine Dining", null, null, R.drawable.cabana, true, false,
+				true, "(615) 577-2262", "http://www.cabananashville.com/");
+		long id = cabana.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(cabana
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void cafeCocoData() {
@@ -1108,17 +1266,23 @@ public class StaticRestaurantData {
 		start = new Time(7, 0);
 		stop = new Time(7, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
-		
+
 		Restaurant cafeCoco = new Restaurant("Cafe Coco", rh, false,
 				(int) (36.151832 * 1E6), (int) (-86.805135 * 1E6), "Cafe",
-				null, null, R.drawable.cafecoco, true, false, true, "(615) 321-2626",
-				"http://www.cafecoco.com/");
-		cafeCoco.create();
+				null, null, R.drawable.cafecoco, true, false, true,
+				"(615) 321-2626", "http://www.cafecoco.com/");
+		long id = cafeCoco.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(cafeCoco
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void cheeseburgerCharleysData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(11, 0);
 		Time stop = new Time(20, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1146,17 +1310,24 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(20, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant cheeseburgerCharleys = new Restaurant("Cheeseburger Charley's", rh, false,
-				(int) (36.147172 * 1E6), (int) (-86.798999 * 1E6), "American",
-				null, null, R.drawable.cheeseburgercharleys, true, false, true, "(615) 327-0220",
-				"http://www.cheeseburgercharleys.com/");
-		cheeseburgerCharleys.create();
+
+		Restaurant cheeseburgerCharleys = new Restaurant(
+				"Cheeseburger Charley's", rh, false, (int) (36.147172 * 1E6),
+				(int) (-86.798999 * 1E6), "American", null, null,
+				R.drawable.cheeseburgercharleys, true, false, true,
+				"(615) 327-0220", "http://www.cheeseburgercharleys.com/");
+		long id = cheeseburgerCharleys.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(cheeseburgerCharleys
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void chilisData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(11, 0);
 		Time stop = new Time(23, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1184,12 +1355,18 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(0, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant chilis = new Restaurant("Chili's", rh, false,
 				(int) (36.148266 * 1E6), (int) (-86.806459 * 1E6), "Tex Mex",
-				null, null, R.drawable.chilis, true, false, true, "(615) 327-1588",
-				"http://www.chilis.com/");
-		chilis.create();
+				null, null, R.drawable.chilis, true, false, true,
+				"(615) 327-1588", "http://www.chilis.com/");
+		long id = chilis.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(chilis
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void medCuisineData() {
@@ -1222,17 +1399,23 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(21, 30);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant medCuisine = new Restaurant("Mediterranean Cuisine", rh, false,
-				(int) (36.147172 * 1E6), (int) (-86.798999 * 1E6), "Mediterranean",
-				null, null, R.drawable.medcuisine, true, false, true, "(615) 321-8960",
-				null);
-		medCuisine.create();
+
+		Restaurant medCuisine = new Restaurant("Mediterranean Cuisine", rh,
+				false, (int) (36.147172 * 1E6), (int) (-86.798999 * 1E6),
+				"Mediterranean", null, null, R.drawable.medcuisine, true,
+				false, true, "(615) 321-8960", null);
+		long id = medCuisine.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(medCuisine
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void michaelangelosPizzaData() {
 		RestaurantHours rh = new RestaurantHours();
-		
+
 		Time start = new Time(14, 0);
 		Time stop = new Time(20, 30);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1261,11 +1444,18 @@ public class StaticRestaurantData {
 		stop = new Time(2, 30);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
-		Restaurant michaelangelosPizza = new Restaurant("Michaelangelo's Pizza", rh, false,
-				(int) (36.151744 * 1E6), (int) (-86.803774 * 1E6), "Pizza",
-				null, null, R.drawable.michaelangelos, true, false, true, "(615) 329-2979",
+		Restaurant michaelangelosPizza = new Restaurant(
+				"Michaelangelo's Pizza", rh, false, (int) (36.151744 * 1E6),
+				(int) (-86.803774 * 1E6), "Pizza", null, null,
+				R.drawable.michaelangelos, true, false, true, "(615) 329-2979",
 				"http://www.michaelangelos-pizza.com/");
-		michaelangelosPizza.create();
+		long id = michaelangelosPizza.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(michaelangelosPizza
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void noshvilleData() {
@@ -1298,12 +1488,18 @@ public class StaticRestaurantData {
 		start = new Time(7, 30);
 		stop = new Time(22, 30);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant noshville = new Restaurant("Noshville", rh, false,
 				(int) (36.150167 * 1E6), (int) (-86.797837 * 1E6), "Deli",
-				null, null, R.drawable.noshville, true, false, true, "(615) 329-6674",
-				"http://www.noshville.com/");
-		noshville.create();
+				null, null, R.drawable.noshville, true, false, true,
+				"(615) 329-6674", "http://www.noshville.com/");
+		long id = noshville.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(noshville
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void obiesPizzaData() {
@@ -1332,12 +1528,18 @@ public class StaticRestaurantData {
 		start = new Time(4, 0);
 		stop = new Time(2, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant obiesPizza = new Restaurant("Obie's Flying Tomato Pizza", rh, false,
-				(int) (36.1513 * 1E6), (int) (-86.804124 * 1E6), "Pizza",
-				null, null, R.drawable.tasteofnashville, true, false, true, "(615) 327-4772",
-				null);
-		obiesPizza.create();
+
+		Restaurant obiesPizza = new Restaurant("Obie's Flying Tomato Pizza",
+				rh, false, (int) (36.1513 * 1E6), (int) (-86.804124 * 1E6),
+				"Pizza", null, null, R.drawable.tasteofnashville, true, false,
+				true, "(615) 327-4772", null);
+		long id = obiesPizza.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(obiesPizza
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void papaJohnsData() {
@@ -1370,12 +1572,18 @@ public class StaticRestaurantData {
 		start = new Time(9, 0);
 		stop = new Time(1, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant papaJohns = new Restaurant("Papa John's", rh, false,
 				(int) (36.148439 * 1E6), (int) (-86.806092 * 1E6), "Pizza",
-				null, null, R.drawable.papajohns, true, false, true, "(615) 321-4000",
-				"http://www.papajohns.com/");
-		papaJohns.create();
+				null, null, R.drawable.papajohns, true, false, true,
+				"(615) 321-4000", "http://www.papajohns.com/");
+		long id = papaJohns.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(papaJohns
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void qdobaData() {
@@ -1408,12 +1616,18 @@ public class StaticRestaurantData {
 		start = new Time(6, 0);
 		stop = new Time(6, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant qdoba = new Restaurant("Qdoba", rh, false,
 				(int) (36.150282 * 1E6), (int) (-86.800717 * 1E6), "Mexican",
-				null, null, R.drawable.qdoba, true, false, true, "(615) 340-9039",
-				"http://www.qdoba.com/");
-		qdoba.create();
+				null, null, R.drawable.qdoba, true, false, true,
+				"(615) 340-9039", "http://www.qdoba.com/");
+		long id = qdoba.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(qdoba
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void rolyPolyData() {
@@ -1442,12 +1656,18 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(16, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant rolyPoly = new Restaurant("Roly Poly Sandwiches", rh, false,
-				(int) (36.139484 * 1E6), (int) (-86.800472 * 1E6), "Sandwiches",
-				null, null, R.drawable.rolypoly, true, false, true, "(615) 255-4600",
-				"http://www.rolypoly.com/");
-		rolyPoly.create();
+				(int) (36.139484 * 1E6), (int) (-86.800472 * 1E6),
+				"Sandwiches", null, null, R.drawable.rolypoly, true, false,
+				true, "(615) 255-4600", "http://www.rolypoly.com/");
+		long id = rolyPoly.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(rolyPoly
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void romaPizzaData() {
@@ -1480,12 +1700,18 @@ public class StaticRestaurantData {
 		start = new Time(10, 0);
 		stop = new Time(5, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant romaPizza = new Restaurant("Roma Pizza and Pasta", rh, false,
-				(int) (36.148327 * 1E6), (int) (-86.807474 * 1E6), "Pizza",
-				null, null, R.drawable.roma, true, false, true, "(615) 340-0040",
-				"http://www.romapizzaandpasta.com/");
-		romaPizza.create();
+
+		Restaurant romaPizza = new Restaurant("Roma Pizza and Pasta", rh,
+				false, (int) (36.148327 * 1E6), (int) (-86.807474 * 1E6),
+				"Pizza", null, null, R.drawable.roma, true, false, true,
+				"(615) 340-0040", "http://www.romapizzaandpasta.com/");
+		long id = romaPizza.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(romaPizza
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void samsSportsBarData() {
@@ -1518,17 +1744,23 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(2, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant samsSportsBar = new Restaurant("Sam's Sports Bar & Grill", rh, false,
-				(int) (36.136348 * 1E6), (int) (-86.801419 * 1E6), "Sports Bar",
-				null, null, R.drawable.sams, true, false, true, "(615) 383-3601",
-				"http://www.samssportsgrill.com/");
-		samsSportsBar.create();
+
+		Restaurant samsSportsBar = new Restaurant("Sam's Sports Bar & Grill",
+				rh, false, (int) (36.136348 * 1E6), (int) (-86.801419 * 1E6),
+				"Sports Bar", null, null, R.drawable.sams, true, false, true,
+				"(615) 383-3601", "http://www.samssportsgrill.com/");
+		long id = samsSportsBar.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(samsSportsBar
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void satayThaiData() {
 		RestaurantHours rh = new RestaurantHours();
-		//TODO Satay Thai Grill needs actual hours
+		// TODO Satay Thai Grill needs actual hours
 		Time start = new Time(11, 0);
 		Time stop = new Time(2, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1556,12 +1788,18 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(2, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant satayThai = new Restaurant("Satay Thai Grill", rh, false,
 				(int) (36.148368 * 1E6), (int) (-86.807427 * 1E6), "Thai",
-				null, null, R.drawable.sataythai, true, false, true, "(615) 915-0972",
-				"http://www.sataynashville.com/");
-		satayThai.create();
+				null, null, R.drawable.sataythai, true, false, true,
+				"(615) 915-0972", "http://www.sataynashville.com/");
+		long id = satayThai.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(satayThai
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void schlotzskysData() {
@@ -1594,17 +1832,24 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(22, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant schlotzskys = new Restaurant("Schlotzsky's", rh, false,
-				(int) (36.147596 * 1E6), (int) (-86.807077 * 1E6), "Sandwiches",
-				null, null, R.drawable.schlotzskys, true, false, true, "(615) 320-9777",
-				"http://www.schlotzskys.com/");
-		schlotzskys.create();
+				(int) (36.147596 * 1E6), (int) (-86.807077 * 1E6),
+				"Sandwiches", null, null, R.drawable.schlotzskys, true, false,
+				true, "(615) 320-9777", "http://www.schlotzskys.com/");
+		long id = schlotzskys.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(schlotzskys
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void smoothieKingTwentyFirstData() {
 		RestaurantHours rh = new RestaurantHours();
-		//TODO Check to see if Smoothie King hours are the same for 21st as Elliston
+		// TODO Check to see if Smoothie King hours are the same for 21st as
+		// Elliston
 		Time start = new Time(10, 0);
 		Time stop = new Time(20, 30);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -1633,11 +1878,17 @@ public class StaticRestaurantData {
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
-		Restaurant smoothieKingTwentyFirst = new Restaurant("Smoothie King - 21st Avenue", rh, false,
+		Restaurant smoothieKingTwentyFirst = new Restaurant(
+				"Smoothie King - 21st Avenue", rh, false,
 				(int) (36.136823 * 1E6), (int) (-86.800831 * 1E6), "Smoothies",
-				null, null, R.drawable.smoothieking, true, false, true, "(615) 463-8415",
-				"http://www.smoothieking.com/");
-		smoothieKingTwentyFirst.create();
+				null, null, R.drawable.smoothieking, true, false, true,
+				"(615) 463-8415", "http://www.smoothieking.com/");
+		long id = smoothieKingTwentyFirst.create();
+
+		if (DEBUG)
+			Log.i("StaticRestaurantData",
+					String.valueOf(smoothieKingTwentyFirst.equals(Restaurant
+							.get(id))));
 	}
 
 	private void smoothieKingEllistonData() {
@@ -1670,12 +1921,19 @@ public class StaticRestaurantData {
 		start = new Time(9, 0);
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
-		Restaurant smoothieKingElliston = new Restaurant("Smoothie King - Elliston Pl.", rh, false,
+
+		Restaurant smoothieKingElliston = new Restaurant(
+				"Smoothie King - Elliston Pl.", rh, false,
 				(int) (36.148299 * 1E6), (int) (-86.807506 * 1E6), "Smoothies",
-				null, null, R.drawable.smoothieking, true, false, true, "(615) 321-4909",
-				"http://www.smoothieking.com/");
-		smoothieKingElliston.create();
+				null, null, R.drawable.smoothieking, true, false, true,
+				"(615) 321-4909", "http://www.smoothieking.com/");
+		long id = smoothieKingElliston.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(smoothieKingElliston
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void sunsetGrillData() {
@@ -1708,12 +1966,18 @@ public class StaticRestaurantData {
 		start = new Time(16, 45);
 		stop = new Time(1, 30);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant sunsetGrill = new Restaurant("Sunset Grill", rh, false,
-				(int) (36.136725 * 1E6), (int) (-86.799483 * 1E6), "Fine Dining",
-				null, null, R.drawable.sunsetgrill, true, false, true, "(615) 386-3663",
-				"http://www.sunsetgrill.com/");
-		sunsetGrill.create();
+				(int) (36.136725 * 1E6), (int) (-86.799483 * 1E6),
+				"Fine Dining", null, null, R.drawable.sunsetgrill, true, false,
+				true, "(615) 386-3663", "http://www.sunsetgrill.com/");
+		long id = sunsetGrill.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(sunsetGrill
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void tgiFridaysData() {
@@ -1746,32 +2010,50 @@ public class StaticRestaurantData {
 		start = new Time(11, 0);
 		stop = new Time(1, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant tgiFridays = new Restaurant("TGI Friday's", rh, false,
 				(int) (36.135898 * 1E6), (int) (-86.822827 * 1E6), "American",
-				null, null, R.drawable.fridays, true, false, true, "(615) 327-8071",
-				"http://www.fridays.com/");
-		tgiFridays.create();
+				null, null, R.drawable.fridays, true, false, true,
+				"(615) 327-8071", "http://www.fridays.com/");
+		long id = tgiFridays.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(tgiFridays
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void wendysTwentyFirstData() {
 		RestaurantHours rh = new RestaurantHours();
-		//TODO Add Hours of Operations
-		Restaurant wendysTwentyFirst = new Restaurant("Wendy's - 21st Avenue", rh, false,
-				(int) (36.14859 * 1E6), (int) (-86.799095 * 1E6), "Fast Food",
-				null, null, R.drawable.wendys, true, false, true, "(615) 321-9763",
-				"http://www.wendys.com/");
-		wendysTwentyFirst.create();
+		// TODO Add Hours of Operations
+		Restaurant wendysTwentyFirst = new Restaurant("Wendy's - 21st Avenue",
+				rh, false, (int) (36.14859 * 1E6), (int) (-86.799095 * 1E6),
+				"Fast Food", null, null, R.drawable.wendys, true, false, true,
+				"(615) 321-9763", "http://www.wendys.com/");
+		long id = wendysTwentyFirst.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(wendysTwentyFirst
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void wendysWestEndData() {
 		RestaurantHours rh = new RestaurantHours();
-		//TODO Add Hours of Operations
-		Restaurant wendysWestEnd = new Restaurant("Wendy's - West End", rh, false,
-				(int) (36.135841 * 1E6), (int) (-86.82291 * 1E6), "Fast Food",
-				null, null, R.drawable.wendys, true, false, true, "(615) 327-4930",
-				"http://www.wendys.com/");
-		wendysWestEnd.create();
+		// TODO Add Hours of Operations
+		Restaurant wendysWestEnd = new Restaurant("Wendy's - West End", rh,
+				false, (int) (36.135841 * 1E6), (int) (-86.82291 * 1E6),
+				"Fast Food", null, null, R.drawable.wendys, true, false, true,
+				"(615) 327-4930", "http://www.wendys.com/");
+		long id = wendysWestEnd.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(wendysWestEnd
+					.equals(Restaurant.get(id))));
+		}
 	}
 
 	private void yogurtOasisData() {
@@ -1804,11 +2086,17 @@ public class StaticRestaurantData {
 		start = new Time(12, 0);
 		stop = new Time(20, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
-		
+
 		Restaurant yogurtOasis = new Restaurant("Yogurt Oasis", rh, false,
 				(int) (36.147596 * 1E6), (int) (-86.807077 * 1E6), "Yogurt",
-				null, null, R.drawable.yogurtoasis, true, false, true, "(615) 963-3631",
-				null);
-		yogurtOasis.create();
+				null, null, R.drawable.yogurtoasis, true, false, true,
+				"(615) 963-3631", null);
+		long id = yogurtOasis.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(yogurtOasis
+					.equals(Restaurant.get(id))));
+		}
 	}
 }

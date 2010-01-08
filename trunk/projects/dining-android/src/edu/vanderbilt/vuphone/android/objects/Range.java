@@ -103,10 +103,6 @@ public class Range {
 		return !_start.before(_end); 
 	}
 	
-	public boolean over24Hours() {
-		return _start.equals(_end);
-	}
-	
 	// r overlaps with this Range, concatenates r
 	// note it is possible for no change to occur, (if r is completely contained in this Range)
 	// in this case true is still returned
