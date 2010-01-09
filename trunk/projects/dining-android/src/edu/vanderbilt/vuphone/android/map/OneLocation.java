@@ -22,7 +22,7 @@ public class OneLocation extends MapView {
 	 * sets the zoom so that enough of surrounding campus is displayed for
 	 * context but focus is kept on particular restaurant
 	 */
-	public static final int ZOOM = 18;
+	public static final int ZOOM = 16;
 
 	public OneLocation(Context c, AttributeSet attset) {
 		super(c, attset);
