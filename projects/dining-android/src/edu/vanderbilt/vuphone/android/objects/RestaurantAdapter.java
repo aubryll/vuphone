@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
@@ -24,7 +25,7 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
  * @author austin
  *
  */
-public class RestaurantAdapter extends BaseAdapter //implements Filterable, SectionIndexer 
+public class RestaurantAdapter extends BaseAdapter implements ListAdapter 
 {
 	
 	private static final int NUM_BOOLEANS = 8;
@@ -38,8 +39,8 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 
 	
 	// sort options for each level (maximum value 7)
-	public static final int UNSORTED 				= 0;
-	public static final int TIME_TO_CLOSE 			= 1;
+	public static final int SORT_UNSORTED 				= 0;
+	public static final int SORT_TIME_TO_CLOSE 			= 1;
 	public static final int TIME_TO_OPEN			= 2;
 	public static final int FAVORITE 				= 3;
 	public static final int OPEN_CLOSED				= 4;
@@ -56,8 +57,8 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 														0x1000000,
 														0x10000000 };
 	
-	
-	public static final int DEFAULT = UNSORTED;
+	/** The default sort method */
+	public static final int DEFAULT_SORT = SORT_UNSORTED;
 	
 	// non restaurant item Ids, must be negative
 	public static final long FAVORITE_PARTITION = -1;
@@ -80,7 +81,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	LocationManager locationManager;
 	
 	public RestaurantAdapter(Context context) {
-		this(context, DEFAULT);
+		this(context, DEFAULT_SORT);
 	}
 	public RestaurantAdapter(Context context, int sortType) {
 		_context = context;
@@ -90,7 +91,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
 		_context = context;
 		_order = sortOrder;
-		currentSortType = UNSORTED;
+		currentSortType = SORT_UNSORTED;
 		setShowFavIcon(showFavIcon);
 		initializeLocationService();
 	}
@@ -260,7 +261,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 			setSortAtLevel(getNextUnusedLevel(), OPEN_CLOSED);
 		}
 		if (timeUntil) {
-			setSortAtLevel(getNextUnusedLevel(), TIME_TO_CLOSE);
+			setSortAtLevel(getNextUnusedLevel(), SORT_TIME_TO_CLOSE);
 			setSortAtLevel(getNextUnusedLevel(), TIME_TO_OPEN);
 		}
 		if (favorite) {
@@ -314,7 +315,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 			case NEAR_FAR:
 				sort(_order, sort);
 				break;
-			case TIME_TO_CLOSE:
+			case SORT_TIME_TO_CLOSE:
 				sort(_order.subList(0, firstClosed()), sort);
 				break;
 			case TIME_TO_OPEN:
@@ -364,7 +365,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	
 	public void setSort() {
 		int oldSort = currentSortType;
-		currentSortType = UNSORTED;
+		currentSortType = SORT_UNSORTED;
 		setSort(oldSort);
 	}
 	
@@ -478,11 +479,11 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	 */
 	public int getNextUnusedLevel() {
 		for (int level = LEVEL.length-1; level >=0; level--) 
-			if (getSortAtLevel(level) != UNSORTED)
+			if (getSortAtLevel(level) != SORT_UNSORTED)
 				if (level + 1 < LEVEL.length)
 					return level + 1;
 				else break;
-		if (getSortAtLevel(0) == UNSORTED)
+		if (getSortAtLevel(0) == SORT_UNSORTED)
 			return 0;
 		if (compactLevels())
 			return getNextUnusedLevel();
@@ -517,7 +518,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 	
 	public boolean insert(int i, int sort) {
 		int sortHere = getSortAtLevel(i);
-		if (sortHere != UNSORTED) {
+		if (sortHere != SORT_UNSORTED) {
 			if (i+1 >= LEVEL.length || !insert(i+1, sortHere))
 				return false;
 		}
@@ -529,7 +530,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 		boolean changed = false;
 		int shiftsRemain = LEVEL.length - 1;
 		for (int level = 0; level < LEVEL.length - 1; level++) {
-			while ((currentSortType & (LEVEL[level] * 0xF)) == UNSORTED && shiftsRemain-->0) {
+			while ((currentSortType & (LEVEL[level] * 0xF)) == SORT_UNSORTED && shiftsRemain-->0) {
 				int onesRightOfLevel = (1 << (level * 4 + NUM_BOOLEANS)) - 1;
 				int newLeft = (currentSortType & ~onesRightOfLevel) >> 4; 
 				if (newLeft == 0)
@@ -625,7 +626,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 			toSort.set(i++, right.get(ri++));
 	}
 	
-	public int currentSortCompareCached = UNSORTED;
+	public int currentSortCompareCached = SORT_UNSORTED;
 	@SuppressWarnings("unchecked")
 	ArrayList compareCache;
 	
@@ -642,7 +643,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 				return ((Boolean)compareCache.get(Restaurant.getI(first))) || !((Boolean)compareCache.get(Restaurant.getI(second)));
 			else
 				return ((Boolean)compareCache.get(Restaurant.getI(second))) || !((Boolean)compareCache.get(Restaurant.getI(first)));
-		case TIME_TO_CLOSE:
+		case SORT_TIME_TO_CLOSE:
 			if ((sortType & DESCENDING) == 0)
 				return ((Integer)compareCache.get(Restaurant.getI(first))) <= ((Integer)compareCache.get(Restaurant.getI(second)));
 			else
@@ -687,7 +688,7 @@ public class RestaurantAdapter extends BaseAdapter //implements Filterable, Sect
 			for (int i = 0; i<IDs.size(); i++)
 				compareCache.add(Restaurant.getHours(IDs.get(i)).isOpen());
 			break;
-		case TIME_TO_CLOSE:
+		case SORT_TIME_TO_CLOSE:
 			for (int i = 0; i<IDs.size(); i++)
 				compareCache.add(Restaurant.getHours(IDs.get(i)).minutesToClose());
 			break;
