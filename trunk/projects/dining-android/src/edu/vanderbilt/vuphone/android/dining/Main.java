@@ -37,20 +37,11 @@ public class Main extends ListActivity {
 	private int mode;
 
 	private RestaurantAdapter ra;
-
-	@Override
-	protected void onDestroy() 
-	{
-		super.onDestroy();
-		Debug.stopMethodTracing();
-	}
 	
 	/** Called when the activity is first created. */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-	    Debug.startMethodTracing("dining");
 
 		// clunky mechanic with gross file dependency,
 		// but DBWrapper needs Main.mainContext for its
