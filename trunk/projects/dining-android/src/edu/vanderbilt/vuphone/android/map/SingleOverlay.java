@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import edu.vanderbilt.vuphone.android.dining.R;
@@ -17,7 +18,7 @@ public class SingleOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> locationOverlay = new ArrayList<OverlayItem>();
 
-	public SingleOverlay(OneLocation map, GeoPoint point, String location) {
+	public SingleOverlay(MapView map, GeoPoint point, String location) {
 		super(null);
 
 		OverlayItem overlayItem = new OverlayItem(point, location, "");
