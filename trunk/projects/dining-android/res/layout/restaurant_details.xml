@@ -2,32 +2,55 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
 	android:orientation="vertical">
-	<ImageView android:id="@+restaurantDetailsPage/restaurantLogo"
-		android:layout_height="wrap_content" android:layout_width="wrap_content"
-		android:minHeight="30px" android:minWidth="30px" android:maxHeight="35px"
-		android:maxWidth="35px" android:layout_centerHorizontal="true" />
-	<TextView android:id="@+restaurantDetailsPage/restaurantName"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@restaurantDetailsPage/restaurantLogo"
-		android:textSize="10dp" android:text="name" />
-	<TextView android:id="@+restaurantDetailsPage/restaurantHours"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:layout_below="@restaurantDetailsPage/restaurantName"
-		android:text="times">
-	</TextView>
-	<Button android:id="@+restaurantDetailsPage/to_map_button"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@restaurantDetailsPage/restaurantHours"
-		android:text="Map" />
-	<TextSwitcher android:id="@+id/switcher"
-		android:layout_below="@restaurantDetailsPage/to_map_button"
-		android:layout_width="100dp" android:layout_centerHorizontal="true" android:layout_centerVertical="true" android:layout_height="50dp"/>
-	<ImageButton android:id="@+id/next" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_below="@restaurantDetailsPage/to_map_button"
-		android:layout_toRightOf="@id/switcher" android:src="@drawable/right_arrow" />
-	<ImageButton android:id="@+id/prev" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_below="@restaurantDetailsPage/to_map_button"
-		android:layout_toLeftOf="@id/switcher" android:src="@drawable/left_arrow" />
+	<ImageView 
+		android:id="@+restaurantDetailsPage/restaurantLogo"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"
+		android:padding="5dip" />
+		
 
+	<ImageButton 
+		android:id="@+id/prev"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_below="@restaurantDetailsPage/restaurantLogo"
+		android:layout_alignParentLeft="true" 
+		android:src="@drawable/left_arrow" 
+		android:padding="10dip" />
+			
+	<TextSwitcher
+	 	android:id="@+restaurantDetailsPage/switcher"
+		android:layout_below="@restaurantDetailsPage/restaurantLogo"
+		android:layout_width="100dp" 
+		android:layout_centerHorizontal="true" 
+		android:layout_centerVertical="true" 
+		android:layout_height="50dp" />
+
+	<ImageButton 
+		android:id="@+restaurantDetailsPage/next"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:layout_below="@restaurantDetailsPage/restaurantLogo"
+		android:layout_alignParentRight="true" 
+		android:src="@drawable/right_arrow" 
+		android:padding="10dip" />
+		
+	<AbsoluteLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@restaurantDetailsPage/switcher"
+		android:layout_centerHorizontal="true"
+		android:padding="20dip">
+		
+		<edu.vanderbilt.vuphone.android.map.OneLocation 
+			android:id="@+restaurantDetailsPage/map"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent"
+			android:apiKey="@string/maps_api_key"
+			 />
+			 
+	</AbsoluteLayout>
 
 </RelativeLayout>

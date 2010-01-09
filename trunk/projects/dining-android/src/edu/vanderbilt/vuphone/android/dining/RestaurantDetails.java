@@ -1,32 +1,28 @@
 package edu.vanderbilt.vuphone.android.dining;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
-import edu.vanderbilt.vuphone.android.map.OneLocation;
-import edu.vanderbilt.vuphone.android.objects.Range;
+
+import com.google.android.maps.MapActivity;
+
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
-public class RestaurantDetails extends Activity implements ViewSwitcher.ViewFactory,
+public class RestaurantDetails extends MapActivity implements ViewSwitcher.ViewFactory,
 View.OnClickListener{
 
 	public static final String RESTAURANT_ID = "0";
@@ -38,19 +34,6 @@ View.OnClickListener{
 	private TextSwitcher mSwitcher;
 
     private int mCounter = 0;
-
-	private OnClickListener mapListener = new OnClickListener() {
-		public void onClick(View v) {
-			// TODO I think it might be good to simply pass the restaurantID,
-			// then use the static Restaurant class methods to access the
-			// DB/cache
-			// from the map activity
-			Intent startMapView = new Intent(RestaurantDetails.this,
-					OneLocation.class);
-			startMapView.putExtra(OneLocation.RESTAURANT_ID, restaurantID);
-			startActivity(startMapView);
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +50,8 @@ View.OnClickListener{
 		SpannableString title = new SpannableString(restaurant.getName());
 		title.setSpan(new RelativeSizeSpan((float) 2.2), 0, title.length(), 0);
 		((ImageView)findViewById(R.restaurantDetailsPage.restaurantLogo)).setImageResource((int) restaurantLogo);
-		((TextView) findViewById(R.restaurantDetailsPage.restaurantName))
-				.setText(title);
-		((TextView) findViewById(R.restaurantDetailsPage.restaurantHours))
-				.setText(WeeklySchedule());
-		((Button) findViewById(R.restaurantDetailsPage.to_map_button))
-				.setOnClickListener(mapListener);
 
-		mSwitcher = (TextSwitcher) findViewById(R.id.switcher);
+		mSwitcher = (TextSwitcher) findViewById(R.restaurantDetailsPage.switcher);
         mSwitcher.setFactory(this);
 
         Animation in = AnimationUtils.loadAnimation(this,
@@ -84,7 +61,7 @@ View.OnClickListener{
         mSwitcher.setInAnimation(in);
         mSwitcher.setOutAnimation(out);
 
-        ImageButton nextButton = (ImageButton) findViewById(R.id.next);
+        ImageButton nextButton = (ImageButton) findViewById(R.restaurantDetailsPage.next);
         nextButton.setOnClickListener(this);
 
         updateCounter();
@@ -201,4 +178,12 @@ View.OnClickListener{
         t.setTextSize(10);
         return t;
     }
+
+	/* (non-Javadoc)
+	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
+	 */
+	@Override
+	protected boolean isRouteDisplayed() {
+		return false;
+	}
 }

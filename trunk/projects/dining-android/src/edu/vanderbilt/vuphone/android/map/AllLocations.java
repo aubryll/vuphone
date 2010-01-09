@@ -135,7 +135,7 @@ public class AllLocations extends MapActivity {
 					});
 			
 			builder.setNeutralButton("Done", new DialogInterface.OnClickListener() {
-				
+	
 				public void onClick(DialogInterface dialog, int which) {
 					AllLocations.this.updateSettings();
 					dialog.dismiss();
@@ -144,6 +144,7 @@ public class AllLocations extends MapActivity {
 			
 			builder.setNegativeButton("Set Defaults", new DialogInterface.OnClickListener() {
 				
+
 				public void onClick(DialogInterface dialog, int which) {
 					settingsChecked = SETTINGS_DEFAULT.clone();
 					AllLocations.this.updateSettings();
