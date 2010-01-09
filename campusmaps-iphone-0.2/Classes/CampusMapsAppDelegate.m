@@ -17,6 +17,8 @@
 @synthesize window;
 //@synthesize locationManager;
 
+#define DefaultsLastUpdateKey @"DefaultsLastUpdateKey"
+
 #pragma mark -
 #pragma mark Application lifecycle
 
@@ -53,8 +55,15 @@
 	[navController pushViewController:mapViewController animated:NO];
 	[window makeKeyAndVisible];
 	
-	[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
+	// Update if it hasn't within 24 hours
+	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
+	if (lastUpdate == nil) {
+		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
+	}
 
+	if ([lastUpdate timeIntervalSinceDate:[NSDate date]] > 60*60*24) {
+		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
+	}
 }
 
 - (void)loadRemotePOIs:(NSManagedObjectContext *)context
@@ -68,6 +77,9 @@
 	if (err) {
 		NSLog(@"Error upon loading POIs: %@", err);
 	}
+	
+	// Set the current date as last updated
+	[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
 	
 	[pool release];
 }

@@ -19,6 +19,7 @@
 		3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */; };
 		337049681082E17B00E0520A /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337049671082E17B00E0520A /* MapLayerController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
+		61D6100E10F84BBC00CE3397 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D6100D10F84BBC00CE3397 /* Icon.png */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
 		61FD085E10C72438000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */; };
 		61FD086110C72542000EA568 /* RemotePOILoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD086010C72542000EA568 /* RemotePOILoader.m */; };
@@ -63,6 +64,7 @@
 		337049671082E17B00E0520A /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapLayerController.m; path = ../MapLayerController.m; sourceTree = "<group>"; };
 		338387CA1081479400F56AEB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		338387CB1081479400F56AEB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		61D6100D10F84BBC00CE3397 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		61FC2EE6107C4AFA00FFF897 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		61FD085C10C72438000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
 		61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext-Convenience.m"; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				61D6100D10F84BBC00CE3397 /* Icon.png */,
 				995C9F5710EF07C0003875D0 /* buildings.xml */,
 				61FD089210C739C9000EA568 /* CampusMaps.xcdatamodeld */,
 				8D1107310486CEB800E47090 /* CampusMaps-Info.plist */,
@@ -291,6 +294,7 @@
 				61FD09D210C75112000EA568 /* LayersListViewController.xib in Resources */,
 				9952698510D34E6300424730 /* POIViewController.xib in Resources */,
 				995C9F5810EF07C0003875D0 /* buildings.xml in Resources */,
+				61D6100E10F84BBC00CE3397 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
