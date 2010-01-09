@@ -2,42 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
 	android:orientation="vertical">
-	<ImageView 
-		android:id="@+restaurantDetailsPage/restaurantLogo"
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="true"
+	<ImageView android:id="@+restaurantDetailsPage/restaurantLogo"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
 		android:padding="5dip" />
-		
 
-	<ImageButton 
-		android:id="@+id/prev"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" 
-		android:layout_below="@restaurantDetailsPage/restaurantLogo"
-		android:layout_alignParentLeft="true" 
-		android:src="@drawable/left_arrow" 
-		android:padding="10dip" />
-			
-	<TextSwitcher
-	 	android:id="@+restaurantDetailsPage/switcher"
-		android:layout_below="@restaurantDetailsPage/restaurantLogo"
-		android:layout_width="100dp" 
-		android:layout_centerHorizontal="true" 
-		android:layout_centerVertical="true" 
-		android:layout_height="50dp" />
 
-	<ImageButton 
-		android:id="@+restaurantDetailsPage/next"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" 
+	<ImageButton android:id="@+restaurantDetailsPage/prev"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_below="@restaurantDetailsPage/restaurantLogo"
-		android:layout_alignParentRight="true" 
-		android:src="@drawable/right_arrow" 
+		android:layout_alignParentLeft="true" android:src="@drawable/left_arrow"
 		android:padding="10dip" />
-		
-	<AbsoluteLayout
+
+	<ImageButton android:id="@+restaurantDetailsPage/next"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_below="@restaurantDetailsPage/restaurantLogo"
+		android:layout_alignParentRight="true" android:src="@drawable/right_arrow"
+		android:padding="10dip" />
+
+	<TextView android:id="@+restaurantDetailsPage/day"
+		android:layout_below="@restaurantDetailsPage/restaurantLogo"
+		android:layout_toLeftOf="@restaurantDetailsPage/next"
+		android:layout_toRightOf="@restaurantDetailsPage/prev"
+		android:layout_width="200dp" android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true" android:layout_height="25dp" />
+
+	<TextView android:id="@+restaurantDetailsPage/switcher"
+		android:layout_below="@restaurantDetailsPage/day"
+		android:layout_width="200dp" android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true" android:layout_height="50dp" />
+
+<AbsoluteLayout
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_below="@restaurantDetailsPage/switcher"
