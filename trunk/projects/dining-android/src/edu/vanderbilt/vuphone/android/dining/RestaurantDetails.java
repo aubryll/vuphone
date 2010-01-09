@@ -43,7 +43,7 @@ public class RestaurantDetails extends MapActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.restaurant_details);
 
-		mCounter=Calendar.DAY_OF_WEEK-1;
+		mCounter=Calendar.DAY_OF_WEEK;   //initializes mCounter to devices day of the week
 		rightNow = new GregorianCalendar();
 		restaurantID = getIntent().getExtras().getLong(RESTAURANT_ID);
 		restaurant = Restaurant.get(restaurantID);
