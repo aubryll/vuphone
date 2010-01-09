@@ -60,7 +60,7 @@ public class Main extends ListActivity {
 			applicationContext = getApplicationContext();
 		display24 = "24".equals(System.getString(this.getContentResolver(), System.TIME_12_24));
 		
-		Restaurant.deleteAll();
+		//Restaurant.deleteAll();
 		if (Restaurant.getIDs().size() != StaticRestaurantData.NUM_RESTAURANTS) {
 			Log.i("Dining", "database purged: getIDs().size()=" + Restaurant.getIDs().size() +
 					", Static data size=" + StaticRestaurantData.NUM_RESTAURANTS);
