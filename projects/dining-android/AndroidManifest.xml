@@ -13,7 +13,6 @@
         </activity>
         
         <uses-library android:name="com.google.android.maps" />
-        <activity android:name="edu.vanderbilt.vuphone.android.map.OneLocation"/>
         <activity android:name="edu.vanderbilt.vuphone.android.map.AllLocations"/>
         <activity android:name=".RestaurantDetails" />
 
