@@ -382,10 +382,10 @@ public class Main extends ListActivity {
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch (id) {
 		case DIALOG_SORT: {
-			boolean[] checked = { ra.indexOf(RestaurantAdapter.FAVORITE) != -1,
-					ra.indexOf(RestaurantAdapter.OPEN_CLOSED) != -1,
+			boolean[] checked = { ra.indexOf(RestaurantAdapter.SORT_FAVORITE) != -1,
+					ra.indexOf(RestaurantAdapter.SORT_OPEN_CLOSED) != -1,
 					ra.indexOf(RestaurantAdapter.SORT_TIME_TO_CLOSE) != -1,
-					ra.indexOf(RestaurantAdapter.NEAR_FAR) != -1 };
+					ra.indexOf(RestaurantAdapter.SORT_NEAR_FAR) != -1 };
 			for (int i = 0; i < checked.length; i++) {
 				checkedSort[i] = checked[i];
 				((AlertDialog) dialog).getListView().setItemChecked(i,

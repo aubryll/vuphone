@@ -41,10 +41,10 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 	// sort options for each level (maximum value 7)
 	public static final int SORT_UNSORTED 				= 0;
 	public static final int SORT_TIME_TO_CLOSE 			= 1;
-	public static final int TIME_TO_OPEN			= 2;
-	public static final int FAVORITE 				= 3;
-	public static final int OPEN_CLOSED				= 4;
-	public static final int NEAR_FAR				= 5;
+	public static final int SORT_TIME_TO_OPEN			= 2;
+	public static final int SORT_FAVORITE 				= 3;
+	public static final int SORT_OPEN_CLOSED			= 4;
+	public static final int SORT_NEAR_FAR				= 5;
 	
 	// ascending is default
 	public static final int DESCENDING 				= 0x8; // the bit, 1 for true, 0 for false
@@ -83,38 +83,45 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 	public RestaurantAdapter(Context context) {
 		this(context, DEFAULT_SORT);
 	}
+	
 	public RestaurantAdapter(Context context, int sortType) {
 		_context = context;
 		setSort(sortType);
-		initializeLocationService();
+		locationManager = (LocationManager) _context.getSystemService(Context.LOCATION_SERVICE);
 	} 
+	
 	public RestaurantAdapter(Context context, ArrayList<Long> sortOrder, boolean showFavIcon) {
 		_context = context;
 		_order = sortOrder;
 		currentSortType = SORT_UNSORTED;
 		setShowFavIcon(showFavIcon);
-		initializeLocationService();
+		locationManager = (LocationManager) _context.getSystemService(Context.LOCATION_SERVICE);
 	}
+	
 	public RestaurantAdapter(Context context, boolean open, boolean timeUntil, boolean nearFar, boolean favorite) {
 		_context = context;
 		setSort(open, timeUntil, nearFar, favorite, false, false);
-		initializeLocationService();
+		locationManager = (LocationManager) _context.getSystemService(Context.LOCATION_SERVICE);
 	}
 	
+	/** @see android.widget.Adapter#getCount() */
 	public int getCount() {
 		return _order.size();
 	}
 	
+	/** @see android.widget.Adapter#getItem(int) */
 	public Object getItem(int i) {
-		if (getItemId(i)>0)
+		if (getItemId(i) > 0)
 			return Restaurant.get(getItemId(i)); 
-		else return getItemId(i);
+		else return getItemId(i); // TODO - this should probably just return null
 	}
 	
+	/** @see android.widget.Adapter#getItemId(int) */
 	public long getItemId(int i) {
 		return _order.get(i);
 	}
 	
+	/** @see android.widget.Adapter#getView(int, View, ViewGroup) */
 	public View getView(int i, View convertView, ViewGroup parent) {
 		long rID = getItemId(i);
 		if (rID>0) {
@@ -255,17 +262,17 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 			boolean settingsModified, boolean sortSettingsModified) {
 		currentSortType = currentSortType & ((1 << NUM_BOOLEANS) - 1);
 		if (nearFar) {
-			setSortAtLevel(getNextUnusedLevel(), NEAR_FAR);
+			setSortAtLevel(getNextUnusedLevel(), SORT_NEAR_FAR);
 		}
 		if (open) {
-			setSortAtLevel(getNextUnusedLevel(), OPEN_CLOSED);
+			setSortAtLevel(getNextUnusedLevel(), SORT_OPEN_CLOSED);
 		}
 		if (timeUntil) {
 			setSortAtLevel(getNextUnusedLevel(), SORT_TIME_TO_CLOSE);
-			setSortAtLevel(getNextUnusedLevel(), TIME_TO_OPEN);
+			setSortAtLevel(getNextUnusedLevel(), SORT_TIME_TO_OPEN);
 		}
 		if (favorite) {
-			setSortAtLevel(getNextUnusedLevel(), FAVORITE);
+			setSortAtLevel(getNextUnusedLevel(), SORT_FAVORITE);
 		} 
 		if (!settingsModified) 
 			setAllBoolsToDefault();
@@ -305,20 +312,18 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 		if ((sortType & ALPHABETICAL) > 0)
 			sort(_order, ALPHABETICAL);
 		
-		
-		
 		for(int level = 0; level < LEVEL.length; level++) {
 			int sort = getSortAtLevel(level);
 			switch (sort & 0x7) {
-			case FAVORITE:
-			case OPEN_CLOSED:
-			case NEAR_FAR:
+			case SORT_FAVORITE:
+			case SORT_OPEN_CLOSED:
+			case SORT_NEAR_FAR:
 				sort(_order, sort);
 				break;
 			case SORT_TIME_TO_CLOSE:
 				sort(_order.subList(0, firstClosed()), sort);
 				break;
-			case TIME_TO_OPEN:
+			case SORT_TIME_TO_OPEN:
 				sort(_order.subList(firstClosed(), _order.size()), sort);
 				break;
 				
@@ -375,10 +380,10 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 	
 	public void setNonSettingBoolsToDefault() {
 		currentSortType = currentSortType | ALPHABETICAL;
-		if (indexOf(FAVORITE) != -1) 
+		if (indexOf(SORT_FAVORITE) != -1) 
 			currentSortType |= SHOW_FAV_PART;
 		else currentSortType &= ~SHOW_FAV_PART;
-		if (indexOf(OPEN_CLOSED) != -1) 
+		if (indexOf(SORT_OPEN_CLOSED) != -1) 
 			currentSortType |= SHOW_OPEN_PART;
 		else currentSortType &= ~SHOW_OPEN_PART;
 	}
@@ -387,7 +392,7 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 	public void setSortBoolsToDefault() {
 		setNonSettingBoolsToDefault();
 		setGrayClosed(true);
-		setShowFavIcon(indexOf(FAVORITE) == -1);
+		setShowFavIcon(indexOf(SORT_FAVORITE) == -1);
 	}
 	
 	public void setAllBoolsToDefault() {
@@ -591,35 +596,30 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 		return locationManager.getLastKnownLocation(locationManager.getBestProvider(needed, true));
 	}
 	
-	private void initializeLocationService() {
-		locationManager = (LocationManager) _context.getSystemService(Context.LOCATION_SERVICE);
-		//locationManager.addTestProvider("test", false, false, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
-//		Location fakeHere = new Location("test");
-//		fakeHere.setLatitude(36.143299);
-//		fakeHere.setLongitude(-86.802464);
-//		locationManager.setTestProviderStatus("test",
-//		LocationProvider.AVAILABLE, null, System.currentTimeMillis()); 
-//		locationManager.setTestProviderEnabled("test", true);
-//		locationManager.setTestProviderLocation("test", fakeHere);
-	}
+	
 	
 	//implementation of merge sort
 	private void sort(List<Long> toSort, int sortType) {
 		if (toSort.size()<=1)
 			return;
+		
 		int center = toSort.size()/2;
 		ArrayList<Long> left = new ArrayList<Long>();
 		left.addAll(toSort.subList(0, center));
+		
 		ArrayList<Long> right = new ArrayList<Long>();
 		right.addAll(toSort.subList(center, toSort.size()));
+		
 		sort(left, sortType);
 		sort(right, sortType);
+		
 		int li = 0, ri = 0, i=0;
-		while (li<left.size() && ri<right.size()) {
+		while (li < left.size() && ri < right.size()) {
 			if (compare(left.get(li), right.get(ri), sortType))
 				toSort.set(i++, left.get(li++));
 			else toSort.set(i++, right.get(ri++));
 		}
+		
 		for (;li < left.size();)
 			toSort.set(i++, left.get(li++));
 		for (;ri < right.size();)
@@ -633,12 +633,14 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 	// compare method for merge, 'less or equal'
 	private boolean compare(long first, long second, int sortType) {
 		if (sortType == ALPHABETICAL)
-			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second))<=0; 
+			return Restaurant.getName(first).compareToIgnoreCase(Restaurant.getName(second)) <= 0; 
+		
 		if (currentSortCompareCached != sortType)
 			createCompareCache(sortType);
+		
 		switch (sortType & 0x7) {
-		case FAVORITE:
-		case OPEN_CLOSED:
+		case SORT_FAVORITE:
+		case SORT_OPEN_CLOSED:
 			if ((sortType & DESCENDING) == 0)
 				return ((Boolean)compareCache.get(Restaurant.getI(first))) || !((Boolean)compareCache.get(Restaurant.getI(second)));
 			else
@@ -648,7 +650,7 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 				return ((Integer)compareCache.get(Restaurant.getI(first))) <= ((Integer)compareCache.get(Restaurant.getI(second)));
 			else
 				return ((Integer)compareCache.get(Restaurant.getI(first))) >= ((Integer)compareCache.get(Restaurant.getI(second)));
-		case TIME_TO_OPEN:
+		case SORT_TIME_TO_OPEN:
 		{
 			int fm = ((Integer)compareCache.get(Restaurant.getI(first))), 
 					sm = ((Integer)compareCache.get(Restaurant.getI(second)));
@@ -662,7 +664,7 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 				else return fm >= sm && sm != -1;
 			}
 		}
-		case NEAR_FAR:
+		case SORT_NEAR_FAR:
 			if (distances == null)
 				return true;
 			if ((sortType & DESCENDING) == 0)
@@ -680,11 +682,11 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 		compareCache = new ArrayList<Void>();
 		compareCache.ensureCapacity(IDs.size());
 		switch (sortType & 0x7) {
-		case FAVORITE:
+		case SORT_FAVORITE:
 			for (int i = 0; i<IDs.size(); i++)
 				compareCache.add(Restaurant.favorite(IDs.get(i)));
 			break;
-		case OPEN_CLOSED:
+		case SORT_OPEN_CLOSED:
 			for (int i = 0; i<IDs.size(); i++)
 				compareCache.add(Restaurant.getHours(IDs.get(i)).isOpen());
 			break;
@@ -692,7 +694,7 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 			for (int i = 0; i<IDs.size(); i++)
 				compareCache.add(Restaurant.getHours(IDs.get(i)).minutesToClose());
 			break;
-		case TIME_TO_OPEN:
+		case SORT_TIME_TO_OPEN:
 			for (int i = 0; i<IDs.size(); i++)
 				compareCache.add(Restaurant.getHours(IDs.get(i)).minutesToOpen());
 			break;
