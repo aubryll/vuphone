@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:padding="3dp">
+    <ImageView
+  android:id="@+mainListItem/favoriteIcon"
+  android:layout_height="wrap_content"
+  android:layout_width="wrap_content"
+  android:layout_centerVertical="true"
+  android:src="@drawable/dining"/>
+  <TextView 
+  android:id="@+mainListItem/name"
+  android:textSize="22dp" 
+  android:textColor="@android:color/primary_text_dark"
+  android:layout_height="wrap_content"
+  android:layout_width="fill_parent"
+  android:layout_toRightOf="@mainListItem/favoriteIcon"
+  android:layout_marginLeft="8dp"
+  android:singleLine="true"
+  android:ellipsize="marquee"/>
+  <!-- comment out the color line to go back to the old colors -->
+    <TextView 
+  android:id="@+mainListItem/specialText"
+  android:textStyle="italic"
+  android:textColor="@android:color/secondary_text_dark"
+  android:layout_height="wrap_content"
+  android:layout_width="wrap_content"
+  android:layout_below="@mainListItem/name"
+  android:layout_toRightOf="@mainListItem/favoriteIcon"
+  android:paddingLeft="20dp"/>
+  <TextView
+  android:id="@+mainListItem/specialTextRight"
+  android:textStyle="italic"
+  android:textColor="@android:color/secondary_text_dark"
+  android:layout_height="wrap_content"
+  android:layout_width="wrap_content"
+  android:layout_below="@mainListItem/name"
+  android:layout_alignParentRight="true"
+  android:layout_toRightOf="@mainListItem/specialText"
+  android:layout_marginRight="10dp"
+  android:gravity="right" />
+</RelativeLayout>

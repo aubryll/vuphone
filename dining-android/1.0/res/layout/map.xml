@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+map/mainlayout"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <com.google.android.maps.MapView
+        android:id="@+map/mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:enabled="true"
+        android:clickable="true"
+        android:apiKey="@string/maps_api_key">
+               
+	    <RelativeLayout 
+			android:id="@+map/popup"
+	        android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:padding="9px"
+			android:background="@drawable/map_popup_box"
+			android:visibility="gone">
+			<!-- <ImageView android:id="@+map/icon"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:layout_centerVertical="true"
+				android:maxHeight="15dp"
+				android:maxWidth="15dp"/> -->
+			<TextView android:id="@+map/title" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content"
+				android:textSize="18px"
+				android:textColor="@android:color/primary_text_light" />
+			<TextView android:id="@+map/specialText"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@android:color/secondary_text_light"
+				android:layout_below="@map/title" />
+		</RelativeLayout>
+		
+    </com.google.android.maps.MapView>
+
+</RelativeLayout>
