@@ -19,6 +19,7 @@ import android.widget.ViewSwitcher;
 
 import com.google.android.maps.MapActivity;
 
+import edu.vanderbilt.vuphone.android.map.OneLocation;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
@@ -38,13 +39,13 @@ View.OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		rightNow = new GregorianCalendar();
-
 		setContentView(R.layout.restaurant_details);
-
+		
+		rightNow = new GregorianCalendar();
 		restaurantID = getIntent().getExtras().getLong(RESTAURANT_ID);
 		restaurant = Restaurant.get(restaurantID);
+		setTitle(restaurant.getName());
+		
 		restaurantLogo = Restaurant.getIcon(restaurantID);
 
 		SpannableString title = new SpannableString(restaurant.getName());
@@ -65,6 +66,8 @@ View.OnClickListener{
         nextButton.setOnClickListener(this);
 
         updateCounter();
+        
+        ((OneLocation) findViewById(R.restaurantDetailsPage.map)).setRestaurant(restaurantID);
 	}
 
 	// TODO place holder functions below
