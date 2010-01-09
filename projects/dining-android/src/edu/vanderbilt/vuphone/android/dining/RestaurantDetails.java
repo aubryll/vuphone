@@ -56,6 +56,8 @@ public class RestaurantDetails extends MapActivity implements
 		((ImageView) findViewById(R.restaurantDetailsPage.restaurantLogo))
 				.setImageResource((int) restaurantLogo);
 		/*
+		 * TextSwitcher Code if we want to upgrade API level
+		 * 
 		mSwitcher = (TextSwitcher) findViewById(R.restaurantDetailsPage.switcher);
 		mSwitcher.setFactory(this);
 
