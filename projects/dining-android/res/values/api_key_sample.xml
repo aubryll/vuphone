@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!--
+		If you join the project, and get errors about not have a resource
+		string/maps_api_key, then you need to go to
+		http://code.google.com/android/maps-api-signup.html to acquire a
+		google maps API key (each developer needs their own). After you have
+		done that, uncomment the line below and fill in your key. You should
+		then be able to see the maps in this application. If you have trouble
+		generating an API key, know that you can always uncomment the line
+		below and still run the application, and the Google map data will not
+		be presented (because you obviously have provided an invalid API key).
+		If you are not working on the maps part, then perhaps this is not an
+		issue for you ;)
+	-->
+
+	<!--
+		<string name="maps_api_key">Your Google Maps API Key here</string>
+	-->
+</resources>
