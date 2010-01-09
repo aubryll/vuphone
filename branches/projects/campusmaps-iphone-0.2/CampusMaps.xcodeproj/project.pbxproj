@@ -19,6 +19,7 @@
 		3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */; };
 		337049681082E17B00E0520A /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337049671082E17B00E0520A /* MapLayerController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
+		6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */; };
 		61D6100E10F84BBC00CE3397 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D6100D10F84BBC00CE3397 /* Icon.png */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
 		61FD085E10C72438000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */; };
@@ -64,6 +65,7 @@
 		337049671082E17B00E0520A /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapLayerController.m; path = ../MapLayerController.m; sourceTree = "<group>"; };
 		338387CA1081479400F56AEB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		338387CB1081479400F56AEB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = CampusMapsDefaultData.sqlite; sourceTree = "<group>"; };
 		61D6100D10F84BBC00CE3397 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		61FC2EE6107C4AFA00FFF897 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		61FD085C10C72438000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
@@ -127,10 +129,10 @@
 				9952698210D34E6300424730 /* POIViewController.m */,
 				3335285310A3EA3300D4F1A2 /* SearchResultViewController.h */,
 				3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */,
-				337049661082E17B00E0520A /* MapLayerController.h */,
-				337049671082E17B00E0520A /* MapLayerController.m */,
 				338387CA1081479400F56AEB /* MapViewController.h */,
 				338387CB1081479400F56AEB /* MapViewController.m */,
+				337049661082E17B00E0520A /* MapLayerController.h */,
+				337049671082E17B00E0520A /* MapLayerController.m */,
 				1D3623240D0F684500981E51 /* CampusMapsAppDelegate.h */,
 				1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */,
 				61FD09CE10C75112000EA568 /* LayersListViewController.h */,
@@ -181,6 +183,7 @@
 			children = (
 				61D6100D10F84BBC00CE3397 /* Icon.png */,
 				995C9F5710EF07C0003875D0 /* buildings.xml */,
+				6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */,
 				61FD089210C739C9000EA568 /* CampusMaps.xcdatamodeld */,
 				8D1107310486CEB800E47090 /* CampusMaps-Info.plist */,
 			);
@@ -295,6 +298,7 @@
 				9952698510D34E6300424730 /* POIViewController.xib in Resources */,
 				995C9F5810EF07C0003875D0 /* buildings.xml in Resources */,
 				61D6100E10F84BBC00CE3397 /* Icon.png in Resources */,
+				6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,7 +373,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aaron Thompson (LV483793L7)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -385,11 +389,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aaron Thompson (LV483793L7)";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.0;
