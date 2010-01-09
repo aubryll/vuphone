@@ -53,5 +53,7 @@ public class OneLocation extends MapView {
 		diningOverlay = new SingleOverlay(this, point, restaurant.getName());
 
 		getOverlays().add(diningOverlay);
+		
+		postInvalidate();
 	}
 }

@@ -22,7 +22,8 @@ public class SingleOverlay extends ItemizedOverlay<OverlayItem> {
 
 		OverlayItem overlayItem = new OverlayItem(point, location, "");
 		overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(
-				R.drawable.dining)));
+				R.drawable.map_marker_v)));
+
 		locationOverlay.add(overlayItem);
 		populate();
 	}
