@@ -45,15 +45,15 @@ public class OneLocation extends MapView {
 		Restaurant restaurant = Restaurant.get(restaurantID);
 		SingleOverlay diningOverlay;
 
-		GeoPoint point = new GeoPoint(restaurant.getLon(), restaurant
-				.getLat());
-		getController().setCenter(point);
+		GeoPoint point = new GeoPoint(restaurant.getLat(), restaurant
+				.getLon());
+		getController().animateTo(point);
 
 		// add the icons for dining locations
 		diningOverlay = new SingleOverlay(this, point, restaurant.getName());
 
 		getOverlays().add(diningOverlay);
 		
-		postInvalidate();
+		requestLayout();
 	}
 }

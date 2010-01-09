@@ -67,7 +67,13 @@ View.OnClickListener{
 
         updateCounter();
         
-        ((OneLocation) findViewById(R.restaurantDetailsPage.map)).setRestaurant(restaurantID);
+        
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		((OneLocation) findViewById(R.restaurantDetailsPage.map)).setRestaurant(restaurantID);
 	}
 
 	// TODO place holder functions below
