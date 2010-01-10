@@ -15,6 +15,12 @@
  **************************************************************************/
 package org.vuphone.vandyupon.datastructs;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Event {
 	
@@ -33,7 +39,16 @@ public class Event {
 	}
 	
 	public Event(String name, Location loc, boolean owner, long startTime, long endTime, int id, long lastUpdate){
-		name_ = name;
+		Logger logger = Logger.getLogger("org.vuphone.vandyupon.datastructs"); 
+
+		try {
+			name_ = URLDecoder.decode(name, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			logger.log(Level.WARNING, "UTF-8 not supported. It should be. ");
+			e.printStackTrace();
+			name_ = name;
+		}
+		
 		loc_ = loc;
 		owner_ = owner;
 		startTime_ = startTime;
@@ -95,7 +110,14 @@ public class Event {
 	}
 	
 	public void setName(String name){
-		name_ = name;
+		try {
+			name_ = URLDecoder.decode(name, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Logger logger = Logger.getLogger("org.vuphone.vandyupon.datastructs"); 
+			logger.log(Level.WARNING, "UTF-8 not supported. It should be. ");
+			e.printStackTrace();
+			name_ = name;
+		}
 	}
 	
 	public void setStartTime(long startTime){
