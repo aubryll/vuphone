@@ -16,9 +16,9 @@
 
 - (void)viewDidLoad
 {
+	NSLog(@"EventListViewController viewDidLoad");
 	[super viewDidLoad];
 
-//	[[self locationManager] startUpdatingLocation];
 	NSArray *sources = [Event allSources];
 	
 	isSearching = NO;
@@ -207,6 +207,10 @@
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+	if (isSearching) {
+		return nil;
+	}
+
 	if (!sectionIndexTitles) {
 		NSMutableArray *titles = [NSMutableArray new];
 		
@@ -305,6 +309,13 @@
 {
 	isSearching = NO;
 	[self filterContentForSearchText:@"" scope:@""];
+
+	// For whatever reason, having to do this to restore the search results
+	[self.tableView reloadData];
+	
+	[sectionIndexTitles release];
+	sectionIndexTitles = nil;
+	[self.tableView reloadSectionIndexTitles];
 }
 
 #pragma mark Filtration
@@ -369,7 +380,7 @@
 	NSError *err;
 	[self.fetchedResultsC performFetch:&err];
 /*	
-	self.tableView reloadData];
+	[self.tableView reloadData];
 
 	[sectionIndexTitles release];
 	sectionIndexTitles = nil;

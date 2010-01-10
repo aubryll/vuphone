@@ -56,7 +56,7 @@
 	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
 	[urlString appendString:@"&resp=xml"];
-//	NSLog(@"Requesting URL: %@", urlString);
+	NSLog(@"Requesting URL: %@", urlString);
 	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
 	// Make the request to get the data

@@ -12,10 +12,10 @@
 #import "Event.h"
 #import "Location.h"
 
-//#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
-//#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/Events/events"
-#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
-#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
+#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/vandyupon/events"
+#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8081/vandyupon/events"
+//#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
+//#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
 
 @interface RemoteEventLoader : NSObject {
 

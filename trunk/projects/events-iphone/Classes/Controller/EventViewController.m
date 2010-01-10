@@ -115,6 +115,8 @@
 	[self endEditingFields];
 	[self.tableView reloadData];
 	
+	self.navigationItem.title = event.title;
+	
 	// If this is a new event, set the device ID
 	if ([event isNew]) {
 		event.ownerDeviceId = [[UIDevice currentDevice] uniqueIdentifier];
