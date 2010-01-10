@@ -104,7 +104,7 @@
 	CLLocationCoordinate2D coords;
 	coords.latitude = CAMPUS_CENTER_LATITUDE;
 	coords.longitude = CAMPUS_CENTER_LONGITUDE;
-	[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 400.0, 400.0)];
+	[mapView setRegion:MKCoordinateRegionMakeWithDistance(coords, 600.0, 900.0)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
