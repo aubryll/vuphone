@@ -125,8 +125,8 @@
 		6160F5901082EDAE00C7C3F8 /* SourcesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SourcesView.xib; path = XIBs/SourcesView.xib; sourceTree = "<group>"; };
 		6160F63A10838FE900C7C3F8 /* VUSourceTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUSourceTableViewCell.h; path = TableView/VUSourceTableViewCell.h; sourceTree = "<group>"; };
 		6160F63B10838FE900C7C3F8 /* VUSourceTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUSourceTableViewCell.m; path = TableView/VUSourceTableViewCell.m; sourceTree = "<group>"; };
-		619A2C5D10E093DC004436E8 /* EventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListCell.h; path = TableView/EventListCell.h; sourceTree = "<group>"; };
-		619A2C5E10E093DC004436E8 /* EventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListCell.m; path = TableView/EventListCell.m; sourceTree = "<group>"; };
+		619A2C5D10E093DC004436E8 /* EventListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventListCell.h; path = ../Controller/TableView/EventListCell.h; sourceTree = "<group>"; };
+		619A2C5E10E093DC004436E8 /* EventListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventListCell.m; path = ../Controller/TableView/EventListCell.m; sourceTree = "<group>"; };
 		61A84233105AA8A60001A6BB /* NSManagedObject-IsNew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject-IsNew.h"; sourceTree = "<group>"; };
 		61A84234105AA8A60001A6BB /* NSManagedObject-IsNew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject-IsNew.m"; sourceTree = "<group>"; };
 		61BBB64D10575D45009481D6 /* EventViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventViewController.h; sourceTree = "<group>"; };
@@ -316,8 +316,6 @@
 				612250C110ACEA150074B05D /* VUURLCellController.m */,
 				6160F63A10838FE900C7C3F8 /* VUSourceTableViewCell.h */,
 				6160F63B10838FE900C7C3F8 /* VUSourceTableViewCell.m */,
-				619A2C5D10E093DC004436E8 /* EventListCell.h */,
-				619A2C5E10E093DC004436E8 /* EventListCell.m */,
 			);
 			name = TableView;
 			sourceTree = "<group>";
@@ -332,6 +330,8 @@
 				61BBB7E510580004009481D6 /* VUStartEndDateCell.h */,
 				61BBB7E610580004009481D6 /* VUStartEndDateCell.m */,
 				615BFEC7105DFE1E005497F9 /* VUStartEndDatePickerDelegate.h */,
+				619A2C5D10E093DC004436E8 /* EventListCell.h */,
+				619A2C5E10E093DC004436E8 /* EventListCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -681,7 +681,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Aaron Thompson";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Aaron Thompson (LV483793L7)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
