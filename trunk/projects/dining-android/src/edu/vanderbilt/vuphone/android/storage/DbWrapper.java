@@ -18,14 +18,7 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
  * @author austin
  *	This class abstracts database access and caches multiple like accesses.
  *	Accessed through the Restaurant class
- *
- * TODO: Restaurant efficient update (esp for user changing favorites)
- * 		 reflect any new functionality in static methods in the Restaurant class
  * 
- */
-/**
- * @author austin
- *
  */
 public class DbWrapper {
 
@@ -470,15 +463,17 @@ public class DbWrapper {
 		cacheMainData();
 		makeReadable();	
 		Cursor c = adapter.getCursor(new String[] {
+			DbAdapter.COLUMN_ID,
 			DbAdapter.COLUMN_LATITUDE, 
 			DbAdapter.COLUMN_LONGITUDE,
 			DbAdapter.COLUMN_ICON});
 		if (c.moveToFirst()) {
-			int i = 0;
+			//int i = 0;
 			do {
-				cache.get(i).setLocation(c.getInt(c.getColumnIndex(DbAdapter.COLUMN_LATITUDE)), 
+				long id = c.getLong(c.getColumnIndex(DbAdapter.COLUMN_ID));
+				cache.get(getI(id)/*i*/).setLocation(c.getInt(c.getColumnIndex(DbAdapter.COLUMN_LATITUDE)), 
 						c.getInt(c.getColumnIndex(DbAdapter.COLUMN_LONGITUDE)));
-				cache.get(i++).setIcon(c.getInt(c.getColumnIndex(DbAdapter.COLUMN_ICON)));
+				cache.get(getI(id)/*i++*/).setIcon(c.getInt(c.getColumnIndex(DbAdapter.COLUMN_ICON)));
 			} while (c.moveToNext());
 		}
 		mapDataCached = true;
@@ -626,8 +621,12 @@ public class DbWrapper {
 	 */
 	protected static int getI(long rowID) {
 		int i = Collections.binarySearch(IDs, rowID);
-		if (i < 0)
-			throw new RuntimeException("Restaurant does not exist");
+		if (i < 0) {
+			try {
+				Log.e("DbWrapper", IDs.toString());
+			} catch (NullPointerException e) {}
+			throw new RuntimeException("Restaurant with id " + rowID + " does not exist");
+		}
 		return i;
 	}
 	

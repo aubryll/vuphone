@@ -55,9 +55,9 @@ public class About extends TabActivity {
 		
 		TabHost mTabHost = getTabHost();
 
-		mTabHost.addTab(mTabHost.newTabSpec("tab_test1").setIndicator(
-				"Developers").setContent(R.about.tab_devs));
-		mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("VMAT")
-				.setContent(R.about.tab_vmat));
+		mTabHost.addTab(mTabHost.newTabSpec("tab_test1").setIndicator("Developers"/*, 
+				getResources().getDrawable(android.R.drawable.ic_menu_sort_alphabetically)*/).setContent(R.about.tab_devs));
+		mTabHost.addTab(mTabHost.newTabSpec("tab_test2").setIndicator("VMAT"/*,
+				getResources().getDrawable(android.R.drawable.ic_dialog_info)*/).setContent(R.about.tab_vmat));
 	}
 }

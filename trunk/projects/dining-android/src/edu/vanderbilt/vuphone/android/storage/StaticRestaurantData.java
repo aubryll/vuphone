@@ -135,7 +135,7 @@ public class StaticRestaurantData {
 
 		Restaurant rand = new Restaurant("Rand Dining Center", rh, true,
 				(int) (36.146405 * 1E6), (int) (-86.803178 * 1E6), "Cafeteria",
-				null, description, R.drawable.rand, true, true, false, null,
+				null, description, R.drawable.r_rand, true, true, false, null,
 				"http://www.vanderbilt.edu/dining/rest_rand.php");
 		long id = rand.create();
 
@@ -183,7 +183,7 @@ public class StaticRestaurantData {
 
 		Restaurant commonsFood = new Restaurant("The Commons Food Gallery", rh,
 				true, (int) (36.141951 * 1E6), (int) (-86.797127 * 1E6),
-				"Cafeteria", null, description, R.drawable.commons, true, true,
+				"Cafeteria", null, description, R.drawable.r_commons, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/rest_commons.php");
 		long id = commonsFood.create();
@@ -230,7 +230,7 @@ public class StaticRestaurantData {
 
 		Restaurant commonGrounds = new Restaurant("The Common Grounds", rh,
 				false, (int) (36.141771 * 1E6), (int) (-86.79694 * 1E6),
-				"Munchie Mart", null, description, R.drawable.commongrounds,
+				"Munchie Mart", null, description, R.drawable.r_commongrounds,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/commongrounds.php");
 		long id = commonGrounds.create();
@@ -278,7 +278,7 @@ public class StaticRestaurantData {
 
 		Restaurant chefJames = new Restaurant("Chef James Bistro", rh, false,
 				(int) (36.146321 * 1E6), (int) (-86.803037 * 1E6), "Cafe",
-				null, description, R.drawable.chefjamesbistro, true, true,
+				null, description, R.drawable.r_chefjamesbistro, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_chefjamesbistro.php");
 		long id = chefJames.create();
@@ -318,7 +318,7 @@ public class StaticRestaurantData {
 
 		Restaurant centerSmoothie = new Restaurant("Center Smoothie", rh,
 				false, (int) (36.146545 * 1E6), (int) (-86.803471 * 1E6),
-				"Smoothie", null, description, R.drawable.centersmoothie, true,
+				"Smoothie", null, description, R.drawable.r_centersmoothie, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/line_centersmoothie.php");
 		long id = centerSmoothie.create();
@@ -358,7 +358,7 @@ public class StaticRestaurantData {
 
 		Restaurant thePub = new Restaurant("The Pub at Overcup Oak", rh, false,
 				(int) (36.146626 * 1E6), (int) (-86.803736 * 1E6),
-				"Sports Bar", null, description, R.drawable.pub, true, true,
+				"Sports Bar", null, description, R.drawable.r_pub, true, true,
 				false, null, "http://www.vanderbilt.edu/dining/line_pub.php");
 		long id = thePub.create();
 
@@ -397,7 +397,7 @@ public class StaticRestaurantData {
 
 		Restaurant ctWest = new Restaurant("C.T. West", rh, false,
 				(int) (36.147418 * 1E6), (int) (-86.806839 * 1E6), "BBQ", null,
-				description, R.drawable.ctwest, true, true, false, null,
+				description, R.drawable.r_ctwest, true, true, false, null,
 				"http://www.vanderbilt.edu/dining/line_ctwest.php");
 		long id = ctWest.create();
 
@@ -443,7 +443,7 @@ public class StaticRestaurantData {
 
 		Restaurant quiznosTowers = new Restaurant("Quiznos Sub - Towers", rh,
 				false, (int) (36.147461 * 1E6), (int) (-86.806705 * 1E6),
-				"Sandwich", null, description, R.drawable.quiznos, true, true,
+				"Sandwich", null, description, R.drawable.r_quiznos, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_quiznos_towers.php");
 		long id = quiznosTowers.create();
@@ -491,7 +491,7 @@ public class StaticRestaurantData {
 
 		Restaurant quiznosMorgan = new Restaurant("Quiznos Sub - Morgan", rh,
 				false, (int) (36.140584 * 1E6), (int) (-86.806286 * 1E6),
-				"Sandwich", null, description, R.drawable.quiznos, true, true,
+				"Sandwich", null, description, R.drawable.r_quiznos, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_quiznos_morgan.php");
 		long id = quiznosMorgan.create();
@@ -531,7 +531,7 @@ public class StaticRestaurantData {
 
 		Restaurant roTiki = new Restaurant("Ro*Tiki", rh, false,
 				(int) (36.144847 * 1E6), (int) (-86.805728 * 1E6),
-				"Cafe/Munchie Mart", null, description, R.drawable.rotiki,
+				"Cafe/Munchie Mart", null, description, R.drawable.r_rotiki,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/line_rotiki.php");
 		long id = roTiki.create();
@@ -574,7 +574,7 @@ public class StaticRestaurantData {
 
 		Restaurant starbucks = new Restaurant("Starbucks", rh, false,
 				(int) (36.144368 * 1E6), (int) (-86.805529 * 1E6), "Coffee",
-				null, description, R.drawable.starbucks, true, true, false,
+				null, description, R.drawable.r_starbucks, true, true, false,
 				null, "http://www.vanderbilt.edu/dining/line_starbucks.php");
 		long id = starbucks.create();
 
@@ -613,7 +613,7 @@ public class StaticRestaurantData {
 
 		Restaurant grins = new Restaurant("Grins - Vegetarian Cafe", rh, false,
 				(int) (36.144785 * 1E6), (int) (-86.806399 * 1E6),
-				"Vegetarian", null, description, R.drawable.grins, true, true,
+				"Vegetarian", null, description, R.drawable.r_grins, true, true,
 				false, null, "http://www.vanderbilt.edu/dining/line_grins.php");
 		long id = grins.create();
 
@@ -652,7 +652,7 @@ public class StaticRestaurantData {
 
 		Restaurant suziesCafeEng = new Restaurant("Suzie's Cafe - Engineering",
 				rh, false, (int) (36.144801 * 1E6), (int) (-86.802836 * 1E6),
-				"Cafe", null, description, R.drawable.suzies, true, true,
+				"Cafe", null, description, R.drawable.r_suzies, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
 		long id = suziesCafeEng.create();
@@ -692,7 +692,7 @@ public class StaticRestaurantData {
 
 		Restaurant suziesCafeBlair = new Restaurant("Suzie's Cafe - Blair", rh,
 				false, (int) (36.13863 * 1E6), (int) (-86.805874 * 1E6),
-				"Cafe", null, description, R.drawable.suzies, true, true,
+				"Cafe", null, description, R.drawable.r_suzies, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
 		long id = suziesCafeBlair.create();
@@ -732,7 +732,7 @@ public class StaticRestaurantData {
 
 		Restaurant suziesCafeDiv = new Restaurant("Suzie's Cafe - Divinity",
 				rh, false, (int) (36.14654 * 1E6), (int) (-86.800662 * 1E6),
-				"Cafe", null, description, R.drawable.suzies, true, true,
+				"Cafe", null, description, R.drawable.r_suzies, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/line_suziescafe.php");
 		long id = suziesCafeDiv.create();
@@ -772,7 +772,7 @@ public class StaticRestaurantData {
 
 		Restaurant nectar = new Restaurant("Nectar", rh, false,
 				(int) (36.148782 * 1E6), (int) (-86.803473 * 1E6),
-				"Organic Munchie Mart", null, description, R.drawable.nectar,
+				"Organic Munchie Mart", null, description, R.drawable.r_nectar,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/nectar.php");
 		long id = nectar.create();
@@ -824,8 +824,8 @@ public class StaticRestaurantData {
 		String description = "";
 
 		Restaurant mcTyeire = new Restaurant("McTyeire", rh, false,
-				(int) (36.143796 * 1E6), (int) (-86.803227 * 1E6), "onCampus",
-				null, description, R.drawable.dining, true, true, false, null,
+				(int) (36.143796 * 1E6), (int) (-86.803227 * 1E6), "International",
+				null, description, R.drawable.dining_icon, true, true, false, null,
 				null);
 		long id = mcTyeire.create();
 
@@ -872,7 +872,7 @@ public class StaticRestaurantData {
 		Restaurant varsityBranscomb = new Restaurant(
 				"Varsity Market - Branscomb", rh, false,
 				(int) (36.144929 * 1E6), (int) (-86.805791 * 1E6),
-				"Munchie Mart", null, description, R.drawable.marketplace,
+				"Munchie Mart", null, description, R.drawable.r_marketplace,
 				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/varsitymarketplace.php");
 		long id = varsityBranscomb.create();
@@ -919,7 +919,7 @@ public class StaticRestaurantData {
 
 		Restaurant varsityTowers = new Restaurant("Varsity Market - Towers",
 				rh, false, (int) (36.147903 * 1E6), (int) (-86.805857 * 1E6),
-				"Munchie Mart", null, description, R.drawable.towers, true,
+				"Munchie Mart", null, description, R.drawable.r_towers, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/varsitytowers.php");
 		long id = varsityTowers.create();
@@ -966,7 +966,7 @@ public class StaticRestaurantData {
 
 		Restaurant varsityMorgan = new Restaurant("Varsity Market - Morgan",
 				rh, false, (int) (36.140609 * 1E6), (int) (-86.806328 * 1E6),
-				"Munchie Mart", null, description, R.drawable.morgan, true,
+				"Munchie Mart", null, description, R.drawable.r_morgan, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/varsitymorgan.php");
 		long id = varsityMorgan.create();
@@ -1007,7 +1007,7 @@ public class StaticRestaurantData {
 		Restaurant varsitySarratt = new Restaurant(
 				"Jr. Varsity Market - Sarratt", rh, false,
 				(int) (36.146587 * 1E6), (int) (-86.803428 * 1E6),
-				"Munchie Mart", null, description, R.drawable.jr, true, true,
+				"Munchie Mart", null, description, R.drawable.r_jr, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/jrvarsitymarket.php");
 		long id = varsitySarratt.create();
@@ -1053,7 +1053,7 @@ public class StaticRestaurantData {
 
 		Restaurant hemingwayMarket = new Restaurant("Hemingway Market", rh,
 				false, (int) (36.149829 * 1E6), (int) (-86.80124 * 1E6),
-				"Munchie Mart", null, description, R.drawable.hemingway, true,
+				"Munchie Mart", null, description, R.drawable.r_hemingway, true,
 				true, false, null,
 				"http://www.vanderbilt.edu/dining/hemingwaymarket.php");
 		long id = hemingwayMarket.create();
@@ -1101,7 +1101,7 @@ public class StaticRestaurantData {
 
 		Restaurant bestWok = new Restaurant("Best Wok", rh, false,
 				(int) (36.158751 * 1E6), (int) (-86.818717 * 1E6), "Chinese",
-				null, null, R.drawable.tasteofnashville, true, false, true,
+				null, null, R.drawable.dining_icon, true, false, true,
 				"(615) 341-0188", null);
 		long id = bestWok.create();
 
@@ -1145,7 +1145,7 @@ public class StaticRestaurantData {
 
 		Restaurant breadAndCo = new Restaurant("Bread and Company", rh, false,
 				(int) (36.146313 * 1E6), (int) (-86.808728 * 1E6), "Sandwiches",
-				null, null, R.drawable.breadandco, true, false, true,
+				null, null, R.drawable.r_breadandco, true, false, true,
 				"(615) 329-1400", "http://www.breadandcompany.com/");
 		long id = breadAndCo.create();
 
@@ -1189,7 +1189,7 @@ public class StaticRestaurantData {
 
 		Restaurant brueggersBagel = new Restaurant("Bruegger's Bagels", rh,
 				false, (int) (36.148542 * 1E6), (int) (-86.799112 * 1E6),
-				"Sandwiches", null, null, R.drawable.brueggers, true, false,
+				"Sandwiches", null, null, R.drawable.r_brueggers, true, false,
 				true, "(615) 327-0055", "http://www.brueggers.com/");
 		long id = brueggersBagel.create();
 
@@ -1233,7 +1233,7 @@ public class StaticRestaurantData {
 
 		Restaurant cabana = new Restaurant("Cabana", rh, false,
 				(int) (36.137065 * 1E6), (int) (-86.799215 * 1E6),
-				"Fine Dining", null, null, R.drawable.cabana, true, false,
+				"Fine Dining", null, null, R.drawable.r_cabana, true, false,
 				true, "(615) 577-2262", "http://www.cabananashville.com/");
 		long id = cabana.create();
 
@@ -1269,7 +1269,7 @@ public class StaticRestaurantData {
 
 		Restaurant cafeCoco = new Restaurant("Cafe Coco", rh, false,
 				(int) (36.151832 * 1E6), (int) (-86.805135 * 1E6), "Cafe",
-				null, null, R.drawable.cafecoco, true, false, true,
+				null, null, R.drawable.r_cafecoco, true, false, true,
 				"(615) 321-2626", "http://www.cafecoco.com/");
 		long id = cafeCoco.create();
 
@@ -1314,7 +1314,7 @@ public class StaticRestaurantData {
 		Restaurant cheeseburgerCharleys = new Restaurant(
 				"Cheeseburger Charley's", rh, false, (int) (36.147172 * 1E6),
 				(int) (-86.798999 * 1E6), "American", null, null,
-				R.drawable.cheeseburgercharleys, true, false, true,
+				R.drawable.r_cheeseburgercharleys, true, false, true,
 				"(615) 327-0220", "http://www.cheeseburgercharleys.com/");
 		long id = cheeseburgerCharleys.create();
 
@@ -1358,7 +1358,7 @@ public class StaticRestaurantData {
 
 		Restaurant chilis = new Restaurant("Chili's", rh, false,
 				(int) (36.148266 * 1E6), (int) (-86.806459 * 1E6), "Tex Mex",
-				null, null, R.drawable.chilis, true, false, true,
+				null, null, R.drawable.r_chilis, true, false, true,
 				"(615) 327-1588", "http://www.chilis.com/");
 		long id = chilis.create();
 
@@ -1402,7 +1402,7 @@ public class StaticRestaurantData {
 
 		Restaurant medCuisine = new Restaurant("Mediterranean Cuisine", rh,
 				false, (int) (36.147172 * 1E6), (int) (-86.798999 * 1E6),
-				"Mediterranean", null, null, R.drawable.medcuisine, true,
+				"Mediterranean", null, null, R.drawable.r_medcuisine, true,
 				false, true, "(615) 321-8960", null);
 		long id = medCuisine.create();
 
@@ -1447,7 +1447,7 @@ public class StaticRestaurantData {
 		Restaurant michaelangelosPizza = new Restaurant(
 				"Michaelangelo's Pizza", rh, false, (int) (36.151744 * 1E6),
 				(int) (-86.803774 * 1E6), "Pizza", null, null,
-				R.drawable.michaelangelos, true, false, true, "(615) 329-2979",
+				R.drawable.r_michaelangelos, true, false, true, "(615) 329-2979",
 				"http://www.michaelangelos-pizza.com/");
 		long id = michaelangelosPizza.create();
 
@@ -1491,7 +1491,7 @@ public class StaticRestaurantData {
 
 		Restaurant noshville = new Restaurant("Noshville", rh, false,
 				(int) (36.150167 * 1E6), (int) (-86.797837 * 1E6), "Deli",
-				null, null, R.drawable.noshville, true, false, true,
+				null, null, R.drawable.r_noshville, true, false, true,
 				"(615) 329-6674", "http://www.noshville.com/");
 		long id = noshville.create();
 
@@ -1531,7 +1531,7 @@ public class StaticRestaurantData {
 
 		Restaurant obiesPizza = new Restaurant("Obie's Flying Tomato Pizza",
 				rh, false, (int) (36.1513 * 1E6), (int) (-86.804124 * 1E6),
-				"Pizza", null, null, R.drawable.tasteofnashville, true, false,
+				"Pizza", null, null, R.drawable.dining_icon, true, false,
 				true, "(615) 327-4772", null);
 		long id = obiesPizza.create();
 
@@ -1575,7 +1575,7 @@ public class StaticRestaurantData {
 
 		Restaurant papaJohns = new Restaurant("Papa John's", rh, false,
 				(int) (36.148439 * 1E6), (int) (-86.806092 * 1E6), "Pizza",
-				null, null, R.drawable.papajohns, true, false, true,
+				null, null, R.drawable.r_papajohns, true, false, true,
 				"(615) 321-4000", "http://www.papajohns.com/");
 		long id = papaJohns.create();
 
@@ -1619,7 +1619,7 @@ public class StaticRestaurantData {
 
 		Restaurant qdoba = new Restaurant("Qdoba", rh, false,
 				(int) (36.150282 * 1E6), (int) (-86.800717 * 1E6), "Mexican",
-				null, null, R.drawable.qdoba, true, false, true,
+				null, null, R.drawable.r_qdoba, true, false, true,
 				"(615) 340-9039", "http://www.qdoba.com/");
 		long id = qdoba.create();
 
@@ -1659,7 +1659,7 @@ public class StaticRestaurantData {
 
 		Restaurant rolyPoly = new Restaurant("Roly Poly Sandwiches", rh, false,
 				(int) (36.139484 * 1E6), (int) (-86.800472 * 1E6),
-				"Sandwiches", null, null, R.drawable.rolypoly, true, false,
+				"Sandwiches", null, null, R.drawable.r_rolypoly, true, false,
 				true, "(615) 255-4600", "http://www.rolypoly.com/");
 		long id = rolyPoly.create();
 
@@ -1703,7 +1703,7 @@ public class StaticRestaurantData {
 
 		Restaurant romaPizza = new Restaurant("Roma Pizza and Pasta", rh,
 				false, (int) (36.148327 * 1E6), (int) (-86.807474 * 1E6),
-				"Pizza", null, null, R.drawable.roma, true, false, true,
+				"Pizza", null, null, R.drawable.r_roma, true, false, true,
 				"(615) 340-0040", "http://www.romapizzaandpasta.com/");
 		long id = romaPizza.create();
 
@@ -1747,7 +1747,7 @@ public class StaticRestaurantData {
 
 		Restaurant samsSportsBar = new Restaurant("Sam's Sports Bar & Grill",
 				rh, false, (int) (36.136348 * 1E6), (int) (-86.801419 * 1E6),
-				"Sports Bar", null, null, R.drawable.sams, true, false, true,
+				"Sports Bar", null, null, R.drawable.r_sams, true, false, true,
 				"(615) 383-3601", "http://www.samssportsgrill.com/");
 		long id = samsSportsBar.create();
 
@@ -1791,7 +1791,7 @@ public class StaticRestaurantData {
 
 		Restaurant satayThai = new Restaurant("Satay Thai Grill", rh, false,
 				(int) (36.148368 * 1E6), (int) (-86.807427 * 1E6), "Thai",
-				null, null, R.drawable.sataythai, true, false, true,
+				null, null, R.drawable.r_sataythai, true, false, true,
 				"(615) 915-0972", "http://www.sataynashville.com/");
 		long id = satayThai.create();
 
@@ -1835,7 +1835,7 @@ public class StaticRestaurantData {
 
 		Restaurant schlotzskys = new Restaurant("Schlotzsky's", rh, false,
 				(int) (36.147596 * 1E6), (int) (-86.807077 * 1E6),
-				"Sandwiches", null, null, R.drawable.schlotzskys, true, false,
+				"Sandwiches", null, null, R.drawable.r_schlotzskys, true, false,
 				true, "(615) 320-9777", "http://www.schlotzskys.com/");
 		long id = schlotzskys.create();
 
@@ -1881,7 +1881,7 @@ public class StaticRestaurantData {
 		Restaurant smoothieKingTwentyFirst = new Restaurant(
 				"Smoothie King - 21st Avenue", rh, false,
 				(int) (36.136823 * 1E6), (int) (-86.800831 * 1E6), "Smoothies",
-				null, null, R.drawable.smoothieking, true, false, true,
+				null, null, R.drawable.r_smoothieking, true, false, true,
 				"(615) 463-8415", "http://www.smoothieking.com/");
 		long id = smoothieKingTwentyFirst.create();
 
@@ -1925,7 +1925,7 @@ public class StaticRestaurantData {
 		Restaurant smoothieKingElliston = new Restaurant(
 				"Smoothie King - Elliston Pl.", rh, false,
 				(int) (36.148299 * 1E6), (int) (-86.807506 * 1E6), "Smoothies",
-				null, null, R.drawable.smoothieking, true, false, true,
+				null, null, R.drawable.r_smoothieking, true, false, true,
 				"(615) 321-4909", "http://www.smoothieking.com/");
 		long id = smoothieKingElliston.create();
 
@@ -1969,7 +1969,7 @@ public class StaticRestaurantData {
 
 		Restaurant sunsetGrill = new Restaurant("Sunset Grill", rh, false,
 				(int) (36.136725 * 1E6), (int) (-86.799483 * 1E6),
-				"Fine Dining", null, null, R.drawable.sunsetgrill, true, false,
+				"Fine Dining", null, null, R.drawable.r_sunsetgrill, true, false,
 				true, "(615) 386-3663", "http://www.sunsetgrill.com/");
 		long id = sunsetGrill.create();
 
@@ -2013,7 +2013,7 @@ public class StaticRestaurantData {
 
 		Restaurant tgiFridays = new Restaurant("TGI Friday's", rh, false,
 				(int) (36.1507 * 1E6), (int) (-86.801198 * 1E6), "American",
-				null, null, R.drawable.fridays, true, false, true,
+				null, null, R.drawable.r_fridays, true, false, true,
 				"(615) 327-8071", "http://www.fridays.com/");
 		long id = tgiFridays.create();
 
@@ -2029,7 +2029,7 @@ public class StaticRestaurantData {
 		// TODO Add Hours of Operations
 		Restaurant wendysTwentyFirst = new Restaurant("Wendy's - 21st Avenue",
 				rh, false, (int) (36.14859 * 1E6), (int) (-86.799095 * 1E6),
-				"Fast Food", null, null, R.drawable.wendys, true, false, true,
+				"Fast Food", null, null, R.drawable.r_wendys, true, false, true,
 				"(615) 321-9763", "http://www.wendys.com/");
 		long id = wendysTwentyFirst.create();
 
@@ -2045,7 +2045,7 @@ public class StaticRestaurantData {
 		// TODO Add Hours of Operations
 		Restaurant wendysWestEnd = new Restaurant("Wendy's - West End", rh,
 				false, (int) (36.145667 * 1E6), (int) (-86.810038 * 1E6),
-				"Fast Food", null, null, R.drawable.wendys, true, false, true,
+				"Fast Food", null, null, R.drawable.r_wendys, true, false, true,
 				"(615) 327-4930", "http://www.wendys.com/");
 		long id = wendysWestEnd.create();
 
@@ -2089,7 +2089,7 @@ public class StaticRestaurantData {
 
 		Restaurant yogurtOasis = new Restaurant("Yogurt Oasis", rh, false,
 				(int) (36.147596 * 1E6), (int) (-86.807077 * 1E6), "Yogurt",
-				null, null, R.drawable.yogurtoasis, true, false, true,
+				null, null, R.drawable.r_yogurtoasis, true, false, true,
 				"(615) 963-3631", null);
 		long id = yogurtOasis.create();
 
