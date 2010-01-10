@@ -73,7 +73,7 @@ public class EventRequestHandler implements NotificationHandler {
 			String sql = "create temporary table evtstmp select eventid as id, events.name as name, starttime, endtime, " +
 			"events.userid as user, locations.locationid as locid, locations.name as locname, lat, lon, events.lastupdate as lastupdate, events.sourceuid as sourceuid " +
 			"from events inner join locations on events.locationid = locations.locationid " +
-			"where endtime > ?  and events.lastupdate >= ? and (? * ACOS( (SIN( PI() * ? / 180) * " +
+			"where endtime > ?  and events.lastupdate > ? and (? * ACOS( (SIN( PI() * ? / 180) * " +
 			"SIN( PI() * lat/180) ) + (COS( PI() * ? /180) * " +
 			"COS(PI() * lat /180) * COS( PI() * lon/180 - PI() * ?/180))) < ? OR lat IS NULL)";
 			
