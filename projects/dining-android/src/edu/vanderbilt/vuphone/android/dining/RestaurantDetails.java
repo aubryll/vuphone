@@ -1,60 +1,95 @@
 package edu.vanderbilt.vuphone.android.dining;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
+import android.app.Activity;
+import android.app.TabActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.style.RelativeSizeSpan;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextSwitcher;
+import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
-
-import com.google.android.maps.MapActivity;
-
 import edu.vanderbilt.vuphone.android.map.OneLocation;
-import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
-public class RestaurantDetails extends MapActivity implements
-		ViewSwitcher.ViewFactory, View.OnClickListener {
+public class RestaurantDetails extends TabActivity implements TabHost.OnTabChangeListener {
 
 	public static final String RESTAURANT_ID = "0";
 
 	private long restaurantID;
-	private Calendar rightNow;
 	private Restaurant restaurant;
-	private long restaurantLogo;
-	//private TextSwitcher mSwitcher;
-	private TextView hours;
-	private TextView day;
 
-	private int mCounter = 0;
+	private int[] mCounter;
+	
+	private TabHost mTabHost;
+	private TextView day;
+	private TextView range;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.restaurant_details);
+		setContentView(R.layout.details);
 
-		mCounter=Calendar.DAY_OF_WEEK;   //initializes mCounter to devices day of the week
-		rightNow = new GregorianCalendar();
 		restaurantID = getIntent().getExtras().getLong(RESTAURANT_ID);
 		restaurant = Restaurant.get(restaurantID);
+
 		setTitle(restaurant.getName());
+		
+		// MAIN PAGE VIEWS
+		((TextView)findViewById(R.restaurantDetails.name)).setText(restaurant.getName());
+		((ImageView)findViewById(R.restaurantDetails.logo)).setImageResource(restaurant.getIcon());
+		if (restaurant.getDescription() == null)
+			((TextView)findViewById(R.restaurantDetails.details)).setVisibility(View.GONE);
+		else
+			((TextView)findViewById(R.restaurantDetails.details)).setText(restaurant.getDescription());
+		mCounter = restaurant.getHours().getCurrentRangeI();
+		day = (TextView)findViewById(R.restaurantDetails.hoursDay); 
+		range = (TextView)findViewById(R.restaurantDetails.hoursRangeDisplay);
+		updateRangeText();
+		((ImageView)findViewById(R.restaurantDetails.rightArrow)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Log.i("test", "onclick");
+				if (++mCounter[1] >= restaurant.getHours().getRangesToModify(mCounter[0]).size() || mCounter[1]== -1) {
+					mCounter[0] = (mCounter[0] - Calendar.SUNDAY + 7+ 1) % 7 + Calendar.SUNDAY;
+					mCounter[1] = (restaurant.getHours().getRangesToModify(mCounter[0]).isEmpty()?-1:0);
+				}
+				updateRangeText();
+			}
+		});
+		((ImageView)findViewById(R.restaurantDetails.leftArrow)).setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Log.i("test", "onclick");
+				if (--mCounter[1] < 0 || mCounter[1] == -1) {
+					mCounter[0] = (mCounter[0] - Calendar.SUNDAY + 7 - 1) % 7 + Calendar.SUNDAY;
+					mCounter[1] = restaurant.getHours().getRangesToModify(mCounter[0]).size() - 1;
+				}
+				
+				updateRangeText();
+			}
+		});
+		if (restaurant.offCampus()) {
+			((TextView)findViewById(R.restaurantDetails.phone)).setText(restaurant.getPhoneNumber());
+			((TextView)findViewById(R.restaurantDetails.web)).setText(restaurant.getUrl());
+		} else {
+			((TextView)findViewById(R.restaurantDetails.phone_header)).setVisibility(View.GONE);
+			((TextView)findViewById(R.restaurantDetails.phone)).setVisibility(View.GONE);
+			((TextView)findViewById(R.restaurantDetails.web_header)).setVisibility(View.GONE);
+			((TextView)findViewById(R.restaurantDetails.web)).setVisibility(View.GONE);
+		}
+		
+		// TAB SET UP
+		mTabHost = getTabHost();
+		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Details", getResources().getDrawable(R.drawable.ic_tab_details_main)).setContent(R.restaurantDetails.mainContent));
+		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Map", getResources().getDrawable(R.drawable.ic_tab_details_map)).setContent(
+				new Intent(this, OneLocation.class).putExtra(OneLocation.RESTAURANT_ID, restaurantID)));
+		
+		mTabHost.setOnTabChangedListener(this);
+		mTabHost.setCurrentTab(0);
+		
 
-		restaurantLogo = Restaurant.getIcon(restaurantID);
-
-		SpannableString title = new SpannableString(restaurant.getName());
-		title.setSpan(new RelativeSizeSpan((float) 2.2), 0, title.length(), 0);
-		((ImageView) findViewById(R.restaurantDetailsPage.restaurantLogo))
-				.setImageResource((int) restaurantLogo);
+		
 		/*
 		 * TextSwitcher Code if we want to upgrade API level
 		 * 
@@ -68,159 +103,53 @@ public class RestaurantDetails extends MapActivity implements
 		mSwitcher.setInAnimation(in);
 		mSwitcher.setOutAnimation(out);
 	*/
-		hours = (TextView) findViewById(R.restaurantDetailsPage.switcher);
-		
-		ImageButton nextButton = (ImageButton) findViewById(R.restaurantDetailsPage.next);
-		nextButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				mCounter++;
-				updateCounter();
-			}
-		});
-		
-		ImageButton prevButton = (ImageButton) findViewById(R.restaurantDetailsPage.prev);
-		prevButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				mCounter--;
-				updateCounter();
-			}
-		});
-		
-		day = (TextView) findViewById(R.restaurantDetailsPage.day);
 
-		updateCounter();
-
-		((OneLocation) findViewById(R.restaurantDetailsPage.map))
-				.setRestaurant(restaurantID);
 	}
 
-	// TODO place holder functions below
-	CharSequence DaySchedule() {
-		RestaurantHours hours = Restaurant.getHours(restaurantID);
-		SpannableStringBuilder out = new SpannableStringBuilder();
-		
-		if (mCounter > Calendar.SATURDAY) {
-			mCounter = Calendar.SUNDAY;
+	private CharSequence getCurrentDay() {
+		switch (mCounter[0]) {
+		case Calendar.SUNDAY: return "Sunday";
+		case Calendar.MONDAY: return "Monday";
+		case Calendar.TUESDAY: return "Tuesday";
+		case Calendar.WEDNESDAY: return "Wednesday";
+		case Calendar.THURSDAY: return "Thursday";
+		case Calendar.FRIDAY: return "Friday";
+		case Calendar.SATURDAY: return "Saturday";
+		default: return "";
 		}
-		if (mCounter < Calendar.SUNDAY) {
-			mCounter = Calendar.SATURDAY;
-		}
-		switch (mCounter) {
-		case Calendar.SUNDAY:
-			out.append((CharSequence) hours.getSundayRanges().toString());
-			day.setText("Sunday");
-			break;
-		case Calendar.MONDAY:
-			out.append((CharSequence) hours.getMondayRanges().toString());
-			day.setText("Monday");
-			break;
-		case Calendar.TUESDAY:
-			out.append((CharSequence) hours.getTuesdayRanges().toString());
-			day.setText("Tuesday");
-			break;
-		case Calendar.WEDNESDAY:
-			out.append((CharSequence) hours.getWednesdayRanges().toString());
-			day.setText("Wednesday");
-			break;
-		case Calendar.THURSDAY:
-			out.append((CharSequence) hours.getThursdayRanges().toString());
-			day.setText("Thursday");
-			break;
-		case Calendar.FRIDAY:
-			out.append((CharSequence) hours.getFridayRanges().toString());
-			day.setText("Friday");
-			break;
-		case Calendar.SATURDAY:
-			out.append((CharSequence) hours.getSaturdayRanges().toString());
-			day.setText("Saturday");
-			break;
-		}
-		return out;
 	}
+	
+	private void updateRangeText() {
 
-	CharSequence WeeklySchedule() {
-		SpannableStringBuilder out = new SpannableStringBuilder();
-		out.append(restaurant.getHours().toString());
-
-		/*
-		 * 
-		 * RestaurantHours hours = restaurant.getHours();
-		 * 
-		 * 
-		 * 
-		 * for (int i = 0; i < hours.getMondayRangeCount(); i++) {
-		 * ArrayList<Range> ranges = hours.getMondayRanges(); Range r =
-		 * ranges.get(i); out.append(Integer.toString(r.getStart().getHour()));
-		 * out.append(":");
-		 * out.append(Integer.toString(r.getStart().getMinute()));
-		 * out.append(" TO ");
-		 * out.append(Integer.toString(r.getEnd().getHour())); out.append(":");
-		 * out.append(Integer.toString(r.getEnd().getMinute()));
-		 * out.append("\n"); }
-		 * 
-		 * for (int i = 0; i < hours.getTuesdayRangeCount(); i++) {
-		 * ArrayList<Range> ranges = hours.getMondayRanges(); Range r =
-		 * ranges.get(i); out.append(Integer.toString(r.getStart().getHour()));
-		 * out.append(":");
-		 * out.append(Integer.toString(r.getStart().getMinute()));
-		 * out.append(" TO ");
-		 * out.append(Integer.toString(r.getEnd().getHour())); out.append(":");
-		 * out.append(Integer.toString(r.getEnd().getMinute()));
-		 * out.append("\n"); }
-		 */
-		// out.append("S\t" + Main.SUNDAY_START[restaurant] + " - "
-		// + Main.SUNDAY_END[restaurant] + '\n' + "M\t"
-		// + Main.MONDAY_START[restaurant] + " - "
-		// + Main.MONDAY_END[restaurant] + '\n' + "T\t"
-		// + Main.TUESDAY_START[restaurant] + " - "
-		// + Main.TUESDAY_END[restaurant] + '\n' + "W\t"
-		// + Main.WEDNESDAY_START[restaurant] + " - "
-		// + Main.WEDNESDAY_END[restaurant] + '\n' + "T\t"
-		// + Main.THURSDAY_START[restaurant] + " - "
-		// + Main.THURSDAY_END[restaurant] + '\n' + "F\t"
-		// + Main.FRIDAY_START[restaurant] + " - "
-		// + Main.FRIDAY_END[restaurant] + '\n' + "S\t"
-		// + Main.SATURDAY_START[restaurant] + " - "
-		// + Main.SATURDAY_END[restaurant] + '\n');
-
-		// int i = 0;
-		// for (int day = 1; day <= 7; day++) {
-		//
-		// int next = out.toString().indexOf('\n', i);
-		// next = (next != -1 ? next : out.length());
-		//
-		// if (day == rightNow.get(Calendar.DAY_OF_WEEK))
-		// // trying to find way to do bold but had to settle for this
-		// out.setSpan(new RelativeSizeSpan((float) 1.6), i, next, 0);
-		// i = next + 1;
-		// }
-
-		return out;
+		Log.i("RestaurantDetails", "day " + mCounter[0] + ", range " + mCounter[1]);
+		day.setText(getCurrentDay());
+		if (mCounter[1] == -1)
+			range.setText("closed");
+		else range.setText(restaurant.getHours().getRangesToModify(mCounter[0]).get(mCounter[1]).toString());
 	}
-
-	public void onClick(View v) {
-		mCounter++;
-		updateCounter();
-	}
-
-	private void updateCounter() {
-		hours.setText(DaySchedule());
-	}
-
-	public View makeView() {
-		TextView t = new TextView(this);
-		t.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
-		t.setTextSize(10);
-		return t;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
-	 */
+	
 	@Override
-	protected boolean isRouteDisplayed() {
-		return false;
-	}
+	public void onTabChanged(String tabId) {
+        // Because we're using Activities as our tab children, we trigger
+        // onWindowFocusChanged() to let them know when they're active.  This may
+        // seem to duplicate the purpose of onResume(), but it's needed because
+        // onResume() can't reliably check if a keyguard is active.
+        Activity activity = getLocalActivityManager().getActivity(tabId);
+        if (activity != null) {
+            activity.onWindowFocusChanged(true);
+        }
+    }
+	
+//	private void nextRange() {
+//		if (++mCounter[1] >= restaurant.getHours().getRangesToModify(mCounter[0]).size()) {
+//			mCounter[0] = (mCounter[0] - Calendar.SUNDAY + 1) % 7 + Calendar.SUNDAY;
+//			mCounter[1] = 0;
+//		}
+//	}
+//	private void previousRange() {
+//		if (--mCounter[1] < 0) {
+//			mCounter[0] = (mCounter[0] - Calendar.SUNDAY - 1) % 7 + Calendar.SUNDAY;
+//			mCounter[1] = restaurant.getHours().getRangesToModify(mCounter[0]).size() - 1;
+//		}
+//	}
 }

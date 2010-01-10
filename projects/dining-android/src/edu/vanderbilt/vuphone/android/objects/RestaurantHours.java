@@ -102,6 +102,16 @@ public class RestaurantHours {
 		return null;
 	}
 	
+	public int[] getCurrentRangeI() {
+		int today = new GregorianCalendar().get(Calendar.DAY_OF_WEEK);
+		Time now = new Time();
+		ArrayList<Range> todayRanges = getRangesToModify(today);
+		for (int i = 0; i<todayRanges.size(); i++) 
+			if (!now.after(todayRanges.get(i))) 
+				return new int [] {today, i};
+		return new int [] {today, -1};
+	}
+	
 	// returns true if restaurant is open now
 	public boolean isOpen() {
 		Range current = getCurrentRange();

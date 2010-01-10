@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import edu.vanderbilt.vuphone.android.map.AllLocations;
+import edu.vanderbilt.vuphone.android.map.OneLocation;
 import edu.vanderbilt.vuphone.android.objects.RestaurantAdapter;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import edu.vanderbilt.vuphone.android.storage.StaticRestaurantData;
@@ -51,7 +52,7 @@ public class Main extends ListActivity {
 		display24 = "24".equals(System.getString(this.getContentResolver(),
 				System.TIME_12_24));
 
-		//Restaurant.deleteAll();
+		Restaurant.deleteAll();
 		if (Restaurant.getIDs().size() != StaticRestaurantData.NUM_RESTAURANTS) {
 			Log.i("Dining", "database purged: getIDs().size()="
 					+ Restaurant.getIDs().size() + ", Static data size="
@@ -85,10 +86,7 @@ public class Main extends ListActivity {
 		switch (mode) {
 		case NORMAL:
 			// starts restaurant details page and sends index of restaurant
-			Intent toDetails = new Intent(this, RestaurantDetails.class);
-			toDetails.putExtra(RestaurantDetails.RESTAURANT_ID, id);
-
-			startActivity(toDetails);
+			startActivity(new Intent(this, RestaurantDetails.class).putExtra(RestaurantDetails.RESTAURANT_ID, id));
 			break;
 		case MARK_FAVS:
 			Restaurant.setFavorite(id, !Restaurant.favorite(id));
@@ -132,12 +130,12 @@ public class Main extends ListActivity {
 								android.R.drawable.ic_menu_agenda));
 		menu.add(Menu.NONE, MENU_ITEM_MARK_FAVS, Menu.NONE, "Mark Favorites")
 				.setIcon(getResources().getDrawable(R.drawable.ic_menu_star));
-		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map").setIcon(
-				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
-
 		menu.add(Menu.NONE, MENU_ITEM_ABOUT, Menu.NONE, "About").setIcon(
 				getResources().getDrawable(
 						android.R.drawable.ic_menu_info_details));
+		menu.add(Menu.NONE, MENU_ITEM_VIEW_MAP, Menu.NONE, "View Map").setIcon(
+				getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
+
 		return true;
 	}
 

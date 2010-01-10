@@ -33,7 +33,7 @@ public class Restaurant {
 		this(name, null, false);
 	}
 	public Restaurant(String name, RestaurantHours hours, boolean favorite) {
-		this(name, hours, favorite, 0, 0, null, null, null, R.drawable.dining, true, true, false, null, null);
+		this(name, hours, favorite, 0, 0, null, null, null, R.drawable.dining_icon, true, true, false, null, null);
 	}
 	public Restaurant(String name, RestaurantHours hours, boolean favorite, int latitude, int longitude, String type, RestaurantMenu menu,
 			String description, int iconId, boolean mealMoneyAccepted, boolean mealPlanAccepted, boolean offCampus, String phoneNumber, String url) {

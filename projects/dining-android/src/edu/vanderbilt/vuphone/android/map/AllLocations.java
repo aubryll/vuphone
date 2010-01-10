@@ -44,11 +44,6 @@ public class AllLocations extends MapActivity {
 		// start map view and enable zoom controls
 		setContentView(R.layout.map);
 		mapView = (MapView) findViewById(R.map.mapview);
-		mapView.setBuiltInZoomControls(true);
-
-
-		mapView.getController().setZoom(ZOOM);
-		mapView.getController().setCenter(CENTER);
 		
 		// creates the overlay containing markers for all dining locations
 		diningOverlay = new AllOverlays(this, mapView);
@@ -60,6 +55,14 @@ public class AllLocations extends MapActivity {
 		mapView.getOverlays().add(diningOverlay);
 		mapView.getOverlays().add(myLocationOverlay);
 		
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		mapView.setBuiltInZoomControls(true);
+		mapView.getController().setZoom(ZOOM);
+		mapView.getController().setCenter(CENTER);
 	}
 
 	@Override
