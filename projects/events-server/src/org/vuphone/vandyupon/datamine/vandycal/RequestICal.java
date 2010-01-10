@@ -251,23 +251,22 @@ public class RequestICal {
 			androidID = URLEncoder.encode(androidID, "UTF-8");
 
 			desc = URLEncoder.encode(desc, "UTF-8");
+		
 			// Fix bizarre URL encoding issues
 			desc = desc.replaceAll("%26%2339%3B", "%27");
 			desc = desc.replaceAll("%E2%80%99", "%27");
 			desc = desc.replaceAll("%C2%A0", "%A0");
-			
-			if (desc.contains("Melanie")) {
-				System.out.println(desc);
-			}
 
-			byte[] bytes = desc.getBytes();
-			for (int i=0; i<bytes.length; i++) {
-				if ((int)bytes[i] < 0 || (int)bytes[i] > 127) {
-					System.out.printf("Changing byte %i to 0x20\n", (int)bytes[i]);
-					bytes[i] = 0x20;
+			byte[] bytes = URLDecoder.decode(desc, "UTF-8").getBytes();
+			int i = 0;
+			for (byte b: bytes) {
+				if ( (int)b < 0 || (int)b > 127) {
+					System.err.println("Changing byte " + (int)b + " to 32");
+					bytes[i] = 32;
 				}
+				i++;
 			}
-			desc = new String(bytes);
+			desc = URLEncoder.encode(new String(bytes, "UTF-8"), "UTF-8");
 
 			sourceUid = URLEncoder.encode(sourceUid, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
