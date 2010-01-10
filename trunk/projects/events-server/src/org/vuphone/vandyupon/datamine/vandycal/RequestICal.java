@@ -9,12 +9,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -28,6 +30,7 @@ import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Summary;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -54,6 +57,14 @@ public class RequestICal {
 		try {
 			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
 			reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+
+			FileOutputStream fout = new FileOutputStream("vu-calendar.ics");
+			OutputStreamWriter out = new OutputStreamWriter(fout, "UTF-8");
+			String s;
+			while ((s = reader.readLine()) != null) {
+				out.write(s + "\n");
+			}
+			out.close();
 		} catch (MalformedURLException e1) {
 			System.err.println("ICS calendar URL malformed");
 			e1.printStackTrace();
@@ -65,45 +76,15 @@ public class RequestICal {
 
 		// Write it back out to a temp file
 		try {
+			reader = new BufferedReader(new FileReader("vu-calendar.ics"));
+			
 			FileOutputStream fout = new FileOutputStream("vu-calendar-temp.ics");
 			OutputStreamWriter out = new OutputStreamWriter(fout, "UTF-8");
 
 			String s;
 			while ((s = reader.readLine()) != null) {
-				// Process the string
 				s = s.replaceFirst(";TZID=US-Central", "") + "\n";
-				char[] cbuf = new char[s.length()];
-				s.getChars(0, s.length()-1, cbuf, 0);
-				for (int i=0; i<cbuf.length; i++) {
-					char c = cbuf[i];
-/*					// If an invalid character
-					if (!(
-						(c== 0x9) ||
-						(c== 0xA) ||
-						(c== 0xD) ||
-						((c >= 0x20) && (c <= 0xD7FF)) ||
-						((c >= 0xE000) && (c <= 0xFFFD)) ||
-						((c >= 0x10000) && (c <= 0x10FFFF)))
-						) {
-							// Replace with a newline
-							cbuf[i] = '\n';
-					}
-*/
-					// If an invalid control character
-					if (
-						c < 0x20 &&
-						c != 0x9 &&
-						c != 0xA &&
-						c != 0xD
-						) {
-							// Replace with a newline
-							cbuf[i] = '\n';
-					} else if (c > 0xFF) {
-						// Replace with a space
-						cbuf[i] = ' ';
-					}
-				}
-				out.write(cbuf);
+				out.write(s);
 			}
 			out.close();
 		} catch (IOException e1) {
@@ -256,6 +237,7 @@ public class RequestICal {
 		}
 		String androidID = "vandy cal datamine";
 
+		
 		try {
 			name = URLEncoder.encode(name, "UTF-8");
 			startTime = URLEncoder.encode(startTime, "UTF-8");
@@ -267,7 +249,26 @@ public class RequestICal {
 				longitude = URLEncoder.encode(longitude, "UTF-8");
 			}
 			androidID = URLEncoder.encode(androidID, "UTF-8");
+
 			desc = URLEncoder.encode(desc, "UTF-8");
+			// Fix bizarre URL encoding issues
+			desc = desc.replaceAll("%26%2339%3B", "%27");
+			desc = desc.replaceAll("%E2%80%99", "%27");
+			desc = desc.replaceAll("%C2%A0", "%A0");
+			
+			if (desc.contains("Melanie")) {
+				System.out.println(desc);
+			}
+
+			byte[] bytes = desc.getBytes();
+			for (int i=0; i<bytes.length; i++) {
+				if ((int)bytes[i] < 0 || (int)bytes[i] > 127) {
+					System.out.printf("Changing byte %i to 0x20\n", (int)bytes[i]);
+					bytes[i] = 0x20;
+				}
+			}
+			desc = new String(bytes);
+
 			sourceUid = URLEncoder.encode(sourceUid, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
 			use.printStackTrace();
@@ -312,8 +313,8 @@ public class RequestICal {
 		params.append(desc);
 
 		// Add the parameters to the post
-
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
+		
 
 		// Execute post
 

@@ -69,13 +69,9 @@ public class MySqlConstructor implements DatabaseConstructor {
 				+ "eventid INTEGER REFERENCES events(eventid), "
 				+ "comment text," 
 				+ "userid integer not null references people (userid),"
-				+ "submissiondate BIGINT NOT NULL)"
+				+ "submissiondate BIGINT NOT NULL, "
+				+ "FOREIGN KEY events_eventid (eventid) REFERENCES events (eventid) ON DELETE CASCADE) "
 				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		prep = db.prepareStatement(sql);
-		prep.execute();
-		
-		sql = "ALTER TABLE eventrating ADD FOREIGN KEY (eventid) " +
-				"REFERENCES events (eventid) ON DELETE CASCADE;";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 
@@ -118,28 +114,22 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "eventid integer not null references events(eventid),"
 			+ "value text not null,"
 			+ "metatype integer references metatypes(typeid)," +
-					"submissiontime bigint not null)"
+					"submissiontime bigint not null, "
+			+ "FOREIGN KEY events_eventid (eventid) REFERENCES events (eventid) ON DELETE CASCADE) "
 			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();
-
-		sql = "ALTER TABLE eventmeta ADD FOREIGN KEY (eventid) " +
-				"REFERENCES events (eventid) ON DELETE CASCADE;";
-		prep = db.prepareStatement(sql);
-		prep.execute();
+	
 		
 		sql = "create table if not exists locationmeta ("
 			+ "metaid integer not null primary key auto_increment,"
 			+ "locationid integer not null references locations(locationid),"
 			+ "value text not null,"
-			+ "metatype integer references metatypes(typeid)," +
-					"submissiontime bigint not null)"
+			+ "metatype integer references metatypes(typeid),"
+			+ "submissiontime bigint not null,"
+			+ " FOREIGN KEY locations_locationid (locationid) "
+			+ "REFERENCES locations (locationid) ON DELETE CASCADE) "
 			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		prep = db.prepareStatement(sql);
-		prep.execute();
-		
-		sql = "ALTER TABLE locationmeta ADD FOREIGN KEY (locationid) " +
-				"REFERENCES locations (locationid) ON DELETE CASCADE;";
 		prep = db.prepareStatement(sql);
 		prep.execute();
 

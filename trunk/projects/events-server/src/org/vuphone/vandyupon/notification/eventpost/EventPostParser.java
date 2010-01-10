@@ -16,6 +16,7 @@
 package org.vuphone.vandyupon.notification.eventpost;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,13 +40,11 @@ public class EventPostParser implements NotificationParser {
 
 		EventPost ep = new EventPost();
 		ep.setLocationName(req.getParameter("locationname"));
-		if (req.getParameter("locationlat") == null
-				|| req.getParameter("locationlon") == null) {
+		if (req.getParameter("locationlat") == null || req.getParameter("locationlon") == null) {
 			ep.setLocation(null);
 		} else {
-			ep.setLocation(new Location(Double.parseDouble(req
-					.getParameter("locationlat")), Double.parseDouble(req
-					.getParameter("locationlon"))));
+			ep.setLocation(new Location(Double.parseDouble(req.getParameter("locationlat")),
+										Double.parseDouble(req.getParameter("locationlon"))));
 		}
 
 		ep.setName(req.getParameter("eventname"));
@@ -54,8 +53,12 @@ public class EventPostParser implements NotificationParser {
 		ep.setUser(req.getParameter("userid"));
 		ep.setReponseType(req.getParameter("resp"));
 		ep.setCallback(req.getParameter("callback"));
-		ep.setDescription(req.getParameter("desc"));
-		System.out.println("Setting description: " + ep.getDescription());
+		try {
+			ep.setDescription(URLDecoder.decode(req.getParameter("desc"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Description is now: " + ep.getDescription());
 		ep.setSourceUid(req.getParameter("sourceuid"));
 
 		return ep;
