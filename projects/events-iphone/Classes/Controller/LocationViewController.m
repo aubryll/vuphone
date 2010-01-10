@@ -46,20 +46,18 @@
 - (IBAction)save:(id)sender
 {
 	location.name = nameField.text;
-
+/*
 	// Save changes to the location
 	NSError *err;
 	BOOL isNew = [location isNew];
 	[editingContext save:&err];
-	
+*/
 	// Pop all the way to the EventViewController
 	for (NSObject *controller in self.navigationController.viewControllers) {
 		if ([controller isKindOfClass:[EventViewController class]]) {
-			if (isNew) {
 				[[NSNotificationCenter defaultCenter]
 					postNotificationName:LocationChosenNotification
 					object:self.location];
-			}
 
 			[self.navigationController popToViewController:(UIViewController *)controller animated:YES];
 		}
