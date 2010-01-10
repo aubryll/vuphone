@@ -15,6 +15,8 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventpost;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,8 +52,11 @@ public class EventPostHandler implements NotificationHandler {
 		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getSourceUid());
 		ResultSet rs = prep.executeQuery();
+		
+		boolean isExisting = false;
 		if (rs.next()) {
-			// This is a duplicate event, so update
+			isExisting = true;
+			// This is an existing event, so update
 			sql = "update events set name = ?, locationid = ?, userid = ?, starttime = ?, endtime = ?" +
 					", lastupdate = ?, sourceuid = ?";
 		} else {
@@ -78,13 +83,24 @@ public class EventPostHandler implements NotificationHandler {
 			rs.next();
 			int id = rs.getInt(1);
 
-			sql = "insert into eventmeta (eventid, value, submissiontime, metatype) "
+			if (isExisting) {
+				sql = "UPDATE eventmeta (eventid, value, submissiontime, metatype) "
+					+ "SET value = ?, submissiontime = ? "
+					+ "WHERE eventid = ? AND metatype = (select typeid from metatypes where typename like 'DESCRIPTION'))";
+
+				prep = conn.prepareStatement(sql);
+				prep.setString(1, ep.getDescription());
+				prep.setLong(2, System.currentTimeMillis());
+				prep.setInt(3, id);
+			} else {
+				sql = "insert into eventmeta (eventid, value, submissiontime, metatype) "
 					+ "values (?, ?, ?, (select typeid from metatypes where typename like 'DESCRIPTION'))";
 
-			prep = conn.prepareStatement(sql);
-			prep.setInt(1, id);
-			prep.setString(2, ep.getDescription());
-			prep.setLong(3, System.currentTimeMillis());
+				prep = conn.prepareStatement(sql);
+				prep.setInt(1, id);
+				prep.setString(2, ep.getDescription());
+				prep.setLong(3, System.currentTimeMillis());
+			}
 
 			prep.execute();
 			return id;
