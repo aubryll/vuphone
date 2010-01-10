@@ -275,7 +275,7 @@ public class RequestICal {
 
 		// Prepare to make the post
 		final HttpClient c = new DefaultHttpClient();
-		final HttpPost post = new HttpPost("http://localhost:8080" + PATH);
+		final HttpPost post = new HttpPost("http://localhost:8082" + PATH);
 		c.getParams().setParameter("http.socket.timeout", new Integer(1000));
 		c.getParams().setParameter("http.connection.timeout", new Integer(1000));
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
