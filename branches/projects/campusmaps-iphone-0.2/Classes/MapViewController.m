@@ -127,7 +127,7 @@
 	// Adjust the query to include these choices
 	[currentLayerController removeAnnotationsFromMapView];
 	[currentLayerController release];
-	currentLayerController = [[MapLayerController alloc] initWithLayer:layer];
+	currentLayerController = [[MapLayerController alloc] initWithLayer:layer andMapView:mapView];
 	[currentLayerController addAnnotationsToMapView];
 }
 
@@ -166,7 +166,7 @@
 		pred = nil;
 	}
 
-	[currentLayerController setPredicate:pred forContext:managedObjectContext onMapView:mapView];
+	[currentLayerController setPredicate:pred forContext:managedObjectContext];
 	
 	if ([mapView.annotations count] == 1)
 	{
@@ -174,11 +174,15 @@
 		[mapView setCenterCoordinate:ann.coordinate animated:YES];
 		[mapView selectAnnotation:ann animated:YES];
 	}
+	else {
+		// Work around a weird bug where the map view delays showing the new POIs
+		[mapView setCenterCoordinate:mapView.centerCoordinate animated:YES];
+	}
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-	[currentLayerController setPredicate:nil forContext:managedObjectContext onMapView:mapView];
+	[currentLayerController setPredicate:nil forContext:managedObjectContext];
 
 	searchBar.text = nil;
 	[searchBar resignFirstResponder];

@@ -4,23 +4,6 @@
 //
 //  Created by Aaron Thompson on 9/7/09.
 //
-/* Sample XML server response:
- <POIrequestresponse>
-	 <POI>
-		 <name>Test</name>
-		 <loc>
-			<lat>36.1437</lat>
-			<lon>-86.8046</lon>
-		 </loc>
-		 <owner>true</owner>
-		 <start>1248290654565</start>
-		 <end>1248291254565</end>
-		 <POIid>1</POIid>
-		 <lastupdate>1248291254565</lastupdate>
-	 </POI>
- </POIrequestresponse>
- 
- */
 
 #define SAMPLE_POI_REQUEST_RESPONSE 0
 
@@ -108,7 +91,7 @@
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_NUMBER" error:&err] objectAtIndex:0];
 	poi.serverId = [prop stringValue];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_NAME" error:&err] objectAtIndex:0];
-	poi.name = [prop stringValue];
+	poi.name = [[prop stringValue] capitalizedString];
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_URL" error:&err] objectAtIndex:0];
 	// The URL string is always all caps, but the real URL isn't really
 	poi.url = [[prop stringValue] lowercaseString];

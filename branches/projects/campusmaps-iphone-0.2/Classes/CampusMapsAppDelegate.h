@@ -16,8 +16,6 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     UIWindow *window;
 	
-	//CLLocationManager *locationManager;
-	
 	IBOutlet MapViewController *mapViewController;
 	IBOutlet UINavigationController *navController;
 	
@@ -31,11 +29,6 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
-//@property (retain) CLLocationManager *locationManager;
-
-//- (CLLocation *)mostRecentLocation;
-
 - (NSString *)applicationDocumentsDirectory;
 
 @end
-
