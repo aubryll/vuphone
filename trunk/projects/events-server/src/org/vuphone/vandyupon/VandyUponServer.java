@@ -90,7 +90,7 @@ public class VandyUponServer {
 		logger.setLevel(Level.FINEST);
 		
 		
-		int port = 8080;
+		int port = 8082;
 		if (args.length > 0) {
 			try {
 				port = Integer.parseInt(args[0]);
