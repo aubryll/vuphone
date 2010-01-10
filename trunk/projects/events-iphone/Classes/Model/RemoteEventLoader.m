@@ -129,12 +129,22 @@
 
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Name" error:&err] objectAtIndex:0];
 	event.name = [prop stringValue];
+
+	NSArray *nodes = [node nodesForXPath:@"./Description" error:&err];
+	if ([nodes count] > 0) {
+		prop = (DDXMLNode *)[nodes objectAtIndex:0];
+		event.details = [prop stringValue];
+	}
+
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Start" error:&err] objectAtIndex:0];
 	event.startTime = [NSDate dateWithTimeIntervalSince1970:[[prop stringValue] intValue]];
+
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./End" error:&err] objectAtIndex:0];
 	event.endTime = [NSDate dateWithTimeIntervalSince1970:[[prop stringValue] intValue]];
+
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./EventId" error:&err] objectAtIndex:0];
 	event.serverId = [prop stringValue];
+
 	// Hard-coding the source for now
 	event.source = VUEventSourceOfficialCalendar;
 }
@@ -147,13 +157,18 @@
 
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Id" error:&err] objectAtIndex:0];
 	location.serverId = [prop stringValue];
+	
+	// Name
 	nodes = [node nodesForXPath:@"./Loc/Name" error:&err];
 	if ([nodes count] > 0) {
 		prop = (DDXMLNode *)[nodes objectAtIndex:0];
 		location.name = [prop stringValue];
 	}
+
+	// Lat/lon
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lat" error:&err] objectAtIndex:0];
 	location.latitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
+
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Loc/Lon" error:&err] objectAtIndex:0];
 	location.longitude = [NSDecimalNumber decimalNumberWithString:[prop stringValue]];
 }
