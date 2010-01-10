@@ -17,4 +17,16 @@
 	<!--
 		<string name="maps_api_key">Your Google Maps API Key here</string>
 	-->
+
+
+
+
+	<!--
+		The following line is the Google Maps API key that matches our release
+		key. If you don't know what this means, don't worry about is :)
+	-->
+	<!--
+		<string
+		name="maps_api_key">0WaaNqOIImbqGScSXexJg0koHVKOXVPYtBy3tLQ</string>
+	-->
 </resources>
