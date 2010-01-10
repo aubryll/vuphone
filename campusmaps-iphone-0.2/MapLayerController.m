@@ -30,21 +30,15 @@
 }
 
 - (void)addAnnotationsToMapView {
-	NSEnumerator *enumerator = (self.filteredPOIs) ? [self.filteredPOIs objectEnumerator] : [layer.POIs objectEnumerator];
-	POI* point;
+	NSArray *annotations = (self.filteredPOIs) ? [self.filteredPOIs allObjects] : [layer.POIs allObjects];
 	
-	while (point = [enumerator nextObject]) {
-		[mapView addAnnotation:point];
-	}
+	[mapView addAnnotations:annotations];
 }
 
 - (void)removeAnnotationsFromMapView {
-	NSEnumerator *enumerator = (self.filteredPOIs) ? [self.filteredPOIs objectEnumerator] : [layer.POIs objectEnumerator];
-	POI* point;
-	
-	while (point = [enumerator nextObject]) {
-		[mapView removeAnnotation:point];
-	}
+	NSArray *annotations = (self.filteredPOIs) ? [self.filteredPOIs allObjects] : [layer.POIs allObjects];
+
+	[mapView removeAnnotations:annotations];
 }
 
 - (void)setPredicate:(NSPredicate *)pred forContext:(NSManagedObjectContext *)context

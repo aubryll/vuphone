@@ -13,6 +13,7 @@
 
 #define POI_REQUEST_URL_STRING @"http://www.vanderbilt.edu/map/gml/vu.gml"
 #define POI_REQUEST_ALTERNATIVE @"buildings.xml"
+
 @interface RemotePOILoader : NSObject {
 
 }

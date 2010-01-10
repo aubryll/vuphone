@@ -15,8 +15,10 @@
 @implementation CampusMapsAppDelegate
 
 @synthesize window;
-//@synthesize locationManager;
 
+#define DatabaseFilename @"CampusMaps.sqlite"
+#define DefaultDatabaseFilename @"CampusMapsDefaultData"
+#define DefaultDatabaseFilenameExtension @"sqlite"
 #define DefaultsLastUpdateKey @"DefaultsLastUpdateKey"
 
 #pragma mark -
@@ -24,14 +26,7 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
-	/* Setup the LocationManager.
-	self.locationManager = [[CLLocationManager alloc] init];
-	self.locationManager.delegate = self;
-	self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-	[locationManager startUpdatingLocation];
-	*/
-	
-	// This call should setup our singleton. It returns a reference to our singleton
+	// This call should set up our singleton. It returns a reference to our singleton
 	// but we don't need it right here.
 	[LocationManagerSingleton sharedManager];
 	
@@ -61,7 +56,7 @@
 		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
 	}
 
-	if ([lastUpdate timeIntervalSinceDate:[NSDate date]] > 60*60*24) {
+	if ([[NSDate date] timeIntervalSinceDate:lastUpdate] > 60*60*24) {
 		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
 	}
 }
@@ -111,7 +106,7 @@
  Returns the managed object context for the application.
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
-- (NSManagedObjectContext *) managedObjectContext {
+- (NSManagedObjectContext *)managedObjectContext {
 	
     if (managedObjectContext != nil) {
         return managedObjectContext;
@@ -135,7 +130,9 @@
     if (managedObjectModel != nil) {
         return managedObjectModel;
     }
+
     managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+
     return managedObjectModel;
 }
 
@@ -150,7 +147,22 @@
         return persistentStoreCoordinator;
     }
 	
-    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"CampusMaps.sqlite"]];
+	NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:DatabaseFilename];
+	
+	// Copy the default database if none exists
+	if (![[NSFileManager defaultManager] fileExistsAtPath:storePath])
+	{
+		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:DefaultDatabaseFilename ofType:DefaultDatabaseFilenameExtension];
+		NSError *err = nil;
+		[[NSFileManager defaultManager] copyItemAtPath:defaultStorePath
+												toPath:storePath
+												 error:&err];
+		if (err) {
+			NSLog(@"Error copying default store file at %@ to %@:\n%@", defaultStorePath, storePath, err);
+		}
+	}
+
+    NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
 
 	// Set options to automatically perform a lightweight migration
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -192,25 +204,6 @@
 
 
 #pragma mark -
-#pragma mark Location Management
-/**
- Not sure what to do with these methods.
- 
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation
-fromLocation:(CLLocation *)oldLocation
-{
-	
-}
-
-// Returns the last known location grabbed by the location manager.
-- (CLLocation *)mostRecentLocation
-{
-	return self.locationManager.location;
-}
-*/
-
-#pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
@@ -219,9 +212,6 @@ fromLocation:(CLLocation *)oldLocation
     [managedObjectModel release];
     [persistentStoreCoordinator release];
     
-	//[locationManager stopUpdatingLocation];
-	//[locationManager release];
-	
 	[window release];
 	[super dealloc];
 }
