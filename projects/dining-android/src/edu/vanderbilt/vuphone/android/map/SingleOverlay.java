@@ -8,6 +8,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 import edu.vanderbilt.vuphone.android.dining.R;
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
  * Creates an array of overlay for a particular restaurant to the map view
@@ -18,12 +19,16 @@ public class SingleOverlay extends ItemizedOverlay<OverlayItem> {
 
 	private ArrayList<OverlayItem> locationOverlay = new ArrayList<OverlayItem>();
 
-	public SingleOverlay(MapView map, GeoPoint point/*, String location*/) {
+	public SingleOverlay(MapView map, long rID) {
 		super(null);
 
-		OverlayItem overlayItem = new OverlayItem(point, /*location*/"", "");
-		overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(
-				R.drawable.map_marker_v)));
+		OverlayItem overlayItem = new OverlayItem(new GeoPoint(Restaurant.getLat(rID), Restaurant.getLon(rID)), "", "");
+		if (Restaurant.offCampus(rID))
+			overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(
+					R.drawable.map_marker_n)));
+		else
+			overlayItem.setMarker(boundCenterBottom(map.getResources().getDrawable(
+					R.drawable.map_marker_v)));
 
 		locationOverlay.add(overlayItem);
 		populate();

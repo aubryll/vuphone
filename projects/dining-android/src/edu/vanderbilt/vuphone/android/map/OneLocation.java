@@ -54,7 +54,7 @@ public class OneLocation extends MapActivity {
             myLocationOverlay.enableMyLocation();
 
             mapView.getOverlays().add(myLocationOverlay);
-            mapView.getOverlays().add(new SingleOverlay(mapView, point/*, Restaurant.getName(restaurantID)*/));
+            mapView.getOverlays().add(new SingleOverlay(mapView, restaurantID));
         }
 
         @Override
