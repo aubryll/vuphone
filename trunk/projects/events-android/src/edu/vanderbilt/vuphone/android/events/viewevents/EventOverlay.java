@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.google.android.maps.ItemizedOverlay;
 
+import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 import edu.vanderbilt.vuphone.android.events.filters.FilterManager;
@@ -71,7 +72,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	 */
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, Context context) {
-		super(boundCenterBottom(defaultDrawable_));
+		super(boundCenterBottom(context.getResources().getDrawable(R.drawable.map_marker_v)));
 
 		positionFilter_ = positionFilter;
 		timeFilter_ = timeFilter;
