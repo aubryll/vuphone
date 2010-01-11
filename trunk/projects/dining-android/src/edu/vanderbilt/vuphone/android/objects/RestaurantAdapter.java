@@ -140,8 +140,8 @@ public class RestaurantAdapter extends BaseAdapter implements ListAdapter
 			if (getShowFavIcon()) {
 				wrapper.getFavoriteView().setVisibility(View.VISIBLE);
 				wrapper.getFavoriteView().setImageResource(Restaurant.favorite(rID)?
-											R.drawable.star:		// favorite icon 
-											R.drawable.grey_star);	// nonfavorite icon
+											R.drawable.star_enabled:		// favorite icon 
+											R.drawable.star_gray);	// nonfavorite icon
 			
 			} else {
 				wrapper.getFavoriteView().setVisibility(View.GONE);
