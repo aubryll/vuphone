@@ -32,6 +32,7 @@ import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
 import edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener;
+import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 import edu.vanderbilt.vuphone.android.events.filters.PositionActivity;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
 import edu.vanderbilt.vuphone.android.events.filters.TimeActivity;
@@ -157,7 +158,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		AlarmManager am = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 		Log.i(tag, pre + "Registered to update events every 15 min");
 		am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(),
-				1 * 15 * 1000, loader); // TODO - Change interval!!!
+				AlarmManager.INTERVAL_DAY, loader);
 
 		EventLoader.registerLoadingListener(this);
 	}
@@ -207,18 +208,27 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 			EventOverlayItem eoi = (EventOverlayItem) newFocus;
 			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
 
-			long timeInMilliseconds = Long.parseLong(eoi.getStartTime());
+			long rowId = eoi.getDBRowId();
+			DBAdapter db = new DBAdapter(this);
+			db.openReadable();
+			String desc = db.getSingleRowDescription(rowId);
+			db.close();
+			
+			long timeInMilliseconds = Long.parseLong(eoi.getStartTime()) * 1000;
 			GregorianCalendar gc = new GregorianCalendar();
 			gc.setTimeInMillis(timeInMilliseconds);
 
 			GregorianCalendar gcEnd = new GregorianCalendar();
-			gcEnd.setTimeInMillis(Long.parseLong(eoi.getEndTime()));
+			gcEnd.setTimeInMillis(Long.parseLong(eoi.getEndTime()) * 1000);
 
 			tv.setText(eoi.getTitle() + "\nStart: "
 					+ gc.getTime().toLocaleString() + "\nEnd: "
 					+ gcEnd.getTime().toLocaleString());
+			if (desc.trim().equalsIgnoreCase("") == false)
+				tv.setText(tv.getText() + "\n\n" + desc);
+			
 			if (eoi.getIsOwner())
-				tv.setText(tv.getText() + "\nYou are the owner!");
+				tv.setText(tv.getText() + "\n\nYou are the owner!");
 
 			eventDetailsPane_.setVisibility(View.VISIBLE);
 			eventMap_.invalidate();

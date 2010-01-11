@@ -4,8 +4,6 @@
 package edu.vanderbilt.vuphone.android.events.eventloader;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -48,6 +46,7 @@ public class EventHandler extends DefaultHandler {
 	private boolean inEnd = false;
 	private boolean inEventId = false;
 	private boolean inLastUpdate = false;
+	private boolean inDescription = false;
 
 	/**
 	 * There are two possible <Name> elements, one inside of a location, and one
@@ -64,6 +63,7 @@ public class EventHandler extends DefaultHandler {
 	private long endTime_;
 	private long serverId_;
 	private long lastUpdate_;
+	private String description_;
 
 	/** Passed to the Loader so it can insert events into the DB */
 	private DBAdapter database_;
@@ -76,24 +76,27 @@ public class EventHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localname, String qName,
 			Attributes atts) {
-
-		if (localname.trim().equalsIgnoreCase("Name"))
+		localname = new String(localname.trim());
+		
+		if (localname.equalsIgnoreCase("Name"))
 			inName = true;
-		else if (localname.trim().equalsIgnoreCase("Lat"))
+		else if (localname.equalsIgnoreCase("Lat"))
 			inLat = true;
-		else if (localname.trim().equalsIgnoreCase("Lon"))
+		else if (localname.equalsIgnoreCase("Lon"))
 			inLon = true;
-		else if (localname.trim().equalsIgnoreCase("Loc"))
+		else if (localname.equalsIgnoreCase("Loc"))
 			inLoc = true;
-		else if (localname.trim().equalsIgnoreCase("Owner"))
+		else if (localname.equalsIgnoreCase("Owner"))
 			inOwner = true;
-		else if (localname.trim().equalsIgnoreCase("Start"))
+		else if (localname.equalsIgnoreCase("Start"))
 			inStart = true;
-		else if (localname.trim().equalsIgnoreCase("End"))
+		else if (localname.equalsIgnoreCase("Description"))
+			inDescription = true;
+		else if (localname.equalsIgnoreCase("End"))
 			inEnd = true;
-		else if (localname.trim().equalsIgnoreCase("EventId"))
+		else if (localname.equalsIgnoreCase("EventId"))
 			inEventId = true;
-		else if (localname.trim().equalsIgnoreCase("LastUpdate"))
+		else if (localname.equalsIgnoreCase("LastUpdate"))
 			inLastUpdate = true;
 
 	}
@@ -103,35 +106,39 @@ public class EventHandler extends DefaultHandler {
 	public void endElement(String uri, String localname, String qName)
 			throws SAXException {
 
-		if (localname.trim().equalsIgnoreCase("EventRequestResponse"))
+		localname = new String(localname.trim());
+		
+		if (localname.equalsIgnoreCase("EventRequestResponse"))
 			throw new SAXException("Done processing");
-		else if (localname.trim().equalsIgnoreCase("Event")) {
+		else if (localname.equalsIgnoreCase("Event")) {
 			
 			// Fire callback here to store current event
 			EventLoader.handleEvent(database_, name_, latitude_, longitude_,
-					owner_, startTime_, endTime_, lastUpdate_, serverId_);
+					owner_, startTime_, endTime_, lastUpdate_, serverId_, description_);
 			
 			// Set the name to null, so that the next event's name may be concatenated properly
 			// See characters() for more info
 			name_ = null;
 			
-		} else if (localname.trim().equalsIgnoreCase("Name")) 
+		} else if (localname.equalsIgnoreCase("Name")) 
 			inName = false;
-		else if (localname.trim().equalsIgnoreCase("Lat"))
+		else if (localname.equalsIgnoreCase("Lat"))
 			inLat = false;
-		else if (localname.trim().equalsIgnoreCase("Lon"))
+		else if (localname.equalsIgnoreCase("Lon"))
 			inLon = false;
-		else if (localname.trim().equalsIgnoreCase("Loc"))
+		else if (localname.equalsIgnoreCase("Loc"))
 			inLoc = false;
-		else if (localname.trim().equalsIgnoreCase("Owner"))
+		else if (localname.equalsIgnoreCase("Owner"))
 			inOwner = false;
-		else if (localname.trim().equalsIgnoreCase("Start"))
+		else if (localname.equalsIgnoreCase("Start"))
 			inStart = false;
-		else if (localname.trim().equalsIgnoreCase("End"))
+		else if (localname.equalsIgnoreCase("Description"))
+			inDescription = false;
+		else if (localname.equalsIgnoreCase("End"))
 			inEnd = false;
-		else if (localname.trim().equalsIgnoreCase("EventId"))
+		else if (localname.equalsIgnoreCase("EventId"))
 			inEventId = false;
-		else if (localname.trim().equalsIgnoreCase("LastUpdate"))
+		else if (localname.equalsIgnoreCase("LastUpdate"))
 			inLastUpdate = false;
 	}
 
@@ -162,6 +169,8 @@ public class EventHandler extends DefaultHandler {
 			startTime_ = Long.parseLong(str);
 		else if (inEnd)
 			endTime_ = Long.parseLong(str);
+		else if (inDescription)
+			description_ = str;
 		else if (inEventId)
 			serverId_ = Long.parseLong(str);
 		else if (inLastUpdate)

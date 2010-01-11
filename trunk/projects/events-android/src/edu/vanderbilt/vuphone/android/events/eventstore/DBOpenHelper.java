@@ -30,6 +30,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 
 	/** The other column names */
 	public static final String COLUMN_NAME = DBAdapter.COLUMN_NAME;
+	public static final String COLUMN_DESC = DBAdapter.COLUMN_DESCRIPTION;
 	public static final String COLUMN_START_TIME = DBAdapter.COLUMN_START_TIME;
 	public static final String COLUMN_END_TIME = DBAdapter.COLUMN_END_TIME;
 	public static final String COLUMN_UPDATED_TIME = DBAdapter.COLUMN_UPDATED_TIME;
@@ -49,13 +50,14 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_LOCATION_LAT + " INTEGER NOT NULL,              "
 			+ COLUMN_LOCATION_LON + " INTEGER NOT NULL,              "
 			+ COLUMN_IS_OWNER + " INTEGER NOT NULL DEFAULT 0,        "
-			+ COLUMN_SERVER_ID + " INTEGER NOT NULL);                ";
+			+ COLUMN_SERVER_ID + " INTEGER NOT NULL,                 "
+			+ COLUMN_DESC + " TEXT DEFAULT 'No description' );";
 
 	// CREATE TABLE events (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT
 	// NOT NULL, startTime INTEGER NOT NULL, endTime INTEGER NOT NULL,
 	// updatedTime INTEGER NOT NULL, latitude INTEGER NOT NULL, longitude
 	// INTEGER NOT NULL, owner INTEGER NOT NULL DEFAULT 0, serverId INTEGER NOT
-	// NULL)
+	// NULL, desc TEXT DEFAULT 'No Description' )
 
 	/**
 	 * @see android.database.sqlite.SQLiteOpenHelper#SQLiteOpenHelper(Context,

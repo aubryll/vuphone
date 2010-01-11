@@ -126,7 +126,7 @@ public class EventLoader extends Service {
 	 */
 	protected static void handleEvent(DBAdapter openDatabase, String name,
 			double latitude, double longitude, boolean owner, long startTime,
-			long endTime, long updateTime, long serverId) {
+			long endTime, long updateTime, long serverId, String description) {
 		final int latE6 = (int) (latitude * 1E6);
 		final int lonE6 = (int) (longitude * 1E6);
 		final GeoPoint location = new GeoPoint(latE6, lonE6);
@@ -136,7 +136,7 @@ public class EventLoader extends Service {
 		Log.d(tag, pre + "Begin handling event");
 		do {
 			handled = openDatabase.insertOrUpdateEvent(name, startTime,
-					endTime, location, updateTime, owner, serverId);
+					endTime, location, updateTime, owner, serverId, description);
 			++count;
 			if (count > 1)
 				Log.w(tag, pre + "Database appears to be locked");

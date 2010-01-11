@@ -29,6 +29,7 @@ public class EventOverlayItem extends OverlayItem {
 
 	String startTime, endTime;
 	boolean isOwner;
+	long rowId;
 
 	private EventOverlayItem(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
@@ -53,14 +54,13 @@ public class EventOverlayItem extends OverlayItem {
 				.getColumnIndex(DBAdapter.COLUMN_END_TIME));
 		int isOwnerInt = c.getInt(c
 				.getColumnIndex(DBAdapter.COLUMN_IS_OWNER));
+		long row = c.getLong(c.getColumnIndex(DBAdapter.COLUMN_ID));
 		
-		boolean isOwner = false;
-		if (isOwnerInt == 1)
-			isOwner = true;
+		boolean isOwner = (isOwnerInt == 1);
 
 		final GeoPoint location = new GeoPoint(lat, lon);
 		EventOverlayItem eoi = new EventOverlayItem(location, name, "");
-		eoi.setProperties(startTime, endTime, isOwner);
+		eoi.setProperties(startTime, endTime, isOwner, row);
 
 		return eoi;
 	}
@@ -72,10 +72,11 @@ public class EventOverlayItem extends OverlayItem {
 	}
 
 	/** Used to set the properties for this event */
-	private void setProperties(String start, String end, boolean owner) {
+	private void setProperties(String start, String end, boolean owner, long row) {
 		startTime = start;
 		endTime = end;
 		isOwner = owner;
+		rowId = row;
 	}
 	
 	public String getStartTime() {
@@ -88,5 +89,9 @@ public class EventOverlayItem extends OverlayItem {
 	
 	public boolean getIsOwner() {
 		return isOwner;
+	}
+	
+	public long getDBRowId() {
+		return rowId;
 	}
 }

@@ -10,22 +10,11 @@
 	<!-- Chris="0jkNEKZdvnMwQ2yB7GDUqrWqjgAEsPhREB9YyPQ" -->
 	<!-- Chris2="0jkNEKZdvnMzof7knUDjeLDoLEnEqnnsuXRbdqA" -->
 
-	<LinearLayout android:id="@+id/event_details_pane"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:visibility="gone">
-
-		<TextView android:text="Some text describing an event"
-			android:id="@+id/TV_event_details_title" android:layout_width="fill_parent"
-			android:layout_height="wrap_content"></TextView>
-	</LinearLayout>
-
-
-
 	<edu.vanderbilt.vuphone.android.events.viewevents.EventViewerMap
 		android:id="@+id/event_viewer_map" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:clickable="true"
 		android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />
-
+		
 	<LinearLayout android:id="@+id/updating_events"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:background="@android:color/background_dark"
@@ -36,5 +25,16 @@
 			android:layout_height="wrap_content" android:textColor="@android:color/primary_text_dark"
 			android:textSize="12dip" android:layout_margin="2dip" />
 	</LinearLayout>
+	
+	
+	<LinearLayout android:id="@+id/event_details_pane"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:visibility="gone" android:background="@android:color/background_dark" >
 
+		<TextView android:text="Some text describing an event"
+			android:id="@+id/TV_event_details_title" android:layout_width="fill_parent"
+			android:layout_height="wrap_content"></TextView>
+	</LinearLayout>
+	
+	
 </RelativeLayout>

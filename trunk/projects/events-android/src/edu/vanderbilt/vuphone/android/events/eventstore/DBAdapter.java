@@ -44,6 +44,7 @@ public class DBAdapter {
 
 	/** The other column names */
 	public static final String COLUMN_NAME = "name";
+	public static final String COLUMN_DESCRIPTION = "desc";
 	public static final String COLUMN_START_TIME = "startTime";
 	public static final String COLUMN_END_TIME = "endTime";
 	public static final String COLUMN_UPDATED_TIME = "updatedTime";
@@ -63,12 +64,13 @@ public class DBAdapter {
 	}
 
 	/** Removes old events from the database */
-	public void cleanOldEvents() { 
+	public void cleanOldEvents() {
 		long time = System.currentTimeMillis() / 1000;
-		int removed = database_.delete(TABLE_NAME, COLUMN_END_TIME + " < ?" , new String[] { Long.toString(time) });
+		int removed = database_.delete(TABLE_NAME, COLUMN_END_TIME + " < ?",
+				new String[] { Long.toString(time) });
 		Log.i(tag, pre + "Removed " + removed + " rows from the database");
 	}
-	
+
 	/** Used to close the database when done */
 	public void close() {
 		database_.close();
@@ -90,7 +92,7 @@ public class DBAdapter {
 	 *         COLUMN_LOCATION_LON, COLUMN_IS_OWNER, COLUMN_SERVER_ID
 	 */
 	public Cursor getAllEntries(PositionFilter p, TimeFilter t, TagsFilter tags) {
-		String[] returnValues = { COLUMN_NAME, COLUMN_START_TIME,
+		String[] returnValues = { COLUMN_ID, COLUMN_NAME, COLUMN_START_TIME,
 				COLUMN_END_TIME, COLUMN_LOCATION_LAT, COLUMN_LOCATION_LON,
 				COLUMN_IS_OWNER, COLUMN_SERVER_ID };
 		StringBuffer sb = new StringBuffer();
@@ -158,6 +160,17 @@ public class DBAdapter {
 		return 0;
 	}
 
+	/** Given a row ID, returns the description for that row */
+	public String getSingleRowDescription(long rowId) {
+		Cursor result = database_.query(TABLE_NAME, new String[] { COLUMN_DESCRIPTION },
+				COLUMN_ID + "=" + rowId, null, null, null, null);
+		
+		if (result.moveToFirst())
+			return result.getString(result.getColumnIndex(COLUMN_DESCRIPTION));
+		
+		return null;
+	}
+
 	public long getSmallestTime() {
 		Cursor result = database_.rawQuery("SELECT MIN(" + COLUMN_START_TIME
 				+ ") FROM " + TABLE_NAME, null);
@@ -184,12 +197,12 @@ public class DBAdapter {
 				+ ") FROM " + TABLE_NAME, null);
 
 		if (result.moveToFirst()) {
-			
+
 			long ans = result.getLong(0);
 			result.close();
 			return ans;
 		}
-	
+
 		result.close();
 		return 0;
 	}
@@ -216,7 +229,7 @@ public class DBAdapter {
 	 */
 	public boolean insertOrUpdateEvent(String name, long startTime,
 			long endTime, GeoPoint location, long updateTime, boolean owner,
-			long serverId) {
+			long serverId, String description) {
 
 		String[] resultColumns = { COLUMN_UPDATED_TIME };
 		String[] selectionArgs = { Long.toString(serverId) };
@@ -224,7 +237,7 @@ public class DBAdapter {
 				COLUMN_SERVER_ID + "=?", selectionArgs, null, null, null);
 
 		// Build the row of content values
-		ContentValues rowValues = new ContentValues(8);
+		ContentValues rowValues = new ContentValues(9);
 		rowValues.put(COLUMN_NAME, name);
 		rowValues.put(COLUMN_START_TIME, startTime);
 		rowValues.put(COLUMN_END_TIME, endTime);
@@ -236,6 +249,10 @@ public class DBAdapter {
 			rowValues.put(COLUMN_IS_OWNER, 0);
 		rowValues.put(COLUMN_UPDATED_TIME, updateTime);
 		rowValues.put(COLUMN_SERVER_ID, serverId);
+		if (description == null)
+			rowValues.putNull(COLUMN_DESCRIPTION);
+		else
+			rowValues.put(COLUMN_DESCRIPTION, description);
 
 		if (event.getCount() == 0) {
 			// insert event

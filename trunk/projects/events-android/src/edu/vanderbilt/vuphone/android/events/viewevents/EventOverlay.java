@@ -10,11 +10,15 @@ import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 
-import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.Constants;
+import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 import edu.vanderbilt.vuphone.android.events.filters.FilterManager;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
@@ -71,9 +75,9 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	 * @param context
 	 */
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
-			TagsFilter tagsFilter, Context context) {
+			TagsFilter tagsFilter, Context context, EventViewerMap map) {
 		super(boundCenterBottom(context.getResources().getDrawable(R.drawable.map_marker_v)));
-
+		
 		positionFilter_ = positionFilter;
 		timeFilter_ = timeFilter;
 		tagsFilter_ = tagsFilter;
@@ -101,6 +105,7 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	@Override
 	protected boolean onTap(int index) {
 		Log.d(tag, pre + "onTap called with index " + index);
+		setFocus(getItem(index));
 		return true;
 	}
 
