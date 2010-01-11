@@ -31,12 +31,11 @@ public class TimeActivity extends Activity {
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
 			calendar_.setTimeInMillis(progress + smallestTime);
-			int month = calendar_.get(Calendar.MONTH);
-			int day = calendar_.get(Calendar.DAY_OF_MONTH);
+			
 			
 			if (seekBar.equals(startTime_))
 			{
-				startText_.setText("" + month + day);
+				startText_.setText(getTime(calendar_));
 				startText_.postInvalidate();
 				// todo - update the timefilters to the new filter with the new dates
 				// 			then make the new filter actually re-query the database
@@ -44,7 +43,7 @@ public class TimeActivity extends Activity {
 			}
 			else 
 			{
-				endText_.setText("" + month + day);
+				endText_.setText(getTime(calendar_));
 				endText_.postInvalidate();
 			}
 		}
@@ -73,8 +72,10 @@ public class TimeActivity extends Activity {
 		
 		DBAdapter adapter = new DBAdapter(this);
 		adapter.openReadable();
-		long largest = adapter.getLargestTime();
-		long smallest = adapter.getSmallestTime();
+		
+		// Converting from database time (seconds) to system time (milliseconds)
+		long largest = adapter.getLargestTime() * 1000;
+		long smallest = adapter.getSmallestTime() * 1000;
 		smallestTime = smallest;
 		adapter.close();
 		
@@ -82,6 +83,22 @@ public class TimeActivity extends Activity {
 		endTime_.setMax((int) (largest-smallest));
 	}
 	
+	private String getTime(Calendar c)
+	{
+		int month = c.get(Calendar.MONTH);
+		int day = c.get(Calendar.DAY_OF_MONTH);
+		int year = c.get(Calendar.YEAR);
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int minute = c.get(Calendar.MINUTE);
+		
+		StringBuilder s = new StringBuilder();
+		s.append(month).append("/").append(day).append("/").append(year);
+		
+		s.append(" ");
+		s.append(hour).append(": ").append(minute);
+		
+		return s.toString();
+	}
 	
 	
 	

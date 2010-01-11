@@ -44,8 +44,10 @@ public class EventViewerMap extends MapView {
 	 */
 	public EventViewerMap(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
 		setBuiltInZoomControls(true);
-
+		setClickable(true);
+		
 		getController().setCenter(LocationManager.vandyCenter_);
 		getController().setZoom(15);
 		currentLocation_ = new MyLocationOverlay(getContext(), this);

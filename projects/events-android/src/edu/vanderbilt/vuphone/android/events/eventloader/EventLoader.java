@@ -5,6 +5,7 @@ package edu.vanderbilt.vuphone.android.events.eventloader;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import org.xml.sax.InputSource;
 
@@ -17,6 +18,7 @@ import android.util.Log;
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.events.Constants;
+import edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener.LoadState;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 
 /**
@@ -37,6 +39,9 @@ public class EventLoader extends Service {
 
 	/** Used to insert events into the database */
 	private DBAdapter database_ = null;
+	
+	/** Holds anyone interested in knowing about the loadings */
+	private static ArrayList<LoadingListener> listeners_ = new ArrayList<LoadingListener>();
 
 	/** Called when the Service is first started */
 	@Override
@@ -74,6 +79,9 @@ public class EventLoader extends Service {
 	 * Starts the EventRequestor and the EventHandler
 	 */
 	protected static void loadEvents(DBAdapter openDatabase, Context c) {
+		for (LoadingListener l : listeners_)
+			l.OnEventLoadStateChanged(LoadState.STARTED);
+		
 		long time = openDatabase.getLargestUpdatedTime();
 		ByteArrayOutputStream xmlResponse = EventRequestor.doEventRequest(
 				Constants.vandyCenter, 10000, time, c);
@@ -88,6 +96,10 @@ public class EventLoader extends Service {
 		handler.processXML(new InputSource(new ByteArrayInputStream(xmlResponse
 				.toByteArray())));
 
+		openDatabase.cleanOldEvents();
+		
+		for (LoadingListener l : listeners_)
+			l.OnEventLoadStateChanged(LoadState.FINISHED);
 	}
 
 	/**
@@ -139,5 +151,15 @@ public class EventLoader extends Service {
 		db.openWritable();
 		loadEvents(db, c);
 		db.close();
+	}
+	
+	public static void registerLoadingListener(LoadingListener l)
+	{
+		listeners_.add(l);
+	}
+	
+	public static void unregisterLoadingListener(LoadingListener l)
+	{
+		listeners_.remove(l);
 	}
 }

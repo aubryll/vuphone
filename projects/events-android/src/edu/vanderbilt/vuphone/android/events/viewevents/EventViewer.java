@@ -3,8 +3,9 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
-
 import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -30,6 +31,7 @@ import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
+import edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener;
 import edu.vanderbilt.vuphone.android.events.filters.PositionActivity;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
 import edu.vanderbilt.vuphone.android.events.filters.TimeActivity;
@@ -42,7 +44,8 @@ import edu.vanderbilt.vuphone.android.events.submitevent.SubmitEvent;
  * @author Hamilton Turner
  * 
  */
-public class EventViewer extends MapActivity implements OnFocusChangeListener {
+public class EventViewer extends MapActivity implements OnFocusChangeListener,
+		LoadingListener {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventViewer: ";
@@ -154,7 +157,16 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 		AlarmManager am = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 		Log.i(tag, pre + "Registered to update events every 15 min");
 		am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(),
-				AlarmManager.INTERVAL_FIFTEEN_MINUTES, loader);
+				1 * 15 * 1000, loader); // TODO - Change interval!!!
+
+		EventLoader.registerLoadingListener(this);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		EventLoader.unregisterLoadingListener(this);
 	}
 
 	/** Called when the options menu is first created */
@@ -164,19 +176,22 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 		// menu.add(0, MENUITEM_NEW_EVENT, Menu.NONE, "New Event");
 
 		SubMenu filter = menu.addSubMenu(0, -1, Menu.NONE, "Filter");
-		filter.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_view));
+		filter.setIcon(getResources().getDrawable(
+				android.R.drawable.ic_menu_view));
 		filter.add(0, MENUITEM_FILTER_POS, Menu.NONE, "By Position");
 		filter.add(0, MENUITEM_FILTER_TIME, Menu.NONE, "By Time");
-		filter.add(0, MENUITEM_FILTER_TAG, Menu.NONE, "By Tags");
+		// filter.add(0, MENUITEM_FILTER_TAG, Menu.NONE, "By Tags");
 
 		SubMenu map = menu.addSubMenu(0, -1, Menu.NONE, "Map Mode");
-		map.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_mapmode));
+		map.setIcon(getResources().getDrawable(
+				android.R.drawable.ic_menu_mapmode));
 		map.add(0, MENUITEM_MAP_NORM, Menu.NONE, "Map");
 		map.add(0, MENUITEM_MAP_SATELLITE, Menu.NONE, "Satellite");
-		map.add(0, MENUITEM_MAP_STREET, Menu.NONE, "Street View");
+		// map.add(0, MENUITEM_MAP_STREET, Menu.NONE, "Street View");
 
 		SubMenu more = menu.addSubMenu(0, -1, Menu.NONE, "More");
-		more.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_more));
+		more.setIcon(getResources()
+				.getDrawable(android.R.drawable.ic_menu_more));
 		more.add(0, MENUITEM_MANUAL_UPDATE, Menu.NONE, "Manual Update");
 		return true;
 	}
@@ -191,19 +206,20 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 		if (newFocus != null) {
 			EventOverlayItem eoi = (EventOverlayItem) newFocus;
 			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
-			
+
 			long timeInMilliseconds = Long.parseLong(eoi.getStartTime());
 			GregorianCalendar gc = new GregorianCalendar();
 			gc.setTimeInMillis(timeInMilliseconds);
-			
+
 			GregorianCalendar gcEnd = new GregorianCalendar();
 			gcEnd.setTimeInMillis(Long.parseLong(eoi.getEndTime()));
-			
-			tv.setText(eoi.getTitle() + "\nStart: " + gc.getTime().toLocaleString()
-					+ "\nEnd: " + gcEnd.getTime().toLocaleString() );
-			if (eoi.getIsOwner()) 
+
+			tv.setText(eoi.getTitle() + "\nStart: "
+					+ gc.getTime().toLocaleString() + "\nEnd: "
+					+ gcEnd.getTime().toLocaleString());
+			if (eoi.getIsOwner())
 				tv.setText(tv.getText() + "\nYou are the owner!");
-			
+
 			eventDetailsPane_.setVisibility(View.VISIBLE);
 			eventMap_.invalidate();
 		} else {
@@ -269,5 +285,35 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener {
 	protected void onResume() {
 		super.onResume();
 		map_.enableMyLocation();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeedu.vanderbilt.vuphone.android.events.eventloader.LoadingListener#
+	 * OnEventLoadStateChanged
+	 * (edu.vanderbilt.vuphone.android.events.eventloader.
+	 * LoadingListener.LoadState)
+	 */
+	public void OnEventLoadStateChanged(LoadState l) {
+		final LinearLayout update = (LinearLayout) findViewById(R.id.updating_events);
+		TextView t = (TextView) findViewById(R.event_map.updating_text);
+
+		if (l == LoadState.STARTED) {
+			t.setText("Updating events... ");
+			update.setVisibility(View.VISIBLE);
+			t.requestLayout();
+			update.requestLayout();
+		} else {
+			t.setText("Done Updating! ");
+			Timer th = new Timer("Update Events Notifier", true);
+			th.schedule(new TimerTask() {
+				public void run() {
+					update.setVisibility(View.GONE);
+					update.postInvalidate();
+				}
+			}, 1500);
+		}
+
 	}
 }

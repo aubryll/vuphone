@@ -111,7 +111,6 @@ public class EventRequestor {
 		try {
 			resp = c.execute(post);
 			resp.getEntity().writeTo(bao);
-			Log.v(tag, pre + "Response from server: " + bao.toString());
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			Log.e(tag, pre + "ClientProtocolException executing post: "

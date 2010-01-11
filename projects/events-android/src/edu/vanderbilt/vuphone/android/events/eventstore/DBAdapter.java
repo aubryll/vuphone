@@ -62,6 +62,13 @@ public class DBAdapter {
 		openHelper_ = new DBOpenHelper(context, DB_NAME, null, DB_VERSION);
 	}
 
+	/** Removes old events from the database */
+	public void cleanOldEvents() { 
+		long time = System.currentTimeMillis() / 1000;
+		int removed = database_.delete(TABLE_NAME, COLUMN_END_TIME + " < ?" , new String[] { Long.toString(time) });
+		Log.i(tag, pre + "Removed " + removed + " rows from the database");
+	}
+	
 	/** Used to close the database when done */
 	public void close() {
 		database_.close();
