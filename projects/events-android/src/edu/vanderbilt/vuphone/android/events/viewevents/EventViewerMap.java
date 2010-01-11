@@ -54,7 +54,7 @@ public class EventViewerMap extends MapView {
 		getOverlays().add(currentLocation_);
 
 		eventOverlay_ = new EventOverlay(null, null,
-				null, context);
+				null, context, this);
 		getOverlays().add(eventOverlay_);
 
 		positionOverlay_ = new PositionOverlay();
