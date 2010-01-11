@@ -122,8 +122,8 @@ public class DBAdapter {
 			sb.append(COLUMN_END_TIME);
 			sb.append(" >= ?");
 
-			sArgs.add(Long.toString(t.getEndTime().getTimeInMillis()));
-			sArgs.add(Long.toString(t.getStartTime().getTimeInMillis()));
+			sArgs.add(Long.toString(t.getEndTime().getTimeInMillis() / 1000));
+			sArgs.add(Long.toString(t.getStartTime().getTimeInMillis() / 1000));
 		}
 
 		if (tags != null) {

@@ -52,6 +52,9 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	/** Used to point to the current row in the database */
 	private Cursor eventCursor_;
 
+	/** Handle to the map that we are on */
+	EventViewerMap map;
+	
 	private static ShapeDrawable defaultDrawable_;
 
 	private Rect touchableBounds = new Rect();
@@ -78,12 +81,13 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 			TagsFilter tagsFilter, Context context, EventViewerMap map) {
 		super(boundCenterBottom(context.getResources().getDrawable(R.drawable.map_marker_v)));
 		
+		this.map = map;
 		positionFilter_ = positionFilter;
 		timeFilter_ = timeFilter;
 		tagsFilter_ = tagsFilter;
 
-		if (positionFilter_ != null)
-			FilterManager.registerFilterListener((PositionFilterListener)this);
+		FilterManager.registerFilterListener(this);
+		
 
 		database_ = new DBAdapter(context);
 		database_.openReadable();
@@ -188,8 +192,9 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	 * @see edu.vanderbilt.vuphone.android.events.filters.PositionFilterListener#filterUpdated(edu.vanderbilt.vuphone.android.events.filters.PositionFilter)
 	 */
 	public void filterUpdated(PositionFilter filter) {
-		Log.i(tag, pre + "Filter was updated");
+		Log.i(tag, pre + "PositionFilter was updated");
 		eventCursor_.close();
+		positionFilter_ = filter;
 		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
 
@@ -201,5 +206,18 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 	 * @see edu.vanderbilt.vuphone.android.events.filters.TimeFilterListener#filterUpdated(edu.vanderbilt.vuphone.android.events.filters.TimeFilter)
 	 */
 	public void filterUpdated(TimeFilter filter) {
+		Log.i(tag, pre + "TimeFilter was updated");
+		eventCursor_.close();
+		
+		timeFilter_ = filter;
+		eventCursor_ = database_.getAllEntries(positionFilter_, timeFilter_,
+				tagsFilter_);
+
+		setLastFocusedIndex(-1);
+		populate();
+		
+		map.postInvalidate();
+		map.invalidate();
+		map.requestLayout();
 	}
 }

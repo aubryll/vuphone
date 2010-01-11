@@ -38,11 +38,14 @@ public class FilterManager {
 		}
 	}
 
+	// TODO - do this another way.
 	public static void registerFilterListener(FilterListener listener) {
 		if (listener instanceof PositionFilterListener)
 			positionFilterObservers_.add((PositionFilterListener) listener);
-		else if (listener instanceof TimeFilterListener)
+		
+		if (listener instanceof TimeFilterListener)
 			timeFilterObservers_.add((TimeFilterListener) listener);
+		
 		else
 			Log
 					.e(
