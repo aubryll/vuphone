@@ -37,7 +37,7 @@ public class DBAdapter {
 	private static final String DB_NAME = "events.db";
 
 	/** The main table name */
-	protected static final String TABLE_NAME = "events";
+	public static final String TABLE_NAME = "events";
 
 	/** The index column */
 	public static final String COLUMN_ID = "_id";
@@ -145,6 +145,10 @@ public class DBAdapter {
 				selectionArgs, null, null, null);
 		Log.d(tag, pre + "Found " + c.getCount() + " results");
 		return c;
+	}
+	
+	public SQLiteDatabase getDatabase() {
+		return database_;
 	}
 
 	public long getLargestTime() {
