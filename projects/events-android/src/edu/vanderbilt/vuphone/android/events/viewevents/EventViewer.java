@@ -72,6 +72,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	private static final int MENUITEM_MAP_NORM = 5;
 	private static final int MENUITEM_MAP_STREET = 6;
 	private static final int MENUITEM_MANUAL_UPDATE = 7;
+	private static final int MENUITEM_VIEW_LIST = 8;
 
 	/** Constants to identify activities we requested */
 	private static final int REQUEST_POSITION_FILTER = 0;
@@ -190,6 +191,9 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		map.add(0, MENUITEM_MAP_SATELLITE, Menu.NONE, "Satellite");
 		// map.add(0, MENUITEM_MAP_STREET, Menu.NONE, "Street View");
 
+		menu.add(0, MENUITEM_VIEW_LIST, Menu.NONE, "View All").setIcon(
+				android.R.drawable.ic_menu_sort_alphabetically);
+
 		SubMenu more = menu.addSubMenu(0, -1, Menu.NONE, "More");
 		more.setIcon(getResources()
 				.getDrawable(android.R.drawable.ic_menu_more));
@@ -213,7 +217,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 			db.openReadable();
 			String desc = db.getSingleRowDescription(rowId);
 			db.close();
-			
+
 			long timeInMilliseconds = Long.parseLong(eoi.getStartTime()) * 1000;
 			GregorianCalendar gc = new GregorianCalendar();
 			gc.setTimeInMillis(timeInMilliseconds);
@@ -226,7 +230,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 					+ gcEnd.getTime().toLocaleString());
 			if (desc.trim().equalsIgnoreCase("") == false)
 				tv.setText(tv.getText() + "\n\n" + desc);
-			
+
 			if (eoi.getIsOwner())
 				tv.setText(tv.getText() + "\n\nYou are the owner!");
 
@@ -258,6 +262,10 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		case MENUITEM_FILTER_TIME:
 			Intent tf = new Intent(this, TimeActivity.class);
 			startActivity(tf);
+			break;
+		case MENUITEM_VIEW_LIST:
+			Intent vl = new Intent(this, EventListActivity.class);
+			startActivity(vl);
 			break;
 		case MENUITEM_MAP_NORM:
 			map_.setSatellite(false);
