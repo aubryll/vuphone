@@ -68,5 +68,9 @@ public class FilterManager {
 							pre
 									+ "Tried to unregister a FilterListener that not one of the known types. ");
 	}
+	
+	public static TimeFilter getCurrentTimeFilter() {
+		return timeFilter_;
+	}
 
 }

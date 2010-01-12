@@ -24,37 +24,47 @@ public class TimeActivity extends Activity {
 	private TextView startText_;
 	private TextView endText_;
 	private GregorianCalendar calendar_ = new GregorianCalendar();
-	
-	/** Keeps us from having to create a new Calendar every time the progress changes */
+
+	/**
+	 * Keeps us from having to create a new Calendar every time the progress
+	 * changes
+	 */
 	private GregorianCalendar secondCalendar = new GregorianCalendar();
-	
+
 	private long smallestTime;
 
 	private OnSeekBarChangeListener seekBarListener = new OnSeekBarChangeListener() {
 
 		public void onProgressChanged(SeekBar seekBar, int progress,
 				boolean fromUser) {
+
 			calendar_.setTimeInMillis(progress + smallestTime);
 
 			TimeFilter t;
-			
-			// TODO - make it so that start and end cannot be in the wrong order
-			
+
 			if (seekBar.equals(startTime_)) {
+				if (progress > endTime_.getProgress())
+					endTime_.setProgress(progress + 1);
+
 				startText_.setText(getTime(calendar_));
 				startText_.postInvalidate();
-				
-				secondCalendar.setTimeInMillis(endTime_.getProgress() + smallestTime);
+
+				secondCalendar.setTimeInMillis(endTime_.getProgress()
+						+ smallestTime);
 				t = new TimeFilter(calendar_, secondCalendar);
-				
+
 			} else {
+				if (progress < startTime_.getProgress())
+					startTime_.setProgress(progress - 1);
+
 				endText_.setText(getTime(calendar_));
 				endText_.postInvalidate();
-				
-				secondCalendar.setTimeInMillis(startTime_.getProgress() + smallestTime);
+
+				secondCalendar.setTimeInMillis(startTime_.getProgress()
+						+ smallestTime);
 				t = new TimeFilter(secondCalendar, calendar_);
 			}
-			
+
 			FilterManager.updateFilter(t);
 		}
 
@@ -67,7 +77,6 @@ public class TimeActivity extends Activity {
 	};
 
 	public void onCreate(Bundle saved) {
-		// TODO - load up the current timefilter from the filtermanager and use those values to setup
 		super.onCreate(saved);
 		setContentView(R.layout.time_filter);
 
@@ -92,24 +101,37 @@ public class TimeActivity extends Activity {
 
 		startTime_.setMax((int) (largest - smallest));
 		endTime_.setMax((int) (largest - smallest));
-		
-		calendar_.setTimeInMillis(smallestTime);
-		startText_.setText(getTime(calendar_));
-		startText_.invalidate();
-		
-		calendar_.setTimeInMillis(largest);
-		endTime_.setProgress(endTime_.getMax());
-		endTime_.invalidate();
-		endText_.setText(getTime(calendar_));
-		endText_.invalidate();
+
+		TimeFilter current = FilterManager.getCurrentTimeFilter();
+		if (current == null) {
+			calendar_.setTimeInMillis(smallest);
+			startText_.setText(getTime(calendar_));
+			startTime_.setProgress(0);
+			startText_.invalidate();
+
+			calendar_.setTimeInMillis(largest);
+			endText_.setText(getTime(calendar_));
+			endTime_.setProgress(endTime_.getMax());
+			endText_.invalidate();
+		} else {
+			calendar_.setTimeInMillis(current.getStartTime().getTimeInMillis());
+			startText_.setText(getTime(calendar_));
+			startTime_.setProgress((int) (calendar_.getTimeInMillis() - smallest));
+			startText_.invalidate();
+
+			calendar_.setTimeInMillis(current.getEndTime().getTimeInMillis());
+			endTime_.setProgress((int) (calendar_.getTimeInMillis() - smallest));
+			endText_.setText(getTime(calendar_));
+			endText_.invalidate();
+		}
 	}
 
 	private String getTime(Calendar c) {
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);
-		int year = c.get(Calendar.YEAR);
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int minute = c.get(Calendar.MINUTE);
+//		int year = c.get(Calendar.YEAR);
+//		int hour = c.get(Calendar.HOUR_OF_DAY);
+//		int minute = c.get(Calendar.MINUTE);
 
 		StringBuilder s = new StringBuilder();
 		s.append(getMonth(month)).append(" ").append(day); // .append("/").append(year);

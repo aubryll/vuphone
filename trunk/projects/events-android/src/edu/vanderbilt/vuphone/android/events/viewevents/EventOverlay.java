@@ -200,6 +200,8 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 
 		setLastFocusedIndex(-1);
 		populate();
+		
+		map.invalidate();
 	}
 
 	/** 
@@ -216,8 +218,6 @@ public class EventOverlay extends ItemizedOverlay<EventOverlayItem> implements
 		setLastFocusedIndex(-1);
 		populate();
 		
-		map.postInvalidate();
 		map.invalidate();
-		map.requestLayout();
 	}
 }
