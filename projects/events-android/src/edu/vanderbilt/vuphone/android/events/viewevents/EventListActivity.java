@@ -4,12 +4,15 @@
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.SimpleCursorAdapter.CursorToStringConverter;
 import edu.vanderbilt.vuphone.android.events.R;
@@ -82,9 +85,19 @@ public class EventListActivity extends ListActivity {
 		}
 
 	};
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		
+		Intent i = new Intent(this, EventDetailsActivity.class);
+		i.putExtra(EventDetailsActivity.EVENT_ID, id);
+		startActivity(i);
+	}
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		filterText.removeTextChangedListener(filterTextWatcher);
 		dbadapter_.close();
 	}

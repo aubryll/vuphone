@@ -25,6 +25,7 @@
 		<activity android:name=".viewevents.EventListActivity" />
 		<activity android:name=".filters.PositionActivity"
 			android:theme="@android:style/Theme.Dialog" />
+		<activity android:name=".viewevents.EventDetailsActivity" />
 			
 		<activity android:name=".filters.TimeActivity"
 			android:theme="@android:style/Theme.Translucent" />

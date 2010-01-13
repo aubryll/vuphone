@@ -1,7 +1,19 @@
-<LinearLayout android:id="@+id/event_details"
-	android:layout_width="fill_parent" android:layout_height="wrap_content"
-	xmlns:android="http://schemas.android.com/apk/res/android">
-	<ImageView android:id="@+id/ImageView01"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:src="@drawable/height_manager"></ImageView>
-</LinearLayout>
+<AbsoluteLayout android:layout_width="fill_parent"
+	android:layout_height="wrap_content" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="vertical">
+			<TextView android:id="@+event_details/name"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_marginTop="10dip" android:textSize="14dip"></TextView>
+			<TextView android:id="@+event_details/time"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textSize="12dip" android:layout_marginTop="10dip"></TextView>
+			<TextView android:id="@+event_details/description"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_marginTop="10dip" android:textSize="12dip"></TextView>
+		</LinearLayout>
+	</ScrollView>
+</AbsoluteLayout>
