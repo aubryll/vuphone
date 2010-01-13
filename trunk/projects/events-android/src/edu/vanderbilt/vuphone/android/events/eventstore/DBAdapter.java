@@ -146,7 +146,7 @@ public class DBAdapter {
 		Log.d(tag, pre + "Found " + c.getCount() + " results");
 		return c;
 	}
-	
+
 	public SQLiteDatabase getDatabase() {
 		return database_;
 	}
@@ -166,12 +166,26 @@ public class DBAdapter {
 
 	/** Given a row ID, returns the description for that row */
 	public String getSingleRowDescription(long rowId) {
-		Cursor result = database_.query(TABLE_NAME, new String[] { COLUMN_DESCRIPTION },
-				COLUMN_ID + "=" + rowId, null, null, null, null);
-		
+		Cursor result = database_.query(TABLE_NAME,
+				new String[] { COLUMN_DESCRIPTION }, COLUMN_ID + "=" + rowId,
+				null, null, null, null);
+
 		if (result.moveToFirst())
 			return result.getString(result.getColumnIndex(COLUMN_DESCRIPTION));
-		
+
+		return null;
+	}
+
+	/** Gets a cursor which points to the right row, or returns null */
+	public Cursor getSingleRowCursor(long rowId) {
+		Cursor result = database_.query(TABLE_NAME, new String[] { COLUMN_ID,
+				COLUMN_NAME, COLUMN_DESCRIPTION, COLUMN_END_TIME,
+				COLUMN_IS_OWNER, COLUMN_LOCATION_LAT, COLUMN_LOCATION_LON,
+				COLUMN_SERVER_ID, COLUMN_START_TIME, COLUMN_UPDATED_TIME },
+				COLUMN_ID + "=" + rowId, null, null, null, null);
+
+		if (result.moveToFirst())
+			return result;
 		return null;
 	}
 
