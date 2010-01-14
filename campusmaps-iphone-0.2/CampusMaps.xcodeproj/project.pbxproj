@@ -19,7 +19,7 @@
 		3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */; };
 		337049681082E17B00E0520A /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337049671082E17B00E0520A /* MapLayerController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
-		33DBDBB210FE951300776C86 /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 33DBDBB110FE951300776C86 /* chart.png */; };
+		610326CF10FEF042000CCFB0 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 610326CA10FEF042000CCFB0 /* Images */; };
 		6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */; };
 		61D6100E10F84BBC00CE3397 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D6100D10F84BBC00CE3397 /* Icon.png */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
@@ -70,7 +70,7 @@
 		33DBDB8B10FE869700776C86 /* cluster.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cluster.h; sourceTree = "<group>"; };
 		33DBDBA410FE88B400776C86 /* ClusteringWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusteringWrapper.h; sourceTree = "<group>"; };
 		33DBDBA510FE88B400776C86 /* ClusteringWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusteringWrapper.m; sourceTree = "<group>"; };
-		33DBDBB110FE951300776C86 /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chart.png; sourceTree = "<group>"; };
+		610326CA10FEF042000CCFB0 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = CampusMapsDefaultData.sqlite; sourceTree = "<group>"; };
 		61D6100D10F84BBC00CE3397 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		61FC2EE6107C4AFA00FFF897 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -188,7 +188,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				33DBDBB110FE951300776C86 /* chart.png */,
+				610326CA10FEF042000CCFB0 /* Images */,
 				61D6100D10F84BBC00CE3397 /* Icon.png */,
 				995C9F5710EF07C0003875D0 /* buildings.xml */,
 				6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */,
@@ -318,7 +318,7 @@
 				995C9F5810EF07C0003875D0 /* buildings.xml in Resources */,
 				61D6100E10F84BBC00CE3397 /* Icon.png in Resources */,
 				6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */,
-				33DBDBB210FE951300776C86 /* chart.png in Resources */,
+				610326CF10FEF042000CCFB0 /* Images in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
