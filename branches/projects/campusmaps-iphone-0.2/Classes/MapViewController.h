@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UIKit/UIImage.h>
 #import <MapKit/MapKit.h>
 #import <MapKit/MKAnnotation.h>
 #import "MapLayerController.h"
 #import "LayersListViewController.h"
+
+// Image from http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|FFCC66|000000
+#define ANNOTATION_IMAGE_FILE @"chart.png"
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, LayersListViewDelegate> {
 
@@ -20,6 +24,8 @@
 	IBOutlet MKMapView* mapView;
 	IBOutlet UIBarButtonItem* homeButton;
 	IBOutlet UIBarButtonItem* showLayersButton;
+	
+	UIImage* annotationImage;
 	
 	NSManagedObjectContext* managedObjectContext;
 }

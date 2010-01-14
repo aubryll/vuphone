@@ -45,6 +45,11 @@
 	
 	region.span = span;
 	region.center = location;
+	
+	NSData *iconData = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] 
+													   stringByAppendingPathComponent:ANNOTATION_IMAGE_FILE]];
+	annotationImage = [[UIImage alloc] initWithData:iconData];
+	NSAssert(annotationImage != nil, @"The annotation icon file cannot be loaded.");
 
 	[mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
@@ -76,6 +81,8 @@
 - (void)dealloc {
 	[mapView autorelease];
 	[currentLayerController autorelease];
+	[annotationImage autorelease];
+	
     [super dealloc];
 }
 
@@ -134,9 +141,10 @@
 #pragma mark MKMapViewDelegate
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-	MKPinAnnotationView* annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"currentloc"];
-	annView.animatesDrop = NO;
-	annView.userInteractionEnabled = YES;
+	MKAnnotationView* annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+	// annView.animatesDrop = NO;
+	// annView.userInteractionEnabled = YES;
+	annView.image = annotationImage;
 	annView.canShowCallout = YES;
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	return [annView autorelease];
