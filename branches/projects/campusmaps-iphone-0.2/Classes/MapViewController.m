@@ -142,8 +142,6 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
 	MKAnnotationView* annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-	// annView.animatesDrop = NO;
-	// annView.userInteractionEnabled = YES;
 	annView.image = annotationImage;
 	annView.canShowCallout = YES;
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];

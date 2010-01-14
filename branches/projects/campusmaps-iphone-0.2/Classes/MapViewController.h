@@ -14,7 +14,7 @@
 #import "LayersListViewController.h"
 
 // Image from http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|FFCC66|000000
-#define ANNOTATION_IMAGE_FILE @"chart.png"
+#define ANNOTATION_IMAGE_FILE @"Images/pin-brown.png"
 
 @interface MapViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, LayersListViewDelegate> {
 
