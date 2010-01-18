@@ -21,9 +21,9 @@
 	RestaurantListViewController *listVC = [[tabBarController viewControllers] objectAtIndex:0];
 	[listVC.navigationController popToRootViewControllerAnimated:NO];
 	
-	[tabBarController setSelectedIndex:1];
+	[tabBarController setSelectedIndex:2];
 	
-	MapViewController *mapVC = [[tabBarController viewControllers] objectAtIndex:1];
+	MapViewController *mapVC = [[tabBarController viewControllers] objectAtIndex:2];
 	[mapVC selectRestaurant:restaurant];
 }
 

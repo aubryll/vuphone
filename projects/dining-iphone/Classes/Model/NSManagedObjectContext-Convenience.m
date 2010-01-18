@@ -12,24 +12,16 @@
 @implementation NSManagedObjectContext(Convenience)
 
 // Convenience method to fetch the array of objects for a given Entity
-// name in the context, optionally limiting by a predicate or by a predicate
-// made from a format NSString and variable arguments.
+// name in the context, optionally limiting by a predicate
 //
-- (NSSet *)fetchObjectsForEntityName:(NSString *)entityName
-				 withPredicateString:(NSString *)predicateString, ...
+- (NSArray *)fetchObjectsForEntityName:(NSString *)entityName
+						 withPredicate:(NSPredicate *)predicate
 {
 	NSEntityDescription *entity = [NSEntityDescription
 								   entityForName:entityName inManagedObjectContext:self];
 	
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
 	[request setEntity:entity];
-	
-	NSPredicate *predicate;
-	va_list variadicArguments;
-	va_start(variadicArguments, predicateString);
-	predicate = [NSPredicate predicateWithFormat:predicateString
-									   arguments:variadicArguments];
-	va_end(variadicArguments);
 	[request setPredicate:predicate];
 	
 	NSError *error = nil;
@@ -40,6 +32,28 @@
 	}
 	
 	[request release];
+
+	return results;
+}
+
+
+// Convenience method to fetch the set of objects for a given Entity
+// name in the context, optionally limiting by a predicate
+// made from a format NSString and variable arguments.
+//
+- (NSSet *)fetchObjectsForEntityName:(NSString *)entityName
+				 withPredicateString:(NSString *)predicateString, ...
+{
+	NSPredicate *predicate;
+	va_list variadicArguments;
+	va_start(variadicArguments, predicateString);
+	predicate = [NSPredicate predicateWithFormat:predicateString
+									   arguments:variadicArguments];
+	va_end(variadicArguments);
+	
+	NSArray *results = [self fetchObjectsForEntityName:entityName
+										 withPredicate:predicate];
+	
 	return [NSSet setWithArray:results];
 }
 

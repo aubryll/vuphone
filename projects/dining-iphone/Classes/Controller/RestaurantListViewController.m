@@ -19,17 +19,27 @@
 
 @implementation RestaurantListViewController
 
+@synthesize restaurants;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	
+//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Meal Plan"
+//																			  style:UIBarButtonItemStyleDone
+//																			 target:self
+//																			 action:@selector(toggleMealPlan)];
+	
 	context = [[(DiningAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext] retain];
 
-	restaurants = [[[context fetchObjectsForEntityName:ENTITY_NAME_RESTAURANT
-								   withPredicateString:nil] allObjects] mutableCopy];
+	if (self.restaurants == nil) {
+		self.restaurants = [[[context fetchObjectsForEntityName:ENTITY_NAME_RESTAURANT
+											withPredicateString:nil] allObjects] mutableCopy];
+	}
+
 	[self initSortHelpers];
 
-	 [self setSort:SortIndexMinutesUntilClose];
+	[self setSort:SortIndexMinutesUntilClose];
 }
 
 - (void)initSortHelpers {
@@ -100,12 +110,13 @@
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	RestaurantViewController *rvc = [[RestaurantViewController alloc] initWithNibName:@"RestaurantViewController" bundle:nil];
 	rvc.restaurant = (Restaurant *)[[self currentSortHelper] restaurantAtIndexPath:indexPath];
 	[self.navigationController pushViewController:rvc animated:YES];
 	[rvc release];
+	[aTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (IBAction)sortChanged:(id)sender
