@@ -1,0 +1,886 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		28C3AD8A0F43EF2300507BA6 /* Dining.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */; };
+		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
+		6103244D10FB10C8000CCFB0 /* RestaurantListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */; };
+		6103245410FB110F000CCFB0 /* RestaurantListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */; };
+		6103245A10FB1258000CCFB0 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245910FB1258000CCFB0 /* MapViewController.xib */; };
+		6103248010FB14AB000CCFB0 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103247F10FB14AB000CCFB0 /* MapViewController.m */; };
+		610324AF10FB1761000CCFB0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610324AE10FB1761000CCFB0 /* MapKit.framework */; };
+		6103258710FE2487000CCFB0 /* RestaurantListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103258610FE2487000CCFB0 /* RestaurantListCell.m */; };
+		610325C810FE2DB4000CCFB0 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */; };
+		610325C910FE2DB4000CCFB0 /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */; };
+		6103263410FE3E27000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
+		610327D110FF72A7000CCFB0 /* HourRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 610327D010FF72A7000CCFB0 /* HourRange.m */; };
+		610328B411000F4B000CCFB0 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		610328B511000F4B000CCFB0 /* restaurants.xml in Resources */ = {isa = PBXBuildFile; fileRef = 61F7CFFC10FA6CE10023A53A /* restaurants.xml */; };
+		610328B611000F4B000CCFB0 /* Icons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0CE10FA95AD0023A53A /* Icons */; };
+		610328B711000F4B000CCFB0 /* RestaurantIcons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0D910FA95BF0023A53A /* RestaurantIcons */; };
+		610328B811000F4B000CCFB0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D13E10FA9A130023A53A /* InfoPlist.strings */; };
+		610328B911000F4B000CCFB0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D14010FA9A130023A53A /* MainMenu.xib */; };
+		610328BA11000F4B000CCFB0 /* RestaurantListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */; };
+		610328BB11000F4B000CCFB0 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245910FB1258000CCFB0 /* MapViewController.xib */; };
+		610328BC11000F4B000CCFB0 /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */; };
+		610328BE11000F4B000CCFB0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		610328BF11000F4B000CCFB0 /* DiningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* DiningAppDelegate.m */; };
+		610328C011000F4B000CCFB0 /* Dining.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */; };
+		610328C111000F4B000CCFB0 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */; };
+		610328C211000F4B000CCFB0 /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12610FA99FC0023A53A /* Restaurant.m */; };
+		610328C311000F4B000CCFB0 /* RestaurantImporterXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12810FA99FC0023A53A /* RestaurantImporterXML.m */; };
+		610328C411000F4B000CCFB0 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13410FA9A130023A53A /* DDXMLDocument.m */; };
+		610328C511000F4B000CCFB0 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13610FA9A130023A53A /* DDXMLElement.m */; };
+		610328C611000F4B000CCFB0 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13810FA9A130023A53A /* DDXMLElementAdditions.m */; };
+		610328C711000F4B000CCFB0 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13A10FA9A130023A53A /* DDXMLNode.m */; };
+		610328C811000F4B000CCFB0 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D14910FA9A130023A53A /* NSStringAdditions.m */; };
+		610328C911000F4B000CCFB0 /* RestaurantListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */; };
+		610328CA11000F4B000CCFB0 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103247F10FB14AB000CCFB0 /* MapViewController.m */; };
+		610328CB11000F4B000CCFB0 /* RestaurantListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103258610FE2487000CCFB0 /* RestaurantListCell.m */; };
+		610328CC11000F4B000CCFB0 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */; };
+		610328CD11000F4B000CCFB0 /* HourRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 610327D010FF72A7000CCFB0 /* HourRange.m */; };
+		610328D011000F4B000CCFB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		610328D111000F4B000CCFB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		610328D211000F4B000CCFB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		610328D311000F4B000CCFB0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
+		610328D411000F4B000CCFB0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610324AE10FB1761000CCFB0 /* MapKit.framework */; };
+		610328D511000F4B000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
+		610328E711000FE6000CCFB0 /* DiningTesting.app in Resources */ = {isa = PBXBuildFile; fileRef = 610328E511000FE6000CCFB0 /* DiningTesting.app */; };
+		6103294711001349000CCFB0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
+		6103294B1100134F000CCFB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		6103294C11001350000CCFB0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61032909110010C4000CCFB0 /* SenTestingKit.framework */; };
+		6103294D11001351000CCFB0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610324AE10FB1761000CCFB0 /* MapKit.framework */; };
+		6103294E11001352000CCFB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		6103294F11001353000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
+		6103295011001353000CCFB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		6103297611001410000CCFB0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61032909110010C4000CCFB0 /* SenTestingKit.framework */; };
+		610329881100149B000CCFB0 /* DiningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* DiningAppDelegate.m */; };
+		61032997110014FC000CCFB0 /* DiningTests.octest in Resources */ = {isa = PBXBuildFile; fileRef = 6103292F1100122A000CCFB0 /* DiningTests.octest */; };
+		610329DD1100189D000CCFB0 /* RestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103289D110006EE000CCFB0 /* RestaurantTests.m */; };
+		610329E8110018CF000CCFB0 /* Dining.xcdatamodel in Resources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */; };
+		61B3B5D0110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
+		61B3B5D1110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
+		61B3B5D2110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
+		61B3B6031103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
+		61B3B6041103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
+		61B3B6051103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
+		61B3B7EA1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */; };
+		61B3B7EB1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */; };
+		61B3B7EC1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */; };
+		61B3B81D1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
+		61B3B81E1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
+		61B3B81F1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
+		61B3B8A11103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
+		61B3B8A21103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
+		61B3B8A31103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
+		61B3B8A41103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
+		61B3B8A51103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
+		61B3B8A61103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
+		61F7CFFD10FA6CE10023A53A /* restaurants.xml in Resources */ = {isa = PBXBuildFile; fileRef = 61F7CFFC10FA6CE10023A53A /* restaurants.xml */; };
+		61F7D0D810FA95AD0023A53A /* Icons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0CE10FA95AD0023A53A /* Icons */; };
+		61F7D10810FA95BF0023A53A /* RestaurantIcons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0D910FA95BF0023A53A /* RestaurantIcons */; };
+		61F7D12910FA99FC0023A53A /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */; };
+		61F7D12B10FA99FC0023A53A /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12610FA99FC0023A53A /* Restaurant.m */; };
+		61F7D12C10FA99FC0023A53A /* RestaurantImporterXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12810FA99FC0023A53A /* RestaurantImporterXML.m */; };
+		61F7D14B10FA9A130023A53A /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13410FA9A130023A53A /* DDXMLDocument.m */; };
+		61F7D14C10FA9A130023A53A /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13610FA9A130023A53A /* DDXMLElement.m */; };
+		61F7D14D10FA9A130023A53A /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13810FA9A130023A53A /* DDXMLElementAdditions.m */; };
+		61F7D14E10FA9A130023A53A /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13A10FA9A130023A53A /* DDXMLNode.m */; };
+		61F7D15010FA9A130023A53A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D13E10FA9A130023A53A /* InfoPlist.strings */; };
+		61F7D15110FA9A130023A53A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D14010FA9A130023A53A /* MainMenu.xib */; };
+		61F7D15410FA9A130023A53A /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D14910FA9A130023A53A /* NSStringAdditions.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		610329D3110017D3000CCFB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6103291C110011A9000CCFB0;
+			remoteInfo = DiningTests;
+		};
+		61F7D15910FA9A140023A53A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61F7D14310FA9A130023A53A /* KissXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D1107320486CEB800E47090;
+			remoteInfo = KissXML;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* DiningAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiningAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* DiningAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiningAppDelegate.m; sourceTree = "<group>"; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Dining.xcdatamodel; sourceTree = "<group>"; };
+		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		32CA4F630368D1EE00C91783 /* Dining_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dining_Prefix.pch; sourceTree = "<group>"; };
+		6103244B10FB10C8000CCFB0 /* RestaurantListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListViewController.h; sourceTree = "<group>"; };
+		6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListViewController.m; sourceTree = "<group>"; };
+		6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantListViewController.xib; sourceTree = "<group>"; };
+		6103245910FB1258000CCFB0 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
+		6103247E10FB14AB000CCFB0 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		6103247F10FB14AB000CCFB0 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		610324AE10FB1761000CCFB0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6103258510FE2487000CCFB0 /* RestaurantListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListCell.h; sourceTree = "<group>"; };
+		6103258610FE2487000CCFB0 /* RestaurantListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListCell.m; sourceTree = "<group>"; };
+		610325C510FE2DB4000CCFB0 /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
+		610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
+		610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantViewController.xib; sourceTree = "<group>"; };
+		6103263310FE3E27000CCFB0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		610327CF10FF72A7000CCFB0 /* HourRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HourRange.h; sourceTree = "<group>"; };
+		610327D010FF72A7000CCFB0 /* HourRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HourRange.m; sourceTree = "<group>"; };
+		6103289C110006EE000CCFB0 /* RestaurantTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantTests.h; sourceTree = "<group>"; };
+		6103289D110006EE000CCFB0 /* RestaurantTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTests.m; sourceTree = "<group>"; };
+		610328E511000FE6000CCFB0 /* DiningTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiningTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61032909110010C4000CCFB0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		6103291E110011A9000CCFB0 /* DiningTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DiningTest-Info.plist"; sourceTree = "<group>"; };
+		6103292F1100122A000CCFB0 /* DiningTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiningTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		61B3B5C911025F4600C9BEE6 /* RestaurantListSortHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListSortHelper.h; sourceTree = "<group>"; };
+		61B3B5CE110260F700C9BEE6 /* MinutesToCloseSortHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinutesToCloseSortHelper.h; sourceTree = "<group>"; };
+		61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinutesToCloseSortHelper.m; sourceTree = "<group>"; };
+		61B3B6011103869900C9BEE6 /* TypeSortHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeSortHelper.h; sourceTree = "<group>"; };
+		61B3B6021103869900C9BEE6 /* TypeSortHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TypeSortHelper.m; sourceTree = "<group>"; };
+		61B3B7E81103B01C00C9BEE6 /* DistanceSortHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceSortHelper.h; sourceTree = "<group>"; };
+		61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceSortHelper.m; sourceTree = "<group>"; };
+		61B3B81B1103B32400C9BEE6 /* LocationManagerSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManagerSingleton.h; sourceTree = "<group>"; };
+		61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManagerSingleton.m; sourceTree = "<group>"; };
+		61B3B89D1103C0E800C9BEE6 /* ImageViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewCell.h; sourceTree = "<group>"; };
+		61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCell.m; sourceTree = "<group>"; };
+		61B3B89F1103C0E800C9BEE6 /* VariableHeightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableHeightCell.h; sourceTree = "<group>"; };
+		61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableHeightCell.m; sourceTree = "<group>"; };
+		61C9F6151100E35000CDEA72 /* Dining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dining.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61F7CFFC10FA6CE10023A53A /* restaurants.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = restaurants.xml; sourceTree = "<group>"; };
+		61F7D0CE10FA95AD0023A53A /* Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Icons; sourceTree = "<group>"; };
+		61F7D0D910FA95BF0023A53A /* RestaurantIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RestaurantIcons; sourceTree = "<group>"; };
+		61F7D12110FA99FC0023A53A /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
+		61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext-Convenience.m"; sourceTree = "<group>"; };
+		61F7D12510FA99FC0023A53A /* Restaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Restaurant.h; sourceTree = "<group>"; };
+		61F7D12610FA99FC0023A53A /* Restaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Restaurant.m; sourceTree = "<group>"; };
+		61F7D12710FA99FC0023A53A /* RestaurantImporterXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantImporterXML.h; sourceTree = "<group>"; };
+		61F7D12810FA99FC0023A53A /* RestaurantImporterXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantImporterXML.m; sourceTree = "<group>"; };
+		61F7D13010FA9A130023A53A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		61F7D13110FA9A130023A53A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		61F7D13210FA9A130023A53A /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
+		61F7D13310FA9A130023A53A /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
+		61F7D13410FA9A130023A53A /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
+		61F7D13510FA9A130023A53A /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
+		61F7D13610FA9A130023A53A /* DDXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElement.m; sourceTree = "<group>"; };
+		61F7D13710FA9A130023A53A /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
+		61F7D13810FA9A130023A53A /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
+		61F7D13910FA9A130023A53A /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
+		61F7D13A10FA9A130023A53A /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
+		61F7D13B10FA9A130023A53A /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
+		61F7D13C10FA9A130023A53A /* DDXMLTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLTesting.h; sourceTree = "<group>"; };
+		61F7D13D10FA9A130023A53A /* DDXMLTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLTesting.m; sourceTree = "<group>"; };
+		61F7D13F10FA9A130023A53A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		61F7D14110FA9A130023A53A /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		61F7D14210FA9A130023A53A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61F7D14310FA9A130023A53A /* KissXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = KissXML.xcodeproj; sourceTree = "<group>"; };
+		61F7D14610FA9A130023A53A /* KissXML_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KissXML_Prefix.pch; sourceTree = "<group>"; };
+		61F7D14710FA9A130023A53A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		61F7D14810FA9A130023A53A /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
+		61F7D14910FA9A130023A53A /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Dining-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dining-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */,
+				610324AF10FB1761000CCFB0 /* MapKit.framework in Frameworks */,
+				6103263410FE3E27000CCFB0 /* CoreLocation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		610328CF11000F4B000CCFB0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				610328D011000F4B000CCFB0 /* Foundation.framework in Frameworks */,
+				610328D111000F4B000CCFB0 /* UIKit.framework in Frameworks */,
+				610328D211000F4B000CCFB0 /* CoreGraphics.framework in Frameworks */,
+				610328D311000F4B000CCFB0 /* CoreData.framework in Frameworks */,
+				610328D411000F4B000CCFB0 /* MapKit.framework in Frameworks */,
+				610328D511000F4B000CCFB0 /* CoreLocation.framework in Frameworks */,
+				6103297611001410000CCFB0 /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6103291A110011A9000CCFB0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6103294711001349000CCFB0 /* CoreData.framework in Frameworks */,
+				6103294B1100134F000CCFB0 /* UIKit.framework in Frameworks */,
+				6103294C11001350000CCFB0 /* SenTestingKit.framework in Frameworks */,
+				6103294D11001351000CCFB0 /* MapKit.framework in Frameworks */,
+				6103294E11001352000CCFB0 /* Foundation.framework in Frameworks */,
+				6103294F11001353000CCFB0 /* CoreLocation.framework in Frameworks */,
+				6103295011001353000CCFB0 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				6103258410FE2472000CCFB0 /* View */,
+				61F7D12010FA99FC0023A53A /* Model */,
+				61F7D11F10FA99EF0023A53A /* Controller */,
+				61032899110006DC000CCFB0 /* Tests */,
+				1D3623240D0F684500981E51 /* DiningAppDelegate.h */,
+				1D3623250D0F684500981E51 /* DiningAppDelegate.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				610328E511000FE6000CCFB0 /* DiningTesting.app */,
+				6103292F1100122A000CCFB0 /* DiningTests.octest */,
+				61C9F6151100E35000CDEA72 /* Dining.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				6103291E110011A9000CCFB0 /* DiningTest-Info.plist */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				61F7D12F10FA9A130023A53A /* KissXML */,
+				32CA4F630368D1EE00C91783 /* Dining_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				61F7D0D910FA95BF0023A53A /* RestaurantIcons */,
+				61F7D0CE10FA95AD0023A53A /* Icons */,
+				28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */,
+				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */,
+				6103245910FB1258000CCFB0 /* MapViewController.xib */,
+				610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */,
+				8D1107310486CEB800E47090 /* Dining-Info.plist */,
+				61F7CFFC10FA6CE10023A53A /* restaurants.xml */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
+				28D801B30F44B63D00FB423F /* CoreData.framework */,
+				610324AE10FB1761000CCFB0 /* MapKit.framework */,
+				6103263310FE3E27000CCFB0 /* CoreLocation.framework */,
+				61032909110010C4000CCFB0 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6103258410FE2472000CCFB0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6103258510FE2487000CCFB0 /* RestaurantListCell.h */,
+				6103258610FE2487000CCFB0 /* RestaurantListCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		61032899110006DC000CCFB0 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				6103289C110006EE000CCFB0 /* RestaurantTests.h */,
+				6103289D110006EE000CCFB0 /* RestaurantTests.m */,
+			);
+			path = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		61B3B5C811025EBE00C9BEE6 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				61B3B89D1103C0E800C9BEE6 /* ImageViewCell.h */,
+				61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */,
+				61B3B89F1103C0E800C9BEE6 /* VariableHeightCell.h */,
+				61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */,
+				61B3B5C911025F4600C9BEE6 /* RestaurantListSortHelper.h */,
+				61B3B5CE110260F700C9BEE6 /* MinutesToCloseSortHelper.h */,
+				61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */,
+				61B3B6011103869900C9BEE6 /* TypeSortHelper.h */,
+				61B3B6021103869900C9BEE6 /* TypeSortHelper.m */,
+				61B3B7E81103B01C00C9BEE6 /* DistanceSortHelper.h */,
+				61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		61F7D11F10FA99EF0023A53A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6103244B10FB10C8000CCFB0 /* RestaurantListViewController.h */,
+				6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */,
+				6103247E10FB14AB000CCFB0 /* MapViewController.h */,
+				6103247F10FB14AB000CCFB0 /* MapViewController.m */,
+				610325C510FE2DB4000CCFB0 /* RestaurantViewController.h */,
+				610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */,
+				61B3B5C811025EBE00C9BEE6 /* TableView */,
+				61B3B81B1103B32400C9BEE6 /* LocationManagerSingleton.h */,
+				61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		61F7D12010FA99FC0023A53A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				61F7D12110FA99FC0023A53A /* NSManagedObjectContext-Convenience.h */,
+				61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */,
+				61F7D12510FA99FC0023A53A /* Restaurant.h */,
+				61F7D12610FA99FC0023A53A /* Restaurant.m */,
+				610327CF10FF72A7000CCFB0 /* HourRange.h */,
+				610327D010FF72A7000CCFB0 /* HourRange.m */,
+				61F7D12710FA99FC0023A53A /* RestaurantImporterXML.h */,
+				61F7D12810FA99FC0023A53A /* RestaurantImporterXML.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		61F7D12F10FA9A130023A53A /* KissXML */ = {
+			isa = PBXGroup;
+			children = (
+				61F7D13010FA9A130023A53A /* AppDelegate.h */,
+				61F7D13110FA9A130023A53A /* AppDelegate.m */,
+				61F7D13210FA9A130023A53A /* DDXML.h */,
+				61F7D13310FA9A130023A53A /* DDXMLDocument.h */,
+				61F7D13410FA9A130023A53A /* DDXMLDocument.m */,
+				61F7D13510FA9A130023A53A /* DDXMLElement.h */,
+				61F7D13610FA9A130023A53A /* DDXMLElement.m */,
+				61F7D13710FA9A130023A53A /* DDXMLElementAdditions.h */,
+				61F7D13810FA9A130023A53A /* DDXMLElementAdditions.m */,
+				61F7D13910FA9A130023A53A /* DDXMLNode.h */,
+				61F7D13A10FA9A130023A53A /* DDXMLNode.m */,
+				61F7D13B10FA9A130023A53A /* DDXMLPrivate.h */,
+				61F7D13C10FA9A130023A53A /* DDXMLTesting.h */,
+				61F7D13D10FA9A130023A53A /* DDXMLTesting.m */,
+				61F7D13E10FA9A130023A53A /* InfoPlist.strings */,
+				61F7D14010FA9A130023A53A /* MainMenu.xib */,
+				61F7D14210FA9A130023A53A /* Info.plist */,
+				61F7D14310FA9A130023A53A /* KissXML.xcodeproj */,
+				61F7D14610FA9A130023A53A /* KissXML_Prefix.pch */,
+				61F7D14710FA9A130023A53A /* main.m */,
+				61F7D14810FA9A130023A53A /* NSStringAdditions.h */,
+				61F7D14910FA9A130023A53A /* NSStringAdditions.m */,
+			);
+			path = KissXML;
+			sourceTree = "<group>";
+		};
+		61F7D14410FA9A130023A53A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61F7D15A10FA9A140023A53A /* KissXML.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* Dining */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Dining" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dining;
+			productName = Dining;
+			productReference = 61C9F6151100E35000CDEA72 /* Dining.app */;
+			productType = "com.apple.product-type.application";
+		};
+		610328B211000F4B000CCFB0 /* DiningTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 610328D711000F4B000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTesting" */;
+			buildPhases = (
+				610328B311000F4B000CCFB0 /* Resources */,
+				610328BD11000F4B000CCFB0 /* Sources */,
+				610328CF11000F4B000CCFB0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				610329D4110017D3000CCFB0 /* PBXTargetDependency */,
+			);
+			name = DiningTesting;
+			productName = Dining;
+			productReference = 610328E511000FE6000CCFB0 /* DiningTesting.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6103291C110011A9000CCFB0 /* DiningTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61032921110011AA000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTests" */;
+			buildPhases = (
+				61032918110011A9000CCFB0 /* Resources */,
+				61032919110011A9000CCFB0 /* Sources */,
+				6103291A110011A9000CCFB0 /* Frameworks */,
+				6103291B110011A9000CCFB0 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DiningTests;
+			productName = DiningTest;
+			productReference = 6103292F1100122A000CCFB0 /* DiningTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Dining" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 61F7D14410FA9A130023A53A /* Products */;
+					ProjectRef = 61F7D14310FA9A130023A53A /* KissXML.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* Dining */,
+				610328B211000F4B000CCFB0 /* DiningTesting */,
+				6103291C110011A9000CCFB0 /* DiningTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		61F7D15A10FA9A140023A53A /* KissXML.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = KissXML.app;
+			remoteRef = 61F7D15910FA9A140023A53A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				61F7CFFD10FA6CE10023A53A /* restaurants.xml in Resources */,
+				61F7D0D810FA95AD0023A53A /* Icons in Resources */,
+				61F7D10810FA95BF0023A53A /* RestaurantIcons in Resources */,
+				61F7D15010FA9A130023A53A /* InfoPlist.strings in Resources */,
+				61F7D15110FA9A130023A53A /* MainMenu.xib in Resources */,
+				6103245410FB110F000CCFB0 /* RestaurantListViewController.xib in Resources */,
+				6103245A10FB1258000CCFB0 /* MapViewController.xib in Resources */,
+				610325C910FE2DB4000CCFB0 /* RestaurantViewController.xib in Resources */,
+				610328E711000FE6000CCFB0 /* DiningTesting.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		610328B311000F4B000CCFB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61032997110014FC000CCFB0 /* DiningTests.octest in Resources */,
+				610328B411000F4B000CCFB0 /* MainWindow.xib in Resources */,
+				610328B511000F4B000CCFB0 /* restaurants.xml in Resources */,
+				610328B611000F4B000CCFB0 /* Icons in Resources */,
+				610328B711000F4B000CCFB0 /* RestaurantIcons in Resources */,
+				610328B811000F4B000CCFB0 /* InfoPlist.strings in Resources */,
+				610328B911000F4B000CCFB0 /* MainMenu.xib in Resources */,
+				610328BA11000F4B000CCFB0 /* RestaurantListViewController.xib in Resources */,
+				610328BB11000F4B000CCFB0 /* MapViewController.xib in Resources */,
+				610328BC11000F4B000CCFB0 /* RestaurantViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61032918110011A9000CCFB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				610329E8110018CF000CCFB0 /* Dining.xcdatamodel in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6103291B110011A9000CCFB0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				28C3AD8A0F43EF2300507BA6 /* Dining.xcdatamodel in Sources */,
+				61F7D12910FA99FC0023A53A /* NSManagedObjectContext-Convenience.m in Sources */,
+				61F7D12B10FA99FC0023A53A /* Restaurant.m in Sources */,
+				61F7D12C10FA99FC0023A53A /* RestaurantImporterXML.m in Sources */,
+				61F7D14B10FA9A130023A53A /* DDXMLDocument.m in Sources */,
+				61F7D14C10FA9A130023A53A /* DDXMLElement.m in Sources */,
+				61F7D14D10FA9A130023A53A /* DDXMLElementAdditions.m in Sources */,
+				61F7D14E10FA9A130023A53A /* DDXMLNode.m in Sources */,
+				61F7D15410FA9A130023A53A /* NSStringAdditions.m in Sources */,
+				6103244D10FB10C8000CCFB0 /* RestaurantListViewController.m in Sources */,
+				6103248010FB14AB000CCFB0 /* MapViewController.m in Sources */,
+				6103258710FE2487000CCFB0 /* RestaurantListCell.m in Sources */,
+				610325C810FE2DB4000CCFB0 /* RestaurantViewController.m in Sources */,
+				610327D110FF72A7000CCFB0 /* HourRange.m in Sources */,
+				610329881100149B000CCFB0 /* DiningAppDelegate.m in Sources */,
+				61B3B5D0110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */,
+				61B3B6031103869900C9BEE6 /* TypeSortHelper.m in Sources */,
+				61B3B7EA1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */,
+				61B3B81D1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */,
+				61B3B8A11103C0E800C9BEE6 /* ImageViewCell.m in Sources */,
+				61B3B8A21103C0E800C9BEE6 /* VariableHeightCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		610328BD11000F4B000CCFB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				610328BE11000F4B000CCFB0 /* main.m in Sources */,
+				610328BF11000F4B000CCFB0 /* DiningAppDelegate.m in Sources */,
+				610328C011000F4B000CCFB0 /* Dining.xcdatamodel in Sources */,
+				610328C111000F4B000CCFB0 /* NSManagedObjectContext-Convenience.m in Sources */,
+				610328C211000F4B000CCFB0 /* Restaurant.m in Sources */,
+				610328C311000F4B000CCFB0 /* RestaurantImporterXML.m in Sources */,
+				610328C411000F4B000CCFB0 /* DDXMLDocument.m in Sources */,
+				610328C511000F4B000CCFB0 /* DDXMLElement.m in Sources */,
+				610328C611000F4B000CCFB0 /* DDXMLElementAdditions.m in Sources */,
+				610328C711000F4B000CCFB0 /* DDXMLNode.m in Sources */,
+				610328C811000F4B000CCFB0 /* NSStringAdditions.m in Sources */,
+				610328C911000F4B000CCFB0 /* RestaurantListViewController.m in Sources */,
+				610328CA11000F4B000CCFB0 /* MapViewController.m in Sources */,
+				610328CB11000F4B000CCFB0 /* RestaurantListCell.m in Sources */,
+				610328CC11000F4B000CCFB0 /* RestaurantViewController.m in Sources */,
+				610328CD11000F4B000CCFB0 /* HourRange.m in Sources */,
+				61B3B5D2110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */,
+				61B3B6051103869900C9BEE6 /* TypeSortHelper.m in Sources */,
+				61B3B7EC1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */,
+				61B3B81F1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */,
+				61B3B8A51103C0E800C9BEE6 /* ImageViewCell.m in Sources */,
+				61B3B8A61103C0E800C9BEE6 /* VariableHeightCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61032919110011A9000CCFB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				610329DD1100189D000CCFB0 /* RestaurantTests.m in Sources */,
+				61B3B5D1110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */,
+				61B3B6041103869900C9BEE6 /* TypeSortHelper.m in Sources */,
+				61B3B7EB1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */,
+				61B3B81E1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */,
+				61B3B8A31103C0E800C9BEE6 /* ImageViewCell.m in Sources */,
+				61B3B8A41103C0E800C9BEE6 /* VariableHeightCell.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		610329D4110017D3000CCFB0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6103291C110011A9000CCFB0 /* DiningTests */;
+			targetProxy = 610329D3110017D3000CCFB0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		61F7D13E10FA9A130023A53A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				61F7D13F10FA9A130023A53A /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		61F7D14010FA9A130023A53A /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				61F7D14110FA9A130023A53A /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Volumes/Skiiing2/CD/ViewBased/Unknown Path/System/Library/Frameworks\"",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/Developer/Library/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Dining_Prefix.pch;
+				INFOPLIST_FILE = "Dining-Info.plist";
+				PRODUCT_NAME = Dining;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Volumes/Skiiing2/CD/ViewBased/Unknown Path/System/Library/Frameworks\"",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Dining_Prefix.pch;
+				INFOPLIST_FILE = "Dining-Info.plist";
+				PRODUCT_NAME = Dining;
+			};
+			name = Release;
+		};
+		610328D811000F4B000CCFB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Dining_Prefix.pch;
+				INFOPLIST_FILE = "Dining-Info copy.plist";
+				PRODUCT_NAME = DiningTesting;
+				SDKROOT = iphonesimulator3.1.2;
+			};
+			name = Debug;
+		};
+		610328D911000F4B000CCFB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Dining_Prefix.pch;
+				INFOPLIST_FILE = "Dining-Info copy.plist";
+				PRODUCT_NAME = DiningTesting;
+				SDKROOT = iphonesimulator3.1.2;
+			};
+			name = Release;
+		};
+		6103291F110011AA000CCFB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "DiningTest-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DiningTests;
+				SDKROOT = iphonesimulator3.1.2;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		61032920110011AA000CCFB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "DiningTest-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = DiningTests;
+				SDKROOT = iphonesimulator3.1.2;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-lxml2";
+				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = iphonesimulator3.0;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-lxml2";
+				PREBINDING = NO;
+				SDKROOT = iphonesimulator3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Dining" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		610328D711000F4B000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				610328D811000F4B000CCFB0 /* Debug */,
+				610328D911000F4B000CCFB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		61032921110011AA000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6103291F110011AA000CCFB0 /* Debug */,
+				61032920110011AA000CCFB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Dining" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
