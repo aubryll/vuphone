@@ -24,84 +24,22 @@
 		610325C910FE2DB4000CCFB0 /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */; };
 		6103263410FE3E27000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
 		610327D110FF72A7000CCFB0 /* HourRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 610327D010FF72A7000CCFB0 /* HourRange.m */; };
-		610328B411000F4B000CCFB0 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
-		610328B511000F4B000CCFB0 /* restaurants.xml in Resources */ = {isa = PBXBuildFile; fileRef = 61F7CFFC10FA6CE10023A53A /* restaurants.xml */; };
-		610328B611000F4B000CCFB0 /* Icons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0CE10FA95AD0023A53A /* Icons */; };
-		610328B711000F4B000CCFB0 /* RestaurantIcons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0D910FA95BF0023A53A /* RestaurantIcons */; };
-		610328B811000F4B000CCFB0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D13E10FA9A130023A53A /* InfoPlist.strings */; };
-		610328B911000F4B000CCFB0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D14010FA9A130023A53A /* MainMenu.xib */; };
-		610328BA11000F4B000CCFB0 /* RestaurantListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */; };
-		610328BB11000F4B000CCFB0 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245910FB1258000CCFB0 /* MapViewController.xib */; };
-		610328BC11000F4B000CCFB0 /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */; };
-		610328BE11000F4B000CCFB0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		610328BF11000F4B000CCFB0 /* DiningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* DiningAppDelegate.m */; };
-		610328C011000F4B000CCFB0 /* Dining.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */; };
-		610328C111000F4B000CCFB0 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */; };
-		610328C211000F4B000CCFB0 /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12610FA99FC0023A53A /* Restaurant.m */; };
-		610328C311000F4B000CCFB0 /* RestaurantImporterXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12810FA99FC0023A53A /* RestaurantImporterXML.m */; };
-		610328C411000F4B000CCFB0 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13410FA9A130023A53A /* DDXMLDocument.m */; };
-		610328C511000F4B000CCFB0 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13610FA9A130023A53A /* DDXMLElement.m */; };
-		610328C611000F4B000CCFB0 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13810FA9A130023A53A /* DDXMLElementAdditions.m */; };
-		610328C711000F4B000CCFB0 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D13A10FA9A130023A53A /* DDXMLNode.m */; };
-		610328C811000F4B000CCFB0 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D14910FA9A130023A53A /* NSStringAdditions.m */; };
-		610328C911000F4B000CCFB0 /* RestaurantListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */; };
-		610328CA11000F4B000CCFB0 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103247F10FB14AB000CCFB0 /* MapViewController.m */; };
-		610328CB11000F4B000CCFB0 /* RestaurantListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103258610FE2487000CCFB0 /* RestaurantListCell.m */; };
-		610328CC11000F4B000CCFB0 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */; };
-		610328CD11000F4B000CCFB0 /* HourRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 610327D010FF72A7000CCFB0 /* HourRange.m */; };
-		610328D011000F4B000CCFB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		610328D111000F4B000CCFB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		610328D211000F4B000CCFB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		610328D311000F4B000CCFB0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
-		610328D411000F4B000CCFB0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610324AE10FB1761000CCFB0 /* MapKit.framework */; };
-		610328D511000F4B000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
-		610328E711000FE6000CCFB0 /* DiningTesting.app in Resources */ = {isa = PBXBuildFile; fileRef = 610328E511000FE6000CCFB0 /* DiningTesting.app */; };
-		6103294711001349000CCFB0 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
-		6103294B1100134F000CCFB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		6103294C11001350000CCFB0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61032909110010C4000CCFB0 /* SenTestingKit.framework */; };
-		6103294D11001351000CCFB0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610324AE10FB1761000CCFB0 /* MapKit.framework */; };
-		6103294E11001352000CCFB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
-		6103294F11001353000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
-		6103295011001353000CCFB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		6103297611001410000CCFB0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61032909110010C4000CCFB0 /* SenTestingKit.framework */; };
 		610329881100149B000CCFB0 /* DiningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* DiningAppDelegate.m */; };
-		61032997110014FC000CCFB0 /* DiningTests.octest in Resources */ = {isa = PBXBuildFile; fileRef = 6103292F1100122A000CCFB0 /* DiningTests.octest */; };
-		610329DD1100189D000CCFB0 /* RestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103289D110006EE000CCFB0 /* RestaurantTests.m */; };
-		610329E8110018CF000CCFB0 /* Dining.xcdatamodel in Resources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */; };
 		611E12DE11042FE200298EA9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E12DC11042FE200298EA9 /* SearchViewController.m */; };
 		611E12DF11042FE200298EA9 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 611E12DD11042FE200298EA9 /* SearchViewController.xib */; };
-		611E12E011042FE200298EA9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E12DC11042FE200298EA9 /* SearchViewController.m */; };
-		611E12E111042FE200298EA9 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 611E12DD11042FE200298EA9 /* SearchViewController.xib */; };
 		611E12E41104301000298EA9 /* XIBs in Resources */ = {isa = PBXBuildFile; fileRef = 611E12E21104301000298EA9 /* XIBs */; };
-		611E12E51104301000298EA9 /* XIBs in Resources */ = {isa = PBXBuildFile; fileRef = 611E12E21104301000298EA9 /* XIBs */; };
-		611E12E61104301000298EA9 /* XIBs in Resources */ = {isa = PBXBuildFile; fileRef = 611E12E21104301000298EA9 /* XIBs */; };
 		611E13471104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */; };
-		611E13481104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */; };
-		611E13491104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */; };
 		611E14841104D78600298EA9 /* RestaurantTypeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E14831104D78600298EA9 /* RestaurantTypeButton.m */; };
-		611E14851104D78600298EA9 /* RestaurantTypeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E14831104D78600298EA9 /* RestaurantTypeButton.m */; };
-		611E14FE1104DE7700298EA9 /* RestaurantListPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E14FD1104DE7700298EA9 /* RestaurantListPickerView.m */; };
-		611E14FF1104DE7700298EA9 /* RestaurantListPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E14FD1104DE7700298EA9 /* RestaurantListPickerView.m */; };
+		611E15EA110504F900298EA9 /* index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15E7110504F900298EA9 /* index-cards.png */; };
+		611E15EB110504F900298EA9 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15E8110504F900298EA9 /* map.png */; };
+		611E15F31105096100298EA9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15F21105096100298EA9 /* Icon.png */; };
 		61B3B5D0110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
-		61B3B5D1110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
-		61B3B5D2110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
 		61B3B6031103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
-		61B3B6041103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
-		61B3B6051103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
 		61B3B7EA1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */; };
-		61B3B7EB1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */; };
-		61B3B7EC1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */; };
 		61B3B81D1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
-		61B3B81E1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
-		61B3B81F1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
 		61B3B8A11103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
 		61B3B8A21103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
-		61B3B8A31103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
-		61B3B8A41103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
-		61B3B8A51103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
-		61B3B8A61103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
 		61F7CFFD10FA6CE10023A53A /* restaurants.xml in Resources */ = {isa = PBXBuildFile; fileRef = 61F7CFFC10FA6CE10023A53A /* restaurants.xml */; };
-		61F7D0D810FA95AD0023A53A /* Icons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0CE10FA95AD0023A53A /* Icons */; };
 		61F7D10810FA95BF0023A53A /* RestaurantIcons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0D910FA95BF0023A53A /* RestaurantIcons */; };
 		61F7D12910FA99FC0023A53A /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */; };
 		61F7D12B10FA99FC0023A53A /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12610FA99FC0023A53A /* Restaurant.m */; };
@@ -116,13 +54,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		610329D3110017D3000CCFB0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6103291C110011A9000CCFB0;
-			remoteInfo = DiningTests;
-		};
 		61F7D15910FA9A140023A53A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 61F7D14310FA9A130023A53A /* KissXML.xcodeproj */;
@@ -160,10 +91,7 @@
 		610327D010FF72A7000CCFB0 /* HourRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HourRange.m; sourceTree = "<group>"; };
 		6103289C110006EE000CCFB0 /* RestaurantTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantTests.h; sourceTree = "<group>"; };
 		6103289D110006EE000CCFB0 /* RestaurantTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTests.m; sourceTree = "<group>"; };
-		610328E511000FE6000CCFB0 /* DiningTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiningTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61032909110010C4000CCFB0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		6103291E110011A9000CCFB0 /* DiningTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DiningTest-Info.plist"; sourceTree = "<group>"; };
-		6103292F1100122A000CCFB0 /* DiningTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiningTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		611E12DB11042FE200298EA9 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		611E12DC11042FE200298EA9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		611E12DD11042FE200298EA9 /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchViewController.xib; path = XIBs/SearchViewController.xib; sourceTree = "<group>"; };
@@ -172,8 +100,10 @@
 		611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTypePickerView.m; sourceTree = "<group>"; };
 		611E14821104D78600298EA9 /* RestaurantTypeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantTypeButton.h; sourceTree = "<group>"; };
 		611E14831104D78600298EA9 /* RestaurantTypeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTypeButton.m; sourceTree = "<group>"; };
-		611E14FC1104DE7700298EA9 /* RestaurantListPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListPickerView.h; sourceTree = "<group>"; };
-		611E14FD1104DE7700298EA9 /* RestaurantListPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListPickerView.m; sourceTree = "<group>"; };
+		611E15E6110504F900298EA9 /* dining.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dining.png; path = Icons/dining.png; sourceTree = "<group>"; };
+		611E15E7110504F900298EA9 /* index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "index-cards.png"; path = "Icons/index-cards.png"; sourceTree = "<group>"; };
+		611E15E8110504F900298EA9 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = Icons/map.png; sourceTree = "<group>"; };
+		611E15F21105096100298EA9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Icons/Icon.png; sourceTree = "<group>"; };
 		61B3B5C911025F4600C9BEE6 /* RestaurantListSortHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListSortHelper.h; sourceTree = "<group>"; };
 		61B3B5CE110260F700C9BEE6 /* MinutesToCloseSortHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MinutesToCloseSortHelper.h; sourceTree = "<group>"; };
 		61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MinutesToCloseSortHelper.m; sourceTree = "<group>"; };
@@ -189,7 +119,6 @@
 		61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableHeightCell.m; sourceTree = "<group>"; };
 		61C9F6151100E35000CDEA72 /* Dining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61F7CFFC10FA6CE10023A53A /* restaurants.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = restaurants.xml; sourceTree = "<group>"; };
-		61F7D0CE10FA95AD0023A53A /* Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Icons; sourceTree = "<group>"; };
 		61F7D0D910FA95BF0023A53A /* RestaurantIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RestaurantIcons; sourceTree = "<group>"; };
 		61F7D12110FA99FC0023A53A /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
 		61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext-Convenience.m"; sourceTree = "<group>"; };
@@ -236,34 +165,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		610328CF11000F4B000CCFB0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				610328D011000F4B000CCFB0 /* Foundation.framework in Frameworks */,
-				610328D111000F4B000CCFB0 /* UIKit.framework in Frameworks */,
-				610328D211000F4B000CCFB0 /* CoreGraphics.framework in Frameworks */,
-				610328D311000F4B000CCFB0 /* CoreData.framework in Frameworks */,
-				610328D411000F4B000CCFB0 /* MapKit.framework in Frameworks */,
-				610328D511000F4B000CCFB0 /* CoreLocation.framework in Frameworks */,
-				6103297611001410000CCFB0 /* SenTestingKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6103291A110011A9000CCFB0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6103294711001349000CCFB0 /* CoreData.framework in Frameworks */,
-				6103294B1100134F000CCFB0 /* UIKit.framework in Frameworks */,
-				6103294C11001350000CCFB0 /* SenTestingKit.framework in Frameworks */,
-				6103294D11001351000CCFB0 /* MapKit.framework in Frameworks */,
-				6103294E11001352000CCFB0 /* Foundation.framework in Frameworks */,
-				6103294F11001353000CCFB0 /* CoreLocation.framework in Frameworks */,
-				6103295011001353000CCFB0 /* CoreGraphics.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -284,8 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				61C9F6151100E35000CDEA72 /* Dining.app */,
-				610328E511000FE6000CCFB0 /* DiningTesting.app */,
-				6103292F1100122A000CCFB0 /* DiningTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -298,7 +197,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				6103291E110011A9000CCFB0 /* DiningTest-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -316,6 +214,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				611E15E0110504C000298EA9 /* Icons */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */,
 				611E12DD11042FE200298EA9 /* SearchViewController.xib */,
@@ -323,7 +222,6 @@
 				610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */,
 				611E12E21104301000298EA9 /* XIBs */,
 				61F7D0D910FA95BF0023A53A /* RestaurantIcons */,
-				61F7D0CE10FA95AD0023A53A /* Icons */,
 				28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */,
 				8D1107310486CEB800E47090 /* Dining-Info.plist */,
 				61F7CFFC10FA6CE10023A53A /* restaurants.xml */,
@@ -354,8 +252,6 @@
 				611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */,
 				611E14821104D78600298EA9 /* RestaurantTypeButton.h */,
 				611E14831104D78600298EA9 /* RestaurantTypeButton.m */,
-				611E14FC1104DE7700298EA9 /* RestaurantListPickerView.h */,
-				611E14FD1104DE7700298EA9 /* RestaurantListPickerView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -368,6 +264,17 @@
 			);
 			path = Tests;
 			sourceTree = SOURCE_ROOT;
+		};
+		611E15E0110504C000298EA9 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				611E15F21105096100298EA9 /* Icon.png */,
+				611E15E6110504F900298EA9 /* dining.png */,
+				611E15E7110504F900298EA9 /* index-cards.png */,
+				611E15E8110504F900298EA9 /* map.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
 		};
 		61B3B5C811025EBE00C9BEE6 /* TableView */ = {
 			isa = PBXGroup;
@@ -477,42 +384,6 @@
 			productReference = 61C9F6151100E35000CDEA72 /* Dining.app */;
 			productType = "com.apple.product-type.application";
 		};
-		610328B211000F4B000CCFB0 /* DiningTesting */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 610328D711000F4B000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTesting" */;
-			buildPhases = (
-				610328B311000F4B000CCFB0 /* Resources */,
-				610328BD11000F4B000CCFB0 /* Sources */,
-				610328CF11000F4B000CCFB0 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				610329D4110017D3000CCFB0 /* PBXTargetDependency */,
-			);
-			name = DiningTesting;
-			productName = Dining;
-			productReference = 610328E511000FE6000CCFB0 /* DiningTesting.app */;
-			productType = "com.apple.product-type.application";
-		};
-		6103291C110011A9000CCFB0 /* DiningTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 61032921110011AA000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTests" */;
-			buildPhases = (
-				61032918110011A9000CCFB0 /* Resources */,
-				61032919110011A9000CCFB0 /* Sources */,
-				6103291A110011A9000CCFB0 /* Frameworks */,
-				6103291B110011A9000CCFB0 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DiningTests;
-			productName = DiningTest;
-			productReference = 6103292F1100122A000CCFB0 /* DiningTests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -532,8 +403,6 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Dining */,
-				610328B211000F4B000CCFB0 /* DiningTesting */,
-				6103291C110011A9000CCFB0 /* DiningTests */,
 			);
 		};
 /* End PBXProject section */
@@ -553,66 +422,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				611E15F31105096100298EA9 /* Icon.png in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				61F7CFFD10FA6CE10023A53A /* restaurants.xml in Resources */,
-				61F7D0D810FA95AD0023A53A /* Icons in Resources */,
 				61F7D10810FA95BF0023A53A /* RestaurantIcons in Resources */,
 				61F7D15010FA9A130023A53A /* InfoPlist.strings in Resources */,
 				61F7D15110FA9A130023A53A /* MainMenu.xib in Resources */,
 				6103245410FB110F000CCFB0 /* RestaurantListViewController.xib in Resources */,
 				6103245A10FB1258000CCFB0 /* MapViewController.xib in Resources */,
 				610325C910FE2DB4000CCFB0 /* RestaurantViewController.xib in Resources */,
-				610328E711000FE6000CCFB0 /* DiningTesting.app in Resources */,
 				611E12DF11042FE200298EA9 /* SearchViewController.xib in Resources */,
 				611E12E41104301000298EA9 /* XIBs in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		610328B311000F4B000CCFB0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61032997110014FC000CCFB0 /* DiningTests.octest in Resources */,
-				610328B411000F4B000CCFB0 /* MainWindow.xib in Resources */,
-				610328B511000F4B000CCFB0 /* restaurants.xml in Resources */,
-				610328B611000F4B000CCFB0 /* Icons in Resources */,
-				610328B711000F4B000CCFB0 /* RestaurantIcons in Resources */,
-				610328B811000F4B000CCFB0 /* InfoPlist.strings in Resources */,
-				610328B911000F4B000CCFB0 /* MainMenu.xib in Resources */,
-				610328BA11000F4B000CCFB0 /* RestaurantListViewController.xib in Resources */,
-				610328BB11000F4B000CCFB0 /* MapViewController.xib in Resources */,
-				610328BC11000F4B000CCFB0 /* RestaurantViewController.xib in Resources */,
-				611E12E111042FE200298EA9 /* SearchViewController.xib in Resources */,
-				611E12E51104301000298EA9 /* XIBs in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61032918110011A9000CCFB0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				610329E8110018CF000CCFB0 /* Dining.xcdatamodel in Resources */,
-				611E12E61104301000298EA9 /* XIBs in Resources */,
+				611E15EA110504F900298EA9 /* index-cards.png in Resources */,
+				611E15EB110504F900298EA9 /* map.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		6103291B110011A9000CCFB0 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -644,67 +470,10 @@
 				611E12DE11042FE200298EA9 /* SearchViewController.m in Sources */,
 				611E13471104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */,
 				611E14841104D78600298EA9 /* RestaurantTypeButton.m in Sources */,
-				611E14FE1104DE7700298EA9 /* RestaurantListPickerView.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		610328BD11000F4B000CCFB0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				610328BE11000F4B000CCFB0 /* main.m in Sources */,
-				610328BF11000F4B000CCFB0 /* DiningAppDelegate.m in Sources */,
-				610328C011000F4B000CCFB0 /* Dining.xcdatamodel in Sources */,
-				610328C111000F4B000CCFB0 /* NSManagedObjectContext-Convenience.m in Sources */,
-				610328C211000F4B000CCFB0 /* Restaurant.m in Sources */,
-				610328C311000F4B000CCFB0 /* RestaurantImporterXML.m in Sources */,
-				610328C411000F4B000CCFB0 /* DDXMLDocument.m in Sources */,
-				610328C511000F4B000CCFB0 /* DDXMLElement.m in Sources */,
-				610328C611000F4B000CCFB0 /* DDXMLElementAdditions.m in Sources */,
-				610328C711000F4B000CCFB0 /* DDXMLNode.m in Sources */,
-				610328C811000F4B000CCFB0 /* NSStringAdditions.m in Sources */,
-				610328C911000F4B000CCFB0 /* RestaurantListViewController.m in Sources */,
-				610328CA11000F4B000CCFB0 /* MapViewController.m in Sources */,
-				610328CB11000F4B000CCFB0 /* RestaurantListCell.m in Sources */,
-				610328CC11000F4B000CCFB0 /* RestaurantViewController.m in Sources */,
-				610328CD11000F4B000CCFB0 /* HourRange.m in Sources */,
-				61B3B5D2110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */,
-				61B3B6051103869900C9BEE6 /* TypeSortHelper.m in Sources */,
-				61B3B7EC1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */,
-				61B3B81F1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */,
-				61B3B8A51103C0E800C9BEE6 /* ImageViewCell.m in Sources */,
-				61B3B8A61103C0E800C9BEE6 /* VariableHeightCell.m in Sources */,
-				611E12E011042FE200298EA9 /* SearchViewController.m in Sources */,
-				611E13491104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */,
-				611E14851104D78600298EA9 /* RestaurantTypeButton.m in Sources */,
-				611E14FF1104DE7700298EA9 /* RestaurantListPickerView.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61032919110011A9000CCFB0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				610329DD1100189D000CCFB0 /* RestaurantTests.m in Sources */,
-				61B3B5D1110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */,
-				61B3B6041103869900C9BEE6 /* TypeSortHelper.m in Sources */,
-				61B3B7EB1103B01C00C9BEE6 /* DistanceSortHelper.m in Sources */,
-				61B3B81E1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */,
-				61B3B8A31103C0E800C9BEE6 /* ImageViewCell.m in Sources */,
-				61B3B8A41103C0E800C9BEE6 /* VariableHeightCell.m in Sources */,
-				611E13481104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		610329D4110017D3000CCFB0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6103291C110011A9000CCFB0 /* DiningTests */;
-			targetProxy = 610329D3110017D3000CCFB0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		61F7D13E10FA9A130023A53A /* InfoPlist.strings */ = {
@@ -762,100 +531,6 @@
 			};
 			name = Release;
 		};
-		610328D811000F4B000CCFB0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Dining_Prefix.pch;
-				INFOPLIST_FILE = "Dining-Info.plist";
-				PRODUCT_NAME = DiningTesting;
-				SDKROOT = iphonesimulator3.1.2;
-			};
-			name = Debug;
-		};
-		610328D911000F4B000CCFB0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Dining_Prefix.pch;
-				INFOPLIST_FILE = "Dining-Info.plist";
-				PRODUCT_NAME = DiningTesting;
-				SDKROOT = iphonesimulator3.1.2;
-			};
-			name = Release;
-		};
-		6103291F110011AA000CCFB0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = "DiningTest-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = DiningTests;
-				SDKROOT = iphonesimulator3.1.2;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		61032920110011AA000CCFB0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				INFOPLIST_FILE = "DiningTest-Info.plist";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					SenTestingKit,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = DiningTests;
-				SDKROOT = iphonesimulator3.1.2;
-				WRAPPER_EXTENSION = octest;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -900,24 +575,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		610328D711000F4B000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTesting" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				610328D811000F4B000CCFB0 /* Debug */,
-				610328D911000F4B000CCFB0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		61032921110011AA000CCFB0 /* Build configuration list for PBXNativeTarget "DiningTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6103291F110011AA000CCFB0 /* Debug */,
-				61032920110011AA000CCFB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -18,10 +18,16 @@
 
 - (void)viewDidLoad
 {
-	if (self != nil) {
-		DiningAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-		context = [appDelegate managedObjectContext];
+	DiningAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+	context = [appDelegate managedObjectContext];
+
+	// Alloc our array of restaurant selections
+	checkedRestaurantTypes = malloc(sizeof(BOOL) * [[self restaurantTypes] count]);
+	for (int i=0; i<[[self restaurantTypes] count]; i++) {
+		checkedRestaurantTypes[i] = YES;
 	}
+	
+	[tableView reloadData];
 }
 
 
@@ -48,85 +54,76 @@
 		_restaurantTypes = [[[typesSet allObjects]
 							 sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
 		
-		[typesSet release];
-		
-		// Alloc our array of restaurant selections
-		checkedRestaurantTypes = malloc(sizeof(BOOL) * [_restaurantTypes count]);
-		for (int i=0; i<[_restaurantTypes count]; i++) {
-			checkedRestaurantTypes[i] = NO;
-		}
+		[typesSet release];		
 	}
 		
 	return _restaurantTypes;	
 }
 
-#pragma mark UIPickerView
+#pragma mark UITableViewDataSource, Delegate
 
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-	return 1;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView {
+    return 1;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
-{
-	return [[self restaurantTypes] count];
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section {
+    return [[self restaurantTypes] count];
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-{
-	return [[self restaurantTypes] objectAtIndex:row];
-}
-
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
-{
-	RestaurantTypePickerView *returnView = nil;
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+	static NSString *CellIdentifier = @"Cell";
 	
-	// Reuse the label if possible, otherwise create and configure a new one.
-	if (view.tag == RestaurantTypePickerViewTag) {
-		returnView = (RestaurantTypePickerView *)view;
-	} else {
-		NSLog(@"initializing pickerView");
-		self.pickerView = [[RestaurantTypePickerView alloc]
-						   initWithFrame:CGRectMake(0.0f, 0.0f, 288.0f, 32.0f)
-						   buttonTag:row
-						   buttonTarget:self
-						   buttonAction:@selector(didSelectType:)];
-		returnView = self.pickerView;
-//		returnView = [[RestaurantTypePickerView alloc]
-//					  initWithFrame:CGRectMake(0.0f, 0.0f, 288.0f, 32.0f)
-//					  buttonTag:row
-//					  buttonTarget:self
-//					  buttonAction:@selector(didSelectType:)];
+	UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
-	// Where to set the text in depends on what sort of view it is.
-	[returnView.nameButton setTitle:[[self restaurantTypes] objectAtIndex:row]];
-	returnView.isChecked = checkedRestaurantTypes[row];
-
-	return returnView;
+	cell.textLabel.text = [[self restaurantTypes] objectAtIndex:indexPath.row];
+	
+	if (checkedRestaurantTypes[indexPath.row] == YES) {
+		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+	} else {
+		cell.accessoryType = UITableViewCellAccessoryNone;
+	}
+	
+	return cell;
 }
 
-- (void)didSelectType:(id)sender
+- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSInteger row = [sender tag];
-	// Toggle the selection at this row
-	checkedRestaurantTypes[row] = !checkedRestaurantTypes[row];
-	NSLog(@"checked row %i", row);
-	[typePicker reloadAllComponents];
+	return 32.0f;
+}
+
+- (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	// Flip the flag
+	checkedRestaurantTypes[indexPath.row] = !checkedRestaurantTypes[indexPath.row];
+
+	// Deselect this row and refresh it
+	[aTableView deselectRowAtIndexPath:indexPath animated:YES];
+	[aTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark Searching
 
-- (IBAction)openThruSliderChanged:(id)sender
+- (IBAction)openThruSliderChanged:(UISlider *)sender
 {
-	int hour = (int)[sender value];
-	BOOL am = (hour < 12) || (hour == 24);
-	if (hour > 12) {
-		hour -= 12;
-	}
+	int hour = (int)sender.value;
+	NSString *labelText = nil;
 	
-	openThruLabel.text = [NSString stringWithFormat:@"%i %@",
-						  hour, (am) ? @"am" : @"pm"];
+	if (hour < 1) {
+		labelText = @"any";
+	} else {
+		BOOL am = (hour < 12) || (hour == 24);
+		if (hour > 12) {
+			hour -= 12;
+		}
+		
+		labelText = [NSString stringWithFormat:@"%i %@", hour, (am) ? @"am" : @"pm"];
+	}
+
+	openThruLabel.text = labelText;
 }
 
 - (IBAction)showSearchResults:(id)sender
@@ -142,16 +139,21 @@
 	NSPredicate *typePred = [NSPredicate predicateWithFormat:@"type IN %@", selectedTypes];
 	
 	// Build the closing time predicate
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
-													fromDate:[NSDate date]];
-	NSInteger currentHour = [dateComponents hour];
-	NSInteger currentMinute = [dateComponents minute];
-	NSInteger latestAllowableMinute = (NSInteger)openThruSlider.value * 60;
-	NSInteger minutesUntilClose = latestAllowableMinute - (currentHour * 60 + currentMinute);
+	NSPredicate *timePred = nil;
+	if (openThruSlider.value < 1.0f) {
+		timePred = [NSPredicate predicateWithFormat:@"TRUEPREDICATE"];
+	} else {
+		NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+		NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit | NSMinuteCalendarUnit)
+														fromDate:[NSDate date]];
+		NSInteger currentHour = [dateComponents hour];
+		NSInteger currentMinute = [dateComponents minute];
+		NSInteger latestAllowableMinute = (NSInteger)openThruSlider.value * 60;
+		NSInteger minutesUntilClose = latestAllowableMinute - (currentHour * 60 + currentMinute);
 
-	NSPredicate *timePred = [NSPredicate predicateWithFormat:@"minutesUntilClose > %i", minutesUntilClose];
-	[gregorian release];
+		timePred = [NSPredicate predicateWithFormat:@"minutesUntilClose > %i", minutesUntilClose];
+		[gregorian release];
+	}
 	
 	// Build the meal plan predicate
 	NSPredicate *mealPlanPred = nil;

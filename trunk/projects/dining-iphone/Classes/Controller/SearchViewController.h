@@ -10,8 +10,8 @@
 #import <CoreData/CoreData.h>
 #import "RestaurantTypePickerView.h"
 
-@interface SearchViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate> {
-	IBOutlet UIPickerView *typePicker;
+@interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+	IBOutlet UITableView *tableView;
 	IBOutlet UISlider *openThruSlider;
 	IBOutlet UILabel *openThruLabel;
 	IBOutlet UISegmentedControl *mealPlanChooser;
@@ -27,8 +27,7 @@
 
 - (NSArray *)restaurants;
 - (NSArray *)restaurantTypes;
-- (void)didSelectType:(id)sender;
-- (IBAction)openThruSliderChanged:(id)sender;
+- (IBAction)openThruSliderChanged:(UISlider *)sender;
 - (IBAction)showSearchResults:(id)sender;
 
 @end
