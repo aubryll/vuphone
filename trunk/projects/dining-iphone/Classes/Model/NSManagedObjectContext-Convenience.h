@@ -12,7 +12,13 @@
 @interface NSManagedObjectContext(Convenience)
 
 // Convenience method to fetch the array of objects for a given Entity
-// name in the context, optionally limiting by a predicate or by a predicate
+// name in the context, optionally limiting by a predicate
+//
+- (NSArray *)fetchObjectsForEntityName:(NSString *)entityName
+						 withPredicate:(NSPredicate *)predicate;
+
+// Convenience method to fetch the set of objects for a given Entity
+// name in the context, optionally limiting by a predicate
 // made from a format NSString and variable arguments.
 //
 - (NSSet *)fetchObjectsForEntityName:(NSString *)newEntityName

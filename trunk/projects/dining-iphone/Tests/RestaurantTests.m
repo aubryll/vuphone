@@ -61,6 +61,8 @@
 				 @"Early restaurant before late is ordered ascending");
 	STAssertTrue([sortDescriptor compareObject:lateCloser toObject:earlyCloser] == NSOrderedDescending,
 				 @"Late restaurant before early is ordered descending");
+
+	[sortDescriptor release];
 }
 
 - (void)tearDown {

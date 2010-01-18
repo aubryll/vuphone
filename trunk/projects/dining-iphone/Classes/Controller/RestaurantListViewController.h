@@ -25,6 +25,8 @@ typedef enum {
 	SortHelperIndex currentSortHelperIndex;
 }
 
+@property (retain) NSMutableArray *restaurants;
+
 - (void)initSortHelpers;
 - (IBAction)sortChanged:(id)sender;
 - (void)setSort:(SortHelperIndex)index;
