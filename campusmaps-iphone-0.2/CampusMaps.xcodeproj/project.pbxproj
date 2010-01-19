@@ -17,10 +17,10 @@
 		3332F9D510A13B89003D35B8 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D310A13B89003D35B8 /* POI.m */; };
 		3335285610A3EA3300D4F1A2 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */; };
 		3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */; };
-		337049681082E17B00E0520A /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 337049671082E17B00E0520A /* MapLayerController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
 		610326CF10FEF042000CCFB0 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 610326CA10FEF042000CCFB0 /* Images */; };
 		6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */; };
+		616FBBCA110647650044D76B /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616FBBC9110647650044D76B /* MapLayerController.m */; };
 		61D6100E10F84BBC00CE3397 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D6100D10F84BBC00CE3397 /* Icon.png */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
 		61FD085E10C72438000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */; };
@@ -62,8 +62,6 @@
 		3335285310A3EA3300D4F1A2 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
 		3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultViewController.xib; sourceTree = "<group>"; };
-		337049661082E17B00E0520A /* MapLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapLayerController.h; path = ../MapLayerController.h; sourceTree = "<group>"; };
-		337049671082E17B00E0520A /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapLayerController.m; path = ../MapLayerController.m; sourceTree = "<group>"; };
 		338387CA1081479400F56AEB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		338387CB1081479400F56AEB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		33DBDB8A10FE869700776C86 /* cluster.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cluster.c; sourceTree = "<group>"; };
@@ -72,6 +70,8 @@
 		33DBDBA510FE88B400776C86 /* ClusteringWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusteringWrapper.m; sourceTree = "<group>"; };
 		610326CA10FEF042000CCFB0 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = CampusMapsDefaultData.sqlite; sourceTree = "<group>"; };
+		616FBBC8110647650044D76B /* MapLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLayerController.h; sourceTree = "<group>"; };
+		616FBBC9110647650044D76B /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLayerController.m; sourceTree = "<group>"; };
 		61D6100D10F84BBC00CE3397 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		61FC2EE6107C4AFA00FFF897 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		61FD085C10C72438000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
@@ -137,10 +137,6 @@
 				3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */,
 				338387CA1081479400F56AEB /* MapViewController.h */,
 				338387CB1081479400F56AEB /* MapViewController.m */,
-				337049661082E17B00E0520A /* MapLayerController.h */,
-				337049671082E17B00E0520A /* MapLayerController.m */,
-				1D3623240D0F684500981E51 /* CampusMapsAppDelegate.h */,
-				1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */,
 				61FD09CE10C75112000EA568 /* LayersListViewController.h */,
 				61FD09CF10C75112000EA568 /* LayersListViewController.m */,
 				9973B77010E2727E002922E9 /* VariableHeightCell.h */,
@@ -149,6 +145,10 @@
 				998256F310E33E6D009C1A75 /* POIImageViewCell.m */,
 				997D63A210E48E3600A55FAC /* LocationManagerSingleton.h */,
 				997D63A310E48E3600A55FAC /* LocationManagerSingleton.m */,
+				616FBBC8110647650044D76B /* MapLayerController.h */,
+				616FBBC9110647650044D76B /* MapLayerController.m */,
+				1D3623240D0F684500981E51 /* CampusMapsAppDelegate.h */,
+				1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -333,7 +333,6 @@
 				1D3623260D0F684500981E51 /* CampusMapsAppDelegate.m in Sources */,
 				61FD089310C739C9000EA568 /* CampusMaps.xcdatamodeld in Sources */,
 				338387CD1081479400F56AEB /* MapViewController.m in Sources */,
-				337049681082E17B00E0520A /* MapLayerController.m in Sources */,
 				3332F9D410A13B89003D35B8 /* Layer.m in Sources */,
 				3332F9D510A13B89003D35B8 /* POI.m in Sources */,
 				3335285610A3EA3300D4F1A2 /* SearchResultViewController.m in Sources */,
@@ -349,6 +348,7 @@
 				9973B77210E2727E002922E9 /* VariableHeightCell.m in Sources */,
 				998256F410E33E6D009C1A75 /* POIImageViewCell.m in Sources */,
 				997D63A410E48E3600A55FAC /* LocationManagerSingleton.m in Sources */,
+				616FBBCA110647650044D76B /* MapLayerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

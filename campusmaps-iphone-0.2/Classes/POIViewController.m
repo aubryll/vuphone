@@ -23,7 +23,6 @@
 //
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	// Note that we'll be adding a 4th section for the image later.
 	return 4;
 }
 

@@ -49,7 +49,7 @@
 	[window addSubview:navController.view];
 	[navController pushViewController:mapViewController animated:NO];
 	[window makeKeyAndVisible];
-	
+/*	
 	// Update if it hasn't within 24 hours
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
 	if (lastUpdate == nil) {
@@ -59,6 +59,7 @@
 	if ([[NSDate date] timeIntervalSinceDate:lastUpdate] > 60*60*24) {
 		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
 	}
+*/
 }
 
 - (void)loadRemotePOIs:(NSManagedObjectContext *)context
