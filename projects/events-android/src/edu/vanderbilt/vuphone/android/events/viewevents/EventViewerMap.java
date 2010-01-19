@@ -83,6 +83,11 @@ public class EventViewerMap extends MapView {
 		eventOverlay_.receiveNewFilters(positionFilter_, timeFilter_, tagsFilter_);
 		positionOverlay_.setPositionFilter(positionFilter_);
 	}
+	
+	/** Used to add a single item to the EventOverlay */
+	protected void addOverlayItem(long rowId) {
+		eventOverlay_.addItem(rowId);
+	}
 
 	protected void updatePositionFilter(PositionFilter filter) {
 		// Turn off any current location threads

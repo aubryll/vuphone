@@ -3,7 +3,6 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
-
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 
@@ -31,8 +30,17 @@ public class EventOverlayItem extends OverlayItem {
 	boolean isOwner;
 	long rowId;
 
-	private EventOverlayItem(GeoPoint point, String title, String snippet) {
-		super(point, title, snippet);
+	private EventOverlayItem(GeoPoint location, String name, String snippet) {
+		super(location, name, snippet);
+	}
+
+	protected EventOverlayItem(GeoPoint point, String name, String startTime,
+			String endTime, int isOwner, long row) {
+		super(point, name, "");
+
+		boolean isOwnerBool = (isOwner == 1);
+
+		setProperties(startTime, endTime, isOwnerBool, row);
 	}
 
 	/**
@@ -52,10 +60,9 @@ public class EventOverlayItem extends OverlayItem {
 				.getColumnIndex(DBAdapter.COLUMN_START_TIME));
 		String endTime = c.getString(c
 				.getColumnIndex(DBAdapter.COLUMN_END_TIME));
-		int isOwnerInt = c.getInt(c
-				.getColumnIndex(DBAdapter.COLUMN_IS_OWNER));
+		int isOwnerInt = c.getInt(c.getColumnIndex(DBAdapter.COLUMN_IS_OWNER));
 		long row = c.getLong(c.getColumnIndex(DBAdapter.COLUMN_ID));
-		
+
 		boolean isOwner = (isOwnerInt == 1);
 
 		final GeoPoint location = new GeoPoint(lat, lon);
@@ -78,19 +85,19 @@ public class EventOverlayItem extends OverlayItem {
 		isOwner = owner;
 		rowId = row;
 	}
-	
+
 	public String getStartTime() {
 		return startTime;
 	}
-	
+
 	public String getEndTime() {
 		return endTime;
 	}
-	
+
 	public boolean getIsOwner() {
 		return isOwner;
 	}
-	
+
 	public long getDBRowId() {
 		return rowId;
 	}

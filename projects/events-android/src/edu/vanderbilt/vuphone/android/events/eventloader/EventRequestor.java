@@ -56,7 +56,7 @@ public class EventRequestor {
 	 *         occurred
 	 */
 	public static ByteArrayOutputStream doEventRequest(GeoPoint anchorLocation,
-			int radiusInFeet, long latestUpdatedTime, Context context) {
+			int radiusInFeet, long latestUpdatedTime, String androidID) {
 
 		// Convert all params to strings
 		String radius = Integer.toString(radiusInFeet);
@@ -65,7 +65,6 @@ public class EventRequestor {
 				.getLatitudeE6() / 1E6);
 		String longitude = Double.toString((double) anchorLocation
 				.getLongitudeE6() / 1E6);
-		String androidID = Constants.getAndroidID(context);
 
 		// URL encode all params
 		try {
@@ -105,12 +104,13 @@ public class EventRequestor {
 		post.setEntity(new ByteArrayEntity(params.toString().getBytes()));
 
 		// Execute post
-		Log.i(tag, pre + "Executing post to " + Constants.SERVER + PATH);
+		Log.i(tag, pre + "Executing post to " + Constants.SERVER + "?" + PATH + params);
 		HttpResponse resp = null;
 		ByteArrayOutputStream bao = new ByteArrayOutputStream();
 		try {
 			resp = c.execute(post);
 			resp.getEntity().writeTo(bao);
+			Log.i(tag, pre + "Received " + bao.size() + " bytes back");
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 			Log.e(tag, pre + "ClientProtocolException executing post: "

@@ -10,6 +10,15 @@
 	<!-- Chris="0jkNEKZdvnMwQ2yB7GDUqrWqjgAEsPhREB9YyPQ" -->
 	<!-- Chris2="0jkNEKZdvnMzof7knUDjeLDoLEnEqnnsuXRbdqA" -->
 
+	<!--
+		The following line is the Google Maps API key that matches our release
+		key. If you don't know what this means, don't worry about is :)
+	-->
+	<!--
+		<string
+		name="maps_api_key">0WaaNqOIImbqGScSXexJg0koHVKOXVPYtBy3tLQ</string>
+	-->
+	
 	<edu.vanderbilt.vuphone.android.events.viewevents.EventViewerMap
 		android:id="@+id/event_viewer_map" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:clickable="true"
