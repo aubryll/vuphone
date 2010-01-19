@@ -39,16 +39,21 @@ import com.google.android.maps.MapView;
 
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
 import edu.vanderbilt.vuphone.android.campusmaps.tools.Tools;
+import edu.vanderbilt.vuphone.android.campusmaps.About;
 
 public class Main extends MapActivity {
 
 	public static Context applicationContext;
+	
+	private static final int MENU_ITEM_BUILDING_LIST = 1;
+	private static final int MENU_ITEM_MAP_MODE_GROUP = 0;
+	private static final int MENU_ITEM_ABOUT = 7;
+	// private static final int MENU_SETTINGS = 3;
+	
 	private static final int SUBMENU_STREET_VIEW = 6;
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
-	// private static final int MENU_SETTINGS = 3;
-	private static final int MENU_BUILDING_LIST = 1;
-	private static final int MENU_MAP_MODE_GROUP = 0;
+	
 	public static MapView mapView_;
 	private static MapController mc_;
 	private GeoPoint p_;
@@ -152,13 +157,17 @@ public class Main extends MapActivity {
 		super.onCreateOptionsMenu(menu);
 		SubMenu mapModes = menu.addSubMenu("More Map Modes").setIcon(
 				android.R.drawable.ic_menu_mapmode);
-		mapModes.add(MENU_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
-		mapModes.add(MENU_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
+		mapModes.add(MENU_ITEM_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
+		mapModes.add(MENU_ITEM_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
 		mapModes
-				.add(MENU_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
-		mapModes.setGroupCheckable(MENU_MAP_MODE_GROUP, true, false);
-		menu.add(0, 1, MENU_BUILDING_LIST, "List Buildings").setIcon(
+				.add(MENU_ITEM_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
+		mapModes.setGroupCheckable(MENU_ITEM_MAP_MODE_GROUP, true, false);
+		menu.add(0, 1, MENU_ITEM_BUILDING_LIST, "List Buildings").setIcon(
 				android.R.drawable.ic_menu_agenda);
+		
+		menu.add(Menu.NONE, MENU_ITEM_ABOUT, Menu.NONE, "About").setIcon(
+				getResources().getDrawable(
+						android.R.drawable.ic_menu_info_details));
 		/*
 		 * menu.add(0, 2, MENU_SETTINGS, "Settings").setIcon(
 		 * android.R.drawable.ic_menu_preferences);
@@ -215,11 +224,14 @@ public class Main extends MapActivity {
 			}
 			break;
 
-		case (MENU_BUILDING_LIST):
+		case (MENU_ITEM_BUILDING_LIST):
 			Intent i = new Intent(this, BuildingList.class);
 			startActivity(i);
 			break;
-
+		case MENU_ITEM_ABOUT:
+			Intent about = new Intent(this, About.class);
+			startActivity(about);
+			break;
 		/*
 		 * case (MENU_SETTINGS): echo("Settings"); break;
 		 */
