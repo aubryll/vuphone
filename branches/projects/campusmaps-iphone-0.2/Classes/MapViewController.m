@@ -141,11 +141,13 @@
 #pragma mark MKMapViewDelegate
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-	MKAnnotationView* annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+	static NSString *reuseIdentifier = @"reusedAnnView";
+	MKAnnotationView* annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 	annView.image = annotationImage;
 	annView.canShowCallout = YES;
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-	return [annView autorelease];
+
+	return annView;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
@@ -180,7 +182,8 @@
 		[mapView setCenterCoordinate:ann.coordinate animated:YES];
 		[mapView selectAnnotation:ann animated:YES];
 	}
-	else {
+	else if ([mapView.annotations count] != 0)
+	{
 		// Work around a weird bug where the map view delays showing the new POIs
 		[mapView setCenterCoordinate:mapView.centerCoordinate animated:YES];
 	}
