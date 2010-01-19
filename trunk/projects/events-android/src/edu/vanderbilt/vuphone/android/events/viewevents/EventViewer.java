@@ -4,14 +4,14 @@
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
 import java.util.GregorianCalendar;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +63,9 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	 */
 	private RelativeLayout eventMap_;
 
+	// /** Used to update the UI from another thread *
+	private Handler uiHandler_;
+
 	/** Constants to identify MenuItems */
 	private static final int MENUITEM_NEW_EVENT = 0;
 	private static final int MENUITEM_FILTER_POS = 1;
@@ -78,6 +81,15 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	private static final int REQUEST_POSITION_FILTER = 0;
 	private static final int REQUEST_TIME_FILTER = 1;
 	private static final int REQUEST_TAGS_FILTER = 2;
+
+	/**
+	 * Gets passed to the UI thread every time a new event is loaded
+	 */
+	final Runnable eventLoaded_ = new Runnable() {
+		public void run() {
+			//map_.refreshOverlays();
+		}
+	};
 
 	/**
 	 * @see com.google.android.maps.MapActivity#isRouteDisplayed()
@@ -160,6 +172,12 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		Log.i(tag, pre + "Registered to update events every 15 min");
 		am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(),
 				AlarmManager.INTERVAL_DAY, loader);
+
+		Looper loop = Looper.myLooper();
+		if (loop == null)
+			Looper.getMainLooper();
+		
+		uiHandler_ = new Handler(loop);
 
 		EventLoader.registerLoadingListener(this);
 	}
@@ -281,9 +299,19 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 			map_.setStreetView(true);
 			break;
 		case MENUITEM_MANUAL_UPDATE:
-			EventLoader.manualUpdate(this);
-			map_.refreshOverlays();
-			map_.postInvalidate();
+			final DBAdapter adapter = new DBAdapter(getApplicationContext());
+			final String androidID = Constants
+					.getAndroidID(getApplicationContext());
+			Thread t = new Thread(new Runnable() {
+				public void run() {
+					EventLoader.manualUpdate(adapter, androidID);
+				}
+			});
+			t.setDaemon(true);
+			t.setName("EventsRequestor");
+			t.setPriority(Thread.MIN_PRIORITY);
+			t.start();
+
 			break;
 		default:
 			Log.w(tag, pre + "No menu case matched! Did we open a submenu?");
@@ -314,24 +342,47 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	 * LoadingListener.LoadState)
 	 */
 	public void OnEventLoadStateChanged(LoadState l) {
-		final LinearLayout update = (LinearLayout) findViewById(R.id.updating_events);
-		TextView t = (TextView) findViewById(R.event_map.updating_text);
+		if (uiHandler_ == null)
+			return;
+			
+		switch (l) {
+		case STARTED:
+			uiHandler_.post(new Runnable() {
 
-		if (l == LoadState.STARTED) {
-			t.setText("Updating events... ");
-			update.setVisibility(View.VISIBLE);
-			t.requestLayout();
-			update.requestLayout();
-		} else {
-			t.setText("Done Updating! ");
-			Timer th = new Timer("Update Events Notifier", true);
-			th.schedule(new TimerTask() {
 				public void run() {
-					update.setVisibility(View.GONE);
-					update.postInvalidate();
+					Toast.makeText(EventViewer.this, "Updating Events", Toast.LENGTH_SHORT).show();
 				}
-			}, 1500);
-		}
+				
+			});
+			break;
+		case ONE_EVENT:
+			Log.v(tag, pre + "Loaded");
+			if (uiHandler_ != null)
+				uiHandler_.post(eventLoaded_);
+			break;
+		case FINISHED:
+			uiHandler_.post(new Runnable() {
 
+				public void run() {
+					Toast.makeText(EventViewer.this, "Done Updating Events", Toast.LENGTH_SHORT)
+					.show();
+				}
+				
+			});
+			
+			break;
+		case FINISHED_WITH_ERROR:
+			uiHandler_.post(new Runnable() {
+
+				public void run() {
+					Toast.makeText(EventViewer.this, "Error Updating. Try again later",
+							Toast.LENGTH_LONG).show();
+				}
+				
+			});
+			
+			break;
+
+		}
 	}
 }

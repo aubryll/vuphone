@@ -10,7 +10,7 @@ package edu.vanderbilt.vuphone.android.events.eventloader;
 public interface LoadingListener {
 	
 	public enum LoadState {
-		STARTED, FINISHED
+		STARTED, ONE_EVENT, FINISHED_WITH_ERROR, FINISHED
 	}
 	
 	public void OnEventLoadStateChanged(LoadState l);

@@ -23,6 +23,7 @@ import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.LocationManager;
 import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
+import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 
 /**
  * Allows a user to submit a new event to the main server
@@ -183,11 +184,12 @@ public class SubmitEvent extends Activity {
 
 	/** Clears the EditText fields. Used in the Menu */
 	private void clear() {
-		//TODO uncomment
-//		EditText et = (EditText) findViewById(R.submitEventPage.ET_event_title);
-//		et.setText("");
-//		et = (EditText) findViewById(R.submitEventPage.ET_event_desc);
-//		et.setText("");
+		// TODO uncomment
+		// EditText et = (EditText)
+		// findViewById(R.submitEventPage.ET_event_title);
+		// et.setText("");
+		// et = (EditText) findViewById(R.submitEventPage.ET_event_desc);
+		// et.setText("");
 	}
 
 	/** Helper function to turn the Month from an integer into a String */
@@ -265,90 +267,97 @@ public class SubmitEvent extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//TODO Finish fixing layout, and then uncomment
-		
+		// TODO Finish fixing layout, and then uncomment
+
 		setContentView(R.layout.submit_event);
-//
-//		dateLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_date);
-//		timeLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_time);
-//		buildingLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_building);
-//
-//		dateEndLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_date_end);
-//		timeEndLabel_ = (TextView) findViewById(R.submitEventPage.TV_event_time_end);
-//
-//		nameLabel_ = (EditText) findViewById(R.submitEventPage.ET_event_title);
-//		descLabel_ = (EditText) findViewById(R.submitEventPage.ET_event_desc);
-//
-//		// Create the onClickListener for the date
-//		dateLabel_.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				showDialog(DIALOG_DATE_PICKER);
-//			}
-//		});
-//
-//		// Create the onClickListener for the date
-//		timeLabel_.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				showDialog(DIALOG_TIME_PICKER);
-//			}
-//		});
-//
-//		// Create the onClickListener for the date
-//		dateEndLabel_.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				showDialog(DIALOG_END_DATE_PICKER);
-//			}
-//		});
-//
-//		// Create the onClickListener for the date
-//		timeEndLabel_.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				showDialog(DIALOG_END_TIME_PICKER);
-//			}
-//		});
-//
-//		// Set the initial date
-//		startCalendar_ = new GregorianCalendar();
-//		endCalendar_ = new GregorianCalendar();
-//		endCalendar_.add(GregorianCalendar.HOUR, 2);
-//
-//		while ((startCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
-//			startCalendar_.add(GregorianCalendar.MINUTE, 1);
-//
-//		while ((endCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
-//			endCalendar_.add(GregorianCalendar.MINUTE, 1);
-//
-//		updateDateLabels();
-//		updateTimeLabels();
-//
-//		// Set up the location chooser
-//		buildingLabel_.setOnClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				startActivityForResult(new Intent(SubmitEvent.this,
-//						ChooseLocation.class), REQUEST_LIST_LOCATION);
-//			}
-//		});
-//
-//		ColorStateList csl = null;
-//		XmlResourceParser parser = getResources().getXml(
-//				R.color.focused_textview);
-//		try {
-//			csl = ColorStateList.createFromXml(getResources(), parser);
-//		} catch (XmlPullParserException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		if (csl == null)
-//			return;
-//
-//		dateLabel_.setTextColor(csl);
-//		timeLabel_.setTextColor(csl);
-//		buildingLabel_.setTextColor(csl);
-//
-//		dateEndLabel_.setTextColor(csl);
-//		timeEndLabel_.setTextColor(csl);
+		//
+		// dateLabel_ = (TextView)
+		// findViewById(R.submitEventPage.TV_event_date);
+		// timeLabel_ = (TextView)
+		// findViewById(R.submitEventPage.TV_event_time);
+		// buildingLabel_ = (TextView)
+		// findViewById(R.submitEventPage.TV_event_building);
+		//
+		// dateEndLabel_ = (TextView)
+		// findViewById(R.submitEventPage.TV_event_date_end);
+		// timeEndLabel_ = (TextView)
+		// findViewById(R.submitEventPage.TV_event_time_end);
+		//
+		// nameLabel_ = (EditText)
+		// findViewById(R.submitEventPage.ET_event_title);
+		// descLabel_ = (EditText)
+		// findViewById(R.submitEventPage.ET_event_desc);
+		//
+		// // Create the onClickListener for the date
+		// dateLabel_.setOnClickListener(new OnClickListener() {
+		// public void onClick(View v) {
+		// showDialog(DIALOG_DATE_PICKER);
+		// }
+		// });
+		//
+		// // Create the onClickListener for the date
+		// timeLabel_.setOnClickListener(new OnClickListener() {
+		// public void onClick(View v) {
+		// showDialog(DIALOG_TIME_PICKER);
+		// }
+		// });
+		//
+		// // Create the onClickListener for the date
+		// dateEndLabel_.setOnClickListener(new OnClickListener() {
+		// public void onClick(View v) {
+		// showDialog(DIALOG_END_DATE_PICKER);
+		// }
+		// });
+		//
+		// // Create the onClickListener for the date
+		// timeEndLabel_.setOnClickListener(new OnClickListener() {
+		// public void onClick(View v) {
+		// showDialog(DIALOG_END_TIME_PICKER);
+		// }
+		// });
+		//
+		// // Set the initial date
+		// startCalendar_ = new GregorianCalendar();
+		// endCalendar_ = new GregorianCalendar();
+		// endCalendar_.add(GregorianCalendar.HOUR, 2);
+		//
+		// while ((startCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
+		// startCalendar_.add(GregorianCalendar.MINUTE, 1);
+		//
+		// while ((endCalendar_.get(GregorianCalendar.MINUTE) % 15) != 0)
+		// endCalendar_.add(GregorianCalendar.MINUTE, 1);
+		//
+		// updateDateLabels();
+		// updateTimeLabels();
+		//
+		// // Set up the location chooser
+		// buildingLabel_.setOnClickListener(new OnClickListener() {
+		// public void onClick(View v) {
+		// startActivityForResult(new Intent(SubmitEvent.this,
+		// ChooseLocation.class), REQUEST_LIST_LOCATION);
+		// }
+		// });
+		//
+		// ColorStateList csl = null;
+		// XmlResourceParser parser = getResources().getXml(
+		// R.color.focused_textview);
+		// try {
+		// csl = ColorStateList.createFromXml(getResources(), parser);
+		// } catch (XmlPullParserException e) {
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		//
+		// if (csl == null)
+		// return;
+		//
+		// dateLabel_.setTextColor(csl);
+		// timeLabel_.setTextColor(csl);
+		// buildingLabel_.setTextColor(csl);
+		//
+		// dateEndLabel_.setTextColor(csl);
+		// timeEndLabel_.setTextColor(csl);
 	}
 
 	/** Creates the menu items */
@@ -411,7 +420,11 @@ public class SubmitEvent extends Activity {
 					.toString(), startCalendar_, endCalendar_, location_,
 					descLabel_.getText().toString(), getApplicationContext());
 			if (posted) {
-				EventLoader.manualUpdate(this);
+				
+				final DBAdapter adapter = new DBAdapter(this);
+				final String androidID = Constants
+						.getAndroidID(getApplicationContext());
+				EventLoader.manualUpdate(adapter, androidID);
 
 				Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
 				finish();

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import org.xml.sax.InputSource;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -63,7 +62,9 @@ public class EventLoader extends Service {
 	public void onStart(Intent intent, int startId) {
 		super.onStart(intent, startId);
 		Log.i(tag, pre + "Starting the load - " + System.currentTimeMillis());
-		loadEvents(database_, this);
+		
+		String androidID = Constants.getAndroidID(this);
+		loadEvents(database_, androidID);
 		Log.i(tag, pre + "Finished the load - " + System.currentTimeMillis());
 	}
 
@@ -78,16 +79,18 @@ public class EventLoader extends Service {
 	/**
 	 * Starts the EventRequestor and the EventHandler
 	 */
-	protected static void loadEvents(DBAdapter openDatabase, Context c) {
+	protected static void loadEvents(DBAdapter openDatabase, String androidID) {
 		for (LoadingListener l : listeners_)
 			l.OnEventLoadStateChanged(LoadState.STARTED);
 		
 		long time = openDatabase.getLargestUpdatedTime();
 		ByteArrayOutputStream xmlResponse = EventRequestor.doEventRequest(
-				Constants.vandyCenter, 10000, time, c);
+				Constants.vandyCenter, 10000, time, androidID);
 
 		if (xmlResponse == null) {
 			Log.e(tag, pre + "Unable to continue, there is no XML response");
+			for (LoadingListener l : listeners_)
+				l.OnEventLoadStateChanged(LoadState.FINISHED_WITH_ERROR);
 			return;
 		}
 
@@ -143,13 +146,15 @@ public class EventLoader extends Service {
 			if (count == 5)
 				Log.e(tag, pre + "Giving up on storing event");
 		} while (handled == false && count < 5);
+		
+		for (LoadingListener l : listeners_)
+			l.OnEventLoadStateChanged(LoadState.ONE_EVENT);
 		Log.d(tag, pre + "Done handling event");
 	}
 
-	public static void manualUpdate(Context c) {
-		DBAdapter db = new DBAdapter(c);
+	public static void manualUpdate(DBAdapter db, String androidID) {
 		db.openWritable();
-		loadEvents(db, c);
+		loadEvents(db, androidID);
 		db.close();
 	}
 	
@@ -162,4 +167,5 @@ public class EventLoader extends Service {
 	{
 		listeners_.remove(l);
 	}
+	
 }
