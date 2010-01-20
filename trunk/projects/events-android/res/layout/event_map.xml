@@ -19,7 +19,7 @@
 		name="maps_api_key">0WaaNqOIImbqGScSXexJg0koHVKOXVPYtBy3tLQ</string>
 	-->
 	
-	<edu.vanderbilt.vuphone.android.events.viewevents.EventViewerMap
+	<edu.vanderbilt.vuphone.android.events.viewevents.EventViewerMapView
 		android:id="@+id/event_viewer_map" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:clickable="true"
 		android:apiKey="0WaaNqOIImbpV_RfSQV-gr9nJbr8jn1QG-iuxSw" />

@@ -13,5 +13,6 @@ public interface LoadingListener {
 		STARTED, ONE_EVENT, FINISHED_WITH_ERROR, FINISHED
 	}
 	
-	public void OnEventLoadStateChanged(LoadState l);
+	
+	public void OnEventLoadStateChanged(LoadState l, Long rowId);
 }

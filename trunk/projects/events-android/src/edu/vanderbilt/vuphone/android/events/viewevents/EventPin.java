@@ -17,7 +17,7 @@ import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
  * @author Hamilton Turner
  * 
  */
-public class EventOverlayItem extends OverlayItem {
+public class EventPin {
 	/** Used for logging */
 	// private static final String tag = Constants.tag;
 	// private static final String pre = "EventOverlayItem: ";
@@ -29,18 +29,13 @@ public class EventOverlayItem extends OverlayItem {
 	String startTime, endTime;
 	boolean isOwner;
 	long rowId;
+	GeoPoint location_;
 
-	private EventOverlayItem(GeoPoint location, String name, String snippet) {
-		super(location, name, snippet);
-	}
+	protected EventPin(GeoPoint point, String name, String startTime,
+			String endTime, boolean isOwner, long row) {
 
-	protected EventOverlayItem(GeoPoint point, String name, String startTime,
-			String endTime, int isOwner, long row) {
-		super(point, name, "");
-
-		boolean isOwnerBool = (isOwner == 1);
-
-		setProperties(startTime, endTime, isOwnerBool, row);
+		location_ = point;
+		setProperties(startTime, endTime, isOwner, row);
 	}
 
 	/**
@@ -52,7 +47,7 @@ public class EventOverlayItem extends OverlayItem {
 	 *            EventOverlayItem
 	 * @return
 	 */
-	public static EventOverlayItem getItemFromRow(Cursor c) {
+	public static EventPin getItemFromRow(Cursor c) {
 		int lat = c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LOCATION_LAT));
 		int lon = c.getInt(c.getColumnIndex(DBAdapter.COLUMN_LOCATION_LON));
 		String name = c.getString(c.getColumnIndex(DBAdapter.COLUMN_NAME));
@@ -66,16 +61,9 @@ public class EventOverlayItem extends OverlayItem {
 		boolean isOwner = (isOwnerInt == 1);
 
 		final GeoPoint location = new GeoPoint(lat, lon);
-		EventOverlayItem eoi = new EventOverlayItem(location, name, "");
-		eoi.setProperties(startTime, endTime, isOwner, row);
+		EventPin eoi = new EventPin(location, name, startTime, endTime, isOwner, row);
 
 		return eoi;
-	}
-
-	/** @see com.google.android.maps.OverlayItem#getMarker(int) */
-	@Override
-	public Drawable getMarker(int bitStateset) {
-		return null;
 	}
 
 	/** Used to set the properties for this event */
@@ -92,6 +80,10 @@ public class EventOverlayItem extends OverlayItem {
 
 	public String getEndTime() {
 		return endTime;
+	}
+	
+	public GeoPoint getLocation() {
+		return location_;
 	}
 
 	public boolean getIsOwner() {

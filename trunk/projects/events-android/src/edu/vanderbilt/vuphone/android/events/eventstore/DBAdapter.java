@@ -243,9 +243,9 @@ public class DBAdapter {
 	 *            true if this phone is the owner of the event, false otherwise
 	 * @param serverId
 	 *            The unique id used by the server to identify this event
-	 * @return true if the event was inserted, false if there was some problem
+	 * @return ID of inserted row, or -1 if error
 	 */
-	public boolean insertOrUpdateEvent(String name, long startTime,
+	public long insertOrUpdateEvent(String name, long startTime,
 			long endTime, GeoPoint location, long updateTime, boolean owner,
 			long serverId, String description) {
 
@@ -283,18 +283,18 @@ public class DBAdapter {
 				Log.w(tag, pre + "Error: " + e.getMessage());
 
 				event.close();
-				return false;
+				return -1;
 			}
 
 			if (id == -1) {
 				Log.w(tag, pre + "Unknown error occurred"
 						+ " when inserting into database");
 				event.close();
-				return false;
+				return -1;
 			}
 
 			event.close();
-			return true;
+			return id;
 
 		} else if (event.getCount() == 1) {
 			// Check update time, perhaps update
@@ -311,8 +311,9 @@ public class DBAdapter {
 						+ " rows were affected on update! "
 						+ "This should never happen!");
 
+			// TODO - update this to return the correct number!
 			event.close();
-			return true;
+			return -1;
 
 		} else if (event.getCount() > 1) {
 			// remove all rows, log warning, insert event
@@ -331,7 +332,7 @@ public class DBAdapter {
 				Log.w(tag, pre + "Unable to insert event into database");
 				Log.w(tag, pre + "Error: " + e.getMessage());
 				event.close();
-				return false;
+				return -1;
 			}
 
 			if (id == -1) {
@@ -339,16 +340,16 @@ public class DBAdapter {
 						+ " when inserting into database");
 
 				event.close();
-				return false;
+				return -1;
 			}
 
 			event.close();
-			return true;
+			return id;
 		}
 
 		// We should never get here, means event.getCount was negative
 		event.close();
-		return false;
+		return -1;
 	}
 
 	/** Used to open a readable database */

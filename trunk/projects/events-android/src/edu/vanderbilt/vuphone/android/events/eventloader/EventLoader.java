@@ -81,7 +81,7 @@ public class EventLoader extends Service {
 	 */
 	protected static void loadEvents(DBAdapter openDatabase, String androidID) {
 		for (LoadingListener l : listeners_)
-			l.OnEventLoadStateChanged(LoadState.STARTED);
+			l.OnEventLoadStateChanged(LoadState.STARTED, null);
 		
 		long time = openDatabase.getLargestUpdatedTime();
 		ByteArrayOutputStream xmlResponse = EventRequestor.doEventRequest(
@@ -90,7 +90,7 @@ public class EventLoader extends Service {
 		if (xmlResponse == null) {
 			Log.e(tag, pre + "Unable to continue, there is no XML response");
 			for (LoadingListener l : listeners_)
-				l.OnEventLoadStateChanged(LoadState.FINISHED_WITH_ERROR);
+				l.OnEventLoadStateChanged(LoadState.FINISHED_WITH_ERROR, null);
 			return;
 		}
 
@@ -102,7 +102,7 @@ public class EventLoader extends Service {
 		openDatabase.cleanOldEvents();
 		
 		for (LoadingListener l : listeners_)
-			l.OnEventLoadStateChanged(LoadState.FINISHED);
+			l.OnEventLoadStateChanged(LoadState.FINISHED, null);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class EventLoader extends Service {
 		final int latE6 = (int) (latitude * 1E6);
 		final int lonE6 = (int) (longitude * 1E6);
 		final GeoPoint location = new GeoPoint(latE6, lonE6);
-		boolean handled = false;
+		long handled = -1;
 		int count = 0;
 		
 		Log.d(tag, pre + "Begin handling event");
@@ -145,10 +145,11 @@ public class EventLoader extends Service {
 				Log.w(tag, pre + "Database appears to be locked");
 			if (count == 5)
 				Log.e(tag, pre + "Giving up on storing event");
-		} while (handled == false && count < 5);
+		} while (handled == -1 && count < 5);
 		
 		for (LoadingListener l : listeners_)
-			l.OnEventLoadStateChanged(LoadState.ONE_EVENT);
+			l.OnEventLoadStateChanged(LoadState.ONE_EVENT, handled);
+		
 		Log.d(tag, pre + "Done handling event");
 	}
 

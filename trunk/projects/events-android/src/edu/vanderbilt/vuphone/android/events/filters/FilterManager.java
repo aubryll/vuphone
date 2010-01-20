@@ -46,27 +46,28 @@ public class FilterManager {
 		if (listener instanceof TimeFilterListener)
 			timeFilterObservers_.add((TimeFilterListener) listener);
 		
-		else
-			Log
-					.e(
-							tag,
-							pre
-									+ "Tried to register a FilterListener that not one of the known types. "
-									+ "This likely means someone created one of their own. Use the pre-defined FilterListeners instead.");
+//		else
+//			Log
+//					.e(
+//							tag,
+//							pre
+//									+ "Tried to register a FilterListener that not one of the known types. "
+//									+ "This likely means someone created one of their own. Use the pre-defined FilterListeners instead.");
 
 	}
 
 	public static void unregisterFilterListener(FilterListener listener) {
 		if (listener instanceof PositionFilterListener)
 			positionFilterObservers_.remove((PositionFilterListener) listener);
-		else if (listener instanceof TimeFilterListener)
+		
+		 if (listener instanceof TimeFilterListener)
 			timeFilterObservers_.remove((TimeFilterListener) listener);
-		else
-			Log
-					.w(
-							tag,
-							pre
-									+ "Tried to unregister a FilterListener that not one of the known types. ");
+//		else
+//			Log
+//					.w(
+//							tag,
+//							pre
+//									+ "Tried to unregister a FilterListener that not one of the known types. ");
 	}
 	
 	public static TimeFilter getCurrentTimeFilter() {
