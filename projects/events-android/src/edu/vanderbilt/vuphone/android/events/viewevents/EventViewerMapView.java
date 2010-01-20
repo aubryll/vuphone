@@ -22,7 +22,7 @@ import edu.vanderbilt.vuphone.android.events.filters.TimeFilter;
  * @author Hamilton Turner
  * 
  */
-public class EventViewerMap extends MapView {
+public class EventViewerMapView extends MapView {
 
 	/** Used to draw the current location, accuracy, and compass */
 	private MyLocationOverlay currentLocation_;
@@ -42,7 +42,7 @@ public class EventViewerMap extends MapView {
 	 * @param context
 	 * @param attrs
 	 */
-	public EventViewerMap(Context context, AttributeSet attrs) {
+	public EventViewerMapView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		
 		setBuiltInZoomControls(true);
@@ -54,8 +54,9 @@ public class EventViewerMap extends MapView {
 		getOverlays().add(currentLocation_);
 
 		eventOverlay_ = new EventOverlay(null, null,
-				null, context, this);
+				null, this);
 		getOverlays().add(eventOverlay_);
+		
 
 		positionOverlay_ = new PositionOverlay();
 		getOverlays().add(positionOverlay_);

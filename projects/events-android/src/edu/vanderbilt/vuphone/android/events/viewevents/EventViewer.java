@@ -3,8 +3,6 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
-import java.util.GregorianCalendar;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -16,10 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -52,7 +48,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	private static final String pre = "EventViewer: ";
 
 	/** The map we are using */
-	private EventViewerMap map_;
+	private EventViewerMapView map_;
 
 	/** Pane that drops down and allows user to see event details */
 	private LinearLayout eventDetailsPane_;
@@ -87,7 +83,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	 */
 	final Runnable eventLoaded_ = new Runnable() {
 		public void run() {
-			//map_.refreshOverlays();
+			map_.invalidate();
 		}
 	};
 
@@ -159,8 +155,8 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		eventDetailsPane_ = (LinearLayout) findViewById(R.id.event_details_pane);
 		eventMap_ = (RelativeLayout) findViewById(R.id.event_map);
 
-		map_ = (EventViewerMap) findViewById(R.id.event_viewer_map);
-		map_.getEventOverlay().setOnFocusChangeListener(this);
+		map_ = (EventViewerMapView) findViewById(R.id.event_viewer_map);
+		// map_.getEventOverlay().setOnFocusChangeListener(this); // TODO - uncomment!
 
 		// Schedule the EventLoader to run, if it has not been scheduled yet
 		Intent loaderIntent = new Intent(getApplicationContext(),
@@ -170,7 +166,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager am = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 		Log.i(tag, pre + "Registered to update events every 15 min");
-		am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis(),
+		am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 1500,
 				AlarmManager.INTERVAL_DAY, loader);
 
 		Looper loop = Looper.myLooper();
@@ -226,8 +222,8 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	 *      com.google.android.maps.OverlayItem)
 	 */
 	public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus) {
-		if (newFocus != null) {
-			EventOverlayItem eoi = (EventOverlayItem) newFocus;
+		/*if (newFocus != null) {
+			EventPin eoi = (EventPin) newFocus;
 			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
 
 			long rowId = eoi.getDBRowId();
@@ -258,6 +254,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 			eventDetailsPane_.setVisibility(View.GONE);
 			eventMap_.invalidate();
 		}
+		*/
 	}
 
 	/** Handles menu item selections */
@@ -341,7 +338,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	 * (edu.vanderbilt.vuphone.android.events.eventloader.
 	 * LoadingListener.LoadState)
 	 */
-	public void OnEventLoadStateChanged(LoadState l) {
+	public void OnEventLoadStateChanged(LoadState l, Long rowId) {
 		if (uiHandler_ == null)
 			return;
 			
@@ -357,6 +354,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 			break;
 		case ONE_EVENT:
 			Log.v(tag, pre + "Loaded");
+			map_.getEventOverlay().addItem(rowId);
 			if (uiHandler_ != null)
 				uiHandler_.post(eventLoaded_);
 			break;
