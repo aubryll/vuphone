@@ -50,7 +50,14 @@ public class NotificationServlet extends HttpServlet {
 	throws ServletException, IOException {
 		logger_.log(Level.FINER, "Query was " + req.getQueryString());
 		
-		Notification note = parsers_.get(req.getParameter("type")).parse(req);
+		String typeParam = req.getParameter("type");
+		if (typeParam == null) {
+			logger_.log(Level.WARNING,
+			"There was no type parameter. Did the URL forget a '?'?");
+			return;
+		}
+			
+		Notification note = parsers_.get(typeParam).parse(req);
 
 		if (note == null) {
 			logger_.log(Level.WARNING,

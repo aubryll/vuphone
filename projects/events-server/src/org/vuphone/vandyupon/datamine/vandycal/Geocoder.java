@@ -31,9 +31,15 @@ public class Geocoder {
 	
 //	private static final String googleApiKey = "";
 	private static final String whitePagesApiKey = "338334e34d7ffb4451f48def3b88fa6b";
-
+	
+	/** Increased if Google bans us for requesting to quickly */
+	private static long delay = 0;
+	
 	public static Location getLocation(String address) throws IOException {
 		try {
+			if (delay != 0)
+				Thread.currentThread().wait(delay);
+			
 			BufferedReader in = new BufferedReader(new InputStreamReader(new URL(
 					"http://maps.google.com/maps/geo?output=csv&sensor=false&q="
 							+ URLEncoder.encode(address+ ",Nashville,TN", ENCODING)).openStream()));
@@ -56,6 +62,11 @@ public class Geocoder {
 					}
 					
 					return new Location(address, Double.parseDouble(lat), Double.parseDouble(lon));
+				} else if (statusCode == 620)
+				{
+					// Google is temporarily blocking us
+					System.err.println("Google is currently blocking GeoCoding from our ip, going to slow ourselves down significantly");
+					delay = 3 *  60 * 1000;
 				}
 			}
 
