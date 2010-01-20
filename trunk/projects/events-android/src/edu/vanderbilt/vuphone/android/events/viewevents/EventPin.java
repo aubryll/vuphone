@@ -3,11 +3,11 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
+import java.util.Comparator;
+
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
 
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 
@@ -17,7 +17,7 @@ import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
  * @author Hamilton Turner
  * 
  */
-public class EventPin {
+public class EventPin implements Comparable<EventPin> {
 	/** Used for logging */
 	// private static final String tag = Constants.tag;
 	// private static final String pre = "EventOverlayItem: ";
@@ -26,16 +26,19 @@ public class EventPin {
 	// COLUMN_END_TIME, COLUMN_LOCATION_LAT, COLUMN_LOCATION_LON,
 	// COLUMN_IS_OWNER, COLUMN_SERVER_ID };
 
-	String startTime, endTime;
-	boolean isOwner;
-	long rowId;
-	GeoPoint location_;
+	private final String startTime, endTime;
+	private final boolean isOwner;
+	private final long rowId;
+	private final GeoPoint location_;
 
 	protected EventPin(GeoPoint point, String name, String startTime,
 			String endTime, boolean isOwner, long row) {
 
 		location_ = point;
-		setProperties(startTime, endTime, isOwner, row);
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.isOwner = isOwner;
+		rowId = row;
 	}
 
 	/**
@@ -65,14 +68,6 @@ public class EventPin {
 				isOwner, row);
 
 		return eoi;
-	}
-
-	/** Used to set the properties for this event */
-	private void setProperties(String start, String end, boolean owner, long row) {
-		startTime = start;
-		endTime = end;
-		isOwner = owner;
-		rowId = row;
 	}
 
 	public String getStartTime() {
@@ -115,4 +110,14 @@ public class EventPin {
 		final int hash = 16 * location_.hashCode() + location_.hashCode();
 		return hash;
 	}
+
+	public int compareTo(EventPin other) {
+		if (location_.getLatitudeE6() > other.getLocation().getLatitudeE6())
+			return -1;
+		else if (location_.getLatitudeE6() < other.getLocation().getLatitudeE6())
+			return 1;
+		else
+			return 0;
+	}
+
 }
