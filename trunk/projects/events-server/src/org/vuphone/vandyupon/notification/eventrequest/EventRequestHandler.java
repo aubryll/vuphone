@@ -89,11 +89,10 @@ public class EventRequestHandler implements NotificationHandler {
 			prep.setDouble(7, req.getDistance());
 
 			prep.executeUpdate();
-			
-			sql = "select id, name, starttime, endtime, deviceid, locid, locname, lat, lon, lastupdate, sourceuid, eventmeta.value as description " +
-					"from evtstmp inner join people on user = userid " +
-					"left join eventmeta on id = eventmeta.eventid " +
-					"where metatype = 1";
+						
+			sql = " select id, name, starttime, endtime, deviceid, locid, locname, lat, lon, lastupdate, sourceuid, foo.value as description " 
+				+ " from evtstmp inner join people on user = userid left join "
+				+ " (SELECT * FROM eventmeta WHERE metatype=1) AS foo on id = foo.eventid ";
 			
 			prep = db.prepareStatement(sql);
 			

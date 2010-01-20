@@ -113,9 +113,10 @@ public class MySqlConstructor implements DatabaseConstructor {
 			+ "metaid integer not null primary key auto_increment,"
 			+ "eventid integer not null references events(eventid),"
 			+ "value text not null,"
-			+ "metatype integer references metatypes(typeid)," +
-					"submissiontime bigint not null, "
-			+ "FOREIGN KEY events_eventid (eventid) REFERENCES events (eventid) ON DELETE CASCADE) "
+			+ "metatype integer not null,"
+			+ "submissiontime bigint not null, "
+			+ "FOREIGN KEY events_eventid (eventid) REFERENCES events (eventid) ON DELETE CASCADE, " 
+			+ "FOREIGN KEY meta_metatype (metatype) REFERENCES metatypes (typeid) ) "
 			+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		prep = db.prepareStatement(sql);
 		prep.execute();

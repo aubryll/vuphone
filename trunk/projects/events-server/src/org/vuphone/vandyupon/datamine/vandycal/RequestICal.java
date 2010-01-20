@@ -55,7 +55,7 @@ public class RequestICal {
 		BufferedReader reader = null;
 		URL url = null;
 		try {
-			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/100/vu-calendar.ics");
+			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/1000/vu-calendar.ics");
 			reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
 			FileOutputStream fout = new FileOutputStream("vu-calendar.ics");
@@ -250,7 +250,10 @@ public class RequestICal {
 			}
 			androidID = URLEncoder.encode(androidID, "UTF-8");
 
-			desc = URLEncoder.encode(desc, "UTF-8");
+			if (desc != null)
+				desc = URLEncoder.encode(desc, "UTF-8");
+			else
+				desc = "";
 		
 			// Fix bizarre URL encoding issues
 			desc = desc.replaceAll("%26%2339%3B", "%27");
