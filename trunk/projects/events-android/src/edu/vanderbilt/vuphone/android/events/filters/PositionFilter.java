@@ -50,20 +50,8 @@ public class PositionFilter implements Filter {
 	/** Receives GPS updates */
 	private LocationListener listener_ = new LocationListener() {
 
-		private boolean mentioned_ = false;
-
 		public void onLocationChanged(Location location) {
-			if (mentioned_ == false
-					&& location.getProvider().equals(
-							LocationManager.GPS_PROVIDER)) {
-				mentioned_ = true;
-				long endTime = System.currentTimeMillis();
-				int seconds = (int) ((double) (endTime - gpsStartTime_) / 1000);
-				Log.i(tag, pre + "GPS has fix! Took " + seconds + " seconds");
-				Toast.makeText(appContext_, "GPS has fix! Took " + seconds + " seconds",
-						Toast.LENGTH_SHORT).show();
-			}
-
+			
 			if (shouldTerminate_)
 				manager_.removeUpdates(this);
 
@@ -95,25 +83,13 @@ public class PositionFilter implements Filter {
 		manager_ = (LocationManager) c
 				.getSystemService(Context.LOCATION_SERVICE);
 
-		if (manager_.getProvider(LocationManager.GPS_PROVIDER) == null
-				&& manager_.getProvider(LocationManager.NETWORK_PROVIDER) == null) {
-			Log.e(tag, pre + "There is no GPS provider on this phone!");
-			Toast.makeText(c,
-					"No GPS Providers found," + " cannot use Current location",
-					Toast.LENGTH_LONG).show();
-		}
-
 		gpsStartTime_ = System.currentTimeMillis();
-		manager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
-				listener_);
-		manager_.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
+		manager_.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3 * 1000, 1,
 				listener_);
 
+		// Get the best last known location, and use that to center
 		Location last = manager_
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		if (last == null)
-			last = manager_
-					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 		if (last != null)
 			updatePosition(last, radiusInFeet);

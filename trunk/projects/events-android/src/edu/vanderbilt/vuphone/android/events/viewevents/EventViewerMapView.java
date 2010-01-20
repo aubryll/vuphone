@@ -50,7 +50,7 @@ public class EventViewerMapView extends MapView {
 		
 		getController().setCenter(LocationManager.vandyCenter_);
 		getController().setZoom(15);
-		currentLocation_ = new MyLocationOverlay(getContext(), this);
+		currentLocation_ = new MyGPSLocationOverlay(getContext(), this);
 		getOverlays().add(currentLocation_);
 
 		eventOverlay_ = new EventOverlay(null, null,
@@ -64,14 +64,22 @@ public class EventViewerMapView extends MapView {
 
 	/** Used to turn off the various sensors */
 	protected void disableMyLocation() {
-		//currentLocation_.disableCompass();
 		currentLocation_.disableMyLocation();
+		
+		// Are we in emulator or device? 
+		if (false == "1".equals(System.getProperty("ro.kernel.qemu"))) { 
+			currentLocation_.disableCompass();
+		}
 	}
 
 	/** Used to turn on the various sensors */
 	protected void enableMyLocation() {
 		currentLocation_.enableMyLocation();
-		//currentLocation_.enableCompass();
+		
+		// Are we in emulator or device? 
+		if (false == "1".equals(System.getProperty("ro.kernel.qemu"))) {
+			currentLocation_.enableCompass();
+		}
 	}
 	
 	/** Used to get a handle to the EventOverlay */

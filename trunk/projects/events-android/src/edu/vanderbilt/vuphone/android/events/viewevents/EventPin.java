@@ -3,8 +3,6 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
-import java.util.Comparator;
-
 import android.database.Cursor;
 
 import com.google.android.maps.GeoPoint;
