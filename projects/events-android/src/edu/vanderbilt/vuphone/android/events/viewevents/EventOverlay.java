@@ -3,15 +3,14 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
-import java.util.HashSet;
 import java.util.TreeSet;
 
 import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.os.SystemClock;
 import android.util.Log;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
@@ -60,10 +59,10 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 	private TreeSet<EventPin> items_;
 
 	/* Timing, take out of production code */
-	private long mStartTime = -1;
-	private int mCounter;
-	private int mFps;
-	private int count = 0;
+//	private long mStartTime = -1;
+//	private int mCounter;
+//	private int mFps;
+//	private int count = 0;
 
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, MapView mapView) {
@@ -89,28 +88,27 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 			boolean shadow) {
 
 		// Start timing code
-		if (mStartTime == -1) {
-			mStartTime = SystemClock.elapsedRealtime();
-			mCounter = 0;
-		}
-
-		final long now = SystemClock.elapsedRealtime();
-		final long delay = now - mStartTime;
-
-		if (delay > 1000l) {
-			mStartTime = now;
-			mFps = mCounter;
-			mCounter = 0;
-		}
-		++mCounter;
+//		if (mStartTime == -1) {
+//			mStartTime = SystemClock.elapsedRealtime();
+//			mCounter = 0;
+//		}
+//
+//		final long now = SystemClock.elapsedRealtime();
+//		final long delay = now - mStartTime;
+//
+//		if (delay > 1000l) {
+//			mStartTime = now;
+//			mFps = mCounter;
+//			mCounter = 0;
+//		}
+//		++mCounter;
 		// Done timing code
 
 		final Projection projection = mapView.getProjection();
 		Point point = new Point();
-		Log.v(tag, pre + "Count: " + ++count + ", fps: " + mFps);
+		// Log.v(tag, pre + "Count: " + ++count + ", fps: " + mFps);
 
 		synchronized (items_) {
-			Log.v(tag, pre + "Num items: " + items_.size());
 			for (EventPin pin : items_) {
 				projection.toPixels(pin.getLocation(), point);
 
@@ -122,6 +120,7 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 				drawAt(canvas, mapIcon_, point.x, point.y, shadow);
 			}
 		}
+		
 	}
 
 	/**
@@ -200,5 +199,35 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 
 		mapView_.postInvalidate();
 	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, android.view.KeyEvent event, MapView mapView) {
+		Log.v(tag, pre + "OnKeyDown");
+		return super.onKeyDown(keyCode, event, mapView);
+	}
+	
+	@Override
+	public boolean onKeyUp(int keyCode, android.view.KeyEvent event, MapView mapView) {
+		Log.v(tag, pre + "OnKeyUp");
+		return super.onKeyUp(keyCode, event, mapView);
+	}
 
+	@Override
+	public boolean onTap(GeoPoint p, MapView mapView) {
+		Log.v(tag, pre + "OnTap");
+		return super.onTap(p, mapView);
+	}
+	
+	@Override
+	public boolean onTouchEvent(android.view.MotionEvent e, MapView mapView) {
+		Log.v(tag, pre + "OnTouchEvent");
+		return super.onTouchEvent(e, mapView);
+	}
+	
+	@Override
+	public boolean onTrackballEvent(android.view.MotionEvent event, MapView mapView) {
+		Log.v(tag, pre + "OnTrackballEvent");
+		return super.onTrackballEvent(event, mapView);
+	}
+    
 }

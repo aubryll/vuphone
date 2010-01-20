@@ -21,10 +21,11 @@ public class Constants {
 	public static final String tag = "Vandy Upon";
 
 	/** Server location */
-	//public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8082";
+	public static final String SERVER = "http://afrl-gift.dre.vanderbilt.edu:8082";
 	// Use this server location to get Android emulator to connect to a local computer 127.0.0.1
-	public static final String SERVER = "http://10.0.2.2:8082";
-
+	//public static final String SERVER = "http://10.0.2.2:8082";
+	
+	
 	/**
 	 * Used to have global constants for various activity results. Note that
 	 * these correlate to the default activity RESULT_OK and RESULT_CANCELLED,
