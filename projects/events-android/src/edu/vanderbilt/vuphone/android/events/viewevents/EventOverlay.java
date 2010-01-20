@@ -4,6 +4,7 @@
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import android.database.Cursor;
 import android.graphics.Point;
@@ -17,6 +18,8 @@ import com.google.android.maps.Projection;
 
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.R;
+import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
+import edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilterListener;
@@ -30,7 +33,7 @@ import edu.vanderbilt.vuphone.android.events.filters.TimeFilterListener;
  * 
  */
 public class EventOverlay extends Overlay implements PositionFilterListener,
-		TimeFilterListener {
+		TimeFilterListener, LoadingListener {
 
 	/** Used for logging */
 	private static final String tag = Constants.tag;
@@ -43,13 +46,21 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 
 	/** Used to get events that match the current filters */
 	private final DBAdapter database_;
-	
+
+	/** Handle to the mapView that we are overlaid on */
 	private final MapView mapView_;
 
-	/** Map icon */
+	/** Standard Map pin icon */
 	private final Drawable mapIcon_;
 
-	private ArrayList<EventPin> items_;
+	/** The list of items to be drawn. Access should be synchronized */
+	private HashSet<EventPin> items_;
+	
+	/* Timing, take out of production code */
+	private long mStartTime = -1;
+	private int mCounter;
+	private int mFps;
+	private int count = 0;
 
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, MapView mapView) {
@@ -61,24 +72,20 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 		database_ = new DBAdapter(mapView.getContext());
 		database_.openReadable();
 
-		items_ = new ArrayList<EventPin>();
+		items_ = new HashSet<EventPin>();
 		mapView_ = mapView;
-		
+
 		receiveNewFilters(positionFilter, timeFilter, tagsFilter);
 
-	}
+		EventLoader.registerLoadingListener(this);
 
-	/* Timing */
-	private long mStartTime = -1;
-	private int mCounter;
-	private int mFps;
-	private int count = 0;
+	}
 
 	@Override
 	public void draw(android.graphics.Canvas canvas, MapView mapView,
 			boolean shadow) {
-		
-		// Begin timing
+
+		// Start timing code
 		if (mStartTime == -1) {
 			mStartTime = SystemClock.elapsedRealtime();
 			mCounter = 0;
@@ -93,6 +100,7 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 			mCounter = 0;
 		}
 		++mCounter;
+		// Done timing code
 
 		final Projection projection = mapView.getProjection();
 		Point point = new Point();
@@ -105,8 +113,10 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 
 				// TODO Drawing shadows does not
 				// work w/o boundCenterBottom properly called
-				// drawAt(canvas, d, po.x, po.y, true);
-				drawAt(canvas, mapIcon_, point.x, point.y, false);
+				if (shadow)
+					continue;
+				
+				drawAt(canvas, mapIcon_, point.x, point.y, shadow);
 			}
 		}
 	}
@@ -137,7 +147,7 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 			tagsFilter_ = ts;
 
 		// Get new elements
-		final ArrayList<EventPin> newItems_ = new ArrayList<EventPin>();
+		final HashSet<EventPin> newItems_ = new HashSet<EventPin>();
 		Cursor c = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
 		while (c.moveToNext())
@@ -168,18 +178,23 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 	}
 
 	/**
-	 * Fetched the event from the database, and adds it to the map
+	 * Checks to see if the state indicates that a single event was added. If it
+	 * does, then this method adds that event to the list of items to be drawn
+	 * and requests an update
 	 * 
-	 * @param rowId
+	 * @see edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener#OnEventLoadStateChanged(edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener.LoadState,
+	 *      java.lang.Long)
 	 */
-	protected void addItem(long rowId) {
-		
+	public void OnEventLoadStateChanged(LoadState l, Long rowId) {
+		if (l != LoadState.ONE_EVENT)
+			return;
+
 		final Cursor c = database_.getSingleRowCursor(rowId);
 		EventPin pin = EventPin.getItemFromRow(c);
 		synchronized (items_) {
 			items_.add(pin);
 		}
-		
+
 		mapView_.postInvalidate();
 	}
 

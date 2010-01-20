@@ -61,7 +61,8 @@ public class EventPin {
 		boolean isOwner = (isOwnerInt == 1);
 
 		final GeoPoint location = new GeoPoint(lat, lon);
-		EventPin eoi = new EventPin(location, name, startTime, endTime, isOwner, row);
+		EventPin eoi = new EventPin(location, name, startTime, endTime,
+				isOwner, row);
 
 		return eoi;
 	}
@@ -81,7 +82,7 @@ public class EventPin {
 	public String getEndTime() {
 		return endTime;
 	}
-	
+
 	public GeoPoint getLocation() {
 		return location_;
 	}
@@ -92,5 +93,26 @@ public class EventPin {
 
 	public long getDBRowId() {
 		return rowId;
+	}
+
+	/**
+	 * Cheap equals method that only checks if the locations are the exact same.
+	 * This allows the HashSet used in EventOverlay to only contain a single
+	 * point per location
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof EventPin) {
+			if (((EventPin) o).getLocation().equals(location_))
+				return true;
+			return false;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int hash = 16 * location_.hashCode() + location_.hashCode();
+		return hash;
 	}
 }

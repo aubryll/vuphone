@@ -352,12 +352,6 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 				
 			});
 			break;
-		case ONE_EVENT:
-			Log.v(tag, pre + "Loaded");
-			map_.getEventOverlay().addItem(rowId);
-			if (uiHandler_ != null)
-				uiHandler_.post(eventLoaded_);
-			break;
 		case FINISHED:
 			uiHandler_.post(new Runnable() {
 
