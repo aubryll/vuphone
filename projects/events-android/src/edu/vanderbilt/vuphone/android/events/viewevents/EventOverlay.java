@@ -3,8 +3,8 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 import android.database.Cursor;
 import android.graphics.Point;
@@ -53,9 +53,12 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 	/** Standard Map pin icon */
 	private final Drawable mapIcon_;
 
-	/** The list of items to be drawn. Access should be synchronized */
-	private HashSet<EventPin> items_;
-	
+	/**
+	 * The list of items to be drawn. Access should be synchronized. Sorted, to
+	 * allow us to draw the pins from top to bottom of the screen
+	 */
+	private TreeSet<EventPin> items_;
+
 	/* Timing, take out of production code */
 	private long mStartTime = -1;
 	private int mCounter;
@@ -72,7 +75,7 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 		database_ = new DBAdapter(mapView.getContext());
 		database_.openReadable();
 
-		items_ = new HashSet<EventPin>();
+		items_ = new TreeSet<EventPin>();
 		mapView_ = mapView;
 
 		receiveNewFilters(positionFilter, timeFilter, tagsFilter);
@@ -115,7 +118,7 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 				// work w/o boundCenterBottom properly called
 				if (shadow)
 					continue;
-				
+
 				drawAt(canvas, mapIcon_, point.x, point.y, shadow);
 			}
 		}
@@ -147,7 +150,7 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 			tagsFilter_ = ts;
 
 		// Get new elements
-		final HashSet<EventPin> newItems_ = new HashSet<EventPin>();
+		final TreeSet<EventPin> newItems_ = new TreeSet<EventPin>();
 		Cursor c = database_.getAllEntries(positionFilter_, timeFilter_,
 				tagsFilter_);
 		while (c.moveToNext())
