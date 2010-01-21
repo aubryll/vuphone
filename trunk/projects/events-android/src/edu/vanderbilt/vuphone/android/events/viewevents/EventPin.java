@@ -3,6 +3,8 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
+import java.util.Comparator;
+
 import android.database.Cursor;
 
 import com.google.android.maps.GeoPoint;
@@ -28,6 +30,7 @@ public class EventPin implements Comparable<EventPin> {
 	private final boolean isOwner;
 	private final long rowId;
 	private final GeoPoint location_;
+	private final String name_;
 
 	protected EventPin(GeoPoint point, String name, String startTime,
 			String endTime, boolean isOwner, long row) {
@@ -37,6 +40,7 @@ public class EventPin implements Comparable<EventPin> {
 		this.endTime = endTime;
 		this.isOwner = isOwner;
 		rowId = row;
+		name_ = name;
 	}
 
 	/**
@@ -74,6 +78,10 @@ public class EventPin implements Comparable<EventPin> {
 
 	public String getEndTime() {
 		return endTime;
+	}
+
+	public String getName() {
+		return name_;
 	}
 
 	public GeoPoint getLocation() {
@@ -116,7 +124,25 @@ public class EventPin implements Comparable<EventPin> {
 		else if (location_.getLatitudeE6() < other.getLocation()
 				.getLatitudeE6())
 			return 1;
+
 		return 0;
 	}
+
+	/** Used to compare EventPins in a horizontal bunch */
+	public static final Comparator<EventPin> horizontalComparator = new Comparator<EventPin>() {
+
+		public int compare(EventPin object1, EventPin object2) {
+			// leftmost items first
+			final GeoPoint o1 = object1.getLocation();
+			final GeoPoint o2 = object2.getLocation();
+
+			if (o1.getLongitudeE6() > o2.getLongitudeE6())
+				return 1;
+			if (o1.getLongitudeE6() < o2.getLongitudeE6())
+				return -1;
+			return 0;
+		}
+
+	};
 
 }

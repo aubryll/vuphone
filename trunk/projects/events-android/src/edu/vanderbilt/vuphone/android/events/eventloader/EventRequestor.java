@@ -65,14 +65,15 @@ public class EventRequestor {
 				.getLatitudeE6() / 1E6);
 		String longitude = Double.toString((double) anchorLocation
 				.getLongitudeE6() / 1E6);
-
+		String newAndroidId = null;
+		
 		// URL encode all params
 		try {
 			radius = URLEncoder.encode(radius, "UTF-8");
 			latestTime = URLEncoder.encode(latestTime, "UTF-8");
 			latitude = URLEncoder.encode(latitude, "UTF-8");
 			longitude = URLEncoder.encode(longitude, "UTF-8");
-			androidID = URLEncoder.encode(androidID, "UTF-8");
+			newAndroidId = URLEncoder.encode(androidID, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
 			use.printStackTrace();
 			Log.w(tag, pre + "Unable to encode one of the parameters");
@@ -96,7 +97,7 @@ public class EventRequestor {
 		params.append("&dist=");
 		params.append(radius);
 		params.append("&userid=");
-		params.append(androidID);
+		params.append(newAndroidId);
 		params.append("&resp=xml");
 
 		// Add the parameters to the post
