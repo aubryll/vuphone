@@ -110,12 +110,13 @@ public class EventPin implements Comparable<EventPin> {
 	}
 
 	public int compareTo(EventPin other) {
+		// Return higher items first
 		if (location_.getLatitudeE6() > other.getLocation().getLatitudeE6())
 			return -1;
-		else if (location_.getLatitudeE6() < other.getLocation().getLatitudeE6())
+		else if (location_.getLatitudeE6() < other.getLocation()
+				.getLatitudeE6())
 			return 1;
-		else
-			return 0;
+		return 0;
 	}
 
 }

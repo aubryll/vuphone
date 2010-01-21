@@ -65,21 +65,11 @@ public class EventViewerMapView extends MapView {
 	/** Used to turn off the various sensors */
 	protected void disableMyLocation() {
 		currentLocation_.disableMyLocation();
-		
-		// Are we in emulator or device? 
-		if (false == "1".equals(System.getProperty("ro.kernel.qemu"))) { 
-			currentLocation_.disableCompass();
-		}
 	}
 
 	/** Used to turn on the various sensors */
 	protected void enableMyLocation() {
 		currentLocation_.enableMyLocation();
-		
-		// Are we in emulator or device? 
-		if (false == "1".equals(System.getProperty("ro.kernel.qemu"))) {
-			currentLocation_.enableCompass();
-		}
 	}
 	
 	/** Used to get a handle to the EventOverlay */

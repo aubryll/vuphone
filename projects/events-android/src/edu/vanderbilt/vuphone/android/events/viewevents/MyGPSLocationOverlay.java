@@ -30,9 +30,17 @@ public class MyGPSLocationOverlay extends MyLocationOverlay {
 	 */
 	@Override
 	public void onLocationChanged(android.location.Location location) {
-		if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER))
-			return;	
-		
+		if (location.getProvider().equals(LocationManager.NETWORK_PROVIDER)) {
+			if (false == "1".equals(System.getProperty("ro.kernel.qemu")))
+				this.disableCompass();
+
+			return;
+		}
+
+		// Are we in emulator or device?
+		if (false == "1".equals(System.getProperty("ro.kernel.qemu")))
+			this.enableCompass();
+
 		super.onLocationChanged(location);
 	}
 
