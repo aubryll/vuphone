@@ -3,6 +3,8 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
+import java.util.GregorianCalendar;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -14,15 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
-import com.google.android.maps.OverlayItem;
-import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
 
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.R;
@@ -41,8 +42,7 @@ import edu.vanderbilt.vuphone.android.events.submitevent.SubmitEvent;
  * @author Hamilton Turner
  * 
  */
-public class EventViewer extends MapActivity implements OnFocusChangeListener,
-		LoadingListener {
+public class EventViewer extends MapActivity implements LoadingListener {
 	/** Used for logging */
 	private static final String tag = Constants.tag;
 	private static final String pre = "EventViewer: ";
@@ -156,7 +156,7 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		eventMap_ = (RelativeLayout) findViewById(R.id.event_map);
 
 		map_ = (EventViewerMapView) findViewById(R.id.event_viewer_map);
-		// map_.getEventOverlay().setOnFocusChangeListener(this); // TODO - uncomment!
+		map_.getEventOverlay().setOnFocusChangedListener(this);
 
 		// Schedule the EventLoader to run, if it has not been scheduled yet
 		Intent loaderIntent = new Intent(getApplicationContext(),
@@ -166,13 +166,14 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 				PendingIntent.FLAG_UPDATE_CURRENT);
 		AlarmManager am = (AlarmManager) getSystemService(Service.ALARM_SERVICE);
 		Log.i(tag, pre + "Registered to update events every 15 min");
-		am.setInexactRepeating(AlarmManager.RTC, System.currentTimeMillis() + 1500,
-				AlarmManager.INTERVAL_DAY, loader);
+		am.setInexactRepeating(AlarmManager.RTC,
+				System.currentTimeMillis() + 1500, AlarmManager.INTERVAL_DAY,
+				loader);
 
 		Looper loop = Looper.myLooper();
 		if (loop == null)
 			Looper.getMainLooper();
-		
+
 		uiHandler_ = new Handler(loop);
 
 		EventLoader.registerLoadingListener(this);
@@ -215,46 +216,40 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 		return true;
 	}
 
-	/**
-	 * Used to notify us when the EventOverlayItem in focus is changed
-	 * 
-	 * @see com.google.android.maps.ItemizedOverlay.OnFocusChangeListener#onFocusChanged(com.google.android.maps.ItemizedOverlay,
-	 *      com.google.android.maps.OverlayItem)
-	 */
-	public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus) {
-		/*if (newFocus != null) {
-			EventPin eoi = (EventPin) newFocus;
-			TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
+	public void onFocusChanged(EventPin pin) {
+		if (pin == null) {
+			eventDetailsPane_.setVisibility(View.GONE);
+			eventMap_.invalidate();
+			return;
+		}
 
-			long rowId = eoi.getDBRowId();
-			DBAdapter db = new DBAdapter(this);
-			db.openReadable();
-			String desc = db.getSingleRowDescription(rowId);
-			db.close();
+		TextView tv = (TextView) findViewById(R.id.TV_event_details_title);
 
-			long timeInMilliseconds = Long.parseLong(eoi.getStartTime()) * 1000;
-			GregorianCalendar gc = new GregorianCalendar();
-			gc.setTimeInMillis(timeInMilliseconds);
+		long rowId = pin.getDBRowId();
+		DBAdapter db = new DBAdapter(this);
+		db.openReadable();
+		String desc = db.getSingleRowDescription(rowId);
+		db.close();
 
-			GregorianCalendar gcEnd = new GregorianCalendar();
-			gcEnd.setTimeInMillis(Long.parseLong(eoi.getEndTime()) * 1000);
+		long timeInMilliseconds = Long.parseLong(pin.getStartTime()) * 1000;
+		GregorianCalendar gc = new GregorianCalendar();
+		gc.setTimeInMillis(timeInMilliseconds);
 
-			tv.setText(eoi.getTitle() + "\nStart: "
-					+ gc.getTime().toLocaleString() + "\nEnd: "
-					+ gcEnd.getTime().toLocaleString());
+		GregorianCalendar gcEnd = new GregorianCalendar();
+		gcEnd.setTimeInMillis(Long.parseLong(pin.getEndTime()) * 1000);
+
+		tv.setText(pin.getName() + "\nStart: " + gc.getTime().toLocaleString()
+				+ "\nEnd: " + gcEnd.getTime().toLocaleString());
+		if (desc != null)
 			if (desc.trim().equalsIgnoreCase("") == false)
 				tv.setText(tv.getText() + "\n\n" + desc);
 
-			if (eoi.getIsOwner())
-				tv.setText(tv.getText() + "\n\nYou are the owner!");
+		if (pin.getIsOwner())
+			tv.setText(tv.getText() + "\n\nYou are the owner!");
 
-			eventDetailsPane_.setVisibility(View.VISIBLE);
-			eventMap_.invalidate();
-		} else {
-			eventDetailsPane_.setVisibility(View.GONE);
-			eventMap_.invalidate();
-		}
-		*/
+		eventDetailsPane_.setVisibility(View.VISIBLE);
+		eventMap_.invalidate();
+
 	}
 
 	/** Handles menu item selections */
@@ -341,38 +336,40 @@ public class EventViewer extends MapActivity implements OnFocusChangeListener,
 	public void OnEventLoadStateChanged(LoadState l, Long rowId) {
 		if (uiHandler_ == null)
 			return;
-			
+
 		switch (l) {
 		case STARTED:
 			uiHandler_.post(new Runnable() {
 
 				public void run() {
-					Toast.makeText(EventViewer.this, "Updating Events", Toast.LENGTH_SHORT).show();
+					Toast.makeText(EventViewer.this, "Updating Events",
+							Toast.LENGTH_SHORT).show();
 				}
-				
+
 			});
 			break;
 		case FINISHED:
 			uiHandler_.post(new Runnable() {
 
 				public void run() {
-					Toast.makeText(EventViewer.this, "Done Updating Events", Toast.LENGTH_SHORT)
-					.show();
+					Toast.makeText(EventViewer.this, "Done Updating Events",
+							Toast.LENGTH_SHORT).show();
 				}
-				
+
 			});
-			
+
 			break;
 		case FINISHED_WITH_ERROR:
 			uiHandler_.post(new Runnable() {
 
 				public void run() {
-					Toast.makeText(EventViewer.this, "Error Updating. Try again later",
+					Toast.makeText(EventViewer.this,
+							"Error Updating. Try again later",
 							Toast.LENGTH_LONG).show();
 				}
-				
+
 			});
-			
+
 			break;
 
 		}

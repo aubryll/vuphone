@@ -3,6 +3,8 @@
  */
 package edu.vanderbilt.vuphone.android.events.viewevents;
 
+import java.util.Iterator;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 import android.database.Cursor;
@@ -59,11 +61,18 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 	 */
 	private TreeSet<EventPin> items_;
 
+	/** Allows a listener for new focus */
+	private EventViewer listener_;
+
+	/** Used to implement super fast onTouch code */
+	final TreeSet<EventPin> horizontalItems = new TreeSet<EventPin>(
+			EventPin.horizontalComparator);
+	
 	/* Timing, take out of production code */
-	 private long mStartTime = -1;
-	 private int mCounter;
-	 private int mFps;
-	 private int count = 0;
+	private long mStartTime = -1;
+	private int mCounter;
+	private int mFps;
+	private int count = 0;
 
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, MapView mapView) {
@@ -91,26 +100,26 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 		if (shadow)
 			return;
 
-		 //Start timing code
-		 if (mStartTime == -1) {
-		 mStartTime = SystemClock.elapsedRealtime();
-		 mCounter = 0;
-		 }
-		
-		 final long now = SystemClock.elapsedRealtime();
-		 final long delay = now - mStartTime;
-		
-		 if (delay > 1000l) {
-		 mStartTime = now;
-		 mFps = mCounter;
-		 mCounter = 0;
-		 }
-		 ++mCounter;
-		 //Done timing code
+		// Start timing code
+		if (mStartTime == -1) {
+			mStartTime = SystemClock.elapsedRealtime();
+			mCounter = 0;
+		}
+
+		final long now = SystemClock.elapsedRealtime();
+		final long delay = now - mStartTime;
+
+		if (delay > 1000l) {
+			mStartTime = now;
+			mFps = mCounter;
+			mCounter = 0;
+		}
+		++mCounter;
+		// Done timing code
 
 		final Projection projection = mapView.getProjection();
 		final Point point = new Point();
-		Log.v(tag, pre + "Count: " + ++count + ", fps: " + mFps);
+		//Log.v(tag, pre + "Count: " + ++count + ", fps: " + mFps);
 
 		synchronized (items_) {
 			for (EventPin pin : items_) {
@@ -204,8 +213,48 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 
 	@Override
 	public boolean onTap(GeoPoint p, MapView mapView) {
-		Log.v(tag, pre + "OnTap");
-		return super.onTap(p, mapView);
+
+		if (listener_ == null)
+			return super.onTap(p, mapView);
+
+		final Projection projection = mapView.getProjection();
+		final Point point = projection.toPixels(p, null);
+
+		final int yBufferSize = mapIcon_.getIntrinsicHeight();
+		final int xBufferSize = mapIcon_.getIntrinsicWidth() / 2;
+		final GeoPoint topLeft = projection
+				.fromPixels(point.x - xBufferSize, point.y);
+		final GeoPoint bottomRight = projection.fromPixels(point.x + xBufferSize,
+				point.y + yBufferSize);
+
+		final EventPin tlPin = new EventPin(topLeft, "", "0", "0", false, 1);
+		final EventPin brPin = new EventPin(bottomRight, "", "0", "0", false, 1);
+
+		EventPin result = null;
+		horizontalItems.clear();
+		
+		synchronized (items_) {
+			final SortedSet<EventPin> horizontalStrip = items_.subSet(tlPin,
+					brPin);
+			horizontalItems.addAll(horizontalStrip);
+			final SortedSet<EventPin> finalItems = horizontalItems.subSet(
+					tlPin, brPin);
+			
+			if (finalItems.size() != 0)
+				result = finalItems.first();
+		}
+
+		// If result is null, this will clear the focus
+		listener_.onFocusChanged(result);
+		
+		if (result == null) 
+			return true;
+		else
+			return false;
+	}
+
+	public void setOnFocusChangedListener(EventViewer listener) {
+		listener_ = listener;
 	}
 
 }
