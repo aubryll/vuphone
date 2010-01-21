@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
@@ -59,17 +60,17 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 	private TreeSet<EventPin> items_;
 
 	/* Timing, take out of production code */
-//	private long mStartTime = -1;
-//	private int mCounter;
-//	private int mFps;
-//	private int count = 0;
+	 private long mStartTime = -1;
+	 private int mCounter;
+	 private int mFps;
+	 private int count = 0;
 
 	public EventOverlay(PositionFilter positionFilter, TimeFilter timeFilter,
 			TagsFilter tagsFilter, MapView mapView) {
 
 		mapIcon_ = mapView.getResources().getDrawable(R.drawable.map_marker_v);
-		mapIcon_.setBounds(0, 0, mapIcon_.getIntrinsicWidth(), mapIcon_
-				.getIntrinsicHeight());
+		mapIcon_.setBounds(-mapIcon_.getIntrinsicWidth() / 2, -mapIcon_
+				.getIntrinsicHeight(), mapIcon_.getIntrinsicWidth() / 2, 0);
 
 		database_ = new DBAdapter(mapView.getContext());
 		database_.openReadable();
@@ -87,40 +88,41 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 	public void draw(android.graphics.Canvas canvas, MapView mapView,
 			boolean shadow) {
 
-		// Start timing code
-//		if (mStartTime == -1) {
-//			mStartTime = SystemClock.elapsedRealtime();
-//			mCounter = 0;
-//		}
-//
-//		final long now = SystemClock.elapsedRealtime();
-//		final long delay = now - mStartTime;
-//
-//		if (delay > 1000l) {
-//			mStartTime = now;
-//			mFps = mCounter;
-//			mCounter = 0;
-//		}
-//		++mCounter;
-		// Done timing code
+		if (shadow)
+			return;
+
+		 //Start timing code
+		 if (mStartTime == -1) {
+		 mStartTime = SystemClock.elapsedRealtime();
+		 mCounter = 0;
+		 }
+		
+		 final long now = SystemClock.elapsedRealtime();
+		 final long delay = now - mStartTime;
+		
+		 if (delay > 1000l) {
+		 mStartTime = now;
+		 mFps = mCounter;
+		 mCounter = 0;
+		 }
+		 ++mCounter;
+		 //Done timing code
 
 		final Projection projection = mapView.getProjection();
-		Point point = new Point();
-		// Log.v(tag, pre + "Count: " + ++count + ", fps: " + mFps);
+		final Point point = new Point();
+		Log.v(tag, pre + "Count: " + ++count + ", fps: " + mFps);
 
 		synchronized (items_) {
 			for (EventPin pin : items_) {
 				projection.toPixels(pin.getLocation(), point);
 
-				// TODO Drawing shadows does not
-				// work w/o boundCenterBottom properly called
-				if (shadow)
-					continue;
-
-				drawAt(canvas, mapIcon_, point.x, point.y, shadow);
+				// Note that technically this occasionally overlays the
+				// shadow of one pin on top of another pin. Don't really care
+				drawAt(canvas, mapIcon_, point.x, point.y, true);
+				drawAt(canvas, mapIcon_, point.x, point.y, false);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -199,35 +201,11 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 
 		mapView_.postInvalidate();
 	}
-	
-	@Override
-	public boolean onKeyDown(int keyCode, android.view.KeyEvent event, MapView mapView) {
-		Log.v(tag, pre + "OnKeyDown");
-		return super.onKeyDown(keyCode, event, mapView);
-	}
-	
-	@Override
-	public boolean onKeyUp(int keyCode, android.view.KeyEvent event, MapView mapView) {
-		Log.v(tag, pre + "OnKeyUp");
-		return super.onKeyUp(keyCode, event, mapView);
-	}
 
 	@Override
 	public boolean onTap(GeoPoint p, MapView mapView) {
 		Log.v(tag, pre + "OnTap");
 		return super.onTap(p, mapView);
 	}
-	
-	@Override
-	public boolean onTouchEvent(android.view.MotionEvent e, MapView mapView) {
-		Log.v(tag, pre + "OnTouchEvent");
-		return super.onTouchEvent(e, mapView);
-	}
-	
-	@Override
-	public boolean onTrackballEvent(android.view.MotionEvent event, MapView mapView) {
-		Log.v(tag, pre + "OnTrackballEvent");
-		return super.onTrackballEvent(event, mapView);
-	}
-    
+
 }
