@@ -11,6 +11,7 @@
 #import "DiningAppDelegate.h"
 #import "ImageViewCell.h"
 #import "VariableHeightCell.h"
+#import "OpenHourCell.h"
 
 @implementation RestaurantViewController
 
@@ -26,10 +27,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (restaurant.details != nil && [restaurant.details length] > 0) {
+/*	if (restaurant.details != nil && [restaurant.details length] > 0) {
 		return 5;
 	} else {
 		return 4;
+	}
+ */
+	if (restaurant.websiteLocationNumber != nil && [restaurant.websiteLocationNumber length] > 0) {
+		return 6;
+	} else {
+		return 5;
 	}
 }
 
@@ -48,8 +55,8 @@
 		case 4:
 			return @"Details";
 		case 5:
-			// Web site
-			return nil;
+			// Menu
+			return @"Menu";
 		default:
 			return nil;
 	}
@@ -61,7 +68,10 @@
 		case 1:
 			return 0;
 		case 3:
-			return [restaurant.openHours count];
+			return [[restaurant groupedOpenHours] count];
+		case 5:
+			// Menu
+			return [[restaurant menuItems] count];
 		default:
 			return 1;
 	}
@@ -76,6 +86,7 @@
 	UITableViewCell *cell;
 	VariableHeightCell *varCell;
 	ImageViewCell *imageCell;
+	OpenHourCell *openCell;
 	
 	// Determine which cell to reuse.
 	switch (indexPath.section) {
@@ -83,6 +94,7 @@
 			cell = [tableView dequeueReusableCellWithIdentifier:imageIdentifier];
 			break;
 		case 4:
+		case 5:
 			cell = [tableView dequeueReusableCellWithIdentifier:varHeightIdentifier];
 			break;
 		default:
@@ -96,21 +108,23 @@
 		switch (indexPath.section) {
 			case 0:
 				cell = [[[ImageViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-												reuseIdentifier:imageIdentifier] autorelease];
+											 reuseIdentifier:imageIdentifier] autorelease];
 				break;
 			case 4:
+			case 5:
 				cell = [[[VariableHeightCell alloc] initWithStyle:UITableViewCellStyleDefault 
-											  reuseIdentifier:varHeightIdentifier] autorelease];
+												  reuseIdentifier:varHeightIdentifier] autorelease];
 				break;
 			default:
-				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
-											   reuseIdentifier:defaultIdentifier] autorelease];
+				cell = [[[OpenHourCell alloc] initWithStyle:UITableViewCellStyleValue2
+											reuseIdentifier:defaultIdentifier] autorelease];
 
 		}
 	}
 
 	imageCell = (ImageViewCell *)cell;
 	varCell = (VariableHeightCell *)cell;
+	openCell = (OpenHourCell *)cell;
 	
 	HourRange *range;
 	
@@ -130,13 +144,16 @@
 			break;
 			
 		case 3: // Hours
-			range = (HourRange *)[[restaurant.openHours allObjects] objectAtIndex:indexPath.row];
-			cell.textLabel.text = [range.day capitalizedString];
-			cell.detailTextLabel.text = [range formattedHoursString];
+			range = (HourRange *)[[restaurant groupedOpenHours] objectAtIndex:indexPath.row];
+			openCell.dayLabel.text = [range.day capitalizedString];
+			openCell.hourRangeLabel.text = [range formattedHoursString];
 			break;
 
 		case 4:
 			[varCell setText:restaurant.details];
+			break;
+		case 5:
+			[varCell setText:[[restaurant menuItems] objectAtIndex:indexPath.row]];
 			break;
 		default:
 			break;
@@ -152,9 +169,10 @@
 	switch (indexPath.section) {
 		case 0:
 			return [(ImageViewCell *)cell height];
-		case 3:
+		case 3:	// Hours
 			return 30.0f;
-		case 4:
+		case 4:	// Details
+		case 5: // Menu
 			return [(VariableHeightCell *)cell height];
 		default:
 			return 44.0;

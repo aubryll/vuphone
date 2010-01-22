@@ -10,6 +10,7 @@
 #import "HourRange.h"
 #import "NSManagedObjectContext-Convenience.h"
 #import "LocationManagerSingleton.h"
+#import "NSString-Regex.h"
 
 @implementation Restaurant 
 
@@ -28,6 +29,15 @@
 @dynamic minutesUntilClose;
 @dynamic isClosed;
 @dynamic distanceInFeet;
+@dynamic websiteLocationNumber;
+
+static NSDateFormatter *dateFormatter = nil;
+
++ (void)initialize {
+	if (dateFormatter == nil) {
+		dateFormatter = [[NSDateFormatter alloc] init];
+	}
+}
 
 - (NSComparisonResult)compare:(Restaurant *)restaurant
 {
@@ -39,38 +49,39 @@
 {
 	[self willAccessValueForKey:@"minutesUntilClose"];
 	
-	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDate *now = [[NSDate alloc] init];
+	NSNumber *result = nil;
+
 	[dateFormatter setDateFormat:@"EEEE"];
-	NSString *weekDay =  [dateFormatter stringFromDate:[NSDate date]];
+	NSString *weekDay =  [dateFormatter stringFromDate:now];
 
 	// Find the current HourRange
-	NSSet *results = [[self managedObjectContext]
-					  fetchObjectsForEntityName:ENTITY_NAME_HOUR_RANGE
-							withPredicateString:@"restaurant = %@ AND day = %@",
-												self, weekDay];
+	NSSet *results = [[self openHours] filteredSetUsingPredicate:
+					  [NSPredicate predicateWithFormat:@"day = %@", weekDay]];
+
 	HourRange *range = [results anyObject];
 	
 	if (!range) {
-		return 0;
-	}
-	
-	NSDate *now = [NSDate date];
-	NSCalendar *calendar = [NSCalendar currentCalendar];
-	NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
-	NSInteger hour = [components hour];
-	NSInteger minute = [components minute];
-	
-	NSInteger minuteOfDayNow = hour * 60 + minute;
-	
-	NSNumber *result = nil;
-	if (minuteOfDayNow < [range.openMinute intValue]) {
-		// Not yet open
-		result = [NSNumber numberWithInt:minuteOfDayNow - [range.openMinute intValue]];
+		result = [NSNumber numberWithInt:0];
 	} else {
-		result = [NSNumber numberWithInt:[range.closeMinute intValue] - minuteOfDayNow];
+		NSCalendar *calendar = [NSCalendar currentCalendar];
+		NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
+		NSInteger hour = [components hour];
+		NSInteger minute = [components minute];
+		
+		NSInteger minuteOfDayNow = hour * 60 + minute;
+		
+		if (minuteOfDayNow <= [range.openMinute intValue]) {
+			// Not yet open
+			result = [NSNumber numberWithInt:minuteOfDayNow - [range.openMinute intValue]];
+		} else {
+			result = [NSNumber numberWithInt:range.contiguousCloseMinute - minuteOfDayNow];
+		}
 	}
-	
+		
 	[self didAccessValueForKey:@"minutesUntilClose"];
+	
+	[now release];
 	
 	return result;
 }
@@ -83,6 +94,40 @@
 	[self didAccessValueForKey:@"isClosed"];
 
 	return [NSNumber numberWithBool:result];
+}
+
+- (NSArray *)groupedOpenHours
+{
+	if (_groupedOpenHours == nil) {
+		NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+		NSArray *descriptors = [NSArray arrayWithObject:descriptor];
+		[descriptor release];
+		NSArray *sortedHours = [[self.openHours allObjects] sortedArrayUsingDescriptors:descriptors];
+		NSMutableArray *groupedHours = [NSMutableArray new];
+		
+		for (int i=0; i<[sortedHours count]; i++) {
+			HourRange *range = [sortedHours objectAtIndex:i];
+			if ([range.openMinute intValue] == 0 && [range.closeMinute intValue] == 1440) {
+				// It's open 24-hours, so just add it and continue
+				[groupedHours addObject:range];
+			} else if (range.contiguousWith != nil) {
+				// It has another hour to the right
+				[groupedHours addObject:range];
+				// Skip ahead by one
+				i++;
+			} else {
+				[groupedHours addObject:range];
+			}
+		}
+		// Handle edge case with Saturday wrapping through Sunday
+		if ([groupedHours lastObject] == [groupedHours objectAtIndex:0]) {
+			[groupedHours removeObjectAtIndex:[groupedHours count]-1];
+		}
+
+		_groupedOpenHours = groupedHours;
+	}
+	
+	return _groupedOpenHours;
 }
 
 - (void)deleteAllOpenHours
@@ -100,7 +145,7 @@
 }
 
 // Returns the image for this POI, whose URL is specified in the url property
-- (UIImage *)image 
+- (UIImage *)image
 {
 	if (!_image) {
 		// Load the image
@@ -116,6 +161,73 @@
 	
 	return _image;
 }
+
+- (NSArray *)menuItems;
+{
+	if (!self.websiteLocationNumber) {
+		return nil;
+	}
+
+	if (!_menuItems)
+	{
+		NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
+		_menuItems = [[NSMutableArray alloc] init];
+		
+		// Get current month, day, and year numbers
+		NSCalendar *calendar = [NSCalendar currentCalendar];
+		NSDateComponents *components = [calendar components:NSMonthCalendarUnit|NSDayCalendarUnit|NSYearCalendarUnit
+												   fromDate:[NSDate date]];
+		NSInteger month = [components month];
+		NSInteger day = [components day];
+		NSInteger year = [components year];
+
+		NSString *urlString = [NSString stringWithFormat:@"http://vanderbilt.mymenumanager.net/menu.php?date=%i,%i,%i&location=%@",
+							   month, day, year, self.websiteLocationNumber];
+		NSData *menuData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+
+		if ([menuData length] > 0)
+		{
+			NSString *menuString = [[NSString alloc] initWithData:menuData encoding:NSUTF8StringEncoding];
+
+			NSRange ulStartRange = [menuString rangeOfString:@"<ul>"];
+			NSRange ulEndRange = [menuString rangeOfString:@"</ul>"];
+			NSRange ulRange; // Not including the ul tags themselves
+			ulRange.location = ulStartRange.location + 4;	// [@"<ul>" length] == 4
+			ulRange.length = ulEndRange.location - ulStartRange.location;
+			NSString *stringOfLis = [menuString substringWithRange:ulRange];
+			
+			[menuString release];
+
+			// Add the string inside each li tag to the array
+			NSArray *lis = [stringOfLis componentsSeparatedByString:@"</li>"];	// This will include the starting <li> tag
+			for (NSString *li in lis) {
+				NSRange liRange = [li rangeOfCharacterFromSet:[NSCharacterSet alphanumericCharacterSet]];
+
+				// Don't add empty ones
+				if ((int)[li length] - (int)(liRange.location+3) > 0) {
+					NSString *imageFreeString = [li substringFromIndex:liRange.location+3];
+					imageFreeString = [imageFreeString stripMedia];
+					[(NSMutableArray *)_menuItems addObject:imageFreeString];
+				}
+			}
+		}
+		
+		[localPool release];
+	}
+	
+	return _menuItems;
+}
+
+- (void)dealloc
+{
+	[_image release];
+	[_groupedOpenHours release];
+	[_menuItems release];
+	[super dealloc];
+}
+
+
+#pragma mark Distance functions
 
 - (NSNumber *)distanceInFeet
 {
@@ -153,6 +265,8 @@
 		return [NSString stringWithFormat:@"%.f feet", distanceInFeet];
 	}	
 }
+
+#pragma mark MKAnnotation
 
 - (CLLocationCoordinate2D)coordinate {
 	CLLocationCoordinate2D coord;

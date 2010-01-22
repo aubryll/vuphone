@@ -87,7 +87,7 @@
 	cell.textLabel.text = restaurant.name;
 	cell.detailTextLabel.text = restaurant.type;
 	
-	[cell setMinutesUntilClose:restaurant.minutesUntilClose];
+	[cell setMinutesUntilClose:[restaurant.minutesUntilClose integerValue]];
 }
 
 - (Restaurant *)restaurantAtIndexPath:(NSIndexPath *)indexPath

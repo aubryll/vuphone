@@ -113,7 +113,9 @@
 	NSString *labelText = nil;
 	
 	if (hour < 1) {
-		labelText = @"any";
+		labelText = @"anytime";
+	} else if (hour == 24) {
+		labelText = @"midnight";
 	} else {
 		BOOL am = (hour < 12) || (hour == 24);
 		if (hour > 12) {
@@ -169,8 +171,22 @@
 			break;
 	}
 	
+	// Build the on-/off-campus predicate
+	NSPredicate *onCampusPred = nil;
+	switch (onCampusChooser.selectedSegmentIndex) {
+		case 0:	// Yes
+			onCampusPred = [NSPredicate predicateWithFormat:@"offCampus = NO"];
+			break;
+		case 1:	// No
+			onCampusPred = [NSPredicate predicateWithFormat:@"offCampus = YES"];
+			break;
+		default: // Either
+			onCampusPred = [NSPredicate predicateWithFormat:@"TRUEPREDICATE"];
+			break;
+	}
+	
 	NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:
-							  [NSArray arrayWithObjects:typePred, timePred, mealPlanPred, nil]];
+							  [NSArray arrayWithObjects:typePred, timePred, mealPlanPred, onCampusPred, nil]];
 	
 	// Perform the search
 	NSArray *filteredRestaurants = [[[self restaurants] filteredArrayUsingPredicate:predicate] mutableCopy];

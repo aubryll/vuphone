@@ -16,6 +16,6 @@
 @property (retain) UILabel *lowerRightLabel;
 
 - (void)setDistance:(CGFloat)distanceInFeet;
-- (void)setMinutesUntilClose:(NSNumber *)minutes;
+- (void)setMinutesUntilClose:(NSInteger)minutes;
 
 @end

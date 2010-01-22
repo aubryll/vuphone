@@ -18,6 +18,8 @@
 @interface Restaurant : NSManagedObject <MKAnnotation>
 {
 	UIImage *_image;
+	NSArray *_groupedOpenHours;
+	NSArray *_menuItems;
 }
 
 @property (nonatomic, retain) NSNumber * acceptsMealPlan;
@@ -31,7 +33,8 @@
 @property (nonatomic, retain) NSNumber * acceptsMealMoney;
 @property (nonatomic, retain) NSString * urlString;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * minutesUntilClose;
+@property (nonatomic, retain) NSString * websiteLocationNumber;
+@property (readonly) NSNumber * minutesUntilClose;
 @property (nonatomic, retain) NSNumber * isClosed;
 @property (nonatomic, retain) NSNumber * distanceInFeet;
 @property (nonatomic, retain) NSSet * openHours;
@@ -42,6 +45,8 @@
 - (void)deleteAllOpenHours;
 + (Restaurant *)restaurantWithName:(NSString *)aName inContext:(NSManagedObjectContext *)context;
 - (UIImage *)image;
+- (NSArray *)groupedOpenHours;
+- (NSArray *)menuItems;
 - (NSString *)distanceAsString;
 + (NSString *)prettyDistance:(CLLocationDistance)distanceInFeet;
 
