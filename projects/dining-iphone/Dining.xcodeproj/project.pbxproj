@@ -39,6 +39,8 @@
 		61B3B81D1103B32400C9BEE6 /* LocationManagerSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */; };
 		61B3B8A11103C0E800C9BEE6 /* ImageViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */; };
 		61B3B8A21103C0E800C9BEE6 /* VariableHeightCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */; };
+		61C612511107EF85008D29D1 /* OpenHourCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C612501107EF85008D29D1 /* OpenHourCell.m */; };
+		61C614BD1108D922008D29D1 /* NSString-Regex.m in Sources */ = {isa = PBXBuildFile; fileRef = 61C614BC1108D922008D29D1 /* NSString-Regex.m */; };
 		61F7CFFD10FA6CE10023A53A /* restaurants.xml in Resources */ = {isa = PBXBuildFile; fileRef = 61F7CFFC10FA6CE10023A53A /* restaurants.xml */; };
 		61F7D10810FA95BF0023A53A /* RestaurantIcons in Resources */ = {isa = PBXBuildFile; fileRef = 61F7D0D910FA95BF0023A53A /* RestaurantIcons */; };
 		61F7D12910FA99FC0023A53A /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61F7D12210FA99FC0023A53A /* NSManagedObjectContext-Convenience.m */; };
@@ -117,6 +119,10 @@
 		61B3B89E1103C0E800C9BEE6 /* ImageViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCell.m; sourceTree = "<group>"; };
 		61B3B89F1103C0E800C9BEE6 /* VariableHeightCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableHeightCell.h; sourceTree = "<group>"; };
 		61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableHeightCell.m; sourceTree = "<group>"; };
+		61C6124F1107EF85008D29D1 /* OpenHourCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHourCell.h; sourceTree = "<group>"; };
+		61C612501107EF85008D29D1 /* OpenHourCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenHourCell.m; sourceTree = "<group>"; };
+		61C614BB1108D922008D29D1 /* NSString-Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-Regex.h"; sourceTree = "<group>"; };
+		61C614BC1108D922008D29D1 /* NSString-Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-Regex.m"; sourceTree = "<group>"; };
 		61C9F6151100E35000CDEA72 /* Dining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61F7CFFC10FA6CE10023A53A /* restaurants.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = restaurants.xml; sourceTree = "<group>"; };
 		61F7D0D910FA95BF0023A53A /* RestaurantIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RestaurantIcons; sourceTree = "<group>"; };
@@ -252,6 +258,8 @@
 				611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */,
 				611E14821104D78600298EA9 /* RestaurantTypeButton.h */,
 				611E14831104D78600298EA9 /* RestaurantTypeButton.m */,
+				61C6124F1107EF85008D29D1 /* OpenHourCell.h */,
+				61C612501107EF85008D29D1 /* OpenHourCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -290,6 +298,8 @@
 				61B3B6021103869900C9BEE6 /* TypeSortHelper.m */,
 				61B3B7E81103B01C00C9BEE6 /* DistanceSortHelper.h */,
 				61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */,
+				61C614BB1108D922008D29D1 /* NSString-Regex.h */,
+				61C614BC1108D922008D29D1 /* NSString-Regex.m */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -470,6 +480,8 @@
 				611E12DE11042FE200298EA9 /* SearchViewController.m in Sources */,
 				611E13471104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */,
 				611E14841104D78600298EA9 /* RestaurantTypeButton.m in Sources */,
+				61C612511107EF85008D29D1 /* OpenHourCell.m in Sources */,
+				61C614BD1108D922008D29D1 /* NSString-Regex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -557,7 +569,6 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;

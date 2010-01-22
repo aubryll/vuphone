@@ -7,6 +7,7 @@
 
 #import "RestaurantImporterXML.h"
 
+
 @interface DDXMLNode (XPathHelpers)
 
 - (DDXMLNode *)nodeForXPath:(NSString *)path error:(NSError **)err;
@@ -26,6 +27,7 @@
 }
 
 @end
+
 
 @implementation RestaurantImporterXML
 
@@ -60,15 +62,14 @@
 
 		// Load in the data from the XML file
 		[RestaurantImporterXML getDataFromXMLNode:node intoRestaurant:restaurant];
-
 		
 		[context save:&err];
 		if (err) {
 			NSLog(@"Error saving restaurant: %@", err);
-			NSArray* detailedErrors = [[err userInfo] objectForKey:NSDetailedErrorsKey];
-			if([detailedErrors count] > 0)
+			NSArray *detailedErrors = [[err userInfo] objectForKey:NSDetailedErrorsKey];
+			if ([detailedErrors count] > 0)
 			{
-				for(NSError* detailedError in detailedErrors) {
+				for (NSError *detailedError in detailedErrors) {
 					NSLog(@"  DetailedError: %@", [detailedError userInfo]);
 				}
 			}
@@ -76,7 +77,7 @@
 			[context rollback];
 		}
 	}
-	
+
 	[restaurantXml release];
 }
 
@@ -96,6 +97,7 @@
 
 	restaurant.urlString = [[node nodeForXPath:@"./url" error:&err] stringValue];
 	restaurant.imageUrlString = [[node nodeForXPath:@"./image" error:&err] stringValue];
+	restaurant.websiteLocationNumber = [[node nodeForXPath:@"./websiteLocationNumber" error:&err] stringValue];
 
 	BOOL temp = [[[node nodeForXPath:@"./offCampus" error:&err] stringValue] boolValue];
 	restaurant.offCampus = [NSNumber numberWithBool:temp];
@@ -107,11 +109,18 @@
 	restaurant.acceptsMealMoney = [NSNumber numberWithBool:temp];
 	
 	// Import hours
-	for (DDXMLNode *rangeNode in [node nodesForXPath:@"./hours/range" error:&err]) {
+	int i = 0;
+	NSString *prevContiguousWith = nil;
+	HourRange *prevRange = nil;
+
+	for (DDXMLNode *rangeNode in [node nodesForXPath:@"./hours/range" error:&err])
+	{
 		HourRange *range = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_HOUR_RANGE
 														 inManagedObjectContext:[restaurant managedObjectContext]];
 
 		range.day = [[[rangeNode nodeForXPath:@"./day" error:&err] stringValue] capitalizedString];
+		
+		range.order = [NSNumber numberWithInt:i];
 
 		NSArray *openComponents = [[[rangeNode nodeForXPath:@"./open" error:&err] stringValue] componentsSeparatedByString:@":"];
 		int hour = [[openComponents objectAtIndex:0] intValue];
@@ -122,10 +131,35 @@
 		hour = [[closeComponents objectAtIndex:0] intValue];
 		minute = [[closeComponents objectAtIndex:1] intValue];
 		range.closeMinute = [NSNumber numberWithInt:hour*60 + minute];
+
 		
 		[restaurant addOpenHoursObject:range];
-	}
-}
 
+		
+		// Import contiguity data from previous node
+		if (prevContiguousWith != nil) {
+			// Note that we currently can't handle contiguity with > 1 on the same day or ones that haven't been read yet
+			NSSet *nextRanges = [restaurant.openHours filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"day LIKE[c] %@", prevContiguousWith]];
+			if ([nextRanges count] > 0) {
+				HourRange *nextRange = [nextRanges anyObject];
+				prevRange.contiguousWith = nextRange;
+			}
+		}
+		
+		prevRange = range;
+		prevContiguousWith = [[rangeNode nodeForXPath:@"./contiguousWith" error:&err] stringValue];
+		i++;
+	}
+	
+	// Import contiguity data from the last node
+	if (prevContiguousWith != nil) {
+		NSSet *nextRanges = [restaurant.openHours filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"day LIKE[c] %@", prevContiguousWith]];
+		if ([nextRanges count] > 0) {
+			HourRange *nextRange = [nextRanges anyObject];
+			prevRange.contiguousWith = nextRange;
+		}
+	}
+	
+}
 
 @end

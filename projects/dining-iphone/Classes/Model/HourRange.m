@@ -15,7 +15,21 @@
 @dynamic openMinute;
 @dynamic closeMinute;
 @dynamic day;
+@dynamic order;
 @dynamic restaurant;
+@dynamic contiguousWith;
+@dynamic contiguousWithBackwards;
+@dynamic contiguousCloseMinute;
+
+- (id)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context
+{
+	self = [super initWithEntity:entity insertIntoManagedObjectContext:context];
+	if (self != nil) {
+		_contiguousCloseMinute = -1;
+	}
+	return self;
+}
+
 
 - (NSNumber *)openHour {
 	return [NSNumber numberWithInt:[self.openMinute intValue] / 60];
@@ -32,11 +46,45 @@
 }
 
 - (NSString *)formattedHoursString {
+	// Prefixed all with an 'f' to avoid namespace conflicts
+	int fopenHour, fopenMinute, fcloseHour, fcloseMinute;
+	
+	if ([self.openMinute intValue] == 0 && [self.closeMinute intValue] == 1440) {
+		// It's open 24-hours, so just add it and continue
+		fopenHour = 0;
+		fopenMinute = 0;
+		fcloseHour = 24;
+		fcloseMinute = 0;
+	} else if (self.contiguousWith != nil) {
+		fopenHour = [[self openHour] intValue];
+		fopenMinute = [self.openMinute intValue];
+		fcloseHour = [[self.contiguousWith closeHour] intValue];
+		fcloseMinute = [self.contiguousWith.closeMinute intValue];
+	} else {
+		fopenHour = [[self openHour] intValue];
+		fopenMinute = [self.openMinute intValue];
+		fcloseHour = [[self closeHour] intValue];
+		fcloseMinute = [self.closeMinute intValue];
+	}
 	return [NSString stringWithFormat:@"%i:%.2i - %i:%.2i",
-			[[self openHour] intValue],
-			[self.openMinute intValue] % 60,
-			[[self closeHour] intValue],
-			[self.closeMinute intValue] % 60];
+			fopenHour,
+			fopenMinute % 60,
+			fcloseHour,
+			fcloseMinute % 60];
+}
+
+- (NSInteger)contiguousCloseMinute
+{
+	if (_contiguousCloseMinute < 0)
+	{
+		// Loop through all related HourRanges in the contiguousWith chain, avoiding cycles
+		HourRange *curRange = self;
+		do {
+			_contiguousCloseMinute += [curRange.closeMinute integerValue];
+		} while (curRange.contiguousWith != self && (curRange = curRange.contiguousWith));
+	}
+	
+	return _contiguousCloseMinute;
 }
 
 @end

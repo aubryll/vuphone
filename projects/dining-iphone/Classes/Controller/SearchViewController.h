@@ -15,6 +15,7 @@
 	IBOutlet UISlider *openThruSlider;
 	IBOutlet UILabel *openThruLabel;
 	IBOutlet UISegmentedControl *mealPlanChooser;
+	IBOutlet UISegmentedControl *onCampusChooser;
 	RestaurantTypePickerView *pickerView;
 	
 	NSManagedObjectContext *context;

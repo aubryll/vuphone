@@ -37,30 +37,29 @@
 	}
 }
 
-- (void)setMinutesUntilClose:(NSNumber *)minutes
+- (void)setMinutesUntilClose:(NSInteger)minutes
 {
-	int clockMinutes = [minutes intValue] % 60;
-	
-	if ([minutes intValue] <= 0) {
+	if (minutes <= 0) {
 		self.lowerRightLabel.text = @"closed";
 		self.lowerRightLabel.textColor = [UIColor grayColor];
-	} else if ([minutes intValue] <= 60) {
-		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes in %@m", minutes];
+	} else if (minutes <= 60) {
+		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes in %im", minutes];
 		self.lowerRightLabel.textColor = [UIColor redColor];
+	} else if (minutes > 24*60) {	// > 1 day from now, so it's open 24 hrs today
+		self.lowerRightLabel.text = @"24 hours";
+		self.lowerRightLabel.textColor = [UIColor greenColor];
 	} else {
-		int hours = [minutes intValue] / 60;
-		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes in %ih %im", hours, clockMinutes];
+		// Note that we are hard-coding GMT -6 for the date
+		int minutesSinceReferenceDate = (int)ceil([[NSDate date] timeIntervalSinceReferenceDate] / 60) - 60*6;
+		int minuteOfDayNow = minutesSinceReferenceDate % (24*60);
+		int closeMinute = minuteOfDayNow + minutes;
+		
+		int hour = closeMinute / 60;
+		int clockMinute = closeMinute % 60;
+		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes at %i:%.2i", hour, clockMinute];
 		self.lowerRightLabel.textColor = [UIColor greenColor];
 	}
 }
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 
 - (void)dealloc {
 	self.lowerRightLabel = nil;

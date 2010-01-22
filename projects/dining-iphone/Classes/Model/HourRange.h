@@ -14,12 +14,17 @@
 
 @interface HourRange :  NSManagedObject  
 {
+	NSInteger _contiguousCloseMinute;
 }
 
 @property (nonatomic, retain) NSNumber * openMinute;
 @property (nonatomic, retain) NSNumber * closeMinute;
 @property (nonatomic, retain) NSString * day;
+@property (nonatomic, retain) NSNumber * order;
 @property (nonatomic, retain) Restaurant * restaurant;
+@property (nonatomic, retain) HourRange * contiguousWith;
+@property (nonatomic, retain) HourRange * contiguousWithBackwards;
+@property (readonly) NSInteger contiguousCloseMinute;
 
 - (NSNumber *)openHour;
 - (NSNumber *)closeHour;
