@@ -7,16 +7,17 @@
 //
 
 #import "MapViewController.h"
-#import "BaseViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate> {
+@interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
     UIWindow *window;
-	IBOutlet BaseViewController *baseViewController;
+	
+	IBOutlet MapViewController *mapViewController;
+	IBOutlet UINavigationController *navController;
 	
 }
 
@@ -29,4 +30,3 @@
 - (NSString *)applicationDocumentsDirectory;
 
 @end
-
