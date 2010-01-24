@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -278,8 +280,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>20</integer>
-									<integer>19</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -305,7 +305,7 @@
 							<real>233</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>92 143 1074 735 0 0 1440 878 </string>
+						<string>245 143 1074 735 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -316,14 +316,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MapViewController.m</string>
+								<string>CampusMapsAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>MapViewController.m</string>
+										<string>CampusMapsAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>611A73FB10A2224300CB5DB6</string>
+										<string>6103273710FF02FF000CCFB0</string>
 										<key>history</key>
 										<array>
 											<string>61DF565C108138A8000A7B1D</string>
@@ -344,7 +342,8 @@
 											<string>611A732210A2107A00CB5DB6</string>
 											<string>611A733D10A2133800CB5DB6</string>
 											<string>611A73A110A21E3A00CB5DB6</string>
-											<string>611A73B510A21F9900CB5DB6</string>
+											<string>6103273510FF02F7000CCFB0</string>
+											<string>6103273310FF02F3000CCFB0</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -358,7 +357,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {797, 689}}</string>
 								<key>RubberWindowFrame</key>
-								<string>92 143 1074 735 0 0 1440 878 </string>
+								<string>245 143 1074 735 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -378,7 +377,7 @@
 								<key>Frame</key>
 								<string>{{0, 694}, {797, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>92 143 1074 735 0 0 1440 878 </string>
+								<string>245 143 1074 735 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -402,9 +401,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>611A732510A2107A00CB5DB6</string>
+				<string>6103272F10FF02E2000CCFB0</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>611A732610A2107A00CB5DB6</string>
+				<string>6103273010FF02E2000CCFB0</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -540,16 +539,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>611A732810A2107A00CB5DB6</string>
-		<string>611A732910A2107A00CB5DB6</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>61FC2E95107C2BF700FFF897</string>
 		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/campusmaps-iphone/CampusMaps.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>92 143 1074 735 0 0 1440 878 </string>
+	<string>245 143 1074 735 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -570,7 +564,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MapViewController.m</string>
+								<string>CampusMapsAppDelegate.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -628,7 +622,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>61FC2E95107C2BF700FFF897</string>
-				<string>611A72DF10A20C2000CB5DB6</string>
+				<string>6103273110FF02E2000CCFB0</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -748,13 +742,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>611A72E810A20C9200CB5DB6</string>
+				<string>61224F7A10ACB9A00074B05D</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>611A72E910A20C9200CB5DB6</string>
-				<string>611A72EA10A20C9200CB5DB6</string>
-				<string>611A72EB10A20C9200CB5DB6</string>
-				<string>611A72EC10A20C9200CB5DB6</string>
-				<string>611A72ED10A20C9200CB5DB6</string>
+				<string>61224F7B10ACB9A00074B05D</string>
+				<string>61224F7C10ACB9A00074B05D</string>
+				<string>61224F7D10ACB9A00074B05D</string>
+				<string>61224F7E10ACB9A00074B05D</string>
+				<string>61224F7F10ACB9A00074B05D</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -873,8 +867,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -910,7 +902,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>611A72EE10A20C9200CB5DB6</string>
+				<string>61224F8010ACB9A00074B05D</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

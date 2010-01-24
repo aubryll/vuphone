@@ -7,23 +7,75 @@
 //
 
 #import "CampusMapsAppDelegate.h"
+#import "LocationManagerSingleton.h"
+#import <CoreLocation/CoreLocation.h>
 
 
 @implementation CampusMapsAppDelegate
 
 @synthesize window;
 
+#define DatabaseFilename @"CampusMaps.sqlite"
+#define DefaultDatabaseFilename @"CampusMapsDefaultData"
+#define DefaultDatabaseFilenameExtension @"sqlite"
+#define DefaultsLastUpdateKey @"DefaultsLastUpdateKey"
 
 #pragma mark -
 #pragma mark Application lifecycle
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
     
-    // Override point for customization after app launch   
-	baseViewController.managedObjectContext = [self managedObjectContext];
+	// This call should set up our singleton. It returns a reference to our singleton
+	// but we don't need it right here.
+	[LocationManagerSingleton sharedManager];
 	
-	[window addSubview:baseViewController.view];
+	mapViewController.managedObjectContext = [self managedObjectContext];
+	
+	// Add a layer if none exist
+	NSSet *allLayers = [Layer allLayers:[self managedObjectContext]];
+	if ([allLayers count] == 0) {
+		Layer *layer = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_LAYER
+													 inManagedObjectContext:[self managedObjectContext]];
+		layer.name = @"Buildings";
+		NSError *err = nil;
+		[[self managedObjectContext] save:&err];
+		if (err) {
+			NSLog(@"Error upon adding a default POI: %@", err);
+		}
+	}
+	
+	
+	[window addSubview:navController.view];
+	[navController pushViewController:mapViewController animated:NO];
 	[window makeKeyAndVisible];
+	
+	// Update if it hasn't within 24 hours
+	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
+	if (lastUpdate == nil) {
+		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
+	}
+
+	if ([[NSDate date] timeIntervalSinceDate:lastUpdate] > 60*60*24) {
+		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
+	}
+}
+
+- (void)loadRemotePOIs:(NSManagedObjectContext *)context
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	[RemotePOILoader getPOIsFromServerIntoContext:context];
+
+	NSError *err = nil;
+	[context save:&err];
+	if (err) {
+		NSLog(@"Error upon loading POIs: %@", err);
+	}
+	
+	// Set the current date as last updated
+	[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
+	
+	[pool release];
 }
 
 /**
@@ -53,7 +105,7 @@
  Returns the managed object context for the application.
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
-- (NSManagedObjectContext *) managedObjectContext {
+- (NSManagedObjectContext *)managedObjectContext {
 	
     if (managedObjectContext != nil) {
         return managedObjectContext;
@@ -77,7 +129,9 @@
     if (managedObjectModel != nil) {
         return managedObjectModel;
     }
+
     managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+
     return managedObjectModel;
 }
 
@@ -92,8 +146,27 @@
         return persistentStoreCoordinator;
     }
 	
-    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"CampusMaps.sqlite"]];
+	NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:DatabaseFilename];
 	
+	// Copy the default database if none exists
+	if (![[NSFileManager defaultManager] fileExistsAtPath:storePath])
+	{
+		NSString *defaultStorePath = [[NSBundle mainBundle] pathForResource:DefaultDatabaseFilename ofType:DefaultDatabaseFilenameExtension];
+		NSError *err = nil;
+		[[NSFileManager defaultManager] copyItemAtPath:defaultStorePath
+												toPath:storePath
+												 error:&err];
+		if (err) {
+			NSLog(@"Error copying default store file at %@ to %@:\n%@", defaultStorePath, storePath, err);
+		}
+	}
+
+    NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+
+	// Set options to automatically perform a lightweight migration
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
 	NSError *error = nil;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
