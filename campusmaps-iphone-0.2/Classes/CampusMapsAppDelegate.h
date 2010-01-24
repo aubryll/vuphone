@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "AboutViewController.h"
 
 @interface CampusMapsAppDelegate : NSObject <UIApplicationDelegate, CLLocationManagerDelegate> {
 
@@ -18,10 +19,13 @@
 	
 	IBOutlet MapViewController *mapViewController;
 	IBOutlet UINavigationController *navController;
-	
+
+	BOOL aboutViewShowing;
+	AboutViewController *aboutViewController;
 }
 
 - (void)loadRemotePOIs:(NSManagedObjectContext *)context;
+- (void)toggleAboutView;
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;

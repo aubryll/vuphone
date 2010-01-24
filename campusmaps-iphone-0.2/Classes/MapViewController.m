@@ -16,14 +16,15 @@
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+		// Custom initialization
+	}
+	return self;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 	
 	self.navigationItem.leftBarButtonItem = homeButton;
@@ -113,7 +114,11 @@
 	
 	[mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
+}
 
+- (IBAction)toggleAboutView:(id)sender {
+	CampusMapsAppDelegate *appDelegate = (CampusMapsAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate toggleAboutView];
 }
 
 #pragma mark Layers
@@ -138,6 +143,8 @@
 	[currentLayerController addAnnotationsToMapView];
 }
 
+
+
 #pragma mark MKMapViewDelegate
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
@@ -147,7 +154,7 @@
 	annView.canShowCallout = YES;
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 
-	return annView;
+	return [annView autorelease];
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
