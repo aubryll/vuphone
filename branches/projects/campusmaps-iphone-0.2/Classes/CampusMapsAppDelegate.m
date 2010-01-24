@@ -60,6 +60,7 @@
 		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
 	}
 */
+	aboutViewShowing = NO;
 }
 
 - (void)loadRemotePOIs:(NSManagedObjectContext *)context
@@ -80,10 +81,38 @@
 	[pool release];
 }
 
+- (void)toggleAboutView
+{
+	[UIView beginAnimations:@"AboutViewTransition" context:NULL];
+	[UIView setAnimationDuration:0.5];
+	
+	if (!aboutViewShowing)
+	{
+		aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+		// Offset the view down by 20 pixels, the height of the status bar
+		aboutViewController.view.frame = CGRectMake(0, 20, 320, 460);
+
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.window cache:NO];
+		[self.window addSubview:aboutViewController.view];
+	}
+	else
+	{
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.window cache:NO];
+		[aboutViewController.view removeFromSuperview];
+	}
+	
+	aboutViewShowing = !aboutViewShowing;
+	[UIView commitAnimations];
+}
+
 /**
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
  */
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	if (aboutViewController) {
+		[aboutViewController release];
+	}
 	
     NSError *error = nil;
     if (managedObjectContext != nil) {

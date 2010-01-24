@@ -21,6 +21,8 @@
 		610326CF10FEF042000CCFB0 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 610326CA10FEF042000CCFB0 /* Images */; };
 		6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */; };
 		616FBBCA110647650044D76B /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616FBBC9110647650044D76B /* MapLayerController.m */; };
+		61A301B5110BF56C00A375E8 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A301B3110BF56C00A375E8 /* AboutViewController.m */; };
+		61A301B6110BF56C00A375E8 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A301B4110BF56C00A375E8 /* AboutViewController.xib */; };
 		61D6100E10F84BBC00CE3397 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D6100D10F84BBC00CE3397 /* Icon.png */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
 		61FD085E10C72438000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */; };
@@ -72,6 +74,9 @@
 		6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = CampusMapsDefaultData.sqlite; sourceTree = "<group>"; };
 		616FBBC8110647650044D76B /* MapLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLayerController.h; sourceTree = "<group>"; };
 		616FBBC9110647650044D76B /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLayerController.m; sourceTree = "<group>"; };
+		61A301B2110BF56C00A375E8 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		61A301B3110BF56C00A375E8 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		61A301B4110BF56C00A375E8 /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		61D6100D10F84BBC00CE3397 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		61FC2EE6107C4AFA00FFF897 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		61FD085C10C72438000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
@@ -147,6 +152,8 @@
 				997D63A310E48E3600A55FAC /* LocationManagerSingleton.m */,
 				616FBBC8110647650044D76B /* MapLayerController.h */,
 				616FBBC9110647650044D76B /* MapLayerController.m */,
+				61A301B2110BF56C00A375E8 /* AboutViewController.h */,
+				61A301B3110BF56C00A375E8 /* AboutViewController.m */,
 				1D3623240D0F684500981E51 /* CampusMapsAppDelegate.h */,
 				1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */,
 			);
@@ -264,6 +271,7 @@
 				6F211BCD10884D90003F009F /* MapViewController.xib */,
 				3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */,
 				61FD09D010C75112000EA568 /* LayersListViewController.xib */,
+				61A301B4110BF56C00A375E8 /* AboutViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -319,6 +327,7 @@
 				61D6100E10F84BBC00CE3397 /* Icon.png in Resources */,
 				6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */,
 				610326CF10FEF042000CCFB0 /* Images in Resources */,
+				61A301B6110BF56C00A375E8 /* AboutViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,6 +358,7 @@
 				998256F410E33E6D009C1A75 /* POIImageViewCell.m in Sources */,
 				997D63A410E48E3600A55FAC /* LocationManagerSingleton.m in Sources */,
 				616FBBCA110647650044D76B /* MapLayerController.m in Sources */,
+				61A301B5110BF56C00A375E8 /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +405,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "iPhone Developer: Aaron Thompson (LV483793L7)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
