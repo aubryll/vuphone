@@ -54,7 +54,7 @@
 		int minuteOfDayNow = minutesSinceReferenceDate % (24*60);
 		int closeMinute = minuteOfDayNow + minutes;
 		
-		int hour = closeMinute / 60;
+		int hour = (closeMinute / 60) % 24;
 		int clockMinute = closeMinute % 60;
 		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes at %i:%.2i", hour, clockMinute];
 		self.lowerRightLabel.textColor = [UIColor greenColor];

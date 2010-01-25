@@ -45,16 +45,14 @@
 			[self formattedHoursString]];
 }
 
-- (NSString *)formattedHoursString {
+- (NSString *)formattedHoursString
+{
 	// Prefixed all with an 'f' to avoid namespace conflicts
 	int fopenHour, fopenMinute, fcloseHour, fcloseMinute;
 	
 	if ([self.openMinute intValue] == 0 && [self.closeMinute intValue] == 1440) {
 		// It's open 24-hours, so just add it and continue
-		fopenHour = 0;
-		fopenMinute = 0;
-		fcloseHour = 24;
-		fcloseMinute = 0;
+		return @"24 hours";
 	} else if (self.contiguousWith != nil) {
 		fopenHour = [[self openHour] intValue];
 		fopenMinute = [self.openMinute intValue];
@@ -66,6 +64,7 @@
 		fcloseHour = [[self closeHour] intValue];
 		fcloseMinute = [self.closeMinute intValue];
 	}
+
 	return [NSString stringWithFormat:@"%i:%.2i - %i:%.2i",
 			fopenHour,
 			fopenMinute % 60,

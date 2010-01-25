@@ -16,22 +16,48 @@
 @synthesize window;
 
 
+- (IBAction)toggleAboutView:(id)sender
+{
+	[UIView beginAnimations:@"AboutViewTransition" context:NULL];
+	[UIView setAnimationDuration:0.5];
+	
+	if (!aboutViewShowing)
+	{
+		aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+		// Offset the view down by 20 pixels, the height of the status bar
+		aboutViewController.view.frame = CGRectMake(0, 20, 320, 460);
+		
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.window cache:NO];
+		[self.window addSubview:aboutViewController.view];
+	}
+	else
+	{
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.window cache:NO];
+		[aboutViewController.view removeFromSuperview];
+	}
+	
+	aboutViewShowing = !aboutViewShowing;
+	[UIView commitAnimations];
+}
+
+
 - (void)showRestaurantOnMap:(Restaurant *)restaurant
 {
 	RestaurantListViewController *listVC = [[tabBarController viewControllers] objectAtIndex:0];
 	[listVC.navigationController popToRootViewControllerAnimated:NO];
 	
-	[tabBarController setSelectedIndex:2];
-	
 	MapViewController *mapVC = [[tabBarController viewControllers] objectAtIndex:2];
 	[mapVC selectRestaurant:restaurant];
+
+	[tabBarController setSelectedIndex:2];
 }
 
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+	tabBarController.navigationItem.rightBarButtonItem = aboutButton;
 	[navController pushViewController:tabBarController animated:NO];
 	
 	[window addSubview:navController.view];
@@ -42,11 +68,11 @@
 /**
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
  */
-- (void)applicationWillTerminate:(UIApplication *)application {
-	
-    NSError *error = nil;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	NSError *error = nil;
+	if (managedObjectContext != nil) {
+		if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
 			/*
 			 Replace this implementation with code to handle the error appropriately.
 			 
@@ -54,8 +80,8 @@
 			 */
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 			abort();
-        } 
-    }
+		} 
+	}
 }
 
 
@@ -68,16 +94,16 @@
  */
 - (NSManagedObjectContext *)managedObjectContext {
 	
-    if (managedObjectContext != nil) {
-        return managedObjectContext;
-    }
+	if (managedObjectContext != nil) {
+		return managedObjectContext;
+	}
 	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
-    }
-    return managedObjectContext;
+	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+	if (coordinator != nil) {
+		managedObjectContext = [[NSManagedObjectContext alloc] init];
+		[managedObjectContext setPersistentStoreCoordinator: coordinator];
+	}
+	return managedObjectContext;
 }
 
 
@@ -85,13 +111,13 @@
  Returns the managed object model for the application.
  If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
  */
-- (NSManagedObjectModel *)managedObjectModel {
-	
-    if (managedObjectModel != nil) {
-        return managedObjectModel;
-    }
-    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
-    return managedObjectModel;
+- (NSManagedObjectModel *)managedObjectModel
+{
+	if (managedObjectModel != nil) {
+		return managedObjectModel;
+	}
+	managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];	
+	return managedObjectModel;
 }
 
 
@@ -99,20 +125,20 @@
  Returns the persistent store coordinator for the application.
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-	
-    if (persistentStoreCoordinator != nil) {
-        return persistentStoreCoordinator;
-    }
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+	if (persistentStoreCoordinator != nil) {
+		return persistentStoreCoordinator;
+	}
 	
 	NSString *storePath = [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"Dining.sqlite"];
-    NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
+	NSURL *storeUrl = [NSURL fileURLWithPath:storePath];
 	
 	BOOL isNew = ! ([[NSFileManager defaultManager] fileExistsAtPath:storePath]);
 	
 	NSError *error = nil;
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
 		/*
 		 Replace this implementation with code to handle the error appropriately.
 		 
@@ -125,7 +151,7 @@
 		 */
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
-    }
+	}
 	
 	if (isNew) {
 		// Load restaurant data from XML using a temporary managed object context
@@ -138,7 +164,7 @@
 		[importContext release];
 	}
 	
-    return persistentStoreCoordinator;
+	return persistentStoreCoordinator;
 }
 
 
@@ -158,10 +184,10 @@
 
 - (void)dealloc {
 	
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-    
+	[managedObjectContext release];
+	[managedObjectModel release];
+	[persistentStoreCoordinator release];
+	
 	[window release];
 	[super dealloc];
 }

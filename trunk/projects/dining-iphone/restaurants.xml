@@ -2192,6 +2192,7 @@
 				<day>SATURDAY</day>
 				<open>11:00</open>
 				<close>24:00</close>
+				<contiguousWith>SUNDAY</contiguousWith>
 			</range>
 			<range>
 				<day>SUNDAY</day>

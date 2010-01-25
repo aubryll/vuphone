@@ -7,6 +7,7 @@
 //
 
 #import "Restaurant.h"
+#import "AboutViewController.h"
 
 @interface DiningAppDelegate : NSObject <UIApplicationDelegate> {
 
@@ -17,6 +18,10 @@
     UIWindow *window;
 	IBOutlet UINavigationController *navController;
 	IBOutlet UITabBarController *tabBarController;
+	
+	BOOL aboutViewShowing;
+	AboutViewController *aboutViewController;
+	IBOutlet UIBarButtonItem *aboutButton;
 }
 
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
@@ -25,6 +30,7 @@
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
+- (IBAction)toggleAboutView:(id)sender;
 - (void)showRestaurantOnMap:(Restaurant *)restaurant;
 
 - (NSString *)applicationDocumentsDirectory;
