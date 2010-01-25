@@ -38,37 +38,39 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 
 	@Override
 	public void handle(HttpServletResponse resp, ResponseNotification nr)
-	throws HandlerFailedException {
+			throws HandlerFailedException {
 		if (!(nr instanceof EventRequestResponse)) {
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(new InvalidFormatException());
 			throw hfe;
 		}
-		EventRequestResponse err = (EventRequestResponse)nr;
+		EventRequestResponse err = (EventRequestResponse) nr;
 
 		XStream emitter;
 		if (err.getResponseType().equalsIgnoreCase("json")) {
-			emitter = EmitterFactory.createXStream(EmitterFactory.ResponseType.JSON);
+			emitter = EmitterFactory
+					.createXStream(EmitterFactory.ResponseType.JSON);
 		} else {
-			emitter = EmitterFactory.createXStream(EmitterFactory.ResponseType.XML);
+			emitter = EmitterFactory
+					.createXStream(EmitterFactory.ResponseType.XML);
+			resp.setContentType("text/xml");
 		}
-		
-		
+
 		emitter.omitField(ResponseNotification.class, "type_");
 		emitter.omitField(ResponseNotification.class, "responseType_");
 		emitter.omitField(Notification.class, "type_");
 		emitter.omitField(ResponseNotification.class, "callback_");
-		
+
 		emitter.alias("EventRequestResponse", EventRequestResponse.class);
 		emitter.alias("Event", Event.class);
 		emitter.addImplicitCollection(EventRequestResponse.class, "events_");
-		
+
 		emitter.alias("Loc", Location.class);
 		emitter.aliasField("Name", Location.class, "name_");
 		emitter.aliasField("Lat", Location.class, "lat_");
 		emitter.aliasField("Lon", Location.class, "lon_");
 		emitter.aliasField("Id", Location.class, "locationid_");
-		
+
 		emitter.aliasField("Name", Event.class, "name_");
 		emitter.aliasField("Loc", Event.class, "loc_");
 		emitter.aliasField("User", Event.class, "user_");
@@ -79,15 +81,19 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		emitter.aliasField("LastUpdate", Event.class, "lastUpdate_");
 		emitter.aliasField("Description", Event.class, "description_");
 		emitter.omitField(Event.class, "sourceUid_");
-		
+
 		String response = emitter.toXML(err);
-		
+
 		if (err.getResponseType().equalsIgnoreCase("json"))
 			response = err.getCallback() + " (" + response + ") ";
-		
+
 		try {
+			if (err.getResponseType().equalsIgnoreCase("xml"))
+				resp.getWriter().write(
+						"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+
 			resp.getWriter().write(response);
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(e);
