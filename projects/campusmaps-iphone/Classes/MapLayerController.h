@@ -8,15 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import <MapKit/MKAnnotation.h>
+#import "Layer.h"
 
 
-@interface MapLayerController : NSObject <MKAnnotation> {
-	CLLocationCoordinate2D coordinate;
+@interface MapLayerController : NSObject {
+	Layer *layer;
+	MKMapView *mapView;
+	NSSet *filteredPOIs;
 }
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D) inputCoordinate;
+@property (retain) NSSet *filteredPOIs;
 
-@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+- (id)initWithLayer:(Layer *)aLayer andMapView:(MKMapView *)aMapView;
+- (void)addAnnotationsToMapView;
+- (void)removeAnnotationsFromMapView;
+- (void)setPredicate:(NSPredicate *)pred forContext:(NSManagedObjectContext *)context;
+- (void)contextSaved:(NSNotification *)notification;
 
 @end

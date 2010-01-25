@@ -8,22 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "MapViewController.h"
-#import "ListViewController.h"
 
 
 @interface BaseViewController : UIViewController {
 
 	IBOutlet MapViewController *mapViewController;
-	IBOutlet ListViewController *listViewController;
-	
-	UIButton * flipViewButton;
-	BOOL mapViewRunning;
 	
 	NSManagedObjectContext *managedObjectContext;	    
 
 }
-
--(void)instantiateFlipViewButton;
 
 @property (retain) NSManagedObjectContext *managedObjectContext;
 

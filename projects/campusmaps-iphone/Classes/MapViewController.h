@@ -7,20 +7,33 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <UIKit/UIImage.h>
 #import <MapKit/MapKit.h>
 #import <MapKit/MKAnnotation.h>
 #import "MapLayerController.h"
+#import "LayersListViewController.h"
 
-@interface MapViewController : UIViewController <MKMapViewDelegate> {
+// Image from http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=|FFCC66|000000
+#define ANNOTATION_IMAGE_FILE @"Images/pin-brown.png"
 
-	MapLayerController* exampleLayer;
+@interface MapViewController : UIViewController <MKMapViewDelegate, UISearchBarDelegate, LayersListViewDelegate> {
+
+	MapLayerController *currentLayerController;
 	
 	IBOutlet UISegmentedControl* mapType;
 	IBOutlet MKMapView* mapView;
+	IBOutlet UIBarButtonItem* homeButton;
+	IBOutlet UIBarButtonItem* showLayersButton;
+	
+	UIImage* annotationImage;
+	
 	NSManagedObjectContext* managedObjectContext;
 }
 
-- (IBAction)changeType:(id) sender;
+- (IBAction)changeType:(id)sender;
+- (IBAction)showLayersSheet:(id)sender;
+- (IBAction)centerOnCampus:(id)sender;
+- (IBAction)toggleAboutView:(id)sender;
 
 @property (retain) NSManagedObjectContext *managedObjectContext;
 
