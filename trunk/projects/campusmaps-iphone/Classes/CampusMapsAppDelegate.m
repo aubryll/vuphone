@@ -7,9 +7,10 @@
 //
 
 #import "CampusMapsAppDelegate.h"
+#import "RemotePOILoader.h"
+#import "Layer.h"
 #import "LocationManagerSingleton.h"
 #import <CoreLocation/CoreLocation.h>
-
 
 @implementation CampusMapsAppDelegate
 
@@ -48,7 +49,7 @@
 	[window addSubview:navController.view];
 	[navController pushViewController:mapViewController animated:NO];
 	[window makeKeyAndVisible];
-	
+/*	
 	// Update if it hasn't within 24 hours
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
 	if (lastUpdate == nil) {
@@ -58,6 +59,8 @@
 	if ([[NSDate date] timeIntervalSinceDate:lastUpdate] > 60*60*24) {
 		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
 	}
+*/
+	aboutViewShowing = NO;
 }
 
 - (void)loadRemotePOIs:(NSManagedObjectContext *)context
@@ -78,10 +81,38 @@
 	[pool release];
 }
 
+- (void)toggleAboutView
+{
+	[UIView beginAnimations:@"AboutViewTransition" context:NULL];
+	[UIView setAnimationDuration:0.5];
+	
+	if (!aboutViewShowing)
+	{
+		aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+		// Offset the view down by 20 pixels, the height of the status bar
+		aboutViewController.view.frame = CGRectMake(0, 20, 320, 460);
+
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.window cache:NO];
+		[self.window addSubview:aboutViewController.view];
+	}
+	else
+	{
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.window cache:NO];
+		[aboutViewController.view removeFromSuperview];
+	}
+	
+	aboutViewShowing = !aboutViewShowing;
+	[UIView commitAnimations];
+}
+
 /**
  applicationWillTerminate: saves changes in the application's managed object context before the application terminates.
  */
-- (void)applicationWillTerminate:(UIApplication *)application {
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	if (aboutViewController) {
+		[aboutViewController release];
+	}
 	
     NSError *error = nil;
     if (managedObjectContext != nil) {
@@ -169,11 +200,14 @@
 							 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
 	NSError *error = nil;
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
 		/*
 		 Replace this implementation with code to handle the error appropriately.
 		 
-		 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
+		 abort() causes the application to generate a crash log and terminate.
+		 You should not use this function in a shipping application, although it may be useful during development.
+		 If it is not possible to recover from the error, display an alert panel that instructs the user
+		 to quit the application by pressing the Home button.
 		 
 		 Typical reasons for an error here include:
 		 * The persistent store is not accessible
