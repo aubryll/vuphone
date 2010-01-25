@@ -12,6 +12,7 @@
 
 @interface SearchViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
 	IBOutlet UITableView *tableView;
+	IBOutlet UIBarButtonItem *checkboxButton;
 	IBOutlet UISlider *openThruSlider;
 	IBOutlet UILabel *openThruLabel;
 	IBOutlet UISegmentedControl *mealPlanChooser;
@@ -28,6 +29,7 @@
 
 - (NSArray *)restaurants;
 - (NSArray *)restaurantTypes;
+- (IBAction)toggleCheckAll:(id)sender;
 - (IBAction)openThruSliderChanged:(UISlider *)sender;
 - (IBAction)showSearchResults:(id)sender;
 

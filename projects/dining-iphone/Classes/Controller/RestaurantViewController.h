@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Restaurant.h"
+#import "VUTableViewController.h"
 
 @interface RestaurantViewController : UITableViewController {
 	Restaurant *restaurant;

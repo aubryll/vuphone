@@ -25,6 +25,34 @@
 	self.navigationItem.title = restaurant.name;
 }
 
+/*
+- (void)constructTableGroups
+{
+	if (tableGroups) {
+		[tableGroups release];
+		tableGroups = nil;
+	}
+	
+	NSMutableArray *mTableGroups = [[NSMutableArray alloc] init];
+	
+	ImageViewCellController *ivcc = [[ImageViewCellController alloc] init];
+	ivcc.imageUrl = [NSURL URLWithString:restaurant.imageUrlString];
+	[mTableGroups addObject:mTableGroups];
+	[ivcc release];
+	
+	SectionTitleCellController *stcc = [[SectionTitleCellController alloc] init];
+	stcc.sectionTitle = restaurant.type;
+	[stcc release];
+	
+	SectionTitleAndButtonCellController *stabcc = [[SectionTitleAndButtonCellController alloc] init];
+	stabcc.sectionTitle = [NSString stringWithFormat:@"Distance: %@", [restaurant distanceAsString]];
+	stabcc.textLabel.text = @"Show on Map";
+	stabcc.buttonSelector = @selector(showRestaurantOnMap:);
+	stabcc.buttonTarget = [[UIApplication sharedApplication] delegate];
+	stabcc.buttonObject = restaurant;
+}
+*/
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 /*	if (restaurant.details != nil && [restaurant.details length] > 0) {

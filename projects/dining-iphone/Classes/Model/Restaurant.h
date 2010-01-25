@@ -20,6 +20,7 @@
 	UIImage *_image;
 	NSArray *_groupedOpenHours;
 	NSArray *_menuItems;
+	NSNumber *_minutesUntilClose;
 }
 
 @property (nonatomic, retain) NSNumber * acceptsMealPlan;

@@ -30,6 +30,16 @@
 	[tableView reloadData];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	self.parentViewController.navigationItem.leftBarButtonItem = checkboxButton;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	self.parentViewController.navigationItem.leftBarButtonItem = nil;
+}
+
 
 - (NSArray *)restaurants
 {
@@ -106,6 +116,36 @@
 }
 
 #pragma mark Searching
+
+- (IBAction)toggleCheckAll:(id)sender
+{
+	// First, check to see if they are all checked
+	int checkedCount = 0;
+	for (int i=0; i<[[self restaurantTypes] count]; i++)
+	{
+		if (checkedRestaurantTypes[i]) {
+			checkedCount++;
+		}
+	}
+	BOOL allChecked = checkedCount == [[self restaurantTypes] count];
+	
+	if (allChecked)
+	{
+		// Deselect all
+		for (int i=0; i<[[self restaurantTypes] count]; i++) {
+			checkedRestaurantTypes[i] = NO;
+		}
+	}
+	else
+	{
+		// Select all
+		for (int i=0; i<[[self restaurantTypes] count]; i++) {
+			checkedRestaurantTypes[i] = YES;
+		}
+	}
+	
+	[tableView reloadData];
+}
 
 - (IBAction)openThruSliderChanged:(UISlider *)sender
 {

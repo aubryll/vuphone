@@ -49,41 +49,45 @@ static NSDateFormatter *dateFormatter = nil;
 {
 	[self willAccessValueForKey:@"minutesUntilClose"];
 	
-	NSDate *now = [[NSDate alloc] init];
-	NSNumber *result = nil;
-
-	[dateFormatter setDateFormat:@"EEEE"];
-	NSString *weekDay =  [dateFormatter stringFromDate:now];
-
-	// Find the current HourRange
-	NSSet *results = [[self openHours] filteredSetUsingPredicate:
-					  [NSPredicate predicateWithFormat:@"day = %@", weekDay]];
-
-	HourRange *range = [results anyObject];
-	
-	if (!range) {
-		result = [NSNumber numberWithInt:0];
-	} else {
+	if (_minutesUntilClose)
+	{
+		NSDate *now = [[NSDate alloc] init];
+		NSNumber *result = nil;
+		
+		[dateFormatter setDateFormat:@"EEEE"];
+		NSString *weekDay =  [dateFormatter stringFromDate:now];
+		
+		// Find the current HourRange
+		NSSet *results = [[self openHours] filteredSetUsingPredicate:
+						  [NSPredicate predicateWithFormat:@"day = %@", weekDay]];
+		
 		NSCalendar *calendar = [NSCalendar currentCalendar];
 		NSDateComponents *components = [calendar components:NSHourCalendarUnit|NSMinuteCalendarUnit fromDate:now];
 		NSInteger hour = [components hour];
 		NSInteger minute = [components minute];
-		
 		NSInteger minuteOfDayNow = hour * 60 + minute;
 		
-		if (minuteOfDayNow <= [range.openMinute intValue]) {
-			// Not yet open
-			result = [NSNumber numberWithInt:minuteOfDayNow - [range.openMinute intValue]];
+		// Find the right hour range
+		HourRange *range = nil;
+		for (HourRange *aRange in results) {
+			if (minuteOfDayNow >= [aRange.openMinute intValue] && minuteOfDayNow < aRange.contiguousCloseMinute) {
+				range = aRange;
+			}
+		}
+		
+		if (range == nil) {
+			result = [NSNumber numberWithInt:0];
 		} else {
 			result = [NSNumber numberWithInt:range.contiguousCloseMinute - minuteOfDayNow];
 		}
-	}
 		
+		_minutesUntilClose = [result retain];
+		[now release];
+	}
+
 	[self didAccessValueForKey:@"minutesUntilClose"];
 	
-	[now release];
-	
-	return result;
+	return _minutesUntilClose;
 }
 
 
@@ -113,11 +117,14 @@ static NSDateFormatter *dateFormatter = nil;
 			} else if (range.contiguousWith != nil) {
 				// It has another hour to the right
 				[groupedHours addObject:range];
-				// Skip ahead by one
-				i++;
+				// Skip ahead by one if the next isn't also 24-hour
+				if (!([range.contiguousWith.openMinute intValue] == 0 && [range.contiguousWith.closeMinute intValue] == 1440)) {
+					i++;
+				}
 			} else {
 				[groupedHours addObject:range];
 			}
+			NSLog(@"%@", groupedHours);
 		}
 		// Handle edge case with Saturday wrapping through Sunday
 		if ([groupedHours lastObject] == [groupedHours objectAtIndex:0]) {
