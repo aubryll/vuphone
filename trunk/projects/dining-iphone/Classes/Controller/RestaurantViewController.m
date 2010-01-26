@@ -93,13 +93,19 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	switch (section) {
-		case 1:
+		case 0:	// Image
+			return 1;
+		case 1:	// Type
 			return 0;
-		case 3:
+		case 2:	// Distance and Show on Map button
+			return 1;
+		case 3:	// Hours
 			return [[restaurant groupedOpenHours] count];
-		case 5:
-			// Menu
+		case 4:	// Details
+			return 1;
+		case 5: // Menu
 			return [[restaurant menuItems] count];
+
 		default:
 			return 1;
 	}
@@ -118,13 +124,15 @@
 	
 	// Determine which cell to reuse.
 	switch (indexPath.section) {
-		case 0:
+		case 0:	// Image
 			cell = [tableView dequeueReusableCellWithIdentifier:imageIdentifier];
 			break;
-		case 4:
-		case 5:
+
+		case 4:	// Details
+		case 5:	// Menu items
 			cell = [tableView dequeueReusableCellWithIdentifier:varHeightIdentifier];
 			break;
+
 		default:
 			cell = [tableView dequeueReusableCellWithIdentifier:defaultIdentifier];
 			break;
@@ -138,14 +146,17 @@
 				cell = [[[ImageViewCell alloc] initWithStyle:UITableViewCellStyleDefault
 											 reuseIdentifier:imageIdentifier] autorelease];
 				break;
+
 			case 4:
 			case 5:
 				cell = [[[VariableHeightCell alloc] initWithStyle:UITableViewCellStyleDefault 
 												  reuseIdentifier:varHeightIdentifier] autorelease];
 				break;
+
 			default:
 				cell = [[[OpenHourCell alloc] initWithStyle:UITableViewCellStyleValue2
 											reuseIdentifier:defaultIdentifier] autorelease];
+				break;
 
 		}
 	}
@@ -169,10 +180,13 @@
 			
 		case 2: // Distance
 			cell.detailTextLabel.text = @"Show on Map";
+			cell.textLabel.text = nil;
 			break;
 			
 		case 3: // Hours
 			range = (HourRange *)[[restaurant groupedOpenHours] objectAtIndex:indexPath.row];
+			cell.textLabel.text = nil;
+			cell.detailTextLabel.text = nil;
 			openCell.dayLabel.text = [range.day capitalizedString];
 			openCell.hourRangeLabel.text = [range formattedHoursString];
 			break;
@@ -180,9 +194,11 @@
 		case 4:
 			[varCell setText:restaurant.details];
 			break;
+
 		case 5:
 			[varCell setText:[[restaurant menuItems] objectAtIndex:indexPath.row]];
 			break;
+
 		default:
 			break;
 	}
