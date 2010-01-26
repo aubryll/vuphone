@@ -7,18 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RestaurantTypeButton.h"
 
 #define RestaurantTypePickerViewTag 41
 
 @interface RestaurantTypePickerView : UIView {
-	RestaurantTypeButton *nameButton;
-	UILabel *checkmarkLabel;
 	BOOL isChecked;
 }
 
-@property (retain) RestaurantTypeButton *nameButton;
-@property (retain) UILabel *checkmarkLabel;
 @property (assign, setter=setIsChecked:) BOOL isChecked;
 
 - (id)initWithFrame:(CGRect)frame buttonTag:(NSInteger)buttonTag buttonTarget:(id)buttonTarget buttonAction:(SEL)buttonAction;

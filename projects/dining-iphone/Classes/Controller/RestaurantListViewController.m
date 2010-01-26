@@ -42,7 +42,8 @@
 	[self setSort:SortIndexMinutesUntilClose];
 }
 
-- (void)initSortHelpers {
+- (void)initSortHelpers
+{
 	MinutesToCloseSortHelper *minsHelper = [[MinutesToCloseSortHelper alloc] initWithRestaurants:restaurants];
 
 	TypeSortHelper *typeHelper = [[TypeSortHelper alloc] initWithRestaurants:restaurants];

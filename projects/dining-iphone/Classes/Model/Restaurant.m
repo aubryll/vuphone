@@ -55,7 +55,7 @@ static NSDateFormatter *dateFormatter = nil;
 		NSNumber *result = nil;
 		
 		[dateFormatter setDateFormat:@"EEEE"];
-		NSString *weekDay =  [dateFormatter stringFromDate:now];
+		NSString *weekDay = [dateFormatter stringFromDate:now];
 		
 		// Find the current HourRange
 		NSSet *results = [[self openHours] filteredSetUsingPredicate:
@@ -76,7 +76,19 @@ static NSDateFormatter *dateFormatter = nil;
 		}
 		
 		if (range == nil) {
-			result = [NSNumber numberWithInt:0];
+			// Find the next hour range
+/*			weekDayTomorrow = [dateFormatter stringFromDate:[now dateByAddingTimeInterval:60*60*24]];
+			results = [[self openHours] filteredSetUsingPredicate:
+					   [NSPredicate predicateWithFormat:@"day = %@", weekDay]];
+
+			for (HourRange *aRange in results) {
+				if (minuteOfDayNow+60*24 >= [aRange.openMinute intValue] && minuteOfDayNow+60*24 < aRange.contiguousCloseMinute) {
+					range = aRange;
+				}
+			}
+*/
+			[now release];
+			return [NSNumber numberWithInt:0];
 		} else {
 			result = [NSNumber numberWithInt:range.contiguousCloseMinute - minuteOfDayNow];
 		}
@@ -124,7 +136,7 @@ static NSDateFormatter *dateFormatter = nil;
 			} else {
 				[groupedHours addObject:range];
 			}
-			NSLog(@"%@", groupedHours);
+//			NSLog(@"%@", groupedHours);
 		}
 		// Handle edge case with Saturday wrapping through Sunday
 		if ([groupedHours lastObject] == [groupedHours objectAtIndex:0]) {

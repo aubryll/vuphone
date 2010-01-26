@@ -11,31 +11,29 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28C3AD8A0F43EF2300507BA6 /* Dining.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
 		6103244D10FB10C8000CCFB0 /* RestaurantListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */; };
-		6103245410FB110F000CCFB0 /* RestaurantListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */; };
-		6103245A10FB1258000CCFB0 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6103245910FB1258000CCFB0 /* MapViewController.xib */; };
 		6103248010FB14AB000CCFB0 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103247F10FB14AB000CCFB0 /* MapViewController.m */; };
 		610324AF10FB1761000CCFB0 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610324AE10FB1761000CCFB0 /* MapKit.framework */; };
 		6103258710FE2487000CCFB0 /* RestaurantListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6103258610FE2487000CCFB0 /* RestaurantListCell.m */; };
 		610325C810FE2DB4000CCFB0 /* RestaurantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */; };
-		610325C910FE2DB4000CCFB0 /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */; };
 		6103263410FE3E27000CCFB0 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6103263310FE3E27000CCFB0 /* CoreLocation.framework */; };
 		610327D110FF72A7000CCFB0 /* HourRange.m in Sources */ = {isa = PBXBuildFile; fileRef = 610327D010FF72A7000CCFB0 /* HourRange.m */; };
 		610329881100149B000CCFB0 /* DiningAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* DiningAppDelegate.m */; };
 		611E12DE11042FE200298EA9 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E12DC11042FE200298EA9 /* SearchViewController.m */; };
-		611E12DF11042FE200298EA9 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 611E12DD11042FE200298EA9 /* SearchViewController.xib */; };
-		611E12E41104301000298EA9 /* XIBs in Resources */ = {isa = PBXBuildFile; fileRef = 611E12E21104301000298EA9 /* XIBs */; };
 		611E13471104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */; };
-		611E14841104D78600298EA9 /* RestaurantTypeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 611E14831104D78600298EA9 /* RestaurantTypeButton.m */; };
 		611E15EA110504F900298EA9 /* index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15E7110504F900298EA9 /* index-cards.png */; };
 		611E15EB110504F900298EA9 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15E8110504F900298EA9 /* map.png */; };
 		611E15F31105096100298EA9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15F21105096100298EA9 /* Icon.png */; };
 		6194C51B110E06830041F61B /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6194C51A110E06830041F61B /* AboutViewController.m */; };
-		6194C51D110E06970041F61B /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C51C110E06970041F61B /* AboutViewController.xib */; };
 		6194C571110E0E7A0041F61B /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 6194C570110E0E7A0041F61B /* info.png */; };
+		6194C6DC110E41190041F61B /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6D6110E41190041F61B /* AboutViewController.xib */; };
+		6194C6DD110E41190041F61B /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6D7110E41190041F61B /* MainWindow.xib */; };
+		6194C6DE110E41190041F61B /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6D8110E41190041F61B /* MapViewController.xib */; };
+		6194C6DF110E41190041F61B /* RestaurantListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6D9110E41190041F61B /* RestaurantListViewController.xib */; };
+		6194C6E0110E41190041F61B /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6DA110E41190041F61B /* RestaurantViewController.xib */; };
+		6194C6E1110E41190041F61B /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6DB110E41190041F61B /* SearchViewController.xib */; };
 		61A3028A110CD3DA00A375E8 /* checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 61A30289110CD3DA00A375E8 /* checkbox.png */; };
 		61B3B5D0110260F700C9BEE6 /* MinutesToCloseSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */; };
 		61B3B6031103869900C9BEE6 /* TypeSortHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 61B3B6021103869900C9BEE6 /* TypeSortHelper.m */; };
@@ -75,15 +73,12 @@
 		1D3623250D0F684500981E51 /* DiningAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiningAppDelegate.m; sourceTree = "<group>"; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Dining.xcdatamodel; sourceTree = "<group>"; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Dining_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dining_Prefix.pch; sourceTree = "<group>"; };
 		6103244B10FB10C8000CCFB0 /* RestaurantListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantListViewController.h; sourceTree = "<group>"; };
 		6103244C10FB10C8000CCFB0 /* RestaurantListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListViewController.m; sourceTree = "<group>"; };
-		6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantListViewController.xib; sourceTree = "<group>"; };
-		6103245910FB1258000CCFB0 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		6103247E10FB14AB000CCFB0 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		6103247F10FB14AB000CCFB0 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		610324AE10FB1761000CCFB0 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -91,7 +86,6 @@
 		6103258610FE2487000CCFB0 /* RestaurantListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantListCell.m; sourceTree = "<group>"; };
 		610325C510FE2DB4000CCFB0 /* RestaurantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantViewController.h; sourceTree = "<group>"; };
 		610325C610FE2DB4000CCFB0 /* RestaurantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantViewController.m; sourceTree = "<group>"; };
-		610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantViewController.xib; sourceTree = "<group>"; };
 		6103263310FE3E27000CCFB0 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		610327CF10FF72A7000CCFB0 /* HourRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HourRange.h; sourceTree = "<group>"; };
 		610327D010FF72A7000CCFB0 /* HourRange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HourRange.m; sourceTree = "<group>"; };
@@ -100,19 +94,20 @@
 		61032909110010C4000CCFB0 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator3.1.2.sdk/Developer/Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		611E12DB11042FE200298EA9 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		611E12DC11042FE200298EA9 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
-		611E12DD11042FE200298EA9 /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchViewController.xib; path = XIBs/SearchViewController.xib; sourceTree = "<group>"; };
-		611E12E21104301000298EA9 /* XIBs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = XIBs; sourceTree = "<group>"; };
 		611E13451104C1F000298EA9 /* RestaurantTypePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantTypePickerView.h; sourceTree = "<group>"; };
 		611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTypePickerView.m; sourceTree = "<group>"; };
-		611E14821104D78600298EA9 /* RestaurantTypeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantTypeButton.h; sourceTree = "<group>"; };
-		611E14831104D78600298EA9 /* RestaurantTypeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantTypeButton.m; sourceTree = "<group>"; };
 		611E15E7110504F900298EA9 /* index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "index-cards.png"; path = "Icons/index-cards.png"; sourceTree = "<group>"; };
 		611E15E8110504F900298EA9 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = Icons/map.png; sourceTree = "<group>"; };
 		611E15F21105096100298EA9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Icons/Icon.png; sourceTree = "<group>"; };
 		6194C519110E06830041F61B /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		6194C51A110E06830041F61B /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
-		6194C51C110E06970041F61B /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		6194C570110E0E7A0041F61B /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		6194C6D6110E41190041F61B /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		6194C6D7110E41190041F61B /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		6194C6D8110E41190041F61B /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
+		6194C6D9110E41190041F61B /* RestaurantListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantListViewController.xib; sourceTree = "<group>"; };
+		6194C6DA110E41190041F61B /* RestaurantViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantViewController.xib; sourceTree = "<group>"; };
+		6194C6DB110E41190041F61B /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
 		61A300AF110BAA3B00A375E8 /* VUTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUTableViewController.h; sourceTree = "<group>"; };
 		61A300B0110BAA3B00A375E8 /* VUTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUTableViewController.m; sourceTree = "<group>"; };
 		61A30289110CD3DA00A375E8 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
@@ -230,14 +225,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6194C6D4110E40F70041F61B /* XIBs */,
 				611E15E0110504C000298EA9 /* Icons */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
-				6194C51C110E06970041F61B /* AboutViewController.xib */,
-				6103245310FB110F000CCFB0 /* RestaurantListViewController.xib */,
-				611E12DD11042FE200298EA9 /* SearchViewController.xib */,
-				6103245910FB1258000CCFB0 /* MapViewController.xib */,
-				610325C710FE2DB4000CCFB0 /* RestaurantViewController.xib */,
-				611E12E21104301000298EA9 /* XIBs */,
 				61F7D0D910FA95BF0023A53A /* RestaurantIcons */,
 				28C3AD890F43EF2300507BA6 /* Dining.xcdatamodel */,
 				8D1107310486CEB800E47090 /* Dining-Info.plist */,
@@ -271,8 +260,6 @@
 				61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */,
 				611E13451104C1F000298EA9 /* RestaurantTypePickerView.h */,
 				611E13461104C1F000298EA9 /* RestaurantTypePickerView.m */,
-				611E14821104D78600298EA9 /* RestaurantTypeButton.h */,
-				611E14831104D78600298EA9 /* RestaurantTypeButton.m */,
 				61C6124F1107EF85008D29D1 /* OpenHourCell.h */,
 				61C612501107EF85008D29D1 /* OpenHourCell.m */,
 			);
@@ -298,6 +285,19 @@
 				611E15E8110504F900298EA9 /* map.png */,
 			);
 			name = Icons;
+			sourceTree = "<group>";
+		};
+		6194C6D4110E40F70041F61B /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				6194C6D6110E41190041F61B /* AboutViewController.xib */,
+				6194C6D7110E41190041F61B /* MainWindow.xib */,
+				6194C6D8110E41190041F61B /* MapViewController.xib */,
+				6194C6D9110E41190041F61B /* RestaurantListViewController.xib */,
+				6194C6DA110E41190041F61B /* RestaurantViewController.xib */,
+				6194C6DB110E41190041F61B /* SearchViewController.xib */,
+			);
+			name = XIBs;
 			sourceTree = "<group>";
 		};
 		61B3B5C811025EBE00C9BEE6 /* TableView */ = {
@@ -449,21 +449,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				611E15F31105096100298EA9 /* Icon.png in Resources */,
-				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				61F7CFFD10FA6CE10023A53A /* restaurants.xml in Resources */,
 				61F7D10810FA95BF0023A53A /* RestaurantIcons in Resources */,
 				61F7D15010FA9A130023A53A /* InfoPlist.strings in Resources */,
 				61F7D15110FA9A130023A53A /* MainMenu.xib in Resources */,
-				6103245410FB110F000CCFB0 /* RestaurantListViewController.xib in Resources */,
-				6103245A10FB1258000CCFB0 /* MapViewController.xib in Resources */,
-				610325C910FE2DB4000CCFB0 /* RestaurantViewController.xib in Resources */,
-				611E12DF11042FE200298EA9 /* SearchViewController.xib in Resources */,
-				611E12E41104301000298EA9 /* XIBs in Resources */,
 				611E15EA110504F900298EA9 /* index-cards.png in Resources */,
 				611E15EB110504F900298EA9 /* map.png in Resources */,
 				61A3028A110CD3DA00A375E8 /* checkbox.png in Resources */,
-				6194C51D110E06970041F61B /* AboutViewController.xib in Resources */,
 				6194C571110E0E7A0041F61B /* info.png in Resources */,
+				6194C6DC110E41190041F61B /* AboutViewController.xib in Resources */,
+				6194C6DD110E41190041F61B /* MainWindow.xib in Resources */,
+				6194C6DE110E41190041F61B /* MapViewController.xib in Resources */,
+				6194C6DF110E41190041F61B /* RestaurantListViewController.xib in Resources */,
+				6194C6E0110E41190041F61B /* RestaurantViewController.xib in Resources */,
+				6194C6E1110E41190041F61B /* SearchViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,7 +497,6 @@
 				61B3B8A21103C0E800C9BEE6 /* VariableHeightCell.m in Sources */,
 				611E12DE11042FE200298EA9 /* SearchViewController.m in Sources */,
 				611E13471104C1F000298EA9 /* RestaurantTypePickerView.m in Sources */,
-				611E14841104D78600298EA9 /* RestaurantTypeButton.m in Sources */,
 				61C612511107EF85008D29D1 /* OpenHourCell.m in Sources */,
 				61C614BD1108D922008D29D1 /* NSString-Regex.m in Sources */,
 				6194C51B110E06830041F61B /* AboutViewController.m in Sources */,
