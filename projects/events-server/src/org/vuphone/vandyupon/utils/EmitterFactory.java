@@ -20,6 +20,7 @@ import org.vuphone.vandyupon.notification.ResponseNotification;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
  * This class is a factory for creating emitters using in response handlers.
@@ -58,11 +59,11 @@ public class EmitterFactory {
 			break;
 		}
 		case XML:{
-			temp = new XStream();
+			temp = new XStream(new DomDriver("UTF-8"));
 			break;
 		}
 		default:{
-			temp = new XStream();
+			temp = new XStream(new DomDriver("UTF-8"));
 		}
 
 		}
