@@ -45,7 +45,7 @@ public class RequestICal {
 	private static int unable_to_code = 0;
 	private static int other = 0;	
 	
-	private static final int revision_number = 926;
+	private static final int revision_number = 928;
 	
 	public static void main(String[] argv) throws Exception {
 		RequestICal.doIt();
@@ -161,9 +161,6 @@ public class RequestICal {
 				ep.setDescription(desc.getValue().replaceAll("\\\\", ""));
 			}
 
-			// get user
-			ep.setUser("vandy calendar datamine - revision " + revision_number);
-
 			// get start time
 			DtStart start = (DtStart)c.getProperty(Property.DTSTART);
 			if (start == null) {
@@ -236,7 +233,7 @@ public class RequestICal {
 			latitude = Double.toString((double) loc.getLat());
 			longitude = Double.toString((double) loc.getLon());
 		}
-		String androidID = "vandy cal datamine - revision " + revision_number;
+		String androidID = "VU Ical Bot: Rev." + revision_number;
 
 		
 		try {
