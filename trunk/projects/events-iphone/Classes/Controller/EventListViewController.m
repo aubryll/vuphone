@@ -26,7 +26,11 @@
 	NSCalendar *gregorian = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
 	NSDateComponents *components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
 	NSDate *midnight = [gregorian dateFromComponents:components];
-	todayOrLaterPredicate = [[NSPredicate predicateWithFormat:@"endTime > %@", midnight] retain];
+
+	components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate dateWithTimeIntervalSinceNow:60*60*24*15]];
+	NSDate *fifteenDaysFromNow = [gregorian dateFromComponents:components];
+
+	datePredicate = [[NSPredicate predicateWithFormat:@"endTime > %@ AND endTime < %@", midnight, fifteenDaysFromNow] retain];
 
 	// Hard-coding the list of chosen sources for now
 	NSMutableArray *tempChosenSources = [[NSMutableArray alloc] init];
@@ -96,7 +100,7 @@
 	self.fetchedResultsC = nil;
 	self.locationManager = nil;
 	[eventViewController release];
-	[todayOrLaterPredicate release];
+	[datePredicate release];
 }
 
 - (IBAction)addEvent:(id)sender
@@ -369,7 +373,7 @@
 
 - (NSPredicate *)predicate {
 	return [NSCompoundPredicate andPredicateWithSubpredicates:
-			[NSArray arrayWithObjects:sourcesPredicate, filterPredicate, todayOrLaterPredicate, nil]];
+			[NSArray arrayWithObjects:sourcesPredicate, filterPredicate, datePredicate, nil]];
 }
 
 - (void)refetch
