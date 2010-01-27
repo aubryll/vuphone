@@ -76,7 +76,10 @@
 
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"Location";
-	if (location.name == nil) {
+	if (location == nil) {
+		cell.detailTextLabel.text = @"unknown";
+		cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+	} else if (location.name == nil) {
 		cell.detailTextLabel.text = @"(tap to choose a location)";
 		cell.detailTextLabel.textColor = [UIColor lightGrayColor];
 	} else {

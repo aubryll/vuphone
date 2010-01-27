@@ -20,6 +20,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+	eventListVC.navigationItem.leftBarButtonItem = aboutButton;
+
 	NSManagedObjectContext *context = [[EventStore sharedEventStore] sharedContext];
 	if (!context) {
 		NSLog(@"Failed to get managed object context!");
@@ -39,19 +41,68 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
-	if (lastUpdate == nil) {
+	if (lastUpdate == nil)
+	{
 		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
+
+		// Show the loading screen
+		[self performSelectorOnMainThread:@selector(showLoadingView)
+							   withObject:nil
+							waitUntilDone:NO];
 	}
 
-	// Store that now was the last update
-	[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
-	
 	[RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
 	NSError *err = nil;
 	[context save:&err];
 	
+	if ([lastUpdate timeIntervalSince1970] == 0) {
+		// Hide the loading screen
+		[loadingViewController.view removeFromSuperview];
+	}
+	
+	if (err == nil) {
+		// Store that now was the last update
+		[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
+	}
+	
 	[pool release];
 }
+
+- (void)showLoadingView
+{
+	// Overlay a loading screen
+	NSLog(@"Displaying loading view");
+	loadingViewController = [[UIViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
+	CGRect frame = loadingViewController.view.frame;
+	frame.origin.y += 20.0f;
+	loadingViewController.view.frame = frame;
+	[self.window addSubview:loadingViewController.view];
+}
+
+- (IBAction)toggleAboutView:(id)sender
+{
+	[UIView beginAnimations:@"AboutViewTransition" context:NULL];
+	[UIView setAnimationDuration:0.5];
+	
+	if (!aboutViewShowing)
+	{
+		aboutViewController = [[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
+		// Offset the view down by 20 pixels, the height of the status bar
+		aboutViewController.view.frame = CGRectMake(0, 20, 320, 460);
+		
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.window cache:NO];
+		[self.window addSubview:aboutViewController.view];
+	}
+	else
+	{
+		[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.window cache:NO];
+		[aboutViewController.view removeFromSuperview];
+	}
+	
+	aboutViewShowing = !aboutViewShowing;
+	[UIView commitAnimations];
+}
+
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Nothing to save here

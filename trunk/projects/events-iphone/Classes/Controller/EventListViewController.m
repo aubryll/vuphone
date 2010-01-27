@@ -16,7 +16,6 @@
 
 - (void)viewDidLoad
 {
-	NSLog(@"EventListViewController viewDidLoad");
 	[super viewDidLoad];
 
 	NSArray *sources = [Event allSources];
@@ -39,7 +38,7 @@
 	chosenSources = tempChosenSources;
 	
 	// Disable the Sources button
-	self.navigationItem.leftBarButtonItem = nil;
+//	self.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,6 +78,12 @@
 		BOOL success = [fetchedResultsC performFetch:&error];
 		if (!success) {
 			NSLog(@"No events found");
+		} else {
+			NSUInteger sectionCount = [[fetchedResultsC sections] count];
+			[self.tableView reloadData];
+			[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionCount-1]
+								  atScrollPosition:UITableViewScrollPositionTop
+										  animated:NO];
 		}
 	}
 

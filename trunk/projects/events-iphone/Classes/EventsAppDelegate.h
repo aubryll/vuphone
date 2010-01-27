@@ -8,6 +8,7 @@
 
 #import "EventListViewController.h"
 #import "MapViewController.h"
+#import "AboutViewController.h"
 
 #define DefaultsLastUpdateKey @"lastUpdate"
 
@@ -18,10 +19,17 @@
 	IBOutlet UINavigationController *eventListNC;
 	IBOutlet EventListViewController *eventListVC;
 	IBOutlet MapViewController *mapVC;
+	UIViewController *loadingViewController;
+	
+	BOOL aboutViewShowing;
+	AboutViewController *aboutViewController;
+	IBOutlet UIBarButtonItem *aboutButton;
 }
 
 - (IBAction)saveAction:(id)sender;
 - (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context;
+- (void)showLoadingView;
+- (IBAction)toggleAboutView:(id)sender;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
