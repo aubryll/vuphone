@@ -90,7 +90,7 @@ public class EventRequestResponseHandler extends NotificationResponseHandler {
 		try {
 			if (err.getResponseType().equalsIgnoreCase("xml"))
 				resp.getWriter().write(
-						"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+						"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
 
 			resp.getWriter().write(response);
 		} catch (IOException e) {

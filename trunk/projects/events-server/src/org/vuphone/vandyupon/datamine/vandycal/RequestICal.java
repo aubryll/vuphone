@@ -46,6 +46,8 @@ public class RequestICal {
 	private static int unable_to_code = 0;
 	private static int other = 0;	
 	
+	private static final int revision_number = 925;
+	
 	public static void main(String[] argv) throws Exception {
 		RequestICal.doIt();
 	}
@@ -161,7 +163,7 @@ public class RequestICal {
 			}
 
 			// get user
-			ep.setUser("vandy calendar datamine");
+			ep.setUser("vandy calendar datamine - revision " + revision_number);
 
 			// get start time
 			DtStart start = (DtStart)c.getProperty(Property.DTSTART);
