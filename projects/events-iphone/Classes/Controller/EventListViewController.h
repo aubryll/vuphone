@@ -21,7 +21,7 @@
 	CLLocationManager *locationManager;
 	NSPredicate *sourcesPredicate;
 	NSPredicate *filterPredicate;
-	NSPredicate *todayOrLaterPredicate;
+	NSPredicate *datePredicate;
 	
 	NSArray *sectionIndexTitles;
 	NSArray *chosenSources;
