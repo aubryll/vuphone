@@ -30,7 +30,6 @@ import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Summary;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -46,7 +45,7 @@ public class RequestICal {
 	private static int unable_to_code = 0;
 	private static int other = 0;	
 	
-	private static final int revision_number = 925;
+	private static final int revision_number = 926;
 	
 	public static void main(String[] argv) throws Exception {
 		RequestICal.doIt();
@@ -57,7 +56,7 @@ public class RequestICal {
 		BufferedReader reader = null;
 		URL url = null;
 		try {
-			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/1000/vu-calendar.ics");
+			url = new URL("http://calendar.vanderbilt.edu/calendar/ics/set/200/vu-calendar.ics");
 			reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 
 			FileOutputStream fout = new FileOutputStream("vu-calendar.ics");
@@ -237,20 +236,20 @@ public class RequestICal {
 			latitude = Double.toString((double) loc.getLat());
 			longitude = Double.toString((double) loc.getLon());
 		}
-		String androidID = "vandy cal datamine";
+		String androidID = "vandy cal datamine - revision " + revision_number;
 
 		
 		try {
-			name = URLEncoder.encode(name, "UTF-8");
+			name = clean(name);
 			startTime = URLEncoder.encode(startTime, "UTF-8");
 			endTime = URLEncoder.encode(endTime, "UTF-8");
 			if (locName != null)
-				locName = URLEncoder.encode(locName, "UTF-8");
+				locName = clean(locName);
 			if (loc != null) {
 				latitude = URLEncoder.encode(latitude, "UTF-8");
 				longitude = URLEncoder.encode(longitude, "UTF-8");
 			}
-			androidID = URLEncoder.encode(androidID, "UTF-8");
+			androidID = clean(androidID);
 
 			if (desc != null)
 				desc = URLEncoder.encode(desc, "UTF-8");
@@ -261,17 +260,7 @@ public class RequestICal {
 			desc = desc.replaceAll("%26%2339%3B", "%27");
 			desc = desc.replaceAll("%E2%80%99", "%27");
 			desc = desc.replaceAll("%C2%A0", "%A0");
-
-			byte[] bytes = URLDecoder.decode(desc, "UTF-8").getBytes();
-			int i = 0;
-			for (byte b: bytes) {
-				if ( (int)b < 0 || (int)b > 127) {
-					System.err.println("Changing byte " + (int)b + " to 32");
-					bytes[i] = 32;
-				}
-				i++;
-			}
-			desc = URLEncoder.encode(new String(bytes, "UTF-8"), "UTF-8");
+			desc = clean(desc);
 
 			sourceUid = URLEncoder.encode(sourceUid, "UTF-8");
 		} catch (UnsupportedEncodingException use) {
@@ -407,6 +396,21 @@ public class RequestICal {
 
 	public static String getLastError() {
 		return lastError_;
+	}
+	
+	private static String clean(String nonUTFstring) throws UnsupportedEncodingException {
+		
+		byte[] bytes = URLDecoder.decode(nonUTFstring, "UTF-8").getBytes();
+		int i = 0;
+		for (byte b: bytes) {
+			if ( (int)b < 0 || (int)b > 127) {
+				System.err.println("Changing byte " + (int)b + " to 32");
+				bytes[i] = 32;
+			}
+			++i;
+		}
+		
+		return URLEncoder.encode(new String(bytes, "UTF-8"), "UTF-8");
 	}
 	
 }
