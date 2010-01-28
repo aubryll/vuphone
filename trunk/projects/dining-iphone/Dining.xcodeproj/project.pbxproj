@@ -105,12 +105,12 @@
 		6194C519110E06830041F61B /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		6194C51A110E06830041F61B /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		6194C570110E0E7A0041F61B /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
-		6194C6D6110E41190041F61B /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
-		6194C6D7110E41190041F61B /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		6194C6D8110E41190041F61B /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
-		6194C6D9110E41190041F61B /* RestaurantListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantListViewController.xib; sourceTree = "<group>"; };
-		6194C6DA110E41190041F61B /* RestaurantViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RestaurantViewController.xib; sourceTree = "<group>"; };
-		6194C6DB110E41190041F61B /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController.xib; sourceTree = "<group>"; };
+		6194C6D6110E41190041F61B /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = AboutViewController.xib; path = XIBs/AboutViewController.xib; sourceTree = "<group>"; };
+		6194C6D7110E41190041F61B /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = XIBs/MainWindow.xib; sourceTree = "<group>"; };
+		6194C6D8110E41190041F61B /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapViewController.xib; path = XIBs/MapViewController.xib; sourceTree = "<group>"; };
+		6194C6D9110E41190041F61B /* RestaurantListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RestaurantListViewController.xib; path = XIBs/RestaurantListViewController.xib; sourceTree = "<group>"; };
+		6194C6DA110E41190041F61B /* RestaurantViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = RestaurantViewController.xib; path = XIBs/RestaurantViewController.xib; sourceTree = "<group>"; };
+		6194C6DB110E41190041F61B /* SearchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SearchViewController.xib; path = XIBs/SearchViewController.xib; sourceTree = "<group>"; };
 		61A300AF110BAA3B00A375E8 /* VUTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUTableViewController.h; sourceTree = "<group>"; };
 		61A300B0110BAA3B00A375E8 /* VUTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUTableViewController.m; sourceTree = "<group>"; };
 		61A30289110CD3DA00A375E8 /* checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkbox.png; sourceTree = "<group>"; };
