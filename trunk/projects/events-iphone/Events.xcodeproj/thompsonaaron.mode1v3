@@ -272,6 +272,7 @@
 								<string>29B97314FDCFA39411CA2CEA</string>
 								<string>080E96DDFE201D6D7F000001</string>
 								<string>61DF567D10813D14000A7B1D</string>
+								<string>29B97323FDCFA39411CA2CEA</string>
 								<string>19C28FACFE9D520D11CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
@@ -279,7 +280,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
+									<integer>17</integer>
 									<integer>10</integer>
 									<integer>0</integer>
 								</array>
@@ -306,7 +307,7 @@
 							<real>230</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>79 56 1011 822 0 0 1440 878 </string>
+						<string>42 56 1011 822 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -334,13 +335,13 @@
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>6115E04B111232BE00BD5E6F</string>
+										<string>6115E0561112339400BD5E6F</string>
 										<key>history</key>
 										<array>
 											<string>6115E010111019A200BD5E6F</string>
 											<string>6115E01F11101A6400BD5E6F</string>
 											<string>6115E049111232BE00BD5E6F</string>
-											<string>6115E04A111232BE00BD5E6F</string>
+											<string>6115E0541112339400BD5E6F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -354,7 +355,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {737, 797}}</string>
 								<key>RubberWindowFrame</key>
-								<string>79 56 1011 822 0 0 1440 878 </string>
+								<string>42 56 1011 822 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -374,7 +375,7 @@
 								<key>Frame</key>
 								<string>{{0, 802}, {737, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>79 56 1011 822 0 0 1440 878 </string>
+								<string>42 56 1011 822 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -536,11 +537,15 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>6115E05F1112339400BD5E6F</string>
+		<string>6115E0601112339400BD5E6F</string>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>61F779DA1054CF330071CA64</string>
 		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Events.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>79 56 1011 822 0 0 1440 878 </string>
+	<string>42 56 1011 822 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -739,13 +744,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>6115DEE7110F795800BD5E6F</string>
+				<string>6115E0581112339400BD5E6F</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>6115DEE8110F795800BD5E6F</string>
-				<string>6115DEE9110F795800BD5E6F</string>
-				<string>6115DEEA110F795800BD5E6F</string>
-				<string>6115DEEB110F795800BD5E6F</string>
-				<string>6115DEEC110F795800BD5E6F</string>
+				<string>6115E0591112339400BD5E6F</string>
+				<string>6115E05A1112339400BD5E6F</string>
+				<string>6115E05B1112339400BD5E6F</string>
+				<string>6115E05C1112339400BD5E6F</string>
+				<string>6115E05D1112339400BD5E6F</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -862,8 +867,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -899,7 +902,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>6115DEED110F795800BD5E6F</string>
+				<string>6115E05E1112339400BD5E6F</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

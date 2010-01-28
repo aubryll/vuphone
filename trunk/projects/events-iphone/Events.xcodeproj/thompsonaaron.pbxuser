@@ -293,17 +293,15 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 286405298;
-			PBXWorkspaceStateSaveDate = 286405298;
+			PBXPerProjectTemplateStateSaveDate = 286405540;
+			PBXWorkspaceStateSaveDate = 286405540;
 		};
 		perUserProjectItems = {
 			6115E010111019A200BD5E6F = 6115E010111019A200BD5E6F /* PBXTextBookmark */;
 			6115E01F11101A6400BD5E6F = 6115E01F11101A6400BD5E6F /* PBXTextBookmark */;
-			6115E02011101A6400BD5E6F = 6115E02011101A6400BD5E6F /* PBXBookmark */;
-			6115E02211101AE000BD5E6F = 6115E02211101AE000BD5E6F /* PBXBookmark */;
-			6115E049111232BE00BD5E6F /* PBXBookmark */ = 6115E049111232BE00BD5E6F /* PBXBookmark */;
-			6115E04A111232BE00BD5E6F /* PBXBookmark */ = 6115E04A111232BE00BD5E6F /* PBXBookmark */;
-			6115E04B111232BE00BD5E6F /* PBXBookmark */ = 6115E04B111232BE00BD5E6F /* PBXBookmark */;
+			6115E049111232BE00BD5E6F = 6115E049111232BE00BD5E6F /* PBXBookmark */;
+			6115E0541112339400BD5E6F = 6115E0541112339400BD5E6F /* PBXBookmark */;
+			6115E0561112339400BD5E6F = 6115E0561112339400BD5E6F /* PBXBookmark */;
 		};
 		sourceControlManager = 61F779D1105472140071CA64 /* Source Control */;
 		userBookmarkGroup = 61173FDD10BB577A00ED04B3 /* PBXBookmarkGroup */;
@@ -341,12 +339,6 @@
 		vrLen = 557;
 		vrLoc = 0;
 	};
-	6115E01811101A6200BD5E6F /* info.png */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = image.png;
-		path = info.png;
-		sourceTree = "<group>";
-	};
 	6115E01F11101A6400BD5E6F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 61BBB64E10575D45009481D6 /* EventViewController.m */;
@@ -357,28 +349,28 @@
 		vrLen = 1408;
 		vrLoc = 527;
 	};
-	6115E02011101A6400BD5E6F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 610326F810FEF44B000CCFB0 /* Icon.png */;
-	};
-	6115E02211101AE000BD5E6F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 610326F810FEF44B000CCFB0 /* Icon.png */;
-	};
 	6115E049111232BE00BD5E6F /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 610326F810FEF44B000CCFB0 /* Icon.png */;
 	};
-	6115E04A111232BE00BD5E6F /* PBXBookmark */ = {
+	6115E0541112339400BD5E6F /* PBXBookmark */ = {
 		isa = PBXBookmark;
-		fRef = 6115E01811101A6200BD5E6F /* info.png */;
+		fRef = 6115E0551112339400BD5E6F /* info.png */;
 	};
-	6115E04B111232BE00BD5E6F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 6115E04C111232BE00BD5E6F /* info.png */;
-	};
-	6115E04C111232BE00BD5E6F /* info.png */ = {
+	6115E0551112339400BD5E6F /* info.png */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = image.png;
+		name = info.png;
+		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Icons/info.png";
+		sourceTree = "<absolute>";
+	};
+	6115E0561112339400BD5E6F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 6115E0571112339400BD5E6F /* info.png */;
+	};
+	6115E0571112339400BD5E6F /* info.png */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.png;
 		name = info.png;
 		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Icons/info.png";
 		sourceTree = "<absolute>";
@@ -509,7 +501,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 24;
-		modificationTime = 286267999.898585;
+		modificationTime = 286405478.277014;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
