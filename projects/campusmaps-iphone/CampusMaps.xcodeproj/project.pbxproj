@@ -16,7 +16,6 @@
 		3332F9D410A13B89003D35B8 /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D110A13B89003D35B8 /* Layer.m */; };
 		3332F9D510A13B89003D35B8 /* POI.m in Sources */ = {isa = PBXBuildFile; fileRef = 3332F9D310A13B89003D35B8 /* POI.m */; };
 		3335285610A3EA3300D4F1A2 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */; };
-		3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
 		610326CF10FEF042000CCFB0 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 610326CA10FEF042000CCFB0 /* Images */; };
 		6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */; };
@@ -27,14 +26,13 @@
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
 		61FD085E10C72438000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */; };
 		61FD086110C72542000EA568 /* RemotePOILoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD086010C72542000EA568 /* RemotePOILoader.m */; };
-		61FD089310C739C9000EA568 /* CampusMaps.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61FD089210C739C9000EA568 /* CampusMaps.xcdatamodeld */; };
+		61FD089310C739C9000EA568 /* CampusMaps.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 61FD089210C739C9000EA568 /* CampusMaps.xcdatamodel */; };
 		61FD08E610C741D9000EA568 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08CF10C741D9000EA568 /* DDXMLDocument.m */; };
 		61FD08E710C741D9000EA568 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08D110C741D9000EA568 /* DDXMLElement.m */; };
 		61FD08E810C741D9000EA568 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08D310C741D9000EA568 /* DDXMLElementAdditions.m */; };
 		61FD08E910C741D9000EA568 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08D510C741D9000EA568 /* DDXMLNode.m */; };
 		61FD08EF10C741D9000EA568 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08E410C741D9000EA568 /* NSStringAdditions.m */; };
 		61FD09D110C75112000EA568 /* LayersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD09CF10C75112000EA568 /* LayersListViewController.m */; };
-		61FD09D210C75112000EA568 /* LayersListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61FD09D010C75112000EA568 /* LayersListViewController.xib */; };
 		6F211BCF10884D90003F009F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F211BCC10884D90003F009F /* MainWindow.xib */; };
 		6F211BD010884D90003F009F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6F211BCD10884D90003F009F /* MapViewController.xib */; };
 		9952698410D34E6300424730 /* POIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9952698210D34E6300424730 /* POIViewController.m */; };
@@ -63,7 +61,6 @@
 		3332F9D310A13B89003D35B8 /* POI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POI.m; sourceTree = "<group>"; };
 		3335285310A3EA3300D4F1A2 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
-		3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultViewController.xib; sourceTree = "<group>"; };
 		338387CA1081479400F56AEB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		338387CB1081479400F56AEB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		33DBDB8A10FE869700776C86 /* cluster.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cluster.c; sourceTree = "<group>"; };
@@ -98,7 +95,6 @@
 		61FD08E410C741D9000EA568 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 		61FD09CE10C75112000EA568 /* LayersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayersListViewController.h; sourceTree = "<group>"; };
 		61FD09CF10C75112000EA568 /* LayersListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayersListViewController.m; sourceTree = "<group>"; };
-		61FD09D010C75112000EA568 /* LayersListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LayersListViewController.xib; sourceTree = "<group>"; };
 		6F211BCC10884D90003F009F /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		6F211BCD10884D90003F009F /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* CampusMaps-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CampusMaps-Info.plist"; sourceTree = "<group>"; };
@@ -199,7 +195,7 @@
 				61D6100D10F84BBC00CE3397 /* Icon.png */,
 				995C9F5710EF07C0003875D0 /* buildings.xml */,
 				6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */,
-				61FD089210C739C9000EA568 /* CampusMaps.xcdatamodeld */,
+				61FD089210C739C9000EA568 /* CampusMaps.xcdatamodel */,
 				8D1107310486CEB800E47090 /* CampusMaps-Info.plist */,
 			);
 			name = Resources;
@@ -269,8 +265,6 @@
 				9952698310D34E6300424730 /* POIViewController.xib */,
 				6F211BCC10884D90003F009F /* MainWindow.xib */,
 				6F211BCD10884D90003F009F /* MapViewController.xib */,
-				3335285510A3EA3300D4F1A2 /* SearchResultViewController.xib */,
-				61FD09D010C75112000EA568 /* LayersListViewController.xib */,
 				61A301B4110BF56C00A375E8 /* AboutViewController.xib */,
 			);
 			name = XIBs;
@@ -320,8 +314,6 @@
 			files = (
 				6F211BCF10884D90003F009F /* MainWindow.xib in Resources */,
 				6F211BD010884D90003F009F /* MapViewController.xib in Resources */,
-				3335285710A3EA3300D4F1A2 /* SearchResultViewController.xib in Resources */,
-				61FD09D210C75112000EA568 /* LayersListViewController.xib in Resources */,
 				9952698510D34E6300424730 /* POIViewController.xib in Resources */,
 				995C9F5810EF07C0003875D0 /* buildings.xml in Resources */,
 				61D6100E10F84BBC00CE3397 /* Icon.png in Resources */,
@@ -340,7 +332,7 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* CampusMapsAppDelegate.m in Sources */,
-				61FD089310C739C9000EA568 /* CampusMaps.xcdatamodeld in Sources */,
+				61FD089310C739C9000EA568 /* CampusMaps.xcdatamodel in Sources */,
 				338387CD1081479400F56AEB /* MapViewController.m in Sources */,
 				3332F9D410A13B89003D35B8 /* Layer.m in Sources */,
 				3332F9D510A13B89003D35B8 /* POI.m in Sources */,
@@ -455,14 +447,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		61FD089210C739C9000EA568 /* CampusMaps.xcdatamodeld */ = {
+		61FD089210C739C9000EA568 /* CampusMaps.xcdatamodel */ = {
 			isa = XCVersionGroup;
 			children = (
 				28C3AD890F43EF2300507BA6 /* CampusMaps.xcdatamodel */,
 				61FD089410C739CA000EA568 /* CampusMaps 2.xcdatamodel */,
 			);
 			currentVersion = 61FD089410C739CA000EA568 /* CampusMaps 2.xcdatamodel */;
-			path = CampusMaps.xcdatamodeld;
+			path = CampusMaps.xcdatamodel;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -270,17 +272,15 @@
 								<string>29B97314FDCFA39411CA2CEA</string>
 								<string>6F211BDD10884E4A003F009F</string>
 								<string>080E96DDFE201D6D7F000001</string>
-								<string>3332F9CF10A13B89003D35B8</string>
-								<string>29B97317FDCFA39411CA2CEA</string>
-								<string>610326CA10FEF042000CCFB0</string>
+								<string>29B97315FDCFA39411CA2CEA</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>37</integer>
-									<integer>8</integer>
+									<integer>30</integer>
+									<integer>28</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -317,8 +317,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -336,12 +334,12 @@
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>61A3021D110CC46000A375E8</string>
+										<string>6115E0891112345C00BD5E6F</string>
 										<key>history</key>
 										<array>
 											<string>61DF565C108138A8000A7B1D</string>
 											<string>61A3021A110CC42E00A375E8</string>
-											<string>61A3021B110CC42E00A375E8</string>
+											<string>61A3021D110CC46000A375E8</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -399,9 +397,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>61A3019B110BF33700A375E8</string>
+				<string>6115E08A1112345C00BD5E6F</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>61A3019C110BF33700A375E8</string>
+				<string>6115E08B1112345C00BD5E6F</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -537,13 +535,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>61A30217110CC3F800A375E8</string>
-		<string>61A30201110CC1BD00A375E8</string>
-		<string>61A301F2110CC14E00A375E8</string>
-		<string>1C78EAAD065D492600B07095</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>61FC2E95107C2BF700FFF897</string>
-		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/branches/projects/campusmaps-iphone-0.2/CampusMaps.xcodeproj</string>
+		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/campusmaps-iphone/CampusMaps.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>42 55 1010 823 0 0 1440 878 </string>
@@ -567,7 +560,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>&lt;No Editor&gt;</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -584,8 +577,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -625,7 +616,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>61FC2E95107C2BF700FFF897</string>
-				<string>61A3019D110BF33700A375E8</string>
+				<string>6115E08C1112345C00BD5E6F</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
