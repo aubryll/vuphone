@@ -51,7 +51,8 @@
 		self.lowerRightLabel.text = [NSString stringWithFormat:@"closed, opens at %i:%.2i", hour, clockMinute];
 		self.lowerRightLabel.textColor = [UIColor grayColor];
 	} else if (minutes <= 0) {
-		self.lowerRightLabel.text = [NSString stringWithFormat:@"closed, opens in %im", minutes];
+//		self.lowerRightLabel.text = [NSString stringWithFormat:@"closed, opens in %im", minutes];
+		self.lowerRightLabel.text = @"closed";
 		self.lowerRightLabel.textColor = [UIColor grayColor];
 	} else if (minutes <= 60) {
 		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes in %im", minutes];
