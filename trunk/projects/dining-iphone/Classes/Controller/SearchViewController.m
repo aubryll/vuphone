@@ -200,13 +200,13 @@
 	// Build the meal plan predicate
 	NSPredicate *mealPlanPred = nil;
 	switch (mealPlanChooser.selectedSegmentIndex) {
-		case 0:	// Yes
+		case 0:	// Meal plan
 			mealPlanPred = [NSPredicate predicateWithFormat:@"acceptsMealPlan = YES"];
 			break;
-		case 1:	// No
-			mealPlanPred = [NSPredicate predicateWithFormat:@"acceptsMealPlan = NO"];
+		case 1:	// Meal $$
+			mealPlanPred = [NSPredicate predicateWithFormat:@"acceptsMealMoney = YES"];
 			break;
-		default: // Either
+		default: // Don't care
 			mealPlanPred = [NSPredicate predicateWithFormat:@"TRUEPREDICATE"];
 			break;
 	}
@@ -214,10 +214,10 @@
 	// Build the on-/off-campus predicate
 	NSPredicate *onCampusPred = nil;
 	switch (onCampusChooser.selectedSegmentIndex) {
-		case 0:	// Yes
+		case 0:	// On-Campus
 			onCampusPred = [NSPredicate predicateWithFormat:@"offCampus = NO"];
 			break;
-		case 1:	// No
+		case 1:	// Off-Campus
 			onCampusPred = [NSPredicate predicateWithFormat:@"offCampus = YES"];
 			break;
 		default: // Either

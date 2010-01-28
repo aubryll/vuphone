@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-	SortIndexMinutesUntilClose = 0,
+	SortIndexName = 0,
 	SortIndexType = 1,
-	SortIndexDistance = 2
+	SortIndexMinutesUntilClose = 2,
+	SortIndexDistance = 3
 } SortHelperIndex;
 
 

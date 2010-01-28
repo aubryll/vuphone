@@ -13,8 +13,9 @@
 #import "DiningAppDelegate.h"
 #import "Restaurant.h"
 #import "RestaurantListSortHelper.h"
-#import "MinutesToCloseSortHelper.h"
+#import "NameSortHelper.h"
 #import "TypeSortHelper.h"
+#import "MinutesToCloseSortHelper.h"
 #import "DistanceSortHelper.h"
 
 @implementation RestaurantListViewController
@@ -25,11 +26,6 @@
 {
     [super viewDidLoad];
 	
-//	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Meal Plan"
-//																			  style:UIBarButtonItemStyleDone
-//																			 target:self
-//																			 action:@selector(toggleMealPlan)];
-	
 	context = [[(DiningAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext] retain];
 
 	if (self.restaurants == nil) {
@@ -39,22 +35,25 @@
 
 	[self initSortHelpers];
 
-	[self setSort:SortIndexMinutesUntilClose];
+	[self setSort:SortIndexName];
 }
 
 - (void)initSortHelpers
 {
-	MinutesToCloseSortHelper *minsHelper = [[MinutesToCloseSortHelper alloc] initWithRestaurants:restaurants];
-
+	NameSortHelper *nameHelper = [[NameSortHelper alloc] initWithRestaurants:restaurants];
+	
 	TypeSortHelper *typeHelper = [[TypeSortHelper alloc] initWithRestaurants:restaurants];
+	
+	MinutesToCloseSortHelper *minsHelper = [[MinutesToCloseSortHelper alloc] initWithRestaurants:restaurants];
 
 	DistanceSortHelper *distanceHelper = [[DistanceSortHelper alloc] initWithRestaurants:restaurants];
 	
-	sortHelpers = [[NSArray alloc] initWithObjects:minsHelper, typeHelper, distanceHelper, nil];
+	sortHelpers = [[NSArray alloc] initWithObjects:nameHelper, typeHelper, minsHelper, distanceHelper, nil];
 	
 	// Release all the allocated helpers since the sortHelpers array retained them
-	[minsHelper release];
+	[nameHelper release];
 	[typeHelper release];
+	[minsHelper release];
 	[distanceHelper release];
 }
 
@@ -122,19 +121,7 @@
 
 - (IBAction)sortChanged:(id)sender
 {
-	switch (((UISegmentedControl *)sender).selectedSegmentIndex) {
-		case 0:	// Time to close
-			[self setSort:SortIndexMinutesUntilClose];
-			break;
-		case 1:	// Type
-			[self setSort:SortIndexType];
-			break;
-		case 2:	// Distance
-			[self setSort:SortIndexDistance];
-			break;
-		default:
-			break;
-	}
+	[self setSort:((UISegmentedControl *)sender).selectedSegmentIndex];
 	
 	// Scroll to the top
 	[tableView setContentOffset:CGPointMake(0, 0) animated:NO];
