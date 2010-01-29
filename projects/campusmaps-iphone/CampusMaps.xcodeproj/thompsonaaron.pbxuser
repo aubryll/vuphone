@@ -9,9 +9,9 @@
 	};
 	1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2371, 3302}}";
-			sepNavSelRange = "{2153, 0}";
-			sepNavVisRange = "{1708, 1751}";
+			sepNavIntBoundsRect = "{{0, 0}, {845, 3432}}";
+			sepNavSelRange = "{2032, 0}";
+			sepNavVisRange = "{1708, 1718}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* CampusMaps */ = {
@@ -318,13 +318,13 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 286405688;
-			PBXWorkspaceStateSaveDate = 286405688;
+			PBXPerProjectTemplateStateSaveDate = 286490422;
+			PBXWorkspaceStateSaveDate = 286490422;
 		};
 		perUserProjectItems = {
 			6115E08D111234F400BD5E6F /* PBXTextBookmark */ = 6115E08D111234F400BD5E6F /* PBXTextBookmark */;
+			616A801311138057007EB4A5 /* PBXTextBookmark */ = 616A801311138057007EB4A5 /* PBXTextBookmark */;
 			61A3021A110CC42E00A375E8 /* PBXTextBookmark */ = 61A3021A110CC42E00A375E8 /* PBXTextBookmark */;
-			61A3021D110CC46000A375E8 /* PBXTextBookmark */ = 61A3021D110CC46000A375E8 /* PBXTextBookmark */;
 			61DF565C108138A8000A7B1D /* PBXTextBookmark */ = 61DF565C108138A8000A7B1D /* PBXTextBookmark */;
 		};
 		sourceControlManager = 61FC2E7D107C2BDA00FFF897 /* Source Control */;
@@ -426,6 +426,16 @@
 		vrLen = 1751;
 		vrLoc = 1708;
 	};
+	616A801311138057007EB4A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */;
+		name = "CampusMapsAppDelegate.m: 67";
+		rLen = 0;
+		rLoc = 2032;
+		rType = 0;
+		vrLen = 1718;
+		vrLoc = 1708;
+	};
 	616FBBC8110647650044D76B /* MapLayerController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {677, 722}}";
@@ -463,16 +473,6 @@
 		rType = 0;
 		vrLen = 661;
 		vrLoc = 0;
-	};
-	61A3021D110CC46000A375E8 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 1D3623250D0F684500981E51 /* CampusMapsAppDelegate.m */;
-		name = "CampusMapsAppDelegate.m: 94";
-		rLen = 0;
-		rLoc = 2810;
-		rType = 0;
-		vrLen = 1661;
-		vrLoc = 1765;
 	};
 	61DF565C108138A8000A7B1D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
