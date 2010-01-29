@@ -293,15 +293,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 286405540;
-			PBXWorkspaceStateSaveDate = 286405540;
+			PBXPerProjectTemplateStateSaveDate = 286490714;
+			PBXWorkspaceStateSaveDate = 286490714;
 		};
 		perUserProjectItems = {
-			6115E010111019A200BD5E6F = 6115E010111019A200BD5E6F /* PBXTextBookmark */;
-			6115E01F11101A6400BD5E6F = 6115E01F11101A6400BD5E6F /* PBXTextBookmark */;
-			6115E049111232BE00BD5E6F = 6115E049111232BE00BD5E6F /* PBXBookmark */;
-			6115E0541112339400BD5E6F = 6115E0541112339400BD5E6F /* PBXBookmark */;
-			6115E0561112339400BD5E6F = 6115E0561112339400BD5E6F /* PBXBookmark */;
+			6115E010111019A200BD5E6F /* PBXTextBookmark */ = 6115E010111019A200BD5E6F /* PBXTextBookmark */;
+			616A7F9511137E4B007EB4A5 /* PBXTextBookmark */ = 616A7F9511137E4B007EB4A5 /* PBXTextBookmark */;
+			616A80261113805E007EB4A5 /* PBXBookmark */ = 616A80261113805E007EB4A5 /* PBXBookmark */;
+			616A80371113807D007EB4A5 /* PBXBookmark */ = 616A80371113807D007EB4A5 /* PBXBookmark */;
 		};
 		sourceControlManager = 61F779D1105472140071CA64 /* Source Control */;
 		userBookmarkGroup = 61173FDD10BB577A00ED04B3 /* PBXBookmarkGroup */;
@@ -338,42 +337,6 @@
 		rType = 0;
 		vrLen = 557;
 		vrLoc = 0;
-	};
-	6115E01F11101A6400BD5E6F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 61BBB64E10575D45009481D6 /* EventViewController.m */;
-		name = "EventViewController.m: 24";
-		rLen = 0;
-		rLoc = 565;
-		rType = 0;
-		vrLen = 1408;
-		vrLoc = 527;
-	};
-	6115E049111232BE00BD5E6F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 610326F810FEF44B000CCFB0 /* Icon.png */;
-	};
-	6115E0541112339400BD5E6F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 6115E0551112339400BD5E6F /* info.png */;
-	};
-	6115E0551112339400BD5E6F /* info.png */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = image.png;
-		name = info.png;
-		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Icons/info.png";
-		sourceTree = "<absolute>";
-	};
-	6115E0561112339400BD5E6F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 6115E0571112339400BD5E6F /* info.png */;
-	};
-	6115E0571112339400BD5E6F /* info.png */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = image.png;
-		name = info.png;
-		path = "/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/Icons/info.png";
-		sourceTree = "<absolute>";
 	};
 	61173FDD10BB577A00ED04B3 /* PBXBookmarkGroup */ = {
 		isa = PBXBookmarkGroup;
@@ -501,7 +464,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 24;
-		modificationTime = 286405478.277014;
+		modificationTime = 286490296.05159;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -747,6 +710,24 @@
 			sepNavVisRange = "{518, 301}";
 		};
 	};
+	616A7F9511137E4B007EB4A5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 61BBB64E10575D45009481D6 /* EventViewController.m */;
+		name = "EventViewController.m: 47";
+		rLen = 0;
+		rLoc = 1138;
+		rType = 0;
+		vrLen = 1409;
+		vrLoc = 526;
+	};
+	616A80261113805E007EB4A5 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 610326F810FEF44B000CCFB0 /* Icon.png */;
+	};
+	616A80371113807D007EB4A5 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 610326F810FEF44B000CCFB0 /* Icon.png */;
+	};
 	619A2C5D10E093DC004436E8 /* EventListCell.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {761, 783}}";
@@ -786,8 +767,8 @@
 	61BBB64E10575D45009481D6 /* EventViewController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {676, 4238}}";
-			sepNavSelRange = "{565, 0}";
-			sepNavVisRange = "{527, 1408}";
+			sepNavSelRange = "{1138, 0}";
+			sepNavVisRange = "{526, 1409}";
 			sepNavWindowFrame = "{{1501, 86}, {867, 767}}";
 		};
 	};
