@@ -33,7 +33,7 @@ public class DiningPost extends Notification{
 	
 	// Ctor for a Rating Request
 	// Here we will take in only a location
-	// Since we have just location, we will assume we a doing a rating request(we are 
+	// Since we have just location, we will assume we are doing a rating request(we are 
 	// returning the average to the db)
 	// Since we are making the above assumption, we will set the postType_ to "request"
 	public DiningPost(int location){
