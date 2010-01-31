@@ -95,7 +95,7 @@
 							<object class="IBUITextView" id="854269074">
 								<reference key="NSNextResponder" ref="329933463"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{85, 2}, {214, 41}}</string>
+								<string key="NSFrame">{{76, 2}, {223, 41}}</string>
 								<reference key="NSSuperview" ref="329933463"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -110,6 +110,7 @@
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 									<int key="IBUIAutocapitalizationType">2</int>
 								</object>
+								<int key="IBUIDataDetectorTypes">3</int>
 							</object>
 						</object>
 						<string key="NSFrameSize">{320, 43}</string>
@@ -273,7 +274,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>VUEditableCell</string>
-					<string>{{1091, 458}, {320, 44}}</string>
+					<string>{{1091, 798}, {320, 44}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>

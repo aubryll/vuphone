@@ -101,6 +101,8 @@
 
 		nameField.borderStyle = UITextBorderStyleRoundedRect;
 		nameField.font = [UIFont boldSystemFontOfSize:12.0f];
+
+		self.mapView.delegate = self;
 	}
 	else
 	{
@@ -116,6 +118,8 @@
 		
 		nameField.borderStyle = UITextBorderStyleNone;
 		nameField.font = [UIFont boldSystemFontOfSize:17.0f];
+
+		self.mapView.delegate = nil;
 	}
 }
 
