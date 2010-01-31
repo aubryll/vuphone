@@ -27,6 +27,11 @@
 		611E15EA110504F900298EA9 /* index-cards.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15E7110504F900298EA9 /* index-cards.png */; };
 		611E15EB110504F900298EA9 /* map.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15E8110504F900298EA9 /* map.png */; };
 		611E15F31105096100298EA9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 611E15F21105096100298EA9 /* Icon.png */; };
+		616A81EB1115FC39007EB4A5 /* ImageCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616A81EA1115FC39007EB4A5 /* ImageCellController.m */; };
+		616A821A1116003F007EB4A5 /* SectionTitleAndButtonCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616A82191116003F007EB4A5 /* SectionTitleAndButtonCellController.m */; };
+		616A82A411160630007EB4A5 /* VUTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A300B0110BAA3B00A375E8 /* VUTableViewController.m */; };
+		616A82B9111606D9007EB4A5 /* VariableHeightCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616A82B8111606D9007EB4A5 /* VariableHeightCellController.m */; };
+		616A82DD11160AF5007EB4A5 /* HoursCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616A82DC11160AF5007EB4A5 /* HoursCellController.m */; };
 		6194C51B110E06830041F61B /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6194C51A110E06830041F61B /* AboutViewController.m */; };
 		6194C571110E0E7A0041F61B /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 6194C570110E0E7A0041F61B /* info.png */; };
 		6194C6DC110E41190041F61B /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6194C6D6110E41190041F61B /* AboutViewController.xib */; };
@@ -102,6 +107,15 @@
 		611E15E7110504F900298EA9 /* index-cards.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "index-cards.png"; path = "Icons/index-cards.png"; sourceTree = "<group>"; };
 		611E15E8110504F900298EA9 /* map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = map.png; path = Icons/map.png; sourceTree = "<group>"; };
 		611E15F21105096100298EA9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = Icons/Icon.png; sourceTree = "<group>"; };
+		616A81E81115FB4D007EB4A5 /* VUTableViewCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUTableViewCellController.h; sourceTree = "<group>"; };
+		616A81E91115FC39007EB4A5 /* ImageCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCellController.h; sourceTree = "<group>"; };
+		616A81EA1115FC39007EB4A5 /* ImageCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCellController.m; sourceTree = "<group>"; };
+		616A82181116003F007EB4A5 /* SectionTitleAndButtonCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionTitleAndButtonCellController.h; sourceTree = "<group>"; };
+		616A82191116003F007EB4A5 /* SectionTitleAndButtonCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionTitleAndButtonCellController.m; sourceTree = "<group>"; };
+		616A82B7111606D9007EB4A5 /* VariableHeightCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VariableHeightCellController.h; sourceTree = "<group>"; };
+		616A82B8111606D9007EB4A5 /* VariableHeightCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VariableHeightCellController.m; sourceTree = "<group>"; };
+		616A82DB11160AF5007EB4A5 /* HoursCellController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HoursCellController.h; sourceTree = "<group>"; };
+		616A82DC11160AF5007EB4A5 /* HoursCellController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HoursCellController.m; sourceTree = "<group>"; };
 		6194C519110E06830041F61B /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		6194C51A110E06830041F61B /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		6194C570110E0E7A0041F61B /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
@@ -129,8 +143,8 @@
 		61B3B8A01103C0E800C9BEE6 /* VariableHeightCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VariableHeightCell.m; path = ../Controller/TableView/VariableHeightCell.m; sourceTree = "<group>"; };
 		61C6124F1107EF85008D29D1 /* OpenHourCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenHourCell.h; sourceTree = "<group>"; };
 		61C612501107EF85008D29D1 /* OpenHourCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenHourCell.m; sourceTree = "<group>"; };
-		61C614BB1108D922008D29D1 /* NSString-Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString-Regex.h"; sourceTree = "<group>"; };
-		61C614BC1108D922008D29D1 /* NSString-Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString-Regex.m"; sourceTree = "<group>"; };
+		61C614BB1108D922008D29D1 /* NSString-Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString-Regex.h"; path = "TableView/NSString-Regex.h"; sourceTree = "<group>"; };
+		61C614BC1108D922008D29D1 /* NSString-Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString-Regex.m"; path = "TableView/NSString-Regex.m"; sourceTree = "<group>"; };
 		61C9F6151100E35000CDEA72 /* Dining.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dining.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61F7CFFC10FA6CE10023A53A /* restaurants.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = restaurants.xml; sourceTree = "<group>"; };
 		61F7D0D910FA95BF0023A53A /* RestaurantIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RestaurantIcons; sourceTree = "<group>"; };
@@ -317,8 +331,15 @@
 				61B3B5CF110260F700C9BEE6 /* MinutesToCloseSortHelper.m */,
 				61B3B7E81103B01C00C9BEE6 /* DistanceSortHelper.h */,
 				61B3B7E91103B01C00C9BEE6 /* DistanceSortHelper.m */,
-				61C614BB1108D922008D29D1 /* NSString-Regex.h */,
-				61C614BC1108D922008D29D1 /* NSString-Regex.m */,
+				616A81E81115FB4D007EB4A5 /* VUTableViewCellController.h */,
+				616A81E91115FC39007EB4A5 /* ImageCellController.h */,
+				616A81EA1115FC39007EB4A5 /* ImageCellController.m */,
+				616A82181116003F007EB4A5 /* SectionTitleAndButtonCellController.h */,
+				616A82191116003F007EB4A5 /* SectionTitleAndButtonCellController.m */,
+				616A82B7111606D9007EB4A5 /* VariableHeightCellController.h */,
+				616A82B8111606D9007EB4A5 /* VariableHeightCellController.m */,
+				616A82DB11160AF5007EB4A5 /* HoursCellController.h */,
+				616A82DC11160AF5007EB4A5 /* HoursCellController.m */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -337,6 +358,8 @@
 				61B3B5C811025EBE00C9BEE6 /* TableView */,
 				61B3B81B1103B32400C9BEE6 /* LocationManagerSingleton.h */,
 				61B3B81C1103B32400C9BEE6 /* LocationManagerSingleton.m */,
+				61C614BB1108D922008D29D1 /* NSString-Regex.h */,
+				61C614BC1108D922008D29D1 /* NSString-Regex.m */,
 				611E12DB11042FE200298EA9 /* SearchViewController.h */,
 				611E12DC11042FE200298EA9 /* SearchViewController.m */,
 			);
@@ -506,6 +529,11 @@
 				61C614BD1108D922008D29D1 /* NSString-Regex.m in Sources */,
 				6194C51B110E06830041F61B /* AboutViewController.m in Sources */,
 				6115E0CF111237CC00BD5E6F /* NameSortHelper.m in Sources */,
+				616A81EB1115FC39007EB4A5 /* ImageCellController.m in Sources */,
+				616A821A1116003F007EB4A5 /* SectionTitleAndButtonCellController.m in Sources */,
+				616A82A411160630007EB4A5 /* VUTableViewController.m in Sources */,
+				616A82B9111606D9007EB4A5 /* VariableHeightCellController.m in Sources */,
+				616A82DD11160AF5007EB4A5 /* HoursCellController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,6 +601,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;

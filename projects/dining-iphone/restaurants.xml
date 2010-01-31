@@ -2052,7 +2052,7 @@
 			</range>
 			<range>
 				<day>MONDAY</day>
-				<open>0:00</open>
+				<open>10:00</open>
 				<close>24:00</close>
 				<contiguousWith>TUESDAY</contiguousWith>
 			</range>
@@ -2560,43 +2560,36 @@
 				<day>SUNDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>MONDAY</contiguousWith>
 			</range>
 			<range>
 				<day>MONDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>TUESDAY</contiguousWith>
 			</range>
 			<range>
 				<day>TUESDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>WEDNESDAY</contiguousWith>
 			</range>
 			<range>
 				<day>WEDNESDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>THURSDAY</contiguousWith>
 			</range>
 			<range>
 				<day>THURSDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>FRIDAY</contiguousWith>
 			</range>
 			<range>
 				<day>FRIDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>SATURDAY</contiguousWith>
 			</range>
 			<range>
 				<day>SATURDAY</day>
 				<open>10:00</open>
 				<close>22:00</close>
-				<contiguousWith>SUNDAY</contiguousWith>
 			</range>
 		</hours>
 	</restaurant>

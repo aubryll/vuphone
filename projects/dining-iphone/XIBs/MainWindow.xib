@@ -12,8 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="36"/>
-			<integer value="40"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -72,7 +70,7 @@
 				</object>
 			</object>
 			<object class="IBUITabBarController" id="1020842817">
-				<string key="IBUITitle">Campus Dining</string>
+				<string key="IBUITitle">Dining</string>
 				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUIViewController" key="IBUISelectedViewController" id="26687949">
@@ -83,7 +81,6 @@
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">index-cards.png</string>
 						</object>
-						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIParentViewController" ref="1020842817"/>
 					<string key="IBUINibName">RestaurantListViewController</string>
@@ -94,7 +91,6 @@
 					<object class="IBUIViewController" id="223434014">
 						<string key="IBUITitle">Search</string>
 						<object class="IBUITabBarItem" key="IBUITabBarItem" id="1042342112">
-							<reference key="IBUITabBar"/>
 							<int key="IBUISystemItemIdentifier">8</int>
 						</object>
 						<reference key="IBUIToolbarItems" ref="0"/>
@@ -109,7 +105,6 @@
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">map.png</string>
 							</object>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="1020842817"/>
 						<string key="IBUINibName">MapViewController</string>
@@ -445,10 +440,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>openThruSliderChanged:</string>
 							<string>showSearchResults:</string>
+							<string>toggleCheckAll:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UISlider</string>
+							<string>id</string>
 							<string>id</string>
 						</object>
 					</object>
@@ -456,6 +453,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>checkboxButton</string>
 							<string>mealPlanChooser</string>
 							<string>onCampusChooser</string>
 							<string>openThruLabel</string>
@@ -464,6 +462,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIBarButtonItem</string>
 							<string>UISegmentedControl</string>
 							<string>UISegmentedControl</string>
 							<string>UILabel</string>
@@ -794,7 +793,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">Dining.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../Dining.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">3.1</string>
 	</data>

@@ -29,6 +29,7 @@
 - (NSNumber *)openHour;
 - (NSNumber *)closeHour;
 - (NSString *)formattedHoursString;
++ (NSString *)dateStringForMinuteOfDay:(int)minute;
 
 @end
 
