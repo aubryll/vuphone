@@ -48,28 +48,37 @@
 - (NSString *)formattedHoursString
 {
 	// Prefixed all with an 'f' to avoid namespace conflicts
-	int fopenHour, fopenMinute, fcloseHour, fcloseMinute;
+	int fopenMinute = -1, fcloseMinute = -1;
 	
 	if ([self.openMinute intValue] == 0 && [self.closeMinute intValue] == 1440) {
 		// It's open 24-hours, so just add it and continue
 		return @"24 hours";
 	} else if (self.contiguousWith != nil) {
-		fopenHour = [[self openHour] intValue];
 		fopenMinute = [self.openMinute intValue];
-		fcloseHour = [[self.contiguousWith closeHour] intValue];
 		fcloseMinute = [self.contiguousWith.closeMinute intValue];
 	} else {
-		fopenHour = [[self openHour] intValue];
 		fopenMinute = [self.openMinute intValue];
-		fcloseHour = [[self closeHour] intValue];
 		fcloseMinute = [self.closeMinute intValue];
 	}
+	
+	return [NSString stringWithFormat:@"%@ - %@",
+						[HourRange dateStringForMinuteOfDay:fopenMinute],
+						[HourRange dateStringForMinuteOfDay:fcloseMinute]];
+}
 
-	return [NSString stringWithFormat:@"%i:%.2i - %i:%.2i",
-			fopenHour,
-			fopenMinute % 60,
-			fcloseHour,
-			fcloseMinute % 60];
++ (NSString *)dateStringForMinuteOfDay:(int)minute
+{
+	static NSDateFormatter *fmt = nil;
+	if (fmt == nil) {
+		fmt = [[NSDateFormatter alloc] init];
+		[fmt setTimeStyle:NSDateFormatterShortStyle];
+	}
+	
+	// Hard-coding the time zone to US-Central (GMT-6)
+	minute += 60 * 6;
+	NSDate *date = [NSDate dateWithTimeIntervalSinceReferenceDate:minute * 60];
+
+	return [fmt stringFromDate:date];
 }
 
 - (NSInteger)contiguousCloseMinute

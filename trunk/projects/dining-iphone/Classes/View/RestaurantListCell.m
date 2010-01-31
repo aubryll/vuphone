@@ -7,7 +7,7 @@
 //
 
 #import "RestaurantListCell.h"
-
+#import "HourRange.h"
 
 @implementation RestaurantListCell
 
@@ -45,10 +45,8 @@
 		int minuteOfDayNow = minutesSinceReferenceDate % (24*60);
 		int closeMinute = minuteOfDayNow + minutes;
 		
-		int hour = (closeMinute / 60) % 24;
-		int clockMinute = closeMinute % 60;
-
-		self.lowerRightLabel.text = [NSString stringWithFormat:@"closed, opens at %i:%.2i", hour, clockMinute];
+		self.lowerRightLabel.text = [NSString stringWithFormat:@"closed, opens at %@",
+									 [HourRange dateStringForMinuteOfDay:closeMinute]];
 		self.lowerRightLabel.textColor = [UIColor grayColor];
 	} else if (minutes <= 0) {
 //		self.lowerRightLabel.text = [NSString stringWithFormat:@"closed, opens in %im", minutes];
@@ -61,14 +59,10 @@
 		self.lowerRightLabel.text = @"24 hours";
 		self.lowerRightLabel.textColor = [UIColor greenColor];
 	} else {
-		// Note that we are hard-coding GMT -6 for the date
 		int minutesSinceReferenceDate = (int)ceil([NSDate timeIntervalSinceReferenceDate] / 60) - 60*6;
 		int minuteOfDayNow = minutesSinceReferenceDate % (24*60);
-		int closeMinute = minuteOfDayNow + minutes;
-		
-		int hour = (closeMinute / 60) % 24;
-		int clockMinute = closeMinute % 60;
-		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes at %i:%.2i", hour, clockMinute];
+		int closeMinute = minuteOfDayNow + minutes;		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes at %@",
+									 [HourRange dateStringForMinuteOfDay:closeMinute]];
 		self.lowerRightLabel.textColor = [UIColor greenColor];
 	}
 }

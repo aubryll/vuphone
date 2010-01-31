@@ -43,13 +43,16 @@
 
 - (void)showRestaurantOnMap:(Restaurant *)restaurant
 {
+	[tabBarController setSelectedIndex:2];
+
 	RestaurantListViewController *listVC = [[tabBarController viewControllers] objectAtIndex:0];
 	[listVC.navigationController popToRootViewControllerAnimated:NO];
 	
 	MapViewController *mapVC = [[tabBarController viewControllers] objectAtIndex:2];
-	[mapVC selectRestaurant:restaurant];
-
-	[tabBarController setSelectedIndex:2];
+	// Ugly hack to work around not being able to force the MKMapView to refresh and get its annotations
+	[mapVC performSelector:@selector(selectRestaurant:)
+				withObject:restaurant
+				afterDelay:0.25];
 }
 
 #pragma mark -
