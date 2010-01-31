@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 
+import edu.vanderbilt.vuphone.android.events.About;
 import edu.vanderbilt.vuphone.android.events.Constants;
 import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
@@ -72,6 +73,7 @@ public class EventViewer extends MapActivity implements LoadingListener {
 	private static final int MENUITEM_MAP_STREET = 6;
 	private static final int MENUITEM_MANUAL_UPDATE = 7;
 	private static final int MENUITEM_VIEW_LIST = 8;
+	private static final int MENUITEM_ABOUT = 9;
 
 	/** Constants to identify activities we requested */
 	private static final int REQUEST_POSITION_FILTER = 0;
@@ -213,6 +215,7 @@ public class EventViewer extends MapActivity implements LoadingListener {
 		more.setIcon(getResources()
 				.getDrawable(android.R.drawable.ic_menu_more));
 		more.add(0, MENUITEM_MANUAL_UPDATE, Menu.NONE, "Manual Update");
+		more.add(0, MENUITEM_ABOUT, Menu.NONE, "About");
 		return true;
 	}
 
@@ -304,6 +307,10 @@ public class EventViewer extends MapActivity implements LoadingListener {
 			t.setPriority(Thread.MIN_PRIORITY);
 			t.start();
 
+			break;
+		case MENUITEM_ABOUT:
+			Intent ab = new Intent(this, About.class);
+			startActivity(ab);
 			break;
 		default:
 			Log.w(tag, pre + "No menu case matched! Did we open a submenu?");
