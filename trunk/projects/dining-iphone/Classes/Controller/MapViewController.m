@@ -11,6 +11,7 @@
 #import "DiningAppDelegate.h"
 #import "NSManagedObjectContext-Convenience.h"
 
+
 @implementation MapViewController
 
 - (void)viewDidLoad
@@ -31,11 +32,13 @@
 	
 	[mapView setRegion:region animated:TRUE];
 
-	
-	DiningAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-	NSSet *restaurants = [[appDelegate managedObjectContext] fetchObjectsForEntityName:ENTITY_NAME_RESTAURANT
-																   withPredicateString:@"TRUEPREDICATE"];
-	[mapView addAnnotations:[restaurants allObjects]];
+	if ([mapView.annotations count] == 0)
+	{
+		DiningAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+		NSSet *restaurants = [[appDelegate managedObjectContext] fetchObjectsForEntityName:ENTITY_NAME_RESTAURANT
+																	   withPredicateString:@"TRUEPREDICATE"];
+		[mapView addAnnotations:[restaurants allObjects]];
+	}
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -46,7 +49,7 @@
 	annView.canShowCallout = YES;
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	annView.calloutOffset = CGPointMake(-5, 5);
-
+	
 	return [annView autorelease];
 }
 
@@ -63,10 +66,21 @@
 	[restaurantVC release];
 }
 
+- (void)mapViewDidFinishLoadingMap:(MKMapView *)aMapView
+{
+	if (restaurantToSelect != nil) {
+		[aMapView selectAnnotation:restaurantToSelect animated:YES];
+		restaurantToSelect = nil;
+	}
+}
+
 - (void)selectRestaurant:(Restaurant *)restaurant
 {
 	[mapView setCenterCoordinate:restaurant.coordinate animated:YES];
+	[mapView deselectAnnotation:restaurant animated:YES];
 	[mapView selectAnnotation:restaurant animated:YES];
+	
+	restaurantToSelect = restaurant;
 }
 
 // Override to allow orientations other than the default portrait orientation.
