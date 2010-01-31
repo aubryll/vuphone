@@ -17,6 +17,11 @@ import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
 /**
  * @author Hamilton Turner
  * 
+ * TODO - If the date of events is to large away, such as 6 months, then
+ * the largest - smallest times will be larger than Integer.MAX_VALUE, resulting
+ * in an endTime with the maxvalue set to a 0, and a useless time filter. This
+ * whole filtering concept needs to have a logarithamic scale applied, so the first 
+ * 1/4 of the screen is the current day, the next 1/4 the week, then the month, etc...
  */
 public class TimeActivity extends Activity {
 	private SeekBar startTime_;
@@ -107,20 +112,26 @@ public class TimeActivity extends Activity {
 			calendar_.setTimeInMillis(smallest);
 			startText_.setText(getTime(calendar_));
 			startTime_.setProgress(0);
+			startTime_.invalidate();
 			startText_.invalidate();
 
 			calendar_.setTimeInMillis(largest);
 			endText_.setText(getTime(calendar_));
 			endTime_.setProgress(endTime_.getMax());
+			endTime_.invalidate();
 			endText_.invalidate();
 		} else {
 			calendar_.setTimeInMillis(current.getStartTime().getTimeInMillis());
 			startText_.setText(getTime(calendar_));
-			startTime_.setProgress((int) (calendar_.getTimeInMillis() - smallest));
+			startTime_
+					.setProgress((int) (calendar_.getTimeInMillis() - smallest));
+			startTime_.invalidate();
 			startText_.invalidate();
 
 			calendar_.setTimeInMillis(current.getEndTime().getTimeInMillis());
-			endTime_.setProgress((int) (calendar_.getTimeInMillis() - smallest));
+			endTime_
+					.setProgress((int) (calendar_.getTimeInMillis() - smallest));
+			endTime_.invalidate();
 			endText_.setText(getTime(calendar_));
 			endText_.invalidate();
 		}
@@ -129,15 +140,16 @@ public class TimeActivity extends Activity {
 	private String getTime(Calendar c) {
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);
-//		int year = c.get(Calendar.YEAR);
-//		int hour = c.get(Calendar.HOUR_OF_DAY);
-//		int minute = c.get(Calendar.MINUTE);
+		int year = c.get(Calendar.YEAR);
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int minute = c.get(Calendar.MINUTE);
 
 		StringBuilder s = new StringBuilder();
-		s.append(getMonth(month)).append(" ").append(day); // .append("/").append(year);
+		s.append(getMonth(month)).append(" ").append(day).append("/").append(
+				year);
 
-		// s.append(" ");
-		// s.append(hour).append(": ").append(minute);
+		s.append(" ");
+		s.append(hour).append(": ").append(minute);
 
 		return s.toString();
 	}

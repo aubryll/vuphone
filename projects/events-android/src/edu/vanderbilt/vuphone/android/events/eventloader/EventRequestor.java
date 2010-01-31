@@ -73,7 +73,10 @@ public class EventRequestor {
 			latestTime = URLEncoder.encode(latestTime, "UTF-8");
 			latitude = URLEncoder.encode(latitude, "UTF-8");
 			longitude = URLEncoder.encode(longitude, "UTF-8");
-			newAndroidId = URLEncoder.encode(androidID, "UTF-8");
+			if (androidID != null)
+				newAndroidId = URLEncoder.encode(androidID, "UTF-8");
+			else
+				newAndroidId = URLEncoder.encode("Awww..", "UTF-8"); // TODO - fix this!
 		} catch (UnsupportedEncodingException use) {
 			use.printStackTrace();
 			Log.w(tag, pre + "Unable to encode one of the parameters");
