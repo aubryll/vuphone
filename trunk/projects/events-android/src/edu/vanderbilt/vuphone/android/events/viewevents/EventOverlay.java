@@ -23,6 +23,7 @@ import edu.vanderbilt.vuphone.android.events.R;
 import edu.vanderbilt.vuphone.android.events.eventloader.EventLoader;
 import edu.vanderbilt.vuphone.android.events.eventloader.LoadingListener;
 import edu.vanderbilt.vuphone.android.events.eventstore.DBAdapter;
+import edu.vanderbilt.vuphone.android.events.filters.FilterManager;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilter;
 import edu.vanderbilt.vuphone.android.events.filters.PositionFilterListener;
 import edu.vanderbilt.vuphone.android.events.filters.TagsFilter;
@@ -90,6 +91,8 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 		receiveNewFilters(positionFilter, timeFilter, tagsFilter);
 
 		EventLoader.registerLoadingListener(this);
+		
+		FilterManager.registerFilterListener(this);
 
 	}
 
@@ -172,6 +175,9 @@ public class EventOverlay extends Overlay implements PositionFilterListener,
 			items_ = null;
 			items_ = newItems_;
 		}
+		
+		// Force redraw
+		mapView_.postInvalidate();
 	}
 
 	/**
