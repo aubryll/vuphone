@@ -140,16 +140,15 @@ public class TimeActivity extends Activity {
 	private String getTime(Calendar c) {
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);
-		int year = c.get(Calendar.YEAR);
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int minute = c.get(Calendar.MINUTE);
+		//int year = c.get(Calendar.YEAR);
+		//int hour = c.get(Calendar.HOUR_OF_DAY);
+		//int minute = c.get(Calendar.MINUTE);
 
 		StringBuilder s = new StringBuilder();
-		s.append(getMonth(month)).append(" ").append(day).append("/").append(
-				year);
+		s.append(getMonth(month)).append(" ").append(day); //.append("/").append(year);
 
-		s.append(" ");
-		s.append(hour).append(": ").append(minute);
+		//s.append(" ");
+		//s.append(hour).append(": ").append(minute);
 
 		return s.toString();
 	}
