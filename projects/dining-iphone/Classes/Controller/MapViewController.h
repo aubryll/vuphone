@@ -15,6 +15,7 @@
 
 @interface MapViewController : UIViewController <MKMapViewDelegate> {
 	IBOutlet MKMapView *mapView;
+	Restaurant *restaurantToSelect;
 }
 
 - (void)selectRestaurant:(Restaurant *)restaurant;
