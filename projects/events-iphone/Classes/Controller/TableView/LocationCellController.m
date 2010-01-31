@@ -44,7 +44,7 @@
 		[tvc.navigationController pushViewController:controller animated:YES];
 		[controller release];
 	}
-	else
+	else if (location.name != nil)
 	{
 		// Push a LocationViewController
 		LocationViewController *controller = [[LocationViewController alloc] initWithNibName:@"LocationView" bundle:nil];
@@ -76,9 +76,10 @@
 
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = @"Location";
-	if (location == nil) {
+	if ((location == nil || location.name == nil) && !isEditable) {
 		cell.detailTextLabel.text = @"unknown";
 		cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+		cell.accessoryType = UITableViewCellAccessoryNone;
 	} else if (location.name == nil) {
 		cell.detailTextLabel.text = @"(tap to choose a location)";
 		cell.detailTextLabel.textColor = [UIColor lightGrayColor];
