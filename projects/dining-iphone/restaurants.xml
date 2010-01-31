@@ -167,6 +167,7 @@
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
 		<url>http://www.vanderbilt.edu/dining/rest_commons.php</url>
+		<websiteLocationNumber>2</websiteLocationNumber>
 		<hours>
 			<range>
 				<day>SUNDAY</day>

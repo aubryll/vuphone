@@ -208,27 +208,34 @@ static NSDateFormatter *dateFormatter = nil;
 		{
 			NSString *menuString = [[NSString alloc] initWithData:menuData encoding:NSUTF8StringEncoding];
 
-			NSRange ulStartRange = [menuString rangeOfString:@"<ul>"];
-			NSRange ulEndRange = [menuString rangeOfString:@"</ul>"];
-			NSRange ulRange; // Not including the ul tags themselves
-			ulRange.location = ulStartRange.location + 4;	// [@"<ul>" length] == 4
-			ulRange.length = ulEndRange.location - ulStartRange.location;
-			NSString *stringOfLis = [menuString substringWithRange:ulRange];
-			
-			[menuString release];
+			// Start searching at Chef James / Commons Chef's Table, excluding the standard menu items
+			NSRange searchStartRange = [menuString rangeOfString:@"Chef"];
+			if (searchStartRange.location != NSNotFound)
+			{
+				searchStartRange.length = [menuString length] - searchStartRange.location;
+				
+				NSRange ulStartRange = [menuString rangeOfString:@"<ul>" options:NSCaseInsensitiveSearch range:searchStartRange];
+				NSRange ulEndRange = [menuString rangeOfString:@"</ul>" options:NSCaseInsensitiveSearch range:searchStartRange];
+				NSRange ulRange; // Not including the ul tags themselves
+				ulRange.location = ulStartRange.location + 4;	// [@"<ul>" length] == 4
+				ulRange.length = ulEndRange.location - ulStartRange.location - 4;
+				NSString *stringOfLis = [menuString substringWithRange:ulRange];
 
-			// Add the string inside each li tag to the array
-			NSArray *lis = [stringOfLis componentsSeparatedByString:@"</li>"];	// This will include the starting <li> tag
-			for (NSString *li in lis) {
-				NSRange liRange = [li rangeOfCharacterFromSet:[NSCharacterSet alphanumericCharacterSet]];
+				// Add the string inside each li tag to the array
+				NSArray *lis = [stringOfLis componentsSeparatedByString:@"</li>"];	// This will include the starting <li> tag
+				for (NSString *li in lis) {
+					NSRange liRange = [li rangeOfCharacterFromSet:[NSCharacterSet alphanumericCharacterSet]];
 
-				// Don't add empty ones
-				if ((int)[li length] - (int)(liRange.location+3) > 0) {
-					NSString *imageFreeString = [li substringFromIndex:liRange.location+3];
-					imageFreeString = [imageFreeString stripMedia];
-					[(NSMutableArray *)_menuItems addObject:imageFreeString];
+					// Don't add empty ones
+					if ((int)[li length] - (int)(liRange.location+3) > 0) {
+						NSString *imageFreeString = [li substringFromIndex:liRange.location+3];
+						imageFreeString = [imageFreeString stripMedia];
+						[(NSMutableArray *)_menuItems addObject:imageFreeString];
+					}
 				}
 			}
+
+			[menuString release];
 		}
 		
 		[localPool release];
