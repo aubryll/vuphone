@@ -1,0 +1,15 @@
+#summary One-sentence summary of this page.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+
+User can:
+  * See welcome screen with button to start tour
+  * Tap "Start Tour" button to view map
+  * See all waypoints on map
+  * Tap a waypoint to bring up callout view
+  * Tap button on callout view to se waypoint information
