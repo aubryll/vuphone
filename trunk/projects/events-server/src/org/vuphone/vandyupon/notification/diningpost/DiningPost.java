@@ -83,10 +83,12 @@ public class DiningPost extends Notification{
 		rating_ = rating;
 	}
 	
+	// Sets the data base user
 	public void setDBUserID(int dbUserID){
 		dbUserID_ = dbUserID;
 	}
 	
+	// Sets the source user
 	public void setSourceUserID(String sourceUserID){
 		sourceUserID_ = sourceUserID;
 	}
