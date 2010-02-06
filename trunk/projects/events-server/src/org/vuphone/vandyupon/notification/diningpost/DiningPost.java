@@ -38,12 +38,12 @@ public class DiningPost extends Notification{
 	// Since we have just location, we will assume we are doing a rating request(we are 
 	// returning the average to the db)
 	// Since we are making the above assumption, we will set the postType_ to "request"
-	public DiningPost(int location){
+	public DiningPost(int location, int deviceID){
 		super("diningrating");
 		postType_ = "request";
 		loc_ = location;
 		rating_ = -1;
-		//deviceID_ = deviceID;
+		deviceID_ = deviceID;
 	}
 	
 	// Gets the type
