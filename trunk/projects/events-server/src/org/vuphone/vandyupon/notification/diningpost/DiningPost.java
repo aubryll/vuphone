@@ -14,8 +14,7 @@ public class DiningPost extends Notification{
 	private int loc_;
 	// This variable is used to hold the rating to be added to the Database
 	private int rating_;
-	private int dbUserID_;
-	private String sourceUserID_;
+	private int deviceID_;
 	
 	// Default Ctor
 	public DiningPost(){
@@ -26,11 +25,12 @@ public class DiningPost extends Notification{
 	// Here we will take in both a location and a rating.
 	// Since we have both, we will assume we a doing a rating call(we are adding a rating to the db)
 	// Since we are making the above assumption, we will set the postType_ to "rating"
-	public DiningPost(int location, int rating){
+	public DiningPost(int location, int rating, int deviceID){
 		super("diningrating");
 		postType_ = "rating";
 		loc_ = location;
 		rating_ = rating;
+		deviceID_ = deviceID;
 	}
 	
 	// Ctor for a Rating Request
@@ -38,11 +38,12 @@ public class DiningPost extends Notification{
 	// Since we have just location, we will assume we are doing a rating request(we are 
 	// returning the average to the db)
 	// Since we are making the above assumption, we will set the postType_ to "request"
-	public DiningPost(int location){
+	public DiningPost(int location, int deviceID){
 		super("diningrating");
 		postType_ = "request";
 		loc_ = location;
 		rating_ = -1;
+		deviceID_ = deviceID;
 	}
 	
 	// Gets the type
@@ -60,12 +61,9 @@ public class DiningPost extends Notification{
 		return rating_;
 	}
 	
-	public int getDBUserID(){
-		return dbUserID_;
-	}
-	
-	public String getSourceUserID(){
-		return sourceUserID_;
+	// Gets the Device ID
+	public int getDeviceID(){
+		return deviceID_;
 	}
 	
 	// Sets the type
@@ -83,14 +81,9 @@ public class DiningPost extends Notification{
 		rating_ = rating;
 	}
 	
-	// Sets the data base user
-	public void setDBUserID(int dbUserID){
-		dbUserID_ = dbUserID;
-	}
-	
-	// Sets the source user
-	public void setSourceUserID(String sourceUserID){
-		sourceUserID_ = sourceUserID;
+	// Sets the Device ID
+	public void setSourceUserID(String deviceID){
+		deviceID_ = deviceID;
 	}
 	
 }
