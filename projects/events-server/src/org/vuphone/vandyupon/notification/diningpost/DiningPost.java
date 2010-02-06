@@ -14,6 +14,8 @@ public class DiningPost extends Notification{
 	private int loc_;
 	// This variable is used to hold the rating to be added to the Database
 	private int rating_;
+	private int dbUserID_;
+	private String sourceUserID_;
 	
 	// Default Ctor
 	public DiningPost(){
@@ -58,6 +60,14 @@ public class DiningPost extends Notification{
 		return rating_;
 	}
 	
+	public int getDBUserID(){
+		return dbUserID_;
+	}
+	
+	public String getSourceUserID(){
+		return sourceUserID_;
+	}
+	
 	// Sets the type
 	public void setType(String type){
 		postType_ = type;
@@ -71,6 +81,14 @@ public class DiningPost extends Notification{
 	// Sets the rating
 	public void setRating(int rating){
 		rating_ = rating;
+	}
+	
+	public void setDBUserID(int dbUserID){
+		dbUserID_ = dbUserID;
+	}
+	
+	public void setSourceUserID(String sourceUserID){
+		sourceUserID_ = sourceUserID;
 	}
 	
 }
