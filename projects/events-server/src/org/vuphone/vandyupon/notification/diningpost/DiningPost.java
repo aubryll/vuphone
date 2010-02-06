@@ -82,7 +82,7 @@ public class DiningPost extends Notification{
 	}
 	
 	// Sets the Device ID
-	public void setSourceUserID(String deviceID){
+	public void setSourceUserID(int deviceID){
 		deviceID_ = deviceID;
 	}
 	
