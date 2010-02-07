@@ -19,6 +19,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+@Deprecated
 public class SqliteConstructor implements DatabaseConstructor {
 
 	public void construct(DataSource ds) throws SQLException {
