@@ -17,7 +17,6 @@
 	<!-- Use this bean to utilize the MySQL Database-->
 	<!-- Note: There must be a file called db.properties in the same directory
 		 as this file if this bean is to be used. -->
-	<!--  -->
 	<bean id="dataProvider"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName">
@@ -35,11 +34,7 @@
 			<value>${db.password}</value>
 		</property>
 	</bean>
-	
-	<!--  This bean is used for MySql Connections -->
-	<!--  -->
-	<bean name="dbConstructor" class="org.vuphone.vandyupon.sql.MySqlConstructor" />
-	
+
 	<!--  This bean loads the properties referenced in the username, password and url fields -->
 	<!--  The format of this file is property=value. For example, the file for my computer
 		  contains db.username=root.  Each property goes on its own line. 
@@ -48,19 +43,7 @@
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="db.properties" />
 	</bean>
-	
-	<!--  This bean is used for SQLite Connections -->
-	<!--  <bean name="dbConstructor" class="org.vuphone.vandyupon.sql.SqliteConstructor" />-->
-	
-	<!-- Use this bean to utilize the SQLite Database-->
-	<!-- 
-		<bean id="dataProvider"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName"> <value>org.sqlite.JDBC</value>
-		</property> <property name="url">
-		<value>jdbc:sqlite:vandyupon.db</value> </property> </bean>
-	-->
-	
+		
 	<bean name="facebookLoginServlet" class="org.vuphone.vandyupon.datamine.facebook.FaceBookLoginServlet"/>
 	
 	<bean name="notificationServlet" class="org.vuphone.vandyupon.notification.NotificationServlet">
@@ -255,8 +238,11 @@
 	<!-- Sql Bean -->
 	<bean name="sqlConstructor" class="org.vuphone.vandyupon.sql.SqlConstructor">
 		<property name="dataConnection" ref="dataProvider" />
-		<property name="databaseConstructor" ref="dbConstructor" />
+		<property name="databaseConstructor">
+			<value>${class.dbconstructor}</value>
+		</property>
 	</bean>
+	
 
 
 </beans>

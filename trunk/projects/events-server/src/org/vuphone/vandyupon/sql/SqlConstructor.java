@@ -31,6 +31,7 @@ public class SqlConstructor {
 
 	private DataSource ds_;
 	private DatabaseConstructor dc_;
+	private Class dcClass_;
 	/**
 	 * Static method responsible for creating the database, building the tables
 	 * and establishing the relationships. After this method is called, the
@@ -43,7 +44,7 @@ public class SqlConstructor {
 	 * @throws SQLException
 	 */
 	public void prepareDatabase() throws SQLException {
-		dc_.construct(ds_);
+		dc_.construct(ds_);		
 	}
 
 	public void setDataConnection(DataSource ds){
@@ -54,11 +55,21 @@ public class SqlConstructor {
 		return ds_;
 	}
 	
-	public void setDatabaseConstructor(DatabaseConstructor dc){
-		dc_ = dc;
+	public void setDatabaseConstructor(Class dc){
+		try {
+			dcClass_ = dc;
+			dc_ = (DatabaseConstructor)dc.newInstance();
+			
+		} catch (InstantiationException e) {
+			
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			
+			e.printStackTrace();
+		}
 	}
 	
-	public DatabaseConstructor getDatabaseConstructor(){
-		return dc_;
+	public Class getDatabaseConstructor(){
+		return dcClass_;
 	}
 }
