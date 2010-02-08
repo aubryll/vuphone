@@ -1,18 +1,24 @@
 package org.vuphone.vandyupon.notification.diningpost;
 
+import org.vuphone.vandyupon.datastructs.Rating;
 import org.vuphone.vandyupon.notification.ResponseNotification;
 
-public class DiningPostResponse extends ResponseNotification {
-	private int id_;
+public abstract class DiningPostResponse extends ResponseNotification {
 	
-	public DiningPostResponse(int id, String responseType, String callback){
-		super("diningpost", responseType, callback);
-		id_ = id;
+	private Rating rating_;
+	
+	public DiningPostResponse(String type, String responseType, String callback){
+		super(type, responseType, callback);
 	}
 	
-	public int getId(){
-		return id_;
+	public Rating getRating()
+	{
+		return rating_;
 	}
 
+	public void setRating(Rating r)
+	{
+		rating_ = r;
+	}
 
 }
