@@ -27,8 +27,9 @@ public class Notification {
 
 	private String type_;
 
+	//Default Constructor
 	public Notification(String type) {
-		super();
+		super(); //Q//Why? What's the point of going super in the base class? 
 		type_ = type;
 	}
 
