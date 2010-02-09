@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<events>
+	<dataobject> 
+		<type>season</type> 
+		<title>@Florida</title> 
+		<date>20091121</date> 
+		<time>1800</time>
+		<description></description>
+		<sport>football</sport> 
+		<ourscore>24</ourscore> 
+		<theirscore>38</theirscore> 
+	</dataobject>
+	<dataobject> 
+		<type>season</type> 
+		<title>Auburn</title> 
+		<date>20091022</date> 
+		<time>1800</time>
+		<description>this is another description</description>
+		<sport>football</sport> 
+		<ourscore>64</ourscore> 
+		<theirscore>58</theirscore> 
+	</dataobject>
+	<dataobject> 
+		<type>season</type> 
+		<title>@Ole Miss</title> 
+		<date>20101022</date> 
+		<time>1800</time>
+		<description>this is another description</description>
+		<sport>football</sport> 
+		<ourscore>64</ourscore> 
+		<theirscore>58</theirscore> 
+	</dataobject>
+	<dataobject> 
+		<type>playoff</type> 
+		<title>Kentucky</title> 
+		<date>20110102</date> 
+		<time>1600</time>
+		<description>this is another description</description>
+		<sport>football</sport> 
+		<ourscore>64</ourscore> 
+		<theirscore>58</theirscore> 
+	</dataobject>
+	<dataobject> 
+		<type>season</type> 
+		<title>Georgia</title> 
+		<date>20101022</date> 
+		<time>1700</time>
+		<description>this is another description</description>
+		<sport>football</sport> 
+		<ourscore>22</ourscore> 
+		<theirscore>58</theirscore> 
+	</dataobject>
+</events>
