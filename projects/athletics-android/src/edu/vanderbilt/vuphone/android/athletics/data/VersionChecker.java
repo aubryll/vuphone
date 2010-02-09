@@ -9,7 +9,7 @@ public class VersionChecker {
 	public static boolean isDataUpToDate () throws Exception { // not thoroughly tested
 		URL XmlVersion = new URL("http://people.vanderbilt.edu/~zach.mccormick/version.xml");
 		URLConnection VersionConnection = XmlVersion.openConnection();
-		FileInputStream FileReader = new FileInputStream("version.xml");
+		FileInputStream FileReader = new FileInputStream("version.vu");
 		BufferedReader XmlOnline = new BufferedReader(new InputStreamReader(VersionConnection.getInputStream()));
 		BufferedReader XmlOffline = new BufferedReader(new InputStreamReader(FileReader));
 		if (XmlOnline.readLine().equalsIgnoreCase(XmlOffline.readLine()) ) {

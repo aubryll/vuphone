@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roster>
+	<dataobject>
+		<sport>football</sport>
+		<player>
+			<stat>Henry</stat>
+			<stat>Point Guard</stat>
+			<stat>3</stat>
+			<stat>4</stat>
+			<stat>5</stat>
+			<stat>6</stat>
+			<stat>7</stat>
+			<stat>8</stat>
+			<stat>9</stat>
+			<stat>10</stat>
+			<stat>11</stat>
+			<stat>12</stat>
+		</player>
+		<player>
+			<stat>John</stat>
+			<stat>Center</stat>
+			<stat>3</stat>
+			<stat>4</stat>
+			<stat>5</stat>
+			<stat>6</stat>
+			<stat>7</stat>
+			<stat>8</stat>
+			<stat>9</stat>
+			<stat>10</stat>
+			<stat>11</stat>
+			<stat>12</stat>
+		</player>
+		<player>
+			<stat>Adam</stat>
+			<stat>Power Forward</stat>
+			<stat>3</stat>
+			<stat>4</stat>
+			<stat>5</stat>
+			<stat>6</stat>
+			<stat>7</stat>
+			<stat>8</stat>
+			<stat>9</stat>
+			<stat>10</stat>
+			<stat>11</stat>
+			<stat>12</stat>
+		</player>
+	</dataobject>
+</roster>
