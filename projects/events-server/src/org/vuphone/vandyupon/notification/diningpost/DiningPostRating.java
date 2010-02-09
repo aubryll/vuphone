@@ -7,7 +7,7 @@ import org.vuphone.vandyupon.datastructs.Rating;
 
 public class DiningPostRating extends Rating {
 
-	private ArrayList<EventRatingContainer> ratings_;
+	private ArrayList<DiningPostRatingContainer> ratings_;
 	private long totalUp_ = 0;
 	private long totalDown_ = 0;
 	private double avg_ = 0;
@@ -15,16 +15,16 @@ public class DiningPostRating extends Rating {
 
 	public DiningPostRating() {
 		super("event");
-		ratings_ = new ArrayList<EventRatingContainer>();
+		ratings_ = new ArrayList<DiningPostRatingContainer>();
 	}
 
 	public void addRating(long user, int value, String comment, long submissionDate){
-		ratings_.add(new EventRatingContainer(user, value, comment, submissionDate));
+		ratings_.add(new DiningPostRatingContainer(user, value, comment, submissionDate));
 	}
 
 	public void finalize(){
 		if (!finalizeCalled_){
-			for (EventRatingContainer erc:ratings_){
+			for (DiningPostRatingContainer erc:ratings_){
 				if (erc.getValue() == 1)
 					++totalUp_;
 				else
