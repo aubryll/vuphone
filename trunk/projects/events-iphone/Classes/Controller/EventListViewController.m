@@ -81,9 +81,11 @@
 		} else {
 			NSUInteger sectionCount = [[fetchedResultsC sections] count];
 			[self.tableView reloadData];
-			[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionCount-1]
-								  atScrollPosition:UITableViewScrollPositionTop
-										  animated:NO];
+			if (sectionCount > 0) {
+				[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionCount-1]
+									  atScrollPosition:UITableViewScrollPositionTop
+											  animated:NO];
+			}
 		}
 	}
 

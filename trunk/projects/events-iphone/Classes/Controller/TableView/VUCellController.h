@@ -12,6 +12,8 @@
 //  appreciated but not required.
 //
 
+#import <UIKit/UIKit.h>
+
 @protocol VUCellController
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
