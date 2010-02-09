@@ -8,7 +8,7 @@ Android Athletics is built by the Vanderbilt Mobile Applications Team for the Va
   * Grayson Sharpe
 
 == Meeting Time ==
-  Wednesday, 7-8PM (FGH 308)
+  Wednesday, 7-8PM (FGH 239)
 
 == Developers ==
   * Russ Amos
