@@ -8,7 +8,8 @@ Add your content here.
 = Details =
 
 User can:
-  * Ben Wibking: See welcome screen with button to start tour
+  * Guy: See welcome screen with button to start tour
+  * Ryan Steier: See an image in the background of the welcome screen
   * Ben Wibking: Tap "Start Tour" button to view map
   * Shawn Atkins: See all waypoints on map
   * Shawn Atkins:  Tap a waypoint to bring up callout view
