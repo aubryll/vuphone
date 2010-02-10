@@ -10,7 +10,7 @@ Add your content here.
 User can:
   * Guy: <img src='http://ni2.in/tb/.png'/> See welcome screen with button to start tour
   * Ryan Steier: <img src='http://ni2.in/tb/.png'/> See an image in the background of the welcome screen
-  * Ben Wibking: Tap "Start Tour" button to view map
+  * Shawn Atkins: Tap "Start Tour" button to view map
   * Shawn Atkins: See all waypoints on map
   * Tap a waypoint to bring up callout view
   * Tap button on callout view to see waypoint information
