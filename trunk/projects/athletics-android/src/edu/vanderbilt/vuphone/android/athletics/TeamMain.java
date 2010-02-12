@@ -22,7 +22,8 @@ public class TeamMain extends ListActivity {
 
 //-------------------- MENU FUNCTIONS
 
-private static final int MENU_ITEM_SCHEDULE = 0;
+private static final int MENU_ITEM_NEWS = 0;
+private static final int MENU_ITEM_SCHEDULE = 1;
 
 /** Creates list of actions for user when the menu button is clicked */
 public boolean onCreateOptionsMenu(Menu menu) {
@@ -30,6 +31,9 @@ public boolean onCreateOptionsMenu(Menu menu) {
 	menu.add(Menu.NONE, MENU_ITEM_SCHEDULE, Menu.NONE, "Schedule").setIcon(
 			getResources().getDrawable(
 					android.R.drawable.ic_menu_my_calendar));
+	menu.add(Menu.NONE, MENU_ITEM_NEWS, Menu.NONE, "News").setIcon(
+			getResources().getDrawable(
+					android.R.drawable.ic_menu_recent_history));
 	
 
 	return true;
@@ -39,10 +43,15 @@ public boolean onCreateOptionsMenu(Menu menu) {
 public boolean onOptionsItemSelected(MenuItem item) {
 	super.onOptionsItemSelected(item);
 	switch (item.getItemId()) {
+	case MENU_ITEM_NEWS:
+		Intent news = new Intent(this, AthleticsNews.class);
+		startActivity(news);
+		return true;
 	case MENU_ITEM_SCHEDULE:
 		Intent schedule = new Intent(this, AthleticsSchedule.class);
 		startActivity(schedule);
 		return true;
+	
 	}
 	return true;
 }
