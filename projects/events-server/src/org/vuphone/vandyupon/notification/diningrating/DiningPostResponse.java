@@ -1,4 +1,4 @@
-package org.vuphone.vandyupon.notification.diningpost;
+package org.vuphone.vandyupon.notification.diningrating;
 
 import org.vuphone.vandyupon.datastructs.Rating;
 import org.vuphone.vandyupon.notification.ResponseNotification;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and     *
  * limitations under the License.                                          *
  **************************************************************************/
-package org.vuphone.vandyupon.notification.diningpost;
+package org.vuphone.vandyupon.notification.diningrating;
 
 public class DiningPostRatingContainer {
 	
