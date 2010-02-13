@@ -1,6 +1,6 @@
 // Copyright 2010 Michael Fagan
 
-package org.vuphone.vandyupon.notification.diningpost;
+package org.vuphone.vandyupon.notification.diningrating;
 
 import org.vuphone.vandyupon.notification.Notification;
 

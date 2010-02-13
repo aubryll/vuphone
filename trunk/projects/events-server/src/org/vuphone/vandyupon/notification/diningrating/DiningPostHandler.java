@@ -1,4 +1,4 @@
-package org.vuphone.vandyupon.notification.diningpost;
+package org.vuphone.vandyupon.notification.diningrating;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

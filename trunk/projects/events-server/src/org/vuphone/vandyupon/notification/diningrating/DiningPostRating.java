@@ -1,5 +1,5 @@
 
-package org.vuphone.vandyupon.notification.diningpost;
+package org.vuphone.vandyupon.notification.diningrating;
 
 import java.util.ArrayList;
 
