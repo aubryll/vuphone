@@ -6,7 +6,9 @@
 //  Copyright Vanderbilt University 2010. All rights reserved.
 //
 
-@interface RootViewController : UITableViewController {
+@interface RootViewController : UIViewController {
 }
+
+-(IBAction)startTour:(id)sender;
 
 @end
