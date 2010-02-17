@@ -1,16 +1,13 @@
 #summary One-sentence summary of this page.
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
+= User Stories =
 
 User can:
   * Guy: <img src='http://ni2.in/tb/.png'/> See welcome screen with button to start tour
   * Ryan Steier: <img src='http://ni2.in/tb/.png'/> See an image in the background of the welcome screen
-  * Shawn Atkins: Tap "Start Tour" button to view map
-  * Shawn Atkins: See all waypoints on map
+  * Guy: <img src='http://ni2.in/tb/.png'/> Tap "Start Tour" button to view map
+  * Shawn Atkins: See a test waypoints on the map
+  * Demetri Miller: Hear a test sound
+  * Ryan Steier: 
   * Tap a waypoint to bring up callout view
   * Tap button on callout view to see waypoint information
