@@ -13,6 +13,7 @@
         </activity>
 	<activity android:name=".AthleticsSchedule" />
 	<activity android:name=".AthleticsNews" />
+	<activity android:name=".AthleticsRoster" />
 	<activity android:name=".NewsDetails" />
 	<activity android:name=".TeamMain" />
     </application>

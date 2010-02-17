@@ -24,17 +24,17 @@ public class TeamMain extends ListActivity {
 
 private static final int MENU_ITEM_NEWS = 0;
 private static final int MENU_ITEM_SCHEDULE = 1;
+private static final int MENU_ITEM_ROSTER = 2;
 
 /** Creates list of actions for user when the menu button is clicked */
 public boolean onCreateOptionsMenu(Menu menu) {
 	super.onCreateOptionsMenu(menu);
 	menu.add(Menu.NONE, MENU_ITEM_SCHEDULE, Menu.NONE, "Schedule").setIcon(
-			getResources().getDrawable(
-					android.R.drawable.ic_menu_my_calendar));
+		getResources().getDrawable(android.R.drawable.ic_menu_my_calendar));
 	menu.add(Menu.NONE, MENU_ITEM_NEWS, Menu.NONE, "News").setIcon(
-			getResources().getDrawable(
-					android.R.drawable.ic_menu_recent_history));
-	
+		getResources().getDrawable(android.R.drawable.ic_menu_recent_history));
+	menu.add(Menu.NONE, MENU_ITEM_ROSTER, Menu.NONE, "Roster").setIcon(
+		getResources().getDrawable(android.R.drawable.ic_menu_info_details));
 
 	return true;
 }
@@ -44,13 +44,14 @@ public boolean onOptionsItemSelected(MenuItem item) {
 	super.onOptionsItemSelected(item);
 	switch (item.getItemId()) {
 	case MENU_ITEM_NEWS:
-		Intent news = new Intent(this, AthleticsNews.class);
-		startActivity(news);
-		return true;
+		startActivity(new Intent(this, AthleticsNews.class));
+		break;
 	case MENU_ITEM_SCHEDULE:
-		Intent schedule = new Intent(this, AthleticsSchedule.class);
-		startActivity(schedule);
-		return true;
+		startActivity(new Intent(this, AthleticsSchedule.class));
+		break;
+	case MENU_ITEM_ROSTER:
+		startActivity(new Intent(this, AthleticsRoster.class));
+		break;
 	
 	}
 	return true;
