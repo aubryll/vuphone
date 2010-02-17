@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<waypoints>
+    <location name="Center" num="0">
+	<description>This is the center of Vanderbilt University's Campus<description/>
+        <coordinate longitude="-86.8044" latitude="36.142"/>
+    </location>
+    <location name="" num="1">
+        <description/>
+        <audiopath> </audiopath>
+        <coordinate longitude="160.233" latitude="50.92"/>
+    </location>
+    <location name="" num="2">
+        <description/>
+        <coordinate longitude="60.233"  latitude="133.90"/>
+    </location>
+    <location name="" num="3">
+        <description/>
+        <coordinate longitude="20.233" latitude="5.92"/>
+    </location>
+    <location name="" num="4">
+        <description/>
+        <coordinate longitude="26.233" latitude="15.92"/>
+    </location>
+    <location name="" num="5">
+        <description/>
+        <coordinate longitude="130.223" latitude="33.92"/>
+    </location>
+    <location name="" num="6">
+        <description/>
+        <coordinate longitude="100.233" latitude="99.92"/>
+    </location>
+    <location name="" num="7">
+        <description/>
+        <coordinate longitude="80.233" latitude="120.92"/>
+    </location>
+    <location name="" num="8">
+        <description/>
+        <coordinate longitude="80.233" latitude="120.92"/>
+    </location>
+    <location name="" num="9">
+        <description/>
+        <coordinate longitude="80.233" latitude="120.92"/>
+    </location>
+</waypoints>
