@@ -16,6 +16,8 @@
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		5845275C112B86E6005BA08F /* Waypoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845275B112B86E6005BA08F /* Waypoint.m */; };
+		61D044F2112B88E700405B6F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D044F1112B88E700405B6F /* MapViewController.m */; };
+		61D04513112B89C300405B6F /* WaypointXMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04512112B89C300405B6F /* WaypointXMLReader.m */; };
 		E4B4F334112B3C5D007BFFD7 /* VULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F333112B3C5D007BFFD7 /* VULogo.png */; };
 		E4B4F341112B6E03007BFFD7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B4F340112B6E03007BFFD7 /* MapKit.framework */; };
 		E4B4F353112B6E37007BFFD7 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F351112B6E37007BFFD7 /* MapViewController.xib */; };
@@ -36,6 +38,10 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5845275A112B86E6005BA08F /* Waypoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waypoint.h; sourceTree = "<group>"; };
 		5845275B112B86E6005BA08F /* Waypoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Waypoint.m; sourceTree = "<group>"; };
+		61D044F0112B88E700405B6F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		61D044F1112B88E700405B6F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		61D04511112B89C300405B6F /* WaypointXMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaypointXMLReader.h; sourceTree = "<group>"; };
+		61D04512112B89C300405B6F /* WaypointXMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaypointXMLReader.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Campus_Tour-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Campus_Tour-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		E4B4F333112B3C5D007BFFD7 /* VULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VULogo.png; sourceTree = "<group>"; };
 		E4B4F340112B6E03007BFFD7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -60,6 +66,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				61D04511112B89C300405B6F /* WaypointXMLReader.h */,
+				61D04512112B89C300405B6F /* WaypointXMLReader.m */,
+				61D044F0112B88E700405B6F /* MapViewController.h */,
+				61D044F1112B88E700405B6F /* MapViewController.m */,
 				5845275A112B86E6005BA08F /* Waypoint.h */,
 				5845275B112B86E6005BA08F /* Waypoint.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
@@ -189,6 +199,8 @@
 				1D3623260D0F684500981E51 /* Campus_TourAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				5845275C112B86E6005BA08F /* Waypoint.m in Sources */,
+				61D044F2112B88E700405B6F /* MapViewController.m in Sources */,
+				61D04513112B89C300405B6F /* WaypointXMLReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
