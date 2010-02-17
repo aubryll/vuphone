@@ -7,7 +7,7 @@
 //
 
 #import "RootViewController.h"
-
+#import "MapViewController.h"
 
 @implementation RootViewController
 
@@ -117,6 +117,12 @@
     [super dealloc];
 }
 
+
+-(void)startTour:(id)sender{
+	MapViewController * mapViewController = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
+	[self.navigationController pushViewController:mapViewController animated:YES];
+	[mapViewController release];
+}
 
 @end
 
