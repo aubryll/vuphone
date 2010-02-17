@@ -11,4 +11,12 @@
 
 @implementation Waypoint
 
+@synthesize name;
+@synthesize description;
+@synthesize audioFilePath;
+@synthesize latitude;
+@synthesize longitude;
+@synthesize num;
+@synthesize image;
+
 @end

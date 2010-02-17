@@ -18,6 +18,11 @@
 		5845275C112B86E6005BA08F /* Waypoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845275B112B86E6005BA08F /* Waypoint.m */; };
 		61D044F2112B88E700405B6F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D044F1112B88E700405B6F /* MapViewController.m */; };
 		61D04513112B89C300405B6F /* WaypointXMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04512112B89C300405B6F /* WaypointXMLReader.m */; };
+		61D04526112B8A1100405B6F /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04519112B8A1100405B6F /* DDXMLDocument.m */; };
+		61D04527112B8A1100405B6F /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D0451B112B8A1100405B6F /* DDXMLElement.m */; };
+		61D04528112B8A1100405B6F /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D0451D112B8A1100405B6F /* DDXMLElementAdditions.m */; };
+		61D04529112B8A1100405B6F /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D0451F112B8A1100405B6F /* DDXMLNode.m */; };
+		61D0452B112B8A1100405B6F /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04524112B8A1100405B6F /* NSStringAdditions.m */; };
 		E4B4F334112B3C5D007BFFD7 /* VULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F333112B3C5D007BFFD7 /* VULogo.png */; };
 		E4B4F341112B6E03007BFFD7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B4F340112B6E03007BFFD7 /* MapKit.framework */; };
 		E4B4F353112B6E37007BFFD7 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F351112B6E37007BFFD7 /* MapViewController.xib */; };
@@ -42,6 +47,18 @@
 		61D044F1112B88E700405B6F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		61D04511112B89C300405B6F /* WaypointXMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaypointXMLReader.h; sourceTree = "<group>"; };
 		61D04512112B89C300405B6F /* WaypointXMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaypointXMLReader.m; sourceTree = "<group>"; };
+		61D04517112B8A1100405B6F /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
+		61D04518112B8A1100405B6F /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
+		61D04519112B8A1100405B6F /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
+		61D0451A112B8A1100405B6F /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
+		61D0451B112B8A1100405B6F /* DDXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElement.m; sourceTree = "<group>"; };
+		61D0451C112B8A1100405B6F /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
+		61D0451D112B8A1100405B6F /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
+		61D0451E112B8A1100405B6F /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
+		61D0451F112B8A1100405B6F /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
+		61D04520112B8A1100405B6F /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
+		61D04523112B8A1100405B6F /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
+		61D04524112B8A1100405B6F /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Campus_Tour-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Campus_Tour-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		E4B4F333112B3C5D007BFFD7 /* VULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VULogo.png; sourceTree = "<group>"; };
 		E4B4F340112B6E03007BFFD7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -103,6 +120,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				61D04514112B8A1100405B6F /* KissXML */,
 				28A0AAE50D9B0CCF005BE974 /* Campus_Tour_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -130,6 +148,25 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		61D04514112B8A1100405B6F /* KissXML */ = {
+			isa = PBXGroup;
+			children = (
+				61D04517112B8A1100405B6F /* DDXML.h */,
+				61D04518112B8A1100405B6F /* DDXMLDocument.h */,
+				61D04519112B8A1100405B6F /* DDXMLDocument.m */,
+				61D0451A112B8A1100405B6F /* DDXMLElement.h */,
+				61D0451B112B8A1100405B6F /* DDXMLElement.m */,
+				61D0451C112B8A1100405B6F /* DDXMLElementAdditions.h */,
+				61D0451D112B8A1100405B6F /* DDXMLElementAdditions.m */,
+				61D0451E112B8A1100405B6F /* DDXMLNode.h */,
+				61D0451F112B8A1100405B6F /* DDXMLNode.m */,
+				61D04520112B8A1100405B6F /* DDXMLPrivate.h */,
+				61D04523112B8A1100405B6F /* NSStringAdditions.h */,
+				61D04524112B8A1100405B6F /* NSStringAdditions.m */,
+			);
+			path = KissXML;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +238,11 @@
 				5845275C112B86E6005BA08F /* Waypoint.m in Sources */,
 				61D044F2112B88E700405B6F /* MapViewController.m in Sources */,
 				61D04513112B89C300405B6F /* WaypointXMLReader.m in Sources */,
+				61D04526112B8A1100405B6F /* DDXMLDocument.m in Sources */,
+				61D04527112B8A1100405B6F /* DDXMLElement.m in Sources */,
+				61D04528112B8A1100405B6F /* DDXMLElementAdditions.m in Sources */,
+				61D04529112B8A1100405B6F /* DDXMLNode.m in Sources */,
+				61D0452B112B8A1100405B6F /* NSStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -210,14 +252,16 @@
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Campus_Tour_Prefix.pch;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "Campus_Tour-Info.plist";
+				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "Campus Tour";
+				SDKROOT = iphonesimulator3.0;
 			};
 			name = Debug;
 		};
