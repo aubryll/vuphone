@@ -7,19 +7,20 @@ Feel free to toss up any ideas you have for VU apps - either edit the page, or p
 
 = Details =
 
-Vandy Vans 
+<u>Vandy Vans </u>
   * See VV route info & current VV locations
   * Integrate with Nashville bus system to see buses and routes for nashville!
 
-Campus Maps
+<u>Campus Maps</u>
   * It would be great if the VU stationary "you are here" maps around the campus had a note about downloading a live map. It would make it easier to get around once you left the map stand.
 
 
-Health
+<u>Health</u>
     * Health Plus is the VU free gym. It would be great to have their current class schedule and updates as an app.
 
-Location-aware questions/polls/requests
-   * Do you think it would be feasible to enhance our various Vandy apps
+<u>Location-aware questions/polls/requests</u>
+
+Do you think it would be feasible to enhance our various Vandy apps
 to provide a service in which users can drop questions/polls/ requests
 at a physical location.  These questions have an associated answering
 zone (e.g. a radius around the question's location).  People entering
