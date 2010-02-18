@@ -18,15 +18,14 @@
 		3335285610A3EA3300D4F1A2 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3335285410A3EA3300D4F1A2 /* SearchResultViewController.m */; };
 		338387CD1081479400F56AEB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 338387CB1081479400F56AEB /* MapViewController.m */; };
 		610326CF10FEF042000CCFB0 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = 610326CA10FEF042000CCFB0 /* Images */; };
-		6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */; };
 		616FBBCA110647650044D76B /* MapLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 616FBBC9110647650044D76B /* MapLayerController.m */; };
 		61A301B5110BF56C00A375E8 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61A301B3110BF56C00A375E8 /* AboutViewController.m */; };
 		61A301B6110BF56C00A375E8 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 61A301B4110BF56C00A375E8 /* AboutViewController.xib */; };
 		61D6100E10F84BBC00CE3397 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 61D6100D10F84BBC00CE3397 /* Icon.png */; };
+		61EDAC5211173BE90005F4EE /* CampusMaps.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 61EDAC4F11173BE90005F4EE /* CampusMaps.xcdatamodeld */; };
 		61FC2EE7107C4AFA00FFF897 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC2EE6107C4AFA00FFF897 /* MapKit.framework */; };
 		61FD085E10C72438000EA568 /* NSManagedObjectContext-Convenience.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */; };
 		61FD086110C72542000EA568 /* RemotePOILoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD086010C72542000EA568 /* RemotePOILoader.m */; };
-		61FD089310C739C9000EA568 /* CampusMaps.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 61FD089210C739C9000EA568 /* CampusMaps.xcdatamodel */; };
 		61FD08E610C741D9000EA568 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08CF10C741D9000EA568 /* DDXMLDocument.m */; };
 		61FD08E710C741D9000EA568 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08D110C741D9000EA568 /* DDXMLElement.m */; };
 		61FD08E810C741D9000EA568 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61FD08D310C741D9000EA568 /* DDXMLElementAdditions.m */; };
@@ -51,7 +50,6 @@
 		1D6058910D05DD3D006BFB54 /* CampusMaps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CampusMaps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28C3AD890F43EF2300507BA6 /* CampusMaps.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = CampusMaps.xcdatamodel; sourceTree = "<group>"; };
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* CampusMaps_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CampusMaps_Prefix.pch; sourceTree = "<group>"; };
@@ -68,19 +66,20 @@
 		33DBDBA410FE88B400776C86 /* ClusteringWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClusteringWrapper.h; sourceTree = "<group>"; };
 		33DBDBA510FE88B400776C86 /* ClusteringWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClusteringWrapper.m; sourceTree = "<group>"; };
 		610326CA10FEF042000CCFB0 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
-		6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = CampusMapsDefaultData.sqlite; sourceTree = "<group>"; };
 		616FBBC8110647650044D76B /* MapLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapLayerController.h; sourceTree = "<group>"; };
 		616FBBC9110647650044D76B /* MapLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapLayerController.m; sourceTree = "<group>"; };
 		61A301B2110BF56C00A375E8 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		61A301B3110BF56C00A375E8 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		61A301B4110BF56C00A375E8 /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		61D04575112CE64F00405B6F /* CampusMaps 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CampusMaps 3.xcdatamodel"; sourceTree = "<group>"; };
 		61D6100D10F84BBC00CE3397 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		61EDAC5011173BE90005F4EE /* CampusMaps 2.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = "CampusMaps 2.xcdatamodel"; sourceTree = "<group>"; };
+		61EDAC5111173BE90005F4EE /* CampusMaps.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = CampusMaps.xcdatamodel; sourceTree = "<group>"; };
 		61FC2EE6107C4AFA00FFF897 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		61FD085C10C72438000EA568 /* NSManagedObjectContext-Convenience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext-Convenience.h"; sourceTree = "<group>"; };
 		61FD085D10C72438000EA568 /* NSManagedObjectContext-Convenience.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext-Convenience.m"; sourceTree = "<group>"; };
 		61FD085F10C72542000EA568 /* RemotePOILoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemotePOILoader.h; sourceTree = "<group>"; };
 		61FD086010C72542000EA568 /* RemotePOILoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemotePOILoader.m; sourceTree = "<group>"; };
-		61FD089410C739CA000EA568 /* CampusMaps 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "CampusMaps 2.xcdatamodel"; sourceTree = "<group>"; };
 		61FD08CD10C741D9000EA568 /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
 		61FD08CE10C741D9000EA568 /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
 		61FD08CF10C741D9000EA568 /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
@@ -191,11 +190,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				61EDAC4F11173BE90005F4EE /* CampusMaps.xcdatamodeld */,
 				610326CA10FEF042000CCFB0 /* Images */,
 				61D6100D10F84BBC00CE3397 /* Icon.png */,
 				995C9F5710EF07C0003875D0 /* buildings.xml */,
-				6121933010F919D100BFEC5C /* CampusMapsDefaultData.sqlite */,
-				61FD089210C739C9000EA568 /* CampusMaps.xcdatamodel */,
 				8D1107310486CEB800E47090 /* CampusMaps-Info.plist */,
 			);
 			name = Resources;
@@ -317,7 +315,6 @@
 				9952698510D34E6300424730 /* POIViewController.xib in Resources */,
 				995C9F5810EF07C0003875D0 /* buildings.xml in Resources */,
 				61D6100E10F84BBC00CE3397 /* Icon.png in Resources */,
-				6121933110F919D100BFEC5C /* CampusMapsDefaultData.sqlite in Resources */,
 				610326CF10FEF042000CCFB0 /* Images in Resources */,
 				61A301B6110BF56C00A375E8 /* AboutViewController.xib in Resources */,
 			);
@@ -332,7 +329,6 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* CampusMapsAppDelegate.m in Sources */,
-				61FD089310C739C9000EA568 /* CampusMaps.xcdatamodel in Sources */,
 				338387CD1081479400F56AEB /* MapViewController.m in Sources */,
 				3332F9D410A13B89003D35B8 /* Layer.m in Sources */,
 				3332F9D510A13B89003D35B8 /* POI.m in Sources */,
@@ -351,6 +347,7 @@
 				997D63A410E48E3600A55FAC /* LocationManagerSingleton.m in Sources */,
 				616FBBCA110647650044D76B /* MapLayerController.m in Sources */,
 				61A301B5110BF56C00A375E8 /* AboutViewController.m in Sources */,
+				61EDAC5211173BE90005F4EE /* CampusMaps.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,10 +359,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"/Volumes/Skiiing2/CD/ViewBased/Unknown Path/System/Library/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -390,6 +384,40 @@
 				PRODUCT_NAME = CampusMaps;
 			};
 			name = Release;
+		};
+		61EDACFA111888300005F4EE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-lxml2";
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos3.0;
+			};
+			name = Distribution;
+		};
+		61EDACFB111888300005F4EE /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"/Volumes/Skiiing2/CD/ViewBased/Unknown Path/System/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CampusMaps_Prefix.pch;
+				INFOPLIST_FILE = "CampusMaps-Info.plist";
+				PRODUCT_NAME = CampusMaps;
+				PROVISIONING_PROFILE = "";
+			};
+			name = Distribution;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -431,6 +459,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				61EDACFB111888300005F4EE /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -440,6 +469,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				61EDACFA111888300005F4EE /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -447,14 +477,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		61FD089210C739C9000EA568 /* CampusMaps.xcdatamodel */ = {
+		61EDAC4F11173BE90005F4EE /* CampusMaps.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				28C3AD890F43EF2300507BA6 /* CampusMaps.xcdatamodel */,
-				61FD089410C739CA000EA568 /* CampusMaps 2.xcdatamodel */,
+				61EDAC5111173BE90005F4EE /* CampusMaps.xcdatamodel */,
+				61EDAC5011173BE90005F4EE /* CampusMaps 2.xcdatamodel */,
+				61D04575112CE64F00405B6F /* CampusMaps 3.xcdatamodel */,
 			);
-			currentVersion = 61FD089410C739CA000EA568 /* CampusMaps 2.xcdatamodel */;
-			path = CampusMaps.xcdatamodel;
+			currentVersion = 61D04575112CE64F00405B6F /* CampusMaps 3.xcdatamodel */;
+			path = CampusMaps.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

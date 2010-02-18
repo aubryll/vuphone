@@ -14,6 +14,8 @@
 
 + (NSArray *)getPOIsFromServerIntoContext:(NSManagedObjectContext *)context
 {
+	// Override this and use the static data for now
+/*
 	// Format the url string
 	NSMutableString *urlString = [NSMutableString stringWithString:POI_REQUEST_URL_STRING];
 	NSLog(@"Requesting URL: %@", urlString);
@@ -22,6 +24,8 @@
 	
 	// Make the request to get the data
 	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
+*/
+	NSData *responseData = nil;
 
 	// If URL request failed. Use the static XML file.
 	if (responseData == nil || [responseData length] == 0) {
@@ -39,7 +43,7 @@
 		return nil;
 	}
 	
-	NSArray *nodes = [responseXml nodesForXPath:@"./wfs:FeatureCollection/gml:featureMember" error:&err];
+	NSArray *nodes = [responseXml nodesForXPath:@"./buildings/feature" error:&err];
 	NSMutableArray *POIs = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
 	if ([nodes count] > 0)
 	{
@@ -48,9 +52,9 @@
 
 		for (DDXMLNode *node in nodes)
 		{
-			NSString *serverId = [(DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_NUMBER" error:&err] objectAtIndex:0] stringValue];
+			NSString *name = [(DDXMLNode *)[[node nodesForXPath:@"./facility_name" error:&err] objectAtIndex:0] stringValue];
 			
-			POI *poi = [POI POIWithServerId:serverId inContext:context];
+			POI *poi = [POI POIWithName:name inContext:context];
 
 			if (!poi) {
 				// Create a new POI
@@ -88,26 +92,32 @@
 	DDXMLNode *prop;
 	NSError *err;
 
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_NUMBER" error:&err] objectAtIndex:0];
-	poi.serverId = [prop stringValue];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_NAME" error:&err] objectAtIndex:0];
+//	prop = (DDXMLNode *)[[node nodesForXPath:@"./feature/ms:FACILITY_NUMBER" error:&err] objectAtIndex:0];
+//	poi.serverId = [prop stringValue];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./facility_name" error:&err] objectAtIndex:0];
 	poi.name = [[prop stringValue] capitalizedString];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_URL" error:&err] objectAtIndex:0];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./search_keywords" error:&err] objectAtIndex:0];
+	poi.searchKeywords = [[prop stringValue] capitalizedString];
+	
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./FACILITY_URL" error:&err] objectAtIndex:0];
 	// The URL string is always all caps, but the real URL isn't really
 	poi.url = [[prop stringValue] lowercaseString];
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/ms:FACILITY_REMARKS" error:&err] objectAtIndex:0];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./FACILITY_REMARKS" error:&err] objectAtIndex:0];
 	poi.details = [prop stringValue];
 
-	prop = (DDXMLNode *)[[node nodesForXPath:@"./ms:facilities/gml:boundedBy/gml:Box/gml:coordinates" error:&err] objectAtIndex:0];
+	prop = (DDXMLNode *)[[node nodesForXPath:@"./coordinates" error:&err] objectAtIndex:0];
 	NSArray *coordinates = [[prop stringValue] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@", "]];
-	if ([coordinates count] == 4) {
-		double lat1 = [[coordinates objectAtIndex:0] doubleValue];
-		double lon1 = [[coordinates objectAtIndex:1] doubleValue];
-		double lat2 = [[coordinates objectAtIndex:2] doubleValue];
-		double lon2 = [[coordinates objectAtIndex:3] doubleValue];
+	if ([coordinates count]/* == 4*/) {
+		// Average the coordinates, which are (I'm guessing) given as the corners of the building
+		double latSum = 0.0;
+		double lonSum = 0.0;
+		for (int i = 0; i+1 < [coordinates count]; i += 2) {
+			latSum += [[coordinates objectAtIndex:i] doubleValue];
+			lonSum += [[coordinates objectAtIndex:i+1] doubleValue];
+		}
 		
-		double weirdLat = (lat1 + lat2) / 2.0;
-		double weirdLon = (lon1 + lon2) / 2.0;
+		double weirdLat = latSum / [coordinates count];
+		double weirdLon = lonSum / [coordinates count];
 
 		[poi setEPSG900913CoordinatesLat:weirdLat andLon:weirdLon];
 	}

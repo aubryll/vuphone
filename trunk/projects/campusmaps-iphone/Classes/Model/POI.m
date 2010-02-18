@@ -18,6 +18,7 @@
 @dynamic latitude;
 @dynamic layer;
 @dynamic name;
+@dynamic searchKeywords;
 @dynamic subtitle;
 @dynamic details;
 @dynamic serverId;
@@ -52,6 +53,11 @@
 
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context {
 	NSSet *POIs = [context fetchObjectsForEntityName:ENTITY_NAME_POI withPredicateString:@"serverId = %@", anId];
+	return [POIs anyObject];
+}
+
++ (POI *)POIWithName:(NSString *)aName inContext:(NSManagedObjectContext *)context {
+	NSSet *POIs = [context fetchObjectsForEntityName:ENTITY_NAME_POI withPredicateString:@"name like[c] %@", aName];
 	return [POIs anyObject];
 }
 

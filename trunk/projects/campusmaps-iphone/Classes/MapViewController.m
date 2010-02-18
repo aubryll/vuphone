@@ -28,7 +28,7 @@
     [super viewDidLoad];
 	
 	self.navigationItem.leftBarButtonItem = homeButton;
-	self.navigationItem.rightBarButtonItem = showLayersButton;
+//	self.navigationItem.rightBarButtonItem = showLayersButton;
 	self.navigationItem.title = @"Campus Maps";
 
 	Layer *anyLayer = [[Layer allLayers:managedObjectContext] anyObject];
@@ -147,12 +147,23 @@
 
 #pragma mark MKMapViewDelegate
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-	static NSString *reuseIdentifier = @"reusedAnnView";
-	MKAnnotationView* annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
-	annView.image = annotationImage;
-	annView.canShowCallout = YES;
-	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+	MKAnnotationView *annView;
+	
+	if ([annotation isKindOfClass:[POI class]]) {
+		static NSString *reuseIdentifier = @"reusedAnnView";
+		annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+		annView.image = annotationImage;
+		annView.canShowCallout = YES;
+		annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	} else {
+		static NSString *reuseIdentifier = @"currentLocationIdentifier";
+		annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
+		((MKPinAnnotationView *)annView).pinColor = MKPinAnnotationColorRed;
+		annView.canShowCallout = YES;
+		annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	}
 
 	return [annView autorelease];
 }
@@ -176,20 +187,20 @@
 {
 	NSPredicate *pred;
 	if (searchText && [searchText length] > 0) {
-		pred = [NSPredicate predicateWithFormat:@"name contains[cd] %@", searchText];
+		pred = [NSPredicate predicateWithFormat:@"searchKeywords contains[c] %@", searchText];
 	} else {
 		pred = nil;
 	}
 
 	[currentLayerController setPredicate:pred forContext:managedObjectContext];
 	
-	if ([mapView.annotations count] == 1)
+	if ([currentLayerController.filteredPOIs count] == 1)
 	{
 		id<MKAnnotation> ann = [mapView.annotations objectAtIndex:0];
 		[mapView setCenterCoordinate:ann.coordinate animated:YES];
 		[mapView selectAnnotation:ann animated:YES];
 	}
-	else if ([mapView.annotations count] != 0)
+	else if ([currentLayerController.filteredPOIs count] != 0)
 	{
 		// Work around a weird bug where the map view delays showing the new POIs
 		[mapView setCenterCoordinate:mapView.centerCoordinate animated:YES];
