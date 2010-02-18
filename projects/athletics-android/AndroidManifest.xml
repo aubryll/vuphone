@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO ADD BROWSER PERMISSIONS -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="edu.vanderbilt.vuphone.android.athletics"
       android:versionCode="1"
@@ -16,6 +17,7 @@
 	<activity android:name=".AthleticsRoster" />
 	<activity android:name=".NewsDetails" />
 	<activity android:name=".TeamMain" />
+	<activity android:name=".About" />
     </application>
     <uses-sdk android:minSdkVersion="3" />
 
