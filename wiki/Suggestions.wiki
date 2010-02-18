@@ -1,0 +1,19 @@
+#summary Ideas for Vanderbilt Applications
+
+= Introduction =
+
+Feel free to toss up any ideas you have for VU apps - either edit the page, or put them in the comments. 
+
+
+= Details =
+
+Vandy Vans 
+  * See VV route info & current VV locations
+  * Integrate with Nashville bus system to see buses and routes for nashville!
+
+Campus Maps
+  * It would be great if the VU stationary "you are here" maps around the campus had a note about downloading a live map. It would make it easier to get around once you left the map stand.
+
+
+Health
+    * Health Plus is the VU free gym. It would be great to have their current class schedule and updates as an app.
