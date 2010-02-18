@@ -17,3 +17,18 @@ Campus Maps
 
 Health
     * Health Plus is the VU free gym. It would be great to have their current class schedule and updates as an app.
+
+Location-aware questions/polls/requests
+   * Do you think it would be feasible to enhance our various Vandy apps
+to provide a service in which users can drop questions/polls/ requests
+at a physical location.  These questions have an associated answering
+zone (e.g. a radius around the question's location).  People entering
+the answer zone will be notified of the question and can submit an
+answer if they desire.  Using this infrastructure, various applications
+(such as homework assignments involving questions tied to physical
+locations, lost& found queries, neighborhood polling, audience of
+customer feedback, etc) could be developed.  In addition, we could build
+data mining services that will use the question/answer approach and then
+use the resulting polling data (which is tied to foot traffic rather
+than phone numbers) to reverse engineer demographic models and do new
+forms of data analysis.
