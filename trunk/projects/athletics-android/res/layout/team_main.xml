@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:background="@drawable/statium">
+
+<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFF" android:background="@drawable/score_button" android:layout_y="340px" android:layout_x="0px"></Button>
+<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="381px" android:layout_x="154px" android:background="@drawable/schedule_button"></Button>
+<Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/roster" android:layout_x="153px" android:layout_y="340px"></Button>
+<Button android:id="@+id/Button03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="0px" android:layout_y="383px" android:background="@drawable/stats_button"></Button>
+
+</AbsoluteLayout>

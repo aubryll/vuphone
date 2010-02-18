@@ -1,24 +1,20 @@
 package edu.vanderbilt.vuphone.android.athletics;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 
-public class TeamMain extends ListActivity {
-	
-	static final String[] SPORTS = new String[] {"Team Main"};
+public class TeamMain extends Activity{
+
 
 @Override
-	public void onCreate(Bundle savedInstanceState) {
-	  super.onCreate(savedInstanceState);
-	  
-	  setListAdapter(new ArrayAdapter<String>(this,
-	          android.R.layout.simple_list_item_1, SPORTS));
-	  getListView().setTextFilterEnabled(true);
-	}
+/** Called when the activity is first created. */
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.team_main);
+}
 
 //-------------------- MENU FUNCTIONS
 
