@@ -39,6 +39,7 @@ typedef NSUInteger POIImageLoadingState;
 @property (nonatomic, retain) NSDecimalNumber * longitude;
 @property (nonatomic, retain) NSDecimalNumber * latitude;
 @property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * searchKeywords;
 @property (nonatomic, retain) Layer * layer;
 @property (nonatomic, retain) NSString * subtitle;
 @property (nonatomic, retain) NSString * details;
@@ -49,6 +50,8 @@ typedef NSUInteger POIImageLoadingState;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 + (POI *)POIWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context;
++ (POI *)POIWithName:(NSString *)aName inContext:(NSManagedObjectContext *)context;
+
 - (void)setEPSG900913CoordinatesLat:(double)x andLon:(double)y;
 - (UIImage *)image;
 - (void)loadImage;
