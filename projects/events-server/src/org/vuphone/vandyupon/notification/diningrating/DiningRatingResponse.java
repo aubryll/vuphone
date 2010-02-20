@@ -15,6 +15,7 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.diningrating;
 
+import org.apache.bcel.generic.RETURN;
 import org.vuphone.vandyupon.notification.ResponseNotification;
 
 /**
@@ -32,10 +33,11 @@ public class DiningRatingResponse extends ResponseNotification {
 	// Notification inheritance hierarchy and to be suitable for 
 	// DiningRatingResponseHandler	
 	 
-	private boolean return_status_; /*<- return status for success or failure*/
+	protected boolean return_status_; /*<- return status for success or failure*/
 	
-	public DiningRatingResponse(String responseType, String callback){
+	public DiningRatingResponse(String responseType, String callback,boolean status){
 		super("diningrating", responseType, callback);
+		return_status_ = status;
 	}
 	
 	public boolean getReturnStatus(){
