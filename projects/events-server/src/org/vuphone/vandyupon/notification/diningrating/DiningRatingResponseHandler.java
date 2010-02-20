@@ -37,13 +37,26 @@ import com.thoughtworks.xstream.XStream;
  */
 public class DiningRatingResponseHandler extends NotificationResponseHandler {
 	// it is a member because if a user wants to externally omit fields
-	// or make an alias so that this handler might be generic for the 
-	// future.
+	// or make an alias so that this handler might not be specific to a particular
+	// type for the future.
 	private XStream serializer_; /*<- the XML serializer*/
 	
 	public DiningRatingResponseHandler() {
 		super("diningrating");
 	}
+	
+	public void alias(String alias,Class type){
+		serializer_.alias(alias, type);
+	}
+	
+	public void aliasField(String alias,Class definedIn,String fieldName){
+		serializer_.aliasField(alias, definedIn, fieldName);		
+	}
+	
+	public void omitField(Class definedIn,String fieldName){
+		serializer_.omitField(definedIn, fieldName);
+	}
+	
 	/** 
 	 * This the actual handler method that handles the response
 	 * @param resp the servlet response 
@@ -76,17 +89,17 @@ public class DiningRatingResponseHandler extends NotificationResponseHandler {
 			serializer_ = EmitterFactory.createXStream(EmitterFactory.ResponseType.XML);
 		}
 		// rename class and field names to be readable in the XML
-		serializer_.alias("DiningRatingResponse", DiningRatingResponse.class);
-		serializer_.alias("DiningRatingRequestResponse", 
+		alias("DiningRatingResponse", DiningRatingResponse.class);
+		alias("DiningRatingRequestResponse", 
 				DiningRatingRequestResponse.class);
-		serializer_.aliasField("status", DiningRatingResponse.class,
+		aliasField("status", DiningRatingResponse.class,
 				"return_status_");
-		serializer_.aliasField("rating", DiningRatingRequestResponse.class,
+		aliasField("rating", DiningRatingRequestResponse.class,
 				"rating_");
-		serializer_.omitField(ResponseNotification.class, "type_");
-		serializer_.omitField(ResponseNotification.class, "responseType_");
-		serializer_.omitField(Notification.class, "type_");
-		serializer_.omitField(ResponseNotification.class, "callback_");
+		omitField(ResponseNotification.class, "type_");
+		omitField(ResponseNotification.class, "responseType_");
+		omitField(Notification.class, "type_");
+		omitField(ResponseNotification.class, "callback_");
 		// serialize the rating response to XML
 		String response = serializer_.toXML(ratingResponse);
 		// if the output format is JSON, change the XML response to JSON format
