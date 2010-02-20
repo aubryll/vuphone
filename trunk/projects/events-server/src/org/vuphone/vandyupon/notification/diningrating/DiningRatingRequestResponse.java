@@ -30,8 +30,9 @@ public class DiningRatingRequestResponse extends DiningRatingResponse {
 	// because both have a return status boolean
 	private long rating_; /*<- the retrieved rating from database */
 	
-	public DiningRatingRequestResponse(String responseType,String callback){
-		super(responseType,callback);
+	public DiningRatingRequestResponse(String responseType,String callback,long rating,boolean status){
+		super(responseType,callback,status);
+		rating_ = rating;
 	}
 	
 	public long getRating(){
