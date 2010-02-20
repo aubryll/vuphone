@@ -1,4 +1,4 @@
-package org.vuphone.vandyupon.notification.diningrating;
+package org.vuphone.vandyupon.notification.diningpost;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -15,7 +15,8 @@ import org.vuphone.vandyupon.notification.InvalidFormatException;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationHandler;
 import org.vuphone.vandyupon.notification.ResponseNotification;
-import org.vuphone.vandyupon.notification.diningpost.DiningPost;
+import org.vuphone.vandyupon.notification.diningrating.DiningRating;
+import org.vuphone.vandyupon.notification.diningrating.DiningRatingRequest;
 import org.vuphone.vandyupon.notification.eventpost.EventPost;
 
 public class DiningPostHandler implements NotificationHandler {
@@ -26,7 +27,7 @@ public class DiningPostHandler implements NotificationHandler {
 		return ds_;
 	}
 	
-	private int addRating(DiningPost dp) throws SQLException {
+	private int addRating(DiningRating dp) throws SQLException {
 		String sql;
 		
 		Connection conn = ds_.getConnection();
@@ -55,7 +56,7 @@ public class DiningPostHandler implements NotificationHandler {
 	}
 	
 	// This method is used to see if the request is already in the Database
-	private boolean checkForEntry(DiningPost dp) throws SQLException {
+	private boolean checkForEntry(DiningRating dp) throws SQLException {
 		
 		String sql;
 		
