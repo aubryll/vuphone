@@ -11,40 +11,34 @@ public class DiningPostParser implements NotificationParser{
 
 	@Override
 	public Notification parse(HttpServletRequest req) {
-		//Use UTF-8 Encoding <-- coppied from EventPostParser
+		//Use UTF-8 Encoding <-- copied from EventPostParser
 		try {
 			req.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		
-		//If the type is not dining as declared in constructor of DiningPost don't do anything
-		if (!req.getParameter("type").equalsIgnoreCase("diningrating")) {
-			return null;
-		}
-		
 		//req.getParameter(); <--- this commands parse the stringline from device(i think? according to EventPostParser)
 		
 		//Check If the user is rating or requesting a rating.
-		if(req.getParameter("postType").equalsIgnoreCase("rating"))
+		if(req.getParameter("type").equalsIgnoreCase("DiningRating"))
 		{
-			return new DiningPost(
-					Integer.parseInt(req.getParameter(req.getParameter("loc"))),
-					Integer.parseInt(req.getParameter("score"))
+			return new DiningRating(
+					Integer.parseInt(req.getParameter("loc")),
+					Integer.parseInt(req.getParameter("score")),
+					req.getParameter("ID")
 					);//Return a DiningPost object
 		}
-		else if(req.getParameter("postType").equalsIgnoreCase("request"))
+		else if(req.getParameter("type").equalsIgnoreCase("DiningRatingResponse"))
 		{
-			return new DiningPost(
-					Integer.parseInt(req.getParameter(req.getParameter("loc")))
+			return new DiningRatingRequest(
+					Integer.parseInt(req.getParameter("loc")),
+					req.getParameter("ID")
 					);//Return a DiningPost object
 		}
-		else
+		else //If the type is not dining as declared in constructor of DiningPost don't do anything
 		{
 			return null;
 		}
 	}
-/*
- This Parser doesn't deal with deviceID yet. (wait until Mike update DiningPost structure)
- */
 }
