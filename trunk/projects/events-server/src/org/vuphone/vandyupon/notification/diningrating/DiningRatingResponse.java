@@ -15,7 +15,6 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.diningrating;
 
-import org.apache.bcel.generic.RETURN;
 import org.vuphone.vandyupon.notification.ResponseNotification;
 
 /**
