@@ -29,10 +29,10 @@ public class DiningRatingDBConstructor implements DatabaseConstructor {
 		Connection db = ds.getConnection();
 		db.setAutoCommit(false);
 
-		String sql = "CREATE TABLE IF NOT EXISTS Ratings ( "
+		String sql = "CREATE TABLE IF NOT EXISTS DiningRatings ( "
 				+ "deviceid varchar(16) NOT NULL,"
 				+ "loc INT NOT NULL,"
-				+ "rating INT NOT NULL"
+				+ "rating INT NOT NULL,"
 				+ "CONSTRAINT deviceLoc PRIMARY KEY (deviceid, loc))"
 				+ "ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		PreparedStatement prep = db.prepareStatement(sql);
