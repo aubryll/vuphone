@@ -57,13 +57,14 @@
 		self.lowerRightLabel.textColor = [UIColor redColor];
 	} else if (minutes > 24*60) {	// > 1 day from now, so it's open 24 hrs today
 		self.lowerRightLabel.text = @"24 hours";
-		self.lowerRightLabel.textColor = [UIColor greenColor];
+		self.lowerRightLabel.textColor = [UIColor colorWithRed:0.0f green:0.5f blue:0.0f alpha:1.0f];
 	} else {
 		int minutesSinceReferenceDate = (int)ceil([NSDate timeIntervalSinceReferenceDate] / 60) - 60*6;
 		int minuteOfDayNow = minutesSinceReferenceDate % (24*60);
-		int closeMinute = minuteOfDayNow + minutes;		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes at %@",
+		int closeMinute = minuteOfDayNow + minutes;
+		self.lowerRightLabel.text = [NSString stringWithFormat:@"closes at %@",
 									 [HourRange dateStringForMinuteOfDay:closeMinute]];
-		self.lowerRightLabel.textColor = [UIColor greenColor];
+		self.lowerRightLabel.textColor = [UIColor colorWithRed:0.0f green:0.5f blue:0.0f alpha:1.0f];
 	}
 }
 

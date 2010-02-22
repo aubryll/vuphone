@@ -69,7 +69,7 @@
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
 	NSObject <VUTableViewCellController> *controller = [[self tableGroups] objectAtIndex:section];
 
-	if ([controller respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
+	if ([controller respondsToSelector:@selector(tableView:titleForHeaderInSection:)]) {
 		return [controller tableView:aTableView titleForHeaderInSection:section];
 	} else {
 		return nil;
