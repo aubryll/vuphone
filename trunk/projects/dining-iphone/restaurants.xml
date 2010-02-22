@@ -1709,7 +1709,7 @@
 			<latitude>36.150167</latitude>
 			<longitude>-86.797837</longitude>
 		</location>
-		<type>Deli</type>
+		<type>American</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>false</acceptsMealPlan>
 		<offCampus>true</offCampus>
@@ -1987,7 +1987,7 @@
 			<latitude>36.139484</latitude>
 			<longitude>-86.800472</longitude>
 		</location>
-		<type>Deli</type>
+		<type>Sandwiches</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>false</acceptsMealPlan>
 		<offCampus>true</offCampus>
