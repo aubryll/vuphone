@@ -7,26 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Mapkit/MKAnnotation.h>
 
-
-@interface Waypoint : NSObject {
-	
-@private
+@interface Waypoint : NSObject <MKAnnotation> {
 	NSString *name;
 	NSString *description;
 	NSString *audioFilePath;
-	double latitude;
-	double longitude;
 	int num;
 	UIImage *image;
+	CLLocationCoordinate2D coordinate;
 }
 
 @property (retain) NSString *name;
-@property (assign) double latitude;
-@property (assign) double longitude;
 @property (retain) NSString *description;
 @property (retain) NSString *audioFilePath;
 @property (assign) int num;
 @property (assign) UIImage *image;
+@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+
+-(void)setLocation:(double)longitute latitude:(double)latitude;
 
 @end
