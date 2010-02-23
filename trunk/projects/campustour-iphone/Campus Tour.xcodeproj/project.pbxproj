@@ -16,6 +16,9 @@
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		5845275C112B86E6005BA08F /* Waypoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845275B112B86E6005BA08F /* Waypoint.m */; };
+		58D25988113382D900488E85 /* annotation-v.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D25985113382D900488E85 /* annotation-v.png */; };
+		58D25989113382D900488E85 /* pin-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D25986113382D900488E85 /* pin-black.png */; };
+		58D2598A113382D900488E85 /* pin-brown.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D25987113382D900488E85 /* pin-brown.png */; };
 		61D044F2112B88E700405B6F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D044F1112B88E700405B6F /* MapViewController.m */; };
 		61D04513112B89C300405B6F /* WaypointXMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04512112B89C300405B6F /* WaypointXMLReader.m */; };
 		61D04526112B8A1100405B6F /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04519112B8A1100405B6F /* DDXMLDocument.m */; };
@@ -43,6 +46,9 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		5845275A112B86E6005BA08F /* Waypoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waypoint.h; sourceTree = "<group>"; };
 		5845275B112B86E6005BA08F /* Waypoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Waypoint.m; sourceTree = "<group>"; };
+		58D25985113382D900488E85 /* annotation-v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "annotation-v.png"; path = "Images/annotation-v.png"; sourceTree = "<group>"; };
+		58D25986113382D900488E85 /* pin-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pin-black.png"; path = "Images/pin-black.png"; sourceTree = "<group>"; };
+		58D25987113382D900488E85 /* pin-brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pin-brown.png"; path = "Images/pin-brown.png"; sourceTree = "<group>"; };
 		61D044F0112B88E700405B6F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		61D044F1112B88E700405B6F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		61D04511112B89C300405B6F /* WaypointXMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaypointXMLReader.h; sourceTree = "<group>"; };
@@ -130,6 +136,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				58D25984113382C300488E85 /* Images */,
 				E4B4F351112B6E37007BFFD7 /* MapViewController.xib */,
 				E4B4F333112B3C5D007BFFD7 /* VULogo.png */,
 				28F335F01007B36200424DE2 /* RootViewController.xib */,
@@ -148,6 +155,16 @@
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		58D25984113382C300488E85 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				58D25985113382D900488E85 /* annotation-v.png */,
+				58D25986113382D900488E85 /* pin-black.png */,
+				58D25987113382D900488E85 /* pin-brown.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		61D04514112B8A1100405B6F /* KissXML */ = {
@@ -222,6 +239,9 @@
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				E4B4F334112B3C5D007BFFD7 /* VULogo.png in Resources */,
 				E4B4F353112B6E37007BFFD7 /* MapViewController.xib in Resources */,
+				58D25988113382D900488E85 /* annotation-v.png in Resources */,
+				58D25989113382D900488E85 /* pin-black.png in Resources */,
+				58D2598A113382D900488E85 /* pin-brown.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
