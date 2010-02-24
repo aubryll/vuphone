@@ -2,6 +2,11 @@
 <resources>
     <string name="hello">Hello World, Main!</string>
     <string name="app_name">VU Athletics</string>
-  <string name="add_item">Add item</string> 
-  <string name="main_no_items">No items</string> 
+    <string name="add_item">Add item</string> 
+    <string name="main_no_items">No items</string> 
+    <string name="roster_position">Position</string>
+    <string name="roster_number">Number</string>
+    <string name="roster_name">Name</string>
+    <string name="roster_sort">Sort:</string>
+    <string name="roster_empty_list">Roster can't be loaded.</string>
 </resources>
