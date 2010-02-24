@@ -10,6 +10,7 @@ Feel free to toss up any ideas you have for VU apps - either edit the page, or p
 <u>Vandy Vans </u>
   * See VV route info & current VV locations
   * Integrate with Nashville bus system to see buses and routes for nashville!
+  * Include medical shuttles!
 
 <u>Campus Maps</u>
   * It would be great if the VU stationary "you are here" maps around the campus had a note about downloading a live map. It would make it easier to get around once you left the map stand.
