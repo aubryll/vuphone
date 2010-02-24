@@ -12,4 +12,10 @@
         <coordinate longitude="-86.8044" latitude="36.100"/>
         <audiopath/>
     </waypoint>
+    <waypoint>
+        <location name="Really Not Center" num="0"/>
+        <description>This is really not the center of Vanderbilt University's Campus</description>
+        <coordinate longitude="-86.8034" latitude="36.142"/>
+        <audiopath/>
+    </waypoint>
 </waypoints>
