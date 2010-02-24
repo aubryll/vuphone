@@ -13,7 +13,7 @@ Feel free to toss up any ideas you have for VU apps - either edit the page, or p
 
 <u>Campus Maps</u>
   * It would be great if the VU stationary "you are here" maps around the campus had a note about downloading a live map. It would make it easier to get around once you left the map stand.
-   * One thing I have noticed is that it’s hard to find any apps that show the tunnels. Would it be possible to create a tunnel map?  You could also the “Start” walking trails in this.  It would be very beneficial to walkers.
+  * One thing I have noticed is that it’s hard to find any apps that show the tunnels. Would it be possible to create a tunnel map?  You could also the “Start” walking trails in this.  It would be very beneficial to walkers.
 
 
 <u>Health</u>
