@@ -9,4 +9,50 @@
     <string name="roster_name">Name</string>
     <string name="roster_sort">Sort:</string>
     <string name="roster_empty_list">Roster can't be loaded.</string>
+
+<string name="KEY_NEWS_TITLE">title</string>
+	<string name="KEY_NEWS_BODY">body</string>
+	<string name="KEY_NEWS_LINK">link</string>
+	<string name="KEY_NEWS_ROWID">_id</string>
+	
+	<string name="KEY_GAMES_HOMETEAM">hometeam</string>
+	<string name="KEY_GAMES_AWAYTEAM">awayteam</string>
+	<string name="KEY_GAMES_SPORT">sport</string>
+	<string name="KEY_GAMES_TYPE">type</string>
+	<string name="KEY_GAMES_TIME">time</string>
+	<string name="KEY_GAMES_HOMESCORE">homescore</string>
+	<string name="KEY_GAMES_AWAYSCORE">awayscore</string>
+	<string name="KEY_GAMES_ROWID">_id</string>
+	
+	<string name="KEY_PLAYERS_NAME">name</string>
+	<string name="KEY_PLAYERS_TEAM">team</string>
+	<string name="KEY_PLAYERS_POSITION">position</string>
+	<string name="KEY_PLAYERS_NUMBER">number</string>
+	<string name="KEY_PLAYERS_ROWID">_id</string>
+
+	<string name="KEY_TEAMS_SCHOOL">school</string>
+	<string name="KEY_TEAMS_NAME">name</string>
+	<string name="KEY_TEAMS_CONFERENCE">conference</string>
+	<string name="KEY_TEAMS_ROWID">_id</string>
+
+	<string name="VERSION_URL">http://people.vanderbilt.edu/~zach.mccormick/data.version</string>
+	<string name="DATA_URL">http://people.vanderbilt.edu/~zach.mccormick/data.xml</string>
+	<string name="VERSION_FILE">data.version</string>
+	
+	<string name="XML_TAG_GAME">game</string>
+	<string name="XML_TAG_NEWS">news</string>
+	<string name="XML_TAG_TEAM">team</string>
+	<string name="XML_TAG_PLAYER">player</string>
+	
+	<string name="DATABASE_TAG">DatabaseAdapter</string>
+	<string name="DATABASE_CREATE1">create table news (_id integer primary key autoincrement, title text not null, body text not null, link text not null)</string>
+	<string name="DATABASE_CREATE2">create table games (_id integer primary key autoincrement, hometeam text not null, awayteam text not null, sport text not null, type text not null, time text not null, homescore integer not null, awayscore integer not null)</string>
+	<string name="DATABASE_CREATE3">create table players (_id integer primary key autoincrement, name text not null, team text not null, position text not null, number integer not null)</string>
+	<string name="DATABASE_CREATE4">create table teams (_id integer primary key autoincrement, school text not null, name text not null, conference text not null)</string>
+	<string name="DATABASE_NAME">data</string>
+	<string name="DATABASE_TABLE_NEWS">news</string>
+	<string name="DATABASE_TABLE_GAMES">games</string>
+	<string name="DATABASE_TABLE_TEAMS">teams</string>
+	<string name="DATABASE_TABLE_PLAYERS">players</string>
+
 </resources>
