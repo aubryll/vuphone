@@ -1,5 +1,6 @@
 package edu.vanderbilt.vuphone.android.athletics.storage;
 
+// mmm
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,10 +19,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import android.R;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import edu.vanderbilt.vuphone.android.athletics.R;
 
 /**
  * Multifunction XML and Database reading/building class. On construction, the
