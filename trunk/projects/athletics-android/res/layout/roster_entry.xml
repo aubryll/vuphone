@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="35dip"
+   android:paddingBottom="2dp"
+   android:orientation="horizontal">
+
+  <TextView
+     android:id="@+roster_entry/number"
+     android:textSize="22dp"
+     android:gravity="bottom"
+     android:layout_marginLeft="10dp"
+     android:layout_marginRight="10dp"
+     android:layout_width="30dp"
+     android:layout_height="fill_parent"/>
+
+  <TextView
+     android:id="@+roster_entry/position"
+     android:textSize="22dp"
+     android:gravity="bottom|center_horizontal"
+     android:layout_marginRight="10dp"
+     android:layout_width="25dp"
+     android:layout_height="fill_parent"/>
+
+  <TextView
+     android:id="@+roster_entry/name"
+     android:textSize="22dp"
+     android:gravity="bottom"
+     android:layout_marginLeft="10dp"
+     android:layout_marginRight="10dp"
+     android:layout_width="0dip"
+     android:layout_height="fill_parent"
+     android:layout_weight="1"/>
+
+</LinearLayout>
