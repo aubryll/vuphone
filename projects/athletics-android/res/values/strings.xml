@@ -10,7 +10,7 @@
     <string name="roster_sort">Sort:</string>
     <string name="roster_empty_list">Roster can't be loaded.</string>
 
-<string name="KEY_NEWS_TITLE">title</string>
+	<string name="KEY_NEWS_TITLE">title</string>
 	<string name="KEY_NEWS_BODY">body</string>
 	<string name="KEY_NEWS_LINK">link</string>
 	<string name="KEY_NEWS_ROWID">_id</string>
