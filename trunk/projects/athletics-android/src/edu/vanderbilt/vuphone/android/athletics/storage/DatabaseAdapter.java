@@ -1,6 +1,5 @@
 package edu.vanderbilt.vuphone.android.athletics.storage;
 
-import android.R;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import edu.vanderbilt.vuphone.android.athletics.R;
 
 /**
  * Database helper class. To use the SQLite database, simply create a helper and
