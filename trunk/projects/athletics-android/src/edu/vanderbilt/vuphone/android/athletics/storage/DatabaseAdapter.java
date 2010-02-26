@@ -338,6 +338,23 @@ public class DatabaseAdapter {
 	}
 
 	/**
+	 * Return a Cursor over a list of filtered news items in the database
+	 * 
+	 * @param orderBy
+	 *            a SQL string for ordering the data
+	 * @param where
+	 *            a SQL string that would go after "WHERE " in a command
+	 * @return Cursor over the news items
+	 */
+	public Cursor fetchFilteredNewsItems(String orderBy, String where) {
+
+		System.out.println("Fetching filtered news items...");
+		return myDatabase.query(myContext
+				.getString(R.string.DATABASE_TABLE_NEWS), null, where, null,
+				null, null, orderBy);
+	}
+
+	/**
 	 * Return a Cursor over the list of all games in the database
 	 * 
 	 * @return Cursor over all games
@@ -348,6 +365,23 @@ public class DatabaseAdapter {
 		return myDatabase.query(myContext
 				.getString(R.string.DATABASE_TABLE_GAMES), null, null, null,
 				null, null, null);
+	}
+
+	/**
+	 * Return a Cursor over the list of filtered games in the database
+	 * 
+	 * @param orderBy
+	 *            a SQL string for ordering the data
+	 * @param where
+	 *            a SQL string that would go after "WHERE " in a command
+	 * @return Cursor over filtered games
+	 */
+	public Cursor fetchFilteredGames(String orderBy, String where) {
+
+		System.out.println("Fetching filtered games...");
+		return myDatabase.query(myContext
+				.getString(R.string.DATABASE_TABLE_GAMES), null, where, null,
+				null, null, orderBy);
 	}
 
 	/**
@@ -364,6 +398,23 @@ public class DatabaseAdapter {
 	}
 
 	/**
+	 * Return a Cursor over the list of all players in the database
+	 * 
+	 * @param orderBy
+	 *            a SQL string for ordering the data
+	 * @param where
+	 *            a SQL string that would go after "WHERE " in a command
+	 * @return Cursor over filtered players
+	 */
+	public Cursor fetchFilteredPlayers(String orderBy, String where) {
+
+		System.out.println("Fetching filtered players...");
+		return myDatabase.query(myContext
+				.getString(R.string.DATABASE_TABLE_PLAYERS), null, where, null,
+				null, null, orderBy);
+	}
+
+	/**
 	 * Return a Cursor over the list of all teams in the database
 	 * 
 	 * @return Cursor over all teams
@@ -374,6 +425,23 @@ public class DatabaseAdapter {
 		return myDatabase.query(myContext
 				.getString(R.string.DATABASE_TABLE_TEAMS), null, null, null,
 				null, null, null);
+	}
+
+	/**
+	 * Return a Cursor over the list of filtered teams in the database
+	 * 
+	 * @param orderBy
+	 *            a SQL string for ordering the data
+	 * @param where
+	 *            a SQL string that would go after "WHERE " in a command
+	 * @return Cursor over filtered teams
+	 */
+	public Cursor fetchFilteredTeams(String orderBy, String where) {
+
+		System.out.println("Fetching filtered teams...");
+		return myDatabase.query(myContext
+				.getString(R.string.DATABASE_TABLE_TEAMS), null, where, null,
+				null, null, orderBy);
 	}
 
 	/**
@@ -456,6 +524,25 @@ public class DatabaseAdapter {
 				.getString(R.string.DATABASE_TABLE_TEAMS), null, myContext
 				.getString(R.string.KEY_TEAMS_ROWID)
 				+ "=" + rowId, null, null, null, null, null);
+		if (myCursor != null) {
+			myCursor.moveToFirst();
+		}
+		return myCursor;
+	}
+
+	/**
+	 * Executes the inputted raw SQL query
+	 * 
+	 * @param sqlQuery
+	 *            SQL query string (don't include a ; at the end)
+	 * @return Cursor over data
+	 * @throws SQLException
+	 *             if the SQL was invalid
+	 */
+	public Cursor executeSqlQuery(String sqlQuery) throws SQLException {
+		System.out.println("EXECUTING ARBITRARY SQL QUERY: " + sqlQuery);
+
+		Cursor myCursor = myDatabase.rawQuery(sqlQuery, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
