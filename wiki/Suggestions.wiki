@@ -38,3 +38,6 @@ data mining services that will use the question/answer approach and then
 use the resulting polling data (which is tied to foot traffic rather
 than phone numbers) to reverse engineer demographic models and do new
 forms of data analysis.
+
+<u>ENT department app</u>
+I read your article on apps and saw the video on YouTube. I am interested in having an application created for our department of otolaryngology. I know that there is one in the works for the medical center.  I was recently at a meeting with where I heard Dr. Scott Rogers, the associate dean for medical student affairs, speak about it. However, I was think that one that was specific to your department needs would be great. I really don’t know what it takes to do this, but I was hoping that someone could point me in the right direction. Thanks for the help. John W. Seibert
