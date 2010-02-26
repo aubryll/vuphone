@@ -20,6 +20,9 @@ Feel free to toss up any ideas you have for VU apps - either edit the page, or p
 <u>Health</u>
     * Health Plus is the VU free gym. It would be great to have their current class schedule and updates as an app.
 
+<u>Filtering library</u>
+   * Using advanced knowledge of mathematical concepts, attempt to provide cleaner signals to other programs interested in signal input. A Kalman filter comes to mind, with the capability to input orientation, accelearation, GPS, etc, using all of these to result in cleaner measurement results
+
 <u>Location-aware questions/polls/requests</u>
 
 Do you think it would be feasible to enhance our various Vandy apps
