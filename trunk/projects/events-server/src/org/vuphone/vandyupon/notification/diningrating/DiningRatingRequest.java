@@ -21,7 +21,7 @@ public class DiningRatingRequest extends Notification{
 	// Ctor for a Rating Request
 	// Here we will take in only a location
 	public DiningRatingRequest(int location, String deviceID){
-		super("diningratingrequets");
+		super("diningratingrequest");
 		loc_ = location;
 		deviceID_ = deviceID;
 	}
