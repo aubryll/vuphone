@@ -2,8 +2,6 @@
 
 package org.vuphone.vandyupon.notification.diningrating;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,18 +10,15 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import org.vuphone.vandyupon.notification.HandlerFailedException;
-import org.vuphone.vandyupon.notification.InvalidFormatException;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationHandler;
 import org.vuphone.vandyupon.notification.ResponseNotification;
-import org.vuphone.vandyupon.notification.diningrating.DiningRating;
-import org.vuphone.vandyupon.notification.diningrating.DiningRatingRequest;
 
 // This class handles the two types of DiningRatings, either DiningRating or DiningRatingRequest.
 // It performs the necessary operations on the Database and returns the appropriate Response type
 // for each call.
 public class DiningHandler implements NotificationHandler {
+	
 	
 	// The datasource, whatever that is!
 	private DataSource ds_;
@@ -33,66 +28,79 @@ public class DiningHandler implements NotificationHandler {
 		return ds_;
 	}
 	
+	public void setDataConnection(DataSource ds) {
+		ds_ = ds;
+	}
+	
 	// This method adds a rating to the database.
 	private int addRating(DiningRating dp) throws SQLException {
 		String sql;
-		
 		Connection conn = ds_.getConnection();
 		
-		sql = "INSERT INTO ratings (deviceid, loc, rating) VALUES (?, ?, ?)";
+		sql = "INSERT INTO DiningRatings (deviceid, loc, rating) VALUES (?, ?, ?)";
 		
 		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, dp.getDeviceID());
 		prep.setInt(2, dp.getLocation());
-		prep.setLong(3, dp.getRating());
-		
-		ResultSet rs = prep.executeQuery();
-		rs.next();
+		prep.setInt(3, dp.getRating());
+
 		
 		if (prep.executeUpdate() == 0) {
 			throw new SQLException(
 					"Insertion into vandyupon.dining failed for an unknown reason");
-		} else/* Everything Worked! */ {
-			rs = prep.getGeneratedKeys();
-			rs.next();
-			int id = rs.getInt(1);
-			prep.execute();
-			return id;
 		}
+		return 1;
+		
+	}
+	
+	private int updateRating(DiningRating dp) throws SQLException {
+		String sql;
+		Connection conn = ds_.getConnection();
+		
+		sql = "UPDATE DiningRatings SET rating= ? WHERE DeviceID= ? AND loc = ?";
+		
+		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		prep.setInt(1, dp.getRating());
+		prep.setString(2, dp.getDeviceID());
+		prep.setInt(3, dp.getLocation());
+
+		
+		if (prep.executeUpdate() == 0) {
+			throw new SQLException(
+					"Insertion into vandyupon.dining failed for an unknown reason");
+		}
+		return 1;
 		
 	}
 	
 	// This method is used to see if the request is already in the Database
 	private boolean checkForEntry(DiningRating dp) throws SQLException {
 		
-		String sql;
-		
 		Connection conn = ds_.getConnection();
 		
-		sql = "SELECT * FROM people WHERE deviceid LIKE ? AND loc LIKE ?";
+		String sql;
+		
+		sql = "SELECT * FROM DiningRatings WHERE deviceid LIKE ? AND loc LIKE ?";
 		
 		PreparedStatement prep = conn.prepareStatement(sql,
 				Statement.RETURN_GENERATED_KEYS);
 		
 		prep.setString(1, dp.getDeviceID());
 		
-		Integer location = new Integer(dp.getLocation());
-		String loc = location.toString();
-		prep.setString(2, loc);
+		prep.setInt(2, dp.getLocation());
 		
 		ResultSet rs = prep.executeQuery();
 		
 		try{
-			rs.next();
-			int exists = rs.getInt(1);
-			if (exists != 0) {
-				rs.close();
+			if(rs.next())
 				return true;
-			} else/* The ID is not in the database with the current location */ {
+			else/* The ID is not in the database with the current location */ 
+			{
 				rs.close();
 				return false;
 			}
 		} catch (SQLException e) {
+			System.out.print("SQL Exception in checking entry\n");
 			return false;
 		}
 	}
@@ -134,10 +142,18 @@ public class DiningHandler implements NotificationHandler {
 			try{
 				if(!(checkForEntry(dr))){
 					addRating(dr);
-					return new DiningRatingResponse(null, null, true);
+					return new DiningRatingResponse("dummy", null, true);
+					//Must put something for ResponseType.. the responseHandler will call it.
+				}
+				else
+				{
+					updateRating(dr);
+					return new DiningRatingResponse("dummy", null, true);
+					//Must put something for ResponseType.. the responseHandler will call it.
 				}
 			}
 			catch(SQLException e){
+				System.out.print("fail");
 				return new DiningRatingResponse(null, null, false);
 			}
 		}
