@@ -18,9 +18,6 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -39,21 +36,20 @@ import com.google.android.maps.MapView;
 
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
 import edu.vanderbilt.vuphone.android.campusmaps.tools.Tools;
-import edu.vanderbilt.vuphone.android.campusmaps.About;
 
 public class Main extends MapActivity {
 
 	public static Context applicationContext;
-	
+
 	private static final int MENU_ITEM_BUILDING_LIST = 1;
 	private static final int MENU_ITEM_MAP_MODE_GROUP = 0;
 	private static final int MENU_ITEM_ABOUT = 7;
 	// private static final int MENU_SETTINGS = 3;
-	
+
 	private static final int SUBMENU_STREET_VIEW = 6;
 	private static final int SUBMENU_TRAFFIC = 5;
 	private static final int SUBMENU_SATELLITE = 4;
-	
+
 	public static MapView mapView_;
 	private static MapController mc_;
 	private GeoPoint p_;
@@ -102,35 +98,7 @@ public class Main extends MapActivity {
 		gps_ = GPS.getInstance();
 		gps_.initialize(lm);
 		gps_.showMarker();
-
-		// Pseudo splash screen
-		echo("Loading. Please wait...");
-
-		// Start populating the building list
-		try {
-			final InputStream xmlData = getResources().getAssets().open(
-					"buildings.xml");
-
-			InputStream dataCache = null;
-
-			try {
-				dataCache = openFileInput("buildingList.cache");
-			} catch (FileNotFoundException fnfe) {
-				// Smother - this is not a problem.
-			}
-
-			final InputStream buildingCache = dataCache;
-
-			new Thread(new Runnable() {
-				public void run() {
-					BuildingList.populateBuildings(xmlData, buildingCache);
-				}
-			}).start();
-			// TODO(corespace): catch specific errors.
-		} catch (Exception e) {
-			trace("Couldn't open the buildings list");
-			e.printStackTrace();
-		}
+		
 	}
 
 	/**
@@ -157,14 +125,15 @@ public class Main extends MapActivity {
 		super.onCreateOptionsMenu(menu);
 		SubMenu mapModes = menu.addSubMenu("More Map Modes").setIcon(
 				android.R.drawable.ic_menu_mapmode);
-		mapModes.add(MENU_ITEM_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE, "Satellite");
+		mapModes.add(MENU_ITEM_MAP_MODE_GROUP, 4, SUBMENU_SATELLITE,
+				"Satellite");
 		mapModes.add(MENU_ITEM_MAP_MODE_GROUP, 5, SUBMENU_TRAFFIC, "Traffic");
-		mapModes
-				.add(MENU_ITEM_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW, "Street View");
+		mapModes.add(MENU_ITEM_MAP_MODE_GROUP, 6, SUBMENU_STREET_VIEW,
+				"Street View");
 		mapModes.setGroupCheckable(MENU_ITEM_MAP_MODE_GROUP, true, false);
 		menu.add(0, 1, MENU_ITEM_BUILDING_LIST, "List Buildings").setIcon(
 				android.R.drawable.ic_menu_agenda);
-		
+
 		menu.add(Menu.NONE, MENU_ITEM_ABOUT, Menu.NONE, "About").setIcon(
 				getResources().getDrawable(
 						android.R.drawable.ic_menu_info_details));

@@ -18,12 +18,9 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps;
 
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -48,7 +45,7 @@ import android.widget.Toast;
 import com.google.android.maps.GeoPoint;
 
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
-import edu.vanderbilt.vuphone.android.campusmaps.tools.Serializer;
+import edu.vanderbilt.vuphone.android.campusmaps.storage.DBAdapter;
 import edu.vanderbilt.vuphone.android.campusmaps.tools.Tools;
 import edu.vanderbilt.vuphone.android.campusmaps.tools.XMLTools;
 
@@ -58,6 +55,7 @@ public class BuildingList extends ListActivity {
 	SimpleCursorAdapter simpleCursorAdapter = null;
 	ArrayAdapter<Building> dataAdapter = null;
 	private static Map<Long, Building> buildings_ = null;
+	private DBAdapter dbAdapter_;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,27 +66,29 @@ public class BuildingList extends ListActivity {
 		filterText = (EditText) findViewById(R.building_list.search_box);
 		filterText.addTextChangedListener(filterTextWatcher);
 
-		List<Building> bList = new ArrayList<Building>(buildings_.values());
+		if (dbAdapter_ == null)
+			dbAdapter_ = new DBAdapter(this);
 
-		if (bList.size() == 0) {
-			echo("The building list is still being populated. Please wait...");
-			finish();
-			return;
-		}
+		populateBuildings();
 
-		// Alphabetize
-		Collections.sort(bList);
+		// Variables to map from db column names to cell names in display
+		String[] from = new String[] { DBAdapter.COLUMN_NAME,
+				DBAdapter.COLUMN_ID };
+		int[] to = new int[] { R.list_view.buildingName, R.list_view.buildingID };
 
-		dataAdapter = new ArrayAdapter<Building>(this,
-				android.R.layout.simple_list_item_1, bList);
+		SimpleCursorAdapter sca = new SimpleCursorAdapter(
+				getApplicationContext(), R.layout.building_list_item,
+				dbAdapter_.fetchAllBuildingsCursor(), from, to);
 
-		setListAdapter(dataAdapter);
+		setListAdapter(sca);
+
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
+		// mod this
 		Building bc = (Building) getListView().getItemAtPosition(position);
 		Main.trace(bc.getName() + " selected");
 
@@ -159,28 +159,27 @@ public class BuildingList extends ListActivity {
 	/**
 	 * Parses in the building data to populate BuildingList
 	 */
-	public static void populateBuildings(InputStream xmlData,
-			InputStream buildingCache) {
-		// Prevent the building list from being populated each time onCreate is
-		// called
+	public void populateBuildings() {
 
-		if (getBuildingList().size() != 0)
-			return;
+		if (isNewListAvailable()
+				|| dbAdapter_.fetchAllBuildingIDs().size() == 0) {
 
-		if (isNewListAvailable() || buildingCache == null) {
 			Main.trace("Parsing building list from XML");
+
+			InputStream xmlData = null;
+			try {
+				xmlData = getResources().getAssets().open("buildings.xml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			loadFromXML(xmlData);
 
 			// Cache the building list
-			updateCacheFile();
+			updateDataBase();
 		}
 
-		else {
-			Main.trace("Loading building list from CACHE");
-			loadFromCache(buildingCache);
-		}
-
-		Log.i("mad", "Populated " + buildings_.size() + " entries");
 	}
 
 	private static boolean isNewListAvailable() {
@@ -189,21 +188,17 @@ public class BuildingList extends ListActivity {
 		return false;
 	}
 
-	private static void updateCacheFile() {
-		try {
-			FileOutputStream fos = Main.getInstance().openFileOutput(
-					"buildingList.cache", MODE_WORLD_READABLE);
+	private void updateDataBase() {
+		// TODO: Check if building exists in db before committing.
+		Map<Long, Building> buildings = getBuildingList();
 
-			OutputStreamWriter osw = new OutputStreamWriter(fos);
-
-			new Serializer().saveObject(buildings_, osw);
-		} catch (Exception e) {
-			Main.trace("Unable to update the building list cache");
-			e.printStackTrace();
-			return;
+		for (Long l : buildings.keySet()) {
+			dbAdapter_.createBuilding(buildings.get(l).getName(), buildings
+					.get(l).getLat_(), buildings.get(l).getLong_(), buildings
+					.get(l).getDescription(), buildings.get(l).getImageURL());
 		}
 
-		Main.trace("Building list cache has been updated");
+		Main.trace("Building list database has been updated");
 	}
 
 	/**
@@ -247,22 +242,6 @@ public class BuildingList extends ListActivity {
 					.getProperty("FACILITY_REMARKS"), url);
 
 			bList.put(new Long(i), b);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	private static void loadFromCache(InputStream is) {
-		try {
-			int avail = is.available();
-			if (avail <= 0)
-				return;
-
-			Object o = new Serializer().fromXML(new InputStreamReader(is));
-
-			buildings_ = (Map<Long, Building>) o;
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }
