@@ -36,7 +36,7 @@ public class DiningParser implements NotificationParser{
 					req.getParameter("ID")
 					);//Return a DiningPost object
 		}
-		else if(req.getParameter("type").equalsIgnoreCase("DiningRatingResponse"))
+		else if(req.getParameter("type").equalsIgnoreCase("DiningRatingRequest"))
 		{
 			return new DiningRatingRequest(
 					Integer.parseInt(req.getParameter("loc")),
