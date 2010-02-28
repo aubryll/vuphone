@@ -154,7 +154,7 @@ public class DiningHandler implements NotificationHandler {
 			}
 			catch(SQLException e){
 				System.out.print("fail");
-				return new DiningRatingResponse(null, null, false);
+				return new DiningRatingResponse("dummy", null, false);
 			}
 		}
 		else if(checkForType(n) == 2)/* The type is DiningRatingRequest */{
@@ -162,10 +162,10 @@ public class DiningHandler implements NotificationHandler {
 			
 			try{
 				int avgRating = getRating(drr);
-				return new DiningRatingRequestResponse(null, null, avgRating, true);
+				return new DiningRatingRequestResponse("dummy", null, avgRating, true);
 			}
 			catch(SQLException e){
-				return new DiningRatingRequestResponse(null, null, 0, false);
+				return new DiningRatingRequestResponse("dummy", null, 0, false);
 			}
 		}
 		// else we did not receive either type, in which case there is an error and we return null
