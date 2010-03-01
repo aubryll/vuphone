@@ -28,12 +28,18 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.campusmaps.storage.Building;
+import edu.vanderbilt.vuphone.android.campusmaps.storage.DBAdapter;
 
 public class BuildingInfo extends Activity {
+
+	private DBAdapter dbAdapter_;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (dbAdapter_ == null)
+			dbAdapter_ = new DBAdapter(this);
 
 		setContentView(R.layout.buildinginfo);
 
@@ -42,7 +48,7 @@ public class BuildingInfo extends Activity {
 		if (extras == null || (id = extras.getLong("building_id")) < 0)
 			return;
 
-		Building b = BuildingList.getBuilding(id);
+		Building b = dbAdapter_.fetchBuilding(id);
 		if (b == null)
 			finish();
 

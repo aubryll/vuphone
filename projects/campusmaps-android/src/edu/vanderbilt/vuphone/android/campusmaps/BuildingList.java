@@ -31,6 +31,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 import android.app.ListActivity;
+import android.database.sqlite.SQLiteCursor;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -89,7 +90,11 @@ public class BuildingList extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 
 		// mod this
-		Building bc = (Building) getListView().getItemAtPosition(position);
+		SQLiteCursor sqlc = (SQLiteCursor) getListView().getItemAtPosition(
+				position);
+		long buildingID = sqlc
+				.getLong(sqlc.getColumnIndex(DBAdapter.COLUMN_ID));
+		Building bc = dbAdapter_.fetchBuilding(buildingID);
 		Main.trace(bc.getName() + " selected");
 
 		// TODO open a menu that asks what they want to do
@@ -150,10 +155,6 @@ public class BuildingList extends ListActivity {
 			buildings_ = new HashMap<Long, Building>();
 
 		return buildings_;
-	}
-
-	public static Building getBuilding(long buildingID) {
-		return buildings_.get(new Long(buildingID));
 	}
 
 	/**
