@@ -216,7 +216,7 @@ public class DBAdapter {
 	 * 
 	 * @TODO - Create a buildingNotFound exception, and throw that instead
 	 */
-	public Building fetchbuilding(long rowId) throws SQLException {
+	public Building fetchBuilding(long rowId) throws SQLException {
 		Cursor c = db_.query(true, BUILDING_TABLE, new String[] { COLUMN_ID,
 				COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
 				COLUMN_DESCRIPTION, COLUMN_URL }, COLUMN_ID + "=" + rowId,
