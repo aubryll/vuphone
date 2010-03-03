@@ -197,6 +197,35 @@
 
 	[currentLayerController setPredicate:pred forContext:managedObjectContext];
 	
+	if ([currentLayerController.filteredPOIs count] <= 10) {
+		CLLocationCoordinate2D topLeftCoord;
+		topLeftCoord.latitude = -90;
+		topLeftCoord.longitude = 180;
+		
+		CLLocationCoordinate2D bottomRightCoord;
+		bottomRightCoord.latitude = 90;
+		bottomRightCoord.longitude = -180;
+		
+		for(POI *poi in currentLayerController.filteredPOIs)
+		{
+			topLeftCoord.longitude = fmin(topLeftCoord.longitude, poi.coordinate.longitude);
+			topLeftCoord.latitude = fmax(topLeftCoord.latitude, poi.coordinate.latitude);
+			
+			bottomRightCoord.longitude = fmax(bottomRightCoord.longitude, poi.coordinate.longitude);
+			bottomRightCoord.latitude = fmin(bottomRightCoord.latitude, poi.coordinate.latitude);
+		}
+		
+		MKCoordinateRegion region;
+		region.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+		region.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+		region.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.1; // Add a little extra space on the sides
+		region.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.1; // Add a little extra space on the sides
+		
+		region = [mapView regionThatFits:region];
+		[mapView setRegion:region animated:YES];
+		
+	}
+	
 	if ([currentLayerController.filteredPOIs count] == 1)
 	{
 		id<MKAnnotation> ann = [currentLayerController.filteredPOIs anyObject];
