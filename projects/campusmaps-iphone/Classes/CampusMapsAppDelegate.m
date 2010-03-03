@@ -45,6 +45,13 @@
 		}
 	}
 	
+	// Super-lamely add the lat/lon fix for Currey Tennis those who already have Campus Maps installed
+	POI *curreyTennis = [POI POIWithName:@"Currey Tennis" inContext:mapViewController.managedObjectContext];
+	curreyTennis.latitude = [NSDecimalNumber decimalNumberWithString:@"36.1417"];
+	curreyTennis.longitude = [NSDecimalNumber decimalNumberWithString:@"-86.8068"];
+	NSError *err = nil;
+	[mapViewController.managedObjectContext save:&err];
+
 	
 	[window addSubview:navController.view];
 	[navController pushViewController:mapViewController animated:NO];

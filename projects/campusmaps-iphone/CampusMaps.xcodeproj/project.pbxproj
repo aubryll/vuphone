@@ -397,6 +397,7 @@
 				PREBINDING = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos3.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Distribution;
 		};
