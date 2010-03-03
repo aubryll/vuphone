@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import "Waypoint.h"
+#import "WaypointDetailedViewController.h"
 #import "../KissXML/DDXMLDocument.h"
 
 
@@ -28,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	[self centerOnCampus:nil];
+	self.title = @"Campus Map";
 	NSData *iconData = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath]
 													   stringByAppendingPathComponent:ANNOTATION_IMAGE_FILE]];
 	annotationImage = [[UIImage alloc] initWithData:iconData];
@@ -50,11 +52,6 @@
 		//not sure how to get data out of the xml file...
 	//}
 
-	//create dummy wayPt
-	//Waypoint *wayPt = [[Waypoint alloc] init];
-	//wayPt.name = @"Center of Campus";
-	//wayPt.description = @"Something bad happened.";
-	//[mapView addAnnotation:wayPt];
 	 NSXMLParser *parser = [[NSXMLParser alloc] initWithData:responseData];
 	 [parser setDelegate:self];
 	 [parser setShouldProcessNamespaces:NO];
@@ -102,6 +99,11 @@
 	[mapView regionThatFits:region];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	//self.navigationItem.backBarButtonItem.title = @"Back";
+}
 
 - (void)dealloc {
     [super dealloc];
@@ -173,6 +175,14 @@
 	lookingFor = NOTHING;
 }
 
+-(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+	Waypoint *waypoint = (Waypoint *) view.annotation;
+	WaypointDetailedViewController *newViewController = [[WaypointDetailedViewController alloc] initWithNibName:@"WaypointDetailedViewController" bundle:nil];
+	newViewController.waypoint = waypoint;
+	[self.navigationController pushViewController:newViewController animated:TRUE];
+	[newViewController release];
+}
 
 
 @end

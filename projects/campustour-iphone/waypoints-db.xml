@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <waypoints>
     <waypoint>
-        <location name="Center" num="0"/>
-        <description>This is the center of Vanderbilt University's Campus</description>
+        <location name="N Center" num="0"/>
+        <description>This is the N center of Vanderbilt University's Campus</description>
         <coordinate longitude="-86.8044" latitude="36.142"/>
         <audiopath/>
     </waypoint>
@@ -10,12 +10,6 @@
         <location name="Not Center" num="0"/>
         <description>This is not the center of Vanderbilt University's Campus</description>
         <coordinate longitude="-86.8044" latitude="36.100"/>
-        <audiopath/>
-    </waypoint>
-    <waypoint>
-        <location name="Really Not Center" num="0"/>
-        <description>This is really not the center of Vanderbilt University's Campus</description>
-        <coordinate longitude="-86.8034" latitude="36.142"/>
         <audiopath/>
     </waypoint>
 </waypoints>
