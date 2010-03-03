@@ -31,6 +31,7 @@
 	return self;
 }
 
+
 - (NSString *)title
 {
 	return name;
@@ -46,8 +47,5 @@
 	coordinate.longitude = longitude;
 	coordinate.latitude = latitude;
 }
-
-
-
 
 @end
