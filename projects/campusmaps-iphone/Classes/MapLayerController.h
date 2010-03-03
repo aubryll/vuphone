@@ -15,9 +15,11 @@
 	Layer *layer;
 	MKMapView *mapView;
 	NSSet *filteredPOIs;
+	NSPredicate *savedPredicate;
 }
 
 @property (retain) NSSet *filteredPOIs;
+@property (retain) NSPredicate *savedPredicate;
 
 - (id)initWithLayer:(Layer *)aLayer andMapView:(MKMapView *)aMapView;
 - (void)addAnnotationsToMapView;

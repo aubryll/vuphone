@@ -60,7 +60,6 @@
 		[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
 	}
 */
-	[self performSelectorInBackground:@selector(loadRemotePOIs:) withObject:[self managedObjectContext]];
 	aboutViewShowing = NO;
 }
 

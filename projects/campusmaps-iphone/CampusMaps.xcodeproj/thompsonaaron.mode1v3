@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -272,7 +274,6 @@
 								<string>080E96DDFE201D6D7F000001</string>
 								<string>3332F9CF10A13B89003D35B8</string>
 								<string>29B97315FDCFA39411CA2CEA</string>
-								<string>29B97317FDCFA39411CA2CEA</string>
 								<string>19C28FACFE9D520D11CA2CBB</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
@@ -280,8 +281,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>35</integer>
-									<integer>6</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -318,14 +317,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>POI.m</string>
+								<string>MapViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -333,21 +330,18 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>POI.m</string>
+										<string>MapViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>61D04678112D0C4B00405B6F</string>
+										<string>61CC7896113DFDB30073C38E</string>
 										<key>history</key>
 										<array>
 											<string>61DF565C108138A8000A7B1D</string>
-											<string>61A3021A110CC42E00A375E8</string>
 											<string>61DC207911224DA000EF6157</string>
-											<string>61D04650112D057800405B6F</string>
-											<string>61D04658112D09CA00405B6F</string>
-											<string>61D04672112D0B9800405B6F</string>
-											<string>61D04676112D0C4B00405B6F</string>
-											<string>61D04677112D0C4B00405B6F</string>
+											<string>61D04976112F75A400405B6F</string>
+											<string>61CA95451134E1B200C5DE18</string>
+											<string>611B8F3E1136204600182F54</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -405,9 +399,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>61D04570112CE5D400405B6F</string>
+				<string>61CC7897113DFDB30073C38E</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>61D04571112CE5D400405B6F</string>
+				<string>61CC7898113DFDB30073C38E</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -543,10 +537,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>61D04675112D0B9800405B6F</string>
-		<string>61D045F0112CFDFA00405B6F</string>
-		<string>61D045F1112CFDFA00405B6F</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>61FC2E95107C2BF700FFF897</string>
 		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/campusmaps-iphone/CampusMaps.xcodeproj</string>
@@ -631,7 +621,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>61FC2E95107C2BF700FFF897</string>
-				<string>61D04572112CE5D400405B6F</string>
+				<string>61CC7893113DFDB10073C38E</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -751,13 +741,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>61D045C6112CFB5700405B6F</string>
+				<string>61CC7899113DFDB30073C38E</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>61D045C7112CFB5700405B6F</string>
-				<string>61D045C8112CFB5700405B6F</string>
-				<string>61D045C9112CFB5700405B6F</string>
-				<string>61D045CA112CFB5700405B6F</string>
-				<string>61D045CB112CFB5700405B6F</string>
+				<string>61CC789A113DFDB30073C38E</string>
+				<string>61CC789B113DFDB30073C38E</string>
+				<string>61CC789C113DFDB30073C38E</string>
+				<string>61CC789D113DFDB30073C38E</string>
+				<string>61CC789E113DFDB30073C38E</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -913,7 +903,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>61D045CC112CFB5700405B6F</string>
+				<string>611B8F321134E39A00182F54</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

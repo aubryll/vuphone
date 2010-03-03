@@ -13,6 +13,7 @@
 @implementation MapLayerController
 
 @synthesize filteredPOIs;
+@synthesize savedPredicate;
 
 - (id)initWithLayer:(Layer *)aLayer andMapView:(MKMapView *)aMapView
 {
@@ -45,16 +46,23 @@
 
 - (void)setPredicate:(NSPredicate *)pred forContext:(NSManagedObjectContext *)context
 {
+	if (pred == savedPredicate) {
+		return;
+	}
+	
 	[self removeAnnotationsFromMapView];
 	
 	if (pred) {
 		NSPredicate *layerPredicate = [NSPredicate predicateWithFormat:@"layer = %@", layer];
 		NSPredicate *andPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:
 									 [NSArray arrayWithObjects:pred, layerPredicate, nil]];
+		self.savedPredicate = andPredicate;
+		
 		self.filteredPOIs = [context fetchObjectsForEntityName:ENTITY_NAME_POI
 												 withPredicate:andPredicate];
 	} else {
 		self.filteredPOIs = nil;
+		self.savedPredicate = nil;
 	}
 	
 	[self addAnnotationsToMapView];
@@ -103,6 +111,8 @@
 - (void)dealloc {
 	[layer release];
 	[mapView release];
+	self.filteredPOIs = nil;
+	self.savedPredicate = nil;
 	[super dealloc];
 }
 

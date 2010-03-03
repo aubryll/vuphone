@@ -116,8 +116,8 @@
 			lonSum += [[coordinates objectAtIndex:i+1] doubleValue];
 		}
 		
-		double weirdLat = latSum / [coordinates count];
-		double weirdLon = lonSum / [coordinates count];
+		double weirdLat = latSum / ([coordinates count] / 2);
+		double weirdLon = lonSum / ([coordinates count] / 2);
 
 		[poi setEPSG900913CoordinatesLat:weirdLat andLon:weirdLon];
 	}

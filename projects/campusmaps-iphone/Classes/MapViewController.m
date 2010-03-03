@@ -156,13 +156,16 @@
 		annView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 		annView.image = annotationImage;
 		annView.canShowCallout = YES;
+		annView.calloutOffset = CGPointMake(-5.0f, 0.0f);
 		annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	} else {
+		// This is the "Current Location" pin
 		static NSString *reuseIdentifier = @"currentLocationIdentifier";
 		annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 		((MKPinAnnotationView *)annView).pinColor = MKPinAnnotationColorRed;
 		annView.canShowCallout = YES;
-		annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+		annView.calloutOffset = CGPointMake(3.0f, 3.0f);
+		annView.rightCalloutAccessoryView = nil;
 	}
 
 	return [annView autorelease];
@@ -186,7 +189,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
 	NSPredicate *pred;
-	if (searchText && [searchText length] > 0) {
+	if (searchText && [searchText length] > 1) {
 		pred = [NSPredicate predicateWithFormat:@"searchKeywords contains[c] %@", searchText];
 	} else {
 		pred = nil;
@@ -196,7 +199,7 @@
 	
 	if ([currentLayerController.filteredPOIs count] == 1)
 	{
-		id<MKAnnotation> ann = [mapView.annotations objectAtIndex:0];
+		id<MKAnnotation> ann = [currentLayerController.filteredPOIs anyObject];
 		[mapView setCenterCoordinate:ann.coordinate animated:YES];
 		[mapView selectAnnotation:ann animated:YES];
 	}

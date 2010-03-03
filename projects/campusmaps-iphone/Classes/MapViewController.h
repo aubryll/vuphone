@@ -35,6 +35,6 @@
 - (IBAction)centerOnCampus:(id)sender;
 - (IBAction)toggleAboutView:(id)sender;
 
-@property (retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 
 @end
