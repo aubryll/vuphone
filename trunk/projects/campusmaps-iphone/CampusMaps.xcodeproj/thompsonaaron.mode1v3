@@ -231,6 +231,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -269,8 +271,6 @@
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
 								<string>6F211BDD10884E4A003F009F</string>
-								<string>080E96DDFE201D6D7F000001</string>
-								<string>3332F9CF10A13B89003D35B8</string>
 								<string>29B97315FDCFA39411CA2CEA</string>
 								<string>29B97317FDCFA39411CA2CEA</string>
 								<string>19C28FACFE9D520D11CA2CBB</string>
@@ -280,13 +280,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>42</integer>
-									<integer>41</integer>
+									<integer>21</integer>
+									<integer>20</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 172}, {250, 763}}</string>
+							<string>{{0, 0}, {250, 763}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -318,14 +318,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MapViewController.m</string>
+								<string>CampusMaps-Info.plist</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -333,18 +331,19 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>MapViewController.m</string>
+										<string>CampusMaps-Info.plist</string>
 										<key>_historyCapacity</key>
 										<integer>20</integer>
 										<key>bookmark</key>
-										<string>61CC7966113E4EA90073C38E</string>
+										<string>61CC79E5113EC0010073C38E</string>
 										<key>history</key>
 										<array>
 											<string>61DF565C108138A8000A7B1D</string>
-											<string>61DC207911224DA000EF6157</string>
 											<string>61D04976112F75A400405B6F</string>
 											<string>61CA95451134E1B200C5DE18</string>
-											<string>61CC7962113E4E8A0073C38E</string>
+											<string>61CC7999113EBA360073C38E</string>
+											<string>61CC79B7113EBB5E0073C38E</string>
+											<string>61CC79DC113EBFDD0073C38E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -356,14 +355,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {740, 776}}</string>
+								<string>{{0, 0}, {740, 537}}</string>
 								<key>RubberWindowFrame</key>
 								<string>42 56 1012 822 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>776pt</string>
+							<string>537pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -376,14 +375,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 781}, {740, 0}}</string>
+								<string>{{0, 542}, {740, 239}}</string>
 								<key>RubberWindowFrame</key>
 								<string>42 56 1012 822 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>0pt</string>
+							<string>239pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -402,9 +401,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>61CC7897113DFDB30073C38E</string>
+				<string>61CC79E6113EC0010073C38E</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>61CC7898113DFDB30073C38E</string>
+				<string>61CC79E7113EC0010073C38E</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -540,10 +539,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>61CC7967113E4EA90073C38E</string>
-		<string>61CC7955113E4CDC0073C38E</string>
-		<string>61CC7950113E4C950073C38E</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>61FC2E95107C2BF700FFF897</string>
 		<string>/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/campusmaps-iphone/CampusMaps.xcodeproj</string>
@@ -587,8 +582,6 @@
 							<string>0pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -628,7 +621,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>61FC2E95107C2BF700FFF897</string>
-				<string>61CC7893113DFDB10073C38E</string>
+				<string>61CC79E8113EC0010073C38E</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -748,13 +741,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>61CC7899113DFDB30073C38E</string>
+				<string>61CC79E9113EC0010073C38E</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>61CC789A113DFDB30073C38E</string>
-				<string>61CC789B113DFDB30073C38E</string>
-				<string>61CC789C113DFDB30073C38E</string>
-				<string>61CC789D113DFDB30073C38E</string>
-				<string>61CC789E113DFDB30073C38E</string>
+				<string>61CC79EA113EC0010073C38E</string>
+				<string>61CC79EB113EC0010073C38E</string>
+				<string>61CC79EC113EC0010073C38E</string>
+				<string>61CC79ED113EC0010073C38E</string>
+				<string>61CC79EE113EC0010073C38E</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -873,6 +866,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
