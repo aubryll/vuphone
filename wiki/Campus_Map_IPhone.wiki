@@ -67,6 +67,10 @@ Users would love to eventually at some distant point in the future:
  * see the locations of their courses on the map
  * see the locations of specific friends who are also using the app on the map
  * see the estimated occupancy of a building or rooms within a building
+ * find office info provided by People Finder
+ * see floorplans for buildings
+ * search or browse by department, name, OASIS abbreviation, category
+
 
 = Layers we'd like to see =
  * Buildings, plus the sub-layers
