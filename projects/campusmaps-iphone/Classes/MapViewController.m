@@ -197,7 +197,10 @@
 
 	[currentLayerController setPredicate:pred forContext:managedObjectContext];
 	
-	if ([currentLayerController.filteredPOIs count] <= 10) {
+	int resultCount = (currentLayerController.filteredPOIs == nil) ? 0 : [currentLayerController.filteredPOIs count];
+	
+	if (resultCount > 1 && resultCount <= 10)
+	{
 		CLLocationCoordinate2D topLeftCoord;
 		topLeftCoord.latitude = -90;
 		topLeftCoord.longitude = 180;
@@ -225,14 +228,13 @@
 		[mapView setRegion:region animated:YES];
 		
 	}
-	
-	if ([currentLayerController.filteredPOIs count] == 1)
+	else if (resultCount == 1)
 	{
 		id<MKAnnotation> ann = [currentLayerController.filteredPOIs anyObject];
 		[mapView setCenterCoordinate:ann.coordinate animated:YES];
 		[mapView selectAnnotation:ann animated:YES];
 	}
-	else if ([currentLayerController.filteredPOIs count] != 0)
+	else if (resultCount != 0)
 	{
 		// Work around a weird bug where the map view delays showing the new POIs
 		[mapView setCenterCoordinate:mapView.centerCoordinate animated:YES];
