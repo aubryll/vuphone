@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import <Waypoint.h>
 
-#define ANNOTATION_IMAGE_FILE @"Images/annotation_v.png"
+#define ANNOTATION_IMAGE_FILE @"annotation-v.png"
 #define POI_REQUEST_ALTERNATIVE @"waypoints-db.xml"
 
 enum XMLSTATE {
