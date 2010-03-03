@@ -13,7 +13,7 @@
      android:gravity="bottom"
      android:layout_marginLeft="10dp"
      android:layout_marginRight="10dp"
-     android:layout_width="30dp"
+     android:layout_width="40dp"
      android:layout_height="fill_parent"/>
 
   <TextView
@@ -21,7 +21,7 @@
      android:textSize="22dp"
      android:gravity="bottom|center_horizontal"
      android:layout_marginRight="10dp"
-     android:layout_width="25dp"
+     android:layout_width="40dp"
      android:layout_height="fill_parent"/>
 
   <TextView
