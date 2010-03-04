@@ -22,10 +22,11 @@ public class AthleticsRoster extends ListActivity {
 		
 		Cursor cursor = db.fetchFilteredPlayers("number", "`team`='Vanderbilt'");
 		
-		
 		String[] columns = {"number", "position", "name"};
 		int[] column_ids = {R.roster_entry.number, R.roster_entry.position, R.roster_entry.name};
 		setListAdapter(new SimpleCursorAdapter(this, R.layout.roster_entry, cursor, columns, column_ids));
 		db.close();
 	}
+
+        
 }
