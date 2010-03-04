@@ -24,7 +24,7 @@ public class DatabaseAdapter {
 	private SQLiteDatabase myDatabase;
 
 	// define the database version
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 
 	// constant for the context (for the SQLiteOpenHelper)
 	private final Context myContext;
@@ -76,6 +76,12 @@ public class DatabaseAdapter {
 		System.out.println("Creating DatabaseAdapter...");
 		this.myContext = ctx;
 		System.out.println("DatabaseAdapter created.");
+		this.open();
+	}
+
+	protected void finalize() throws Throwable {
+		this.close();
+		super.finalize();
 	}
 
 	/**
