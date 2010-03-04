@@ -46,8 +46,8 @@
 	
 	<string name="DATABASE_TAG">DatabaseAdapter</string>
 	<string name="DATABASE_CREATE1">create table news (_id integer primary key autoincrement, title text not null, body text not null, link text not null)</string>
-	<string name="DATABASE_CREATE2">create table games (_id integer primary key autoincrement, hometeam text not null, awayteam text not null, sport text not null, type text not null, time text not null, homescore integer not null, awayscore integer not null)</string>
-	<string name="DATABASE_CREATE3">create table players (_id integer primary key autoincrement, name text not null, team text not null, position text not null, number integer not null)</string>
+	<string name="DATABASE_CREATE2">create table games (_id integer primary key autoincrement, hometeam text not null, awayteam text not null, sport text not null, type text not null, time text not null, homescore integer null, awayscore integer null)</string>
+	<string name="DATABASE_CREATE3">create table players (_id integer primary key autoincrement, name text not null, team text not null, position text not null, number integer null)</string>
 	<string name="DATABASE_CREATE4">create table teams (_id integer primary key autoincrement, school text not null, name text not null, conference text not null)</string>
 	<string name="DATABASE_NAME">data</string>
 	<string name="DATABASE_TABLE_NEWS">news</string>
