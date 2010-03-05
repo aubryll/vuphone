@@ -125,7 +125,7 @@ public class DiningRatingServlet extends HttpServlet {
 		}
 		
 		//Test Handler, and ResponseHandler, and everything else
-		NotificationHandler dh = (DiningHandler)ServerUtils.get().getFactory().getBean("diningHandler");
+		NotificationHandler dh = (DiningHandler)ServerUtils.get().getFactory().getBean("DiningHandler");
 		
 		ResponseNotification nr = null;
 		
