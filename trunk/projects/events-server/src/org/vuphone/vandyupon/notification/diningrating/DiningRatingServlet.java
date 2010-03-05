@@ -137,7 +137,7 @@ public class DiningRatingServlet extends HttpServlet {
 		}
 		
 		try {
-			((DiningRatingResponseHandler) ServerUtils.get().getFactory().getBean("diningRatingResponder")).handle(resp, nr);
+			((DiningRatingResponseHandler) ServerUtils.get().getFactory().getBean("DiningRatingResponder")).handle(resp, nr);
 	
 		} catch (HandlerFailedException e) {
 			// TODO Auto-generated catch block
