@@ -16,6 +16,7 @@
 
 package org.vuphone.vandyupon.notification.diningrating;
 
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +66,7 @@ public class DiningRatingResponseHandler extends NotificationResponseHandler {
 	 * @see NotificationResponseHandler
 	 */
 	@Override
-	public void handle(HttpServletResponse resp, ResponseNotification nr)
+	public void handle(HttpServletResponse resp, ResponseNotification nr) 
 			throws HandlerFailedException {
 		ResponseNotification ratingResponse;
 		
@@ -102,6 +103,8 @@ public class DiningRatingResponseHandler extends NotificationResponseHandler {
 		omitField(ResponseNotification.class, "callback_");
 		// serialize the rating response to XML
 		String response = serializer_.toXML(ratingResponse);
+		
+		System.out.println(response);
 		// if the output format is JSON, change the XML response to JSON format
 		if (ratingResponse.getResponseType().equalsIgnoreCase("json"))
 			response = ratingResponse.getCallback() + "( " + response + " )";
@@ -109,8 +112,9 @@ public class DiningRatingResponseHandler extends NotificationResponseHandler {
 		// hfe is too much generic such that there is no way to tell
 		// if it is a servlet failure or a bad type exception from outside
 		// should be specialized for the future
-		try {
-			resp.getWriter().write(response);
+		try 
+		{
+			resp.getWriter().write(response);			
 		} catch (IOException e) {
 			HandlerFailedException hfe = new HandlerFailedException();
 			hfe.initCause(e);
