@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="@string/hello"
-    />
-</LinearLayout>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/athletics_main">
+	<Button android:id="@+main/sports_button" android:layout_width="154dp"
+		android:layout_height="66dp" android:layout_x="7dp"
+		android:background="@drawable/main_button" android:layout_y="344dp"
+		android:textColor="@android:color/primary_text_dark" android:textSize="20dp"
+		android:text="Sports" />
+	<Button android:id="@+main/history_button" android:layout_width="154dp"
+		android:layout_height="66dp" android:layout_x="159dp"
+		android:background="@drawable/main_button" android:layout_y="344dp"
+		android:textColor="@android:color/primary_text_dark" android:textSize="20dp"
+		android:text="History" />
+</AbsoluteLayout>
