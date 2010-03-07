@@ -24,7 +24,7 @@ public class AthleticsNews extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.news_layout);
-
+		
 		news = new SimpleAdapter(this, list, R.layout.news_cell, new String[] {
 				"news_title", "news_date" }, new int[] { R.news.title,
 				R.news.date });

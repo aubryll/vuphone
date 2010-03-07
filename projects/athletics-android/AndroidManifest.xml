@@ -11,6 +11,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+    <activity android:name=".SportsMain" />
+    <activity android:name=".HistoryMain" />
 	<activity android:name=".AthleticsSchedule" />
 	<activity android:name=".AthleticsNews" />
 	<activity android:name=".AthleticsRoster" />

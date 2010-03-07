@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="65dp">
+	<ImageView android:src="@drawable/sports_list_cell"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:layout_x="0dip" android:layout_y="0dip" />
+	<TextView android:id="@+main/text" android:textColor="@android:color/primary_text_dark"
+		android:textSize="20dp" android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_x="55dip" android:layout_y="16dip" />
+</AbsoluteLayout>
+
