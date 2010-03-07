@@ -56,29 +56,4 @@ public class SportsMain extends ListActivity {
 			main.notifyDataSetChanged();
 		}
 	}
-
-	// -------------------- MENU FUNCTIONS
-
-	private static final int MENU_ITEM_ABOUT = 0;
-
-	/** Creates list of actions for user when the menu button is clicked */
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		menu.add(Menu.NONE, MENU_ITEM_ABOUT, Menu.NONE, "About").setIcon(
-				getResources().getDrawable(
-						android.R.drawable.ic_menu_info_details));
-
-		return true;
-	}
-	
-	/** Handles what happens when each menu item is clicked */
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		switch (item.getItemId()) {
-		case MENU_ITEM_ABOUT:
-			startActivity(new Intent(this, About.class));
-			break;
-		}
-		return true;
-	}
 }
