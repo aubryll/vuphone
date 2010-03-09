@@ -6,7 +6,7 @@
 //
 
 #import "WaypointXMLReader.h"
-
+#import "Waypoint.h"
 
 @interface DDXMLNode (XPathHelpers)
 
@@ -51,32 +51,41 @@
 	for (DDXMLNode *node in nodes)
 	{
 		// Fetch the waypoint from our DB.  If it doesn't exist, create a new one.
-		NSString *name = [(DDXMLNode *)[[node nodesForXPath:@"./name" error:&err] objectAtIndex:0] stringValue];
-/*		
-		Waypoint *waypoint = [Waypoint waypointWithName:name inContext:context];
-		if (!waypoint) {
-			waypoint = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_WAYPOINT
-													 inManagedObjectContext:context];
-		}
+		NSString *name = [WaypointXMLReader getXMLData:node tag:@"location" attribute:@"name"];
+		NSString *num = [WaypointXMLReader getXMLData:node tag:@"location" attribute:@"num"];
+		NSString *description = [WaypointXMLReader getXMLData:node tag:@"description" attribute:nil];
+		NSString *longitude = [WaypointXMLReader getXMLData:node tag:@"coordinate" attribute:@"longitude"];
+		NSString *latitude = [WaypointXMLReader getXMLData:node tag:@"coordinate" attribute:@"latitude"];
 		
-		// Load in the data from the XML file
-		[WaypointXMLReader getDataFromXMLNode:node intoWaypoint:waypoint];
-		
-		[context save:&err];
-		if (err) {
-			NSLog(@"Error saving waypoint: %@", err);
-			NSArray *detailedErrors = [[err userInfo] objectForKey:NSDetailedErrorsKey];
-			if ([detailedErrors count] > 0)
-			{
-				for (NSError *detailedError in detailedErrors) {
-					NSLog(@"  DetailedError: %@", [detailedError userInfo]);
-				}
-			}
-			// Get rid of this waypoint
-			[context rollback];
-		}
- */
-		[waypoints addObject:name];
+		Waypoint *waypoint = [[Waypoint alloc] init];
+		waypoint.name = name;
+		waypoint.description = description;
+		waypoint.num = [num intValue];
+		[waypoint setLocation:[longitude doubleValue] latitude:[latitude doubleValue]];
+//		Waypoint *waypoint = [Waypoint waypointWithName:name inContext:context];
+//		if (!waypoint) {
+//			waypoint = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_WAYPOINT
+//													 inManagedObjectContext:context];
+//		}
+//		
+//		// Load in the data from the XML file
+//		[WaypointXMLReader getDataFromXMLNode:node intoWaypoint:waypoint];
+//		
+//		[context save:&err];
+//		if (err) {
+//			NSLog(@"Error saving waypoint: %@", err);
+//			NSArray *detailedErrors = [[err userInfo] objectForKey:NSDetailedErrorsKey];
+//			if ([detailedErrors count] > 0)
+//			{
+//				for (NSError *detailedError in detailedErrors) {
+//					NSLog(@"  DetailedError: %@", [detailedError userInfo]);
+//				}
+//			}
+//			// Get rid of this waypoint
+//			[context rollback];
+//		}
+// 
+		[waypoints addObject:waypoint];
 	}
 	
 	[waypointXml release];
@@ -157,5 +166,35 @@
 	
 }
 */
+//currently doesn't support xpath returning multiple nodes, but could be reworked to add index as an additional argument
++(NSString *)getXMLData:(DDXMLNode *)node tag:(NSString *)tagName attribute:(NSString*)attr
+{
+	NSString *xpathString;
+	if (attr != nil)
+	{
+		xpathString = [NSString stringWithFormat:@"./%@/@%@", tagName, attr];
+	}
+	else 
+	{
+		xpathString = [NSString stringWithFormat:@"./%@", tagName];
+	}
+    
+	NSError *err = nil;
+	NSArray *tmpArray = [node nodesForXPath:xpathString error:&err];
+	if (err)
+	{
+		NSLog(@"Error retrieving %@: %@", xpathString, err);
+		return nil;
+	}
+	else if ([tmpArray count] == 0)
+	{
+		NSLog(@"Error the xpath (%@) returned an empty set", tagName);
+		return nil;
+	}
+	else 
+	{
+		return [(DDXMLNode *) [tmpArray objectAtIndex:0] stringValue];
+	}
+}
 
 @end
