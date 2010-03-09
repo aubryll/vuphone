@@ -7,9 +7,15 @@
         <audiopath/>
     </waypoint>
     <waypoint>
-        <location name="Not Center" num="0"/>
+        <location name="Not Center" num="1"/>
         <description>This is not the center of Vanderbilt University's Campus</description>
         <coordinate longitude="-86.8044" latitude="36.100"/>
+        <audiopath/>
+    </waypoint>
+    <waypoint>
+        <location name="Not Center Also" num="2"/>
+        <description>This is also not the center of Vanderbilt University's Campus</description>
+        <coordinate longitude="-86.8044" latitude="36.140"/>
         <audiopath/>
     </waypoint>
 </waypoints>

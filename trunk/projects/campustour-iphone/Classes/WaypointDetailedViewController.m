@@ -28,6 +28,7 @@
 	self.title = self.waypoint.name;
 	theName.text = self.waypoint.name;
 	description.text = self.waypoint.description;
+	number.text = [NSString stringWithFormat:@"%d", self.waypoint.num];
 }
 
 /*

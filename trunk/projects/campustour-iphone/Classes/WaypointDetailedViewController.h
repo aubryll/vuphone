@@ -13,6 +13,7 @@
 @interface WaypointDetailedViewController : UIViewController {
 
 	IBOutlet UITextView *description;
+	IBOutlet UILabel *number;
 	IBOutlet UILabel *theName;
 	Waypoint *waypoint;
 }
