@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="50dp">
-	<TextView android:id="@+news/title"
-		android:layout_height="wrap_content" android:layout_width="240dp"
-		android:textColor="@android:color/primary_text_dark"
-		android:textSize="16dp"
-		android:gravity="left" android:paddingLeft="10dp"
-		android:layout_centerVertical="true"
-		android:ellipsize="end"/>
-	<TextView android:id="@+news/date"
-		android:textSize="16dp" android:textColor="@android:color/secondary_text_dark"
-		android:layout_height="wrap_content" android:layout_width="wrap_content"
-		android:layout_alignParentRight="true" android:layout_centerVertical="true"
+	android:layout_width="fill_parent" android:layout_height="105dp">
+	<TextView android:id="@+news/title" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:textColor="@android:color/primary_text_dark"
+		android:textSize="14sp" android:paddingLeft="10dp" android:ellipsize="end"
+		android:maxLines="2" android:textStyle="bold"
+		android:layout_alignParentTop="true" android:paddingRight="10dp" android:gravity="left" android:paddingTop="5dp"/>
+	<TextView android:id="@+news/date" android:textSize="12sp"
+		android:textColor="@android:color/secondary_text_dark"
+		android:layout_height="wrap_content" android:layout_width="125dp"
+		android:paddingRight="10dp" android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true" android:textStyle="italic" android:paddingBottom="5dp" android:paddingTop="5dp"/>
+	<TextView android:id="@+news/details" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:textColor="@android:color/secondary_text_dark"
+		android:textSize="14sp" android:paddingLeft="10dp" android:ellipsize="end"
+		android:maxLines="2" android:layout_below="@news/title"
+		android:layout_above="@news/date" android:gravity="left"
 		android:paddingRight="10dp" />
 </RelativeLayout>
 
