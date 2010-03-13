@@ -3,9 +3,11 @@
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	android:orientation="vertical" android:background="@drawable/black_background">
 	<RelativeLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:background="@drawable/athletics_header" android:layout_gravity="center_vertical|center_horizontal"/>
+		android:layout_height="wrap_content" android:background="@drawable/athletics_header"
+		android:layout_gravity="center_vertical|center_horizontal" />
 	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
 		android:layout_height="0dip" android:layout_weight="1"
-		android:divider="@drawable/black_background"
-		android:dividerHeight="1dip" android:scrollbarAlwaysDrawVerticalTrack="false" android:drawSelectorOnTop="false" android:scrollbars="none"/>
+		android:divider="@drawable/black_background" android:dividerHeight="1dip"
+		android:scrollbarAlwaysDrawVerticalTrack="false" android:scrollbars="none"
+		android:drawSelectorOnTop="true" android:listSelector="@drawable/list_selector" />
 </LinearLayout>

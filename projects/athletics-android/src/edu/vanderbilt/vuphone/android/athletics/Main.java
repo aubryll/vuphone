@@ -8,26 +8,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+/*
+ * The Main class has two buttons: Sports and History
+ * When Sports is clicked, the user will be taken to
+ * a list of Vanderbilt Sports.
+ * When History is clicked, the user will be taken to
+ * a list of different parts of Vanderbilt Athletic History.
+ * 
+ * @author Grayson Sharpe
+ */
+
 public class Main extends Activity {
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.main); //Sets the layout 
 
 		((Button) findViewById(R.main.sports_button))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Intent i = new Intent(Main.this, SportsMain.class);
-						startActivity(i);
+						startActivity(i); //Launches SportsMain Intent
 					}
 				});
 		((Button) findViewById(R.main.history_button))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Intent i = new Intent(Main.this, HistoryMain.class);
-						startActivity(i);
+						startActivity(i); //Launches HistoryMain Intent
 					}
 				});
 	}
@@ -37,6 +47,9 @@ public class Main extends Activity {
 
 	private static final int MENU_ITEM_ABOUT = 0;
 
+	/*
+	 * Adds a menu button to see About Page
+	 */
 	/** Creates list of actions for user when the menu button is clicked */
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
