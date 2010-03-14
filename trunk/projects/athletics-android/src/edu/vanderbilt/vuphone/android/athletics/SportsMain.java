@@ -64,7 +64,8 @@ public class SportsMain extends ListActivity {
 				list.get(position).get("sports_title")));
 
 	}
-
+	
+	
 	/*
 	 * Static data in a hashmap for the list
 	 */
