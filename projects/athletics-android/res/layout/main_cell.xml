@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="65dp">
-	<ImageView android:src="@drawable/sports_list_cell"
+	<ImageView android:src="@drawable/list_button_color"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:layout_x="0dp" android:layout_y="0dp" />
 	<TextView android:id="@+main/text" android:textColor="@drawable/list_text_color"
