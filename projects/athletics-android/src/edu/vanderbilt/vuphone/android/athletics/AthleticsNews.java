@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,55 +32,49 @@ public class AthleticsNews extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.news_layout); //allows for custom list
-		
+		setContentView(R.layout.news_layout); // allows for custom list
+
 		/*
-		 * String title is assigned the value of the item (name of 
-		 * the sport information) that the user clicked on in the 
-		 * previous activity plus the additional Extra of the name of
-		 * the sport. 
-		 * String title cannot go before onCreate is called because of 
-		 * a problem with pending Intent.
+		 * String title is assigned the value of the item (name of the sport
+		 * information) that the user clicked on in the previous activity plus
+		 * the additional Extra of the name of the sport. String title cannot go
+		 * before onCreate is called because of a problem with pending Intent.
 		 */
 		// TODO Readdress implementation when database is implemented on all
 		// pages
 		String title = getIntent().getExtras().getString("sports_title");
-		setTitle("Vanderbilt " + title + " News"); //sets Title bar
+		setTitle("Vanderbilt " + title + " News"); // sets Title bar
 
 		/*
-		 * SimpleAdapter is in place for the static data for the view.
-		 * The view will later be populated with information from
-		 * database.
+		 * SimpleAdapter is in place for the static data for the view. The view
+		 * will later be populated with information from database.
 		 * 
-		 * Make sure that the layout file in the adapter is the 
-		 * custom cell file and not the custom listview file
+		 * Make sure that the layout file in the adapter is the custom cell file
+		 * and not the custom listview file
 		 */
-		//TODO Implement Database
+		// TODO Implement Database
 		news = new SimpleAdapter(this, list, R.layout.news_cell, new String[] {
 				"news_title", "news_details", "news_date" }, new int[] {
 				R.news.title, R.news.details, R.news.date });
 		setListAdapter(news);
-		this.addItem(); //Populates ListView
+		this.addItem(); // Populates ListView
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		Intent details = new Intent(this, NewsDetails.class);
-		details.putExtra("news_title", ((TextView) findViewById(R.news.title))
-				.getText()); //Carries the news headline onto the next activity
-							// for the news details page
-		details.putExtra("news_date", ((TextView) findViewById(R.news.date))
-				.getText()); //Carries the news date onto the next activity
-		// for the news details page
-		startActivity(details); //Launches Intent
+		startActivity(new Intent(
+				Intent.ACTION_VIEW,
+				Uri
+						.parse("http://vucommodores.cstv.com/sports/m-baskbl/spec-rel/031510aaj.html")));
 	}
 
-	//TODO Remove menu button when database is implemented
+	// TODO Remove menu button when database is implemented
 	/*
 	 * (non-Javadoc)
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 * Adds menu button "Add Item"
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu) Adds
+	 * menu button "Add Item"
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,10 +82,11 @@ public class AthleticsNews extends ListActivity {
 		menu.add(0, ADD_ITEM_ID, Menu.NONE, R.string.add_item);
 		return result;
 	}
-	
-	//TODO Remove menu function when database is implemented
+
+	// TODO Remove menu function when database is implemented
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 * When clicked data already in the list is readded
 	 */
@@ -103,19 +99,22 @@ public class AthleticsNews extends ListActivity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	//TODO Remove static data when database is implemented
+
+	// TODO Remove static data when database is implemented
 	/*
 	 * Add static data here in the hash map
 	 */
 	private void addItem() {
-		String[] title = new String[] { "Taylor breaks out at the right time. Enjoy the free tacoes. They are awesome.",
+		String[] title = new String[] {
+				"Taylor breaks out at the right time. Enjoy the free tacoes. They are awesome.",
 				"Vanderbilt-Tennessee postgame quotes",
 				"Vanderbilt hosts Tennessee Tuesday" };
-		String[] details = new String[] { "Taylor breaks out at the right time. Enjoy the free tacoes. They are awesome.",
+		String[] details = new String[] {
+				"Taylor breaks out at the right time. Enjoy the free tacoes. They are awesome.",
 				"Vanderbilt-Tennessee postgame quotes",
 				"Vanderbilt hosts Tennessee Tuesday" };
-		String[] date = new String[] { "September 25, 2010", "September 23, 2010", "September 21, 2010" };
+		String[] date = new String[] { "September 25, 2010",
+				"September 23, 2010", "September 21, 2010" };
 
 		for (int i = 0; i < 3; i++) {
 			HashMap<String, String> item = new HashMap<String, String>();
