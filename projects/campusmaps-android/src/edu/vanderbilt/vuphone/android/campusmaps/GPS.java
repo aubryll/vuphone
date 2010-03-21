@@ -58,6 +58,10 @@ public class GPS implements LocationListener {
 		// Request to be notified whenever the user moves
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 2, this);
 	}
+	
+	public void uninitialize(LocationManager lm) {
+		lm.removeUpdates(this);
+	}
 
 	public void centerOnGPS(boolean t) {
 		centerOnGPS_ = t;

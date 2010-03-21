@@ -100,6 +100,14 @@ public class Main extends MapActivity {
 		gps_.showMarker();
 		
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		gps_.getInstance().uninitialize(lm);
+	}
 
 	/**
 	 * Singleton accessor
