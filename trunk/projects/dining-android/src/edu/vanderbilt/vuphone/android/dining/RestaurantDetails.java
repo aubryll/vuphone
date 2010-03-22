@@ -128,7 +128,6 @@ public class RestaurantDetails extends TabActivity implements TabHost.OnTabChang
 		else range.setText(restaurant.getHours().getRangesToModify(mCounter[0]).get(mCounter[1]).toString());
 	}
 	
-	@Override
 	public void onTabChanged(String tabId) {
         // Because we're using Activities as our tab children, we trigger
         // onWindowFocusChanged() to let them know when they're active.  This may
