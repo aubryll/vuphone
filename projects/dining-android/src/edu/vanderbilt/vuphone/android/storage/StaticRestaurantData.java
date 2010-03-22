@@ -74,6 +74,11 @@ public class StaticRestaurantData {
 		wendysTwentyFirstData();
 		wendysWestEndData();
 		yogurtOasisData();
+		
+		/*
+		 * Other Restaurants
+		 */
+		smilingElephant();
 	}
 
 	/*
@@ -620,6 +625,64 @@ public class StaticRestaurantData {
 		if (DEBUG) {
 			DbWrapper.resetRestaurantCache();
 			Log.i("StaticRestaurantData", String.valueOf(grins
+					.equals(Restaurant.get(id))));
+		}
+	}
+
+	private void smilingElephant() {
+		RestaurantHours rh = new RestaurantHours();
+
+		Time start = new Time(11, 0);
+		Time stop = new Time(14, 30);
+		rh.addRange(Calendar.MONDAY, new Range(start, stop));
+		start = new Time(17, 0);
+		stop = new Time(21, 0);
+		rh.addRange(Calendar.MONDAY, new Range(start, stop));
+		
+		start = new Time(11, 0);
+		stop = new Time(14, 30);
+		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
+		start = new Time(17, 0);
+		stop = new Time(21, 0);
+		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
+		
+		start = new Time(11, 0);
+		stop = new Time(14, 30);
+		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
+		start = new Time(17, 0);
+		stop = new Time(21, 0);
+		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
+		
+		start = new Time(11, 0);
+		stop = new Time(14, 30);
+		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
+		start = new Time(17, 0);
+		stop = new Time(21, 0);
+		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
+		
+		start = new Time(11, 0);
+		stop = new Time(14, 30);
+		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
+		start = new Time(17, 0);
+		stop = new Time(21, 0);
+		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
+		
+		start = new Time(11, 0);
+		stop = new Time(14, 30);
+		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
+		start = new Time(17, 0);
+		stop = new Time(21, 0);
+		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
+
+		Restaurant smilingElephant = new Restaurant("The Smiling Elephant", rh, false,
+				(int) (36.129392 * 1E6), (int) (-86.778613 * 1E6), "Thai",
+				null, null, R.drawable.r_smilingelephant, false, false, true,
+				"(615) 891-4488", "http://www.thesmilingelephant.com/");
+		long id = smilingElephant.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(smilingElephant
 					.equals(Restaurant.get(id))));
 		}
 	}
@@ -2023,7 +2086,7 @@ public class StaticRestaurantData {
 					.equals(Restaurant.get(id))));
 		}
 	}
-
+	
 	private void wendysTwentyFirstData() {
 		RestaurantHours rh = new RestaurantHours();
 		// TODO Add Hours of Operations
