@@ -17,10 +17,10 @@
 	id buttonObject;
 }
 
-@property (copy) NSString *sectionTitle;
-@property (copy) NSString *buttonTitle;
-@property (assign) id buttonTarget;
-@property (assign) SEL buttonSelector;
-@property (assign) id buttonObject;
+@property (nonatomic, copy) NSString *sectionTitle;
+@property (nonatomic, copy) NSString *buttonTitle;
+@property (nonatomic, assign) id buttonTarget;
+@property (nonatomic, assign) SEL buttonSelector;
+@property (nonatomic, retain) id buttonObject;
 
 @end
