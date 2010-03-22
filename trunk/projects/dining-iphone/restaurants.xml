@@ -143,7 +143,7 @@
 			<latitude>36.146405</latitude>
 			<longitude>-86.803178</longitude>
 		</location>
-		<type>Cafeteria</type>
+		<type>Dining Hall</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -239,7 +239,7 @@
 			<latitude>36.141951</latitude>
 			<longitude>-86.797127</longitude>
 		</location>
-		<type>Cafeteria</type>
+		<type>Dining Hall</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -291,7 +291,7 @@
 			<latitude>36.146321</latitude>
 			<longitude>-86.803037</longitude>
 		</location>
-		<type>Cafeteria</type>
+		<type>Dining Hall</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -851,7 +851,7 @@
 			<latitude>36.148782</latitude>
 			<longitude>-86.803473</longitude>
 		</location>
-		<type>Convenience</type>
+		<type>Munchie Mart</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -890,7 +890,7 @@
 			<latitude>36.143796</latitude>
 			<longitude>-86.803227</longitude>
 		</location>
-		<type>Cafeteria</type>
+		<type>Dining Hall</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -950,7 +950,7 @@
 			<latitude>36.144929</latitude>
 			<longitude>-86.805791</longitude>
 		</location>
-		<type>Convenience</type>
+		<type>Munchie Mart</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -1008,7 +1008,7 @@
 			<latitude>36.147903</latitude>
 			<longitude>-86.805857</longitude>
 		</location>
-		<type>Convenience</type>
+		<type>Munchie Mart</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -1061,12 +1061,12 @@
 	<restaurant>
 		<name>Varsity Market - Morgan</name>
 		<image>morgan.png</image>
-		<description>Bringing convenience to Area VI, Varsity Morgan offers grocery items, beverages, dairy products, and sandwiches, salads, and fresh fruits. VU Meal Plans may be used at Varsity Morgan.</description>
+		<description>Bringing Munchie Mart to Area VI, Varsity Morgan offers grocery items, beverages, dairy products, and sandwiches, salads, and fresh fruits. VU Meal Plans may be used at Varsity Morgan.</description>
 		<location>
 			<latitude>36.140609</latitude>
 			<longitude>-86.806328</longitude>
 		</location>
-		<type>Convenience</type>
+		<type>Munchie Mart</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -1148,7 +1148,7 @@
 			<latitude>36.146587</latitude>
 			<longitude>-86.803428</longitude>
 		</location>
-		<type>Convenience</type>
+		<type>Munchie Mart</type>
 		<acceptsMealMoney>true</acceptsMealMoney>
 		<acceptsMealPlan>true</acceptsMealPlan>
 		<offCampus>false</offCampus>
@@ -1185,7 +1185,7 @@
 		<name>Hemingway Market</name>
 		<image>hemingway.png</image>
 		<description>A Market serving Kissam Quad, Hemingway Market is located inside Hemingway Hall.</description>
-		<type>Convenience</type>
+		<type>Munchie Mart</type>
 		<location>
 			<latitude>36.149829</latitude>
 			<longitude>-86.80124</longitude>
