@@ -59,6 +59,83 @@
 		</hours>
 	</restaurant>
 	<restaurant>
+		<name>The Smiling Elephant</name>
+		<image>smilingelephant.png</image>
+		<description>The Smiling Elephant is a Thai restaurant based in Nashville, TN. Our Mission is to serve you healthy, authentic Thai cuisine at a reasonable price. We use no MSG and cook with only Light Olive Oil.</description>
+		<location>
+			<latitude>36.129392</latitude>
+			<longitude>-86.778613</longitude>
+		</location>
+		<type>Thai</type>
+		<acceptsMealMoney>false</acceptsMealMoney>
+		<acceptsMealPlan>false</acceptsMealPlan>
+		<offCampus>true</offCampus>
+		<phone>(615) 341-0188</phone>
+		<url>http://thesmilingelephant.com/</url>
+		<hours>
+			<range>
+				<day>MONDAY</day>
+				<open>11:00</open>
+				<close>14:00</close>
+			</range>
+			<range>
+				<day>MONDAY</day>
+				<open>17:00</open>
+				<close>21:00</close>
+			</range>
+			<range>
+				<day>TUESDAY</day>
+				<open>11:00</open>
+				<close>14:00</close>
+			</range>
+			<range>
+				<day>TUESDAY</day>
+				<open>17:00</open>
+				<close>21:00</close>
+			</range>
+			<range>
+				<day>WEDNESDAY</day>
+				<open>11:00</open>
+				<close>14:00</close>
+			</range>
+			<range>
+				<day>WEDNESDAY</day>
+				<open>17:00</open>
+				<close>21:00</close>
+			</range>
+			<range>
+				<day>THURSDAY</day>
+				<open>11:00</open>
+				<close>14:00</close>
+			</range>
+			<range>
+				<day>THURSDAY</day>
+				<open>17:00</open>
+				<close>21:00</close>
+			</range>
+			<range>
+				<day>FRIDAY</day>
+				<open>11:00</open>
+				<close>14:00</close>
+			</range>
+			<range>
+				<day>FRIDAY</day>
+				<open>17:00</open>
+				<close>21:00</close>
+			</range>
+			<range>
+				<day>SATURDAY</day>
+				<open>11:00</open>
+				<close>14:00</close>
+			</range>
+			<range>
+				<day>SATURDAY</day>
+				<open>17:00</open>
+				<close>21:00</close>
+			</range>
+		</hours>
+	</restaurant>
+	<restaurant>
 		<name>Rand Dining Center</name>
 		<image>rand.png</image>
 		<description>Rand Dining Center is the focal point of the campus community. Its central location, great food, and comfortable atmosphere provide students, faculty, and staff an opportunity to gather, socialize, and interact. Rand retail offers a varity of foods such as baked goods, made-for-you or build-your own salads, and regional favorites like Mediterranean and Asian foods.</description>
