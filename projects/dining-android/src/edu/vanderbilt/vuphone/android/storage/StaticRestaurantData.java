@@ -139,7 +139,7 @@ public class StaticRestaurantData {
 		String description = "Rand Dining Center is the focal point of the campus community. Its central location, great food, and comfortable atmosphere provide students, faculty, and staff an opportunity to gather, socialize, and interact. Rand retail offers a varity of foods such as baked goods, made-for-you or build-your own salads, and regional favorites like Mediterranean and Asian foods.";
 
 		Restaurant rand = new Restaurant("Rand Dining Center", rh, true,
-				(int) (36.146405 * 1E6), (int) (-86.803178 * 1E6), "Cafeteria",
+				(int) (36.146405 * 1E6), (int) (-86.803178 * 1E6), "Dining Hall",
 				null, description, R.drawable.r_rand, true, true, false, null,
 				"http://www.vanderbilt.edu/dining/rest_rand.php");
 		long id = rand.create();
@@ -188,7 +188,7 @@ public class StaticRestaurantData {
 
 		Restaurant commonsFood = new Restaurant("The Commons Food Gallery", rh,
 				true, (int) (36.141951 * 1E6), (int) (-86.797127 * 1E6),
-				"Cafeteria", null, description, R.drawable.r_commons, true, true,
+				"Dining Hall", null, description, R.drawable.r_commons, true, true,
 				false, null,
 				"http://www.vanderbilt.edu/dining/rest_commons.php");
 		long id = commonsFood.create();
