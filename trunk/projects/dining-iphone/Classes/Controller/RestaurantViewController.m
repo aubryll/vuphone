@@ -102,6 +102,23 @@
 		[vhcc release];
 	}
 	
+	// URL
+	if (restaurant.urlString != nil) {
+		SectionTitleAndButtonCellController *stabcc = [[SectionTitleAndButtonCellController alloc] init];
+		stabcc.sectionTitle = @"Website";
+		stabcc.buttonTitle = restaurant.urlString;
+		NSURL *webUrl = [NSURL URLWithString:restaurant.urlString];
+		if ([[UIApplication sharedApplication] canOpenURL:webUrl]) {
+			stabcc.buttonSelector = @selector(openURL:);
+			stabcc.buttonTarget = [UIApplication sharedApplication];
+			stabcc.buttonObject = webUrl;
+		}
+		
+		[mTableGroups addObject:stabcc];
+		[stabcc release];
+		
+	}
+	
 	tableGroups = mTableGroups;
 }
 
