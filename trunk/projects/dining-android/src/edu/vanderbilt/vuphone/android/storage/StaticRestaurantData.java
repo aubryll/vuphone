@@ -56,6 +56,7 @@ public class StaticRestaurantData {
 		cafeCocoData();
 		cheeseburgerCharleysData();
 		chilisData();
+		chipotleData();
 		medCuisineData();
 		michaelangelosPizzaData();
 		noshvilleData();
@@ -74,7 +75,7 @@ public class StaticRestaurantData {
 		wendysTwentyFirstData();
 		wendysWestEndData();
 		yogurtOasisData();
-		
+
 		/*
 		 * Other Restaurants
 		 */
@@ -139,8 +140,9 @@ public class StaticRestaurantData {
 		String description = "Rand Dining Center is the focal point of the campus community. Its central location, great food, and comfortable atmosphere provide students, faculty, and staff an opportunity to gather, socialize, and interact. Rand retail offers a varity of foods such as baked goods, made-for-you or build-your own salads, and regional favorites like Mediterranean and Asian foods.";
 
 		Restaurant rand = new Restaurant("Rand Dining Center", rh, true,
-				(int) (36.146405 * 1E6), (int) (-86.803178 * 1E6), "Dining Hall",
-				null, description, R.drawable.r_rand, true, true, false, null,
+				(int) (36.146405 * 1E6), (int) (-86.803178 * 1E6),
+				"Dining Hall", null, description, R.drawable.r_rand, true,
+				true, false, null,
 				"http://www.vanderbilt.edu/dining/rest_rand.php");
 		long id = rand.create();
 
@@ -149,8 +151,9 @@ public class StaticRestaurantData {
 			Log.i("StaticRestaurantData", String.valueOf(rand.equals(Restaurant
 					.get(id))));
 		}
-		
-		//Log.i("StaticRestaurantData", rand.toString() +"\n" + Restaurant.get(id).toString());
+
+		// Log.i("StaticRestaurantData", rand.toString() +"\n" +
+		// Restaurant.get(id).toString());
 	}
 
 	private void theCommonsFoodGalleryData() {
@@ -188,8 +191,8 @@ public class StaticRestaurantData {
 
 		Restaurant commonsFood = new Restaurant("The Commons Food Gallery", rh,
 				true, (int) (36.141951 * 1E6), (int) (-86.797127 * 1E6),
-				"Dining Hall", null, description, R.drawable.r_commons, true, true,
-				false, null,
+				"Dining Hall", null, description, R.drawable.r_commons, true,
+				true, false, null,
 				"http://www.vanderbilt.edu/dining/rest_commons.php");
 		long id = commonsFood.create();
 
@@ -323,8 +326,8 @@ public class StaticRestaurantData {
 
 		Restaurant centerSmoothie = new Restaurant("Center Smoothie", rh,
 				false, (int) (36.146545 * 1E6), (int) (-86.803471 * 1E6),
-				"Smoothie", null, description, R.drawable.r_centersmoothie, true,
-				true, false, null,
+				"Smoothie", null, description, R.drawable.r_centersmoothie,
+				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/line_centersmoothie.php");
 		long id = centerSmoothie.create();
 
@@ -448,8 +451,8 @@ public class StaticRestaurantData {
 
 		Restaurant quiznosTowers = new Restaurant("Quiznos Sub - Towers", rh,
 				false, (int) (36.147461 * 1E6), (int) (-86.806705 * 1E6),
-				"Sandwich", null, description, R.drawable.r_quiznos, true, true,
-				false, null,
+				"Sandwich", null, description, R.drawable.r_quiznos, true,
+				true, false, null,
 				"http://www.vanderbilt.edu/dining/line_quiznos_towers.php");
 		long id = quiznosTowers.create();
 
@@ -462,8 +465,7 @@ public class StaticRestaurantData {
 
 	private void quiznosMorganData() {
 		RestaurantHours rh = new RestaurantHours();
-		// TODO Check Morgan Quiznos hours after break because hours are
-		// currently not clear
+		
 		Time start = new Time(11, 0);
 		Time stop = new Time(22, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
@@ -496,8 +498,8 @@ public class StaticRestaurantData {
 
 		Restaurant quiznosMorgan = new Restaurant("Quiznos Sub - Morgan", rh,
 				false, (int) (36.140584 * 1E6), (int) (-86.806286 * 1E6),
-				"Sandwich", null, description, R.drawable.r_quiznos, true, true,
-				false, null,
+				"Sandwich", null, description, R.drawable.r_quiznos, true,
+				true, false, null,
 				"http://www.vanderbilt.edu/dining/line_quiznos_morgan.php");
 		long id = quiznosMorgan.create();
 
@@ -618,8 +620,9 @@ public class StaticRestaurantData {
 
 		Restaurant grins = new Restaurant("Grins - Vegetarian Cafe", rh, false,
 				(int) (36.144785 * 1E6), (int) (-86.806399 * 1E6),
-				"Vegetarian", null, description, R.drawable.r_grins, true, true,
-				false, null, "http://www.vanderbilt.edu/dining/line_grins.php");
+				"Vegetarian", null, description, R.drawable.r_grins, true,
+				true, false, null,
+				"http://www.vanderbilt.edu/dining/line_grins.php");
 		long id = grins.create();
 
 		if (DEBUG) {
@@ -638,35 +641,35 @@ public class StaticRestaurantData {
 		start = new Time(17, 0);
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
-		
+
 		start = new Time(11, 0);
 		stop = new Time(14, 30);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 		start = new Time(17, 0);
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
-		
+
 		start = new Time(11, 0);
 		stop = new Time(14, 30);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 		start = new Time(17, 0);
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
-		
+
 		start = new Time(11, 0);
 		stop = new Time(14, 30);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 		start = new Time(17, 0);
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
-		
+
 		start = new Time(11, 0);
 		stop = new Time(14, 30);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 		start = new Time(17, 0);
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
-		
+
 		start = new Time(11, 0);
 		stop = new Time(14, 30);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
@@ -674,10 +677,10 @@ public class StaticRestaurantData {
 		stop = new Time(21, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
-		Restaurant smilingElephant = new Restaurant("The Smiling Elephant", rh, false,
-				(int) (36.129392 * 1E6), (int) (-86.778613 * 1E6), "Thai",
-				null, null, R.drawable.r_smilingelephant, false, false, true,
-				"(615) 891-4488", "http://www.thesmilingelephant.com/");
+		Restaurant smilingElephant = new Restaurant("The Smiling Elephant", rh,
+				false, (int) (36.129392 * 1E6), (int) (-86.778613 * 1E6),
+				"Thai", null, null, R.drawable.r_smilingelephant, false, false,
+				true, "(615) 891-4488", "http://www.thesmilingelephant.com/");
 		long id = smilingElephant.create();
 
 		if (DEBUG) {
@@ -887,9 +890,9 @@ public class StaticRestaurantData {
 		String description = "";
 
 		Restaurant mcTyeire = new Restaurant("McTyeire", rh, false,
-				(int) (36.143796 * 1E6), (int) (-86.803227 * 1E6), "International",
-				null, description, R.drawable.dining_icon, true, true, false, null,
-				null);
+				(int) (36.143796 * 1E6), (int) (-86.803227 * 1E6),
+				"International", null, description, R.drawable.dining_icon,
+				true, true, false, null, null);
 		long id = mcTyeire.create();
 
 		if (DEBUG) {
@@ -1116,8 +1119,8 @@ public class StaticRestaurantData {
 
 		Restaurant hemingwayMarket = new Restaurant("Hemingway Market", rh,
 				false, (int) (36.149829 * 1E6), (int) (-86.80124 * 1E6),
-				"Munchie Mart", null, description, R.drawable.r_hemingway, true,
-				true, false, null,
+				"Munchie Mart", null, description, R.drawable.r_hemingway,
+				true, true, false, null,
 				"http://www.vanderbilt.edu/dining/hemingwaymarket.php");
 		long id = hemingwayMarket.create();
 
@@ -1207,9 +1210,9 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant breadAndCo = new Restaurant("Bread and Company", rh, false,
-				(int) (36.146313 * 1E6), (int) (-86.808728 * 1E6), "Sandwiches",
-				null, null, R.drawable.r_breadandco, true, false, true,
-				"(615) 329-1400", "http://www.breadandcompany.com/");
+				(int) (36.146313 * 1E6), (int) (-86.808728 * 1E6),
+				"Sandwiches", null, null, R.drawable.r_breadandco, true, false,
+				true, "(615) 329-1400", "http://www.breadandcompany.com/");
 		long id = breadAndCo.create();
 
 		if (DEBUG) {
@@ -1432,6 +1435,51 @@ public class StaticRestaurantData {
 		}
 	}
 
+	private void chipotleData() {
+		RestaurantHours rh = new RestaurantHours();
+
+		Time start = new Time(11, 0);
+		Time stop = new Time(22, 0);
+		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
+
+		start = new Time(11, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.MONDAY, new Range(start, stop));
+
+		start = new Time(11, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
+
+		start = new Time(11, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
+
+		start = new Time(11, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
+
+		start = new Time(11, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
+
+		start = new Time(11, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
+
+		Restaurant chipotle = new Restaurant("Chipotle", rh,
+				false, (int) (36.143896 * 1E6), (int) (-86.813187 * 1E6),
+				"Mexican", null, null, R.drawable.r_chipotle, true,
+				false, true, "(615) 320-1693",
+				"http://www.chipotle.com");
+		long id = chipotle.create();
+
+		if (DEBUG) {
+			DbWrapper.resetRestaurantCache();
+			Log.i("StaticRestaurantData", String.valueOf(chipotle
+					.equals(Restaurant.get(id))));
+		}
+	}
+
 	private void medCuisineData() {
 		RestaurantHours rh = new RestaurantHours();
 
@@ -1510,8 +1558,8 @@ public class StaticRestaurantData {
 		Restaurant michaelangelosPizza = new Restaurant(
 				"Michaelangelo's Pizza", rh, false, (int) (36.151744 * 1E6),
 				(int) (-86.803774 * 1E6), "Pizza", null, null,
-				R.drawable.r_michaelangelos, true, false, true, "(615) 329-2979",
-				"http://www.michaelangelos-pizza.com/");
+				R.drawable.r_michaelangelos, true, false, true,
+				"(615) 329-2979", "http://www.michaelangelos-pizza.com/");
 		long id = michaelangelosPizza.create();
 
 		if (DEBUG) {
@@ -1594,8 +1642,8 @@ public class StaticRestaurantData {
 
 		Restaurant obiesPizza = new Restaurant("Obie's Flying Tomato Pizza",
 				rh, false, (int) (36.1513 * 1E6), (int) (-86.804124 * 1E6),
-				"Pizza", null, null, R.drawable.dining_icon, true, false,
-				true, "(615) 327-4772", null);
+				"Pizza", null, null, R.drawable.dining_icon, true, false, true,
+				"(615) 327-4772", null);
 		long id = obiesPizza.create();
 
 		if (DEBUG) {
@@ -1737,23 +1785,23 @@ public class StaticRestaurantData {
 		RestaurantHours rh = new RestaurantHours();
 
 		Time start = new Time(10, 0);
-		Time stop = new Time(5, 0);
+		Time stop = new Time(3, 0);
 		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
 
 		start = new Time(10, 0);
-		stop = new Time(5, 0);
+		stop = new Time(3, 0);
 		rh.addRange(Calendar.MONDAY, new Range(start, stop));
 
 		start = new Time(10, 0);
-		stop = new Time(5, 0);
+		stop = new Time(3, 0);
 		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
 
 		start = new Time(10, 0);
-		stop = new Time(5, 0);
+		stop = new Time(3, 0);
 		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
 
 		start = new Time(10, 0);
-		stop = new Time(5, 0);
+		stop = new Time(3, 0);
 		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
 
 		start = new Time(10, 0);
@@ -1898,8 +1946,8 @@ public class StaticRestaurantData {
 
 		Restaurant schlotzskys = new Restaurant("Schlotzsky's", rh, false,
 				(int) (36.147596 * 1E6), (int) (-86.807077 * 1E6),
-				"Sandwiches", null, null, R.drawable.r_schlotzskys, true, false,
-				true, "(615) 320-9777", "http://www.schlotzskys.com/");
+				"Sandwiches", null, null, R.drawable.r_schlotzskys, true,
+				false, true, "(615) 320-9777", "http://www.schlotzskys.com/");
 		long id = schlotzskys.create();
 
 		if (DEBUG) {
@@ -2032,8 +2080,8 @@ public class StaticRestaurantData {
 
 		Restaurant sunsetGrill = new Restaurant("Sunset Grill", rh, false,
 				(int) (36.136725 * 1E6), (int) (-86.799483 * 1E6),
-				"Fine Dining", null, null, R.drawable.r_sunsetgrill, true, false,
-				true, "(615) 386-3663", "http://www.sunsetgrill.com/");
+				"Fine Dining", null, null, R.drawable.r_sunsetgrill, true,
+				false, true, "(615) 386-3663", "http://www.sunsetgrill.com/");
 		long id = sunsetGrill.create();
 
 		if (DEBUG) {
@@ -2086,14 +2134,42 @@ public class StaticRestaurantData {
 					.equals(Restaurant.get(id))));
 		}
 	}
-	
+
 	private void wendysTwentyFirstData() {
 		RestaurantHours rh = new RestaurantHours();
-		// TODO Add Hours of Operations
+		
+		Time start = new Time(10, 0);
+		Time stop = new Time(22, 0);
+		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.MONDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(22, 0);
+		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
+		
 		Restaurant wendysTwentyFirst = new Restaurant("Wendy's - 21st Avenue",
 				rh, false, (int) (36.14859 * 1E6), (int) (-86.799095 * 1E6),
-				"Fast Food", null, null, R.drawable.r_wendys, true, false, true,
-				"(615) 321-9763", "http://www.wendys.com/");
+				"Fast Food", null, null, R.drawable.r_wendys, true, false,
+				true, "(615) 321-9763", "http://www.wendys.com/");
 		long id = wendysTwentyFirst.create();
 
 		if (DEBUG) {
@@ -2105,11 +2181,39 @@ public class StaticRestaurantData {
 
 	private void wendysWestEndData() {
 		RestaurantHours rh = new RestaurantHours();
-		// TODO Add Hours of Operations
+		
+		Time start = new Time(10, 0);
+		Time stop = new Time(4, 0);
+		rh.addRange(Calendar.SUNDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(4, 0);
+		rh.addRange(Calendar.MONDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(4, 0);
+		rh.addRange(Calendar.TUESDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(4, 0);
+		rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(4, 0);
+		rh.addRange(Calendar.THURSDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(4, 0);
+		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
+
+		start = new Time(10, 0);
+		stop = new Time(4, 0);
+		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
+		
 		Restaurant wendysWestEnd = new Restaurant("Wendy's - West End", rh,
 				false, (int) (36.145667 * 1E6), (int) (-86.810038 * 1E6),
-				"Fast Food", null, null, R.drawable.r_wendys, true, false, true,
-				"(615) 327-4930", "http://www.wendys.com/");
+				"Fast Food", null, null, R.drawable.r_wendys, true, false,
+				true, "(615) 327-4930", "http://www.wendys.com/");
 		long id = wendysWestEnd.create();
 
 		if (DEBUG) {
