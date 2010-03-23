@@ -3,7 +3,6 @@ package edu.vanderbilt.vuphone.android.map;
 import java.util.ArrayList;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;

@@ -1,7 +1,6 @@
 package edu.vanderbilt.vuphone.android.objects;
 
 import edu.vanderbilt.vuphone.android.dining.Main;
-import android.util.Log;
 
 public class Range {
 	

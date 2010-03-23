@@ -2,7 +2,6 @@ package edu.vanderbilt.vuphone.android.storage;
 
 import java.util.ArrayList;
 
-import android.view.Menu;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;

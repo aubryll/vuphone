@@ -3,9 +3,7 @@ package edu.vanderbilt.vuphone.android.storage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Stack;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.Main;
