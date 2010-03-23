@@ -57,7 +57,7 @@
 		<TextView android:id="@+restaurantDetails/web_header"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:textSize="18px" android:textColor="@android:color/secondary_text_dark"
-			android:text="Internet adress" android:padding="3px" />
+			android:text="Internet address" android:padding="3px" />
 		<TextView android:id="@+restaurantDetails/web"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:textSize="14px" android:textColor="@android:color/secondary_text_dark"
