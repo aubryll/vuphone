@@ -6,7 +6,6 @@ package edu.vanderbilt.vuphone.android.dining;
 import android.app.TabActivity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.style.BulletSpan;
 import android.widget.TabHost;
 import android.widget.TextView;
 

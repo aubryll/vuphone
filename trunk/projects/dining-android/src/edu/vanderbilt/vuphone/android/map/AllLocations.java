@@ -6,10 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
@@ -17,7 +14,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
 import edu.vanderbilt.vuphone.android.dining.R;
-import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 /**
  * Creates the map that displays the location of all dining facilities

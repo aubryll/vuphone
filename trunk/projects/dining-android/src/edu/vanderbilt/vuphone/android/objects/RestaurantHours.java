@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.Main;
-import edu.vanderbilt.vuphone.android.storage.Restaurant;
 /**
  * @author austin
  *	Limitations: no range can span more than 24 hours, but it can span accross a day 

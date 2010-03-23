@@ -1,8 +1,6 @@
 package edu.vanderbilt.vuphone.android.storage;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,16 +11,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
-import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 
 public class DbAdapter {
 
 	/** Used for logging */
-	private static final String pre = "DBAdapter: ";
+	//private static final String pre = "DBAdapter: ";
 
 	/** Used for database updates */
 	private static final int DB_VERSION = 5;
@@ -177,14 +170,15 @@ public class DbAdapter {
 		         {r.favorite(), r.mealPlanAccepted(), r.mealMoneyAccepted(), r.offCampus()}));
 		initialValues.put(COLUMN_PHONE_NUMBER 	, r.getPhoneNumber());
 		initialValues.put(COLUMN_URL 			, r.getUrl());
-				
+		
+		/*		
 		// TODO remove comments when menu functional
 		if (r.getMenu() != null) {
 			XStream xstream = new XStream(new DomDriver());
 			String menuf = xstream.toXML(r.getMenu());
 			initialValues.put(COLUMN_MENU, menuf);
 		}
-		
+		*/
 		return _database.insert(RESTAURANT_TABLE, null, initialValues);
 	}
 
@@ -267,11 +261,13 @@ public class DbAdapter {
 		updateParams.put(COLUMN_PHONE_NUMBER 	, updated.getPhoneNumber());                              
 		updateParams.put(COLUMN_URL 			, updated.getUrl());                                      
 	
+		/*
 		if (updated.getMenu() != null) {
 			XStream xstream = new XStream(new DomDriver());
 			String menuf = xstream.toXML(updated.getMenu());
 			updateParams.put(COLUMN_MENU, menuf);
 		}
+		*/
 		
 		return _database.update(RESTAURANT_TABLE, updateParams,
 				COLUMN_ID + "=" + rowId, null) > 0;
@@ -413,14 +409,18 @@ public class DbAdapter {
 	 * @return
 	 *		equivalent RestaurantHours object
 	 */
+	/*
 	protected static RestaurantMenu getMenuFromXml(String xmlFromDatabase) {
 		if (xmlFromDatabase == null){
 			Log.i("DBAdapter", "getMenuFromXml null pointer");
 			return null;
 		}
+		
 		XStream xs = new XStream(new DomDriver());
 		return (RestaurantMenu) xs.fromXML(xmlFromDatabase);
+		
 	}
+	*/
 	
 //
 //	/**
