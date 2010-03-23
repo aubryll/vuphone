@@ -88,21 +88,23 @@ public class RestaurantDetails extends TabActivity implements
 			((TextView) findViewById(R.restaurantDetails.phone))
 					.setText(restaurant.getPhoneNumber());
 			((TextView) findViewById(R.restaurantDetails.phone))
-			.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("tel:" + restaurant.getPhoneNumber())));
-				}
-			});
-			
+					.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							startActivity(new Intent(Intent.ACTION_VIEW,
+									Uri.parse("tel:"
+											+ restaurant.getPhoneNumber())));
+						}
+					});
+
 			((TextView) findViewById(R.restaurantDetails.web))
 					.setText(restaurant.getUrl());
 			((TextView) findViewById(R.restaurantDetails.web))
-			.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri
-							.parse(restaurant.getUrl())));
-				}
-			});
+					.setOnClickListener(new View.OnClickListener() {
+						public void onClick(View v) {
+							startActivity(new Intent(Intent.ACTION_VIEW, Uri
+									.parse(restaurant.getUrl())));
+						}
+					});
 		} else {
 			((TextView) findViewById(R.restaurantDetails.phone_header))
 					.setVisibility(View.GONE);
