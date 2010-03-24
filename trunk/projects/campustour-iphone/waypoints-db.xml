@@ -5,17 +5,26 @@
         <description>This is the N center of Vanderbilt University's Campus</description>
         <coordinate longitude="-86.8044" latitude="36.142"/>
         <audiopath/>
+	<funfacts>Unfortunately no fun facts were detected.</funfacts>
+	<testimonials>I would definitely go here!</testimonials>
+        <image>27.jpg</image>
     </waypoint>
     <waypoint>
         <location name="Not Center" num="1"/>
         <description>This is not the center of Vanderbilt University's Campus</description>
         <coordinate longitude="-86.8044" latitude="36.100"/>
+	<testimonials>I might go here.</testimonials>
+	<funfacts>I wished there were more fun facts for this location.</funfacts>
         <audiopath/>
+        <image>28.jpg</image>
     </waypoint>
     <waypoint>
         <location name="Not Center Also" num="2"/>
         <description>This is also not the center of Vanderbilt University's Campus</description>
         <coordinate longitude="-86.8044" latitude="36.140"/>
+	<funfacts>Nope.. No facts here either.</funfacts>
         <audiopath/>
+	<testimonials>Ummmm.....</testimonials>
+        <image>24.jpg</image>
     </waypoint>
 </waypoints>

@@ -17,8 +17,13 @@
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
 		58014E681134C8F300513E1C /* WaypointDetailedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58014E661134C8F300513E1C /* WaypointDetailedViewController.m */; };
 		58014E691134C8F300513E1C /* WaypointDetailedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58014E671134C8F300513E1C /* WaypointDetailedViewController.xib */; };
+		581290FD11506ED100EA8E34 /* 28.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581290FC11506ED100EA8E34 /* 28.jpg */; };
 		5845275C112B86E6005BA08F /* Waypoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 5845275B112B86E6005BA08F /* Waypoint.m */; };
+		585C444611506714004063E7 /* 27.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 585C444511506714004063E7 /* 27.jpg */; };
 		58AE7B6C1134B8E3001E2675 /* waypoints-db.xml in Resources */ = {isa = PBXBuildFile; fileRef = 58AE7B6B1134B8E3001E2675 /* waypoints-db.xml */; };
+		58BF293C1159927800AEFF81 /* 24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58BF293B1159927800AEFF81 /* 24.jpg */; };
+		58BF29A11159A05700AEFF81 /* SitOnClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BF299F1159A05700AEFF81 /* SitOnClassViewController.m */; };
+		58BF29A21159A05700AEFF81 /* SitOnClassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BF29A01159A05700AEFF81 /* SitOnClassViewController.xib */; };
 		58D25988113382D900488E85 /* annotation-v.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D25985113382D900488E85 /* annotation-v.png */; };
 		58D25989113382D900488E85 /* pin-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D25986113382D900488E85 /* pin-black.png */; };
 		58D2598A113382D900488E85 /* pin-brown.png in Resources */ = {isa = PBXBuildFile; fileRef = 58D25987113382D900488E85 /* pin-brown.png */; };
@@ -50,9 +55,15 @@
 		58014E651134C8F300513E1C /* WaypointDetailedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaypointDetailedViewController.h; sourceTree = "<group>"; };
 		58014E661134C8F300513E1C /* WaypointDetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaypointDetailedViewController.m; sourceTree = "<group>"; };
 		58014E671134C8F300513E1C /* WaypointDetailedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WaypointDetailedViewController.xib; path = Classes/WaypointDetailedViewController.xib; sourceTree = "<group>"; };
+		581290FC11506ED100EA8E34 /* 28.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 28.jpg; path = Images/28.jpg; sourceTree = "<group>"; };
 		5845275A112B86E6005BA08F /* Waypoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Waypoint.h; sourceTree = "<group>"; };
 		5845275B112B86E6005BA08F /* Waypoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Waypoint.m; sourceTree = "<group>"; };
+		585C444511506714004063E7 /* 27.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 27.jpg; path = Images/27.jpg; sourceTree = "<group>"; };
 		58AE7B6B1134B8E3001E2675 /* waypoints-db.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "waypoints-db.xml"; sourceTree = "<group>"; };
+		58BF293B1159927800AEFF81 /* 24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 24.jpg; path = Images/24.jpg; sourceTree = "<group>"; };
+		58BF299E1159A05700AEFF81 /* SitOnClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SitOnClassViewController.h; path = ../SitOnClassViewController.h; sourceTree = "<group>"; };
+		58BF299F1159A05700AEFF81 /* SitOnClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SitOnClassViewController.m; path = ../SitOnClassViewController.m; sourceTree = "<group>"; };
+		58BF29A01159A05700AEFF81 /* SitOnClassViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SitOnClassViewController.xib; sourceTree = "<group>"; };
 		58D25985113382D900488E85 /* annotation-v.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "annotation-v.png"; path = "Images/annotation-v.png"; sourceTree = "<group>"; };
 		58D25986113382D900488E85 /* pin-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pin-black.png"; path = "Images/pin-black.png"; sourceTree = "<group>"; };
 		58D25987113382D900488E85 /* pin-brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pin-brown.png"; path = "Images/pin-brown.png"; sourceTree = "<group>"; };
@@ -108,6 +119,8 @@
 				1D3623250D0F684500981E51 /* Campus_TourAppDelegate.m */,
 				58014E651134C8F300513E1C /* WaypointDetailedViewController.h */,
 				58014E661134C8F300513E1C /* WaypointDetailedViewController.m */,
+				58BF299E1159A05700AEFF81 /* SitOnClassViewController.h */,
+				58BF299F1159A05700AEFF81 /* SitOnClassViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -146,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				58014E671134C8F300513E1C /* WaypointDetailedViewController.xib */,
+				58BF29A01159A05700AEFF81 /* SitOnClassViewController.xib */,
 				58AE7B6B1134B8E3001E2675 /* waypoints-db.xml */,
 				58D25984113382C300488E85 /* Images */,
 				E4B4F351112B6E37007BFFD7 /* MapViewController.xib */,
@@ -171,6 +185,9 @@
 		58D25984113382C300488E85 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				58BF293B1159927800AEFF81 /* 24.jpg */,
+				581290FC11506ED100EA8E34 /* 28.jpg */,
+				585C444511506714004063E7 /* 27.jpg */,
 				58D25985113382D900488E85 /* annotation-v.png */,
 				58D25986113382D900488E85 /* pin-black.png */,
 				58D25987113382D900488E85 /* pin-brown.png */,
@@ -255,6 +272,10 @@
 				58D2598A113382D900488E85 /* pin-brown.png in Resources */,
 				58AE7B6C1134B8E3001E2675 /* waypoints-db.xml in Resources */,
 				58014E691134C8F300513E1C /* WaypointDetailedViewController.xib in Resources */,
+				585C444611506714004063E7 /* 27.jpg in Resources */,
+				581290FD11506ED100EA8E34 /* 28.jpg in Resources */,
+				58BF293C1159927800AEFF81 /* 24.jpg in Resources */,
+				58BF29A21159A05700AEFF81 /* SitOnClassViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +298,7 @@
 				61D04529112B8A1100405B6F /* DDXMLNode.m in Sources */,
 				61D0452B112B8A1100405B6F /* NSStringAdditions.m in Sources */,
 				58014E681134C8F300513E1C /* WaypointDetailedViewController.m in Sources */,
+				58BF29A11159A05700AEFF81 /* SitOnClassViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

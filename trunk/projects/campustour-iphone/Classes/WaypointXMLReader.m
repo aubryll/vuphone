@@ -56,35 +56,19 @@
 		NSString *description = [WaypointXMLReader getXMLData:node tag:@"description" attribute:nil];
 		NSString *longitude = [WaypointXMLReader getXMLData:node tag:@"coordinate" attribute:@"longitude"];
 		NSString *latitude = [WaypointXMLReader getXMLData:node tag:@"coordinate" attribute:@"latitude"];
-		
+		NSString *imageName = [WaypointXMLReader getXMLData:node tag:@"image" attribute:nil];
+		NSString *funFacts = [WaypointXMLReader getXMLData:node tag:@"funfacts" attribute:nil];
+		NSString *testimonials = [WaypointXMLReader getXMLData:node tag:@"testimonials" attribute:nil];
+		NSString *audioPath = [WaypointXMLReader getXMLData:node tag:@"audiopath" attribute:nil];
 		Waypoint *waypoint = [[Waypoint alloc] init];
 		waypoint.name = name;
 		waypoint.description = description;
 		waypoint.num = [num intValue];
+		waypoint.image = [UIImage imageWithContentsOfFile:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:imageName]];
 		[waypoint setLocation:[longitude doubleValue] latitude:[latitude doubleValue]];
-//		Waypoint *waypoint = [Waypoint waypointWithName:name inContext:context];
-//		if (!waypoint) {
-//			waypoint = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_WAYPOINT
-//													 inManagedObjectContext:context];
-//		}
-//		
-//		// Load in the data from the XML file
-//		[WaypointXMLReader getDataFromXMLNode:node intoWaypoint:waypoint];
-//		
-//		[context save:&err];
-//		if (err) {
-//			NSLog(@"Error saving waypoint: %@", err);
-//			NSArray *detailedErrors = [[err userInfo] objectForKey:NSDetailedErrorsKey];
-//			if ([detailedErrors count] > 0)
-//			{
-//				for (NSError *detailedError in detailedErrors) {
-//					NSLog(@"  DetailedError: %@", [detailedError userInfo]);
-//				}
-//			}
-//			// Get rid of this waypoint
-//			[context rollback];
-//		}
-// 
+		waypoint.funFacts = funFacts;
+		waypoint.testimonials = testimonials;
+		waypoint.audioFilePath = audioPath;
 		[waypoints addObject:waypoint];
 	}
 	
