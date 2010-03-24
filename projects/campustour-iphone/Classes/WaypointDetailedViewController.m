@@ -29,6 +29,9 @@
 	theName.text = self.waypoint.name;
 	description.text = self.waypoint.description;
 	number.text = [NSString stringWithFormat:@"%d", self.waypoint.num];
+	theImage.image = self.waypoint.image;
+	funFacts.text = self.waypoint.funFacts;
+	testimonials.text = self.waypoint.testimonials;
 }
 
 /*

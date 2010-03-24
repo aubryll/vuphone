@@ -15,7 +15,10 @@
 	IBOutlet UITextView *description;
 	IBOutlet UILabel *number;
 	IBOutlet UILabel *theName;
+	IBOutlet UIImageView *theImage;
 	IBOutlet UITabBarController *tabBar;
+	IBOutlet UITextView *funFacts;
+	IBOutlet UITextView *testimonials;
 	Waypoint *waypoint;
 }
 

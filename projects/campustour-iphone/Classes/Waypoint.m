@@ -17,6 +17,8 @@
 @synthesize num;
 @synthesize image;
 @synthesize coordinate;
+@synthesize testimonials;
+@synthesize funFacts;
 
 - (id)init
 {
