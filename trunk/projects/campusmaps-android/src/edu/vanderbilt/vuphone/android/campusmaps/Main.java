@@ -93,20 +93,26 @@ public class Main extends MapActivity {
 		p_ = new GeoPoint((int) (lat * 1000000), (int) (lng * 1000000));
 		centerMapAt(p_, 17);
 
+		
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
 		// Set the GPS Listener
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		gps_ = GPS.getInstance();
 		gps_.initialize(lm);
 		gps_.showMarker();
-		
+
 	}
 	
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	protected void onStop() {
+		super.onStop();
 		
 		LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		gps_.getInstance().uninitialize(lm);
+		GPS.getInstance().uninitialize(lm);
 	}
 
 	/**
