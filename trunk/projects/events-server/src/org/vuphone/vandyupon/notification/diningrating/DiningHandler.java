@@ -140,16 +140,6 @@ public class DiningHandler implements NotificationHandler {
 			return -1;
 	}
 	
-	// This method is used to check what type of DiningRating we have.
-	private int checkForType(Notification n) {
-		if(n instanceof DiningRating)
-			return 1;
-		if(n instanceof DiningRatingRequest)
-			return 2;
-		else // The type is neither, error
-			return 0;
-	}
-	
 	// The method validates the location.
 	private boolean checkLocation(int loc){
 		return ((loc>0)&&(loc<=47));
@@ -166,7 +156,7 @@ public class DiningHandler implements NotificationHandler {
 	// how to deal with, then we return null.
 	public ResponseNotification handle(Notification n) {
 		
-		if(checkForType(n) == 1)/* The type is DiningRating */{
+		if(n instanceof DiningRating)/* The type is DiningRating */{
 			
 			// Cast the Generic Notification as DiningRating
 			DiningRating dr = (DiningRating) n;
@@ -176,23 +166,23 @@ public class DiningHandler implements NotificationHandler {
 					
 					// Add the rating
 					addRating(dr);
-					return new DiningRatingResponse("dummy", null, true);
+					return new DiningRatingResponse("not important", null, true);
 					// Must put something for ResponseType.. the responseHandler will call it.
 				}
 				else
 				{
 					// Update the rating
 					updateRating(dr);
-					return new DiningRatingResponse("dummy", null, true);
+					return new DiningRatingResponse("not important", null, true);
 					// Must put something for ResponseType.. the responseHandler will call it.
 				}
 			}
 			catch(SQLException e){
 				System.out.print("fail");
-				return new DiningRatingResponse("dummy", null, false);
+				return new DiningRatingResponse("not important", null, false);
 			}
 		}
-		else if(checkForType(n) == 2)/* The type is DiningRatingRequest */{
+		else if(n instanceof DiningRatingRequest)/* The type is DiningRatingRequest */{
 			
 			// Cast the generic notification as DiningRatingRequet
 			DiningRatingRequest drr = (DiningRatingRequest) n;
@@ -201,10 +191,10 @@ public class DiningHandler implements NotificationHandler {
 				
 				// Get the average rating.
 				int avgRating = getRating(drr);
-				return new DiningRatingRequestResponse("dummy", null, avgRating, true);
+				return new DiningRatingRequestResponse("not important", null, avgRating, true);
 			}
 			catch(SQLException e){
-				return new DiningRatingRequestResponse("dummy", null, 0, false);
+				return new DiningRatingRequestResponse("not important", null, 0, false);
 			}
 		}
 		// else we did not receive either type, in which case there is an error and we return null
