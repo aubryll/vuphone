@@ -8,6 +8,7 @@
 
 #import "RootViewController.h"
 #import "MapViewController.h"
+#import "AudioManager.h"
 
 @implementation RootViewController
 
@@ -70,6 +71,7 @@
 -(void)startTour:(id)sender{
 	MapViewController * mapViewController = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
 	[self.navigationController pushViewController:mapViewController animated:YES];
+	[[AudioManager sharedAudioManager] playAudioFile:@"inMySpaghetti" ofType:@"mp3"];
 	[mapViewController release];
 }
 
