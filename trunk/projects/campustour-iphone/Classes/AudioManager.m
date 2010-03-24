@@ -8,9 +8,12 @@
 
 #import "AudioManager.h"
 
-static AudioManager *sharedAudioManager = nil;
+
 
 @implementation AudioManager
+
+static AudioManager *sharedAudioManager = nil;
+
 
 #pragma mark -
 #pragma mark Instance Methods
