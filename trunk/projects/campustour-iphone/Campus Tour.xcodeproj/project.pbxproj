@@ -34,6 +34,10 @@
 		61D04528112B8A1100405B6F /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D0451D112B8A1100405B6F /* DDXMLElementAdditions.m */; };
 		61D04529112B8A1100405B6F /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D0451F112B8A1100405B6F /* DDXMLNode.m */; };
 		61D0452B112B8A1100405B6F /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 61D04524112B8A1100405B6F /* NSStringAdditions.m */; };
+		A09B3CA81159BF0B00ADDB6E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A09B3CA71159BF0B00ADDB6E /* AVFoundation.framework */; };
+		A09B3CAA1159BF1300ADDB6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A09B3CA91159BF1300ADDB6E /* MediaPlayer.framework */; };
+		A09B3CAC1159BF2200ADDB6E /* inMySpaghetti.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A09B3CAB1159BF2200ADDB6E /* inMySpaghetti.mp3 */; };
+		A09B3CAF1159BF2C00ADDB6E /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A09B3CAE1159BF2C00ADDB6E /* AudioManager.m */; };
 		E4B4F334112B3C5D007BFFD7 /* VULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F333112B3C5D007BFFD7 /* VULogo.png */; };
 		E4B4F341112B6E03007BFFD7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B4F340112B6E03007BFFD7 /* MapKit.framework */; };
 		E4B4F353112B6E37007BFFD7 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F351112B6E37007BFFD7 /* MapViewController.xib */; };
@@ -84,6 +88,11 @@
 		61D04523112B8A1100405B6F /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
 		61D04524112B8A1100405B6F /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Campus_Tour-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Campus_Tour-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		A09B3CA71159BF0B00ADDB6E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A09B3CA91159BF1300ADDB6E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		A09B3CAB1159BF2200ADDB6E /* inMySpaghetti.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = inMySpaghetti.mp3; sourceTree = "<group>"; };
+		A09B3CAD1159BF2C00ADDB6E /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
+		A09B3CAE1159BF2C00ADDB6E /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioManager.m; sourceTree = "<group>"; };
 		E4B4F333112B3C5D007BFFD7 /* VULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VULogo.png; sourceTree = "<group>"; };
 		E4B4F340112B6E03007BFFD7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E4B4F351112B6E37007BFFD7 /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapViewController.xib; path = Classes/MapViewController.xib; sourceTree = "<group>"; };
@@ -98,6 +107,8 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				E4B4F341112B6E03007BFFD7 /* MapKit.framework in Frameworks */,
+				A09B3CA81159BF0B00ADDB6E /* AVFoundation.framework in Frameworks */,
+				A09B3CAA1159BF1300ADDB6E /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,6 +118,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A09B3CAD1159BF2C00ADDB6E /* AudioManager.h */,
+				A09B3CAE1159BF2C00ADDB6E /* AudioManager.m */,
 				61D04511112B89C300405B6F /* WaypointXMLReader.h */,
 				61D04512112B89C300405B6F /* WaypointXMLReader.m */,
 				61D044F0112B88E700405B6F /* MapViewController.h */,
@@ -158,6 +171,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A09B3CAB1159BF2200ADDB6E /* inMySpaghetti.mp3 */,
 				58014E671134C8F300513E1C /* WaypointDetailedViewController.xib */,
 				58BF29A01159A05700AEFF81 /* SitOnClassViewController.xib */,
 				58AE7B6B1134B8E3001E2675 /* waypoints-db.xml */,
@@ -178,6 +192,8 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */,
+				A09B3CA71159BF0B00ADDB6E /* AVFoundation.framework */,
+				A09B3CA91159BF1300ADDB6E /* MediaPlayer.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -276,6 +292,7 @@
 				581290FD11506ED100EA8E34 /* 28.jpg in Resources */,
 				58BF293C1159927800AEFF81 /* 24.jpg in Resources */,
 				58BF29A21159A05700AEFF81 /* SitOnClassViewController.xib in Resources */,
+				A09B3CAC1159BF2200ADDB6E /* inMySpaghetti.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +316,7 @@
 				61D0452B112B8A1100405B6F /* NSStringAdditions.m in Sources */,
 				58014E681134C8F300513E1C /* WaypointDetailedViewController.m in Sources */,
 				58BF29A11159A05700AEFF81 /* SitOnClassViewController.m in Sources */,
+				A09B3CAF1159BF2C00ADDB6E /* AudioManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
