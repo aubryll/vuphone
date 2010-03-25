@@ -55,8 +55,11 @@ public class DiningHandler implements NotificationHandler {
 			}
 			return 1;
 		}
-		// else The Location or Rating is not valid
-			return -1;
+		else
+		{
+			//Generic exception. Should be replaced with something more descriptive later
+			throw new SQLException();
+		}
 	}
 	
 	// This method updates the rating of a Location from a Device that has already sent a rating
@@ -81,8 +84,11 @@ public class DiningHandler implements NotificationHandler {
 			}
 			return 1;
 		}
-		// else The Location or Rating is not valid
-		return -1; 
+		else
+		{
+			//Generic exception. Should be replaced with something more descriptive later
+			throw new SQLException();
+		}
 		
 	}
 	
@@ -136,8 +142,11 @@ public class DiningHandler implements NotificationHandler {
 			rs.next();
 			return rs.getInt(1);
 		}
-		else// The Location or Rating is not valid
-			return -1;
+		else
+		{
+			//Generic exception. Should be replaced with something more descriptive later
+			throw new SQLException();
+		}
 	}
 	
 	// The method validates the location.
@@ -153,10 +162,10 @@ public class DiningHandler implements NotificationHandler {
 	// This method actually handles the DiningRatings and DiningRatingRequests.
 	// We perform the proper functions based on the type we receive.  After that,
 	// we return the proper response type.  If we do not receive a type we know 
-	// how to deal with, then we return null.
-	public ResponseNotification handle(Notification n) {
-		
-		if(n instanceof DiningRating)/* The type is DiningRating */{
+	// how to deal with, throws an illegal argument exception
+	public ResponseNotification handle(Notification n){
+		if(n instanceof DiningRating)// The type is DiningRating
+		{
 			
 			// Cast the Generic Notification as DiningRating
 			DiningRating dr = (DiningRating) n;
@@ -178,11 +187,12 @@ public class DiningHandler implements NotificationHandler {
 				}
 			}
 			catch(SQLException e){
-				System.out.print("fail");
+				System.out.print("SQL fail");
 				return new DiningRatingResponse("not important", null, false);
 			}
 		}
-		else if(n instanceof DiningRatingRequest)/* The type is DiningRatingRequest */{
+		else if(n instanceof DiningRatingRequest)// The type is DiningRatingRequest
+		{
 			
 			// Cast the generic notification as DiningRatingRequet
 			DiningRatingRequest drr = (DiningRatingRequest) n;
@@ -197,7 +207,9 @@ public class DiningHandler implements NotificationHandler {
 				return new DiningRatingRequestResponse("not important", null, 0, false);
 			}
 		}
-		// else we did not receive either type, in which case there is an error and we return null
-		return null;
+		else // else we did not receive either type, in which case there is another error
+		{
+			return new DiningRatingResponse("not important", null, false);
+		}
 	}
 }
