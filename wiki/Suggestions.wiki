@@ -44,24 +44,24 @@ I read your article on apps and saw the video on YouTube. I am interested in hav
 
 
 <u>Others</u>
-Mobile Projects - 
-Campus News
-"Voice of Vanderbilt" Twitter (like the rant)
-Athletics
-Dining
-Self-Guided Tour
-OAK?
-Health app (my health @ VU, waiting times at the health center)
-Alumni / homecoming app
-common vu app framework
-campus maps
-vu plants / trees / arboretium 
-augmented reality
-directory (using ldap auth)
-courses
+  * Mobile Projects
+  * Campus News
+  * "Voice of Vanderbilt" Twitter (like the rant)
+  * Athletics
+  * Dining
+  * Self-Guided Tour
+  * OAK?
+  * Health app (my health @ VU, waiting times at the health center)
+  * Alumni / homecoming app
+  * common vu app framework
+  * campus maps
+  * vu plants / trees / arboretium 
+  * augmented reality
+  * directory (using ldap auth)
+  * courses
 
-Server projects
-pull facebook event info
-data mining(news, athletics, etc)
-reliability testing
-automatic documentation generation
+<u>Server projects</u>
+  * pull facebook event info
+  * data mining(news, athletics, etc)
+  * reliability testing
+  * automatic documentation generation
