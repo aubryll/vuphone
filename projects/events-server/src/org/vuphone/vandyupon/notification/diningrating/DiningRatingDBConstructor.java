@@ -17,7 +17,7 @@ package org.vuphone.vandyupon.notification.diningrating;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+//import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.vuphone.vandyupon.sql.DatabaseConstructor;
 
@@ -38,10 +38,8 @@ public class DiningRatingDBConstructor implements DatabaseConstructor {
 		PreparedStatement prep = db.prepareStatement(sql);
 		prep.execute();
 
-		db.commit();
-		
+		db.commit();	
 		db.setAutoCommit(true);
-		
 		db.close();
 	}
 
