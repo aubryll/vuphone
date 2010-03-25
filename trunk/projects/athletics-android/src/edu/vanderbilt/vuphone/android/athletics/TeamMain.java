@@ -18,14 +18,17 @@ public class TeamMain extends Activity {
 		setContentView(R.layout.team_main);
 
 		/*
-		 * String title is assigned the value of the item (name of 
-		 * the sport) that the user clicked on in the 
-		 * previous activity.
-		 * String title cannot go before onCreate is called because of 
-		 * a problem with pending Intent.
+		 * String title is assigned the value of the item (name of the sport)
+		 * that the user clicked on in the previous activity. String title
+		 * cannot go before onCreate is called because of a problem with pending
+		 * Intent.
 		 */
 		String title = getIntent().getExtras().getString("sports_title");
 		setTitle("Vanderbilt " + title);
+
+		if (title == "Football") {
+			getWindow().setBackgroundDrawableResource(0);
+		}
 
 		((Button) findViewById(R.id.Button01))
 				.setOnClickListener(new View.OnClickListener() {
