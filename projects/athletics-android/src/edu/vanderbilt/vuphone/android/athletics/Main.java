@@ -1,12 +1,20 @@
 package edu.vanderbilt.vuphone.android.athletics;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+import edu.vanderbilt.vuphone.android.athletics.storage.XmlToDatabaseHelper;
 
 /*
  * The Main class has two buttons: Sports and History
@@ -19,29 +27,52 @@ import android.widget.Button;
  */
 
 public class Main extends Activity {
+	private ProgressBar mProgress;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main); //Sets the layout 
+		setContentView(R.layout.main); // Sets the layout
+
+		ConnectivityManager connect = (ConnectivityManager) getSystemService(Main.CONNECTIVITY_SERVICE);
+
+		XmlToDatabaseHelper loader = new XmlToDatabaseHelper(this);
+
+		// TODO Fix isUpdated so that database doesn't have to be loaded every
+		// launch
+		if (connect.getNetworkInfo(0).isConnected()
+				|| connect.getNetworkInfo(1).isConnected()) {
+			// if (loader.isUpdated(this))
+			// {
+			loader.updateDatabase();
+			// }
+		} else {
+			Context context = getApplicationContext();
+			CharSequence text = "You aren't connected to the Internet. Please connect to Internet for updated data.";
+			int duration = Toast.LENGTH_LONG;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.setGravity(Gravity.CENTER, toast.getXOffset() / 2, toast
+					.getYOffset() / 2);
+			toast.show();
+		}
 
 		((Button) findViewById(R.main.sports_button))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Intent i = new Intent(Main.this, SportsMain.class);
-						startActivity(i); //Launches SportsMain Intent
+						startActivity(i); // Launches SportsMain Intent
 					}
 				});
 		((Button) findViewById(R.main.history_button))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Intent i = new Intent(Main.this, HistoryMain.class);
-						startActivity(i); //Launches HistoryMain Intent
+						startActivity(i); // Launches HistoryMain Intent
 					}
 				});
 	}
-
 
 	// -------------------- MENU FUNCTIONS
 
@@ -59,7 +90,7 @@ public class Main extends Activity {
 
 		return true;
 	}
-	
+
 	/** Handles what happens when each menu item is clicked */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		super.onOptionsItemSelected(item);

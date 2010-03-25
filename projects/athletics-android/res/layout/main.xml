@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:background="@drawable/athletics_main">
+	<TextView android:id="@+main/blank_box" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+		android:paddingTop="10dp" android:layout_alignParentBottom="true" />
+	<TextView android:id="@+main/center_box" android:layout_width="3dp"
+		android:layout_height="66dp" android:layout_centerHorizontal="true"
+		android:layout_above="@main/blank_box" />
 	<Button android:id="@+main/sports_button" android:layout_width="154dp"
-		android:layout_height="66dp" android:layout_x="7dp"
-		android:background="@drawable/main_button_state" android:layout_y="344dp"
-		android:textColor="@drawable/list_text_color" android:textSize="20dp"
-		android:text="Sports" />
+		android:layout_height="66dp" android:background="@drawable/main_button_state"
+		android:textColor="@drawable/list_text_color" android:textSize="20sp"
+		android:text="Sports" android:layout_above="@main/blank_box"
+		android:layout_toLeftOf="@main/center_box" />
 	<Button android:id="@+main/history_button" android:layout_width="154dp"
+		android:layout_height="66dp" android:background="@drawable/main_button_state"
+		android:textColor="@drawable/list_text_color" android:textSize="20sp"
+		android:text="History" android:layout_above="@main/blank_box"
+		android:layout_toRightOf="@main/center_box" />
+</RelativeLayout>
+
+
+	<!--
+		<AbsoluteLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:background="@drawable/athletics_main"> <Button
+		android:id="@+main/sports_button" android:layout_width="154dp"
+		android:layout_height="66dp" android:layout_x="7dp"
+		android:background="@drawable/main_button_state"
+		android:layout_y="344dp" android:textColor="@drawable/list_text_color"
+		android:textSize="20dp" android:text="Sports" /> <Button
+		android:id="@+main/history_button" android:layout_width="154dp"
 		android:layout_height="66dp" android:layout_x="159dp"
-		android:background="@drawable/main_button_state" android:layout_y="344dp"
-		android:textColor="@drawable/list_text_color" android:textSize="20dp"
-		android:text="History" />
-</AbsoluteLayout>
+		android:background="@drawable/main_button_state"
+		android:layout_y="344dp" android:textColor="@drawable/list_text_color"
+		android:textSize="20dp" android:text="History" /> </AbsoluteLayout>
+	-->

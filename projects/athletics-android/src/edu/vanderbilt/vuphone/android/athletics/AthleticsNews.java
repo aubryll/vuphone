@@ -3,8 +3,11 @@ package edu.vanderbilt.vuphone.android.athletics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.vanderbilt.vuphone.android.athletics.storage.DatabaseAdapter;
+
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 /*
@@ -24,6 +28,7 @@ import android.widget.TextView;
  * @author Grayson Sharpe
  */
 public class AthleticsNews extends ListActivity {
+
 	ArrayAdapter<String> adapter = null;
 	ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
 	private SimpleAdapter news;
@@ -53,20 +58,35 @@ public class AthleticsNews extends ListActivity {
 		 * and not the custom listview file
 		 */
 		// TODO Implement Database
-		news = new SimpleAdapter(this, list, R.layout.news_cell, new String[] {
-				"news_title", "news_details", "news_date" }, new int[] {
-				R.news.title, R.news.details, R.news.date });
-		setListAdapter(news);
-		this.addItem(); // Populates ListView
+
+		DatabaseAdapter db = new DatabaseAdapter(this);
+		db.open();
+		
+		Cursor cursor = db.fetchAllNewsItems();
+
+		String[] columns = { "title", "body" };
+		int[] column_ids = { R.news.title, R.news.details };
+		setListAdapter(new SimpleCursorAdapter(this, R.layout.news_cell,
+				cursor, columns, column_ids));
+		db.close();
+
+		/*
+		 * news = new SimpleAdapter(this, list, R.layout.news_cell, new String[]
+		 * { "news_title", "news_details", "news_date" }, new int[] {
+		 * R.news.title, R.news.details, R.news.date });
+		 * 
+		 * setListAdapter(news); this.addItem(); // Populates ListView
+		 */
 	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		startActivity(new Intent(
-				Intent.ACTION_VIEW,
-				Uri
-						.parse("http://vucommodores.cstv.com/sports/m-baskbl/spec-rel/031510aaj.html")));
+		DatabaseAdapter db = new DatabaseAdapter(this);
+		db.open();
+		String url = db.fetchNewsItem(id).getString(3);
+		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+		db.close();
 	}
 
 	// TODO Remove menu button when database is implemented

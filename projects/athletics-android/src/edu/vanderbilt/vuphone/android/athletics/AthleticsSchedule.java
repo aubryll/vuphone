@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.ListActivity;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SimpleAdapter;
+import android.widget.SimpleCursorAdapter;
+import edu.vanderbilt.vuphone.android.athletics.storage.DatabaseAdapter;
 
 /*
  * Athletics Schedule class will start the Activity listing the
@@ -30,51 +33,50 @@ public class AthleticsSchedule extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.schedule_layout); //allows for custom list
-		
+		setContentView(R.layout.schedule_layout); // allows for custom list
+
 		/*
-		 * String title is assigned the value of the item (name of 
-		 * the sport information) that the user clicked on in the 
-		 * previous activity plus the additional Extra of the name of
-		 * the sport. 
-		 * String title cannot go before onCreate is called because of 
-		 * a problem with pending Intent.
+		 * String title is assigned the value of the item (name of the sport
+		 * information) that the user clicked on in the previous activity plus
+		 * the additional Extra of the name of the sport. String title cannot go
+		 * before onCreate is called because of a problem with pending Intent.
 		 */
 		String title = getIntent().getExtras().getString("sports_title");
 		setTitle("Vanderbilt " + title + " Schedule");
+
+		DatabaseAdapter db = new DatabaseAdapter(this);
+		db.open();
 		
-		/*
-		 * DatabaseAdapter db = new DatabaseAdapter(this); db.open();
-		 * db.createGame("Vanderbilt", "Florida", "Football", "season",
-		 * "2010-03-02", "23", "44"); Cursor cursor = db.fetchAllGames();
-		 * 
-		 * String[] columns = {"hometeam", "homescore", "awayscore", "awayteam",
-		 * "time"}; int[] column_ids = {R.schedule.teamName,
-		 * R.schedule.our_score, R.schedule.their_score, R.schedule.date};
-		 * setListAdapter(new SimpleCursorAdapter(this, R.layout.schedule_cell,
-		 * cursor, columns, column_ids)); db.close();
-		 */
+		Cursor cursor = db.fetchAllGames();
+
+		String[] columns = { "hometeam", "homescore", "awayscore", "awayteam",
+				"time" };
+		int[] column_ids = { R.schedule.home_team, R.schedule.home_score,
+				R.schedule.away_score, R.schedule.away_team, R.schedule.game_date };
+		setListAdapter(new SimpleCursorAdapter(this, R.layout.schedule_cell,
+				cursor, columns, column_ids));
+		db.close();
 
 		/*
-		 * SimpleAdapter is in place for the static data for the view.
-		 * The view will later be populated with information from
-		 * database.
+		 * SimpleAdapter is in place for the static data for the view. The view
+		 * will later be populated with information from database.
 		 * 
-		 * Make sure that the layout file in the adapter is the 
-		 * custom cell file and not the custom listview file
+		 * Make sure that the layout file in the adapter is the custom cell file
+		 * and not the custom listview file
 		 */
-		//TODO Implement Database
+		/*// TODO Implement Database
 		schedule = new SimpleAdapter(this, list, R.layout.schedule_cell,
 				new String[] { "home_team", "away_team", "home_logo",
 						"away_logo", "game_outcome", "home_score",
-					 	"away_score", "game_date", "game_location"}, new int[] {
-						R.schedule.home_team, R.schedule.away_team,
+						"away_score", "game_date", "game_location" },
+				new int[] { R.schedule.home_team, R.schedule.away_team,
 						R.schedule.home_logo, R.schedule.away_logo,
-						R.schedule.game_outcome, R.schedule.home_score, 
-						R.schedule.away_score, R.schedule.game_date, R.schedule.game_location });
+						R.schedule.game_outcome, R.schedule.home_score,
+						R.schedule.away_score, R.schedule.game_date,
+						R.schedule.game_location });
 		setListAdapter(schedule);
-		this.addItem(); //Populates ListView
-
+		this.addItem(); // Populates ListView
+*/
 		/*
 		 * if (((TextView) findViewById(R.schedule.outcome)).getText() == "L") {
 		 * ((TextView) findViewById(R.schedule.outcome))
@@ -83,11 +85,12 @@ public class AthleticsSchedule extends ListActivity {
 		 */
 	}
 
-	//TODO Remove menu button when database is implemented
+	// TODO Remove menu button when database is implemented
 	/*
 	 * (non-Javadoc)
-	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
-	 * Adds menu button "Add Item"
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu) Adds
+	 * menu button "Add Item"
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,9 +99,10 @@ public class AthleticsSchedule extends ListActivity {
 		return result;
 	}
 
-	//TODO Remove menu function when database is implemented
+	// TODO Remove menu function when database is implemented
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 * When clicked data already in the list is readded
 	 */
@@ -112,28 +116,33 @@ public class AthleticsSchedule extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	//TODO Remove static data when database is implemented
+	// TODO Remove static data when database is implemented
 	/*
 	 * Add static data here in the hash map
 	 */
 	private void addItem() {
-		
-		String[] home_team = new String[] { "Vanderbilt", "Tennessee", "Vanderbilt" };
+
+		String[] home_team = new String[] { "Vanderbilt", "Tennessee",
+				"Vanderbilt" };
 		String[] away_team = new String[] { "Florida", "Vanderbilt", "Kentucky" };
-		Integer[] home_logo = new Integer[] { R.drawable.vandy_logo, R.drawable.tenn_logo, R.drawable.vandy_logo };
-		Integer[] away_logo = new Integer[] { R.drawable.fla_logo, R.drawable.vandy_logo, R.drawable.kty_logo };
-		Integer[] game_outcome = new Integer[] { R.drawable.loss_icon, R.drawable.win_icon, 0 };
+		Integer[] home_logo = new Integer[] { R.drawable.vandy_logo,
+				R.drawable.tenn_logo, R.drawable.vandy_logo };
+		Integer[] away_logo = new Integer[] { R.drawable.fla_logo,
+				R.drawable.vandy_logo, R.drawable.kty_logo };
+		Integer[] game_outcome = new Integer[] { R.drawable.loss_icon,
+				R.drawable.win_icon, 0 };
 		String[] home_score = new String[] { "13", "13", "" };
 		String[] away_score = new String[] { "23", "34", "" };
-		String[] game_date = new String[] { "Oct. 17, 7:00PM CST", "Oct. 24, 12:00PM CST", "Oct. 31, 12:00PM CST" };
-		String[] game_location = new String[] { "Nashville, Tennessee", "Knoxville, Tennessee", "Nashville, Tennessee" };
+		String[] game_date = new String[] { "Oct. 17, 7:00PM CST",
+				"Oct. 24, 12:00PM CST", "Oct. 31, 12:00PM CST" };
+		String[] game_location = new String[] { "Nashville, Tennessee",
+				"Knoxville, Tennessee", "Nashville, Tennessee" };
 
 		for (int i = 0; i < 3; i++) {
 			HashMap<String, String> item = new HashMap<String, String>();
 			/*
-			 * "home_team", "away_team", "home_logo",
-						"away_logo", "game_outcome", "home_score",
-					 	"away_score", "game_date"
+			 * "home_team", "away_team", "home_logo", "away_logo",
+			 * "game_outcome", "home_score", "away_score", "game_date"
 			 */
 			item.put("home_team", home_team[i]);
 			item.put("away_team", away_team[i]);

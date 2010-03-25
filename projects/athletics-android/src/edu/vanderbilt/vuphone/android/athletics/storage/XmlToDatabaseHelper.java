@@ -49,6 +49,7 @@ public class XmlToDatabaseHelper {
 		System.out.println("XmlToDatabaseHelper being constructed...");
 		// initialize database
 		myDatabaseHelper = new DatabaseAdapter(myContext);
+		this.myContext = myContext;
 
 		// check for the existence of the version file
 
@@ -168,7 +169,9 @@ public class XmlToDatabaseHelper {
 		// results of the parser
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
-			dom = db.parse(new URL(myContext.getString(R.string.DATA_URL))
+			dom = db.parse(new URL
+					(myContext.getString
+							(R.string.DATA_URL))
 					.openStream());
 			System.out.println("XML file parsed to DOM object.");
 		} catch (ParserConfigurationException pce) {

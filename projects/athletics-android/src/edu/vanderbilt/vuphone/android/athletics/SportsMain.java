@@ -55,14 +55,14 @@ public class SportsMain extends ListActivity {
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-
+		
 		/*
 		 * Launches activity TeamMain for the selected sport and puts the
 		 * Extra of the sport's name on the intent.
 		 */
 		startActivity(new Intent(this, TeamMain.class).putExtra("sports_title",
 				list.get(position).get("sports_title")));
-
+		
 	}
 	
 	
