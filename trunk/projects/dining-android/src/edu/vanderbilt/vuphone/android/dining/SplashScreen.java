@@ -1,5 +1,6 @@
 package edu.vanderbilt.vuphone.android.dining;
 
+import edu.vanderbilt.vuphone.android.storage.Restaurant;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class SplashScreen extends Activity {
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.splash_screen);
+		
 
 		/*
 		 * New Handler to start the Menu-Activity and close this Splash-Screen
@@ -30,7 +32,7 @@ public class SplashScreen extends Activity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				/* Create an Intent that will start the Menu-Activity. */
+				/* Create an Intent that will start the Main-Activity. */
 				Intent mainIntent = new Intent(SplashScreen.this, Main.class);
 				SplashScreen.this.startActivity(mainIntent);
 				SplashScreen.this.finish();

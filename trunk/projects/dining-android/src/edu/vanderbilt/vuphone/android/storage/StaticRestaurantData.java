@@ -11,7 +11,7 @@ import edu.vanderbilt.vuphone.android.objects.Time;
 
 public class StaticRestaurantData {
 	public static final boolean DEBUG = false;
-	public static final int NUM_RESTAURANTS = 47;
+	public static final int NUM_RESTAURANTS = 49;
 
 	int maxMenuItems = 10;
 
