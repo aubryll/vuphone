@@ -44,7 +44,7 @@ public abstract class ResponseNotification extends Notification {
 		callback_ = cb;
 	}
 	
-	public void setReponseType(String type){//Q// I assume this is supposed to be setResponseType? 
+	public void setResponseType(String type){
 		responseType_ = type;
 	}
 	
