@@ -13,13 +13,6 @@ public class StaticRestaurantData {
 	public static final boolean DEBUG = false;
 	public static final int NUM_RESTAURANTS = 49;
 
-	int maxMenuItems = 10;
-
-	String[] letters = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "k", "l",
-			"m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y",
-			"z" };
-	Random r = new Random();
-
 	public void createAllRestaurants() {
 		/*
 		 * On Campus Restaurants
