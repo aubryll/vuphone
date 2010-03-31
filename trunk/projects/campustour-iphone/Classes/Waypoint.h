@@ -29,6 +29,6 @@
 @property (retain) UIImage *image;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
--(void)setLocation:(double)longitute latitude:(double)latitude;
+- (void)setLocation:(double)longitute latitude:(double)latitude;
 
 @end

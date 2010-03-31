@@ -13,7 +13,16 @@
 @implementation SitOnClassViewController 
 
 - (void)viewDidLoad {
-	//courses = [[NSArray alloc] initWithObjects:@"CS 250", @"MATH 288", @"ENGM 221", @"CS 101!!!111", nil];
+	courses = [[NSMutableArray alloc] init];
+	
+	Course *course = [[Course alloc] init];
+	course.subject = @"Computer Science 101";
+	course.title = @"Intro to Computer Science";
+	course.time = @"MWF 12:10-1:00";
+	course.desc = @"This is the course description from the course catalog";
+	course.place = @"Featheringill 134";
+	[courses addObject:course];
+	[course release];
 }
 
 - (void)viewDidUnload {
@@ -32,13 +41,14 @@
 
 
     if (!cell) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier] autorelease];
 	}
 	
 	// Configure the cell
 	Course *course = [courses objectAtIndex:indexPath.row];
-	cell.textLabel.text = course.number;
-	cell.detailTextLabel.text = course.title;
+	cell.textLabel.text = course.subject;
+	cell.detailTextLabel.text = course.time;
+
 	return cell;
 }
 
@@ -46,9 +56,9 @@
     [super dealloc];
 }
 
--(void)loadData:(NSString *)fileName
+- (void)loadData:(NSString *)fileName
 {
-	courses = [CourseXMLReader coursesFromXMLAtPath:@"courses.xml"];
+//	courses = [CourseXMLReader coursesFromXMLAtPath:@"courses.xml"];
 }
 
 @end
