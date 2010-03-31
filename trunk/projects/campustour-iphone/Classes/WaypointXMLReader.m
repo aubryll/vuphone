@@ -5,8 +5,11 @@
 //  Created by Aaron Thompson on 01/10/10
 //
 
+#import "DDXML.h"
+#import "DDXMLNode.h"
 #import "WaypointXMLReader.h"
 #import "Waypoint.h"
+#import "XMLReaderUtilities.h"
 
 @interface DDXMLNode (XPathHelpers)
 
@@ -51,15 +54,15 @@
 	for (DDXMLNode *node in nodes)
 	{
 		// Fetch the waypoint from our DB.  If it doesn't exist, create a new one.
-		NSString *name = [WaypointXMLReader getXMLData:node tag:@"location" attribute:@"name"];
-		NSString *num = [WaypointXMLReader getXMLData:node tag:@"location" attribute:@"num"];
-		NSString *description = [WaypointXMLReader getXMLData:node tag:@"description" attribute:nil];
-		NSString *longitude = [WaypointXMLReader getXMLData:node tag:@"coordinate" attribute:@"longitude"];
-		NSString *latitude = [WaypointXMLReader getXMLData:node tag:@"coordinate" attribute:@"latitude"];
-		NSString *imageName = [WaypointXMLReader getXMLData:node tag:@"image" attribute:nil];
-		NSString *funFacts = [WaypointXMLReader getXMLData:node tag:@"funfacts" attribute:nil];
-		NSString *testimonials = [WaypointXMLReader getXMLData:node tag:@"testimonials" attribute:nil];
-		NSString *audioPath = [WaypointXMLReader getXMLData:node tag:@"audiopath" attribute:nil];
+		NSString *name = [XMLReaderUtilities getXMLData:node tag:@"location" attribute:@"name"];
+		NSString *num = [XMLReaderUtilities getXMLData:node tag:@"location" attribute:@"num"];
+		NSString *description = [XMLReaderUtilities getXMLData:node tag:@"description" attribute:nil];
+		NSString *longitude = [XMLReaderUtilities getXMLData:node tag:@"coordinate" attribute:@"longitude"];
+		NSString *latitude = [XMLReaderUtilities getXMLData:node tag:@"coordinate" attribute:@"latitude"];
+		NSString *imageName = [XMLReaderUtilities getXMLData:node tag:@"image" attribute:nil];
+		NSString *funFacts = [XMLReaderUtilities getXMLData:node tag:@"funfacts" attribute:nil];
+		NSString *testimonials = [XMLReaderUtilities getXMLData:node tag:@"testimonials" attribute:nil];
+		NSString *audioPath = [XMLReaderUtilities getXMLData:node tag:@"audiopath" attribute:nil];
 		Waypoint *waypoint = [[Waypoint alloc] init];
 		waypoint.name = name;
 		waypoint.description = description;
@@ -75,38 +78,6 @@
 	[waypointXml release];
 	
 	return waypoints;
-}
-
-
-// Currently doesn't support xpath returning multiple nodes, but could be reworked to add index as an additional argument
-+ (NSString *)getXMLData:(DDXMLNode *)node tag:(NSString *)tagName attribute:(NSString*)attr
-{
-	NSString *xpathString;
-	if (attr != nil)
-	{
-		xpathString = [NSString stringWithFormat:@"./%@/@%@", tagName, attr];
-	}
-	else 
-	{
-		xpathString = [NSString stringWithFormat:@"./%@", tagName];
-	}
-    
-	NSError *err = nil;
-	NSArray *tmpArray = [node nodesForXPath:xpathString error:&err];
-	if (err)
-	{
-		NSLog(@"Error retrieving %@: %@", xpathString, err);
-		return nil;
-	}
-	else if ([tmpArray count] == 0)
-	{
-		NSLog(@"Error the xpath (%@) returned an empty set", tagName);
-		return nil;
-	}
-	else 
-	{
-		return [(DDXMLNode *) [tmpArray objectAtIndex:0] stringValue];
-	}
 }
 
 @end
