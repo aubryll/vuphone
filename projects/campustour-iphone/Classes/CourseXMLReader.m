@@ -43,6 +43,7 @@
 		course.time = time;
 		course.place = place;
 		[courses addObject:course];
+		[course release];
 	}
 	
 	[coursesXml release];

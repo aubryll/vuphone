@@ -23,6 +23,6 @@
 }
 
 @property (retain) Waypoint *waypoint;
-
+-(IBAction)showClasses:(id)sender;
 
 @end

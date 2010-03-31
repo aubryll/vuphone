@@ -73,6 +73,7 @@
 		waypoint.testimonials = testimonials;
 		waypoint.audioFilePath = audioPath;
 		[waypoints addObject:waypoint];
+		[waypoint release];
 	}
 	
 	[waypointXml release];

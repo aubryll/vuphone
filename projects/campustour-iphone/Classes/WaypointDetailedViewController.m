@@ -7,7 +7,7 @@
 //
 
 #import "WaypointDetailedViewController.h"
-
+#import "SitOnClassViewController.h"
 
 @implementation WaypointDetailedViewController
 
@@ -64,6 +64,14 @@
 - (void)dealloc {
 	self.waypoint = nil;
     [super dealloc];
+}
+
+-(IBAction)showClasses:(id)sender
+{
+	SitOnClassViewController *newController = [[SitOnClassViewController alloc] init];
+	[newController loadData:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"courses.xml"]];
+	[self.navigationController pushViewController:newController animated:YES];
+	[newController release];
 }
 
 @end
