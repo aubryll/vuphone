@@ -118,14 +118,13 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				61D51F841162D872000A73E0 /* Model */,
 				A09B3CAD1159BF2C00ADDB6E /* AudioManager.h */,
 				A09B3CAE1159BF2C00ADDB6E /* AudioManager.m */,
 				61D04511112B89C300405B6F /* WaypointXMLReader.h */,
 				61D04512112B89C300405B6F /* WaypointXMLReader.m */,
 				61D044F0112B88E700405B6F /* MapViewController.h */,
 				61D044F1112B88E700405B6F /* MapViewController.m */,
-				5845275A112B86E6005BA08F /* Waypoint.h */,
-				5845275B112B86E6005BA08F /* Waypoint.m */,
 				28C286DF0D94DF7D0034E888 /* RootViewController.h */,
 				28C286E00D94DF7D0034E888 /* RootViewController.m */,
 				1D3623240D0F684500981E51 /* Campus_TourAppDelegate.h */,
@@ -228,6 +227,15 @@
 				61D04524112B8A1100405B6F /* NSStringAdditions.m */,
 			);
 			path = KissXML;
+			sourceTree = "<group>";
+		};
+		61D51F841162D872000A73E0 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5845275A112B86E6005BA08F /* Waypoint.h */,
+				5845275B112B86E6005BA08F /* Waypoint.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -360,6 +368,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos3.1.2;
 			};
 			name = Debug;

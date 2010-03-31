@@ -10,7 +10,7 @@
 
 
 @interface SitOnClassViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
-
+	NSArray *courses;
 }
 
 @end
