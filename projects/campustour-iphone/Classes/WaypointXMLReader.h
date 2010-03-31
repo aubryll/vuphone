@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "DDXML.h"
-#import "DDXMLNode.h"
+
 
 @interface WaypointXMLReader : NSObject {
 
 }
 
 + (NSArray *)waypointsFromXMLAtPath:(NSString *)path;
-+ (NSString *)getXMLData:(DDXMLNode *)node tag:(NSString *)tagName attribute:(NSString *)attr;
 //+ (void)getDataFromXMLNode:(DDXMLNode *)node intoWaypoint:(Waypoint *)waypoint;
 
 @end
