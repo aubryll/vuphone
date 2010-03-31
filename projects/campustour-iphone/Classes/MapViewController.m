@@ -9,25 +9,16 @@
 #import "MapViewController.h"
 #import "Waypoint.h"
 #import "WaypointDetailedViewController.h"
-#import "../KissXML/DDXMLDocument.h"
+#import "DDXMLDocument.h"
 #import "WaypointXMLReader.h"
 
 @implementation MapViewController
-
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
 	[self centerOnCampus:nil];
 	self.title = @"Campus Map";
 	NSData *iconData = [NSData dataWithContentsOfFile:[[[NSBundle mainBundle] resourcePath]
@@ -44,14 +35,6 @@
 }
 
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -60,8 +43,7 @@
 }
 
 - (void)viewDidUnload {
-
-	
+	[annotationImage release];
 }
 
 - (IBAction)centerOnCampus:(id)sender {
@@ -84,7 +66,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	//self.navigationItem.backBarButtonItem.title = @"Back";
 }
 
 - (void)dealloc {
@@ -103,11 +84,12 @@
 }
 
 
--(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
 	Waypoint *waypoint = (Waypoint *) view.annotation;
 	WaypointDetailedViewController *newViewController = [[WaypointDetailedViewController alloc] initWithNibName:@"WaypointDetailedViewController" bundle:nil];
 	newViewController.waypoint = waypoint;
+	self.navigationItem.backBarButtonItem.title = @"Map";
 	[self.navigationController pushViewController:newViewController animated:TRUE];
 	[newViewController release];
 }

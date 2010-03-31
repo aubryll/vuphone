@@ -9,6 +9,7 @@
 #import "RootViewController.h"
 #import "MapViewController.h"
 #import "AudioManager.h"
+#import "SitOnClassViewController.h"
 
 @implementation RootViewController
 
@@ -68,11 +69,25 @@
 }
 
 
--(void)startTour:(id)sender{
+- (IBAction)startTour:(id)sender {
 	MapViewController * mapViewController = [[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil];
 	[self.navigationController pushViewController:mapViewController animated:YES];
 	[[AudioManager sharedAudioManager] playAudioFile:@"inMySpaghetti" ofType:@"mp3"];
 	[mapViewController release];
+}
+
+- (IBAction)showAboutVandy:(id)sender {
+	NSLog(@"showAboutVandy tapped");
+}
+
+- (IBAction)showSitInOnClass:(id)sender {
+	SitOnClassViewController *controller = [[SitOnClassViewController alloc] initWithNibName:@"SitOnClassViewController" bundle:nil];
+	[self.navigationController pushViewController:controller animated:YES];
+	[controller release];
+}
+
+- (IBAction)showTalkToSomeone:(id)sender {
+	NSLog(@"showTalkToSomeone tapped");
 }
 
 @end

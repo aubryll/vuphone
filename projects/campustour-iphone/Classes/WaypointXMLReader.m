@@ -77,81 +77,9 @@
 	return waypoints;
 }
 
-/*
-+ (void)getDataFromXMLNode:(DDXMLNode *)node intoWaypoint:(Waypoint *)waypoint
-{
-	NSError *err;
-	
-	waypoint.name = [[node nodeForXPath:@"./name" error:&err] stringValue];
-	waypoint.details = [[node nodeForXPath:@"./description" error:&err] stringValue];
-	waypoint.type = [[node nodeForXPath:@"./type" error:&err] stringValue];
-	waypoint.phone = [[node nodeForXPath:@"./phone" error:&err] stringValue];
-	
-	double lat = [[[node nodeForXPath:@"./location/latitude" error:&err] stringValue] doubleValue];
-	waypoint.latitude = [NSNumber numberWithDouble:lat];
-	double lon = [[[node nodeForXPath:@"./location/longitude" error:&err] stringValue] doubleValue];
-	waypoint.longitude = [NSNumber numberWithDouble:lon];
-	
-	waypoint.urlString = [[node nodeForXPath:@"./url" error:&err] stringValue];
-	waypoint.imageUrlString = [[node nodeForXPath:@"./image" error:&err] stringValue];
-	waypoint.websiteLocationNumber = [[node nodeForXPath:@"./websiteLocationNumber" error:&err] stringValue];
-	
-	BOOL temp = [[[node nodeForXPath:@"./offCampus" error:&err] stringValue] boolValue];
-	waypoint.offCampus = [NSNumber numberWithBool:temp];
-	
-	temp = [[[node nodeForXPath:@"./acceptsMealPlan" error:&err] stringValue] boolValue];
-	waypoint.acceptsMealPlan = [NSNumber numberWithBool:temp];
-	
-	temp = [[[node nodeForXPath:@"./acceptsMealMoney" error:&err] stringValue] boolValue];
-	waypoint.acceptsMealMoney = [NSNumber numberWithBool:temp];
-	
-	// Import hours
-	int i = 0;
-	NSString *prevContiguousWith = nil;
-	HourRange *prevRange = nil;
-	
-	for (DDXMLNode *rangeNode in [node nodesForXPath:@"./hours/range" error:&err])
-	{
-		HourRange *range = [NSEntityDescription insertNewObjectForEntityForName:ENTITY_NAME_HOUR_RANGE
-														 inManagedObjectContext:[waypoint managedObjectContext]];
-		
-		range.day = [[[rangeNode nodeForXPath:@"./day" error:&err] stringValue] capitalizedString];
-		
-		range.order = [NSNumber numberWithInt:i];
-		
-		NSArray *openComponents = [[[rangeNode nodeForXPath:@"./open" error:&err] stringValue] componentsSeparatedByString:@":"];
-		int hour = [[openComponents objectAtIndex:0] intValue];
-		int minute = [[openComponents objectAtIndex:1] intValue];
-		range.openMinute = [NSNumber numberWithInt:hour*60 + minute];
-		
-		NSArray *closeComponents = [[[rangeNode nodeForXPath:@"./close" error:&err] stringValue] componentsSeparatedByString:@":"];
-		hour = [[closeComponents objectAtIndex:0] intValue];
-		minute = [[closeComponents objectAtIndex:1] intValue];
-		range.closeMinute = [NSNumber numberWithInt:hour*60 + minute];
-		
-		
-		[waypoint addOpenHoursObject:range];
-		
-		
-		// Import contiguity data from previous node
-		if (prevContiguousWith != nil) {
-			// Note that we currently can't handle contiguity with > 1 on the same day or ones that haven't been read yet
-			NSSet *nextRanges = [waypoint.openHours filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"day LIKE[c] %@", prevContiguousWith]];
-			if ([nextRanges count] > 0) {
-				HourRange *nextRange = [nextRanges anyObject];
-				prevRange.contiguousWith = nextRange;
-			}
-		}
-		
-		prevRange = range;
-		prevContiguousWith = [[rangeNode nodeForXPath:@"./contiguousWith" error:&err] stringValue];
-		i++;
-	}
-	
-}
-*/
-//currently doesn't support xpath returning multiple nodes, but could be reworked to add index as an additional argument
-+(NSString *)getXMLData:(DDXMLNode *)node tag:(NSString *)tagName attribute:(NSString*)attr
+
+// Currently doesn't support xpath returning multiple nodes, but could be reworked to add index as an additional argument
++ (NSString *)getXMLData:(DDXMLNode *)node tag:(NSString *)tagName attribute:(NSString*)attr
 {
 	NSString *xpathString;
 	if (attr != nil)

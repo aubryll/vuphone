@@ -9,6 +9,9 @@
 @interface RootViewController : UIViewController {
 }
 
--(IBAction)startTour:(id)sender;
+- (IBAction)startTour:(id)sender;
+- (IBAction)showAboutVandy:(id)sender;
+- (IBAction)showSitInOnClass:(id)sender;
+- (IBAction)showTalkToSomeone:(id)sender;
 
 @end
