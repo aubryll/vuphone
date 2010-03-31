@@ -10,15 +10,17 @@
 
 
 @interface Course : NSObject {
-	NSString *number;
+	NSString *subject;
 	NSString *title;
 	NSString *time;
 	NSString *place;
+	NSString *desc;
 }
 
-@property (retain) NSString *number;
-@property (retain) NSString *title;
-@property (retain) NSString *time;
-@property (retain) NSString *place;
+@property (nonatomic, retain) NSString *subject;
+@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *time;
+@property (nonatomic, retain) NSString *place;
+@property (nonatomic, retain) NSString *desc;
 
 @end

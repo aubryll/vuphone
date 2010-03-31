@@ -11,9 +11,10 @@
 
 @implementation Course
 
-@synthesize number;
+@synthesize subject;
 @synthesize title;
 @synthesize time;
 @synthesize place;
+@synthesize desc;
 
 @end

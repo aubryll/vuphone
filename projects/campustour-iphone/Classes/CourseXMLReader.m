@@ -38,7 +38,6 @@
 		NSString *time = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"time"];
 		NSString *place = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"place"];
 		Course *course = [[Course alloc] init];
-		course.number = number;
 		course.title = title;
 		course.time = time;
 		course.place = place;
