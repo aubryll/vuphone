@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<eventrequestresponse>
+	<event>
+		<name>Test</name>
+		<loc>
+			<lat>36.1437</lat>
+			<lon>-86.8046</lon>
+		</loc>
+		<owner>true</owner>
+		<start>1248290654565</start>
+		<end>1248291254565</end>
+		<eventid>1</eventid>
+		<lastupdate>1248291254565</lastupdate>
+	</event>
+	<event>
+		<name>Test 2</name>
+		<loc>
+			<lat>36.1447</lat>
+			<lon>-86.8056</lon>
+		</loc>
+		<owner>true</owner>
+		<start>1248290654465</start>
+		<end>1248291256565</end>
+		<eventid>2</eventid>
+		<lastupdate>1248291253565</lastupdate>
+	</event>
+</eventrequestresponse>
