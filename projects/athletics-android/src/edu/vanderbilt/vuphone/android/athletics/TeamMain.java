@@ -70,7 +70,7 @@ public class TeamMain extends Activity {
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Intent i = new Intent(TeamMain.this,
-								AthleticsNews.class).putExtra("sports_title",
+								AthleticsScores.class).putExtra("sports_title",
 								getIntent().getExtras().getString(
 										"sports_title"));
 						startActivity(i);
