@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="80dp">
+	
+
+	<TextView android:id="@+scores/at"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textColor="@android:color/primary_text_dark" android:textSize="13sp"
+		android:text="at" 
+		android:paddingTop="20dp" android:paddingLeft="5dp" android:paddingRight="5dp" 
+		android:layout_alignParentTop="true" android:layout_centerHorizontal="true"/>
+		
+	<TextView android:id="@+scores/away_team"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textColor="@android:color/primary_text_dark" android:textSize="25sp"
+		android:paddingBottom="5dp" android:paddingTop="5dp"
+		android:paddingLeft="5dp" android:paddingRight="5dp"
+		android:layout_alignParentTop="true" android:layout_toLeftOf="@scores/at" />
+		
+	<TextView android:id="@+scores/away_rank"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textColor="@android:color/secondary_text_dark" android:textSize="13sp"
+		android:layout_alignParentTop="true" android:layout_toLeftOf="@scores/away_team"
+		android:paddingTop="10dp"  />
+			
+	<TextView android:id="@+scores/home_team"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textColor="@android:color/primary_text_dark" android:textSize="25sp"
+		android:paddingBottom="5dp" android:paddingTop="5dp" 
+		android:paddingLeft="5dp" android:paddingRight="5dp" 
+		android:layout_alignParentTop="true" android:layout_toRightOf="@scores/at" />
+		
+	<TextView android:id="@+scores/home_rank"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textColor="@android:color/secondary_text_dark" android:textSize="13sp"
+		android:layout_alignParentTop="true" android:layout_toRightOf="@scores/home_team"
+		android:paddingTop="10dp" />
+			
+	<TextView android:id="@+scores/dash"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textColor="@android:color/primary_text_dark" android:textSize="13sp"
+		android:text="-" android:layout_alignParentBottom="true" android:layout_centerInParent="true"
+		android:paddingBottom="18dp" />
+
+	<TextView android:id="@+scores/our_score"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textSize="20sp" android:textColor="@android:color/secondary_text_dark"
+		android:paddingBottom="10dp"
+		android:paddingTop="10dp" android:paddingRight="10dp" android:paddingLeft="10dp"
+		android:layout_toRightOf="@scores/dash" 
+		android:layout_alignParentBottom="true"/>
+
+	<ImageView android:id="@+scores/home_logo"
+		android:layout_height="47dp" android:layout_width="47dp"
+		android:paddingBottom="10dp"
+		android:paddingTop="10dp"
+		android:layout_alignParentBottom="true"
+		android:layout_toRightOf="@scores/our_score" />
+	
+	<TextView android:id="@+scores/their_score"
+		android:layout_height="wrap_content" android:layout_width="wrap_content"
+		android:textSize="20sp" android:textColor="@android:color/secondary_text_dark"
+		android:paddingBottom="10dp"
+		android:paddingTop="10dp" android:paddingLeft="10dp" android:paddingRight="10dp"
+		android:layout_toLeftOf="@scores/dash" 
+		android:layout_alignParentBottom="true" />
+
+	<ImageView android:id="@+scores/away_logo"
+		android:layout_height="47dp" android:layout_width="47dp"
+		android:paddingBottom="10dp"
+		android:paddingTop="10dp"
+		android:layout_alignParentBottom="true" android:layout_toLeftOf="@scores/their_score" />	
+
+</RelativeLayout>
+
