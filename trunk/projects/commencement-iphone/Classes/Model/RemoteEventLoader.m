@@ -1,6 +1,6 @@
 //
 //  RemoteEventLoader.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //
@@ -36,7 +36,7 @@
 
 @implementation RemoteEventLoader
 
-+ (NSArray *)eventsFromServerWithContext:(NSManagedObjectContext *)context
++ (NSArray *)eventFromServerWithContext:(NSManagedObjectContext *)context
 {
 	return [RemoteEventLoader getEventsFromServerSince:nil intoContext:context];
 }
@@ -44,7 +44,7 @@
 + (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context
 {
 #if SAMPLE_EVENT_REQUEST_RESPONSE
-	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/events-iphone/sampleEventRequestResponse.xml"];
+	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/Commencement-iphone/sampleEventRequestResponse.xml"];
 #else
 	// Format the url string
 	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
@@ -74,7 +74,7 @@
 	
 	// Find the first response
 	NSArray *nodes = [responseXml nodesForXPath:@"./EventRequestResponse/Event" error:&err];
-	NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
+	NSMutableArray *Commencement = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
 	if ([nodes count] > 0)
 	{
 		for (DDXMLNode *node in nodes)
@@ -107,19 +107,19 @@
 				// Get rid of this event
 				[context rollback];
 			} else {
-				[events addObject:event];
+				[Commencement addObject:event];
 			}
 		}
 	}
 	else
 	{
-		// No events were found
+		// No Commencement were found
 //		NSLog(@"No nodes found: %@", responseXml);
 	}
 	
 	[responseXml release];
 
-	return [events autorelease];
+	return [Commencement autorelease];
 }
 
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event
@@ -146,7 +146,7 @@
 	event.serverId = [prop stringValue];
 
 	// Hard-coding the source for now
-	event.source = VUEventSourceOfficialCalendar;
+	event.source = VUCommencementourceOfficialCalendar;
 }
 
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoLocation:(Location *)location

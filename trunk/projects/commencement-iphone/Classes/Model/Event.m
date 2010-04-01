@@ -1,6 +1,6 @@
 // 
 //  Event.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -26,11 +26,11 @@
 
 + (NSArray *)allSources {
 	return [NSArray arrayWithObjects:
-			VUEventSourceOfficialCalendar,
+			VUCommencementourceOfficialCalendar,
 			@"Commons",
 			@"Athletics",
 			@"Facebook",
-			VUEventSourceUser,
+			VUCommencementourceUser,
 			nil];
 }
 
@@ -90,11 +90,11 @@
 }
 
 + (Event *)eventWithServerId:(NSString *)anId inContext:(NSManagedObjectContext *)context {
-	NSSet *events = [context
+	NSSet *Commencement = [context
 						 fetchObjectsForEntityName:VUEntityNameEvent
 						 withPredicateString:@"serverId = %@", anId];
 	
-	return [events anyObject];
+	return [Commencement anyObject];
 }
 
 

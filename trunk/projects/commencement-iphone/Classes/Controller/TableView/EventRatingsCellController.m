@@ -1,6 +1,6 @@
 //
 //  EventRatingsCellController.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 21/9/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.

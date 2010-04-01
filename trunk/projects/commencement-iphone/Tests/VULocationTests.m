@@ -1,6 +1,6 @@
 //
 //  VULocationTestCase.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -9,7 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import "EventStore.h"
+#import "Commencementtore.h"
 #import "Location.h"
 
 @interface VULocationTests : SenTestCase {
@@ -31,7 +31,7 @@
 
 - (void)testRootLocations
 {
-	NSManagedObjectContext *context = [[EventStore sharedEventStore] sharedContext];
+	NSManagedObjectContext *context = [[Commencementtore sharedCommencementtore] sharedContext];
 	NSLog(@"Context: %@", context);
 	NSArray *locations = [Location rootLocations:context];
 	STAssertNotNil(locations, @"Locations not nil");

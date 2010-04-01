@@ -1,6 +1,6 @@
 //
 //  MapViewController.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -62,7 +62,7 @@
 		NSError *error;
 		BOOL success = [fetchedResultsC performFetch:&error];
 		if (!success) {
-			NSLog(@"No events found");
+			NSLog(@"No Commencement found");
 		} else {
 			// Remove any old annotations
 			[mapView removeAnnotations:[mapView annotations]];
@@ -128,7 +128,7 @@
 						   initWithFetchRequest:request
 						   managedObjectContext:managedObjectContext
 						   sectionNameKeyPath:nil
-						   cacheName:@"mapEventsCache"];
+						   cacheName:@"mapCommencementCache"];
 		[request release];
 		// Set self as the delegate
 		fetchedResultsC.delegate = self;

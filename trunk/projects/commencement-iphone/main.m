@@ -1,6 +1,6 @@
 //
 //  main.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/6/09.
 //  Copyright Vanderbilt University 2009. All rights reserved.

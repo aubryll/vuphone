@@ -1,6 +1,6 @@
 //
 //  SourcesViewController.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 10/11/09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.

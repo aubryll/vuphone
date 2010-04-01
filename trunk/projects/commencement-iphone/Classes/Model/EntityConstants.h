@@ -1,6 +1,6 @@
 /*
  *  EntityConstants.h
- *  Events
+ *  Commencement
  *
  *  Created by Aaron Thompson on 9/7/09.
  *  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -16,8 +16,8 @@
 #define VUEntityPropertyNameEndTime @"endTime"
 #define VUEntityPropertyNameSource @"source"
 
-#define VUEventSourceOfficialCalendar @"Official Calendar"
-#define VUEventSourceUser @"My Events"
+#define VUCommencementourceOfficialCalendar @"Official Calendar"
+#define VUCommencementourceUser @"My Commencement"
 
 #pragma mark Location
 
