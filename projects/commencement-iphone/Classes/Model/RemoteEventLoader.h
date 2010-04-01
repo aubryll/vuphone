@@ -1,6 +1,6 @@
 //
 //  RemoteEventLoader.h
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -12,16 +12,16 @@
 #import "Event.h"
 #import "Location.h"
 
-#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
-#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
-//#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
-//#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
+#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/Commencement"
+#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/Commencement"
+//#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/Commencement"
+//#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/Commencement"
 
 @interface RemoteEventLoader : NSObject {
 
 }
 
-+ (NSArray *)eventsFromServerWithContext:(NSManagedObjectContext *)context;
++ (NSArray *)eventFromServerWithContext:(NSManagedObjectContext *)context;
 + (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoLocation:(Location *)location;

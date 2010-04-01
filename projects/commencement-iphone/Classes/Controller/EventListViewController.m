@@ -1,6 +1,6 @@
 //
 //  EventListViewController.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -77,7 +77,7 @@
 		NSError *error;
 		BOOL success = [fetchedResultsC performFetch:&error];
 		if (!success) {
-			NSLog(@"No events found");
+			NSLog(@"No Commencement found");
 		} else {
 			NSUInteger sectionCount = [[fetchedResultsC sections] count];
 			[self.tableView reloadData];
@@ -114,7 +114,7 @@
 {
 	Event *event = (Event *)[NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent
 														  inManagedObjectContext:context];
-	event.source = VUEventSourceUser;
+	event.source = VUCommencementourceUser;
 	event.startTime = [NSDate date];
 	event.endTime = [NSDate dateWithTimeIntervalSinceNow:60*60];
 	

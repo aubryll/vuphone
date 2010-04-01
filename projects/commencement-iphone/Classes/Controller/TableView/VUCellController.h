@@ -1,6 +1,6 @@
 //
 //  VUCellController.h (taken from CellController.h)
-//  Events
+//  Commencement
 //
 //  Created by Matt Gallagher on 27/12/08.
 //  Copyright 2008 Matt Gallagher. All rights reserved.

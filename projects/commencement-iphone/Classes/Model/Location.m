@@ -1,6 +1,6 @@
 // 
 //  Location.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -75,7 +75,7 @@
 @dynamic longitude;
 @dynamic name;
 @dynamic latitude;
-@dynamic events;
+@dynamic Commencement;
 @dynamic childLocations;
 @dynamic parentLocation;
 

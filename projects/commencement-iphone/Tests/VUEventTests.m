@@ -1,6 +1,6 @@
 //
 //  VUEventTestCase.m
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -10,7 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "RemoteEventLoader.h"
-#import "EventStore.h"
+#import "Commencementtore.h"
 
 @interface VUEventTests : SenTestCase {
 }
@@ -29,14 +29,14 @@
 - (void)tearDown {
 }
 
-- (void)testEventsFromServer
+- (void)testCommencementFromServer
 {
-	NSManagedObjectContext *context = [[EventStore sharedEventStore] sharedContext];
+	NSManagedObjectContext *context = [[Commencementtore sharedCommencementtore] sharedContext];
 	NSLog(@"Context: %@", context);
-	NSArray *events = [RemoteEventLoader eventsFromServerWithContext:context];
-	STAssertNotNil(events, @"events not nil");
-	NSLog(@"Events: %@", events);
-	STAssertEquals([events count], 2, @"Doesn't have 2 events");
+	NSArray *Commencement = [RemoteEventLoader CommencementFromServerWithContext:context];
+	STAssertNotNil(Commencement, @"Commencement not nil");
+	NSLog(@"Commencement: %@", Commencement);
+	STAssertEquals([Commencement count], 2, @"Doesn't have 2 Commencement");
 }
 
 @end

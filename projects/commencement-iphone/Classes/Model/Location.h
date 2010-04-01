@@ -1,6 +1,6 @@
 //
 //  Location.h
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
@@ -24,7 +24,7 @@
 @property (nonatomic, retain) NSDecimalNumber * longitude;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDecimalNumber * latitude;
-@property (nonatomic, retain) NSSet* events;
+@property (nonatomic, retain) NSSet* Commencement;
 @property (nonatomic, retain) NSSet* childLocations;
 @property (nonatomic, retain) Location * parentLocation;
 
@@ -34,10 +34,10 @@
 
 
 @interface Location (CoreDataGeneratedAccessors)
-- (void)addEventsObject:(Event *)value;
-- (void)removeEventsObject:(Event *)value;
-- (void)addEvents:(NSSet *)value;
-- (void)removeEvents:(NSSet *)value;
+- (void)addCommencementObject:(Event *)value;
+- (void)removeCommencementObject:(Event *)value;
+- (void)addCommencement:(NSSet *)value;
+- (void)removeCommencement:(NSSet *)value;
 
 - (void)addChildLocationsObject:(Location *)value;
 - (void)removeChildLocationsObject:(Location *)value;

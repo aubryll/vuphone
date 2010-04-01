@@ -1,6 +1,6 @@
 //
 //  MapViewController.h
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/7/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.

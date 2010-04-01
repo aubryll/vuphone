@@ -1,6 +1,6 @@
 //
 //  VULocationCellController.h
-//  Events
+//  Commencement
 //
 //  Created by Aaron Thompson on 9/9/09.
 //  Copyright 2009 Vanderbilt University. All rights reserved.
