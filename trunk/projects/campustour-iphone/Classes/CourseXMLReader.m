@@ -13,7 +13,7 @@
 @implementation CourseXMLReader
 
 
-+ (NSArray *)coursesFromXMLAtPath:(NSString *)path
++ (NSMutableArray *)coursesFromXMLAtPath:(NSString *)path
 {
 	NSData *xmlData = [NSData dataWithContentsOfFile:path];
 	
@@ -33,7 +33,7 @@
 	for (DDXMLNode *node in nodes)
 	{
 		// Fetch the waypoint from our DB.  If it doesn't exist, create a new one.
-//		NSString *number = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"number"];
+		NSString *subject = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"subject"];
 		NSString *title = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"title"];
 		NSString *time = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"time"];
 		NSString *place = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"place"];
@@ -41,6 +41,7 @@
 		course.title = title;
 		course.time = time;
 		course.place = place;
+		course.subject = subject;
 		[courses addObject:course];
 		[course release];
 	}
