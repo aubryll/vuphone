@@ -10,9 +10,7 @@
 #import "Course.h"
 
 @interface SitOnClassViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
-	NSMutableArray *courses;
+	NSArray *courses;
 }
-
-- (void)loadData:(NSString *)fileName;
 
 @end

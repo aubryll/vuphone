@@ -44,8 +44,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUITextView" id="657349056">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrameSize">{320, 116}</string>
+						<int key="NSvFlags">306</int>
+						<string key="NSFrameSize">{320, 94}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -65,7 +65,7 @@
 					<object class="IBUITableView" id="447870415">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{8, 102}, {304, 338}}</string>
+						<string key="NSFrame">{{0, 102}, {320, 358}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="183291116">
 							<int key="NSColorSpace">3</int>
@@ -133,8 +133,8 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="657349056"/>
 							<reference ref="447870415"/>
+							<reference ref="657349056"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
