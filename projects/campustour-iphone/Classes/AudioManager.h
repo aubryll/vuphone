@@ -19,12 +19,14 @@
 @interface AudioManager : NSObject <AVAudioPlayerDelegate> {
 	
 	AVAudioPlayer		* audioPlayer;
+	id					  currentObject;
 }
 
 @property (nonatomic, retain) AVAudioPlayer *audioPlayer;
+@property (nonatomic, retain) id currentObject;
 
 + (id)sharedAudioManager;
-- (void)playAudioFile:(NSString *)filename ofType:(NSString *)format;
+- (void)playAudioFile:(NSString *)filename ofType:(NSString *)format withSender:(id)sender;
 - (void)pausePlayback;
 - (void)resumePlayback;
 - (void)stopAndReleasePlayer;

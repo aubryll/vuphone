@@ -82,7 +82,7 @@
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
-							<object class="IBUIButton" id="379169913">
+							<object class="IBUIButton" id="1035085520">
 								<reference key="NSNextResponder" ref="122296276"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{44, 204}, {72, 37}}</string>
@@ -112,7 +112,7 @@
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
 							</object>
-							<object class="IBUIButton" id="921254661">
+							<object class="IBUIButton" id="654485516">
 								<reference key="NSNextResponder" ref="122296276"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{124, 204}, {72, 37}}</string>
@@ -132,7 +132,7 @@
 								</object>
 								<reference key="IBUINormalTitleShadowColor" ref="786441339"/>
 							</object>
-							<object class="IBUIButton" id="181354062">
+							<object class="IBUIButton" id="489833270">
 								<reference key="NSNextResponder" ref="122296276"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{204, 204}, {72, 37}}</string>
@@ -368,7 +368,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">playButtonTapped:</string>
-						<reference key="source" ref="379169913"/>
+						<reference key="source" ref="1035085520"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -377,7 +377,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">pauseButtonTapped:</string>
-						<reference key="source" ref="921254661"/>
+						<reference key="source" ref="654485516"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -386,7 +386,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">stopButtonTapped:</string>
-						<reference key="source" ref="181354062"/>
+						<reference key="source" ref="489833270"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
@@ -492,9 +492,9 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="182033012"/>
 							<reference ref="139080693"/>
-							<reference ref="379169913"/>
-							<reference ref="921254661"/>
-							<reference ref="181354062"/>
+							<reference ref="654485516"/>
+							<reference ref="489833270"/>
+							<reference ref="1035085520"/>
 						</object>
 						<reference key="parent" ref="365402567"/>
 					</object>
@@ -534,17 +534,17 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">70</int>
-						<reference key="object" ref="379169913"/>
+						<reference key="object" ref="1035085520"/>
 						<reference key="parent" ref="122296276"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">72</int>
-						<reference key="object" ref="181354062"/>
+						<reference key="object" ref="489833270"/>
 						<reference key="parent" ref="122296276"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">71</int>
-						<reference key="object" ref="921254661"/>
+						<reference key="object" ref="654485516"/>
 						<reference key="parent" ref="122296276"/>
 					</object>
 				</object>
