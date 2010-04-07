@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<staticdata>
+<team school="Boston College" name="Eagles" conference="ACC" />
+<team school="Clemson" name="Tigers" conference="ACC" />
+<team school="Duke" name="Blue Devils" conference="ACC" />
+<team school="Florida State" name="Seminoles" conference="ACC" />
+<team school="Georgia Tech" name="Yellow Jackets" conference="ACC" />
+<team school="Maryland" name="Terrapins" conference="ACC" />
+<team school="Miami" name="Hurricanes" conference="ACC" />
+<team school="North Carolina" name="Tar Heels" conference="ACC" />
+<team school="North Carolina State" name="Wolfpack" conference="ACC" />
+<team school="Virginia" name="Cavaliers" conference="ACC" />
+<team school="Virginia Tech" name="Hokies" conference="ACC" />
+<team school="Wake Forest" name="Demon Deacons" conference="ACC" />
+<team school="Cincinatti" name="Bearcats" conference="Big East" />
+<team school="Connecticut" name="Huskies" conference="Big East" />
+<team school="Depaul" name="Blue Demons" conference="Big East" />
+<team school="Georgetown" name="Hoyas" conference="Big East" />
+<team school="Louisville" name="Cardinals" conference="Big East" />
+<team school="Marquette" name="Golden Eagles" conference="Big East" />
+<team school="Notre Dame" name="Fighting Irish" conference="Big East" />
+<team school="Pittsburg" name="Panthers" conference="Big East" />
+<team school="Providence College" name="Friars" conference="Big East" />
+<team school="Rutgers" name="Scarlet Knights" conference="Big East" />
+<team school="St. John's" name="Red Storm" conference="Big East" />
+<team school="Seton Hall" name="Pirates" conference="Big East" />
+<team school="South Florida" name="Bulls" conference="Big East" />
+<team school="Syracuse" name="Orange" conference="Big East" />
+<team school="Villanova" name="Wildcats" conference="Big East" />
+<team school="West Virginia" name="Mountaineers" conference="Big East" />
+<team school="Illinois" name="Fighting Illini" conference="Big Ten" />
+<team school="Indiana" name="Hoosiers" conference="Big Ten" />
+<team school="Iowa" name="Hawkeyes" conference="Big Ten" />
+<team school="Michigan" name="Wolverines" conference="Big Ten" />
+<team school="Michigan State" name="Spartans" conference="Big Ten" />
+<team school="Minnesota" name="Golden Gophers" conference="Big Ten" />
+<team school="Northwestern" name="Wildcats" conference="Big Ten" />
+<team school="Ohio State" name="Buckeyes" conference="Big Ten" />
+<team school="Pennsylvania State" name="Nittany Lions" conference="Big Ten" />
+<team school="Purdue" name="Boilermakers" conference="Big Ten" />
+<team school="Wisconsin-Madison" name="Badgers" conference="Big Ten" />
+<team school="Iowa State" name="Cyclones" conference="Big 12" />
+<team school="Kansas State" name="Wildcats" conference="Big 12" />
+<team school="Colorado" name="Buffaloes" conference="Big 12" />
+<team school="Kansas" name="Jayhawks" conference="Big 12" />
+<team school="Missouri" name="Tigers" conference="Big 12" />
+<team school="Nebraska" name="Cornhuskers" conference="Big 12" />
+<team school="Baylor" name="Bears" conference="Big 12" />
+<team school="Oklahoma State" name="Cowboys" conference="Big 12" />
+<team school="Texas A&amp;M" name="Aggies" conference="Big 12" />
+<team school="Texas Tech" name="Red Raiders" conference="Big 12" />
+<team school="Oklahoma" name="Sooners" conference="Big 12" />
+<team school="Texas" name="Longhorns" conference="Big 12" />
+<team school="Houston" name="Cougars" conference="C-USA" />
+<team school="Rice" name="Owls" conference="C-USA" />
+<team school="Southern Methodist" name="Mustangs" conference="C-USA" />
+<team school="Texas at El Paso" name="Miners" conference="C-USA" />
+<team school="Tulane" name="Green Wave" conference="C-USA" />
+<team school="Tulsa" name="Golden Hurricane" conference="C-USA" />
+<team school="Alabama at Birmingham" name="Blazers" conference="C-USA" />
+<team school="Central Florida" name="Knights" conference="C-USA" />
+<team school="East Carolina" name="Pirates" conference="C-USA" />
+<team school="Marshall" name="Thundering Herd" conference="C-USA" />
+<team school="Memphis" name="Tigers" conference="C-USA" />
+<team school="Southern Mississippi" name="Golden Eagles" conference="C-USA" />
+<team school="Akron" name="Zips" conference="MAC" />
+<team school="Bowling Green State" name="Falcons" conference="MAC" />
+<team school="Buffalo" name="Bulls" conference="MAC" />
+<team school="Kent State" name="Golden Flashes" conference="MAC" />
+<team school="Miami" name="RedHawks" conference="MAC" />
+<team school="Ohio" name="Bobcats" conference="MAC" />
+<team school="Ball State" name="Cardinals" conference="MAC" />
+<team school="Central Michigan" name="Chippewas" conference="MAC" />
+<team school="Eastern Michigan" name="Eagles" conference="MAC" />
+<team school="Northern Illinois" name="Huskies" conference="MAC" />
+<team school="Toledo" name="Rockets" conference="MAC" />
+<team school="Western Michigan" name="Broncos" conference="MAC" />
+<team school="Air Force" name="Falcons" conference="MWC" />
+<team school="Brigham Young" name="Cougars" conference="MWC" />
+<team school="Colorado State" name="Rams" conference="MWC" />
+<team school="New Mexico" name="Lobos" conference="MWC" />
+<team school="San Diego State" name="Aztecs" conference="MWC" />
+<team school="Texas Christian" name="Horned Frogs" conference="MWC" />
+<team school="Nevada at Las Vegas" name="Rebels" conference="MWC" />
+<team school="Utah" name="Utes" conference="MWC" />
+<team school="Wyoming" name="Cowboys" conference="MWC" />
+<team school="Arizona" name="Wildcats" conference="Pac-10" />
+<team school="Arizona State" name="Sun Devils" conference="Pac-10" />
+<team school="UC Berkeley" name="Golden Bears" conference="Pac-10" />
+<team school="Oregon" name="Ducks" conference="Pac-10" />
+<team school="Oregon State" name="Beavers" conference="Pac-10" />
+<team school="Stanford" name="Cardinals" conference="Pac-10" />
+<team school="UCLA" name="Bruins" conference="Pac-10" />
+<team school="USC" name="Trojans" conference="Pac-10" />
+<team school="Washington" name="Huskies" conference="Pac-10" />
+<team school="Washington State" name="Cougars" conference="Pac-10" />
+<team school="Florida" name="Gators" conference="SEC" />
+<team school="Georgia" name="Bulldogs" conference="SEC" />
+<team school="Kentucky" name="Wildcats" conference="SEC" />
+<team school="South Carolina" name="Gamecocks" conference="SEC" />
+<team school="Tennessee" name="Volunteers" conference="SEC" />
+<team school="Vanderbilt" name="Commodores" conference="SEC" />
+<team school="Alabama" name="Crimson Tide" conference="SEC" />
+<team school="Arkansas" name="Razorbacks" conference="SEC" />
+<team school="Auburn" name="Tigers" conference="SEC" />
+<team school="Louisiana State" name="Tigers" conference="SEC" />
+<team school="Mississippi" name="Rebels" conference="SEC" />
+<team school="Mississippi State" name="Bulldogs" conference="SEC" />
+<team school="Arkansas at Little Rock" name="Trojans" conference="Sun Belt" />
+<team school="Arkansas State" name="Red Wolves" conference="Sun Belt" />
+<team school="Denver" name="Pioneers" conference="Sun Belt" />
+<team school="Florida Atlantic" name="Owls" conference="Sun Belt" />
+<team school="Florida International" name="Golden Panthers " conference="Sun Belt" />
+<team school="Louisiana at Lafayette" name="Ragin' Cajuns" conference="Sun Belt" />
+<team school="Louisiana at Monroe" name="Warhawks" conference="Sun Belt" />
+<team school="Middle Tennessee State" name="Blue Raiders" conference="Sun Belt" />
+<team school="New Orleans" name="Privateers" conference="Sun Belt" />
+<team school="North Texas" name="Mean Green" conference="Sun Belt" />
+<team school="South Alabama" name="Jaguars" conference="Sun Belt" />
+<team school="Troy" name="Trojans" conference="Sun Belt" />
+<team school="Western Kentucky" name="Hilltoppers" conference="Sun Belt" />
+<team school="Boise State" name="Broncos" conference="WAC" />
+<team school="Fresno State" name="Bulldogs" conference="WAC" />
+<team school="Hawaii at Manoa" name="Warriors" conference="WAC" />
+<team school="Idaho" name="Vandals" conference="WAC" />
+<team school="Louisiana Tech" name="Bulldogs" conference="WAC" />
+<team school="Nevada at Reno" name="Wolf Pack" conference="WAC" />
+<team school="New Mexico State" name="Aggies" conference="WAC" />
+<team school="San Jose State" name="Spartans" conference="WAC" />
+<team school="Utah State" name="Aggies" conference="WAC" />
+</staticdata>
