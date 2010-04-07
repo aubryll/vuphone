@@ -20,7 +20,7 @@ static AudioManager *sharedAudioManager = nil;
 
 // Plays the specified audio file. [audioPlayer play] is asynchronous so
 // no need to perform this task in a separate thread.
-- (void)playAudioFile:(NSString *)filename ofType:(NSString *)format
+- (void)playAudioFile:(NSString *)filename ofType:(NSString *)format withSender:(id)sender
 {	
 	NSString *soundPath = [[NSBundle mainBundle] pathForResource: filename
 														  ofType: format];
@@ -34,6 +34,7 @@ static AudioManager *sharedAudioManager = nil;
         audioPlayer = nil;
     }
 	
+	self.currentObject = sender;
 	audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL: soundURL 
 														 error: nil];
 	[audioPlayer play];
@@ -105,5 +106,6 @@ static AudioManager *sharedAudioManager = nil;
 }
 
 @synthesize audioPlayer;
+@synthesize currentObject;
 
 @end

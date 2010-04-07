@@ -81,9 +81,12 @@
 #pragma mark Audio Playback Methods
 // Play the audio file associated with the waypoint you selected. 
 - (IBAction)playButtonTapped:(id)sender {	
-	if ([[AudioManager sharedAudioManager] audioPlayerURL] == nil) {
+	if ([[AudioManager sharedAudioManager] audioPlayerURL] == nil || 
+		[[AudioManager sharedAudioManager] currentObject] != sender) {
+
 		[[AudioManager sharedAudioManager] playAudioFile: waypoint.audioFilePath 
-												  ofType: @"mp3"];
+												  ofType: @"mp3" 
+											  withSender: sender];
 	} else {
 		[[AudioManager sharedAudioManager] resumePlayback];
 	}
