@@ -13,6 +13,8 @@
 @implementation SitOnClassViewController 
 
 - (void)viewDidLoad {
+	courses = [[NSMutableArray alloc] init];
+
 	NSString *courseXMLPath = [[NSBundle mainBundle] pathForResource:@"courses" ofType:@"xml"];
 	courses = [[CourseXMLReader coursesFromXMLAtPath:courseXMLPath] retain];
 }
@@ -46,5 +48,4 @@
 - (void)dealloc {
     [super dealloc];
 }
-
 @end
