@@ -33,7 +33,7 @@
 	for (DDXMLNode *node in nodes)
 	{
 		// Fetch the waypoint from our DB.  If it doesn't exist, create a new one.
-		NSString *number = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"number"];
+//		NSString *number = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"number"];
 		NSString *title = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"title"];
 		NSString *time = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"time"];
 		NSString *place = [XMLReaderUtilities getXMLData:node tag:@"information" attribute:@"place"];

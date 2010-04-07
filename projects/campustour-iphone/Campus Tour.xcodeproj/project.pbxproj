@@ -64,7 +64,7 @@
 		58014E661134C8F300513E1C /* WaypointDetailedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaypointDetailedViewController.m; sourceTree = "<group>"; };
 		58014E671134C8F300513E1C /* WaypointDetailedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = WaypointDetailedViewController.xib; path = Classes/WaypointDetailedViewController.xib; sourceTree = "<group>"; };
 		581290FC11506ED100EA8E34 /* 28.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 28.jpg; path = Images/28.jpg; sourceTree = "<group>"; };
-		58294DEC1162DD6C00E10FE9 /* courses.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = courses.xml; sourceTree = SOURCE_ROOT; };
+		58294DEC1162DD6C00E10FE9 /* courses.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = courses.xml; sourceTree = "<group>"; };
 		58294DEE1162DD9400E10FE9 /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
 		58294DEF1162DD9400E10FE9 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 		58294DF01162DD9400E10FE9 /* CourseXMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseXMLReader.h; sourceTree = "<group>"; };
@@ -129,14 +129,9 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				58294DEE1162DD9400E10FE9 /* Course.h */,
-				58294DEF1162DD9400E10FE9 /* Course.m */,
-				58294DF01162DD9400E10FE9 /* CourseXMLReader.h */,
-				58294DF11162DD9400E10FE9 /* CourseXMLReader.m */,
+				61D51F841162D872000A73E0 /* Model */,
 				58294DF21162DD9400E10FE9 /* XMLReaderUtilities.h */,
 				58294DF31162DD9400E10FE9 /* XMLReaderUtilities.m */,
-				58294DEC1162DD6C00E10FE9 /* courses.xml */,
-				61D51F841162D872000A73E0 /* Model */,
 				A09B3CAD1159BF2C00ADDB6E /* AudioManager.h */,
 				A09B3CAE1159BF2C00ADDB6E /* AudioManager.m */,
 				61D04511112B89C300405B6F /* WaypointXMLReader.h */,
@@ -191,6 +186,7 @@
 				A09B3CAB1159BF2200ADDB6E /* inMySpaghetti.mp3 */,
 				58014E671134C8F300513E1C /* WaypointDetailedViewController.xib */,
 				58BF29A01159A05700AEFF81 /* SitOnClassViewController.xib */,
+				58294DEC1162DD6C00E10FE9 /* courses.xml */,
 				58AE7B6B1134B8E3001E2675 /* waypoints-db.xml */,
 				58D25984113382C300488E85 /* Images */,
 				E4B4F351112B6E37007BFFD7 /* MapViewController.xib */,
@@ -250,6 +246,10 @@
 		61D51F841162D872000A73E0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				58294DEE1162DD9400E10FE9 /* Course.h */,
+				58294DEF1162DD9400E10FE9 /* Course.m */,
+				58294DF01162DD9400E10FE9 /* CourseXMLReader.h */,
+				58294DF11162DD9400E10FE9 /* CourseXMLReader.m */,
 				5845275A112B86E6005BA08F /* Waypoint.h */,
 				5845275B112B86E6005BA08F /* Waypoint.m */,
 			);
