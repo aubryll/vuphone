@@ -17,7 +17,7 @@
  *	the tour.
  */
 @interface AudioManager : NSObject <AVAudioPlayerDelegate> {
-
+	
 	AVAudioPlayer		* audioPlayer;
 }
 
@@ -25,6 +25,10 @@
 
 + (id)sharedAudioManager;
 - (void)playAudioFile:(NSString *)filename ofType:(NSString *)format;
-
+- (void)pausePlayback;
+- (void)resumePlayback;
+- (void)stopAndReleasePlayer;
+- (BOOL)isAudioPlaying;
+- (NSString *)audioPlayerURL;
 
 @end
