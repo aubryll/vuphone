@@ -41,6 +41,9 @@
 		A09B3CA81159BF0B00ADDB6E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A09B3CA71159BF0B00ADDB6E /* AVFoundation.framework */; };
 		A09B3CAA1159BF1300ADDB6E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A09B3CA91159BF1300ADDB6E /* MediaPlayer.framework */; };
 		A0BB078A116C06D800FD62DE /* AudioManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A0BB0789116C06D800FD62DE /* AudioManager.m */; };
+		A0BB07E5116C239E00FD62DE /* playButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A0BB07E2116C239E00FD62DE /* playButton.png */; };
+		A0BB07E6116C239E00FD62DE /* pauseButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A0BB07E3116C239E00FD62DE /* pauseButton.png */; };
+		A0BB07E7116C239E00FD62DE /* stopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = A0BB07E4116C239E00FD62DE /* stopButton.png */; };
 		A0EFAF071162F0EC00157566 /* fireflies.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A0EFAF061162F0EC00157566 /* fireflies.mp3 */; };
 		E4B4F334112B3C5D007BFFD7 /* VULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = E4B4F333112B3C5D007BFFD7 /* VULogo.png */; };
 		E4B4F341112B6E03007BFFD7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4B4F340112B6E03007BFFD7 /* MapKit.framework */; };
@@ -103,6 +106,9 @@
 		A09B3CA91159BF1300ADDB6E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		A09B3CAD1159BF2C00ADDB6E /* AudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioManager.h; sourceTree = "<group>"; };
 		A0BB0789116C06D800FD62DE /* AudioManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioManager.m; sourceTree = "<group>"; };
+		A0BB07E2116C239E00FD62DE /* playButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playButton.png; sourceTree = "<group>"; };
+		A0BB07E3116C239E00FD62DE /* pauseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pauseButton.png; sourceTree = "<group>"; };
+		A0BB07E4116C239E00FD62DE /* stopButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stopButton.png; sourceTree = "<group>"; };
 		A0EFAF061162F0EC00157566 /* fireflies.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fireflies.mp3; sourceTree = "<group>"; };
 		E4B4F333112B3C5D007BFFD7 /* VULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VULogo.png; sourceTree = "<group>"; };
 		E4B4F340112B6E03007BFFD7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -214,6 +220,9 @@
 		58D25984113382C300488E85 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A0BB07E2116C239E00FD62DE /* playButton.png */,
+				A0BB07E3116C239E00FD62DE /* pauseButton.png */,
+				A0BB07E4116C239E00FD62DE /* stopButton.png */,
 				58BF293B1159927800AEFF81 /* 24.jpg */,
 				581290FC11506ED100EA8E34 /* 28.jpg */,
 				585C444511506714004063E7 /* 27.jpg */,
@@ -320,6 +329,9 @@
 				58BF29A21159A05700AEFF81 /* SitOnClassViewController.xib in Resources */,
 				58294DED1162DD6C00E10FE9 /* courses.xml in Resources */,
 				A0EFAF071162F0EC00157566 /* fireflies.mp3 in Resources */,
+				A0BB07E5116C239E00FD62DE /* playButton.png in Resources */,
+				A0BB07E6116C239E00FD62DE /* pauseButton.png in Resources */,
+				A0BB07E7116C239E00FD62DE /* stopButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
