@@ -40,6 +40,28 @@ static AudioManager *sharedAudioManager = nil;
 	
 }
 
+- (void)pausePlayback {
+	[audioPlayer pause];
+}
+
+- (void)resumePlayback {
+	[audioPlayer play];
+}
+
+- (void)stopAndReleasePlayer {
+	[audioPlayer stop];
+	[audioPlayer release];
+	audioPlayer = nil;
+}
+
+- (BOOL)isAudioPlaying {
+	return audioPlayer.playing;
+}
+
+- (NSString *)audioPlayerURL {
+	return [audioPlayer.url absoluteString];
+}
+
 
 #pragma mark -
 #pragma mark Singleton Methods

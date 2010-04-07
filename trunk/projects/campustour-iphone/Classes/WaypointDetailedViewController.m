@@ -8,10 +8,14 @@
 
 #import "WaypointDetailedViewController.h"
 #import "SitOnClassViewController.h"
+#import "AudioManager.h"
 
 @implementation WaypointDetailedViewController
 
 @synthesize waypoint;
+@synthesize playButton;
+@synthesize pauseButton;
+@synthesize stopButton;
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -72,6 +76,27 @@
 	[newController loadData:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"courses.xml"]];
 	[self.navigationController pushViewController:newController animated:YES];
 	[newController release];
+}
+
+#pragma mark -
+#pragma mark Audio Playback Methods
+// Play the audio file associated with the waypoint you selected. 
+- (IBAction)playButtonTapped:(id)sender {	
+	if ([[AudioManager sharedAudioManager] audioPlayerURL] == nil) {
+		[[AudioManager sharedAudioManager] playAudioFile: waypoint.audioFilePath 
+												  ofType: @"mp3"];
+	} else {
+		[[AudioManager sharedAudioManager] resumePlayback];
+	}
+	
+}
+
+- (IBAction)pauseButtonTapped:(id)sender {
+	[[AudioManager sharedAudioManager] pausePlayback];
+}
+
+- (IBAction)stopButtonTapped:(id)sender {
+	[[AudioManager sharedAudioManager] stopAndReleasePlayer];
 }
 
 @end
