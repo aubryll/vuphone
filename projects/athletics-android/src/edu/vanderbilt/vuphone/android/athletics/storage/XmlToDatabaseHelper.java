@@ -1,7 +1,6 @@
 package edu.vanderbilt.vuphone.android.athletics.storage;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,6 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import edu.vanderbilt.vuphone.android.athletics.R;
@@ -52,22 +52,25 @@ public class XmlToDatabaseHelper {
 		this.myContext = myContext;
 
 		// check for the existence of the version file
+		
+		/*
+		 * Java.io.File is not supported for Android,
+		 * and will break if the user does not have an
+		 * SD card installed. The preferred way to do
+		 * this type of check is via an Android preference.
+		 */
+		System.out.println("Checking for existence of version preference...");
+		String version_file = this.myContext.getString(R.string.VERSION_FILE);
+		String app_version = this.myContext.getString(R.string.app_version);
+		
+		SharedPreferences settings = this.myContext.getSharedPreferences("athletics_database",
+				this.myContext.MODE_PRIVATE);
+		if (!settings.contains(version_file)) {
+		    System.out.println("Version preference does not exist.");
 
-		System.out.println("Checking for existence of version file...");
-		File versionFile = new File(myContext.getString(R.string.VERSION_FILE));
-		if (!versionFile.exists()) {
-			System.out.println("Version file does not exist.");
-			try {
-				FileOutputStream versionOutput = myContext.openFileOutput(
-						myContext.getString(R.string.VERSION_FILE), 0);
-				PrintStream versionPrinter = new PrintStream(versionOutput);
-				versionPrinter.println("0");
-				versionPrinter.close();
-				versionOutput.close();
-				System.out.println("Version file created.");
-			} catch (Exception f) {
-				f.printStackTrace();
-			}
+		    SharedPreferences.Editor prefs = settings.edit();
+		    prefs.putString(version_file, app_version);
+		    prefs.commit();
 		} else {
 			System.out.println("Version file exists.");
 		}
@@ -125,7 +128,7 @@ public class XmlToDatabaseHelper {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO: make this function return something else to signal an error
+			// TODO: make this function throw something else to signal an error
 			return true;
 		}
 	}

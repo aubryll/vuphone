@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.content.SharedPreferences;
 
+import edu.vanderbilt.vuphone.android.athletics.storage.XmlToDatabaseHelper;
+
 public class SplashScreen extends Activity {
 
 	// ===========================================================
@@ -34,9 +36,14 @@ public class SplashScreen extends Activity {
 		 * initialize the app and create the preference.
 		 */
 		
-		SharedPreferences settings = this.getPreferences(MODE_PRIVATE);
+		SharedPreferences settings = this.getPreferences(this.MODE_PRIVATE);
 		if (!settings.contains("app_is_initialized")) {
 		    System.out.println("App is not yet initialized.");
+
+		    //XmlToDatabaseHelper loader = new XmlToDatabaseHelper(this);
+		    
+		    // Load Database schema
+		    // Load initial data
 		    
 		    SharedPreferences.Editor prefs = settings.edit();
 		    prefs.putBoolean("app_is_initialized", true);
@@ -45,18 +52,9 @@ public class SplashScreen extends Activity {
 		    System.out.println("App is already initialized.");
 		}
 
-		/*
-		 * New Handler to start the Menu-Activity and close this Splash-Screen
-		 * after some seconds.
-		 */
-			new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				// Create an Intent that will start the Main-Activity. 
-				Intent mainIntent = new Intent(SplashScreen.this, Main.class);
-				SplashScreen.this.startActivity(mainIntent);
-				SplashScreen.this.finish();
-			}
-		}, SPLASH_DISPLAY_LENGTH);
+
+		// Create an Intent that will start the Main-Activity. 
+		Intent mainIntent = new Intent(this, Main.class);
+		this.startActivity(mainIntent);
 	}
 }
