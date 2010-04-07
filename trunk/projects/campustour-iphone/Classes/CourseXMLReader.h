@@ -13,6 +13,6 @@
 
 }
 
-+ (NSArray *)coursesFromXMLAtPath:(NSString *)path;
++ (NSMutableArray *)coursesFromXMLAtPath:(NSString *)path;
 
 @end

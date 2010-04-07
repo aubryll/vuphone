@@ -1,14 +1,14 @@
 <courses>
     <course>
 		<information
-		 number="cs101"
+		 subject="cs101"
 		 title="Intro to Computer Science"
 		 time="11:00 AM"
 		 place="Featheringill Hall Room 101"/>
 		</course>
     <course>
         <information
-		 number="cs102"
+		 subject="cs102"
 		 title="Intro to Computer Science continued"
 		 time="12:00 PM"
 		 place="Featheringill Hall Room 102"/>
