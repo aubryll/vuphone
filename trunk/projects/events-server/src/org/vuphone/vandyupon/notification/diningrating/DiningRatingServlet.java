@@ -1,6 +1,8 @@
  /**************************************************************************
- * Copyright 2009 Chris Thompson Modified 2010 by Hilmi Mustafah  		   *
- *                                                                         *
+ * @author Hilmi Mustafah, Bailin Gao, Chris Thompson
+ * @date 4/8/10
+ * 
+ * @section License                                                          
  * Licensed under the Apache License, Version 2.0 (the "License");         *
  * you may not use this file except in compliance with the License.        *
  * You may obtain a copy of the License at                                 *
@@ -11,7 +13,13 @@
  * distributed under the License is distributed on an "AS IS" BASIS,       *
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
  * See the License for the specific language governing permissions and     *
- * limitations under the License.                                          *
+ * limitations under the License.
+ * 
+ * 
+ * @section Description
+ * @class DiningRatingServlet
+ * @see HttpServlet
+ * @brief Acts as the intermediary communicator between the server and the internet.
  **************************************************************************/
 package org.vuphone.vandyupon.notification.diningrating;
 
@@ -29,80 +37,39 @@ import org.vuphone.vandyupon.notification.HandlerFailedException;
 import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationHandler;
 import org.vuphone.vandyupon.notification.ResponseNotification;
-//import org.vuphone.vandyupon.notification.NotificationResponseHandler;
-
-
 
 public class DiningRatingServlet extends HttpServlet {
 
-	/**
-	 * Used for serialization
-	 */
+	//Used for serialization
 	private static final long serialVersionUID = 1895167101514191256L;
-
 	private static final Logger logger_ = Logger.getLogger(DiningRatingServlet.class.getName());
-	/*
-	private Map<String, NotificationHandler> handlers_;
-	private Map<String, NotificationParser> parsers_;
-	private Map<String, NotificationResponseHandler> responders_;
-	*/
 
 	@Override
+	/**Handles the GET requests, not used/actually coded for
+	 * @param req An HttpServletRequest that contains the input
+	 * @param resp An HttpServletResponse that will contain the output
+	 * 
+	 * @throws ServletException A general servlet exception
+	 * @throws IOException Indicates a failed/interrupted I/O operation
+	 */
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 	throws ServletException, IOException {
 		doPost(req, resp);
 	}
 
 	@Override
+	/**Handles the POST requests, which is used exclusively in our case
+	 * @param req An HttpServletRequest that contains the input
+	 * @param resp An HttpServletResponse that will contain the output
+	 * 
+	 * @throws ServletException A general servlet exception
+	 * @throws IOException Indicates a failed/interrupted I/O operation
+	 * @throws HandlerFailedException Generic exception for when issues arise with the handler
+	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 	throws ServletException, IOException {
 		logger_.log(Level.FINER, "Query was " + req.getQueryString());
-		
-		/*
-		String typeParam = req.getParameter("type");
-		if (typeParam == null) {
-			logger_.log(Level.WARNING,
-			"There was no type parameter. Did the URL forget a '?'?");
-			return;
-		}
-			
-		Notification note = parsers_.get(typeParam).parse(req);
-
-		if (note == null) {
-			logger_.log(Level.WARNING,
-			"The parser returned a null notification");
-			return;
-		}
-
-		NotificationHandler handler = handlers_.get(note.getType());
-		if (handler == null) {
-			logger_.log(Level.WARNING,
-			"The handler returned was null. Check XML validity");
-			return;
-		}
-
-		ResponseNotification rnote = null;
-		try {
-			rnote = handler.handle(note);
-		} catch (HandlerFailedException e1) {
-			e1.printStackTrace();
-		}
-		if (rnote == null) {
-			logger_.log(Level.WARNING,
-			"The handler.handle function returned a null response");
-
-			return;
-		}
-		
-
-		try {
-			logger_.log(Level.FINER, rnote.getResponseString());
-			responders_.get(rnote.getResponseNotificationType()).handle(resp, rnote);
-		}
-		catch (HandlerFailedException e) {
-			e.printStackTrace();
-		}
-		*/
+	
 		DiningParser dp = new DiningParser();
 		Notification p = dp.parse(req);
 		
@@ -132,7 +99,6 @@ public class DiningRatingServlet extends HttpServlet {
 		try {
 			nr = dh.handle(p);//p is declared before parser test.
 		} catch (HandlerFailedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -140,38 +106,7 @@ public class DiningRatingServlet extends HttpServlet {
 			((DiningRatingResponseHandler) ServerUtils.get().getFactory().getBean("DiningRatingResponder")).handle(resp, nr);
 	
 		} catch (HandlerFailedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		
+		}	
 	}
-
-	/*
-	
-	public Map<String, NotificationHandler> getHandlers() {
-		return handlers_;
-	}
-
-	public void setHandlers(Map<String, NotificationHandler> handlers) {
-		handlers_ = handlers;
-	}
-
-	public void setParsers(Map<String, NotificationParser> parsers){
-		parsers_ = parsers;
-	}
-
-	public Map<String, NotificationParser> getParsers(){
-		return parsers_;
-	}
-
-	public void setResponders(Map<String, NotificationResponseHandler> resp){
-		responders_ = resp;
-	}
-
-	public Map<String, NotificationResponseHandler> getResponders(){
-		return responders_;
-	}
-	*/
-
 }

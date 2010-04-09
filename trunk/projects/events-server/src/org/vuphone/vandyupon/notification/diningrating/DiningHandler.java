@@ -1,6 +1,6 @@
 /**
  * @author Michael Fagan                                            
- *                      
+ * @date 4/8/10                     
  * @section LICENCE
  * Licensed under the Apache License, Version 2.0 (the "License");         
  * you may not use this file except in compliance with the License.        
@@ -16,7 +16,8 @@
  * 
  * @section DESCRIPTION
  * 
- * This class handles the two types of DiningRatings, either DiningRating or DiningRatingRequest.
+ * @class DiningHandler
+ * @brief This class handles the two types of DiningRatings, either DiningRating or DiningRatingRequest.
  * It performs the necessary operations on the Database and returns the appropriate Response type
  * for each call.
  */
@@ -219,7 +220,7 @@ public class DiningHandler implements NotificationHandler {
 	 *  @param Notification A generic notification
 	 *  @see Notification
 	 *  @return A DiningRatingResponse if the request was to add or change a rating, 
-	 *  	a DiningRatingRequestResponse if the request was for a rating for a location
+	 *  @return A DiningRatingRequestResponse if the request was for a rating for a location
 	 */
 
 	public ResponseNotification handle(Notification n){
