@@ -1,6 +1,6 @@
 /**
  * @author Michael Fagan                                            
- *                      
+ * @date 4/8/10                    
  * @section LICENCE
  * Licensed under the Apache License, Version 2.0 (the "License");         
  * you may not use this file except in compliance with the License.        
@@ -15,9 +15,9 @@
  * limitations under the License. 
  * 
  * @section DESCRIPTION
- * 
- * This class will be used to hold a Notification as it pertains to a Dining Rating Request.
- * It will be used to handle a request for a Rating at a particular location
+ * @class DiningRatingRequest
+ * @see Notification
+ * @brief This class will be used to hold a Notification as it pertains to a Dining Rating Request.
  */
 
 package org.vuphone.vandyupon.notification.diningrating;
