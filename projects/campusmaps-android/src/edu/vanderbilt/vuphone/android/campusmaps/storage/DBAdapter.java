@@ -328,17 +328,32 @@ public class DBAdapter {
 	}
 
 	/**
-	 * Return a Cursor over the list of all buildings in the database
+	 * Return a Cursor over the list of all buildings in the database sorted by
+	 * COLUMN_NAME
 	 * 
 	 * @return This cursor allows you to reference these columns COLUMN_ID,
 	 *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
 	 *         COLUMN_DESCRIPTION, COLUMN_URL.
 	 */
-
-	public Cursor fetchAllBuildingsCursor() {
+	public Cursor fetchAllBuildingsSortedCursor() {
 		return db_.query(BUILDING_TABLE, new String[] { COLUMN_ID, COLUMN_NAME,
 				COLUMN_LATITUDE, COLUMN_LONGITUDE, COLUMN_DESCRIPTION,
-				COLUMN_URL }, null, null, null, null, null);
+				COLUMN_URL }, null, null, null, null, COLUMN_NAME);
+	}
+
+	/**
+	 * Return a Cursor over the list of some buildings in the database Where
+	 * COLUMN_NAME like %compareText% sorted by COLUMN_NAME
+	 * 
+	 * @return This cursor allows you to reference these columns COLUMN_ID,
+	 *         COLUMN_NAME, COLUMN_LATITUDE, COLUMN_LONGITUDE,
+	 *         COLUMN_DESCRIPTION, COLUMN_URL.
+	 */
+	public Cursor fetchSomeBuildingsSortedCursor(String compareText) {
+		String whereClause = COLUMN_NAME + " like '%" + compareText + "%'";
+		return db_.query(BUILDING_TABLE, new String[] { COLUMN_ID, COLUMN_NAME,
+				COLUMN_LATITUDE, COLUMN_LONGITUDE, COLUMN_DESCRIPTION,
+				COLUMN_URL }, whereClause, null, null, null, COLUMN_NAME);
 	}
 
 }

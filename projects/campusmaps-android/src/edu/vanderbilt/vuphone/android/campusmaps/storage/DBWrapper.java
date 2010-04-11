@@ -257,7 +257,7 @@ public class DBWrapper {
 	}
 
 	public static Cursor fetchAllBuildingsCursor() {
-		return adapter.fetchAllBuildingsCursor();
+		return adapter.fetchAllBuildingsSortedCursor();
 	}
 
 }

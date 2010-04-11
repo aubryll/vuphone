@@ -79,7 +79,7 @@ public class BuildingList extends ListActivity {
 
 		SimpleCursorAdapter sca = new SimpleCursorAdapter(
 				getApplicationContext(), R.layout.building_list_item,
-				dbAdapter_.fetchAllBuildingsCursor(), from, to);
+				dbAdapter_.fetchAllBuildingsSortedCursor(), from, to);
 
 		setListAdapter(sca);
 
@@ -116,9 +116,16 @@ public class BuildingList extends ListActivity {
 
 		public void onTextChanged(CharSequence s, int start, int before,
 				int count) {
-			String str = filterText.getText().toString();
-			Log.d("list", "Text is " + str);
-			dataAdapter.getFilter().filter(s);
+			// Variables to map from db column names to cell names in display
+			String[] from = new String[] { DBAdapter.COLUMN_NAME,
+					DBAdapter.COLUMN_ID };
+			int[] to = new int[] { R.list_view.buildingName, R.list_view.buildingID };
+
+			SimpleCursorAdapter sca = new SimpleCursorAdapter(
+					getApplicationContext(), R.layout.building_list_item,
+					dbAdapter_.fetchSomeBuildingsSortedCursor(s.toString()), from, to);
+
+			setListAdapter(sca);
 		}
 
 	};
