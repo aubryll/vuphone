@@ -110,17 +110,8 @@ public class MapMarker extends com.google.android.maps.Overlay {
 		// drop a random colored pin
 		Bitmap bmp = BitmapFactory.decodeResource(Main.resources_,
 				marker_image_);
+		
 		canvas.drawBitmap(bmp, screenPts.x, screenPts.y - 50, null);
-
-		// Does this marker represent a building?
-		if (building_ != null) {
-			Paint paint = new Paint();
-			paint.setStrokeWidth(2);
-			paint.setARGB(200, 0, 0, 0);
-			paint.setStyle(Paint.Style.FILL);
-			canvas.drawText(building_.getName(), screenPts.x - 20, screenPts.y,
-					paint);
-		}
 
 		return true;
 	}
