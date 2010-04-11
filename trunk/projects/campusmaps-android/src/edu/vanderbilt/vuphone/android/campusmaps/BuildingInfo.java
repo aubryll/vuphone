@@ -18,12 +18,10 @@
 
 package edu.vanderbilt.vuphone.android.campusmaps;
 
-import java.io.BufferedInputStream;
 import java.net.URL;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,21 +57,16 @@ public class BuildingInfo extends Activity {
 		if ((img = b.getImageURL()) != null) {
 			ImageView iv = (ImageView) findViewById(R.id.buildingImage);
 
-			Bitmap bm = null;
+			BitmapDrawable bm = null;
 
-			// TODO Find a work-around to get BitmapFactory to work
-			// http://groups.google.com/group/android-developers/browse_thread/thread/171b8bf35dbbed96/
 			try {
-				BufferedInputStream bis = new BufferedInputStream(new URL(img)
-						.openConnection().getInputStream(), 150 * 1024);
-				bm = BitmapFactory.decodeStream(bis);
 
-				// TODO(corespace): create an Exception for this.
+				bm = new BitmapDrawable(new URL(img).openStream());
+
 				if (bm == null)
-					throw new Exception("BitmapFactory sucks...");
+					throw new Exception("BitmapDrawable sucks...");
 
-				bis.close();
-				iv.setImageBitmap(bm);
+				iv.setImageDrawable(bm);
 			} catch (Exception e) {
 				Main.trace("Couldn't download image: " + e.getMessage());
 			}
