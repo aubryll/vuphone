@@ -16,7 +16,7 @@ import org.vuphone.vandyupon.notification.NotificationParser;
  */
 public class DiningParser implements NotificationParser{
 
-	@Override
+
 	public Notification parse(HttpServletRequest req) {
 		//Use UTF-8 Encoding <-- copied from EventPostParser
 		try {
