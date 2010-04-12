@@ -52,7 +52,7 @@ public class EventChannelManager extends BayeuxService {
 	
 	private EventChannelManager(Bayeux bayeux) {
 		super(bayeux, "model");
-		subscribe(VandyUponServer.VANDY_UPON_EVENT_CHANNEL, "monitorEvents");
+		subscribe(VUPhoneServer.VANDY_UPON_EVENT_CHANNEL, "monitorEvents");
 		subscribe("/meta/subscribe", "monitorSubscribe");
 		subscribe("/meta/unsubscribe", "monitorUnsubscribe");
 		subscribe("/meta/*", "monitorMeta");

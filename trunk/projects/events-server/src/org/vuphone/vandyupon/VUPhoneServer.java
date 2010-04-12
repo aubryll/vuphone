@@ -44,7 +44,7 @@ import org.vuphone.vandyupon.sql.SqlConstructor;
  * @author jules
  * 
  */
-public class VandyUponServer {
+public class VUPhoneServer {
 
 	private static final String NOTIFICATION_SERVLET = "notificationServlet";
 	private static final String FACEBOOKLOGIN_SERVLET = "facebookLoginServlet";
@@ -59,7 +59,7 @@ public class VandyUponServer {
 	
 
 	private static final Logger logger_ = Logger
-			.getLogger(VandyUponServer.class.getName());
+			.getLogger(VUPhoneServer.class.getName());
 
 	private boolean running_ = false;
 
@@ -102,7 +102,7 @@ public class VandyUponServer {
 			}
 		}
 
-		(new VandyUponServer()).start(port);
+		(new VUPhoneServer()).start(port);
 	}
 
 	/**
