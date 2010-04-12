@@ -12,17 +12,17 @@
 #import "Event.h"
 #import "Location.h"
 
-#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/Commencement"
-#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/Commencement"
-//#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/Commencement"
-//#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/Commencement"
+#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
+#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
+//#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
+//#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
 
 @interface RemoteEventLoader : NSObject {
 
 }
 
-+ (NSArray *)eventFromServerWithContext:(NSManagedObjectContext *)context;
-+ (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context;
++ (NSArray *)getCommencementEventsFromServer:(NSManagedObjectContext *)context;
++ (NSArray *)getEventsFromServerBetween:(NSDate *)startDate and:(NSDate *)endDate updatedSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoLocation:(Location *)location;
 + (void)submitEvent:(Event *)event;

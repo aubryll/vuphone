@@ -59,7 +59,7 @@
 		[request setPredicate:[self predicate]];
 		
 		// Sort the request
-		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:VUEntityPropertyNameStartTime ascending:NO];
+		NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:VUEntityPropertyNameStartTime ascending:YES];
 		[request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 		[sortDescriptor release];
 		
@@ -77,7 +77,7 @@
 		NSError *error;
 		BOOL success = [fetchedResultsC performFetch:&error];
 		if (!success) {
-			NSLog(@"No Commencement found");
+			NSLog(@"No Events found");
 		} else {
 			NSUInteger sectionCount = [[fetchedResultsC sections] count];
 			[self.tableView reloadData];

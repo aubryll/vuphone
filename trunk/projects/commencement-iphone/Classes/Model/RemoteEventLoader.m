@@ -36,12 +36,8 @@
 
 @implementation RemoteEventLoader
 
-+ (NSArray *)eventFromServerWithContext:(NSManagedObjectContext *)context
-{
-	return [RemoteEventLoader getEventsFromServerSince:nil intoContext:context];
-}
-
-+ (NSArray *)getEventsFromServerSince:(NSDate *)date intoContext:(NSManagedObjectContext *)context
++ (NSArray *)getEventsFromServerBetween:(NSDate *)startDate and:(NSDate *)endDate 
+						   updatedSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context
 {
 #if SAMPLE_EVENT_REQUEST_RESPONSE
 	NSData *responseData = [NSData dataWithContentsOfFile:@"/Users/thompsonaaron/PROGRAMMING/VUPhone/trunk/projects/Commencement-iphone/sampleEventRequestResponse.xml"];
@@ -51,7 +47,9 @@
 	[urlString appendString:@"?type=eventrequest"];
 	[urlString appendFormat:@"&lat=%f", CAMPUS_CENTER_LATITUDE];
 	[urlString appendFormat:@"&lon=%f", CAMPUS_CENTER_LONGITUDE];
-	[urlString appendFormat:@"&updatetime=%i", (date == nil) ? 0 : (int)[date timeIntervalSince1970]];
+	[urlString appendFormat:@"&updatetime=%i", (updated == nil) ? 0 : (int)[updated timeIntervalSince1970]];
+	[urlString appendFormat:@"&endtime=%i", (endDate == nil) ? 0: (int)[endDate timeIntervalSince1970]];
+	[urlString appendFormat:@"&starttime=%i", (startDate == nil) ? 0: (int)[startDate timeIntervalSince1970]];
 //	[urlString appendString:@"&updatetime=0"];
 	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
 	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];

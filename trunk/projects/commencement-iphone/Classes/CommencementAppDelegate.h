@@ -27,7 +27,7 @@
 }
 
 - (IBAction)saveAction:(id)sender;
-- (void)getCommencementSinceLastUpdate:(NSManagedObjectContext *)context;
+- (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context;
 - (void)showLoadingView;
 - (IBAction)toggleAboutView:(id)sender;
 
