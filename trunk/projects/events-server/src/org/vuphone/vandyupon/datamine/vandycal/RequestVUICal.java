@@ -29,10 +29,9 @@ public class RequestVUICal {
 	// To form the URL, concat the prefix + number + suffix
 	// Ex: http://calendar.vanderbilt.edu/calendar/ics/set/200/vu-calendar.ics
 	private static final String REQUEST_URL_PREFIX = "http://calendar.vanderbilt.edu/calendar/ics/set/";
-	private static final int NUMBER_OF_EVENTS_REQUESTED = 200;
-	private static final String REQUEST_URL_SUFFIX = "/vu-calendar.ics";
-	
-	
+	private static final int NUMBER_OF_EVENTS_REQUESTED = 1000;
+	private static final String REQUEST_URL_SUFFIX = "/vu-calendar.ics?xtags=commencement";
+
 	public static void main(String[] argv) {
 		// Get calendar events
 		ComponentList events = getCalendarEvents();
@@ -42,11 +41,13 @@ public class RequestVUICal {
 			return;
 
 		// loop over events
-		for (int i = 0; i < events.size(); i++) {
+		int size = events.size();
+		for (int i = 0; i < size; i++) {
 			Component event = (Component) events.get(i);
 			EventPost post = EventPostBuilder.build(event);
 			if (post != null)
 				EventPostPoster.doPost(post);
+			System.out.println("Event " + i + " of " + size);
 		}
 	}
 
@@ -59,7 +60,7 @@ public class RequestVUICal {
 			StringBuffer urlString = new StringBuffer(REQUEST_URL_PREFIX);
 			urlString.append(NUMBER_OF_EVENTS_REQUESTED);
 			urlString.append(REQUEST_URL_SUFFIX);
-			
+
 			url = new URL(urlString.toString());
 			reader = new BufferedReader(new InputStreamReader(url.openStream(),
 					"UTF-8"));

@@ -23,20 +23,21 @@ import org.vuphone.vandyupon.notification.eventpost.EventPost;
  * 
  */
 public class EventPostPoster {
-	
+
 	private static final int REVISION_NUM = 928;
-	
+
 	private static final String PATH = "/vandyupon/events/";
 	private static final String HOST = "http://localhost:8082";
 	private static final String ID = "VU Ical Bot: Rev." + REVISION_NUM;
-	
-	
+
 	public static void doPost(EventPost eventPost) {
 		String postParams = createPostParameters(eventPost);
 		
+		System.out.println(postParams);
+
 		executePost(postParams);
 	}
-	
+
 	private static void executePost(String postURL) {
 		// Prepare post object
 		final HttpClient c = new DefaultHttpClient();
@@ -46,7 +47,7 @@ public class EventPostPoster {
 				.setParameter("http.connection.timeout", new Integer(1000));
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
 		post.addHeader("Content-Encoding", "UTF-8");
-		
+
 		// Add the parameters to the post
 		post.setEntity(new ByteArrayEntity(postURL.getBytes()));
 
@@ -60,35 +61,36 @@ public class EventPostPoster {
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 
-			//lastError_ = "General HTTP Error";
+			// lastError_ = "General HTTP Error";
 		} catch (IOException e) {
 			e.printStackTrace();
 
-			//lastError_ = "Unable to access server response. Is Internet available?";
+			// lastError_ =
+			// "Unable to access server response. Is Internet available?";
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			//lastError_ = "Unknown problem";
+			// lastError_ = "Unknown problem";
 		}
 
 		if (resp == null)
 			return;
 		else if (resp.getStatusLine().getStatusCode() != 200) {
-//			if (lastError_.equals("") == false)
-//				lastError_ += ". ";
-//			lastError_ += "Server returned "
-//					+ resp.getStatusLine().getStatusCode() + " status";
+			// if (lastError_.equals("") == false)
+			// lastError_ += ". ";
+			// lastError_ += "Server returned "
+			// + resp.getStatusLine().getStatusCode() + " status";
 			return;
 		} else if (bao.size() == 0) {
-//			if (lastError_.equals("") == false)
-//				lastError_ += ". ";
-//			lastError_ += "Server did not acknowledge";
+			// if (lastError_.equals("") == false)
+			// lastError_ += ". ";
+			// lastError_ += "Server did not acknowledge";
 			return;
 		}
 	}
 
 	private static String createPostParameters(EventPost ep) {
-		
+
 		String startTime = Long.toString(ep.getStartTime());
 		String endTime = Long.toString(ep.getEndTime());
 		String latitude = null, longitude = null;
@@ -99,10 +101,10 @@ public class EventPostPoster {
 		}
 		String androidID = ID;
 
-		String name = "", desc = "", locName = "", sourceUid = "";
-		
+		String name = "", desc = "", locName = "", sourceUid = "", tags = "";
+
 		try {
-			
+
 			name = clean(ep.getName());
 			startTime = URLEncoder.encode(startTime, "UTF-8");
 			endTime = URLEncoder.encode(endTime, "UTF-8");
@@ -126,6 +128,19 @@ public class EventPostPoster {
 			desc = clean(desc);
 
 			sourceUid = URLEncoder.encode(ep.getSourceUid(), "UTF-8");
+
+			if (ep.getTags() != null) {
+				StringBuffer tagBuffer = new StringBuffer();
+				for (String s : ep.getTags()) {
+					tagBuffer.append(s);
+					tagBuffer.append(',');
+				}
+
+				// Remove last comma
+				tagBuffer.setLength(tagBuffer.length() - 1);
+
+				tags = URLEncoder.encode(tagBuffer.toString(), "UTF-8");
+			}
 		} catch (UnsupportedEncodingException use) {
 			use.printStackTrace();
 		}
@@ -134,33 +149,23 @@ public class EventPostPoster {
 		StringBuffer params = new StringBuffer();
 		params.append("type=eventpost");
 
-		if (locName != null) {
-			params.append("&locationname=");
-			params.append(locName);
-		}
-		if (latitude != null) {
-			params.append("&locationlat=");
-			params.append(latitude);
-		}
-		if (longitude != null) {
-			params.append("&locationlon=");
-			params.append(longitude);
-		}
-		params.append("&eventname=");
-		params.append(name);
-		params.append("&starttime=");
-		params.append(startTime);
-		params.append("&endtime=");
-		params.append(endTime);
-		params.append("&userid=");
-		params.append(androidID);
-		params.append("&sourceuid=");
-		params.append(sourceUid);
+		if (locName != null)
+			params.append("&locationname=").append(locName);
+		if (latitude != null)
+			params.append("&locationlat=").append(latitude);
+		if (longitude != null)
+			params.append("&locationlon=").append(longitude);
+		if (desc.equalsIgnoreCase("") == false)
+			params.append("&desc=").append(desc);
+		if (tags.equalsIgnoreCase("") == false)
+			params.append("&tags=").append(tags);
+		params.append("&eventname=").append(name);
+		params.append("&starttime=").append(startTime);
+		params.append("&endtime=").append(endTime);
+		params.append("&userid=").append(androidID);
+		params.append("&sourceuid=").append(sourceUid);
 		params.append("&resp=xml");
-		params.append("&desc=");
-		params.append(desc);
 
-		
 		return params.toString();
 	}
 

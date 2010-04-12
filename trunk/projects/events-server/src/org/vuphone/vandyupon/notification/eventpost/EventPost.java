@@ -15,6 +15,8 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventpost;
 
+import java.util.List;
+
 import org.vuphone.vandyupon.datastructs.Location;
 import org.vuphone.vandyupon.notification.Notification;
 
@@ -31,13 +33,19 @@ public class EventPost extends Notification {
 	private String responseType_;
 	private String description_;
 	private int dbUserId_;
+	private List<String> tags_;
 	
 	public EventPost(){
 		super("eventpost");
 	}
 	
 	public EventPost(Location loc, String name, String user, long start, long end, 
-			String callback, String responseType){
+			String callback, String responseType) {
+		this(loc, name, user, start, end, callback, responseType, null);
+	}
+	
+	public EventPost(Location loc, String name, String user, long start, long end, 
+			String callback, String responseType, List<String> tags){
 		super("eventpost");
 		loc_ = loc;
 		name_ = name;
@@ -46,15 +54,22 @@ public class EventPost extends Notification {
 		end_ = end;
 		callback_ = callback;
 		responseType_ = responseType;
+		tags_ = tags;
+	}
+	
+	public void setTags(List<String> tags)
+	{
+		tags_ = tags;
 	}
 	
 	public String getCallback(){
 		return callback_;
 	}
 	
-	/**
-	 * @return the description_
-	 */
+	public List<String> getTags(){
+		return tags_;
+	}
+	
 	public String getDescription() {
 		return description_;
 	}
@@ -63,16 +78,10 @@ public class EventPost extends Notification {
 		return end_;
 	}
 
-	/**
-	 * @return the loc_
-	 */
 	public Location getLocation() {
 		return loc_;
 	}
 
-	/**
-	 * @return the name_
-	 */
 	public String getName() {
 		return name_;
 	}
@@ -85,9 +94,6 @@ public class EventPost extends Notification {
 		return start_;
 	}
 
-	/**
-	 * @return the user_
-	 */
 	public String getUser() {
 		return user_;
 	}
@@ -96,9 +102,6 @@ public class EventPost extends Notification {
 		callback_ = cb;
 	}
 	
-	/**
-	 * @param description the description_ to set
-	 */
 	public void setDescription(String description) {
 		description_ = description;
 	}
@@ -107,16 +110,11 @@ public class EventPost extends Notification {
 		end_ = end;
 		
 	}
-	/**
-	 * @param loc the loc_ to set
-	 */
+
 	public void setLocation(Location loc) {
 		loc_ = loc;
 	}
 
-	/**
-	 * @param name the name_ to set
-	 */
 	public void setName(String name) {
 		name_ = name;
 	}

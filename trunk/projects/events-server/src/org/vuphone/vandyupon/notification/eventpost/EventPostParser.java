@@ -17,6 +17,7 @@ package org.vuphone.vandyupon.notification.eventpost;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,11 +41,13 @@ public class EventPostParser implements NotificationParser {
 
 		EventPost ep = new EventPost();
 		ep.setLocationName(req.getParameter("locationname"));
-		if (req.getParameter("locationlat") == null || req.getParameter("locationlon") == null) {
+		if (req.getParameter("locationlat") == null
+				|| req.getParameter("locationlon") == null) {
 			ep.setLocation(null);
 		} else {
-			ep.setLocation(new Location(Double.parseDouble(req.getParameter("locationlat")),
-										Double.parseDouble(req.getParameter("locationlon"))));
+			ep.setLocation(new Location(Double.parseDouble(req
+					.getParameter("locationlat")), Double.parseDouble(req
+					.getParameter("locationlon"))));
 		}
 
 		ep.setName(req.getParameter("eventname"));
@@ -54,12 +57,22 @@ public class EventPostParser implements NotificationParser {
 		ep.setReponseType(req.getParameter("resp"));
 		ep.setCallback(req.getParameter("callback"));
 		try {
-			ep.setDescription(URLDecoder.decode(req.getParameter("desc"), "UTF-8"));
+			if (req.getParameter("desc") != null)
+				ep.setDescription(URLDecoder.decode(req.getParameter("desc"),
+						"UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		System.out.println("Description is now: " + ep.getDescription());
 		ep.setSourceUid(req.getParameter("sourceuid"));
+
+		if (req.getParameter("tags") != null) {
+			String[] tagArray = req.getParameter("tags").split(",");
+			ArrayList<String> tags = new ArrayList<String>();
+			for (String s : tagArray)
+				tags.add(s);
+			ep.setTags(tags);
+		}
 
 		return ep;
 	}
