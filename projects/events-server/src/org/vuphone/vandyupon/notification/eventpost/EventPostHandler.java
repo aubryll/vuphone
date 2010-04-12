@@ -15,8 +15,6 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventpost;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,25 +44,26 @@ public class EventPostHandler implements NotificationHandler {
 	 */
 	private int createEvent(EventPost ep, int locationId) throws SQLException {
 		Connection conn = ds_.getConnection();
-		
+
 		// First check if the event already exists
 		String sql = "SELECT eventid FROM events WHERE sourceuid = ?";
-		PreparedStatement prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		PreparedStatement prep = conn.prepareStatement(sql,
+				Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getSourceUid());
 		ResultSet rs = prep.executeQuery();
-		
+
 		boolean isExisting = false;
 		if (rs.next()) {
 			isExisting = true;
 			// This is an existing event, so update
-			sql = "update events set name = ?, locationid = ?, userid = ?, starttime = ?, endtime = ?" +
-					", lastupdate = ?, sourceuid = ?";
+			sql = "update events set name = ?, locationid = ?, userid = ?, starttime = ?, endtime = ?"
+					+ ", lastupdate = ?, sourceuid = ?";
 		} else {
 			// This is a new event, so insert
 			sql = "insert into events (name, locationid, userid, starttime, endtime, lastupdate, sourceuid)"
-				+ " values (?, ?, ?, ?, ?, ?, ?)";
+					+ " values (?, ?, ?, ?, ?, ?, ?)";
 		}
-		
+
 		prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		prep.setString(1, ep.getName());
 		prep.setInt(2, locationId);
@@ -83,26 +82,55 @@ public class EventPostHandler implements NotificationHandler {
 			rs.next();
 			int id = rs.getInt(1);
 
-			if (isExisting) {
+			// Insert Description, if one exists
+			if (isExisting && ep.getDescription() != null) {
 				sql = "UPDATE eventmeta (eventid, value, submissiontime, metatype) "
-					+ "SET value = ?, submissiontime = ? "
-					+ "WHERE eventid = ? AND metatype = (select typeid from metatypes where typename like 'DESCRIPTION'))";
+						+ "SET value = ?, submissiontime = ? "
+						+ "WHERE eventid = ? AND metatype = (select typeid from metatypes where typename like 'DESCRIPTION'))";
 
 				prep = conn.prepareStatement(sql);
 				prep.setString(1, ep.getDescription());
 				prep.setLong(2, System.currentTimeMillis());
 				prep.setInt(3, id);
-			} else {
+				prep.execute();
+			} else if (ep.getDescription() != null) {
 				sql = "insert into eventmeta (eventid, value, submissiontime, metatype) "
-					+ "values (?, ?, ?, (select typeid from metatypes where typename like 'DESCRIPTION'))";
-
+						+ "values (?, ?, ?, (select typeid from metatypes where typename like 'DESCRIPTION'))";
 				prep = conn.prepareStatement(sql);
 				prep.setInt(1, id);
 				prep.setString(2, ep.getDescription());
 				prep.setLong(3, System.currentTimeMillis());
+				prep.execute();
 			}
 
-			prep.execute();
+			// Insert Tags, if they exist
+			if (isExisting && ep.getTags() != null) {
+				for (String s : ep.getTags()) {
+					sql = "UPDATE eventmeta (eventid, value, submissiontime, metatype) "
+
+							+ "SET value = ?, submissiontime = ? "
+							+ "WHERE eventid = ? AND metatype = (select typeid from metatypes where typename like 'TAG'))";
+
+					prep = conn.prepareStatement(sql);
+					prep.setString(1, s);
+					prep.setLong(2, System.currentTimeMillis());
+					prep.setInt(3, id);
+					prep.execute();
+				}
+			} else if (ep.getTags() != null) {
+				for (String s : ep.getTags()) {
+					sql = "insert into eventmeta (eventid, value, submissiontime, metatype) "
+							+ "values (?, ?, ?, (select typeid from metatypes where typename like 'TAG'))";
+
+					prep = conn.prepareStatement(sql);
+					prep.setInt(1, id);
+					prep.setString(2, s);
+					prep.setLong(3, System.currentTimeMillis());
+
+					prep.execute();
+				}
+			}
+
 			return id;
 		}
 
@@ -148,7 +176,7 @@ public class EventPostHandler implements NotificationHandler {
 			prep = conn.prepareStatement(sql);
 			prep.setString(1, ep.getLocationName());
 		}
-		
+
 		int id;
 		ResultSet rs = prep.executeQuery();
 		rs.next();
@@ -159,12 +187,12 @@ public class EventPostHandler implements NotificationHandler {
 			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) "
 					+ "values (?, ?, ?, ?, ?, ?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			if (ep.getLocationName() == null)
 				prep.setNull(1, java.sql.Types.NULL);
 			else
 				prep.setString(1, ep.getLocationName());
-			
+
 			prep.setNull(2, java.sql.Types.NULL);
 			prep.setNull(3, java.sql.Types.NULL);
 			prep.setLong(4, System.currentTimeMillis() / 1000);
@@ -172,12 +200,12 @@ public class EventPostHandler implements NotificationHandler {
 			prep.setLong(6, System.currentTimeMillis() / 1000);
 
 			prep.execute();
-		
+
 			rs = prep.getGeneratedKeys();
 			rs.next();
 			id = rs.getInt(1);
 		}
-		
+
 		return id;
 	}
 

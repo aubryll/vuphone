@@ -4,6 +4,7 @@
 package org.vuphone.vandyupon.datamine.vandycal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
@@ -35,6 +36,8 @@ public class EventPostBuilder {
 		setDescription(p, calendarComponent);
 
 		setStartAndEndTime(p, calendarComponent);
+
+		setTags(p, calendarComponent);
 
 		setSourceUserID(p, calendarComponent);
 
@@ -82,20 +85,22 @@ public class EventPostBuilder {
 			p.setName(name.getValue().replaceAll("\\\\", ""));
 	}
 
-	/**
-	 * @param c
-	 *            The calendar event component
-	 * @return A comma-separated, UTF-8 encoded String containing all of the
-	 *         tags
-	 */
-	private static String getTags(Component c) {
+	private static void setTags(EventPost p, Component c) {
 		Property categories = c.getProperty(Property.CATEGORIES);
+		if (categories == null)
+			return;
+
 		String categoryValue = categories.getValue();
 
 		if (categoryValue == null)
-			return null;
+			return;
 
-		return categoryValue;
+		String[] tagArray = categoryValue.split(",");
+		ArrayList<String> tags = new ArrayList<String>();
+		for (String s : tagArray)
+			tags.add(s);
+
+		p.setTags(tags);
 	}
 
 	private static void setLocation(EventPost p, Component c) {
@@ -103,26 +108,23 @@ public class EventPostBuilder {
 		if (locName != null)
 			// Strip backslashes before colons that occur in the ics file
 			p.setLocationName(locName.getValue().replaceAll("\\\\", ""));
-		else
+		else {
 			p.setLocationName(null);
+			return;
+		}
 
 		// get geolocation
-		Location location = getLocation(c);
+		Location location = getLocation(locName.getValue());
 		if (location != null)
 			p.setLocation(location);
 	}
 
-	private static Location getLocation(
-			Component c) {
-		Property location = c.getProperty(Property.LOCATION);
+	private static Location getLocation(String locationName) {
 
 		Location geoLocation = null;
 
-		if (location == null) 
-			return null;
-		
 		// Remove the extra Room info and what not
-		String locValue = location.getValue();
+		String locValue = locationName;
 		if (locValue.indexOf(",") != -1)
 			locValue = locValue.substring(0, locValue.indexOf(","));
 		if (locValue.indexOf("-") != -1)
@@ -135,7 +137,7 @@ public class EventPostBuilder {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 		if (geoLocation.equals(vandy))
 			System.out.println("Got: Vandy");
 		else if (geoLocation.equals(nashville))
@@ -144,8 +146,7 @@ public class EventPostBuilder {
 			System.out.println("Got: " + geoLocation.getLat() + ", "
 					+ geoLocation.getLon());
 
- 
-		if ((geoLocation.getLat() == 0) || (geoLocation.getLon() == 0)) 
+		if ((geoLocation.getLat() == 0) || (geoLocation.getLon() == 0))
 			return null;
 		return geoLocation;
 	}
