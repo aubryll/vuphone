@@ -29,7 +29,7 @@ public class RequestVUICal {
 	// To form the URL, concat the prefix + number + suffix
 	// Ex: http://calendar.vanderbilt.edu/calendar/ics/set/200/vu-calendar.ics
 	private static final String REQUEST_URL_PREFIX = "http://calendar.vanderbilt.edu/calendar/ics/set/";
-	private static final int NUMBER_OF_EVENTS_REQUESTED = 1000;
+	private static final int NUMBER_OF_EVENTS_REQUESTED = 200;
 	private static final String REQUEST_URL_SUFFIX = "/vu-calendar.ics?xtags=commencement";
 
 	public static void main(String[] argv) {
@@ -47,7 +47,7 @@ public class RequestVUICal {
 			EventPost post = EventPostBuilder.build(event);
 			if (post != null)
 				EventPostPoster.doPost(post);
-			System.out.println("Event " + i + " of " + size);
+			System.out.println("Event " + (i + 1) + " of " + size);
 		}
 	}
 

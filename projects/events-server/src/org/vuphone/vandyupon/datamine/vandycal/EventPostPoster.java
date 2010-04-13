@@ -32,7 +32,7 @@ public class EventPostPoster {
 
 	public static void doPost(EventPost eventPost) {
 		String postParams = createPostParameters(eventPost);
-		
+
 		System.out.println(postParams);
 
 		executePost(postParams);
@@ -116,16 +116,16 @@ public class EventPostPoster {
 			}
 			androidID = clean(androidID);
 
-			if (desc != null)
-				desc = URLEncoder.encode(desc, "UTF-8");
-			else
-				desc = "";
+			if (ep.getDescription() != null) {
+				desc = URLEncoder.encode(ep.getDescription(), "UTF-8");
 
-			// Fix bizarre URL encoding issues
-			desc = desc.replaceAll("%26%2339%3B", "%27");
-			desc = desc.replaceAll("%E2%80%99", "%27");
-			desc = desc.replaceAll("%C2%A0", "%A0");
-			desc = clean(desc);
+				// Fix bizarre URL encoding issues
+				desc = desc.replaceAll("%26%2339%3B", "%27");
+				desc = desc.replaceAll("%E2%80%99", "%27");
+				desc = desc.replaceAll("%C2%A0", "%A0");
+				desc = clean(desc);
+			} else
+				ep.setDescription("");
 
 			sourceUid = URLEncoder.encode(ep.getSourceUid(), "UTF-8");
 
