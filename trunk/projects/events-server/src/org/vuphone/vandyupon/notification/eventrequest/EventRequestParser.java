@@ -1,4 +1,4 @@
- /**************************************************************************
+/**************************************************************************
  * Copyright 2009 Chris Thompson                                           *
  *                                                                         *
  * Licensed under the Apache License, Version 2.0 (the "License");         *
@@ -15,6 +15,9 @@
  **************************************************************************/
 package org.vuphone.vandyupon.notification.eventrequest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.vuphone.vandyupon.datastructs.Location;
@@ -22,22 +25,37 @@ import org.vuphone.vandyupon.notification.Notification;
 import org.vuphone.vandyupon.notification.NotificationParser;
 
 public class EventRequestParser implements NotificationParser {
-	
-	
+
 	/**
-	 * This method is used to parse an event request.  The Http parameters
-	 * it expects are the anchor point and the radius from that anchor point.
+	 * This method is used to parse an event request. The Http parameters it
+	 * expects are the anchor point and the radius from that anchor point.
 	 * 
 	 */
 	public Notification parse(HttpServletRequest req) {
-		Location loc = new Location(Double.parseDouble(req.getParameter("lat")), Double.parseDouble(req.getParameter("lon")));
+		Location loc = new Location(
+				Double.parseDouble(req.getParameter("lat")), Double
+						.parseDouble(req.getParameter("lon")));
 		double distance = Double.parseDouble(req.getParameter("dist"));
 		String response = req.getParameter("resp");
 		String callback = req.getParameter("callback");
 		String userid = req.getParameter("userid");
 		long update = Long.parseLong(req.getParameter("updatetime"));
-		return new EventRequest(loc, distance, userid, response, callback, update);
+		long startTime = 0, endTime = Long.MAX_VALUE;
+		if (req.getParameter("starttime") != null)
+			startTime = Long.parseLong(req.getParameter("starttime"));
+		if (req.getParameter("endtime") != null)
+			endTime = Long.parseLong(req.getParameter("endtime"));
+		
+		List<String> tags = new ArrayList<String>();
+		if (req.getParameter("tags") != null)
+		{
+			String tagsCsv = req.getParameter("tags");
+			for (String s: tagsCsv.split(","))
+				tags.add(s);
+		}
+		
+		return new EventRequest(loc, distance, userid, response, callback,
+				update, startTime, endTime, tags);
 	}
-	
 
 }

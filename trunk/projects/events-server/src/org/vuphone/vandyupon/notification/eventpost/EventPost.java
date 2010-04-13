@@ -49,6 +49,8 @@ public class EventPost extends Notification {
 		super("eventpost");
 		loc_ = loc;
 		name_ = name;
+		if (name_ == null)
+			name_ = "";
 		user_ = user;
 		start_ = start;
 		end_ = end;

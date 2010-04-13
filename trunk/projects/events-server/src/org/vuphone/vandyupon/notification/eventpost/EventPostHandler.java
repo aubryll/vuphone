@@ -163,19 +163,20 @@ public class EventPostHandler implements NotificationHandler {
 		return ds_;
 	}
 
+	private static final String NO_NAME = "No Location";
 	private int getNoGeoLocationId(EventPost ep) throws SQLException {
 		String sql;
 		Connection conn;
 		PreparedStatement prep;
 		conn = ds_.getConnection();
-		if (ep.getLocationName() == null) {
-			sql = "select * from locations where name IS NULL";
-			prep = conn.prepareStatement(sql);
-		} else {
-			sql = "select * from locations where name = ?";
-			prep = conn.prepareStatement(sql);
+		
+		sql = "select * from locations where name LIKE ?";
+		prep = conn.prepareStatement(sql);
+		if ((ep.getLocationName() == null) || ep.getLocationName().equalsIgnoreCase(""))
+			prep.setString(1, NO_NAME);
+		else
 			prep.setString(1, ep.getLocationName());
-		}
+		
 
 		int id;
 		ResultSet rs = prep.executeQuery();
@@ -188,8 +189,8 @@ public class EventPostHandler implements NotificationHandler {
 					+ "values (?, ?, ?, ?, ?, ?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-			if (ep.getLocationName() == null)
-				prep.setNull(1, java.sql.Types.NULL);
+			if ((ep.getLocationName() == null) || ep.getLocationName().equalsIgnoreCase(""))
+				prep.setString(1, NO_NAME);
 			else
 				prep.setString(1, ep.getLocationName());
 
@@ -239,7 +240,13 @@ public class EventPostHandler implements NotificationHandler {
 			sql = "insert into locations (name, lat, lon, date, userid, lastupdate) "
 					+ "values (?, ?, ?, ?, ?, ?)";
 			prep = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			prep.setString(1, ep.getLocationName());
+			if (ep.getLocationName().equalsIgnoreCase(""))
+				prep.setNull(1, java.sql.Types.NULL);
+			else
+				prep.setString(1, ep.getLocationName());
+			
+			System.out.println("Name is " + ep.getLocationName());
+			
 			prep.setDouble(2, ep.getLocation().getLat());
 			prep.setDouble(3, ep.getLocation().getLon());
 			prep.setLong(4, System.currentTimeMillis() / 1000);
