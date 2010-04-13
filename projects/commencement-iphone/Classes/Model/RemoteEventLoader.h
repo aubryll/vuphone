@@ -12,16 +12,19 @@
 #import "Event.h"
 #import "Location.h"
 
-#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
-#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
-//#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
-//#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8080/vandyupon/events"
+// TODO - this works fully versus the localhost8082 address that does not. Need to download both and diff them (after
+// running the request script on both to make sure they are exactly the same data! (thought - but what if the request script is the 
+// issue - do NOT run this on the live DB, only run the updates on the local DB
+//#define EVENT_REQUEST_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
+//#define EVENT_SUBMIT_URL_STRING @"http://afrl-gift.dre.vanderbilt.edu:8082/vandyupon/events"
+#define EVENT_REQUEST_URL_STRING @"http://127.0.0.1:8082/vandyupon/events"
+#define EVENT_SUBMIT_URL_STRING @"http://127.0.0.1:8082/vandyupon/events"
 
 @interface RemoteEventLoader : NSObject {
 
 }
 
-+ (NSArray *)getCommencementEventsFromServer:(NSManagedObjectContext *)context;
++ (NSArray *)getCommencementEventsFromServerSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context;
 + (NSArray *)getEventsFromServerBetween:(NSDate *)startDate and:(NSDate *)endDate updatedSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoEvent:(Event *)event;
 + (void)getDataFromXMLNode:(DDXMLNode *)node intoLocation:(Location *)location;
