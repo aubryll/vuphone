@@ -36,6 +36,86 @@
 
 @implementation RemoteEventLoader
 
++ (NSArray *)getCommencementEventsFromServerSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context
+{
+	// Format the url string
+	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
+	[urlString appendString:@"?type=eventrequest"];
+	[urlString appendFormat:@"&lat=%f", CAMPUS_CENTER_LATITUDE];
+	[urlString appendFormat:@"&lon=%f", CAMPUS_CENTER_LONGITUDE];
+	[urlString appendFormat:@"&updatetime=%i", (updated == nil) ? 0 : (int)[updated timeIntervalSince1970]];
+	[urlString appendFormat:@"&dist=%i", 100000];	// distance is measured in meters
+	[urlString appendFormat:@"&userid=%@", [[UIDevice currentDevice] uniqueIdentifier]];
+	[urlString appendString:@"&tags=commencement"];
+	[urlString appendString:@"&resp=xml"];
+	NSLog(@"Requesting URL: %@", urlString);
+	NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSURL *searchUrl = [NSURL URLWithString:escapedUrlString];
+	// Make the request to get the data
+	NSData *responseData = [NSData dataWithContentsOfURL:searchUrl];
+	
+	// Parse the request
+	NSError *err = nil;
+	DDXMLDocument *responseXml = [[DDXMLDocument alloc] initWithData:responseData options:0 error:&err];
+	if (err) {
+		NSLog(@"Error loading response XML: %@", err);
+		[responseXml release];
+		return nil;
+	}
+	
+	// Find the first response
+	NSArray *nodes = [responseXml nodesForXPath:@"./EventRequestResponse/Event" error:&err];
+	NSMutableArray *events = [[NSMutableArray alloc] initWithCapacity:[nodes count]];
+	if ([nodes count] > 0)
+	{
+		for (DDXMLNode *node in nodes)
+		{
+			// Fetch the location from our DB.  If it doesn't exist, create a new one.
+			NSString *locationServerId = [(DDXMLNode *)[[node nodesForXPath:@"./Loc/Id" error:&err] objectAtIndex:0] stringValue];
+			Location *location = [Location locationWithServerId:locationServerId inContext:context];
+			if (!location) {
+				location = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameLocation inManagedObjectContext:context];
+			}
+			
+			[RemoteEventLoader getDataFromXMLNode:node intoLocation:location];
+			
+			
+			// Fetch the event from our DB.  If it doesn't exist, create a new one.
+			NSString *serverId = [(DDXMLNode *)[[node nodesForXPath:@"./EventId" error:&err] objectAtIndex:0] stringValue];
+			Event *event = [Event eventWithServerId:serverId inContext:context];
+			if (!event) {
+				// Create a new event
+				event = [NSEntityDescription insertNewObjectForEntityForName:VUEntityNameEvent inManagedObjectContext:context];
+				event.location = location;
+			}
+			
+			[RemoteEventLoader getDataFromXMLNode:node intoEvent:event];
+			
+			[context save:&err];
+			if (err) {
+				NSLog(@"Error saving event: %@", err);
+				// Get rid of this event
+				[context rollback];
+			} else {
+				[events addObject:event];
+			}
+		}
+	}
+	else
+	{
+		// No Events were found
+		#if TARGET_IPHONE_SIMULATOR
+			NSLog(@"No nodes found: %@", responseXml);
+		#endif
+	}
+	
+	[responseXml release];
+	
+	return [events autorelease];
+	
+}
+
+
 + (NSArray *)getEventsFromServerBetween:(NSDate *)startDate and:(NSDate *)endDate 
 						   updatedSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context
 {
@@ -127,6 +207,10 @@
 
 	prop = (DDXMLNode *)[[node nodesForXPath:@"./Name" error:&err] objectAtIndex:0];
 	event.name = [prop stringValue];
+	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Event - " withString:@""];
+	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Events," withString:@""];
+	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Event -" withString:@""];
+	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Event," withString:@""];
 
 	NSArray *nodes = [node nodesForXPath:@"./Description" error:&err];
 	if ([nodes count] > 0) {

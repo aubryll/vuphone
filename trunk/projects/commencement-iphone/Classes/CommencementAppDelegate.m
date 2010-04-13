@@ -10,14 +10,6 @@
 #import "RemoteEventLoader.h"
 #import "EventStore.h"
 
-#define COMMENCEMENT_START_MONTH 2
-#define COMMENCEMENT_START_DAY   8
-#define COMMENCEMENT_START_YEAR  2010
-
-#define COMMENCEMENT_END_MONTH 2
-#define COMMENCEMENT_END_DAY   12
-#define COMMENCEMENT_END_YEAR  2010
-
 @implementation CommencementAppDelegate
 
 @synthesize window;
@@ -49,25 +41,6 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
-
-	NSDateComponents *components = [[NSDateComponents alloc] init];
-	[components setDay:COMMENCEMENT_START_DAY]; 
-	[components setMonth:COMMENCEMENT_START_MONTH];
-	[components setYear:COMMENCEMENT_START_YEAR];
-	NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDate *startDate = [gregorian dateFromComponents:components];
-	[gregorian release];
-	[components release];
-	
-	components = [[NSDateComponents alloc] init];
-	[components setDay:COMMENCEMENT_END_DAY]; 
-	[components setMonth:COMMENCEMENT_END_MONTH];
-	[components setYear:COMMENCEMENT_END_YEAR];
-	gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-	NSDate *endDate = [gregorian dateFromComponents:components];
-	[gregorian release];
-	[components release];
-	
 	if (lastUpdate == nil)
 	{
 		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
@@ -78,13 +51,10 @@
 							waitUntilDone:NO];
 	}
 
-	[RemoteEventLoader getEventsFromServerBetween:startDate and:endDate
-									 updatedSince:lastUpdate intoContext:context];
-	
+	[RemoteEventLoader getCommencementEventsFromServerSince:lastUpdate intoContext:context];	
 	NSError *err = nil;
 	[context save:&err];
-	
-	// AARON - Why is this the check for if an update was performed while on the loading screen? It seems like if (lastUpdate != nil) would be a good enough check
+
 	if ([lastUpdate timeIntervalSince1970] == 0) {
 		// Hide the loading screen
 		[loadingViewController.view removeFromSuperview];

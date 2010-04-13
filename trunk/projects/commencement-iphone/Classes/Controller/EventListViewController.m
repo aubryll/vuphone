@@ -26,10 +26,10 @@
 	NSDateComponents *components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate date]];
 	NSDate *midnight = [gregorian dateFromComponents:components];
 
-	components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate dateWithTimeIntervalSinceNow:60*60*24*15]];
-	NSDate *fifteenDaysFromNow = [gregorian dateFromComponents:components];
+	components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:[NSDate dateWithTimeIntervalSinceNow:60*60*24*45]];
+	NSDate *fortyFiveDaysFromNow = [gregorian dateFromComponents:components];
 
-	datePredicate = [[NSPredicate predicateWithFormat:@"endTime > %@ AND endTime < %@", midnight, fifteenDaysFromNow] retain];
+	datePredicate = [[NSPredicate predicateWithFormat:@"endTime > %@ AND endTime < %@", midnight, fortyFiveDaysFromNow] retain];
 
 	// Hard-coding the list of chosen sources for now
 	NSMutableArray *tempChosenSources = [[NSMutableArray alloc] init];
@@ -77,7 +77,7 @@
 		NSError *error;
 		BOOL success = [fetchedResultsC performFetch:&error];
 		if (!success) {
-			NSLog(@"No Events found");
+			NSLog(@"No Events found - error was %@", error);
 		} else {
 			NSUInteger sectionCount = [[fetchedResultsC sections] count];
 			[self.tableView reloadData];
@@ -390,6 +390,7 @@
 	// Refetch
 	NSError *err;
 	[self.fetchedResultsC performFetch:&err];
+	NSLog(@"Error refetching %@", err);
 /*	
 	[self.tableView reloadData];
 
