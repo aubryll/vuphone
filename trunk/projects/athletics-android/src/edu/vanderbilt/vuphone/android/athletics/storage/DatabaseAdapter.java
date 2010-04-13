@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import edu.vanderbilt.vuphone.android.athletics.R;
 
 /**
  * Database helper class. To use the SQLite database, simply create a helper and
@@ -24,43 +23,46 @@ public class DatabaseAdapter {
 	private SQLiteDatabase myDatabase;
 
 	// define the database version
-	private static final int DATABASE_VERSION = 9;
+	private static final int DATABASE_VERSION = 10;
 
 	// constant for the context (for the SQLiteOpenHelper)
 	private final Context myContext;
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 
-		Context context;
-
 		DatabaseHelper(Context context) {
-			super(context, context.getString(R.string.DATABASE_NAME), null,
-					DATABASE_VERSION);
-			this.context = context;
+			super(context, "data", null, DATABASE_VERSION);
 		}
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 
-			db.execSQL(context.getString(R.string.DATABASE_CREATE1));
-			db.execSQL(context.getString(R.string.DATABASE_CREATE2));
-			db.execSQL(context.getString(R.string.DATABASE_CREATE3));
-			db.execSQL(context.getString(R.string.DATABASE_CREATE4));
+			db
+					.execSQL("CREATE TABLE conferences(conference_id integer PRIMARY KEY, name text, abbreviation text)");
+			db
+					.execSQL("CREATE TABLE teams(team_id integer PRIMARY KEY, school text, name text, conference integer, CONSTRAINT conference_fk FOREIGN KEY (conference) REFERENCES conferences(conference_id))");
+			db
+					.execSQL("CREATE TABLE sports( sport_id integer PRIMARY KEY, name text)");
+			db
+					.execSQL("CREATE TABLE players( player_id integer PRIMARY KEY, number integer, position text, firstname text, lastname text, team integer, sport integer, CONSTRAINT team_fk FOREIGN KEY (team) REFERENCES teams(team_id), CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sports(sport_id))");
+			db
+					.execSQL("CREATE TABLE games( game_id integer PRIMARY KEY, hometeam integer, awayteam integer, sport integer, time text, homescore integer, awayscore integer, CONSTRAINT hometeam_fk FOREIGN KEY (hometeam) REFERENCES teams(team_id), CONSTRAINT awayteam_fk FOREIGN KEY (awayteam) REFERENCES teams(team_id), CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sport(sport_id))");
+			db
+					.execSQL("CREATE TABLE news( news_id integer PRIMARY KEY, title text, body text, link text, date text, sport integer, CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sports(sport_id))");
+
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			Log.w(context.getString(R.string.DATABASE_TAG),
-					"Upgrading database from version " + oldVersion + " to "
-							+ newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS "
-					+ context.getString(R.string.DATABASE_TABLE_NEWS));
-			db.execSQL("DROP TABLE IF EXISTS "
-					+ context.getString(R.string.DATABASE_TABLE_GAMES));
-			db.execSQL("DROP TABLE IF EXISTS "
-					+ context.getString(R.string.DATABASE_TABLE_PLAYERS));
-			db.execSQL("DROP TABLE IF EXISTS "
-					+ context.getString(R.string.DATABASE_TABLE_TEAMS));
+			Log.w("DatabaseAdapter", "Upgrading database from version "
+					+ oldVersion + " to " + newVersion
+					+ ", which will destroy all old data");
+			db.execSQL("DROP TABLE IF EXISTS " + "conferences");
+			db.execSQL("DROP TABLE IF EXISTS " + "teams");
+			db.execSQL("DROP TABLE IF EXISTS " + "sports");
+			db.execSQL("DROP TABLE IF EXISTS " + "players");
+			db.execSQL("DROP TABLE IF EXISTS " + "games");
+			db.execSQL("DROP TABLE IF EXISTS " + "news");
 			onCreate(db);
 		}
 	}
@@ -124,13 +126,16 @@ public class DatabaseAdapter {
 	 *            the link to the news page
 	 * @return rowId or -1 if failed
 	 */
-	public long createNewsItem(String title, String body, String link) {
+	public long createNewsItem(long id, String title, String body, String link,
+			String date, int sport) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(myContext.getString(R.string.KEY_NEWS_TITLE), title);
-		initialValues.put(myContext.getString(R.string.KEY_NEWS_BODY), body);
-		initialValues.put(myContext.getString(R.string.KEY_NEWS_LINK), link);
-		long x = myDatabase.insert(myContext
-				.getString(R.string.DATABASE_TABLE_NEWS), null, initialValues);
+		initialValues.put("news_id", id);
+		initialValues.put("title", title);
+		initialValues.put("body", body);
+		initialValues.put("link", link);
+		initialValues.put("date", date);
+		initialValues.put("sport", sport);
+		long x = myDatabase.insert("news", null, initialValues);
 		System.out.println("Creating news item with title: " + title + "...");
 		if (x == -1) {
 			System.out.println("NEWS ITEM CREATION FAILED");
@@ -162,25 +167,20 @@ public class DatabaseAdapter {
 	 *            the score of the away team (use an empty string if unplayed)
 	 * @return rowId or -1 if failed
 	 */
-	public long createGame(String hometeam, String awayteam, String sport,
-			String type, String time, String homescore, String awayscore) {
+	public long createGame(long id, int hometeam, int awayteam, int sport,
+			String time, int homescore, int awayscore) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_HOMETEAM),
-				hometeam);
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_AWAYTEAM),
-				awayteam);
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_SPORT), sport);
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_TYPE), type);
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_TIME), time);
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_HOMESCORE),
-				homescore);
-		initialValues.put(myContext.getString(R.string.KEY_GAMES_AWAYSCORE),
-				awayscore);
+		initialValues.put("game_id", id);
+		initialValues.put("hometeam", hometeam);
+		initialValues.put("awayteam", awayteam);
+		initialValues.put("sport", sport);
+		initialValues.put("time", time);
+		initialValues.put("homescore", homescore);
+		initialValues.put("awayscore", awayscore);
 
 		System.out.println("Creating game: " + awayteam + " @ " + hometeam
 				+ "...");
-		long x = myDatabase.insert(myContext
-				.getString(R.string.DATABASE_TABLE_GAMES), null, initialValues);
+		long x = myDatabase.insert("games", null, initialValues);
 		if (x == -1) {
 			System.out.println("GAME CREATION FAILED");
 		} else {
@@ -205,21 +205,20 @@ public class DatabaseAdapter {
 	 *            the number of the player (empty string if not applicable)
 	 * @return rowId or -1 if failed
 	 */
-	public long createPlayer(String name, String team, String position,
-			String number) {
+	public long createPlayer(long id, String firstname, String lastname,
+			int number, String position, int sport, int team) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(myContext.getString(R.string.KEY_PLAYERS_NAME), name);
-		initialValues.put(myContext.getString(R.string.KEY_PLAYERS_TEAM), team);
-		initialValues.put(myContext.getString(R.string.KEY_PLAYERS_POSITION),
-				position);
-		initialValues.put(myContext.getString(R.string.KEY_PLAYERS_NUMBER),
-				number);
+		initialValues.put("player_id", id);
+		initialValues.put("firstname", firstname);
+		initialValues.put("lastname", lastname);
+		initialValues.put("number", number);
+		initialValues.put("position", position);
+		initialValues.put("sport", sport);
+		initialValues.put("team", team);
 
-		System.out.println("Creating player: " + name + " on the " + team
+		System.out.println("Creating player: " + firstname + " " + lastname
 				+ "...");
-		long x = myDatabase.insert(myContext
-				.getString(R.string.DATABASE_TABLE_PLAYERS), null,
-				initialValues);
+		long x = myDatabase.insert("players", null, initialValues);
 		if (x == -1) {
 			System.out.println("PLAYER CREATION FAILED");
 		} else {
@@ -242,21 +241,52 @@ public class DatabaseAdapter {
 	 *            the conference of the team (SEC, Big 10, etc)
 	 * @return rowId or -1 if failed
 	 */
-	public long createTeam(String school, String name, String conference) {
+	public long createTeam(long id, String school, String name, int conference) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(myContext.getString(R.string.KEY_TEAMS_SCHOOL),
-				school);
-		initialValues.put(myContext.getString(R.string.KEY_TEAMS_NAME), name);
-		initialValues.put(myContext.getString(R.string.KEY_TEAMS_CONFERENCE),
-				conference);
+		initialValues.put("id", id);
+		initialValues.put("school", school);
+		initialValues.put("name", name);
+		initialValues.put("conference", conference);
 
 		System.out.println("Creating team: " + school + " " + name + "...");
-		long x = myDatabase.insert(myContext
-				.getString(R.string.DATABASE_TABLE_TEAMS), null, initialValues);
+		long x = myDatabase.insert("teams", null, initialValues);
 		if (x == -1) {
 			System.out.println("TEAM CREATION FAILED");
 		} else {
 			System.out.println("Team created at row: " + x);
+		}
+		return x;
+
+	}
+
+	public long createSport(long id, String name) {
+		ContentValues initialValues = new ContentValues();
+		initialValues.put("id", id);
+		initialValues.put("name", name);
+
+		System.out.println("Creating sport: " + name + "...");
+		long x = myDatabase.insert("sports", null, initialValues);
+		if (x == -1) {
+			System.out.println("SPORT CREATION FAILED");
+		} else {
+			System.out.println("Sport created at row: " + x);
+		}
+		return x;
+
+	}
+
+	public long createConference(long id, String name, String abbreviation) {
+		ContentValues initialValues = new ContentValues();
+		initialValues.put("id", id);
+		initialValues.put("name", name);
+		initialValues.put("abbreviation", abbreviation);
+
+		System.out.println("Creating conference: " + name + "...");
+		long x = myDatabase.insert("conference", null, initialValues);
+		if (x == -1) {
+			System.out.println("CONFERENCE CREATION FAILED");
+		} else {
+			System.out.println("Conference created at row: " + x);
 		}
 		return x;
 
@@ -269,12 +299,9 @@ public class DatabaseAdapter {
 	 *            id of news item to delete
 	 * @return true if deleted, false otherwise
 	 */
-	public boolean deleteNewsItem(long rowId) {
-		System.out.println("Deleting news item at row" + rowId + "...");
-		int x = myDatabase.delete(myContext
-				.getString(R.string.DATABASE_TABLE_NEWS), myContext
-				.getString(R.string.KEY_NEWS_ROWID)
-				+ "=" + rowId, null);
+	public boolean deleteNewsItem(long id) {
+		System.out.println("Deleting news item " + id + "...");
+		int x = myDatabase.delete("news", "news_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " news item(s).");
 		return x > 0;
 	}
@@ -286,12 +313,9 @@ public class DatabaseAdapter {
 	 *            id of game to delete
 	 * @return true if deleted, false otherwise
 	 */
-	public boolean deleteGame(long rowId) {
-		System.out.println("Deleting game at row" + rowId + "...");
-		int x = myDatabase.delete(myContext
-				.getString(R.string.DATABASE_TABLE_GAMES), myContext
-				.getString(R.string.KEY_NEWS_ROWID)
-				+ "=" + rowId, null);
+	public boolean deleteGame(long id) {
+		System.out.println("Deleting game " + id + "...");
+		int x = myDatabase.delete("games", "game_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " game(s).");
 		return x > 0;
 	}
@@ -303,12 +327,9 @@ public class DatabaseAdapter {
 	 *            id of player to delete
 	 * @return true if deleted, false otherwise
 	 */
-	public boolean deletePlayer(long rowId) {
-		System.out.println("Deleting player at row" + rowId + "...");
-		int x = myDatabase.delete(myContext
-				.getString(R.string.DATABASE_TABLE_PLAYERS), myContext
-				.getString(R.string.KEY_NEWS_ROWID)
-				+ "=" + rowId, null);
+	public boolean deletePlayer(long id) {
+		System.out.println("Deleting player " + id + "...");
+		int x = myDatabase.delete("players", "player_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " player(s).");
 		return x > 0;
 	}
@@ -320,13 +341,25 @@ public class DatabaseAdapter {
 	 *            id of team to delete
 	 * @return true if deleted, false otherwise
 	 */
-	public boolean deleteTeam(long rowId) {
-		System.out.println("Deleting team at row" + rowId + "...");
-		int x = myDatabase.delete(myContext
-				.getString(R.string.DATABASE_TABLE_TEAMS), myContext
-				.getString(R.string.KEY_NEWS_ROWID)
-				+ "=" + rowId, null);
+	public boolean deleteTeam(long id) {
+		System.out.println("Deleting team " + id + "...");
+		int x = myDatabase.delete("teams", "team_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " team(s).");
+		return x > 0;
+	}
+
+	public boolean deleteSport(long id) {
+		System.out.println("Deleting sport " + id + "...");
+		int x = myDatabase.delete("sports", "sport_id" + "=" + id, null);
+		System.out.println("Deleted " + x + " sport(s).");
+		return x > 0;
+	}
+
+	public boolean deleteConference(long id) {
+		System.out.println("Deleting conference " + id + "...");
+		int x = myDatabase.delete("conferences", "conference_id" + "=" + id,
+				null);
+		System.out.println("Deleted " + x + " conference(s).");
 		return x > 0;
 	}
 
@@ -338,9 +371,10 @@ public class DatabaseAdapter {
 	public Cursor fetchAllNewsItems() {
 
 		System.out.println("Fetching all news items...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_NEWS), null, null, null,
-				null, null, null);
+		return myDatabase
+				.rawQuery(
+						"SELECT games.game_id, (SELECT teams.name FROM teams WHERE games.hometeam=teams.team_id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams.team_id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports.sport_id) AS sport, games.time, games.homescore, games.awayscore FROM games",
+						null);
 	}
 
 	/**
@@ -352,12 +386,15 @@ public class DatabaseAdapter {
 	 *            a SQL string that would go after "WHERE " in a command
 	 * @return Cursor over the news items
 	 */
-	public Cursor fetchFilteredNewsItems(String orderBy, String where) {
-
+	public Cursor fetchFilteredNewsItems(String where, String orderBy) {
+		String[] selectionArgs = new String[2];
+		selectionArgs[0] = where;
+		selectionArgs[1] = orderBy;
 		System.out.println("Fetching filtered news items...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_NEWS), null, where, null,
-				null, null, orderBy);
+		return myDatabase
+				.rawQuery(
+						"SELECT news.news_id, news.title, news.body, news.link, news.date, (SELECT sports.name FROM sports WHERE news.sport=sports.sport_id) AS sport FROM news WHERE ? ORDER BY ?",
+						selectionArgs);
 	}
 
 	/**
@@ -368,9 +405,10 @@ public class DatabaseAdapter {
 	public Cursor fetchAllGames() {
 
 		System.out.println("Fetching all games...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_GAMES), null, null, null,
-				null, null, null);
+		return myDatabase
+				.rawQuery(
+						"SELECT games.game_id, (SELECT teams.name FROM teams WHERE games.hometeam=teams.team_id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams.team_id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports.sport_id) AS sport, games.time, games.homescore, games.awayscore FROM games",
+						null);
 	}
 
 	/**
@@ -382,12 +420,15 @@ public class DatabaseAdapter {
 	 *            a SQL string that would go after "WHERE " in a command
 	 * @return Cursor over filtered games
 	 */
-	public Cursor fetchFilteredGames(String orderBy, String where) {
-
+	public Cursor fetchFilteredGames(String where, String orderBy) {
+		String[] selectionArgs = new String[2];
+		selectionArgs[0] = where;
+		selectionArgs[1] = orderBy;
 		System.out.println("Fetching filtered games...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_GAMES), null, where, null,
-				null, null, orderBy);
+		return myDatabase
+				.rawQuery(
+						"SELECT games.game_id, (SELECT teams.name FROM teams WHERE games.hometeam=teams.team_id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams.team_id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports.sport_id) AS sport, games.time, games.homescore, games.awayscore FROM games WHERE ? ORDER BY ?",
+						selectionArgs);
 	}
 
 	/**
@@ -398,9 +439,10 @@ public class DatabaseAdapter {
 	public Cursor fetchAllPlayers() {
 
 		System.out.println("Fetching all players...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_PLAYERS), null, null, null,
-				null, null, null);
+		return myDatabase
+				.rawQuery(
+						"SELECT players.player_id, players.firstname, players.lastname, players.number, players.position, (SELECT sports.name FROM sports WHERE players.sport=sports.sport_id) AS sport, (SELECT teams.name FROM teams WHERE players.team=team.team_id) AS team FROM players",
+						null);
 	}
 
 	/**
@@ -412,12 +454,15 @@ public class DatabaseAdapter {
 	 *            a SQL string that would go after "WHERE " in a command
 	 * @return Cursor over filtered players
 	 */
-	public Cursor fetchFilteredPlayers(String orderBy, String where) {
-
+	public Cursor fetchFilteredPlayers(String where, String orderBy) {
+		String[] selectionArgs = new String[2];
+		selectionArgs[0] = where;
+		selectionArgs[1] = orderBy;
 		System.out.println("Fetching filtered players...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_PLAYERS), null, where, null,
-				null, null, orderBy);
+		return myDatabase
+				.rawQuery(
+						"SELECT players.player_id, players.firstname, players.lastname, players.number, players.position, (SELECT sports.name FROM sports WHERE players.sport=sports.sport_id) AS sport, (SELECT teams.name FROM teams WHERE players.team=team.team_id) AS team FROM players WHERE ? ORDER BY ?",
+						selectionArgs);
 	}
 
 	/**
@@ -428,9 +473,10 @@ public class DatabaseAdapter {
 	public Cursor fetchAllTeams() {
 
 		System.out.println("Fetching all teams...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_TEAMS), null, null, null,
-				null, null, null);
+		return myDatabase
+				.rawQuery(
+						"SELECT teams.team_id, teams.school, teams.name, (SELECT conferences.name FROM conferences WHERE teams.conference=conferences.conference_id) AS conference FROM teams",
+						null);
 	}
 
 	/**
@@ -442,12 +488,15 @@ public class DatabaseAdapter {
 	 *            a SQL string that would go after "WHERE " in a command
 	 * @return Cursor over filtered teams
 	 */
-	public Cursor fetchFilteredTeams(String orderBy, String where) {
-
+	public Cursor fetchFilteredTeams(String where, String orderBy) {
+		String[] selectionArgs = new String[2];
+		selectionArgs[0] = where;
+		selectionArgs[1] = orderBy;
 		System.out.println("Fetching filtered teams...");
-		return myDatabase.query(myContext
-				.getString(R.string.DATABASE_TABLE_TEAMS), null, where, null,
-				null, null, orderBy);
+		return myDatabase
+				.rawQuery(
+						"SELECT teams.team_id, teams.school, teams.name, (SELECT conferences.name FROM conferences WHERE teams.conference=conferences.conference_id) AS conference FROM teams WHERE ? ORDER BY ?",
+						selectionArgs);
 	}
 
 	/**
@@ -459,12 +508,10 @@ public class DatabaseAdapter {
 	 * @throws SQLException
 	 *             if news item could not be found/retrieved
 	 */
-	public Cursor fetchNewsItem(long rowId) throws SQLException {
-		System.out.println("Fetching news item at row" + rowId + "...");
-		Cursor myCursor = myDatabase.query(true, myContext
-				.getString(R.string.DATABASE_TABLE_NEWS), null, myContext
-				.getString(R.string.KEY_NEWS_ROWID)
-				+ "=" + rowId, null, null, null, null, null);
+	public Cursor fetchNewsItem(long id) throws SQLException {
+		System.out.println("Fetching news item " + id + "...");
+		Cursor myCursor = myDatabase.query(true, "news", null, "news_id" + "="
+				+ id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
@@ -480,12 +527,10 @@ public class DatabaseAdapter {
 	 * @throws SQLException
 	 *             if game could not be found/retrieved
 	 */
-	public Cursor fetchGame(long rowId) throws SQLException {
-		System.out.println("Fetching game at row" + rowId + "...");
-		Cursor myCursor = myDatabase.query(true, myContext
-				.getString(R.string.DATABASE_TABLE_GAMES), null, myContext
-				.getString(R.string.KEY_GAMES_ROWID)
-				+ "=" + rowId, null, null, null, null, null);
+	public Cursor fetchGame(long id) throws SQLException {
+		System.out.println("Fetching game " + id + "...");
+		Cursor myCursor = myDatabase.query(true, "games", null, "game_id" + "="
+				+ id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
@@ -501,13 +546,11 @@ public class DatabaseAdapter {
 	 * @throws SQLException
 	 *             if player could not be found/retrieved
 	 */
-	public Cursor fetchPlayer(long rowId) throws SQLException {
-		System.out.println("Fetching player at row" + rowId + "...");
+	public Cursor fetchPlayer(long id) throws SQLException {
+		System.out.println("Fetching player " + id + "...");
 
-		Cursor myCursor = myDatabase.query(true, myContext
-				.getString(R.string.DATABASE_TABLE_PLAYERS), null, myContext
-				.getString(R.string.KEY_PLAYERS_ROWID)
-				+ "=" + rowId, null, null, null, null, null);
+		Cursor myCursor = myDatabase.query(true, "players", null, "player_id"
+				+ "=" + id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
@@ -523,13 +566,11 @@ public class DatabaseAdapter {
 	 * @throws SQLException
 	 *             if player could not be found/retrieved
 	 */
-	public Cursor fetchTeam(long rowId) throws SQLException {
-		System.out.println("Fetching team at row" + rowId + "...");
+	public Cursor fetchTeam(long id) throws SQLException {
+		System.out.println("Fetching team " + id + "...");
 
-		Cursor myCursor = myDatabase.query(true, myContext
-				.getString(R.string.DATABASE_TABLE_TEAMS), null, myContext
-				.getString(R.string.KEY_TEAMS_ROWID)
-				+ "=" + rowId, null, null, null, null, null);
+		Cursor myCursor = myDatabase.query(true, "teams", null, "team_id" + "="
+				+ id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
@@ -570,20 +611,18 @@ public class DatabaseAdapter {
 	 *            value to set news item link to
 	 * @return true if the news item was successfully updated, false otherwise
 	 */
-	public boolean updateNewsItem(long rowId, String title, String body,
-			String link) {
-		ContentValues newValues = new ContentValues();
-		newValues.put(myContext.getString(R.string.KEY_NEWS_TITLE), title);
-		newValues.put(myContext.getString(R.string.KEY_NEWS_BODY), body);
-		newValues.put(myContext.getString(R.string.KEY_NEWS_LINK), link);
-		System.out.println("Updating news item at row " + rowId + "...");
-		int x = myDatabase.update(myContext
-				.getString(R.string.DATABASE_TABLE_NEWS), newValues, myContext
-				.getString(R.string.KEY_NEWS_ROWID)
-				+ "=" + rowId, null);
-		System.out.println("Updated " + x + " news items.");
-		return x > 0;
-	}
+	/*
+	 * public boolean updateNewsItem(long rowId, String title, String body,
+	 * String link) { ContentValues newValues = new ContentValues();
+	 * newValues.put(myContext.getString(R.string.KEY_NEWS_TITLE), title);
+	 * newValues.put(myContext.getString(R.string.KEY_NEWS_BODY), body);
+	 * newValues.put(myContext.getString(R.string.KEY_NEWS_LINK), link);
+	 * System.out.println("Updating news item at row " + rowId + "..."); int x =
+	 * myDatabase.update(myContext .getString(R.string.DATABASE_TABLE_NEWS),
+	 * newValues, myContext .getString(R.string.KEY_NEWS_ROWID) + "=" + rowId,
+	 * null); System.out.println("Updated " + x + " news items."); return x > 0;
+	 * }
+	 */
 
 	/**
 	 * Update the game using the details provided. The game to be updated is
@@ -609,29 +648,25 @@ public class DatabaseAdapter {
 	 * 
 	 * @return true if the game was successfully updated, false otherwise
 	 */
-	public boolean updateGame(long rowId, String hometeam, String awayteam,
-			String sport, String type, String time, String homescore,
-			String awayscore) {
-		ContentValues newValues = new ContentValues();
-		newValues.put(myContext.getString(R.string.KEY_GAMES_HOMETEAM),
-				hometeam);
-		newValues.put(myContext.getString(R.string.KEY_GAMES_AWAYTEAM),
-				awayteam);
-		newValues.put(myContext.getString(R.string.KEY_GAMES_SPORT), sport);
-		newValues.put(myContext.getString(R.string.KEY_GAMES_TYPE), type);
-		newValues.put(myContext.getString(R.string.KEY_GAMES_TIME), time);
-		newValues.put(myContext.getString(R.string.KEY_GAMES_HOMESCORE),
-				homescore);
-		newValues.put(myContext.getString(R.string.KEY_GAMES_AWAYSCORE),
-				awayscore);
-		System.out.println("Updating game at row " + rowId + "...");
-		int x = myDatabase.update(myContext
-				.getString(R.string.DATABASE_TABLE_GAMES), newValues, myContext
-				.getString(R.string.KEY_GAMES_ROWID)
-				+ "=" + rowId, null);
-		System.out.println("Updated " + x + " games.");
-		return x > 0;
-	}
+	/*
+	 * public boolean updateGame(long rowId, String hometeam, String awayteam,
+	 * String sport, String type, String time, String homescore, String
+	 * awayscore) { ContentValues newValues = new ContentValues();
+	 * newValues.put(myContext.getString(R.string.KEY_GAMES_HOMETEAM),
+	 * hometeam);
+	 * newValues.put(myContext.getString(R.string.KEY_GAMES_AWAYTEAM),
+	 * awayteam); newValues.put(myContext.getString(R.string.KEY_GAMES_SPORT),
+	 * sport); newValues.put(myContext.getString(R.string.KEY_GAMES_TYPE),
+	 * type); newValues.put(myContext.getString(R.string.KEY_GAMES_TIME), time);
+	 * newValues.put(myContext.getString(R.string.KEY_GAMES_HOMESCORE),
+	 * homescore);
+	 * newValues.put(myContext.getString(R.string.KEY_GAMES_AWAYSCORE),
+	 * awayscore); System.out.println("Updating game at row " + rowId + "...");
+	 * int x = myDatabase.update(myContext
+	 * .getString(R.string.DATABASE_TABLE_GAMES), newValues, myContext
+	 * .getString(R.string.KEY_GAMES_ROWID) + "=" + rowId, null);
+	 * System.out.println("Updated " + x + " games."); return x > 0; }
+	 */
 
 	/**
 	 * Update the player using the details provided. The player to be updated is
@@ -649,22 +684,19 @@ public class DatabaseAdapter {
 	 *            the number of the player (empty string if not applicable)
 	 * @return true if the player was successfully updated, false otherwise
 	 */
-	public boolean updatePlayer(long rowId, String name, String team,
-			String position, String number) {
-		ContentValues newValues = new ContentValues();
-		newValues.put(myContext.getString(R.string.KEY_PLAYERS_NAME), name);
-		newValues.put(myContext.getString(R.string.KEY_PLAYERS_TEAM), team);
-		newValues.put(myContext.getString(R.string.KEY_PLAYERS_POSITION),
-				position);
-		newValues.put(myContext.getString(R.string.KEY_PLAYERS_NUMBER), number);
-		System.out.println("Updating player at row " + rowId + "...");
-		int x = myDatabase.update(myContext
-				.getString(R.string.DATABASE_TABLE_PLAYERS), newValues,
-				myContext.getString(R.string.KEY_PLAYERS_ROWID) + "=" + rowId,
-				null);
-		System.out.println("Updated " + x + " players.");
-		return x > 0;
-	}
+	/*
+	 * public boolean updatePlayer(long rowId, String name, String team, String
+	 * position, String number) { ContentValues newValues = new ContentValues();
+	 * newValues.put(myContext.getString(R.string.KEY_PLAYERS_NAME), name);
+	 * newValues.put(myContext.getString(R.string.KEY_PLAYERS_TEAM), team);
+	 * newValues.put(myContext.getString(R.string.KEY_PLAYERS_POSITION),
+	 * position);
+	 * newValues.put(myContext.getString(R.string.KEY_PLAYERS_NUMBER), number);
+	 * System.out.println("Updating player at row " + rowId + "..."); int x =
+	 * myDatabase.update(myContext .getString(R.string.DATABASE_TABLE_PLAYERS),
+	 * newValues, myContext.getString(R.string.KEY_PLAYERS_ROWID) + "=" + rowId,
+	 * null); System.out.println("Updated " + x + " players."); return x > 0; }
+	 */
 
 	/**
 	 * Update the team using the details provided. The team to be updated is
@@ -680,19 +712,16 @@ public class DatabaseAdapter {
 	 *            the conference of the team (SEC, Big 10, etc)
 	 * @return true if the team was successfully updated, false otherwise
 	 */
-	public boolean updateTeam(long rowId, String school, String name,
-			String conference) {
-		ContentValues newValues = new ContentValues();
-		newValues.put(myContext.getString(R.string.KEY_TEAMS_SCHOOL), school);
-		newValues.put(myContext.getString(R.string.KEY_TEAMS_NAME), name);
-		newValues.put(myContext.getString(R.string.KEY_TEAMS_CONFERENCE),
-				conference);
-		System.out.println("Updating player at row " + rowId + "...");
-		int x = myDatabase.update(myContext
-				.getString(R.string.DATABASE_TABLE_TEAMS), newValues, myContext
-				.getString(R.string.KEY_TEAMS_ROWID)
-				+ "=" + rowId, null);
-		System.out.println("Updated " + x + " teams.");
-		return x > 0;
-	}
+	/*
+	 * public boolean updateTeam(long rowId, String school, String name, String
+	 * conference) { ContentValues newValues = new ContentValues();
+	 * newValues.put(myContext.getString(R.string.KEY_TEAMS_SCHOOL), school);
+	 * newValues.put(myContext.getString(R.string.KEY_TEAMS_NAME), name);
+	 * newValues.put(myContext.getString(R.string.KEY_TEAMS_CONFERENCE),
+	 * conference); System.out.println("Updating player at row " + rowId +
+	 * "..."); int x = myDatabase.update(myContext
+	 * .getString(R.string.DATABASE_TABLE_TEAMS), newValues, myContext
+	 * .getString(R.string.KEY_TEAMS_ROWID) + "=" + rowId, null);
+	 * System.out.println("Updated " + x + " teams."); return x > 0; }
+	 */
 }
