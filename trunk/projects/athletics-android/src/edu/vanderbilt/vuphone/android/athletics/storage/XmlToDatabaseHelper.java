@@ -33,6 +33,10 @@ import edu.vanderbilt.vuphone.android.athletics.R;
  * 
  */
 public class XmlToDatabaseHelper {
+	private static String versionFilename = "data.version";
+	private static String versionURL = "http://people.vanderbilt.edu/~zach.mccormick/data.version";
+	private static String dataURL = "http://people.vanderbilt.edu/~zach.mccormick/data.xml";
+	private static String appVersion = "0.1";
 	Document dom; // this will be the raw data after the XML file is parsed
 	DatabaseAdapter myDatabaseHelper; // this will be the access point for the
 	// database
@@ -52,19 +56,18 @@ public class XmlToDatabaseHelper {
 		this.myContext = myContext;
 
 		// check for the existence of the version file
-		
+
 		/*
-		 * Java.io.File is not supported for Android,
-		 * and will break if the user does not have an
-		 * SD card installed. The preferred way to do
-		 * this type of check is via an Android preference.
+		 * Java.io.File is not supported for Android, and will break if the user
+		 * does not have an SD card installed. The preferred way to do this type
+		 * of check is via an Android preference.
 		 */
 		System.out.println("Checking for existence of version preference...");
 		String version_file = this.myContext.getString(R.string.VERSION_FILE);
-		String app_version = this.myContext.getString(R.string.app_version);
-		
-		SharedPreferences settings = this.myContext.getSharedPreferences("athletics_database",
-				this.myContext.MODE_PRIVATE);
+		String app_version = appVersion;
+
+		SharedPreferences settings = this.myContext.getSharedPreferences(
+				"athletics_database", this.myContext.MODE_PRIVATE);
 		if (!settings.contains(version_file)) {
 		    System.out.println("Version preference does not exist.");
 
@@ -199,8 +202,7 @@ public class XmlToDatabaseHelper {
 
 		System.out.println("Adding news items...");
 		// get a nodelist of news items
-		NodeList newsNodeList = rootElement.getElementsByTagName(myContext
-				.getString(R.string.XML_TAG_NEWS));
+		NodeList newsNodeList = rootElement.getElementsByTagName("news");
 
 		// iterate through the nodelist and add each news to the database
 		if (newsNodeList != null && newsNodeList.getLength() > 0) {
@@ -214,8 +216,7 @@ public class XmlToDatabaseHelper {
 		System.out.println("Adding games...");
 
 		// get a nodelist of games
-		NodeList gameNodeList = rootElement.getElementsByTagName(myContext
-				.getString(R.string.XML_TAG_GAME));
+		NodeList gameNodeList = rootElement.getElementsByTagName("game");
 
 		// iterate through the nodelist and add each game to the database
 		if (gameNodeList != null && gameNodeList.getLength() > 0) {
@@ -226,11 +227,41 @@ public class XmlToDatabaseHelper {
 			}
 		}
 		System.out.println("Games added.");
-		System.out.println("Adding teams and players...");
+
+		System.out.println("Adding sports...");
+
+		// get a nodelist of games
+		NodeList sportNodeList = rootElement.getElementsByTagName("sport");
+
+		// iterate through the nodelist and add each game to the database
+		if (sportNodeList != null && sportNodeList.getLength() > 0) {
+			for (int i = 0; i < sportNodeList.getLength(); i++) {
+				// get the i(th) game in the list
+				Element el = (Element) sportNodeList.item(i);
+				addSportToDatabase(el);
+			}
+		}
+		System.out.println("Sports added.");
+
+		System.out.println("Adding conferences...");
+
+		// get a nodelist of conferences
+		NodeList conferenceNodeList = rootElement
+				.getElementsByTagName("conference");
+
+		// iterate through the nodelist and add each conference to the database
+		if (conferenceNodeList != null && conferenceNodeList.getLength() > 0) {
+			for (int i = 0; i < conferenceNodeList.getLength(); i++) {
+				// get the i(th) game in the list
+				Element el = (Element) conferenceNodeList.item(i);
+				addConferenceToDatabase(el);
+			}
+		}
+		System.out.println("Conferences added.");
+		System.out.println("Adding teams...");
 
 		// get a nodelist of teams
-		NodeList teamNodeList = rootElement.getElementsByTagName(myContext
-				.getString(R.string.XML_TAG_TEAM));
+		NodeList teamNodeList = rootElement.getElementsByTagName("team");
 
 		// iterate through the nodelist and add each team to the database
 		if (teamNodeList != null && teamNodeList.getLength() > 0) {
@@ -238,24 +269,24 @@ public class XmlToDatabaseHelper {
 				// get the i(th) team in the list
 				Element el = (Element) teamNodeList.item(i);
 				addTeamToDatabase(el);
-
-				// build a nodelist for players
-				NodeList playerNodeList = el.getElementsByTagName(myContext
-						.getString(R.string.XML_TAG_PLAYER));
-
-				// iterate through the nodelist and add each player to the
-				// database
-				if (playerNodeList != null && playerNodeList.getLength() > 0) {
-					for (int j = 0; j < playerNodeList.getLength(); j++) {
-						// get the i(th) player in the team
-						Element e = (Element) playerNodeList.item(j);
-						addPlayerToDatabase(el.getAttribute(myContext
-								.getString(R.string.KEY_TEAMS_NAME)), e);
-					}
-				}
 			}
 		}
-		System.out.println("Teams and players added.");
+		System.out.println("Teams added.");
+		System.out.println("Adding players...");
+
+		// get a nodelist of players
+		NodeList playerNodeList = rootElement.getElementsByTagName("player");
+
+		// iterate through the nodelist and add each player to the database
+		if (playerNodeList != null && playerNodeList.getLength() > 0) {
+			for (int i = 0; i < playerNodeList.getLength(); i++) {
+				// get the i(th) player in the list
+				Element el = (Element) playerNodeList.item(i);
+				addPlayerToDatabase(el);
+			}
+		}
+		System.out.println("Players added.");
+
 		closeDatabase();
 		updateVersion();
 	}
@@ -268,62 +299,18 @@ public class XmlToDatabaseHelper {
 	 */
 	private void addGameToDatabase(Element el) {
 		// for each game, we will get the following attributes
-		String hometeam = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_HOMETEAM));
-		String awayteam = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_AWAYTEAM));
-		String sport = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_SPORT));
-		String type = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_TYPE));
-		String time = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_TIME));
-		String homescore = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_HOMESCORE));
-		String awayscore = el.getAttribute(myContext
-				.getString(R.string.KEY_GAMES_AWAYSCORE));
+		int id = Integer.parseInt(el.getAttribute("game_id"));
+		int hometeam = Integer.parseInt(el.getAttribute("hometeam"));
+		int awayteam = Integer.parseInt(el.getAttribute("awayteam"));
+		int sport = Integer.parseInt(el.getAttribute("sport"));
+		String time = el.getAttribute("time");
+		int homescore = Integer.parseInt(el.getAttribute("homescore"));
+		int awayscore = Integer.parseInt(el.getAttribute("awayscore"));
 		System.out.println("Adding game to database: " + awayteam + " @ "
 				+ hometeam + "...");
-
-		// add this game to the database if it does not exist
-		// existence is checked by comparing the two teams and the time
-		Cursor gameList = myDatabaseHelper.fetchAllGames();
-		int awayindex = gameList.getColumnIndex(myContext
-				.getString(R.string.KEY_GAMES_AWAYTEAM));
-		int homeindex = gameList.getColumnIndex(myContext
-				.getString(R.string.KEY_GAMES_HOMETEAM));
-		int timeindex = gameList.getColumnIndex(myContext
-				.getString(R.string.KEY_GAMES_TIME));
-		int rowindex = gameList.getColumnIndex(myContext
-				.getString(R.string.KEY_GAMES_ROWID));
-		boolean exists = false;
-		if (gameList.moveToFirst()) {
-			while (gameList.isAfterLast() == false) {
-				int currentRow = gameList.getInt(rowindex);
-				if (gameList.getString(timeindex).equalsIgnoreCase(time)) {
-					if (gameList.getString(homeindex)
-							.equalsIgnoreCase(hometeam)) {
-						if (gameList.getString(awayindex).equalsIgnoreCase(
-								awayteam)) {
-							myDatabaseHelper.updateGame(currentRow, hometeam,
-									awayteam, sport, type, time, homescore,
-									awayscore);
-							exists = true;
-							System.out.println("Updated game to database.");
-							break;
-						}
-					}
-				}
-				gameList.moveToNext();
-			}
-		}
-		if (exists == false) {
-			myDatabaseHelper.createGame(hometeam, awayteam, sport, type, time,
-					homescore, awayscore);
-			System.out.println("Added game to database.");
-		}
-		gameList.close();
-
+		myDatabaseHelper.createGame(id, hometeam, awayteam, sport, time,
+				homescore, awayscore);
+		System.out.println("Added game to database.");
 	}
 
 	/**
@@ -333,40 +320,16 @@ public class XmlToDatabaseHelper {
 	 *            element from nodelist of teams
 	 */
 	private void addTeamToDatabase(Element el) {
-		// for each game, we will get the following attributes
-		String school = el.getAttribute(myContext
-				.getString(R.string.KEY_TEAMS_SCHOOL));
-		String name = el.getAttribute(myContext
-				.getString(R.string.KEY_TEAMS_NAME));
-		String conference = el.getAttribute(myContext
-				.getString(R.string.KEY_TEAMS_CONFERENCE));
+		// for each team, get the following attributes
+		int id = Integer.parseInt(el.getAttribute("team_id"));
+		String school = el.getAttribute("school");
+		String name = el.getAttribute("name");
+		int conference = Integer.parseInt(el.getAttribute("conference"));
 
 		System.out.println("Adding team to database: " + school + "...");
-		// add this team to the database if it does not exist
-		// existence is checked by looking for the school
-		Cursor teamList = myDatabaseHelper.fetchAllTeams();
-		int schoolindex = teamList.getColumnIndex(myContext
-				.getString(R.string.KEY_TEAMS_SCHOOL));
-		int rowindex = teamList.getColumnIndex(myContext
-				.getString(R.string.KEY_TEAMS_ROWID));
-		boolean exists = false;
-		if (teamList.moveToFirst()) {
-			while (teamList.isAfterLast() == false) {
-				int currentRow = teamList.getInt(rowindex);
-				if (teamList.getString(schoolindex).equalsIgnoreCase(school)) {
-					myDatabaseHelper.updateTeam(currentRow, school, name,
-							conference);
-					exists = true;
-					System.out.println("Updated team to database.");
-				}
-				teamList.moveToNext();
-			}
-		}
-		if (exists == false) {
-			myDatabaseHelper.createTeam(school, name, conference);
-			System.out.println("Added team to database.");
-		}
-		teamList.close();
+
+		myDatabaseHelper.createTeam(id, school, name, conference);
+		System.out.println("Added team to database.");
 	}
 
 	/**
@@ -377,45 +340,21 @@ public class XmlToDatabaseHelper {
 	 * @param el
 	 *            element from nodelist of players
 	 */
-	private void addPlayerToDatabase(String team, Element el) {
-		String name = el.getAttribute(myContext
-				.getString(R.string.KEY_PLAYERS_NAME));
-		String position = el.getAttribute(myContext
-				.getString(R.string.KEY_PLAYERS_POSITION));
-		String number = el.getAttribute(myContext
-				.getString(R.string.KEY_PLAYERS_NUMBER));
+	private void addPlayerToDatabase(Element el) {
+		int id = Integer.parseInt(el.getAttribute("player_id"));
+		String firstname = el.getAttribute("firstname");
+		String lastname = el.getAttribute("lastname");
+		int number = Integer.parseInt(el.getAttribute("number"));
+		String position = el.getAttribute("position");
+		int sport = Integer.parseInt(el.getAttribute("sport"));
+		int team = Integer.parseInt(el.getAttribute("team"));
 
-		System.out.println("Adding player to database: " + name + "...");
-		// add this player to the database if he/she does not exist
-		// existence is checked by looking for the name and team
-		Cursor playerList = myDatabaseHelper.fetchAllPlayers();
-		int nameindex = playerList.getColumnIndex(myContext
-				.getString(R.string.KEY_PLAYERS_NAME));
-		int teamindex = playerList.getColumnIndex(myContext
-				.getString(R.string.KEY_PLAYERS_TEAM));
-		int rowindex = playerList.getColumnIndex(myContext
-				.getString(R.string.KEY_PLAYERS_ROWID));
-		boolean exists = false;
-		if (playerList.moveToFirst()) {
-			while (playerList.isAfterLast() == false) {
-				int currentRow = playerList.getInt(rowindex);
-				if (playerList.getString(nameindex).equalsIgnoreCase(name)) {
-					if (playerList.getString(teamindex).equalsIgnoreCase(team)) {
-						myDatabaseHelper.updatePlayer(currentRow, name, team,
-								position, number);
-						exists = true;
-						System.out.println("Updated player to database.");
-					}
-				}
-				playerList.moveToNext();
-			}
-		}
+		System.out.println("Adding player to database: " + firstname + " "
+				+ lastname + "...");
 
-		if (exists == false) {
-			myDatabaseHelper.createPlayer(name, team, position, number);
-			System.out.println("Added player to database.");
-		}
-		playerList.close();
+		myDatabaseHelper.createPlayer(id, firstname, lastname, number,
+				position, sport, team);
+		System.out.println("Added player to database.");
 	}
 
 	/**
@@ -426,40 +365,44 @@ public class XmlToDatabaseHelper {
 	 */
 	private void addNewsItemToDatabase(Element el) {
 		// for each news item, we will get the following attributes
-		String title = el.getAttribute(myContext
-				.getString(R.string.KEY_NEWS_TITLE));
-		String body = el.getAttribute(myContext
-				.getString(R.string.KEY_NEWS_BODY));
-		String link = el.getAttribute(myContext
-				.getString(R.string.KEY_NEWS_LINK));
+		int id = Integer.parseInt(el.getAttribute("news_id"));
+		String title = el.getAttribute("title");
+		String body = el.getAttribute("body");
+		String link = el.getAttribute("link");
+		String date = el.getAttribute("date");
+		int sport = Integer.parseInt(el.getAttribute("sport"));
 
 		System.out.println("Adding news item to database: "
 				+ title.substring(0, 15) + "...");
-		// add this team to the database if it does not exist
-		// existence is checked by looking for the title
-		Cursor newsList = myDatabaseHelper.fetchAllNewsItems();
-		int titleindex = newsList.getColumnIndex(myContext
-				.getString(R.string.KEY_NEWS_TITLE));
-		int rowindex = newsList.getColumnIndex(myContext
-				.getString(R.string.KEY_NEWS_ROWID));
-		boolean exists = false;
-		if (newsList.moveToFirst()) {
-			while (newsList.isAfterLast() == false) {
-				int currentRow = newsList.getInt(rowindex);
-				if (newsList.getString(titleindex).equalsIgnoreCase(title)) {
-					myDatabaseHelper.updateNewsItem(currentRow, title, body,
-							link);
-					exists = true;
-					System.out.println("Updated news item to database.");
-				}
-				newsList.moveToNext();
-			}
-		}
 
-		if (exists == false) {
-			myDatabaseHelper.createNewsItem(title, body, link);
-			System.out.println("Added news item to database.");
-		}
-		newsList.close();
+		myDatabaseHelper.createNewsItem(id, title, body, link, date, sport);
+		System.out.println("Added news item to database.");
+
+	}
+
+	private void addConferenceToDatabase(Element el) {
+		// for each conference, we will get the following attributes
+		int id = Integer.parseInt(el.getAttribute("conference_id"));
+		String name = el.getAttribute("name");
+		String abbreviation = el.getAttribute("abbreviation");
+
+		System.out.println("Adding conference to database: " + abbreviation
+				+ "...");
+
+		myDatabaseHelper.createConference(id, name, abbreviation);
+		System.out.println("Added conference to database.");
+
+	}
+
+	private void addSportToDatabase(Element el) {
+		// for each team, we will get the following attributes
+		int id = Integer.parseInt(el.getAttribute("sport_id"));
+		String name = el.getAttribute("name");
+
+		System.out.println("Adding sport to database: " + name + "...");
+
+		myDatabaseHelper.createSport(id, name);
+		System.out.println("Added sport to database.");
+
 	}
 }
