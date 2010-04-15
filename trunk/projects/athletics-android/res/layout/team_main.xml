@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+teamMain/layout"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" android:background="@drawable/statium">
-
-<Button android:id="@+id/Button04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFF" android:background="@drawable/score_button" android:layout_y="340px" android:layout_x="0px"></Button>
-<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="154px" android:background="@drawable/schedule_button" android:layout_y="383px"></Button>
-<Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_y="340px" android:background="@drawable/roster_button" android:layout_x="154px" ></Button>
-<Button android:id="@+id/Button03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_x="0px" android:background="@drawable/news_button" android:layout_y="384px"></Button>
-</AbsoluteLayout>
+    android:layout_height="fill_parent" android:background="@drawable/statium" android:layout_gravity="fill_vertical">s
+<Button android:id="@+id/Button04" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/score_button" android:layout_above="@+id/Button03"></Button>
+<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/schedule_button" android:layout_alignParentBottom="True" android:layout_alignParentRight="True"></Button>
+<Button android:id="@+id/Button02" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/roster_button" android:layout_above="@+id/Button01" android:layout_alignParentRight="True"></Button>
+<Button android:id="@+id/Button03" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@drawable/news_button" android:layout_alignParentBottom="True" android:layout_alignParentLeft="True"></Button>
+</RelativeLayout>
