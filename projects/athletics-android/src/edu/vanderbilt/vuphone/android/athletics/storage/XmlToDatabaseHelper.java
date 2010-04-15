@@ -29,10 +29,9 @@ import android.database.SQLException;
  * 
  */
 public class XmlToDatabaseHelper {
-	private static String dataVersion = "data.version";
+	private static String dataVersion = "dataVersion";
 	private static String versionURL = "http://people.vanderbilt.edu/~zach.mccormick/data.version";
 	private static String dataURL = "http://people.vanderbilt.edu/~zach.mccormick/data.xml";
-	private static String appVersion = "0.1";
 	Document dom; // this will be the raw data after the XML file is parsed
 	DatabaseAdapter myDatabaseHelper; // this will be the access point for the
 	// database
@@ -51,8 +50,6 @@ public class XmlToDatabaseHelper {
 		myDatabaseHelper = new DatabaseAdapter(myContext);
 		this.myContext = myContext;
 
-		// check for the existence of the version file
-
 		/*
 		 * Java.io.File is not supported for Android, and will break if the user
 		 * does not have an SD card installed. The preferred way to do this type
@@ -70,31 +67,6 @@ public class XmlToDatabaseHelper {
 			prefs.commit();
 		} else {
 			System.out.println("Version preference exists.");
-		}
-	}
-
-	/**
-	 * Opens the database connection using the DatabaseAdapter object
-	 * initialized on construction.
-	 */
-	private void openDatabase() {
-		// open the database connection
-		try {
-			myDatabaseHelper.open();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Closes the database connection using the DatabaseAdapter object
-	 * initialized on construction.
-	 */
-	private void closeDatabase() {
-		try {
-			myDatabaseHelper.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -188,19 +160,12 @@ public class XmlToDatabaseHelper {
 	 * Parses the XML file online into a local dom object.
 	 */
 	private boolean parseXmlFile() {
-		System.out.println("Parsing XML file to DOM object...");
-		// create a DocumentBuilderFactory
-		// documentation: "defines a factory API that enables applications to
-		// obtain a parser
-		// that produces DOM object trees from XML elements"
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
-		// try to create a parser and create our Document "dom" using the
-		// results of the parser
 		try {
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			dom = db.parse(new URL(dataURL).openStream());
 			System.out.println("XML file parsed to DOM object.");
+			return true;
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 			System.out.println("Parser Configuration error");
@@ -211,10 +176,9 @@ public class XmlToDatabaseHelper {
 			return false;
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-			System.out.println("IO error");
+			System.out.println("IO error while parsing XML");
 			return false;
 		}
-		return true;
 	}
 
 	public boolean addItems(Element rootElement, String tag) {
@@ -236,22 +200,25 @@ public class XmlToDatabaseHelper {
 	 * First: calls parseXmlFile() Second:Takes the DOM object, traverses it,
 	 * and posts the results to the SQLite database
 	 */
-	public void updateDatabase() {
-		System.out.println("Updating the database...");
-		openDatabase();
-		parseXmlFile();
-		// get the root element, which will be the <data> tag
-		Element rootElement = dom.getDocumentElement();
+	public boolean updateDatabase() {
+		try {
+			myDatabaseHelper.open();
+			parseXmlFile();
+			Element rootElement = dom.getDocumentElement();
+			addItems(rootElement, "news");
+			addItems(rootElement, "game");
+			addItems(rootElement, "sport");
+			addItems(rootElement, "conference");
+			addItems(rootElement, "team");
+			addItems(rootElement, "player");
+			myDatabaseHelper.close();
+			updateVersion();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Database could not be opened to update it.");
+			return false;
+		}
 
-		addItems(rootElement, "news");
-		addItems(rootElement, "game");
-		addItems(rootElement, "sport");
-		addItems(rootElement, "conference");
-		addItems(rootElement, "team");
-		addItems(rootElement, "player");
-
-		closeDatabase();
-		updateVersion();
 	}
 
 	/**
