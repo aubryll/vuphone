@@ -4,15 +4,17 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.ProgressBar;
+import android.widget.ImageView;
 import android.widget.Toast;
 import edu.vanderbilt.vuphone.android.athletics.storage.XmlToDatabaseHelper;
 
@@ -27,17 +29,57 @@ import edu.vanderbilt.vuphone.android.athletics.storage.XmlToDatabaseHelper;
  */
 
 public class Main extends Activity {
-	private ProgressBar mProgress;
-
+	private final String APP_INITIALISED_FILENAME = "app_initialised";
+	private XmlToDatabaseHelper loader;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main); // Sets the layout
-
+		
 		ConnectivityManager connect = (ConnectivityManager) getSystemService(Main.CONNECTIVITY_SERVICE);
+		loader = new XmlToDatabaseHelper(this.getApplicationContext());
 
-		XmlToDatabaseHelper loader = new XmlToDatabaseHelper(this);
+		if (connect.getNetworkInfo(0).isConnected()
+				|| connect.getNetworkInfo(1).isConnected()) {
+			// if (loader.isUpdated(this))
+			// {
+			Log.w("yaya", "Launching Thread");
+			new LoadDatabaseTask().execute(loader);
+			// }
+		}
+		else {
+			Context context = getApplicationContext();
+			CharSequence text = "You aren't connected to the Internet. Please connect to Internet for updated data.";
+			int duration = Toast.LENGTH_LONG;
+
+			Toast toast = Toast.makeText(context, text, duration);
+			toast.setGravity(Gravity.CENTER, toast.getXOffset() / 2, toast
+					.getYOffset() / 2);
+			toast.show();
+		}
+		
+		SharedPreferences settings = this.getPreferences(this.MODE_PRIVATE);
+		if (!settings.contains("app_is_initialized")) {
+			System.out.println("App is not yet initialized.");
+
+			// XmlToDatabaseHelper loader = new XmlToDatabaseHelper(this);
+			// TODO Fix isUpdated so that database doesn't have to be loaded
+			// every
+			// launch
+
+			// Load Database schema
+			// Load initial data
+
+			SharedPreferences.Editor prefs = settings.edit();
+			prefs.putBoolean("app_is_initialized", true);
+			prefs.commit();
+		} else {
+			System.out.println("App is already initialized.");
+		}
+		/*
+		
 
 		// TODO Fix isUpdated so that database doesn't have to be loaded every
 		// launch
@@ -57,7 +99,7 @@ public class Main extends Activity {
 					.getYOffset() / 2);
 			toast.show();
 		}
-
+*/
 		((Button) findViewById(R.main.sports_button))
 				.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
@@ -72,6 +114,13 @@ public class Main extends Activity {
 						startActivity(i); // Launches HistoryMain Intent
 					}
 				});
+		((ImageView) findViewById(R.main.info_button))
+		.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent i = new Intent(Main.this, About.class);
+				startActivity(i); // Launches About Intent
+			}
+		});
 	}
 
 	// -------------------- MENU FUNCTIONS
@@ -101,4 +150,32 @@ public class Main extends Activity {
 		}
 		return true;
 	}
+	
+	private class LoadDatabaseTask extends AsyncTask<XmlToDatabaseHelper, Void, Void> {
+		private final ProgressDialog dialog = new ProgressDialog(
+				Main.this);
+
+		// can use UI thread here
+		protected void onPreExecute() {
+			this.dialog.setMessage("Loading data...");
+			Log.w("success","Loading Data Dialog");
+			this.dialog.show();
+		}
+
+		// automatically done on worker thread (separate from UI thread)
+		protected Void doInBackground(final XmlToDatabaseHelper... args) {
+			loader.updateDatabase();
+			Log.w("success","Loaded Data");
+			return null;
+		}
+
+		// can use UI thread here
+		protected void onPostExecute(final Void unused) {
+			if (this.dialog.isShowing()) {
+				this.dialog.dismiss();
+				Log.w("success","Closing Thread");
+				// Create an Intent that will start the Main-Activity.
+			}
+		}
+}
 }
