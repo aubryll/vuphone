@@ -9,14 +9,20 @@ import org.vuphone.vandyupon.notification.NotificationParser;
 
 
 /**
- * Parser for DiningRating and DiningRatingResponse.
- * This parser will identify the type and parse URL accordingly.
+ * @brief Parser for DiningRating and DiningRatingResponse.
+ *        This parser will identify the type and parse URL accordingly.
  * 
  * @author Hilmi
+ * 
+ * @class DiningParser
  */
 public class DiningParser implements NotificationParser{
 
 
+	/**Parse URL
+	 * @param Http URL to parse
+	 * @throw UnsupportedEncodingException unsupported encoding
+	 */
 	public Notification parse(HttpServletRequest req) {
 		//Use UTF-8 Encoding <-- copied from EventPostParser
 		try {
@@ -25,8 +31,6 @@ public class DiningParser implements NotificationParser{
 			e.printStackTrace();
 		}
 		
-		//req.getParameter(); <--- this commands parse the stringline from device(i think? according to EventPostParser)
-		
 		//Check If the user is rating or requesting a rating.
 		if(req.getParameter("type").equalsIgnoreCase("DiningRating"))
 		{
@@ -34,16 +38,16 @@ public class DiningParser implements NotificationParser{
 					Integer.parseInt(req.getParameter("loc")),
 					Integer.parseInt(req.getParameter("score")),
 					req.getParameter("ID")
-					);//Return a DiningPost object
+					);
 		}
 		else if(req.getParameter("type").equalsIgnoreCase("DiningRatingRequest"))
 		{
 			return new DiningRatingRequest(
 					Integer.parseInt(req.getParameter("loc")),
 					req.getParameter("ID")
-					);//Return a DiningPost object
+					);
 		}
-		else //If the type is not dining as declared in constructor of DiningPost don't do anything
+		else //If the type is not dining as declared in constructor of DiningRating don't do anything
 		{
 			return null;
 		}
