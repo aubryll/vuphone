@@ -42,7 +42,7 @@
 
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
 
-	if (lastUpdate == nil)
+		if (lastUpdate == nil)
 	{
 		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
 
@@ -72,9 +72,19 @@
 			return;
 		}
 	} else {
-		[RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
+		eventListVC.navigationItem.prompt = @"Getting the latest events";
+		NSArray *events = [RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
+		if (events == nil)
+		{
+			eventListVC.navigationItem.prompt = @"Unable to retrieve latest events";
+			[self performSelector:@selector(hidePrompt:) withObject:nil afterDelay:1.5f];
+		}
+		else 
+		{
+			eventListVC.navigationItem.prompt = nil;
+		}
+
 	}
-	
 	
 	NSError *err = nil;
 	[context save:&err];
@@ -88,7 +98,9 @@
 		// Store that now was the last update
 		[[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:DefaultsLastUpdateKey];
 	}
+
 	
+
 	[pool release];
 }
 
@@ -136,6 +148,11 @@
 	// Nothing to save here
 }
 
+
+- (void)hidePrompt:(id)sender
+{
+	[eventListVC.navigationItem performSelector:@selector(setPrompt:) withObject:nil];
+}
 
 #pragma mark -
 #pragma mark Saving

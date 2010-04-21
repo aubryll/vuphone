@@ -31,6 +31,7 @@
 - (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context;
 - (void)showLoadingView;
 - (IBAction)toggleAboutView:(id)sender;
+- (void)hidePrompt:(id)sender;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
