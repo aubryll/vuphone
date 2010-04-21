@@ -59,10 +59,12 @@
 		if (events == nil) {
 			for (UIView *view in loadingViewController.view.subviews) {
 				if ([view isKindOfClass: [UILabel class]]) {
-					[(UILabel *)view setText: @"Sorry, I couldn't download the latest events. \
-					 Please try again later. Thanks!"];
+					[(UILabel *)view setText: @"Sorry, I couldn't download the latest events.\n Please try again later. \nThanks!"];
 				} else if ([view isKindOfClass: [UIActivityIndicatorView class]]) {
 					[(UIActivityIndicatorView *)view stopAnimating];
+				} else if ([view isKindOfClass: [UIButton class]]) {
+					view.hidden = NO;
+					[(UIButton *)view addTarget:self action:@selector(killApp) forControlEvents:UIControlStateHighlighted];
 				}
 			}
 			//[loadingViewController.view removeFromSuperview];
@@ -99,6 +101,10 @@
 	frame.origin.y += 20.0f;
 	loadingViewController.view.frame = frame;
 	[self.window addSubview:loadingViewController.view];
+}
+
+- (IBAction)killApp {
+	exit(0);
 }
 
 - (IBAction)toggleAboutView:(id)sender
