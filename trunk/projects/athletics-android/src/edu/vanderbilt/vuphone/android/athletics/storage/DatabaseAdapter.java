@@ -23,7 +23,7 @@ public class DatabaseAdapter {
 	private SQLiteDatabase myDatabase;
 
 	// define the database version
-	private static final int DATABASE_VERSION = 10;
+	private static final int DATABASE_VERSION = 15;
 
 	// constant for the context (for the SQLiteOpenHelper)
 	private final Context myContext;
@@ -38,17 +38,17 @@ public class DatabaseAdapter {
 		public void onCreate(SQLiteDatabase db) {
 
 			db
-					.execSQL("CREATE TABLE conferences(conference_id integer PRIMARY KEY, name text, abbreviation text)");
+					.execSQL("CREATE TABLE conferences( _id integer PRIMARY KEY, name text, abbreviation text)");
 			db
-					.execSQL("CREATE TABLE teams(team_id integer PRIMARY KEY, school text, name text, conference integer, CONSTRAINT conference_fk FOREIGN KEY (conference) REFERENCES conferences(conference_id))");
+					.execSQL("CREATE TABLE teams( _id integer PRIMARY KEY, school text, name text, conference integer, CONSTRAINT conference_fk FOREIGN KEY (conference) REFERENCES conferences(_id))");
 			db
-					.execSQL("CREATE TABLE sports( sport_id integer PRIMARY KEY, name text)");
+					.execSQL("CREATE TABLE sports( _id integer PRIMARY KEY, name text)");
 			db
-					.execSQL("CREATE TABLE players( player_id integer PRIMARY KEY, number integer, position text, firstname text, lastname text, team integer, sport integer, CONSTRAINT team_fk FOREIGN KEY (team) REFERENCES teams(team_id), CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sports(sport_id))");
+					.execSQL("CREATE TABLE players( _id integer PRIMARY KEY, number integer, position text, firstname text, lastname text, team integer, sport integer, CONSTRAINT team_fk FOREIGN KEY (team) REFERENCES teams(_id), CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sports(_id))");
 			db
-					.execSQL("CREATE TABLE games( game_id integer PRIMARY KEY, hometeam integer, awayteam integer, sport integer, time text, homescore integer, awayscore integer, CONSTRAINT hometeam_fk FOREIGN KEY (hometeam) REFERENCES teams(team_id), CONSTRAINT awayteam_fk FOREIGN KEY (awayteam) REFERENCES teams(team_id), CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sport(sport_id))");
+					.execSQL("CREATE TABLE games( _id integer PRIMARY KEY, hometeam integer, awayteam integer, sport integer, time text, homescore integer, awayscore integer, CONSTRAINT hometeam_fk FOREIGN KEY (hometeam) REFERENCES teams(_id), CONSTRAINT awayteam_fk FOREIGN KEY (awayteam) REFERENCES teams(_id), CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sport(_id))");
 			db
-					.execSQL("CREATE TABLE news( news_id integer PRIMARY KEY, title text, body text, link text, date text, sport integer, CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sports(sport_id))");
+					.execSQL("CREATE TABLE news( _id integer PRIMARY KEY, title text, body text, link text, date text, sport integer, CONSTRAINT sport_fk FOREIGN KEY (sport) REFERENCES sports(_id))");
 
 		}
 
@@ -75,10 +75,9 @@ public class DatabaseAdapter {
 	 *            the Context within which to work
 	 */
 	public DatabaseAdapter(Context ctx) {
-		System.out.println("Creating DatabaseAdapter...");
 		this.myContext = ctx;
 		System.out.println("DatabaseAdapter created.");
-		this.open();
+		myDatabaseHelper = new DatabaseHelper(myContext);
 	}
 
 	protected void finalize() throws Throwable {
@@ -96,21 +95,18 @@ public class DatabaseAdapter {
 	 * @throws SQLException
 	 *             if the database could be neither opened or created
 	 */
-	public DatabaseAdapter open() throws SQLException {
-		System.out.println("Opening the database...");
-		myDatabaseHelper = new DatabaseHelper(myContext);
+	public void open() throws SQLException {
 		myDatabase = myDatabaseHelper.getWritableDatabase();
 		System.out.println("Database opened.");
-		return this;
 	}
 
 	/**
 	 * Closes the database
 	 */
 	public void close() {
-		System.out.println("Closing the database...");
+		myDatabase.close();
 		myDatabaseHelper.close();
-		System.out.println("Database closed.");
+		System.out.println("Database and DatabaseHelper closed.");
 	}
 
 	/**
@@ -129,7 +125,7 @@ public class DatabaseAdapter {
 	public long createNewsItem(long id, String title, String body, String link,
 			String date, int sport) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put("news_id", id);
+		initialValues.put("_id", id);
 		initialValues.put("title", title);
 		initialValues.put("body", body);
 		initialValues.put("link", link);
@@ -170,7 +166,7 @@ public class DatabaseAdapter {
 	public long createGame(long id, int hometeam, int awayteam, int sport,
 			String time, int homescore, int awayscore) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put("game_id", id);
+		initialValues.put("_id", id);
 		initialValues.put("hometeam", hometeam);
 		initialValues.put("awayteam", awayteam);
 		initialValues.put("sport", sport);
@@ -208,7 +204,7 @@ public class DatabaseAdapter {
 	public long createPlayer(long id, String firstname, String lastname,
 			int number, String position, int sport, int team) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put("player_id", id);
+		initialValues.put("_id", id);
 		initialValues.put("firstname", firstname);
 		initialValues.put("lastname", lastname);
 		initialValues.put("number", number);
@@ -243,7 +239,7 @@ public class DatabaseAdapter {
 	 */
 	public long createTeam(long id, String school, String name, int conference) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put("id", id);
+		initialValues.put("_id", id);
 		initialValues.put("school", school);
 		initialValues.put("name", name);
 		initialValues.put("conference", conference);
@@ -261,7 +257,7 @@ public class DatabaseAdapter {
 
 	public long createSport(long id, String name) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put("id", id);
+		initialValues.put("_id", id);
 		initialValues.put("name", name);
 
 		System.out.println("Creating sport: " + name + "...");
@@ -277,12 +273,12 @@ public class DatabaseAdapter {
 
 	public long createConference(long id, String name, String abbreviation) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put("id", id);
+		initialValues.put("_id", id);
 		initialValues.put("name", name);
 		initialValues.put("abbreviation", abbreviation);
 
 		System.out.println("Creating conference: " + name + "...");
-		long x = myDatabase.insert("conference", null, initialValues);
+		long x = myDatabase.insert("conferences", null, initialValues);
 		if (x == -1) {
 			System.out.println("CONFERENCE CREATION FAILED");
 		} else {
@@ -301,7 +297,7 @@ public class DatabaseAdapter {
 	 */
 	public boolean deleteNewsItem(long id) {
 		System.out.println("Deleting news item " + id + "...");
-		int x = myDatabase.delete("news", "news_id" + "=" + id, null);
+		int x = myDatabase.delete("news", "_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " news item(s).");
 		return x > 0;
 	}
@@ -315,7 +311,7 @@ public class DatabaseAdapter {
 	 */
 	public boolean deleteGame(long id) {
 		System.out.println("Deleting game " + id + "...");
-		int x = myDatabase.delete("games", "game_id" + "=" + id, null);
+		int x = myDatabase.delete("games", "_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " game(s).");
 		return x > 0;
 	}
@@ -329,7 +325,7 @@ public class DatabaseAdapter {
 	 */
 	public boolean deletePlayer(long id) {
 		System.out.println("Deleting player " + id + "...");
-		int x = myDatabase.delete("players", "player_id" + "=" + id, null);
+		int x = myDatabase.delete("players", "_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " player(s).");
 		return x > 0;
 	}
@@ -343,22 +339,21 @@ public class DatabaseAdapter {
 	 */
 	public boolean deleteTeam(long id) {
 		System.out.println("Deleting team " + id + "...");
-		int x = myDatabase.delete("teams", "team_id" + "=" + id, null);
+		int x = myDatabase.delete("teams", "_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " team(s).");
 		return x > 0;
 	}
 
 	public boolean deleteSport(long id) {
 		System.out.println("Deleting sport " + id + "...");
-		int x = myDatabase.delete("sports", "sport_id" + "=" + id, null);
+		int x = myDatabase.delete("sports", "_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " sport(s).");
 		return x > 0;
 	}
 
 	public boolean deleteConference(long id) {
 		System.out.println("Deleting conference " + id + "...");
-		int x = myDatabase.delete("conferences", "conference_id" + "=" + id,
-				null);
+		int x = myDatabase.delete("conferences", "_id" + "=" + id, null);
 		System.out.println("Deleted " + x + " conference(s).");
 		return x > 0;
 	}
@@ -373,7 +368,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching all news items...");
 		return myDatabase
 				.rawQuery(
-						"SELECT games.game_id, (SELECT teams.name FROM teams WHERE games.hometeam=teams.team_id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams.team_id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports.sport_id) AS sport, games.time, games.homescore, games.awayscore FROM games",
+						"SELECT news._id, news.title, news.body, news.link, news.date, (SELECT sports.name FROM sports WHERE news.sport=sports._id) AS sport FROM news",
 						null);
 	}
 
@@ -393,7 +388,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching filtered news items...");
 		return myDatabase
 				.rawQuery(
-						"SELECT news.news_id, news.title, news.body, news.link, news.date, (SELECT sports.name FROM sports WHERE news.sport=sports.sport_id) AS sport FROM news WHERE ? ORDER BY ?",
+						"SELECT news._id, news.title, news.body, news.link, news.date, (SELECT sports.name FROM sports WHERE news.sport=sports._id) AS sport FROM news WHERE ? ORDER BY ?",
 						selectionArgs);
 	}
 
@@ -407,7 +402,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching all games...");
 		return myDatabase
 				.rawQuery(
-						"SELECT games.game_id, (SELECT teams.name FROM teams WHERE games.hometeam=teams.team_id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams.team_id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports.sport_id) AS sport, games.time, games.homescore, games.awayscore FROM games",
+						"SELECT games._id, (SELECT teams.name FROM teams WHERE games.hometeam=teams._id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams._id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports._id) AS sport, games.time, games.homescore, games.awayscore FROM games",
 						null);
 	}
 
@@ -427,7 +422,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching filtered games...");
 		return myDatabase
 				.rawQuery(
-						"SELECT games.game_id, (SELECT teams.name FROM teams WHERE games.hometeam=teams.team_id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams.team_id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports.sport_id) AS sport, games.time, games.homescore, games.awayscore FROM games WHERE ? ORDER BY ?",
+						"SELECT games._id, (SELECT teams.name FROM teams WHERE games.hometeam=teams._id) AS hometeam, (SELECT teams.name FROM teams WHERE games.awayteam=teams._id) AS awayteam, (SELECT sports.name FROM sports WHERE games.sport=sports._id) AS sport, games.time, games.homescore, games.awayscore FROM games WHERE ? ORDER BY ?",
 						selectionArgs);
 	}
 
@@ -441,7 +436,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching all players...");
 		return myDatabase
 				.rawQuery(
-						"SELECT players.player_id, players.firstname, players.lastname, players.number, players.position, (SELECT sports.name FROM sports WHERE players.sport=sports.sport_id) AS sport, (SELECT teams.name FROM teams WHERE players.team=team.team_id) AS team FROM players",
+						"SELECT players._id, players.firstname, players.lastname, players.number, players.position, (SELECT sports.name FROM sports WHERE players.sport=sports._id) AS sport, (SELECT teams.name FROM teams WHERE players.team=teams._id) AS team FROM players",
 						null);
 	}
 
@@ -461,7 +456,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching filtered players...");
 		return myDatabase
 				.rawQuery(
-						"SELECT players.player_id, players.firstname, players.lastname, players.number, players.position, (SELECT sports.name FROM sports WHERE players.sport=sports.sport_id) AS sport, (SELECT teams.name FROM teams WHERE players.team=team.team_id) AS team FROM players WHERE ? ORDER BY ?",
+						"SELECT players._id, players.firstname, players.lastname, players.number, players.position, (SELECT sports.name FROM sports WHERE players.sport=sports._id) AS sport, (SELECT teams.name FROM teams WHERE players.team=teams._id) AS team FROM players WHERE ? ORDER BY ?",
 						selectionArgs);
 	}
 
@@ -475,7 +470,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching all teams...");
 		return myDatabase
 				.rawQuery(
-						"SELECT teams.team_id, teams.school, teams.name, (SELECT conferences.name FROM conferences WHERE teams.conference=conferences.conference_id) AS conference FROM teams",
+						"SELECT teams._id, teams.school, teams.name, (SELECT conferences.name FROM conferences WHERE teams.conference=conferences._id) AS conference FROM teams",
 						null);
 	}
 
@@ -495,7 +490,7 @@ public class DatabaseAdapter {
 		System.out.println("Fetching filtered teams...");
 		return myDatabase
 				.rawQuery(
-						"SELECT teams.team_id, teams.school, teams.name, (SELECT conferences.name FROM conferences WHERE teams.conference=conferences.conference_id) AS conference FROM teams WHERE ? ORDER BY ?",
+						"SELECT teams._id, teams.school, teams.name, (SELECT conferences.name FROM conferences WHERE teams.conference=conferences._id) AS conference FROM teams WHERE ? ORDER BY ?",
 						selectionArgs);
 	}
 
@@ -510,8 +505,8 @@ public class DatabaseAdapter {
 	 */
 	public Cursor fetchNewsItem(long id) throws SQLException {
 		System.out.println("Fetching news item " + id + "...");
-		Cursor myCursor = myDatabase.query(true, "news", null, "news_id" + "="
-				+ id, null, null, null, null, null);
+		Cursor myCursor = myDatabase.query(true, "news", null,
+				"_id" + "=" + id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
@@ -529,7 +524,7 @@ public class DatabaseAdapter {
 	 */
 	public Cursor fetchGame(long id) throws SQLException {
 		System.out.println("Fetching game " + id + "...");
-		Cursor myCursor = myDatabase.query(true, "games", null, "game_id" + "="
+		Cursor myCursor = myDatabase.query(true, "games", null, "_id" + "="
 				+ id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
@@ -549,8 +544,8 @@ public class DatabaseAdapter {
 	public Cursor fetchPlayer(long id) throws SQLException {
 		System.out.println("Fetching player " + id + "...");
 
-		Cursor myCursor = myDatabase.query(true, "players", null, "player_id"
-				+ "=" + id, null, null, null, null, null);
+		Cursor myCursor = myDatabase.query(true, "players", null, "_id" + "="
+				+ id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
 		}
@@ -569,7 +564,7 @@ public class DatabaseAdapter {
 	public Cursor fetchTeam(long id) throws SQLException {
 		System.out.println("Fetching team " + id + "...");
 
-		Cursor myCursor = myDatabase.query(true, "teams", null, "team_id" + "="
+		Cursor myCursor = myDatabase.query(true, "teams", null, "_id" + "="
 				+ id, null, null, null, null, null);
 		if (myCursor != null) {
 			myCursor.moveToFirst();
