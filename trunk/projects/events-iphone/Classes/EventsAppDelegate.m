@@ -41,6 +41,7 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSDate *lastUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:DefaultsLastUpdateKey];
+
 	if (lastUpdate == nil)
 	{
 		lastUpdate = [NSDate dateWithTimeIntervalSince1970:0];
@@ -49,9 +50,30 @@
 		[self performSelectorOnMainThread:@selector(showLoadingView)
 							   withObject:nil
 							waitUntilDone:NO];
+		
+		// Get our events for the first time.
+		NSArray *events = [RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
+		
+		// If we get an error trying to get the events for the first time, we should
+		// exit until they can try again and get it working.
+		if (events == nil) {
+			for (UIView *view in loadingViewController.view.subviews) {
+				if ([view isKindOfClass: [UILabel class]]) {
+					[(UILabel *)view setText: @"Sorry, I couldn't download the latest events. \
+					 Please try again later. Thanks!"];
+				} else if ([view isKindOfClass: [UIActivityIndicatorView class]]) {
+					[(UIActivityIndicatorView *)view stopAnimating];
+				}
+			}
+			//[loadingViewController.view removeFromSuperview];
+			[pool release];
+			return;
+		}
+	} else {
+		[RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
 	}
-
-	[RemoteEventLoader getEventsFromServerSince:lastUpdate intoContext:context];
+	
+	
 	NSError *err = nil;
 	[context save:&err];
 	
