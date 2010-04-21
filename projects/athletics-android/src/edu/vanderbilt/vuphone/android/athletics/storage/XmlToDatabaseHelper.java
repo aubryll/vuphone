@@ -203,7 +203,10 @@ public class XmlToDatabaseHelper {
 	public boolean updateDatabase() {
 		try {
 			myDatabaseHelper.open();
-			parseXmlFile();
+			if (!parseXmlFile()) {
+				System.out.println("Could not parse XML file.");
+				return false;
+			}
 			Element rootElement = dom.getDocumentElement();
 			addItems(rootElement, "news");
 			addItems(rootElement, "game");
@@ -230,7 +233,7 @@ public class XmlToDatabaseHelper {
 	private boolean addItemToDatabase(Element el, String tag) {
 		long row = -1;
 		if (tag.equalsIgnoreCase("news")) {
-			int id = Integer.parseInt(el.getAttribute("news_id"));
+			int id = Integer.parseInt(el.getAttribute("_id"));
 			String title = el.getAttribute("title");
 			String body = el.getAttribute("body");
 			String link = el.getAttribute("link");
@@ -239,7 +242,7 @@ public class XmlToDatabaseHelper {
 			row = myDatabaseHelper.createNewsItem(id, title, body, link, date,
 					sport);
 		} else if (tag.equalsIgnoreCase("game")) {
-			int id = Integer.parseInt(el.getAttribute("game_id"));
+			int id = Integer.parseInt(el.getAttribute("_id"));
 			int hometeam = Integer.parseInt(el.getAttribute("hometeam"));
 			int awayteam = Integer.parseInt(el.getAttribute("awayteam"));
 			int sport = Integer.parseInt(el.getAttribute("sport"));
@@ -249,22 +252,22 @@ public class XmlToDatabaseHelper {
 			row = myDatabaseHelper.createGame(id, hometeam, awayteam, sport,
 					time, homescore, awayscore);
 		} else if (tag.equalsIgnoreCase("sport")) {
-			int id = Integer.parseInt(el.getAttribute("sport_id"));
+			int id = Integer.parseInt(el.getAttribute("_id"));
 			String name = el.getAttribute("name");
 			row = myDatabaseHelper.createSport(id, name);
 		} else if (tag.equalsIgnoreCase("conference")) {
-			int id = Integer.parseInt(el.getAttribute("conference_id"));
+			int id = Integer.parseInt(el.getAttribute("_id"));
 			String name = el.getAttribute("name");
 			String abbreviation = el.getAttribute("abbreviation");
 			row = myDatabaseHelper.createConference(id, name, abbreviation);
 		} else if (tag.equalsIgnoreCase("team")) {
-			int id = Integer.parseInt(el.getAttribute("team_id"));
+			int id = Integer.parseInt(el.getAttribute("_id"));
 			String school = el.getAttribute("school");
 			String name = el.getAttribute("name");
 			int conference = Integer.parseInt(el.getAttribute("conference"));
 			row = myDatabaseHelper.createTeam(id, school, name, conference);
 		} else if (tag.equalsIgnoreCase("player")) {
-			int id = Integer.parseInt(el.getAttribute("player_id"));
+			int id = Integer.parseInt(el.getAttribute("_id"));
 			String firstname = el.getAttribute("firstname");
 			String lastname = el.getAttribute("lastname");
 			int number = Integer.parseInt(el.getAttribute("number"));
