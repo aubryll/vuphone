@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_width="fill_parent"
+ android:layout_height="fill_parent"
+ android:orientation="vertical"
+ android:background="@drawable/black_background" >
+ 
+ <RelativeLayout android:id="@+standings/vandyslot"
+ 	android:layout_height="60dp" android:layout_width="fill_parent"
+ 	android:background="@drawable/standings_border">
+ 	
+	<TextView android:id="@+standings/vandyrank" 
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:paddingTop="5dp" android:paddingRight="10dp" 
+	android:paddingBottom="10dp" android:paddingLeft="10dp"
+	android:textColor="@android:color/secondary_text_dark" android:textSize="26sp"
+ 	android:layout_alignParentLeft="true" />
+	
+	<TextView android:id="@+standings/vandyteam" 
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:paddingTop="5dp" android:paddingRight="5dp"
+	android:paddingBottom="5dp" android:paddingLeft="5dp"
+	android:textColor="@android:color/primary_text_dark" android:textSize="30sp"
+	android:layout_toRightOf="@standings/vandyrank" />
+	
+	<TextView android:id="@+standings/vandyrecord" 
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:paddingTop="5dp" android:paddingRight="30dp" 
+	android:paddingBottom="5dp" android:paddingLeft="5dp"
+	android:textColor="@android:color/primary_text_dark" android:textSize="30sp"
+	android:layout_alignParentRight="true" />
+	
+ </RelativeLayout>
+ 
+ <!-- 	this is just a blank space to separate the Vanderbilt slot from
+ 		the rest of the list 												-->
+ <TextView android:id="@+standings/blankspace"
+ 	android:layout_height="15dp" android:layout_width="fill_parent"/>
+ 
+ <ListView
+       android:id="@android:id/list"
+       android:layout_width="fill_parent"
+       android:layout_height="0dip"
+       android:layout_weight="1" 
+       android:divider="@drawable/yellow_gradient"
+       android:dividerHeight="1dp" />
+       
+</LinearLayout>
