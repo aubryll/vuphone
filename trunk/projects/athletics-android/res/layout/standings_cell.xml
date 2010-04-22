@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="40dp">
+	
+	<TextView android:id="@+standings/rank" 
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:paddingTop="5dp" android:paddingRight="5dp" 
+	android:paddingBottom="5dp" android:paddingLeft="5dp"
+	android:textColor="@android:color/secondary_text_dark" android:textSize="16sp"
+ 	android:layout_alignParentLeft="true" />
+	
+	<TextView android:id="@+standings/team" 
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:paddingTop="5dp" android:paddingRight="5dp" 	android:text="1" 
+	android:paddingBottom="5dp" android:paddingLeft="15dp"
+	android:textColor="@android:color/primary_text_dark" android:textSize="20sp"
+	android:layout_toRightOf="@standings/rank" />
+	
+	<TextView android:id="@+standings/record" 
+	android:layout_width="wrap_content" android:layout_height="fill_parent"
+	android:paddingTop="5dp" android:paddingRight="30dp" 
+	android:paddingBottom="5dp" android:paddingLeft="5dp"
+	android:textColor="@android:color/primary_text_dark" android:textSize="20sp"
+	android:layout_alignParentRight="true" />
+	
+</RelativeLayout>
