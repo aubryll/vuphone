@@ -15,7 +15,6 @@ public class AthleticsScores extends ListActivity
 {
 	private SimpleAdapter scores;
 	ArrayList <HashMap <String, String>> list = new ArrayList <HashMap <String, String>>();
-	private static final int ADD_ITEM_ID = 1;
 	ArrayAdapter<String> adapter = null;
 	@ Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -32,7 +31,7 @@ public class AthleticsScores extends ListActivity
 
 	private void addItem()
 	{
-		/*
+		
 		String[] away_team = new String[] { "Florida", "Vanderbilt", "Kentucky" };
 		String[] home_team = new String[] { "Vanderbilt", "Tennessee", "Vanderbilt" };
 		Integer[] home_logo = new Integer[] { R.drawable.vandy_logo, R.drawable.tenn_logo, R.drawable.vandy_logo };
@@ -51,8 +50,8 @@ public class AthleticsScores extends ListActivity
 			list.add(item);
 			scores.notifyDataSetChanged();
 		}
-		*/
 		
+		/*
 		DatabaseAdapter db = new DatabaseAdapter(this); db.open();
 		db.createGame("Vanderbilt", "Florida", "Football", "season",
 		"2010-03-02", "23", "44");
@@ -64,7 +63,7 @@ public class AthleticsScores extends ListActivity
 		R.scores.our_score, R.scores.away_team, R.scores.their_score };
 		setListAdapter(new SimpleCursorAdapter(this, R.layout.score_cell,
 		cursor, columns, column_ids)); db.close();
-		
+		*/
 	}
 }
 	
