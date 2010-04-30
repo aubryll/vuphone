@@ -14,8 +14,8 @@
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D801B40F44B63D00FB423F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28D801B30F44B63D00FB423F /* CoreData.framework */; };
-		610326F910FEF44B000CCFB0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 610326F810FEF44B000CCFB0 /* Icon.png */; };
-		6115DF4B111004B900BD5E6F /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6115DF4A111004B900BD5E6F /* LoadingViewController.xib */; };
+		5DDBA43B118A2F5400D26A24 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBA43A118A2F5400D26A24 /* LoadingViewController.xib */; };
+		5DDBA46B118A565700D26A24 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5DDBA46A118A565700D26A24 /* Icon.png */; };
 		6115DF9F1110154200BD5E6F /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6115DF9E1110154200BD5E6F /* AboutViewController.xib */; };
 		6115DFA21110156600BD5E6F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6115DFA11110156600BD5E6F /* AboutViewController.m */; };
 		6122504810ACD3740074B05D /* EventRatingsCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6122504710ACD3740074B05D /* EventRatingsCellController.m */; };
@@ -93,7 +93,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* CommencementAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommencementAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* CommencementAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommencementAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* Commencement.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Commencement.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Graduation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graduation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MainWindow.xib; path = XIBs/MainWindow.xib; sourceTree = "<group>"; };
@@ -101,9 +101,9 @@
 		28D801B30F44B63D00FB423F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Commencement_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commencement_Prefix.pch; sourceTree = "<group>"; };
-		610326F810FEF44B000CCFB0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		5DDBA43A118A2F5400D26A24 /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
+		5DDBA46A118A565700D26A24 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		61125E8C1064868B00247A75 /* Commencement-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Commencement-Info.plist"; sourceTree = "<group>"; };
-		6115DF4A111004B900BD5E6F /* LoadingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LoadingViewController.xib; path = XIBs/LoadingViewController.xib; sourceTree = "<group>"; };
 		6115DF9E1110154200BD5E6F /* AboutViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
 		6115DFA01110156600BD5E6F /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		6115DFA11110156600BD5E6F /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
@@ -240,7 +240,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* Commencement.app */,
+				1D6058910D05DD3D006BFB54 /* Graduation.app */,
 				61F77A8C105545F60071CA64 /* UnitTests.octest */,
 			);
 			name = Products;
@@ -261,7 +261,7 @@
 				615DABC81088374300566919 /* Events.xcdatamodeld */,
 				61125E8C1064868B00247A75 /* Commencement-Info.plist */,
 				61F77A071054D0500071CA64 /* UnitTests-Info.plist */,
-				610326F810FEF44B000CCFB0 /* Icon.png */,
+				5DDBA46A118A565700D26A24 /* Icon.png */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -279,6 +279,7 @@
 		29B97317FDCFA39411CA2CEA /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
+				5DDBA43A118A2F5400D26A24 /* LoadingViewController.xib */,
 				6115DF9E1110154200BD5E6F /* AboutViewController.xib */,
 				6160F5901082EDAE00C7C3F8 /* SourcesView.xib */,
 				61DF5699108141A2000A7B1D /* MapFilterView.xib */,
@@ -290,7 +291,6 @@
 				61BBB7DF1057FDD3009481D6 /* VUStartEndDatePicker.xib */,
 				61BBB7EA10580064009481D6 /* VUStartEndDateCell.xib */,
 				612F84A1106F071800239F6B /* MapView.xib */,
-				6115DF4A111004B900BD5E6F /* LoadingViewController.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -441,7 +441,7 @@
 			);
 			name = Commencement;
 			productName = Commencement;
-			productReference = 1D6058910D05DD3D006BFB54 /* Commencement.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Graduation.app */;
 			productType = "com.apple.product-type.application";
 		};
 		61F77A8B105545F60071CA64 /* UnitTests */ = {
@@ -497,9 +497,9 @@
 				61DF568110813D15000A7B1D /* Icons in Resources */,
 				6160F5921082EDAE00C7C3F8 /* SourcesView.xib in Resources */,
 				619A2C5F10E093DC004436E8 /* EventListCell.m in Resources */,
-				610326F910FEF44B000CCFB0 /* Icon.png in Resources */,
-				6115DF4B111004B900BD5E6F /* LoadingViewController.xib in Resources */,
 				6115DF9F1110154200BD5E6F /* AboutViewController.xib in Resources */,
+				5DDBA43B118A2F5400D26A24 /* LoadingViewController.xib in Resources */,
+				5DDBA46B118A565700D26A24 /* Icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,7 +618,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Commencement_Prefix.pch;
 				INFOPLIST_FILE = "Commencement-Info.plist";
-				PRODUCT_NAME = Commencement;
+				PRODUCT_NAME = Graduation;
 			};
 			name = Debug;
 		};
@@ -635,7 +635,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Commencement_Prefix.pch;
 				INFOPLIST_FILE = "Commencement-Info.plist";
-				PRODUCT_NAME = Commencement;
+				PRODUCT_NAME = Graduation;
 			};
 			name = Release;
 		};
@@ -706,6 +706,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
+				PRODUCT_NAME = Graduation;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphonesimulator3.0;
 			};
@@ -722,6 +723,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
+				PRODUCT_NAME = Graduation;
 				SDKROOT = iphonesimulator3.0;
 			};
 			name = Release;

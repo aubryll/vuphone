@@ -22,6 +22,14 @@
  
  */
 
+#define COMMENCEMENT_START_MONTH 2
+#define COMMENCEMENT_START_DAY   8
+#define COMMENCEMENT_START_YEAR  2010
+	
+#define COMMENCEMENT_END_MONTH 2
+#define COMMENCEMENT_END_DAY   12
+#define COMMENCEMENT_END_YEAR  2010
+
 #define SAMPLE_EVENT_REQUEST_RESPONSE 0
 
 #import "RemoteEventLoader.h"
@@ -37,7 +45,7 @@
 @implementation RemoteEventLoader
 
 + (NSArray *)getCommencementEventsFromServerSince:(NSDate *)updated intoContext:(NSManagedObjectContext *)context
-{
+{	
 	// Format the url string
 	NSMutableString *urlString = [NSMutableString stringWithString:EVENT_REQUEST_URL_STRING];
 	[urlString appendString:@"?type=eventrequest"];
@@ -211,6 +219,7 @@
 	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Events," withString:@""];
 	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Event -" withString:@""];
 	event.name = [event.name stringByReplacingOccurrencesOfString:@"Commencement Event," withString:@""];
+	event.name = [event.name stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
 	NSArray *nodes = [node nodesForXPath:@"./Description" error:&err];
 	if ([nodes count] > 0) {
