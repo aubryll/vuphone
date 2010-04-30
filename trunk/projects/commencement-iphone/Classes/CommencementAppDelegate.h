@@ -26,10 +26,12 @@
 	IBOutlet UIBarButtonItem *aboutButton;
 }
 
+- (IBAction)killApp;
 - (IBAction)saveAction:(id)sender;
 - (void)getEventsSinceLastUpdate:(NSManagedObjectContext *)context;
 - (void)showLoadingView;
 - (IBAction)toggleAboutView:(id)sender;
+- (void)hidePrompt:(id)sender;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

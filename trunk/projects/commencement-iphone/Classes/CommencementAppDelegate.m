@@ -49,9 +49,41 @@
 		[self performSelectorOnMainThread:@selector(showLoadingView)
 							   withObject:nil
 							waitUntilDone:NO];
-	}
 
-	[RemoteEventLoader getCommencementEventsFromServerSince:lastUpdate intoContext:context];	
+		// Get our events for the first time.
+		NSArray *events = [RemoteEventLoader getCommencementEventsFromServerSince:lastUpdate intoContext:context];
+		
+		// If we get an error trying to get the events for the first time, we should
+		// exit until they can try again and get it working.
+		if (events == nil) {
+			for (UIView *view in loadingViewController.view.subviews) {
+				if ([view isKindOfClass: [UILabel class]]) {
+					[(UILabel *)view setText: @"Sorry, I couldn't download the latest events. Please try \nagain later."];
+				} else if ([view isKindOfClass: [UIActivityIndicatorView class]]) {
+					[(UIActivityIndicatorView *)view stopAnimating];
+				} else if ([view isKindOfClass: [UIButton class]]) {
+					view.hidden = NO;
+					[(UIButton *)view addTarget:self action:@selector(killApp) forControlEvents:UIControlStateHighlighted];
+				}
+			}
+			//[loadingViewController.view removeFromSuperview];
+			[pool release];
+			return;
+		}
+	} else {
+		eventListVC.navigationItem.prompt = @"Getting the latest events";
+		NSArray *events = 		[RemoteEventLoader getCommencementEventsFromServerSince:lastUpdate intoContext:context];
+		if (events == nil)
+		{
+			eventListVC.navigationItem.prompt = @"Unable to retrieve latest events";
+			[self performSelector:@selector(hidePrompt:) withObject:nil afterDelay:1.5f];
+		}
+		else 
+		{
+			eventListVC.navigationItem.prompt = nil;
+		}
+	}
+	
 	NSError *err = nil;
 	[context save:&err];
 
@@ -68,10 +100,17 @@
 	[pool release];
 }
 
-- (void)showLoadingView
+- (IBAction)killApp {
+	exit(0);
+}
+
+- (void)hidePrompt:(id)sender
 {
-	// TODO - Figure out how this event loop runs and the loading screen is hidden. Also, figure out how to pop up a "you is has no internetz plz turn on yes!" dialog. Official Title
-	
+	[eventListVC.navigationItem performSelector:@selector(setPrompt:) withObject:nil];
+}
+
+- (void)showLoadingView
+{	
 	// Overlay a loading screen
 	NSLog(@"Displaying loading view");
 	loadingViewController = [[UIViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
