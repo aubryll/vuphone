@@ -1,3 +1,4 @@
+
 == Overall Steps ==
 
 # Download project into eclipse
@@ -8,6 +9,13 @@
 # [Optional] Modify Map.html
 # Live long and prosper
 
+
+TODO - Put in all the screenshots!
+[http://www.dre.vanderbilt.edu/~hturner/vandyupon-screenshots/step1-project-into-eclipse.zip downloading]
+[http://www.dre.vanderbilt.edu/~hturner/vandyupon-screenshots/step2-modify-properties.zip properties]
+[http://www.dre.vanderbilt.edu/~hturner/vandyupon-screenshots/step3-build-n-export.zip export]
+[http://www.dre.vanderbilt.edu/~hturner/vandyupon-screenshots/step4-moving.zip moving]
+[http://www.dre.vanderbilt.edu/~hturner/vandyupon-screenshots/step5-starting.zip starting]
 
 ===More about Downloading into eclipse===
 You will need to install eclipse from http://www.eclipse.org/downloads/ - the Eclipse IDE For Java Developers is fine. Also install the Subclipse plugin. 
@@ -59,4 +67,3 @@ screenshots
 
 
 ===more about living long and prospering===
-
