@@ -13,7 +13,7 @@
 
 @synthesize isChecked;
 
-- (void)setIsChecked:(BOOL)checked
+- (void)setChecked:(BOOL)checked
 {
 	isChecked = checked;
 }

@@ -261,7 +261,7 @@ static NSDateFormatter *dateFormatter = nil;
 														  longitude:[self.longitude doubleValue]] autorelease];
 
 	CLLocation *currentLocation = [[LocationManagerSingleton sharedManager] lastKnownLocation];
-	CLLocationDistance distance = [poiLocation getDistanceFrom:currentLocation];
+	CLLocationDistance distance = [poiLocation distanceFromLocation:currentLocation];
 
 	return [NSNumber numberWithDouble:distance];
 }
@@ -277,7 +277,7 @@ static NSDateFormatter *dateFormatter = nil;
 	CLLocation *poiLocation = [[[CLLocation alloc] initWithLatitude:[self.latitude doubleValue] 
 														  longitude:[self.longitude doubleValue]] autorelease];
 	// Distance measured in meters. 
-	CLLocationDistance distance = [poiLocation getDistanceFrom:location];
+	CLLocationDistance distance = [poiLocation distanceFromLocation:location];
 	
 	return [Restaurant prettyDistance:distance];
 }

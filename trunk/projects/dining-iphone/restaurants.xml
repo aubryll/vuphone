@@ -109,7 +109,7 @@
 			</range>
 		</hours>
 	</restaurant>
-	<restaurant>
+	<!--restaurant>
 		<name>The Smiling Elephant</name>
 		<image>smilingelephant.png</image>
 		<description>The Smiling Elephant is a Thai restaurant based in Nashville, TN. Our Mission is to serve you healthy, authentic Thai cuisine at a reasonable price. We use no MSG and cook with only Light Olive Oil.</description>
@@ -185,7 +185,7 @@
 				<close>21:00</close>
 			</range>
 		</hours>
-	</restaurant>
+	</restaurant-->
 	<restaurant>
 		<name>Rand Dining Center</name>
 		<image>rand.png</image>
