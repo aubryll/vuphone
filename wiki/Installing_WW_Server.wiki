@@ -53,10 +53,10 @@ You only need to do this if you want the web interface (aka the map) to work
 go into wherever you put map.html onto your web server
 change the line that says var server = blah to var server = "http://www.myserver:myport"; Do NOT put an ending "/"
 
+get your own google maps API key :)
+
 screenshots
 
 
 ===more about living long and prospering===
-
-
 
