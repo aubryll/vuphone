@@ -14,7 +14,7 @@
 	BOOL isChecked;
 }
 
-@property (assign, setter=setIsChecked:) BOOL isChecked;
+@property (nonatomic, assign, setter=setChecked:) BOOL isChecked;
 
 - (id)initWithFrame:(CGRect)frame buttonTag:(NSInteger)buttonTag buttonTarget:(id)buttonTarget buttonAction:(SEL)buttonAction;
 

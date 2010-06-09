@@ -18,6 +18,9 @@
 
 @synthesize restaurant;
 
+- (void)viewDidLoad {
+	menuItemsLoaded = NO;
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -97,7 +100,13 @@
 	if (restaurant.websiteLocationNumber != nil) {
 		VariableHeightCellController *vhcc = [[VariableHeightCellController alloc] init];
 		vhcc.sectionTitle = @"Menu";
-		vhcc.contentStrings = [restaurant menuItems];
+		if (menuItemsLoaded) {
+			vhcc.contentStrings = [restaurant menuItems];
+		} else {
+			vhcc.contentStrings = [NSArray arrayWithObject:@"Loading…"];
+			[NSThread detachNewThreadSelector:@selector(loadMenuItems:) toTarget:self withObject:nil];
+		}
+		
 		[mTableGroups addObject:vhcc];
 		[vhcc release];
 	}
@@ -122,9 +131,20 @@
 	tableGroups = mTableGroups;
 }
 
+- (void)loadMenuItems:(id)object {
+	NSAutoreleasePool *localPool = [[NSAutoreleasePool alloc] init];
+
+	// The restaurant lazy-loads its menu items, so just asking it for them here
+	[restaurant menuItems];
+	menuItemsLoaded = YES;
+	[self performSelectorOnMainThread:@selector(updateAndReload) withObject:nil waitUntilDone:NO];
+	
+	[localPool release];
+}
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+	[super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
 }
@@ -133,7 +153,7 @@
 - (void)dealloc {
 	self.restaurant = nil;
 
-    [super dealloc];
+	[super dealloc];
 }
 
 

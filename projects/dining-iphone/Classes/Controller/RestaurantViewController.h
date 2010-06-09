@@ -12,6 +12,8 @@
 
 @interface RestaurantViewController : VUTableViewController {
 	Restaurant *restaurant;
+    
+    BOOL menuItemsLoaded;
 }
 
 @property (retain) Restaurant *restaurant;
