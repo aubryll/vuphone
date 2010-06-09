@@ -1,13 +1,12 @@
-
 == Overall Steps ==
 
-# Download project into eclipse
-# Modify the DB.properties file
-# Export a runnable jar file
-# Put jar file on server you want to run
-# Start the server
-# [Optional] Modify Map.html
-# Live long and prosper
+  # Download project into eclipse
+  # Modify the DB.properties file
+  # Export a runnable jar file
+  # Put jar file on server you want to run
+  # Start the server
+  # [Optional] Modify Map.html
+  # Live long and prosper
 
 
 TODO - Put in all the screenshots!
