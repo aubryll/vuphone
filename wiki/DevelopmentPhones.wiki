@@ -10,7 +10,7 @@ We've gotten several development phones from Google, and they are available for 
 || Palm Pixi    || 1                              || 0                                 || 1?        ||
 || Droid         || ??                              || ??                                 || ??        ||
 || iPhone       || 1                               || 0                                 || 1? (2?) ||
-|| iPod Touch || 1                              || 0                                  || 1        ||
+|| iPod Touch || 0                              || 1                                  || 1        ||
 
 ===Current Owners===
 
@@ -18,6 +18,8 @@ We've gotten several development phones from Google, and they are available for 
 
 *Ben Gotow* 1xNexus One - bengotow@gmail.com - (540) 250-2334
 
-*Zach McCormick* 2xG1, 1xNexus One - zach.mccormick@vanderbilt.edu - (317) 443-2799
+*Zach McCormick* 1xG1, 1xNexus One - zach.mccormick@vanderbilt.edu - (317) 443-2799
 
 *Grayson Sharpe* 1xG1 - grayson.g.sharpe@vanderbilt.edu - (901) 674-5004
+
+*Serkan Yaliman* 1xG1 - serkan.yaliman@vanderbilt.edu - (615) 498-1814
