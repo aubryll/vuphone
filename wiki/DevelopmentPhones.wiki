@@ -4,13 +4,13 @@ We've gotten several development phones from Google, and they are available for 
 
 ===Summary===
 || Name         || Checked In              || Checked Out               || Total   ||
-|| G1              || 0                              || 2                                 || 4??      ||
-|| Nexus One || 0                              || 1                                 || 1?        ||
-|| Palm Pre     || 1?                            || 1                                 || 2? (1?) ||
+|| G1              || 2                              || 3                                 || 5        ||
+|| Nexus One || 0                              || 1                                 || 1?       ||
+|| Palm Pre     || 1                              || 1                                 || 2         ||
 || Palm Pixi    || 1                              || 0                                 || 1?        ||
 || Droid         || ??                              || ??                                 || ??        ||
-|| iPhone       || ??                              || ??                                 || ??        ||
-|| iPod Touch || ??                              || ??                                 || ??        ||
+|| iPhone       || 1                               || 0                                 || 1? (2?) ||
+|| iPod Touch || 1                              || 0                                  || 1        ||
 
 ===Current Owners===
 
@@ -20,3 +20,4 @@ We've gotten several development phones from Google, and they are available for 
 
 *Zach McCormick* 2xG1, 1xNexus One - zach.mccormick@vanderbilt.edu - (317) 443-2799
 
+*Grayson Sharpe* 1xG1 (Grayson please add phone & email)
