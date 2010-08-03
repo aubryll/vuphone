@@ -2,17 +2,21 @@
 
 We've gotten several development phones from Google, and they are available for you to use if you're working on an Android project. If you need a phone, contact one of the people who currently have them and update this wiki page with your contact information.
 
-= Current Owners =
+===Summary===
+|| Name         || Checked In              || Checked Out               || Total   ||
+|| G1              || 0                              || 2                                 || 4??      ||
+|| Nexus One || 0                              || 1                                 || 1?        ||
+|| Palm Pre     || 1?                            || 1                                 || 2? (1?) ||
+|| Palm Pixi    || 1                              || 0                                 || 1?        ||
+|| Droid         || ??                              || ??                                 || ??        ||
+|| iPhone       || ??                              || ??                                 || ??        ||
+|| iPod Touch || ??                              || ??                                 || ??        ||
 
-*Joseph Liyana*
-HTC G1
-615-428-8890
+===Current Owners===
 
-*Adam Albright*
-HTC G1
-adam.albright@vanderbilt.edu
+*Joseph Liyana* 1xG1 - joseph.m.liyana@vanderbilt.edu - (615) 428-8890
 
-*Ben Gotow*
-Nexus One
-bengotow@gmail.com
-540-250-2334
+*Ben Gotow* 1xNexus One - bengotow@gmail.com - (540) 250-2334
+
+*Zach McCormick* 2xG1, 1xNexus One - zach.mccormick@vanderbilt.edu - (317) 443-2799
+
