@@ -11,6 +11,7 @@ We've gotten several development phones from Google, and they are available for 
 || Droid         || ??                              || ??                                 || ??        ||
 || iPhone       || 1                               || 0                                 || 1? (2?) ||
 || iPod Touch || 0                              || 1                                  || 1        ||
+|| HTC Magic  || 1(to jules)                || 0?                                 || 1?      ||
 
 ===Current Owners===
 
