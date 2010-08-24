@@ -5,7 +5,7 @@ We've gotten several development phones from Google, and they are available for 
 ===Summary===
 || Name         || Checked In              || Checked Out               || Total   ||
 || G1              || 2                              || 3                                 || 5        ||
-|| Nexus One || 0                              || 1                                 || 1?       ||
+|| Nexus One || 1                              || 0                                 || 1?       ||
 || Palm Pre     || 1                              || 1                                 || 2         ||
 || Palm Pixi    || 1                              || 0                                 || 1?        ||
 || Droid         || ??                              || ??                                 || ??        ||
@@ -17,12 +17,8 @@ We've gotten several development phones from Google, and they are available for 
 
 *Joseph Liyana* 1xG1 - joseph.m.liyana@vanderbilt.edu - (615) 428-8890
 
-*Ben Gotow* 1xNexus One - bengotow@gmail.com - (540) 250-2334
-
-*Zach McCormick* 1xG1, 1xNexus One - zach.mccormick@vanderbilt.edu - (317) 443-2799
+*Zach McCormick* 1xG1, 1xNexus One, 1xPalm Pre - zach.mccormick@vanderbilt.edu - (317) 443-2799
 
 *Grayson Sharpe* 1xG1 - grayson.g.sharpe@vanderbilt.edu - (901) 674-5004
 
 *Serkan Yaliman* 1xG1, 1xiPod Touch - serkan.yaliman@vanderbilt.edu - (615) 498-1814
-
-*Hamilton Turner* 1xPalm Pre - hamilton.a.turner@vanderbilt.edu - (615) 818-3577
