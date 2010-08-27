@@ -5,19 +5,17 @@ We've gotten several development phones from Google, and they are available for 
 ===Summary===
 || Name         || Checked In              || Checked Out               || Total   ||
 || G1              || 2                              || 3                                 || 5        ||
-|| Nexus One || 1                              || 0                                 || 1?       ||
-|| Palm Pre     || 1                              || 1                                 || 2         ||
-|| Palm Pixi    || 1                              || 0                                 || 1?        ||
+|| Nexus One || 1                              || 0                                 || 1       ||
+|| Palm Pre     || 2                              || 0                                 || 2         ||
+|| Palm Pixi    || 1                              || 0                                 || 1        ||
 || Droid         || ??                              || ??                                 || ??        ||
-|| iPhone       || 1                               || 0                                 || 1? (2?) ||
+|| iPhone       || 1                               || 0                                 || 1) ||
 || iPod Touch || 0                              || 1                                  || 1        ||
 || HTC Magic  || 1(to jules)                || 0?                                 || 1?      ||
 
 ===Current Owners===
 
 *Joseph Liyana* 1xG1 - joseph.m.liyana@vanderbilt.edu - (615) 428-8890
-
-*Zach McCormick* 1xG1, 1xNexus One, 1xPalm Pre - zach.mccormick@vanderbilt.edu - (317) 443-2799
 
 *Grayson Sharpe* 1xG1 - grayson.g.sharpe@vanderbilt.edu - (901) 674-5004
 
