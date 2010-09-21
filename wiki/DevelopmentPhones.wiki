@@ -9,7 +9,7 @@ We've gotten several development phones from Google, and they are available for 
 || Palm Pre     || 2                              || 0                                 || 2         ||
 || Palm Pixi    || 1                              || 0                                 || 1        ||
 || iPhone       || 1                               || 0                                 || 1 ||
-|| iPod Touch || 0                              || 1                                  || 1        ||      ||
+|| iPod Touch || 0                              || 1                                  || 1        ||
 
 ===Current Owners===
 
