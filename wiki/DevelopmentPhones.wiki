@@ -8,10 +8,8 @@ We've gotten several development phones from Google, and they are available for 
 || Nexus One || 1                              || 0                                 || 1       ||
 || Palm Pre     || 2                              || 0                                 || 2         ||
 || Palm Pixi    || 1                              || 0                                 || 1        ||
-|| Droid         || ??                              || ??                                 || ??        ||
 || iPhone       || 1                               || 0                                 || 1 ||
-|| iPod Touch || 0                              || 1                                  || 1        ||
-|| HTC Magic  || 1(to jules)                || 0?                                 || 1?      ||
+|| iPod Touch || 0                              || 1                                  || 1        ||      ||
 
 ===Current Owners===
 
