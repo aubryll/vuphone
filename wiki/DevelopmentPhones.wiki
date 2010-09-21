@@ -9,7 +9,7 @@ We've gotten several development phones from Google, and they are available for 
 || Palm Pre     || 2                              || 0                                 || 2         ||
 || Palm Pixi    || 1                              || 0                                 || 1        ||
 || Droid         || ??                              || ??                                 || ??        ||
-|| iPhone       || 1                               || 0                                 || 1) ||
+|| iPhone       || 1                               || 0                                 || 1 ||
 || iPod Touch || 0                              || 1                                  || 1        ||
 || HTC Magic  || 1(to jules)                || 0?                                 || 1?      ||
 
@@ -17,6 +17,4 @@ We've gotten several development phones from Google, and they are available for 
 
 *Joseph Liyana* 1xG1 - joseph.m.liyana@vanderbilt.edu - (615) 428-8890
 
-*Grayson Sharpe* 1xG1 - grayson.g.sharpe@vanderbilt.edu - (901) 674-5004
-
-*Serkan Yaliman* 1xG1, 1xiPod Touch - serkan.yaliman@vanderbilt.edu - (615) 498-1814
+*In Andy/Doug's office at ISIS?* 1xG1, 1xiPod Touch
