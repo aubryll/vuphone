@@ -108,7 +108,7 @@ public class AllLocations extends MapActivity {
 	public static final int DIALOG_SETTINGS = 0;
 	
 	private static final boolean [] SETTINGS_DEFAULT = {false, false, false};
-	private boolean [] settingsChecked;
+	private final boolean [] settingsChecked = SETTINGS_DEFAULT.clone();
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -119,7 +119,6 @@ public class AllLocations extends MapActivity {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			CharSequence[] settings = { "Hide closed locations", "Hide no meal plan", "Hide no meal money" };
-			settingsChecked = SETTINGS_DEFAULT.clone();
 
 			builder.setMultiChoiceItems(settings, settingsChecked,
 					new DialogInterface.OnMultiChoiceClickListener() {
@@ -145,7 +144,8 @@ public class AllLocations extends MapActivity {
 				
 
 				public void onClick(DialogInterface dialog, int which) {
-					settingsChecked = SETTINGS_DEFAULT.clone();
+					for (int i = 0; i<SETTINGS_DEFAULT.length; i++)
+						settingsChecked[i]=SETTINGS_DEFAULT[i];
 					AllLocations.this.updateSettings();
 					dialog.dismiss();
 				}

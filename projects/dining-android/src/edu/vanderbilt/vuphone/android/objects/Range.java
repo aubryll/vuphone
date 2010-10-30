@@ -2,14 +2,19 @@ package edu.vanderbilt.vuphone.android.objects;
 
 import edu.vanderbilt.vuphone.android.dining.Main;
 
+/**
+ * Stores a range of times, for the restaurant hours. start is allowed to be after end, 
+ * this indicates an intraday range
+ * 
+ * @author austin
+ *
+ */
 public class Range {
 	
 	
-	// start is allowed to be after end, it indicates a range that is intraday
 	private Time _start;
 	private Time _end;
 
-	// Needed for XStream!
 	public Range() {};
 	public Range(Time start, Time end) {setTimes(start, end);}
 

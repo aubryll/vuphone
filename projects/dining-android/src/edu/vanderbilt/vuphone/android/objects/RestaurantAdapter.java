@@ -22,8 +22,11 @@ import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
 
 /**
+ * Restaurant List Adaptor, handles sorting and display of the list of restaurants and partitions of the 
+ * main application page
+ * 
  * @author austin
- *
+ * 
  */
 public class RestaurantAdapter extends BaseAdapter implements ListAdapter 
 {

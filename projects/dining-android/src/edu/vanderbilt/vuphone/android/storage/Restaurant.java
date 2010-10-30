@@ -7,6 +7,13 @@ import edu.vanderbilt.vuphone.android.objects.RestaurantHours;
 import edu.vanderbilt.vuphone.android.objects.RestaurantMenu;
 import edu.vanderbilt.vuphone.android.objects.Time;
 
+/**
+ * The class through which the rest of the application accesses restaurant data
+ * Objects of this class allow manipulation of data, but static methods are implemented
+ * to allow quick access. 
+ * @author austin
+ *
+ */
 public class Restaurant {
 	
 		

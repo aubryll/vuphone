@@ -7,9 +7,13 @@ import java.util.GregorianCalendar;
 import edu.vanderbilt.vuphone.android.dining.Main;
 /**
  * @author austin
- *	Limitations: no range can span more than 24 hours, but it can span accross a day 
+ *	Limitations: no range can span more than 24 hours, but it can span across a day 
  *	(this is indicated when the end time is before the start time)
  *	if the end time is equal to the start time, it is a range of 24 hours
+ *
+ *  since no range can span more than 24 hours, the convention when putting such ranges 
+ *  into the DB should be to simply make as many ranges as necessary to cover the desired range, 
+ *  and make the end time the same as the start in consecutive ranges. 
  */
 public class RestaurantHours {
 	
