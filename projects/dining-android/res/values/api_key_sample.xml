@@ -5,7 +5,11 @@
 		string/maps_api_key, then you need to go to
 		http://code.google.com/android/maps-api-signup.html to acquire a
 		google maps API key (each developer needs their own). After you have
-		done that, uncomment the line below and fill in your key. You should
+		done that, create a new Android xml file in the res/values folder named 
+		something like api_key.xml. Check the "values" radio button in the 
+		wizard. Once created, copy line below and fill in your key. Do not add
+		this new file to version control, as it contains your personal development 
+		key. You should
 		then be able to see the maps in this application. If you have trouble
 		generating an API key, know that you can always uncomment the line
 		below and still run the application, and the Google map data will not
@@ -14,8 +18,9 @@
 		issue for you ;)
 	-->
 
-	
-		<string name="maps_api_key">0jsyg2RPhimzkr516NSGpQDy7PJRSu3PisophJA</string>
+	<!-- 
+		<string name="maps_api_key">Your API key here</string> 
+	-->
 	
 
 
