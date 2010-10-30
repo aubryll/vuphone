@@ -12,13 +12,19 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
 
+/**
+ * Sql DB interface for the rest of the application
+ * 
+ * @author austin
+ *
+ */
 public class DbAdapter {
 
 	/** Used for logging */
 	//private static final String pre = "DBAdapter: ";
 
 	/** Used for database updates */
-	private static final int DB_VERSION = 5;
+	private static final int DB_VERSION = 6;
 
 	/** The filename where the database is stored */
 	private static final String DB_NAME = "dining.db";

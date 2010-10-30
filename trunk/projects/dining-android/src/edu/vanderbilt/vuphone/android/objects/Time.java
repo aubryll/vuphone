@@ -6,6 +6,11 @@ import java.util.GregorianCalendar;
 import edu.vanderbilt.vuphone.android.dining.Main;
 
 
+/**
+ * Stores a time in hours and minutes
+ * @author austin
+ *
+ */
 public class Time {
 	
 	public static Time beginning = new Time(0,0);

@@ -60,14 +60,9 @@ public class Main extends ListActivity {
 		}
 
 		initializeContentView();
-		checkedSort = new boolean[] { true, true, false, false }; // {favorite,
-																	// open,
-																	// time till
-																	// close,
-																	// near}
 
 		ra = new RestaurantAdapter(this, checkedSort[0], checkedSort[1],
-				checkedSort[2], checkedSort[3]);
+				checkedSort[2], checkedSort[3]); 
 
 		setListAdapter(ra);
 		// getListView().setTextFilterEnabled(true);
@@ -202,8 +197,14 @@ public class Main extends ListActivity {
 	private static final int DIALOG_SORT = 0;
 	private static final int DIALOG_SETTINGS = 1;
 
-	private boolean[] checkedSort;
-	private boolean[] checkedSetting;
+	private static final boolean[] SORT_OPTION_DEFAULTS = {true, true, false, false}; // {favorite,  
+	private final boolean[] checkedSort = SORT_OPTION_DEFAULTS.clone();               // open,       
+																		              // time till   
+																		              // close,      
+																		              // near};      
+																		                             
+	private static final int SETTINGS_NUM = 6;
+	private final boolean[] checkedSetting = new boolean[SETTINGS_NUM];
 	private boolean settingsModified = false;
 	private boolean sortSettingsModified = false;
 	private boolean reSortNeeded = false;
@@ -212,6 +213,7 @@ public class Main extends ListActivity {
 	 * This opens the dialog that allows the user to choose a new sorting option
 	 */
 	protected Dialog onCreateDialog(int id) {
+		super.onCreateDialog(id);
 		switch (id) {
 		case DIALOG_SORT: {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -277,10 +279,13 @@ public class Main extends ListActivity {
 			CharSequence[] items = { "Show favorites icon",
 					"Gray closed places", "Show distance", "Show place type",
 					"Hide off campus", "Hide off the card" };
-			checkedSetting = new boolean[] { ra.getShowFavIcon(),
+			
+			boolean[] checked = { ra.getShowFavIcon(),
 					ra.getGrayClosed(), ra.getShowDistances(),
 					ra.getShowRestaurantType(), ra.getHideOffCampus(),
 					ra.getHideOffTheCard() };
+			for (int i = 0; i < SETTINGS_NUM; i++)
+				checkedSetting[i] = checked[i];
 
 			builder.setMultiChoiceItems(items, checkedSetting,
 					new DialogInterface.OnMultiChoiceClickListener() {
@@ -367,6 +372,7 @@ public class Main extends ListActivity {
 	}
 
 	protected void onPrepareDialog(int id, Dialog dialog) {
+		super.onPrepareDialog(id, dialog);
 		switch (id) {
 		case DIALOG_SORT: {
 			boolean[] checked = { ra.indexOf(RestaurantAdapter.SORT_FAVORITE) != -1,

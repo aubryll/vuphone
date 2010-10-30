@@ -5,9 +5,9 @@
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="vertical">
 		<RelativeLayout android:layout_width="fill_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content" >
 			<ImageView android:id="@+restaurantDetails/logo"
-				android:layout_width="70px" android:layout_height="70px"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
 				android:layout_centerVertical="true" android:padding="7px" />
 			<TextView android:id="@+restaurantDetails/name"
 				android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -37,8 +37,7 @@
 				android:textSize="16px" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:gravity="center_horizontal"
 				android:layout_toLeftOf="@restaurantDetails/rightArrow"
-				android:layout_toRightOf="@restaurantDetails/leftArrow"
-				android:text="temp" />
+				android:layout_toRightOf="@restaurantDetails/leftArrow" />
 			<TextView android:id="@+restaurantDetails/hoursRangeDisplay"
 				android:textColor="@android:color/secondary_text_dark"
 				android:textSize="16px" android:layout_width="wrap_content"

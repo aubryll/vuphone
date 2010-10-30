@@ -8,13 +8,23 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import edu.vanderbilt.vuphone.android.map.OneLocation;
 import edu.vanderbilt.vuphone.android.storage.Restaurant;
 
+
+/**
+ * Restaurant page, displays important information about restaurants
+ * 
+ * @author austin
+ *
+ */
 public class RestaurantDetails extends TabActivity implements
 		TabHost.OnTabChangeListener {
 
@@ -40,10 +50,21 @@ public class RestaurantDetails extends TabActivity implements
 		setTitle(restaurant.getName());
 
 		// MAIN PAGE VIEWS
-		((TextView) findViewById(R.restaurantDetails.name)).setText(restaurant
-				.getName());
-		((ImageView) findViewById(R.restaurantDetails.logo))
-				.setImageResource(restaurant.getIcon());
+		ImageView image = (ImageView)findViewById(R.restaurantDetails.logo);
+		image.setImageResource(restaurant.getIcon());
+		if (image.getDrawable().getIntrinsicHeight() <= 70 && image.getDrawable().getIntrinsicWidth() <=70)
+			((TextView)findViewById(R.restaurantDetails.name)).setText(restaurant.getName());
+			// if the logo is just a symbol
+		else {
+			((TextView)findViewById(R.restaurantDetails.name)).setVisibility(View.GONE);
+			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
+			lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+			image.setLayoutParams(lp);
+						
+			// if the logo includes the restaurant name
+		}
+
 		if (restaurant.getDescription() == null)
 			((TextView) findViewById(R.restaurantDetails.details))
 					.setVisibility(View.GONE);
