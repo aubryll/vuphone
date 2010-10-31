@@ -16,11 +16,6 @@
 				android:textColor="@android:color/primary_text_dark"
 				android:maxLines="2" android:ellipsize="end" />
 		</RelativeLayout>
-		<TextView android:id="@+restaurantDetails/details"
-			android:textSize="14px" android:textColor="@android:color/secondary_text_dark"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:paddingLeft="5px" android:paddingRight="5px"
-			android:paddingBottom="10px" />
 		<RelativeLayout android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
 			<ImageView android:id="@+restaurantDetails/leftArrow"
@@ -45,6 +40,11 @@
 				android:gravity="center_horizontal" android:layout_toLeftOf="@restaurantDetails/rightArrow"
 				android:layout_toRightOf="@restaurantDetails/leftArrow" />
 		</RelativeLayout>
+		<TextView android:id="@+restaurantDetails/details"
+			android:textSize="14px" android:textColor="@android:color/secondary_text_dark"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:paddingLeft="5px" android:paddingRight="5px"
+			android:paddingBottom="10px" />
 		<TextView android:id="@+restaurantDetails/phone_header"
 			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:textSize="18px" android:textColor="@android:color/secondary_text_dark"

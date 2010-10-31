@@ -65,12 +65,7 @@ public class RestaurantDetails extends TabActivity implements
 			// if the logo includes the restaurant name
 		}
 
-		if (restaurant.getDescription() == null)
-			((TextView) findViewById(R.restaurantDetails.details))
-					.setVisibility(View.GONE);
-		else
-			((TextView) findViewById(R.restaurantDetails.details))
-					.setText(restaurant.getDescription());
+		
 		mCounter = restaurant.getHours().getCurrentRangeI();
 		day = (TextView) findViewById(R.restaurantDetails.hoursDay);
 		range = (TextView) findViewById(R.restaurantDetails.hoursRangeDisplay);
@@ -105,6 +100,14 @@ public class RestaurantDetails extends TabActivity implements
 						updateRangeText();
 					}
 				});
+		
+		if (restaurant.getDescription() == null)
+			((TextView) findViewById(R.restaurantDetails.details))
+					.setVisibility(View.GONE);
+		else
+			((TextView) findViewById(R.restaurantDetails.details))
+					.setText(restaurant.getDescription());
+		
 		if (restaurant.offCampus()) {
 			((TextView) findViewById(R.restaurantDetails.phone))
 					.setText(restaurant.getPhoneNumber());

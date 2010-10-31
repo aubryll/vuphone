@@ -460,8 +460,6 @@ public class Main extends ListActivity {
 		checkedSort[1] = mprefs.getBoolean(PREF_OPEN, SORT_OPTION_DEFAULTS[1]);
 		checkedSort[2] = mprefs.getBoolean(PREF_TIME_TILL_CLOSE, SORT_OPTION_DEFAULTS[2]);
 		checkedSort[3] = mprefs.getBoolean(PREF_NEAR, SORT_OPTION_DEFAULTS[3]);
-		ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2], checkedSort[3], settingsModified, sortSettingsModified);
-		ra.notifyDataSetChanged();
 		
 		ra.setShowFavIcon(mprefs.getBoolean(PREF_FAV_ICON, ra.getShowFavIcon()));
 		ra.setGrayClosed(mprefs.getBoolean(PREF_GRAY_CLOSED, ra.getGrayClosed()));
@@ -470,6 +468,13 @@ public class Main extends ListActivity {
 		ra.setHideOffCampus(mprefs.getBoolean(PREF_HIDE_OFF_CAMPUS, ra.getHideOffCampus()));
 		ra.setHideOffTheCard(mprefs.getBoolean(PREF_HIDE_OFF_CARD, ra.getHideOffTheCard()));
 		
+		if (checkedSort[3] || ra.getShowDistances()) {
+			boolean success = ra.refreshDistances();
+			checkedSort[3] = checkedSort[3] && success;
+			ra.setShowDistances(ra.getShowDistances() && success);
+		}
+		ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2], checkedSort[3], settingsModified, sortSettingsModified);
+		ra.notifyDataSetChanged();
 	}
 	
 	private void commitUserSettings() {
