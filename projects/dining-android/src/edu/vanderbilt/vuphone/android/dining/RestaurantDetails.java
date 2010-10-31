@@ -189,8 +189,8 @@ public class RestaurantDetails extends TabActivity implements
 
 	private void updateRangeText() {
 
-		Log.i("RestaurantDetails", "day " + mCounter[0] + ", range "
-				+ mCounter[1]);
+		//Log.i("RestaurantDetails", "day " + mCounter[0] + ", range "
+		//		+ mCounter[1]);
 		day.setText(getCurrentDay());
 		if (mCounter[1] == -1)
 			range.setText("closed");

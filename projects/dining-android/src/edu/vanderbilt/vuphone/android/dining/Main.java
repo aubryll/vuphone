@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings.System;
 import android.util.Log;
@@ -50,7 +52,7 @@ public class Main extends ListActivity {
 		display24 = "24".equals(System.getString(this.getContentResolver(),
 				System.TIME_12_24));
 
-		Restaurant.deleteAll();
+		//Restaurant.deleteAll();
 		if (Restaurant.getIDs().size() != StaticRestaurantData.NUM_RESTAURANTS) {
 			Log.i("Dining", "database purged: getIDs().size()="
 					+ Restaurant.getIDs().size() + ", Static data size="
@@ -61,8 +63,10 @@ public class Main extends ListActivity {
 
 		initializeContentView();
 
-		ra = new RestaurantAdapter(this, checkedSort[0], checkedSort[1],
-				checkedSort[2], checkedSort[3]); 
+		ra = new RestaurantAdapter(this, RestaurantAdapter.SORT_UNSORTED); 
+			// this does the least work because retrieveUserSettings() now sorts the list);
+		
+		retrieveUserSettings();
 
 		setListAdapter(ra);
 		// getListView().setTextFilterEnabled(true);
@@ -71,6 +75,13 @@ public class Main extends ListActivity {
 		// dont know if this is appropriate
 
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		commitUserSettings();
+	}
+	
 
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
@@ -95,6 +106,7 @@ public class Main extends ListActivity {
 		((Button) cancelButton).setOnClickListener(cancelListener);
 		mode = NORMAL;
 	}
+	
 
 	// -------------------- MENU FUNCTIONS
 
@@ -198,13 +210,13 @@ public class Main extends ListActivity {
 	private static final int DIALOG_SETTINGS = 1;
 
 	private static final boolean[] SORT_OPTION_DEFAULTS = {true, true, false, false}; // {favorite,  
-	private final boolean[] checkedSort = SORT_OPTION_DEFAULTS.clone();               // open,       
+	private final boolean[] checkedSort = new boolean[SORT_OPTION_DEFAULTS.length];   // open,       
 																		              // time till   
 																		              // close,      
 																		              // near};      
 																		                             
 	private static final int SETTINGS_NUM = 6;
-	private final boolean[] checkedSetting = new boolean[SETTINGS_NUM];
+	private final boolean[] checkedSetting = new boolean[SETTINGS_NUM]; // needed for inner classes
 	private boolean settingsModified = false;
 	private boolean sortSettingsModified = false;
 	private boolean reSortNeeded = false;
@@ -415,6 +427,70 @@ public class Main extends ListActivity {
 			// trying.cancel();
 			return true;
 		}
+	}
+	
+	// SAVING PREFERENCES ACCROSS INSTANCES
+	
+	private SharedPreferences mprefs;
+	private static final String PREFERENCES = "preferences";
+	
+	// persistent user settings
+	private static final String PREF_SETTINGS_MODIFIED = "setMod";
+	private static final String PREF_SORT_SETTINGS_MODIFIED = "sortSetMod";
+	private static final String PREF_FAV_ICON = "favIcon";
+	private static final String PREF_GRAY_CLOSED = "grayClosed";
+	private static final String PREF_SHOW_DISTANCE = "showDist";
+	private static final String PREF_SHOW_PLACE_TYPE = "placeType";
+	private static final String PREF_HIDE_OFF_CAMPUS = "hideOffCampus";
+	private static final String PREF_HIDE_OFF_CARD = "hideOffCard";
+	
+	// persistent sort type
+	private static final String PREF_FAVORITE = "favorite";
+	private static final String PREF_OPEN = "open";
+	private static final String PREF_TIME_TILL_CLOSE = "timeClose";
+	private static final String PREF_NEAR = "near";
+	
+	
+	private void retrieveUserSettings() {
+		mprefs = getSharedPreferences(PREFERENCES, ContextWrapper.MODE_PRIVATE);
+		
+		settingsModified = mprefs.getBoolean(PREF_SETTINGS_MODIFIED, false);
+		sortSettingsModified = mprefs.getBoolean(PREF_SORT_SETTINGS_MODIFIED, false);
+		checkedSort[0] = mprefs.getBoolean(PREF_FAVORITE, SORT_OPTION_DEFAULTS[0]);
+		checkedSort[1] = mprefs.getBoolean(PREF_OPEN, SORT_OPTION_DEFAULTS[1]);
+		checkedSort[2] = mprefs.getBoolean(PREF_TIME_TILL_CLOSE, SORT_OPTION_DEFAULTS[2]);
+		checkedSort[3] = mprefs.getBoolean(PREF_NEAR, SORT_OPTION_DEFAULTS[3]);
+		ra.setSort(checkedSort[0], checkedSort[1], checkedSort[2], checkedSort[3], settingsModified, sortSettingsModified);
+		ra.notifyDataSetChanged();
+		
+		ra.setShowFavIcon(mprefs.getBoolean(PREF_FAV_ICON, ra.getShowFavIcon()));
+		ra.setGrayClosed(mprefs.getBoolean(PREF_GRAY_CLOSED, ra.getGrayClosed()));
+		ra.setShowDistances(mprefs.getBoolean(PREF_SHOW_DISTANCE, ra.getShowDistances()));
+		ra.setShowRestaurantType(mprefs.getBoolean(PREF_SHOW_PLACE_TYPE, ra.getShowRestaurantType()));
+		ra.setHideOffCampus(mprefs.getBoolean(PREF_HIDE_OFF_CAMPUS, ra.getHideOffCampus()));
+		ra.setHideOffTheCard(mprefs.getBoolean(PREF_HIDE_OFF_CARD, ra.getHideOffTheCard()));
+		
+	}
+	
+	private void commitUserSettings() {
+		SharedPreferences.Editor ed = mprefs.edit();
+		
+		ed.putBoolean(PREF_SETTINGS_MODIFIED, settingsModified);
+		ed.putBoolean(PREF_SORT_SETTINGS_MODIFIED, sortSettingsModified);
+		ed.putBoolean(PREF_FAVORITE, checkedSort[0]);
+		ed.putBoolean(PREF_OPEN, checkedSort[1]);
+		ed.putBoolean(PREF_TIME_TILL_CLOSE, checkedSort[2]);
+		ed.putBoolean(PREF_NEAR, checkedSort[3]);
+
+		
+		ed.putBoolean(PREF_FAV_ICON, ra.getShowFavIcon());
+		ed.putBoolean(PREF_GRAY_CLOSED, ra.getGrayClosed());
+		ed.putBoolean(PREF_SHOW_DISTANCE, ra.getShowDistances());
+		ed.putBoolean(PREF_SHOW_PLACE_TYPE, ra.getShowRestaurantType());
+		ed.putBoolean(PREF_HIDE_OFF_CAMPUS, ra.getHideOffCampus());
+		ed.putBoolean(PREF_HIDE_OFF_CARD, ra.getHideOffTheCard());
+		
+		ed.commit();
 	}
 
 	// PLACEHOLDER / TEMOPRARY METHODS BELOW
