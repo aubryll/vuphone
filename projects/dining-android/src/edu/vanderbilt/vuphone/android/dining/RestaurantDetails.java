@@ -51,7 +51,7 @@ public class RestaurantDetails extends TabActivity implements
 
 		// MAIN PAGE VIEWS
 		ImageView image = (ImageView)findViewById(R.restaurantDetails.logo);
-		image.setImageResource(restaurant.getIcon());
+			image.setImageResource(restaurant.getIcon());
 		if (image.getDrawable().getIntrinsicHeight() <= 70 && image.getDrawable().getIntrinsicWidth() <=70)
 			((TextView)findViewById(R.restaurantDetails.name)).setText(restaurant.getName());
 			// if the logo is just a symbol
@@ -64,7 +64,8 @@ public class RestaurantDetails extends TabActivity implements
 						
 			// if the logo includes the restaurant name
 		}
-
+		if (restaurant.getIcon()==R.drawable.dining_icon) 
+			image.setVisibility(View.GONE);
 		
 		mCounter = restaurant.getHours().getCurrentRangeI();
 		day = (TextView) findViewById(R.restaurantDetails.hoursDay);
