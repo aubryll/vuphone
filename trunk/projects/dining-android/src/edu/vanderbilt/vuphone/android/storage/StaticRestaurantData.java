@@ -180,7 +180,7 @@ public class StaticRestaurantData {
 		stop = new Time(20, 0);
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
-		String description = "The Commons Center is the dining facility and community square of The Commons. The state-of-the-art dining facility includes a salad bar with sizzle station, Chef�s Table, specialty pizza oven, deli, wok, grill, and vegan/vegetarian food.";
+		String description = "The Commons Center is the dining facility and community square of The Commons. The state-of-the-art dining facility includes a salad bar with sizzle station, Chef's Table, specialty pizza oven, deli, wok, grill, and vegan/vegetarian food.";
 
 		Restaurant commonsFood = new Restaurant("The Commons Food Gallery", rh,
 				true, (int) (36.141951 * 1E6), (int) (-86.797127 * 1E6),

@@ -24,7 +24,7 @@ public class DbAdapter {
 	//private static final String pre = "DBAdapter: ";
 
 	/** Used for database updates */
-	private static final int DB_VERSION = 6;
+	private static final int DB_VERSION = 7;
 
 	/** The filename where the database is stored */
 	private static final String DB_NAME = "dining.db";
