@@ -320,7 +320,7 @@ public class StaticRestaurantData {
 
                 Restaurant lastDrop = new Restaurant("Last Drop Coffee Shop", rh,
                                 false, (int) (36.146545 * 1E6), (int) (-86.803471 * 1E6),
-                                "Smoothie", null, description, R.drawable.r_centersmoothie,
+                                "Smoothie", null, description, R.drawable.r_coffeeshop,
                                 true, true, false, null,
                                 "http://www.vanderbilt.edu/dining/line_coffeeshop.php");
                 long id = lastDrop.create();
@@ -1402,7 +1402,7 @@ public class StaticRestaurantData {
 
     		Restaurant calypso = new Restaurant("Calypso Cafe", rh,
     				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-    				"Island", null, null, R.drawable.r_chipotle, true,
+    				"Island", null, null, R.drawable.r_calypso, true,
     				false, true, "(615) 321-3878",
     				"http://www.calypsocafe.com/");
     		long id = calypso.create();
@@ -1583,7 +1583,7 @@ public class StaticRestaurantData {
 
 		Restaurant dominos = new Restaurant("Dominos Pizza", rh,
 				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-				"Pizza", null, null, R.drawable.r_chipotle, true,
+				"Pizza", null, null, R.drawable.r_dominos, true,
 				false, true, "(615) 297-3000",
 				"http://www.dominos.com/");
 		long id = dominos.create();
@@ -1758,7 +1758,7 @@ public class StaticRestaurantData {
 
 		Restaurant moes = new Restaurant("Moe's Southwest Grill", rh,
 				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-				"Southwest", null, null, R.drawable.r_chipotle, true,
+				"Southwest", null, null, R.drawable.r_moes, true,
 				false, true, "(615) 320-0001",
 				"http://www.moes.com/");
 		long id = moes.create();
@@ -1933,7 +1933,7 @@ public class StaticRestaurantData {
 
 		Restaurant pinkberry = new Restaurant("Pinkberry", rh,
 				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-				"Frozen Yogurt", null, null, R.drawable.r_chipotle, true,
+				"Frozen Yogurt", null, null, R.drawable.r_pinkberry, true,
 				false, true, "(615) 679-9789",
 				"http://www.pinkberry.com/");
 		long id = pinkberry.create();
@@ -1980,7 +1980,7 @@ public class StaticRestaurantData {
 
 		Restaurant provence = new Restaurant("Provence Breads and Cafe", rh,
 				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-				"Cafe", null, null, R.drawable.r_chipotle, true,
+				"Cafe", null, null, R.drawable.r_pinkberry, true,
 				false, true, "(615) 386-0363",
 				"http://www.provencebreads.com/");
 		long id = provence.create();
@@ -2596,7 +2596,7 @@ public class StaticRestaurantData {
 
 		Restaurant zumis = new Restaurant("Zumi Sushi Japanese Kitchen", rh,
 				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-				"Sushi", null, null, R.drawable.r_chipotle, true,
+				"Sushi", null, null, R.drawable.r_zumis, true,
 				false, true, "(615) 383-5770",
 				"http://www.zumisushi.com/");
 		long id = zumis.create();
