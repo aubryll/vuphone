@@ -6,6 +6,7 @@ package edu.vanderbilt.vuphone.android.storage;
 import java.util.Calendar;
 import java.util.Random;
 
+
 import android.util.Log;
 import edu.vanderbilt.vuphone.android.dining.R;
 import edu.vanderbilt.vuphone.android.objects.Range;
@@ -1401,7 +1402,7 @@ public class StaticRestaurantData {
     		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
     		Restaurant calypso = new Restaurant("Calypso Cafe", rh,
-    				false, (int) (36 * 1E6), (int) (-86 * 1E6),
+    				false, (int) (36.148 * 1E6), (int) (-86.8084 * 1E6),
     				"Island", null, null, R.drawable.r_calypso, true,
     				false, true, "(615) 321-3878",
     				"http://www.calypsocafe.com/");
@@ -1582,7 +1583,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant dominos = new Restaurant("Dominos Pizza", rh,
-				false, (int) (36 * 1E6), (int) (-86 * 1E6),
+				false, (int) (36.1368 * 1E6), (int) (-86.7996 * 1E6),
 				"Pizza", null, null, R.drawable.r_dominos, true,
 				false, true, "(615) 297-3000",
 				"http://www.dominos.com/");
@@ -1620,7 +1621,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.FRIDAY, new Range(start, stop));
 
 		Restaurant iris = new Restaurant("Iris Cafe", rh,
-				false, (int) (36 * 1E6), (int) (-86 * 1E6),
+				false, (int) (36.14267 * 1E6), (int) (-86.7992 * 1E6),
 				"Cafe", null, null, R.drawable.r_chipotle, true,
 				false, true, "(615) 322-8887",
 				"http://www.provencebreads.com/");
@@ -1757,7 +1758,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant moes = new Restaurant("Moe's Southwest Grill", rh,
-				false, (int) (36 * 1E6), (int) (-86 * 1E6),
+				false, (int) (36.1464 * 1E6), (int) (-86.809 * 1E6),
 				"Southwest", null, null, R.drawable.r_moes, true,
 				false, true, "(615) 320-0001",
 				"http://www.moes.com/");
@@ -1932,7 +1933,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant pinkberry = new Restaurant("Pinkberry", rh,
-				false, (int) (36 * 1E6), (int) (-86 * 1E6),
+				false, (int) (36.1488 * 1E6), (int) (-86.805 * 1E6),
 				"Frozen Yogurt", null, null, R.drawable.r_pinkberry, true,
 				false, true, "(615) 679-9789",
 				"http://www.pinkberry.com/");
@@ -1979,8 +1980,8 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant provence = new Restaurant("Provence Breads and Cafe", rh,
-				false, (int) (36 * 1E6), (int) (-86 * 1E6),
-				"Cafe", null, null, R.drawable.r_pinkberry, true,
+				false, (int) (36.13715 * 1E6), (int) (-86.8009 * 1E6),
+				"Cafe", null, null, R.drawable.r_provence, true,
 				false, true, "(615) 386-0363",
 				"http://www.provencebreads.com/");
 		long id = provence.create();
@@ -2595,7 +2596,7 @@ public class StaticRestaurantData {
 		rh.addRange(Calendar.SATURDAY, new Range(start, stop));
 
 		Restaurant zumis = new Restaurant("Zumi Sushi Japanese Kitchen", rh,
-				false, (int) (36 * 1E6), (int) (-86 * 1E6),
+				false, (int) (36.13675 * 1E6), (int) (-86.8025 * 1E6),
 				"Sushi", null, null, R.drawable.r_zumis, true,
 				false, true, "(615) 383-5770",
 				"http://www.zumisushi.com/");
