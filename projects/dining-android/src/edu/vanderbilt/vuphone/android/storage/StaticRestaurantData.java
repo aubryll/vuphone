@@ -348,7 +348,7 @@ public class StaticRestaurantData {
                 start = new Time(11, 0);
                 stop = new Time(21, 0);
                 rh.addRange(Calendar.TUESDAY, new Range(start, stop));
-
+                
                 start = new Time(11, 0);
                 stop = new Time(21, 0);
                 rh.addRange(Calendar.WEDNESDAY, new Range(start, stop));
@@ -580,7 +580,7 @@ public class StaticRestaurantData {
 
                 Restaurant library = new Restaurant("Food for Thought Cafe", rh, false,
                                 (int) (36.145718 * 1E6), (int) (-86.800529 * 1E6), "Cafe",
-                                null, description, R.drawable.r_starbucks, true, true, false,
+                                null, description, R.drawable.r_library, true, true, false,
                                 null, "http://www.http://vanderbilt.edu/dining/line_librarycafe.php");
                 long id = library.create();
 
